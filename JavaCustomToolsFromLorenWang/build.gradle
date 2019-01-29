@@ -5,7 +5,7 @@ plugins{
 }
 sourceSets{
     main{
-        java.srcDirs = ['javabase']
+        java.srcDirs = ['src']
     }
 }
 sourceCompatibility = 1.8
