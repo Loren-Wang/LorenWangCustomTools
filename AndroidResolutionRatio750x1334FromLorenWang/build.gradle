@@ -37,8 +37,8 @@ dependencies {
 
 
 
-def moduleName = "AndroidAnimFromLorenWang"
-def moduleDescription = "Android自定义动画资源库"
+def moduleName = "AndroidResolutionRatio750x1334FromLorenWang"
+def moduleDescription = "Android屏幕分辨率资源库"
 version '1.0.0'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
