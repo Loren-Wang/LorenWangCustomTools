@@ -83,5 +83,6 @@ app/build/
 /.idea/
 /app/release
 !app/google-services.json
+build/
 
 
