@@ -1,4 +1,4 @@
-include ':AndroidCustomToolsFromLorenWang', ':AndroidBluetoothFromLorenWang', ':AndroidCustomViewsFromLorenWang', ':AndroidDataParseFromLorenWang', ':AndroidNetOptionsFromLorenWang'
+include ':AndroidCustomToolsFromLorenWang', ':AndroidBluetoothFromLorenWang', ':AndroidCustomViewsFromLorenWang', ':AndroidDataParseFromLorenWang', ':AndroidNetOptionsFromLorenWang', ':AndroidAnimFromLorenWang'
 rootProject.name = 'LorenWangCustomTools'
 include 'JavaCustomToolsFromLorenWang'
 findProject(':JavaCustomToolsFromLorenWang')?.name = 'JavaCustomToolsFromLorenWang'
