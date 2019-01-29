@@ -2,8 +2,8 @@ package javabase.lorenwang.tools.file;
 
 import java.io.File;
 
-import lorenwang.tools.common.VariateDataParamUtils;
 import javabase.lorenwang.tools.base.BaseUtils;
+import javabase.lorenwang.tools.common.VariateDataParamUtils;
 
 /**
  * 创建时间：2019-01-28 下午 20:19:47

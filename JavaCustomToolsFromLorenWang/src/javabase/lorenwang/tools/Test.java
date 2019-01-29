@@ -1,7 +1,5 @@
 package javabase.lorenwang.tools;
 
-import lorenwang.tools.dataConversion.DecimalConvertUtils;
-
 /**
  * 创建时间：2019-01-28 下午 15:15:21
  * 创建人：王亮（Loren wang）
@@ -16,6 +14,5 @@ import lorenwang.tools.dataConversion.DecimalConvertUtils;
 
 public class Test {
     public static void main(String[] args) {
-        DecimalConvertUtils.getInstance().decimal16To2("ff");
     }
 }

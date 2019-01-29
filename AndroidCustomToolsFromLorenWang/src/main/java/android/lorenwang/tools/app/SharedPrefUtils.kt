@@ -29,7 +29,7 @@ class SharedPrefUtils(context: Context) : BaseUtils() {
         return context?.applicationContext?.getSharedPreferences(name, mode)
     }
 
-    fun clear(context: Context): Boolean {
+    fun clear(): Boolean {
         return clear(mPref)
     }
 

@@ -221,7 +221,6 @@ class FileOptionUtils : BaseUtils() {
                 LogUtils.logE(e)
             }
 
-            fos = null
         }
     }
 
@@ -240,7 +239,6 @@ class FileOptionUtils : BaseUtils() {
         }
         var fs: FileOutputStream? = null
         try {
-            var bytesum = 0
             val oldfile = File(oldPath)
             if (oldfile.exists()) { //文件存在时
                 val inStream = FileInputStream(oldPath) //读入原文件
@@ -267,8 +265,6 @@ class FileOptionUtils : BaseUtils() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-
-                fs = null
             }
         }
 
