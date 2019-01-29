@@ -2,7 +2,7 @@ package javabase.lorenwang.tools.file;
 
 import java.io.File;
 
-import javabase.lorenwang.tools.common.VariateDataParamUtils;
+import lorenwang.tools.common.VariateDataParamUtils;
 import javabase.lorenwang.tools.base.BaseUtils;
 
 /**
