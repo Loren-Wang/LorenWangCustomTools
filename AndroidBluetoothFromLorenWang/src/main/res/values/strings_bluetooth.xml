@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="broadcast_receiver_hint_callback_is_not_null">传入的回调不能为空</string>
+
+    <string name="system_bluetooth_on">系统蓝牙已打开</string>
+    <string name="system_bluetooth_off">系统蓝牙已关闭</string>
+    <string name="system_bluetooth_turning_on">系统蓝牙打开中</string>
+    <string name="system_bluetooth_turning_off">系统蓝牙关闭中</string>
+
+    <string name="scan_bt_device_address">扫描到远程蓝牙设备,设备地址:</string>
+    <string name="scan_bt_device_start">开始扫描蓝牙设备</string>
+    <string name="scan_bt_device_stop">停止扫描蓝牙设备</string>
+    <string name="scan_bt_device_pause">暂停蓝牙设备扫描，并在一定时间后重新开始扫描</string>
+    <string name="scan_bt_device_reset">恢复蓝牙设备扫描，并在一定时间后暂停扫描</string>
+
+    <string name="connect_bt_device_start">开始蓝牙设备</string>
+    <string name="connect_bt_device_recon">重连蓝牙设备</string>
+
+    <string name="send_order_search_service">查找到对应的服务：</string>
+    <string name="send_order_search_characteristic">查找到对应的特征：cc,特征属性：vv</string>
+    <string name="send_order_characteristic_read_ready">准备向蓝牙设备发送特征读命令</string>
+    <string name="send_order_characteristic_read_success">特征读命令发送成功</string>
+    <string name="send_order_characteristic_read_fail">特征读命令发送失败</string>
+    <string name="send_order_characteristic_write_ready">准备向蓝牙设备发送特征写命令</string>
+    <string name="send_order_characteristic_write_success">特征写命令发送成功</string>
+    <string name="send_order_characteristic_write_fail">特征写命令发送失败</string>
+    <string name="send_order_characteristic_notify_ready">准备向蓝牙设备发送特征通知命令</string>
+    <string name="send_order_characteristic_notify_success">特征通知命令发送成功</string>
+    <string name="send_order_characteristic_notify_fail">特征通知命令发送失败</string>
+
+</resources>
