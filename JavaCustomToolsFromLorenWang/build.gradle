@@ -3,6 +3,11 @@ plugins{
     id 'com.jfrog.bintray'
     id 'com.github.dcendents.android-maven'
 }
+sourceSets{
+    main{
+        java.srcDirs = ['javabase']
+    }
+}
 sourceCompatibility = 1.8
 
 repositories {

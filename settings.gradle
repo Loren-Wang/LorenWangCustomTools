@@ -2,4 +2,5 @@ include ':AndroidCustomToolsFromLorenWang'
 rootProject.name = 'LorenWangCustomTools'
 include 'JavaCustomToolsFromLorenWang'
 findProject(':JavaCustomToolsFromLorenWang')?.name = 'JavaCustomToolsFromLorenWang'
+include 'JavaPcToolsFromLorenWang'
 
