@@ -75,12 +75,13 @@ freeline_project_description.json
 #.project
 #
 ## Intellij project files
-#*.ipr
-#*.iws
+*.ipr
+*.iws
 .idea/
 app/build/
-#*.bat
-#/.idea/
+*.bat
+/.idea/
 /app/release
 !app/google-services.json
+
 
