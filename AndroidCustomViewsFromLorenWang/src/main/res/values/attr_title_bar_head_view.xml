@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TitleBarHeadView">
+        <attr name="titleTextSize" format="dimension"/>
+        <attr name="titleTextColor" format="color"/>
+        <attr name="titleText" format="string"/>
+        <attr name="leftBtnTextSize" format="dimension"/>
+        <attr name="leftBtnTextColor" format="color"/>
+        <attr name="leftBtnText" format="string"/>
+        <attr name="rightBtnTextSize" format="dimension"/>
+        <attr name="rightBtnTextColor" format="color"/>
+        <attr name="rightBtnText" format="string"/>
+        <attr name="customLayout" format="reference"/>
+        <!--背景颜色-->
+        <attr name="viewBgColor" format="color"/>
+        <!--后退图片样式,宽高使用一致的-->
+        <attr name="backImgWidth" format="dimension"/>
+        <attr name="backImgHeight" format="dimension"/>
+        <attr name="backImgColor" format="color"/>
+        <!--后退图片-->
+        <attr name="backImgRes" format="reference"/>
+        <!--后退按钮边距-->
+        <attr name="backImgLeft" format="dimension"/>
+        <attr name="backImgTop" format="dimension"/>
+        <attr name="backImgRight" format="dimension"/>
+        <attr name="backImgBottom" format="dimension"/>
+        <!--右侧按钮边距-->
+        <attr name="rightBtnLeft" format="dimension"/>
+        <attr name="rightBtnTop" format="dimension"/>
+        <attr name="rightBtnRight" format="dimension"/>
+        <attr name="rightBtnBottom" format="dimension"/>
+        <attr name="layoutType" format="enum">
+            <enum name="LAYOUT_TYPE_0" value="0"/>//（0）自定义view
+            <enum name="LAYOUT_TYPE_1" value="1"/>//（1）后退、标题
+            <enum name="LAYOUT_TYPE_2" value="2"/>//（2）后退、标题、右侧按钮
+            <enum name="LAYOUT_TYPE_3" value="3"/>//（3）标题、右侧按钮
+            <enum name="LAYOUT_TYPE_4" value="4"/>//（4）左侧按钮、标题
+            <enum name="LAYOUT_TYPE_5" value="5"/>//（5）左侧按钮、右侧按钮
+            <enum name="LAYOUT_TYPE_6" value="6"/>//（6）后退、右侧按钮
+            <enum name="LAYOUT_TYPE_7" value="7"/>//（7）后退、标题、右侧图标
+            <enum name="LAYOUT_TYPE_8" value="8"/>//（8）标题、右侧图标
+            <enum name="LAYOUT_TYPE_9" value="9"/>//（9）后退、右侧图标
+        </attr>
+    </declare-styleable>
+</resources>

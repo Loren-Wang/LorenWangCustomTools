@@ -64,7 +64,7 @@ class FileOptionUtils : BaseUtils() {
             fileInputStream.read(bytes)
             return bytes
         } catch (e: Exception) {
-            LogUtils.logE(TAG, if ("图片读取异常，异常信息：$e" != null) e.message else "")
+            LogUtils.logE(TAG,"图片读取异常")
             return null
         } finally {
             if (fileInputStream != null) {
@@ -73,8 +73,6 @@ class FileOptionUtils : BaseUtils() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-
-                fileInputStream = null
             }
         }
     }
@@ -188,8 +186,6 @@ class FileOptionUtils : BaseUtils() {
             } catch (e: Exception) {
                 LogUtils.logE(e)
             }
-
-            fos = null
         }
     }
 

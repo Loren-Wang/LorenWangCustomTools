@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomProgressTypeView">
+        <attr name="showProgressType">
+            <enum name="PROGRESS_TYPE_1" value="0"/>
+            <enum name="PROGRESS_TYPE_2" value="1"/>
+        </attr>
+        <attr name="progressWidth" format="dimension"/>
+        <attr name="progressHeight" format="dimension"/>
+        <attr name="progressOuterRingWidth" format="dimension"/>
+        <attr name="progressOuterInnerRingDistance" format="dimension"/>
+        <attr name="progressOuterRingColor" format="color"/>
+        <attr name="progressInnerRingColor" format="color"/>
+    </declare-styleable>
+</resources>
