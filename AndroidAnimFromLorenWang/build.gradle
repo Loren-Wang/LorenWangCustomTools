@@ -39,7 +39,7 @@ dependencies {
 
 def moduleName = "AndroidAnimFromLorenWang"
 def moduleDescription = "Android自定义动画资源库"
-version '1.0.0'
+version '1.0.1'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -51,6 +51,7 @@ def userEmail = properties.getProperty("userinfo.userEmail")
 def projectGitUrl = properties.getProperty("project.gitUrl")
 def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
 def projectGroupId = properties.getProperty("project.groupId")
+def muduleVersion = version
 
 install{
     repositories.mavenInstaller {
@@ -86,6 +87,13 @@ install{
                     developerConnection projectGitUrl // Git仓库地址。
                     url projectWebsiteUrl // 项目主页。
                 }
+                dependencies{
+                    dependency{
+                        groupId projectGroupId
+                        version muduleVersion
+                        artifactId moduleName
+                    }
+                }
             }
         }
     }
@@ -109,6 +117,8 @@ bintray {
     user = bintrayUser
     key = bintrayKey
     configurations = ['archives']
+    group = projectGroupId
+    version = muduleVersion
 
     pkg {
         repo = "maven"
