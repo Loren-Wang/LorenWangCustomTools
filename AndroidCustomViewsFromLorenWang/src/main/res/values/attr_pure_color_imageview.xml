@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--纯色ImageView-->
+<resources>
+    <declare-styleable name="PureColorImageView">
+        <attr name="pureColor" format="color" />
+    </declare-styleable>
+</resources>
