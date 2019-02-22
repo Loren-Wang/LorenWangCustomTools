@@ -2,8 +2,6 @@ package javabase.lorenwang.tools.common;
 
 import java.util.UUID;
 
-import javabase.lorenwang.tools.base.BaseUtils;
-
 /**
  * 创建时间：2019-01-29 下午 16:15:18
  * 创建人：王亮（Loren wang）
@@ -16,8 +14,9 @@ import javabase.lorenwang.tools.base.BaseUtils;
  * 备注：
  */
 
-public class CommonUtils extends BaseUtils {
+public class CommonUtils {
     private final String TAG = "CommonUtils";
+    private static CommonUtils baseUtils;
     private CommonUtils(){}
     public static CommonUtils getInstance(){
         if(baseUtils == null){

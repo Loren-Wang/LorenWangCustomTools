@@ -2,7 +2,6 @@ package android.lorenwang.tools.app
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.lorenwang.tools.base.BaseUtils
 import android.preference.PreferenceManager
 
 
@@ -11,12 +10,21 @@ import android.preference.PreferenceManager
  *
  * @author yynie
  */
-class SharedPrefUtils(context: Context) : BaseUtils() {
+class SharedPrefUtils(context: Context) {
     private val mPref: SharedPreferences
 
     init {
         mPref = PreferenceManager
                 .getDefaultSharedPreferences(context.applicationContext)
+    }
+    companion object {
+        private lateinit var baseUtils:SharedPrefUtils
+        fun getInstance(context: Context?): SharedPrefUtils? {
+            if (baseUtils == null && context != null) {
+                baseUtils = SharedPrefUtils(context)
+            }
+            return baseUtils
+        }
     }
 
 
@@ -83,10 +91,19 @@ class SharedPrefUtils(context: Context) : BaseUtils() {
         return getString(mPref, key, defValue)
     }
 
+    fun getString(key: String, defValue: Set<String>): Set<String>? {
+        return getStringSet(mPref, key, defValue)
+    }
+
 
     fun getString(pref: SharedPreferences, key: String,
                   defValue: String): String? {
         return pref.getString(key, defValue)
+    }
+
+    fun getStringSet(pref: SharedPreferences, key: String,
+                  defValue: Set<String>): Set<String>? {
+        return pref.getStringSet(key, defValue)
     }
 
     fun getBoolean(key: String, defValue: Boolean): Boolean {
@@ -128,10 +145,21 @@ class SharedPrefUtils(context: Context) : BaseUtils() {
         return putString(mPref, key, value)
     }
 
+    fun putString(key: String, value: Set<String>): Boolean {
+        return putStringSet(mPref, key, value)
+    }
+
     fun putString(pref: SharedPreferences, key: String,
                   value: String): Boolean {
         val editor = pref.edit()
         editor.putString(key, value)
+        return editor.commit()
+    }
+
+    fun putStringSet(pref: SharedPreferences, key: String,
+                  value: Set<String>): Boolean {
+        val editor = pref.edit()
+        editor.putStringSet(key, value)
         return editor.commit()
     }
 
@@ -146,13 +174,6 @@ class SharedPrefUtils(context: Context) : BaseUtils() {
         return editor.commit()
     }
 
-    companion object {
 
-        fun getInstance(context: Context?): SharedPrefUtils? {
-            if (BaseUtils.baseUtils == null && context != null) {
-                BaseUtils.baseUtils = SharedPrefUtils(context)
-            }
-            return BaseUtils.baseUtils as SharedPrefUtils
-        }
-    }
+
 }

@@ -3,8 +3,6 @@ package javabase.lorenwang.tools.common;
 import java.text.NumberFormat;
 import java.util.List;
 
-import javabase.lorenwang.tools.base.BaseUtils;
-
 
 /**
  * 创建时间：2019-01-28 下午 14:02:18
@@ -31,8 +29,9 @@ import javabase.lorenwang.tools.base.BaseUtils;
  * 备注：
  */
 
-public class CheckVariateUtils extends BaseUtils {
+public class CheckVariateUtils {
     private final String TAG = "RegularOptionsUtils";
+    private static CheckVariateUtils baseUtils;
 
     private CheckVariateUtils() {
     }
@@ -41,7 +40,7 @@ public class CheckVariateUtils extends BaseUtils {
         if (baseUtils == null) {
             baseUtils = new CheckVariateUtils();
         }
-        return (CheckVariateUtils) baseUtils;
+        return baseUtils;
     }
 
 

@@ -3,7 +3,6 @@ package android.lorenwang.tools.mobile;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.lorenwang.tools.base.BaseUtils;
 import android.lorenwang.tools.base.LogUtils;
 import android.net.Uri;
 import android.os.Build;
@@ -27,8 +26,9 @@ import java.io.File;
  * 修改时间：
  * 备注：
  */
-public final class MobileOptionsUtils extends BaseUtils {
+public final class MobileOptionsUtils {
 	private static final String TAG = "AppUtils";
+	private static MobileOptionsUtils baseUtils;
 	public static MobileOptionsUtils getInstance(){
 		if(baseUtils == null){
 			baseUtils = new MobileOptionsUtils();

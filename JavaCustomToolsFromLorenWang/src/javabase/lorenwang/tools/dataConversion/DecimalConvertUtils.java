@@ -1,6 +1,5 @@
 package javabase.lorenwang.tools.dataConversion;
 
-import javabase.lorenwang.tools.base.BaseUtils;
 import javabase.lorenwang.tools.common.CheckVariateUtils;
 
 /**
@@ -31,8 +30,9 @@ import javabase.lorenwang.tools.common.CheckVariateUtils;
  * 备注：
  */
 
-public class DecimalConvertUtils extends BaseUtils {
+public class DecimalConvertUtils {
     private final String TAG = "DecimalConvertUtils";
+    private static DecimalConvertUtils baseUtils;
     //小写字母表
     private final char[] ALPHABET_LOWER_CASE = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};

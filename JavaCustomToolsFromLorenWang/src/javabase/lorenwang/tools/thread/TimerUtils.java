@@ -5,8 +5,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javabase.lorenwang.tools.base.BaseUtils;
-
 /**
  * Created by LorenWang on 2018/8/2 0002.
  * 创建时间：2018/8/2 0002 下午 05:42
@@ -20,8 +18,9 @@ import javabase.lorenwang.tools.base.BaseUtils;
  * 修改时间：
  * 备注：
  */
-public class TimerUtils extends BaseUtils {
+public class TimerUtils {
     private final String TAG = getClass().getName();
+    private static TimerUtils baseUtils;
 
     public static TimerUtils getInstance() {
         if (baseUtils == null) {
@@ -90,6 +89,42 @@ public class TimerUtils extends BaseUtils {
         if (timerTask != null) {
             timerTask.cancel();
         }
+    }
+
+    /**
+     * 倒计时任务
+     * @param taskId
+     * @param countDownCallback 倒计时回调
+     * @param sumTime 总时间（必须大于0）
+     * @param period 间隔时间（必须大于0）
+     * @return
+     */
+    public TimerTask countDownTask(int taskId, final CountDownCallback countDownCallback
+            ,long sumTime,long period){
+        if (countDownCallback == null) {
+            return null;
+        }
+        TimerTask timerTask = new TimerTask() {
+            private Long nowTime = null;
+            @Override
+            public void run() {
+                if(nowTime == null){
+                    nowTime = sumTime;
+                }
+                if(nowTime <= 0){
+                    //结束了就取消任务
+                    cancelTimerTask(taskId);
+                    countDownCallback.finish();
+                }else {
+                    countDownCallback.countDownTime(sumTime,nowTime);
+                }
+                nowTime -= period;
+            }
+        };
+        cancelTimerTask(taskId);
+        timerTaskMap.put(taskId,timerTask);
+        timer.schedule(timerTask, 0, period);
+        return timerTask;
     }
 
 

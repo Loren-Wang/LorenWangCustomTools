@@ -2,7 +2,6 @@ package javabase.lorenwang.tools.file;
 
 import java.io.File;
 
-import javabase.lorenwang.tools.base.BaseUtils;
 import javabase.lorenwang.tools.common.VariateDataParamUtils;
 
 /**
@@ -18,8 +17,9 @@ import javabase.lorenwang.tools.common.VariateDataParamUtils;
  * 备注：
  */
 
-public class FileOptionUtils extends BaseUtils {
+public class FileOptionUtils {
     private final String TAG = "FileOptionUtils";
+    private static FileOptionUtils baseUtils;
     private FileOptionUtils(){}
     public static FileOptionUtils getInstance(){
         if(baseUtils == null){

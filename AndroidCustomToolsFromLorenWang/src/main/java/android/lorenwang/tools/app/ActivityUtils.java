@@ -2,7 +2,6 @@ package android.lorenwang.tools.app;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.lorenwang.tools.base.BaseUtils;
 import android.lorenwang.tools.base.CheckUtils;
 import android.lorenwang.tools.base.LogUtils;
 import android.lorenwang.tools.common.AndJavaCommonUtils;
@@ -26,8 +25,9 @@ import java.util.Map;
  * 修改时间：
  * 备注：
  */
-public class ActivityUtils extends BaseUtils {
+public class ActivityUtils {
     private final String TAG = getClass().getName();
+    private static ActivityUtils baseUtils;
     //权限请求键值对
     private Map<Integer,PermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
 

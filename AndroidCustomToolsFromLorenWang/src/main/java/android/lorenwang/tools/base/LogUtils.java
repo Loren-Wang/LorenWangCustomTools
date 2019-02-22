@@ -1,6 +1,6 @@
 package android.lorenwang.tools.base;
 
-import android.lorenwang.tools.Setting;
+import android.lorenwang.tools.AndroidCustomToolsSetting;
 import android.lorenwang.tools.common.AndJavaCommonUtils;
 import android.util.Log;
 
@@ -9,7 +9,7 @@ import android.util.Log;
  * 日志工具类
  *
  */
-public final class LogUtils extends BaseUtils{
+public final class LogUtils{
 
 	// ------------------------------------------------------ Constants
 	private static final String DEFAULT_TAG = "";
@@ -29,8 +29,8 @@ public final class LogUtils extends BaseUtils{
 	private static final String LOG_FILE_NAME = "ct.log";
 	// ------------------------------------------------------ Fields
 	//private static boolean isDebuggable = Settings.isDebuggable;
-	public static boolean isDebuggable = Setting.INSTANCE.isDebug();
-	private static String saveLogNamePath = Setting.INSTANCE.getDebugLogFileSavePath();//日志保存地址
+	public static boolean isDebuggable = AndroidCustomToolsSetting.INSTANCE.isDebug();
+	private static String saveLogNamePath = AndroidCustomToolsSetting.INSTANCE.getDebugLogFileSavePath();//日志保存地址
 
 	// ------------------------------------------------------ Public Methods
 

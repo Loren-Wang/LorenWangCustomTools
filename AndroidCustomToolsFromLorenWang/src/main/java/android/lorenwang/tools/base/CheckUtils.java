@@ -35,8 +35,9 @@ import static android.content.Context.ACTIVITY_SERVICE;
  * 修改时间：
  * 备注：
  */
-public class CheckUtils  extends BaseUtils{
+public class CheckUtils {
     private final String TAG = getClass().getName();
+    private static CheckUtils baseUtils;
     public static CheckUtils getInstance() {
         if (baseUtils == null) {
             baseUtils = new CheckUtils();

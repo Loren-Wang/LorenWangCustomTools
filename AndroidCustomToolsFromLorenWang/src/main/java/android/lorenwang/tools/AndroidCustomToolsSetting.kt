@@ -3,7 +3,7 @@ package android.lorenwang.tools
 /**
  * 创建时间：2019-01-29 下午 15:41:53
  * 创建人：王亮（Loren wang）
- * 功能作用：${DESCRIPTION}
+ * 功能作用：安卓工具类设置
  * 思路：
  * 方法：
  * 注意：
@@ -12,7 +12,7 @@ package android.lorenwang.tools
  * 备注：
  */
 
-object Setting {
+object AndroidCustomToolsSetting {
     //是否是debug模式
     var isDebug = false
     //debug日志存储地址

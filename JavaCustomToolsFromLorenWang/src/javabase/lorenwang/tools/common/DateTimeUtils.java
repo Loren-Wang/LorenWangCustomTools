@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javabase.lorenwang.tools.base.BaseUtils;
-
 /**
  * 创建时间：2019-01-28 下午 18:30:6
  * 创建人：王亮（Loren wang）
@@ -26,8 +24,9 @@ import javabase.lorenwang.tools.base.BaseUtils;
  * 备注：
  */
 
-public class DateTimeUtils extends BaseUtils {
+public class DateTimeUtils {
     private final String TAG = "DateTimeUtils";
+    private static DateTimeUtils baseUtils;
 
     private DateTimeUtils() {
     }

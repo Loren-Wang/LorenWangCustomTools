@@ -2,7 +2,6 @@ package android.lorenwang.tools.file
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.lorenwang.tools.base.BaseUtils
 import android.lorenwang.tools.base.CheckUtils
 import android.lorenwang.tools.base.LogUtils
 import java.io.*
@@ -25,17 +24,18 @@ import java.io.*
  * 备注：
  */
 
-class FileOptionUtils : BaseUtils() {
+class FileOptionUtils  {
     private val TAG = "FileOptionUtils"
     private val BUFFER_SIZE = 1024; // 流转换的缓存大小
 
     companion object {
+        private lateinit var baseUtils:FileOptionUtils
         val instance: FileOptionUtils
             get() {
-                if (BaseUtils.baseUtils == null) {
-                    BaseUtils.baseUtils = FileOptionUtils()
+                if (baseUtils == null) {
+                    baseUtils = FileOptionUtils()
                 }
-                return BaseUtils.baseUtils as FileOptionUtils
+                return baseUtils as FileOptionUtils
             }
     }
 

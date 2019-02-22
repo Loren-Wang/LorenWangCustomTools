@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.lorenwang.tools.base.BaseUtils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -32,8 +31,9 @@ import java.util.Locale;
  * 修改时间：
  * 备注：
  */
-public class MobileSystemInfoUtils extends BaseUtils {
+public class MobileSystemInfoUtils {
     private final String TAG = "MobileSystemInfoUtils";
+    private static MobileSystemInfoUtils baseUtils;
     public static MobileSystemInfoUtils getInstance(){
         if(baseUtils == null){
             baseUtils = new MobileSystemInfoUtils();

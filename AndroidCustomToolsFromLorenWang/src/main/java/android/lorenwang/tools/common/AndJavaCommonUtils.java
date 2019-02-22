@@ -1,7 +1,5 @@
 package android.lorenwang.tools.common;
 
-import android.lorenwang.tools.base.BaseUtils;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,8 +20,9 @@ import java.util.UUID;
  * 备注：
  */
 
-public class AndJavaCommonUtils extends BaseUtils {
+public class AndJavaCommonUtils {
     private final String TAG = "CommonUtils";
+    private static AndJavaCommonUtils baseUtils;
     private AndJavaCommonUtils(){}
     public static AndJavaCommonUtils getInstance(){
         if(baseUtils == null){

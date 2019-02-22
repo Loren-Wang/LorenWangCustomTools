@@ -1,7 +1,6 @@
 package android.lorenwang.tools.app
 
 import android.content.Context
-import android.lorenwang.tools.base.BaseUtils
 import android.lorenwang.tools.common.AndJavaCommonUtils
 import android.support.annotation.StringRes
 import android.widget.Toast
@@ -16,7 +15,7 @@ import android.widget.Toast
  * 修改时间：
  * 备注：
  */
-class ToastHintUtils(private val context: Context) : BaseUtils() {
+class ToastHintUtils(private val context: Context) {
     private var allToast: Toast? = null//吐司提示弹窗，如果有下一个要弹出则隐藏上一个
 
     /**
@@ -57,12 +56,12 @@ class ToastHintUtils(private val context: Context) : BaseUtils() {
     }
 
     companion object {
-
+        private lateinit var baseUtils:ToastHintUtils
         fun getInstance(context: Context): ToastHintUtils {
-            if (BaseUtils.baseUtils == null) {
-                BaseUtils.baseUtils = ToastHintUtils(context)
+            if (baseUtils == null) {
+                baseUtils = ToastHintUtils(context)
             }
-            return BaseUtils.baseUtils as ToastHintUtils
+            return baseUtils as ToastHintUtils
         }
     }
 

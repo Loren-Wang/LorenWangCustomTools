@@ -58,7 +58,7 @@ install{
         // 生成pom.xml和参数
         pom {
             project {
-                packaging 'aar'
+                packaging 'jar'
                 // 项目描述，复制我的话，这里需要修改。
                 name moduleName// 可选，项目名称。
                 description moduleDescription// 可选，项目描述。

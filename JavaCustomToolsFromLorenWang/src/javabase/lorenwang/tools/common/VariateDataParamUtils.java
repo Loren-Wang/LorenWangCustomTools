@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javabase.lorenwang.tools.base.BaseUtils;
-
 /**
  * 创建时间：2019-01-28 下午 20:02:56
  * 创建人：王亮（Loren wang）
@@ -28,8 +26,9 @@ import javabase.lorenwang.tools.base.BaseUtils;
  * 备注：
  */
 
-public class VariateDataParamUtils extends BaseUtils {
+public class VariateDataParamUtils {
     private final String TAG = "VariateDataParamUtils";
+    private static VariateDataParamUtils baseUtils;
 
     private VariateDataParamUtils() {
     }
