@@ -1,12 +1,15 @@
 package android.lorenwang.tools.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.lorenwang.tools.base.CheckUtils;
 import android.lorenwang.tools.base.LogUtils;
 import android.lorenwang.tools.common.AndJavaCommonUtils;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +23,7 @@ import java.util.Map;
  * 思路：
  * 方法：1、去请求权限
  *      2、权限请求结果返回
+ *      3、控制软键盘显示与隐藏
  * 注意：
  * 修改人：
  * 修改时间：
@@ -125,5 +129,37 @@ public class ActivityUtils {
             //移除回调
             permissionRequestCallbackMap.remove(requestCode);
         }
+    }
+
+    /**
+     * 控制软键盘显示与隐藏
+     * @param view
+     * @param visibility
+     */
+    public void setInputMethodVisibility(Activity activity,View view, int visibility){
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(view == null && visibility == View.GONE){
+            if(activity.getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+            return;
+        }
+        switch (visibility){
+            case View.VISIBLE:
+                //显示软键盘 //
+                view.setFocusableInTouchMode(true);
+                view.requestFocus();
+                imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+                break;
+            case View.GONE:
+                //隐藏软键盘 //
+                view.setFocusableInTouchMode(false);
+                view.clearFocus();
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                break;
+            default:
+                break;
+        }
+        imm = null;
     }
 }

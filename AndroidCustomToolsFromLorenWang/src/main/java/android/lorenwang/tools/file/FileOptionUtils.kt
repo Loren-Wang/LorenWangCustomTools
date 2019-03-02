@@ -6,6 +6,8 @@ import android.lorenwang.tools.base.CheckUtils
 import android.lorenwang.tools.base.LogUtils
 import java.io.*
 
+
+
 /**
  * 创建时间：2019-01-29 下午 15:41:0
  * 创建人：王亮（Loren wang）
@@ -18,6 +20,8 @@ import java.io.*
  *      5、从InputStream中读取Bytes
  *      6、复制单个文件
  *      7、将bitmap写入File
+ *      8、获取文件大小，单位B
+ *      9、删除文件夹以及目录下的文件
  * 注意：
  * 修改人：
  * 修改时间：
@@ -276,5 +280,63 @@ class FileOptionUtils  {
             result = file.delete()
         }
         return result
+    }
+
+    /**
+     * 获取文件大小，单位B
+     *
+     * @param file
+     * @param filtrationDir
+     * @return
+     */
+    fun getFileSize(file: File, filtrationDir: String?): Long? {
+        var fileSize = 0L
+        if (file.isFile && file.exists()) {
+            fileSize += file.length()
+        } else if (file.exists()) {
+            for (file1 in file.listFiles()) {
+                if (file1.isFile) {
+                    fileSize += file1.length()
+                } else if (file.isDirectory || filtrationDir == null || filtrationDir != file.absolutePath) {
+                    fileSize += getFileSize(file1, filtrationDir)!!
+                }
+            }
+        }
+        return fileSize
+    }
+
+    /**
+     * 删除文件夹以及目录下的文件
+     *
+     * @param filePath 被删除目录的文件路径
+     * @return 目录删除成功返回true，否则返回false
+     */
+    fun deleteDirectory(filePath: String): Boolean {
+        var filePath = filePath
+        var flag = false
+        //如果filePath不以文件分隔符结尾，自动添加文件分隔符
+        if (!filePath.endsWith(File.separator)) {
+            filePath = filePath + File.separator
+        }
+        val dirFile = File(filePath)
+        if (!dirFile.exists() || !dirFile.isDirectory) {
+            return false
+        }
+        flag = true
+        val files = dirFile.listFiles()
+        //遍历删除文件夹下的所有文件(包括子目录)
+        for (i in files.indices) {
+            if (files[i].isFile) {
+                //删除子文件
+                flag = deleteFile(files[i].absolutePath)
+                if (!flag) break
+            } else {
+                //删除子目录
+                flag = deleteDirectory(files[i].absolutePath)
+                if (!flag) break
+            }
+        }
+        return if (!flag) false else dirFile.delete()
+        //删除当前空目录
     }
 }

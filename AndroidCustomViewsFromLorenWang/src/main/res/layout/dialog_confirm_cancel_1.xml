@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@android:color/transparent">
+
+    <View
+        android:layout_alignTop="@+id/tvContent"
+        android:layout_alignLeft="@+id/tvContent"
+        android:layout_alignRight="@+id/tvContent"
+        android:layout_alignBottom="@+id/lnOptions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/solid_radio_8"
+        android:backgroundTint="#fff"/>
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="296dp"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textColor="#666"/>
+
+    <View
+        android:layout_below="@id/tvContent"
+        android:layout_alignLeft="@id/tvContent"
+        android:layout_alignRight="@id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#d9d9d9"/>
+
+    <LinearLayout
+        android:id="@+id/lnOptions"
+        android:layout_alignLeft="@id/tvContent"
+        android:layout_alignRight="@id/tvContent"
+        android:layout_below="@id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnLeft"
+            android:layout_width="match_parent"
+            android:minHeight="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textSize="25sp"
+            android:textColor="#666"/>
+
+        <View
+            android:id="@+id/viewLine"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:background="#d9d9d9"/>
+
+        <Button
+            android:id="@+id/btnRight"
+            android:layout_width="match_parent"
+            android:minHeight="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textSize="25sp"
+            android:textColor="#666"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</RelativeLayout>

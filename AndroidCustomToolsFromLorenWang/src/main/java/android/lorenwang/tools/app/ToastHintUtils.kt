@@ -56,7 +56,7 @@ class ToastHintUtils(private val context: Context) {
     }
 
     companion object {
-        private lateinit var baseUtils:ToastHintUtils
+        private var baseUtils: ToastHintUtils? = null
         fun getInstance(context: Context): ToastHintUtils {
             if (baseUtils == null) {
                 baseUtils = ToastHintUtils(context)

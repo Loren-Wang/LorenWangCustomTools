@@ -55,10 +55,10 @@ public class VariateDataParamUtils {
             return "0" + decimalsPattern.toString();
         }
         DecimalFormat df = new DecimalFormat("###,###" + decimalsPattern.toString());
-        if (num > 0 && num < 1) {
-            return "0" + df.format(num);
+        if (data > 0 && data < 1) {
+            return "0" + df.format(data);
         } else {
-            return df.format(num);
+            return df.format(data);
         }
     }
 

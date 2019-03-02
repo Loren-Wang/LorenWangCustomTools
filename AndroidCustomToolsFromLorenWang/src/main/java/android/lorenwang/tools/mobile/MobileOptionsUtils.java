@@ -1,13 +1,18 @@
 package android.lorenwang.tools.mobile;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.lorenwang.tools.base.LogUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresPermission;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 
 import java.io.File;
@@ -17,10 +22,13 @@ import java.io.File;
  * 创建时间： 2019/1/29 0029 下午 16:20:28
  * 创建人：LorenWang
  * 功能作用：手机操作工具类
- * 方法介绍：1、安装应用
+ * 方法介绍：
+ *          1、安装应用
  *          2、获取App安装的intent
  *          3、使设备震动
  *          4、拨打电话
+ *          5、开启相机
+ *          6、开启图片相册选择
  * 思路：
  * 修改人：
  * 修改时间：
@@ -51,6 +59,44 @@ public final class MobileOptionsUtils {
 			vibrator.vibrate(milliseconds);
 		} catch (Exception e) {
 			LogUtils.logE(e);
+		}
+	}
+
+	/**
+	 * 开启相机
+	 *
+	 * @param activity
+	 * @param savePath
+	 * @param requestCode
+	 */
+	@RequiresPermission(allOf = {Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
+	public void openCamera(Activity activity, String savePath, int requestCode) {
+		//检查相机权限
+		if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+				&& ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+				&& ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+			//检测保存路径
+			File imagePathFile = new File(savePath);
+			if (imagePathFile.isDirectory()) {
+				return;
+			}
+
+
+			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			//7.0及以上
+			if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+
+				ContentValues contentValues = new ContentValues(1);
+				contentValues.put(MediaStore.Images.Media.DATA, savePath);
+				Uri uri = activity.getApplication().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+			} else {
+				Uri imageUri = Uri.fromFile(imagePathFile);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
+			}
+			activity.startActivityForResult(intent, requestCode);
+		} else {
+			LogUtils.logD(TAG, "don't get camera permisstion");
 		}
 	}
 
@@ -118,6 +164,26 @@ public final class MobileOptionsUtils {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	/**
+	 * 开启图片相册选择
+	 *
+	 * @param activity
+	 * @param requestCode
+	 */
+	@RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
+	public void openImagePhotoAlbum(Activity activity, int requestCode) {
+		//检查存储卡权限
+		if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+				&& ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+			Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			intent.setType("image/*");
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			activity.startActivityForResult(intent, requestCode);
+		} else {
+			LogUtils.logD(TAG, "don't get camera permisstion");
 		}
 	}
 

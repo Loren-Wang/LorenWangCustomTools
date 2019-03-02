@@ -21,22 +21,33 @@ class ThreadUtils {
     /**
      * ui线程handler
      */
-    private lateinit var sUiThreadHandler: Handler
+    private var sUiThreadHandler: Handler
     /**
      * 子线程handler
      */
-    private lateinit var childThreadHandler: Handler
+    private var childThreadHandler: Handler? = null
     private var sWillOverride: Boolean = false
+
+    init {
+        sUiThreadHandler = Handler(Looper.getMainLooper())
+        Thread(object : Runnable {
+            override fun run() {
+                Looper.prepare()
+                childThreadHandler = Handler(Looper.myLooper())
+            }
+        }).start()
+    }
+
     companion object {
         private var threadUtils: ThreadUtils
         /**
          * 同步锁使用
          */
-        private val sLockUI:Any = Any()
+        private val sLockUI: Any = Any()
         /**
          * 同步锁使用
          */
-        private val sLockChild:Any = Any()
+        private val sLockChild: Any = Any()
 
         init {
             threadUtils = ThreadUtils()
@@ -66,15 +77,12 @@ class ThreadUtils {
     /**
      * 获取子线程handler
      */
-    private fun getChildThreadHandler():Handler{
+    private fun getChildThreadHandler(): Handler? {
         synchronized(sLockChild) {
-            if (sUiThreadHandler == null) {
-                if (sWillOverride) {
-                    throw RuntimeException("Did not yet override the UI thread")
-                }
-                sUiThreadHandler = Handler(Looper.getMainLooper())
+            if (childThreadHandler == null) {
+                childThreadHandler = Handler()
             }
-            return sUiThreadHandler
+            return childThreadHandler
         }
     }
 
@@ -85,12 +93,13 @@ class ThreadUtils {
     private fun isRunningOnUiThread(): Boolean {
         return getUiThreadHandler().looper == Looper.myLooper()
     }
+
     /**
      * 当前线程是否是子线程--oldname：runningOnUiThread
      * @return true iff the current thread is the main (UI) thread.
      */
     private fun isRunningOnChildThread(): Boolean {
-        return getChildThreadHandler().looper == Looper.myLooper()
+        return getChildThreadHandler()!!.looper == Looper.myLooper()
     }
 
     /**
@@ -153,7 +162,7 @@ class ThreadUtils {
      * @param task The Runnable to run
      */
     fun postOnChildThread(task: Runnable) {
-        getChildThreadHandler().post(task)
+        getChildThreadHandler()!!.post(task)
     }
 
     /**
@@ -166,7 +175,7 @@ class ThreadUtils {
      */
     @VisibleForTesting
     fun postOnChildThreadDelayed(task: Runnable, delayMillis: Long) {
-        getChildThreadHandler().postDelayed(task, delayMillis)
+        getChildThreadHandler()!!.postDelayed(task, delayMillis)
     }
 
     /**
@@ -177,7 +186,7 @@ class ThreadUtils {
      * @return The queried task (to aid inline construction)
      */
     fun <T> postOnChildThread(task: FutureTask<T>): FutureTask<T> {
-        getChildThreadHandler().post(task)
+        getChildThreadHandler()!!.post(task)
         return task
     }
 
@@ -192,7 +201,7 @@ class ThreadUtils {
         if (isRunningOnUiThread()) {
             r.run()
         } else {
-            getChildThreadHandler().post(r)
+            getChildThreadHandler()!!.post(r)
         }
     }
 

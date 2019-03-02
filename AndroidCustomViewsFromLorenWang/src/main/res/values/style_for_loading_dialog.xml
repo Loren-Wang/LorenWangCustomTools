@@ -17,6 +17,18 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+    <style name="dialog_confirm_cancel_1">
+        <item name="android:windowFrame">@null</item>
+        <!--//Dialog的windowFrame框为无-->
+        <item name="android:windowIsFloating">true</item>
+        <!--//是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--//设置dialog的背景-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--//就是用来控制灰度的值，当为1时，界面除了我们的dialog内容是高亮显示的，dialog以外的区域是黑色的，完全看不到其他内容-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
     <!--充满屏幕的弹出框动画-->
     <style name="dialog_anim_for_center">

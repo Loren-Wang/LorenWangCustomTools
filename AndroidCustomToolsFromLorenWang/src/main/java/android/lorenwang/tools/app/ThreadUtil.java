@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 /**
+ * 线程处理工具
  * Helper methods to deal with threading related tasks.
  */
 public class ThreadUtil {
