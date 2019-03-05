@@ -16,12 +16,22 @@ import android.lorenwang.customview.R;
  * 备注：
  */
 public class LoadingDialogType1 extends BaseDialog {
+
     public LoadingDialogType1(Context context) {
-        super(context, R.layout.loading_dialog_type_1,R.style.loading_dialog_type1,R.style.dialog_anim_for_center,false);
+        super(context, R.layout.dialog_loading_type_1,R.style.loading_dialog_type1,R.style.dialog_anim_for_center,false);
+    }
+
+    /**
+     * 设置背景颜色
+     * @param color
+     */
+    public void setWindowBackground(int color){
+        view.findViewById(R.id.relWindowBg).setBackgroundColor(color);
     }
 
     @Override
     public void onBackPressed() {
 
     }
+
 }

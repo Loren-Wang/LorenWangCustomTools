@@ -33,13 +33,13 @@ class FileOptionUtils  {
     private val BUFFER_SIZE = 1024; // 流转换的缓存大小
 
     companion object {
-        private lateinit var baseUtils:FileOptionUtils
+        private var baseUtils:FileOptionUtils
+        init {
+            baseUtils = FileOptionUtils()
+        }
         val instance: FileOptionUtils
             get() {
-                if (baseUtils == null) {
-                    baseUtils = FileOptionUtils()
-                }
-                return baseUtils as FileOptionUtils
+                return baseUtils
             }
     }
 
@@ -137,7 +137,7 @@ class FileOptionUtils  {
             baos = ByteArrayOutputStream()
             val buffer = ByteArray(BUFFER_SIZE)
             var length = inputStream.read(buffer, 0, BUFFER_SIZE)
-            while (length != 0) {
+            while (length != -1) {
                 baos.write(buffer, 0, length)
                 baos.flush()
                 length = inputStream.read(buffer, 0, BUFFER_SIZE)
@@ -175,7 +175,7 @@ class FileOptionUtils  {
             fos = FileOutputStream(file)
             val buffer = ByteArray(BUFFER_SIZE)
             var length = inputStream.read(buffer, 0, BUFFER_SIZE)
-            while (length != 0) {
+            while (length != -1) {
                 fos.write(buffer, 0, length)
                 fos.flush()
                 length = inputStream.read(buffer, 0, BUFFER_SIZE)
@@ -245,7 +245,7 @@ class FileOptionUtils  {
                 fs = FileOutputStream(newPath)
                 val buffer = ByteArray(1444)
                 var length = inStream.read(buffer, 0, BUFFER_SIZE)
-                while (length != 0) {
+                while (length != -1) {
                     fs.write(buffer, 0, length)
                     fs.flush()
                     length = inStream.read(buffer, 0, BUFFER_SIZE)

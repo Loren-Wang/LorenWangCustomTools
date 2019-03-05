@@ -1,12 +1,17 @@
 package com.example.testapp
 
 import android.app.Activity
+import android.graphics.Color
+import android.lorenwang.customview.dialog.BottomListOptionsDialogType1
 import android.lorenwang.customview.dialog.ConfirmCancelDialog1
+import android.lorenwang.customview.dialog.LoadingDialogType1
 import android.os.Bundle
 import android.view.View
 
 class MainActivity : Activity() {
     var confirmCancelDialog1:ConfirmCancelDialog1? = null
+    var loadingDialogType1:LoadingDialogType1? = null
+    var bottomListOptionsDialogType1:BottomListOptionsDialogType1? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,9 +29,18 @@ class MainActivity : Activity() {
             }
         })
         confirmCancelDialog1!!.setOptionsState(true,false,30)
+
+        loadingDialogType1 = LoadingDialogType1(this)
+        loadingDialogType1!!.setWindowBackground(Color.parseColor("#88000000"))
+
+        bottomListOptionsDialogType1 = object : BottomListOptionsDialogType1(this){
+            override fun onOptionsItemClick(posi: Int, text: String?) {
+            }
+        }
+        bottomListOptionsDialogType1!!.setOptionsList(Array(1){"1"},null,null,null,null,null,null)
     }
 
     override fun onBackPressed() {
-        confirmCancelDialog1!!.show()
+        bottomListOptionsDialogType1!!.show()
     }
 }

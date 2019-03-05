@@ -105,7 +105,6 @@ public class FlyMessageUtils {
      * @param isOnlyMsgType 在这个key的下面是否只有这一个消息实例
      * @param isActivity 是否是activity
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public synchronized void registMsgCallback(Object object, int msgType, FlyMessgeCallback flyMessgeCallback
             , boolean isOnlyMsgType, boolean isActivity){
         if(object == null || flyMessgeCallback == null){
@@ -180,7 +179,6 @@ public class FlyMessageUtils {
      * @param isFinishRemove 是否回传结束就移除
      * @param msgs
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void sendMsg(int msgType, boolean isFinishRemove, Object... msgs){
         MessageQueueDto messageQueueDto = new MessageQueueDto();
         messageQueueDto.isFinishRemove = isFinishRemove;
@@ -216,7 +214,6 @@ public class FlyMessageUtils {
      * 回传消息，先判断当前正在显示的activity当中是否有要回传这个消息的，有就回传，
      *         同时判断非activity当中是否也有要回传这个消息的，有就回传
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private synchronized void callbackMsg(MessageQueueDto messageQueueDto){
         if(messageQueueDto == null){
             return;
@@ -236,14 +233,13 @@ public class FlyMessageUtils {
      * 回传列表消息
      * @param list
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private synchronized void callbackMsg(List<CallbackRecodeDto> list, MessageQueueDto messageQueueDto){
         if(list != null && list.size() > 0 && messageQueueDto != null){
             CallbackRecodeDto callbackRecodeDto;
             Iterator<CallbackRecodeDto> iterator = list.iterator();
             while (iterator.hasNext()){
                 callbackRecodeDto = iterator.next();
-                if(Integer.compare(callbackRecodeDto.msgType,messageQueueDto.msgType) == 0) {
+                if(Integer.valueOf(callbackRecodeDto.msgType).compareTo(messageQueueDto.msgType) == 0) {
                     callbackMsg(callbackRecodeDto.flyMessgeCallback, messageQueueDto);
                 }
             }
@@ -253,7 +249,6 @@ public class FlyMessageUtils {
      * 回传单条消息
      * @param callback
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private synchronized void callbackMsg(FlyMessgeCallback callback, MessageQueueDto messageQueueDto){
         if(messageQueueDto == null){
             return;
@@ -276,7 +271,6 @@ public class FlyMessageUtils {
      * @param isCallback 是否是要进行线程回调
      * @param optionMsgQueDto 添加或删除时要被操作的实体类
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private synchronized void msgQueListOptions(boolean isAdd, boolean isRemove
             , boolean isCallback, MessageQueueDto optionMsgQueDto){
         //新增数据
