@@ -2,6 +2,10 @@ package android.lorenwang.tools.image;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.base.CheckUtils;
 import android.lorenwang.tools.base.LogUtils;
@@ -14,6 +18,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
+
 
 /**
  * 创建时间：2018-11-16 上午 10:15:2
@@ -21,11 +27,13 @@ import android.widget.TextView;
  * 功能作用：图片处理通用类
  * 思路：
  * 方法：
- *      1、将图片文件转换为base64字符串
- *      2、对Drawable着色
- *      3、设置背景图片着色
- *      4、设置图片控件的src资源的着色
- *      5、设置文本控件的Drawable左上右下图片着色
+ * 1、将图片文件转换为base64字符串
+ * 2、对Drawable着色
+ * 3、设置背景图片着色
+ * 4、设置图片控件的src资源的着色
+ * 5、设置文本控件的Drawable左上右下图片着色
+ * 6、图片drawable转bitmap
+ * 7、位图压缩
  * 注意：
  * 修改人：
  * 修改时间：
@@ -106,7 +114,8 @@ public class ImageCommonUtils {
 
     /**
      * 设置图片控件的src资源的着色
-     * @param imageView 图片控件
+     *
+     * @param imageView      图片控件
      * @param colorStateList 颜色
      */
     public void setImageSrcTint(ImageView imageView, ColorStateList colorStateList) {
@@ -143,6 +152,59 @@ public class ImageCommonUtils {
                 //设置Drawable
                 textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
             }
+        }
+    }
+
+    /**
+     * 图片drawable转bitmap
+     *
+     * @param drawable 要转换的drawable
+     */
+    public Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable != null) {
+            // 取 drawable 的长宽
+            int w = drawable.getIntrinsicWidth();
+            int h = drawable.getIntrinsicHeight();
+
+            // 取 drawable 的颜色格式
+            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
+            // 建立对应 bitmap
+            Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+            // 建立对应 bitmap 的画布
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, w, h);
+            // 把 drawable 内容画到画布中
+            drawable.draw(canvas);
+            return bitmap;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 位图压缩
+     *
+     * @param bitmap 要压缩的位图
+     * @param size   大小，单位，字节
+     */
+    public Bitmap bitmapCompress(Bitmap bitmap, Bitmap.CompressFormat format, int size) {
+        if (bitmap != null) {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            int quality = 100;
+            do {
+                outputStream.reset();
+                bitmap.compress(format, quality, outputStream);
+                quality -= 10;
+                if (quality < 0) {
+                    break;
+                }
+            } while (outputStream.size() > size);
+            if (!bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
+            return BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.toByteArray().length);
+        } else {
+            return null;
         }
     }
 }

@@ -56,6 +56,8 @@
      *      3、设置背景图片着色
      *      4、设置图片控件的src资源的着色
      *      5、设置文本控件的Drawable左上右下图片着色
+     *      6、图片drawable转bitmap
+     *      7、位图压缩             
   
   <h3>十一、SimpleBitmapLruCacheUtils---（简单位图lrucache）
   

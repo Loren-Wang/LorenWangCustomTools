@@ -2,6 +2,7 @@ package android.lorenwang.customview.dialog;
 
 import android.content.Context;
 import android.lorenwang.customview.R;
+import android.support.annotation.StyleRes;
 
 
 /**
@@ -21,12 +22,8 @@ public class LoadingDialogType1 extends BaseDialog {
         super(context, R.layout.dialog_loading_type_1,R.style.loading_dialog_type1,R.style.dialog_anim_for_center,false);
     }
 
-    /**
-     * 设置背景颜色
-     * @param color
-     */
-    public void setWindowBackground(int color){
-        view.findViewById(R.id.relWindowBg).setBackgroundColor(color);
+    public LoadingDialogType1(Context context, @StyleRes int styleRes) {
+        super(context, R.layout.dialog_loading_type_1,styleRes,R.style.dialog_anim_for_center,false);
     }
 
     @Override

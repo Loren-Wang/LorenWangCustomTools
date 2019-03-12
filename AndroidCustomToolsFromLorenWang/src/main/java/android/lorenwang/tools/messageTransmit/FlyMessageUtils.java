@@ -3,9 +3,7 @@ package android.lorenwang.tools.messageTransmit;
 import android.app.Activity;
 import android.app.Application;
 import android.lorenwang.tools.base.LogUtils;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +62,7 @@ public class FlyMessageUtils {
         public void onActivityResumed(Activity activity) {
             nowShowActivity = activity;
             //activity获得到焦点，开始循环队列发送
-            msgQueListOptions(false,false,true,null);
+            msgQueListOptions(false,false,true,null, null);
         }
 
         @Override
@@ -119,7 +117,7 @@ public class FlyMessageUtils {
             Iterator<CallbackRecodeDto> iterator = list.iterator();
             while (iterator.hasNext()){
                 callbackRecodeDto = iterator.next();
-                if(Integer.compare(callbackRecodeDto.msgType,msgType) == 0){
+                if(Integer.valueOf(callbackRecodeDto.msgType).compareTo(msgType) == 0){
                     //这个是要被移除的实例
                     callbackRecodeDto.flyMessgeCallback = null;
                     removeList.add(callbackRecodeDto);
@@ -150,7 +148,7 @@ public class FlyMessageUtils {
         key = null;
 
         //注册回调后，要直接回调，否则部分界面注册可能晚于回调，导致无法获得数据
-        msgQueListOptions(false,false,true,null);
+        msgQueListOptions(false,false,true,null, null);
     }
     /**
      * 取消注册消息回调记录
@@ -179,13 +177,13 @@ public class FlyMessageUtils {
      * @param isFinishRemove 是否回传结束就移除
      * @param msgs
      */
-    public void sendMsg(int msgType, boolean isFinishRemove, Object... msgs){
+    public synchronized  void sendMsg(int msgType, boolean isFinishRemove, Object... msgs){
         MessageQueueDto messageQueueDto = new MessageQueueDto();
         messageQueueDto.isFinishRemove = isFinishRemove;
         messageQueueDto.msgs = msgs;
         messageQueueDto.msgType = msgType;
         //添加到队列
-        msgQueListOptions(true,false,false,messageQueueDto);
+        msgQueListOptions(true,false,false,messageQueueDto, null);
         //开始发送
         callbackMsg(messageQueueDto);
     }
@@ -257,7 +255,7 @@ public class FlyMessageUtils {
             callback.msg(messageQueueDto.msgType,messageQueueDto.msgs);
             //如果要移除的话则在队列当中移除
             if(messageQueueDto.isFinishRemove && messageQueueList.contains(messageQueueDto)){
-                msgQueListOptions(false,true,false,messageQueueDto);
+                msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
             }
         }catch (Exception e){
             LogUtils.logE(TAG,"callback msg fail");
@@ -270,9 +268,10 @@ public class FlyMessageUtils {
      * @param isRemove 是否是从集合当中删除
      * @param isCallback 是否是要进行线程回调
      * @param optionMsgQueDto 添加或删除时要被操作的实体类
+     * @param msgType 要移除的消息类型
      */
     private synchronized void msgQueListOptions(boolean isAdd, boolean isRemove
-            , boolean isCallback, MessageQueueDto optionMsgQueDto){
+            , boolean isCallback, MessageQueueDto optionMsgQueDto, Integer msgType){
         //新增数据
         if(isAdd){
             if(optionMsgQueDto != null){
@@ -282,8 +281,14 @@ public class FlyMessageUtils {
         }
         //移除数据
         if(isRemove){
-            if(optionMsgQueDto != null){
-                messageQueueList.remove(optionMsgQueDto);
+            if(msgType != null){
+                MessageQueueDto messageQueueDto;
+                for(int i = 0 ; i < messageQueueList.size() ; i++){
+                    messageQueueDto = messageQueueList.get(i);
+                    if(messageQueueDto != null && msgType.compareTo(messageQueueDto.msgType) == 0){
+                        messageQueueList.remove(messageQueueDto);
+                    }
+                }
             }
             return;
         }

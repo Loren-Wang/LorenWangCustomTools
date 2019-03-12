@@ -22,12 +22,24 @@
 
     <!--加载中弹窗-->
     <style name="loading_dialog_type1">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowFrame">@null</item>
+        <!--//Dialog的windowFrame框为无-->
+        <item name="android:windowIsFloating">true</item>
+        <!--//是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--//是否半透明-->
+        <item name="android:windowNoTitle">false</item>
+        <!--//是否显示title-->
+        <item name="android:background">@android:color/transparent</item>
         <!--//设置dialog的背景-->
         <item name="android:windowBackground">@android:color/transparent</item>
+        <!--//就是用来控制灰度的值，当为1时，界面除了我们的dialog内容是高亮显示的，dialog以外的区域是黑色的，完全看不到其他内容-->
+        <!--<item name="android:backgroundDimAmount">0</item>-->
+        <!--dialog的整个屏幕的背景是否有遮障层-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
     <!--确定取消弹窗-->
@@ -56,7 +68,6 @@
         <!--//就是用来控制灰度的值，当为1时，界面除了我们的dialog内容是高亮显示的，dialog以外的区域是黑色的，完全看不到其他内容-->
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:layout_width">match_parent</item>
     </style>
 
 

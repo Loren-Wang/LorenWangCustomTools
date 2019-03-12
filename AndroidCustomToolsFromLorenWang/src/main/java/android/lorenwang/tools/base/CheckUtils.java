@@ -157,7 +157,7 @@ public class CheckUtils {
      * @param objects
      * @return
      */
-    public static boolean checkIOUtilsOptionsPermissionAndObjects(Context context,Object... objects){
+    public boolean checkIOUtilsOptionsPermissionAndObjects(Context context,Object... objects){
         if(context == null){
             return false;
         }
@@ -221,7 +221,7 @@ public class CheckUtils {
      * @param packName 包名
      * @return
      */
-    public static boolean checkAppIsRunning(Context context,String packName){
+    public boolean checkAppIsRunning(Context context,String packName){
         ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
         boolean isAppRunning = false;
@@ -240,7 +240,7 @@ public class CheckUtils {
      * @param judgeService 服务class
      * @return
      */
-    public static<T> boolean checkServiceIsRunning(Context context, Class<T> judgeService) {
+    public <T> boolean checkServiceIsRunning(Context context, Class<T> judgeService) {
         if(context == null){
             return false;
         }

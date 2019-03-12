@@ -22,7 +22,9 @@ import android.widget.LinearLayout;
  * 修改时间：
  * 备注：
  */
-public abstract class BottomListOptionsDialogType1 extends BaseDialog {
+public class BottomListOptionsDialogType1 extends BaseDialog {
+
+    private OptionsItemClickListener onOptionsItemClick;
 
     public BottomListOptionsDialogType1(Context context) {
         super(context, R.layout.dialog_bottom_list_options_type_1,R.style.dialog_bottom_list_options_type_1,R.style.dialog_anim_for_bottom,true);
@@ -52,6 +54,7 @@ public abstract class BottomListOptionsDialogType1 extends BaseDialog {
                 button.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,textHeight != null ? textHeight : 200));
                 button.setBackgroundColor(Color.TRANSPARENT);
                 button.setAllCaps(false);
+                button.setMinHeight(0);
                 button.setGravity(Gravity.CENTER);
                 linearLayout.addView(button);
                 lineView = new View(getContext());
@@ -62,7 +65,9 @@ public abstract class BottomListOptionsDialogType1 extends BaseDialog {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onOptionsItemClick(finalI,strings[finalI]);
+                        if(onOptionsItemClick != null) {
+                            onOptionsItemClick.onOptionsItemClick(finalI, strings[finalI]);
+                        }
                         dismiss();
                     }
                 });
@@ -70,8 +75,9 @@ public abstract class BottomListOptionsDialogType1 extends BaseDialog {
         }
     }
 
-    public abstract void onOptionsItemClick(int posi,String text);
-
+    public void setOnOptionsItemClick(OptionsItemClickListener onOptionsItemClick) {
+        this.onOptionsItemClick = onOptionsItemClick;
+    }
 
     @Override
     public void onBackPressed() {

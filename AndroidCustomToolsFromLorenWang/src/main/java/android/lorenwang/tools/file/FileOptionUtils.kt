@@ -136,11 +136,11 @@ class FileOptionUtils  {
         try {
             baos = ByteArrayOutputStream()
             val buffer = ByteArray(BUFFER_SIZE)
-            var length = inputStream.read(buffer, 0, BUFFER_SIZE)
+            var length = inputStream.read(buffer)
             while (length != -1) {
                 baos.write(buffer, 0, length)
                 baos.flush()
-                length = inputStream.read(buffer, 0, BUFFER_SIZE)
+                length = inputStream.read(buffer)
             }
             return baos.toByteArray()
         } catch (e: Exception) {
@@ -174,11 +174,11 @@ class FileOptionUtils  {
         try {
             fos = FileOutputStream(file)
             val buffer = ByteArray(BUFFER_SIZE)
-            var length = inputStream.read(buffer, 0, BUFFER_SIZE)
+            var length = inputStream.read(buffer)
             while (length != -1) {
                 fos.write(buffer, 0, length)
                 fos.flush()
-                length = inputStream.read(buffer, 0, BUFFER_SIZE)
+                length = inputStream.read(buffer)
             }
             return true
         } catch (e: Exception) {
@@ -244,11 +244,11 @@ class FileOptionUtils  {
                 val inStream = FileInputStream(oldPath) //读入原文件
                 fs = FileOutputStream(newPath)
                 val buffer = ByteArray(1444)
-                var length = inStream.read(buffer, 0, BUFFER_SIZE)
+                var length = inStream.read(buffer)
                 while (length != -1) {
                     fs.write(buffer, 0, length)
                     fs.flush()
-                    length = inStream.read(buffer, 0, BUFFER_SIZE)
+                    length = inStream.read(buffer)
                 }
                 inStream.close()
                 return true
