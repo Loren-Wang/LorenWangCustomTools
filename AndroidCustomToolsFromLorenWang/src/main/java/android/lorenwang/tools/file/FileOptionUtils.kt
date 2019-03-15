@@ -85,7 +85,7 @@ class FileOptionUtils  {
      * 从指定路径的文件中读取Bytes
      */
     fun readBytes(context: Context, isCheckPermisstion: Boolean, path: String): ByteArray? {
-        if (isCheckPermisstion && !CheckUtils.checkIOUtilsOptionsPermissionAndObjects(context, path)) {
+        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, path)) {
             return byteArrayOf()
         }
         try {
@@ -102,7 +102,7 @@ class FileOptionUtils  {
      * 从File中读取Bytes
      */
     fun readBytes(context: Context, isCheckPermisstion: Boolean, file: File): ByteArray? {
-        if (isCheckPermisstion && !CheckUtils.checkIOUtilsOptionsPermissionAndObjects(context, file)) {
+        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file)) {
             return byteArrayOf()
         }
         var fis: FileInputStream? = null
@@ -129,7 +129,7 @@ class FileOptionUtils  {
      * 从InputStream中读取Bytes
      */
     fun readBytes(context: Context, isCheckPermisstion: Boolean, inputStream: InputStream): ByteArray? {
-        if (isCheckPermisstion && !CheckUtils.checkIOUtilsOptionsPermissionAndObjects(context, inputStream)) {
+        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, inputStream)) {
             return byteArrayOf()
         }
         var baos: ByteArrayOutputStream? = null
@@ -163,7 +163,7 @@ class FileOptionUtils  {
      * 将InputStream写入File
      */
     fun writeToFile(context: Context, isCheckPermisstion: Boolean, file: File, inputStream: InputStream): Boolean {
-        if (isCheckPermisstion && !CheckUtils.checkIOUtilsOptionsPermissionAndObjects(context, file, inputStream)) {
+        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file, inputStream)) {
             return false
         }
 
@@ -197,7 +197,7 @@ class FileOptionUtils  {
      * 将bitmap写入File
      */
     fun writeToFile(context: Context, isCheckPermisstion: Boolean, file: File, bitmap: Bitmap, format: Bitmap.CompressFormat): Boolean {
-        if (isCheckPermisstion && !CheckUtils.checkIOUtilsOptionsPermissionAndObjects(context, file, bitmap)) {
+        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file, bitmap)) {
             return false
         }
 
@@ -234,7 +234,7 @@ class FileOptionUtils  {
      * @return boolean
      */
     fun copyFile(context: Context, isCheckPermisstion: Boolean, oldPath: String, newPath: String): Boolean {
-        if (isCheckPermisstion && !CheckUtils.checkIOUtilsOptionsPermissionAndObjects(context)) {
+        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
             return false
         }
         var fs: FileOutputStream? = null

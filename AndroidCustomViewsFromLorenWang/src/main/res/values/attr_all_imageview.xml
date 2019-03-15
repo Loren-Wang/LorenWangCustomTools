@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AllImageview">
+        <!--边框宽度-->
+        <attr name="allImageBorderWidth" format="dimension" />
+        <!--边框颜色-->
+        <attr name="allImageBorderColor" format="color" />
+        <!--总的所有圆角-->
+        <attr name="allImageRoundedRectangleAngle" format="dimension" />
+        <!--左上圆角角度-->
+        <attr name="allImageRoundedRectangleAngleLeftTop" format="dimension" />
+        <!--右上圆角角度-->
+        <attr name="allImageRoundedRectangleAngleRightTop" format="dimension" />
+        <!--左下圆角角度-->
+        <attr name="allImageRoundedRectangleAngleLeftBottom" format="dimension" />
+        <!--右下圆角角度-->
+        <attr name="allImageRoundedRectangleAngleRightBottom" format="dimension" />
+    </declare-styleable>
+</resources>
