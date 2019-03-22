@@ -91,8 +91,8 @@ public class FlyMessageUtils {
     private List<String> notActivityKeyList = new ArrayList<>();
     //当前正在显示的activity
     private Activity nowShowActivity;
-    //消息队列实体诶
-    private List<MessageQueueDto> messageQueueList = new ArrayList<>();
+//    //消息队列实体诶
+//    private List<MessageQueueDto> messageQueueList = new ArrayList<>();
 
 
     /**
@@ -253,10 +253,10 @@ public class FlyMessageUtils {
         }
         try {
             callback.msg(messageQueueDto.msgType,messageQueueDto.msgs);
-            //如果要移除的话则在队列当中移除
-            if(messageQueueDto.isFinishRemove && messageQueueList.contains(messageQueueDto)){
-                msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
-            }
+//            //如果要移除的话则在队列当中移除
+//            if(messageQueueDto.isFinishRemove && messageQueueList.contains(messageQueueDto)){
+//                msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
+//            }
         }catch (Exception e){
             LogUtils.logE(TAG,"callback msg fail");
         }
@@ -272,41 +272,41 @@ public class FlyMessageUtils {
      */
     private synchronized void msgQueListOptions(boolean isAdd, boolean isRemove
             , boolean isCallback, MessageQueueDto optionMsgQueDto, Integer msgType){
-        //新增数据
-        if(isAdd){
-            if(optionMsgQueDto != null){
-                messageQueueList.add(optionMsgQueDto);
-            }
-            return;
-        }
-        //移除数据
-        if(isRemove){
-            if(msgType != null){
-                MessageQueueDto messageQueueDto;
-                for(int i = 0 ; i < messageQueueList.size() ; i++){
-                    messageQueueDto = messageQueueList.get(i);
-                    if(messageQueueDto != null && msgType.compareTo(messageQueueDto.msgType) == 0){
-                        messageQueueList.remove(messageQueueDto);
-                    }
-                }
-            }
-            return;
-        }
-        //开始进行数据回调
-        if(isCallback){
-            try {
-                MessageQueueDto messageQueueDto;
-                Iterator<MessageQueueDto> iterator = messageQueueList.iterator();
-                while (iterator.hasNext()){
-                    messageQueueDto = iterator.next();
-                    if(messageQueueDto != null) {
-                        callbackMsg(messageQueueDto);
-                    }
-                }
-            }catch (Exception e){
-                LogUtils.logE(TAG,"data callback error");
-            }
-        }
+//        //新增数据
+//        if(isAdd){
+//            if(optionMsgQueDto != null){
+//                messageQueueList.add(optionMsgQueDto);
+//            }
+//            return;
+//        }
+//        //移除数据
+//        if(isRemove){
+//            if(msgType != null){
+//                MessageQueueDto messageQueueDto;
+//                for(int i = 0 ; i < messageQueueList.size() ; i++){
+//                    messageQueueDto = messageQueueList.get(i);
+//                    if(messageQueueDto != null && msgType.compareTo(messageQueueDto.msgType) == 0){
+//                        messageQueueList.remove(messageQueueDto);
+//                    }
+//                }
+//            }
+//            return;
+//        }
+//        //开始进行数据回调
+//        if(isCallback){
+//            try {
+//                MessageQueueDto messageQueueDto;
+//                Iterator<MessageQueueDto> iterator = messageQueueList.iterator();
+//                while (iterator.hasNext()){
+//                    messageQueueDto = iterator.next();
+//                    if(messageQueueDto != null) {
+//                        callbackMsg(messageQueueDto);
+//                    }
+//                }
+//            }catch (Exception e){
+//                LogUtils.logE(TAG,"data callback error");
+//            }
+//        }
     }
 
 

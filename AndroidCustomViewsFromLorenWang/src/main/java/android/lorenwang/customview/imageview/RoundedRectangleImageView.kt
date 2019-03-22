@@ -51,7 +51,7 @@ class RoundedRectangleImageView : AppCompatImageView, CustomViewCommon {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null)
             } else {
-                canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null, Canvas.ALL_SAVE_FLAG)
+                canvas.saveLayer(RectF(0f, 0f, width.toFloat(), height.toFloat()), null)
             }
             super.onDraw(canvas)
             //绘制圆形图片

@@ -43,7 +43,7 @@ class ImageViewCommonDeal : CustomViewCommon {
     //边框颜色(默认透明)
     private var borderColor: Int = Color.WHITE
     //边框画笔
-    private var borderPaint: Paint? = null
+    private var borderPaint = Paint()
     //圆角边框路径
     private var borderRoundedRectanglePath: Path? = null
     //边框圆角矩形角度
@@ -57,15 +57,13 @@ class ImageViewCommonDeal : CustomViewCommon {
         val attr = context.obtainStyledAttributes(attrs, R.styleable.AllImageview, defStyleAttr, 0)
         borderWidth = attr.getDimension(R.styleable.AllImageview_allImageBorderWidth, borderWidth)
         borderColor = attr.getColor(R.styleable.AllImageview_allImageBorderColor, borderColor)
-        var roundedRectangleAngle = attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngle, 0f)
-        var roundedRectangleAngleLeftTop = attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftTop, 0f)
-        var roundedRectangleAngleRightTop = attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightTop, 0f)
-        var roundedRectangleAngleLeftBottom = attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftBottom, 0f)
-        var roundedRectangleAngleRightBottm = attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightBottom, 0f)
         attr.recycle()
         //生成圆角的角度数组以及边框角度数组
-        generateRoundedRectangleAngles(roundedRectangleAngle, roundedRectangleAngleLeftTop
-                , roundedRectangleAngleRightTop, roundedRectangleAngleLeftBottom, roundedRectangleAngleRightBottm)
+        generateRoundedRectangleAngles(attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngle, 0f)
+                , attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftTop, 0f)
+                , attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightTop, 0f)
+                , attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftBottom, 0f)
+                , attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightBottom, 0f))
     }
 
     /**
@@ -191,7 +189,7 @@ class ImageViewCommonDeal : CustomViewCommon {
     /**
      * 获取边框画笔
      */
-    private fun getBorderPaint(paint: Paint?, borderWidth: Float, borderColor: Int): Paint? {
+    private fun getBorderPaint(paint: Paint?, borderWidth: Float, borderColor: Int): Paint {
         if (paint == null) {
             var newPaint = Paint()
             newPaint.setAntiAlias(true)

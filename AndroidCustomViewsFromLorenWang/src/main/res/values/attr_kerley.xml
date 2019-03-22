@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="KerleyView">
+        <!--左侧空间-->
+        <attr name="spaceLeft" format="dimension" />
+        <!--右侧空间-->
+        <attr name="spaceRight" format="dimension" />
+        <!--分割线高度-->
+        <attr name="kerleyHeight" format="dimension" />
+        <!--分割线颜色-->
+        <attr name="kerleyColor" format="color" />
+    </declare-styleable>
+</resources>

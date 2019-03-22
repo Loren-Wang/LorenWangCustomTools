@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--水平滑动tab标签-->
+<resources>
+    <declare-styleable name="HorizontalSlipTabLayout">
+        <attr name="hstl_tabWidth" format="dimension"/>
+        <attr name="hstl_tabHeight" format="dimension"/>
+        <attr name="hstl_tabTextSize" format="dimension"/>
+        <attr name="hstl_tabTextColorY" format="color"/>
+        <attr name="hstl_tabTextColorN" format="color"/>
+        <attr name="hstl_lineWidth" format="dimension"/>
+        <attr name="hstl_lineHeight" format="dimension"/>
+        <attr name="hstl_lineColor" format="color"/>
+        <attr name="hstl_lineTextSpace" format="dimension"/>
+
+        <!--第二种类型的视图-->
+        <attr name="hstl_tabBgColorY" format="color"/>
+        <attr name="hstl_viewRadius" format="dimension"/>
+        <attr name="hstl_viewBgColor" format="color"/>
+    </declare-styleable>
+    <!--tabWidth&#45;&#45;tab宽度;-->
+    <!--*      tabHeight&#45;&#45;tab高度；-->
+    <!--*      tabTextSize&#45;&#45;tab文本大小；-->
+    <!--*      tabTextColorY&#45;&#45;tab文本选中颜色；-->
+    <!--*      tabTextColorN&#45;&#45;tab文本未选中颜色；-->
+    <!--*      lineWidth&#45;&#45;下划线宽度；-->
+    <!--*      lineHeight&#45;&#45;下划线高度；-->
+    <!--*      lineColor&#45;&#45;下划线颜色；-->
+    <!--*      lineTextSpace&#45;&#45;文本下划线之间间距；-->
+</resources>

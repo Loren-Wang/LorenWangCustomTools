@@ -4,6 +4,7 @@
         <attr name="showProgressType">
             <enum name="PROGRESS_TYPE_1" value="0"/>
             <enum name="PROGRESS_TYPE_2" value="1"/>
+            <enum name="PROGRESS_TYPE_3" value="2"/>
         </attr>
         <attr name="progressWidth" format="dimension"/>
         <attr name="progressHeight" format="dimension"/>
@@ -11,5 +12,12 @@
         <attr name="progressOuterInnerRingDistance" format="dimension"/>
         <attr name="progressOuterRingColor" format="color"/>
         <attr name="progressInnerRingColor" format="color"/>
+
+        <!--进度条背景颜色-->
+        <attr name="progressBgColor" format="color"/>
+        <!--进度条颜色-->
+        <attr name="progressColor" format="color"/>
+        <!--进度条圆角半径-->
+        <attr name="progressRadius" format="dimension"/>
     </declare-styleable>
 </resources>

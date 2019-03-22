@@ -2,7 +2,7 @@ package android.lorenwang.customview.imageview
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Canvas.ALL_SAVE_FLAG
+import android.graphics.RectF
 import android.lorenwang.customview.CustomViewCommon
 import android.os.Build
 import android.support.v7.widget.AppCompatImageView
@@ -50,7 +50,7 @@ class CircleImageView : AppCompatImageView, CustomViewCommon {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null)
             }else{
-                canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null,ALL_SAVE_FLAG)
+                canvas.saveLayer(RectF(0f, 0f, width.toFloat(), height.toFloat()), null)
             }
             super.onDraw(canvas)
             //绘制圆形图片
