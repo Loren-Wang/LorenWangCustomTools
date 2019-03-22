@@ -12,11 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:showProgressType="PROGRESS_TYPE_3"
-        app:progressWidth="100dp"
-        app:progressHeight="4dp"
+        app:progressWidth="200dp"
+        app:progressHeight="20dp"
         app:progressBgColor="#fff"
         app:progressColor="#ff7047"
-        app:progressRadius="2dp"
+        app:progressRadius="10dp"
         tools:ignore="MissingPrefix" />
 
 

@@ -23,10 +23,11 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
 
         test = findViewById(R.id.test)
-        test?.setProgress(0.1)
+        test?.setProgress(0.1f)
     }
 
     override fun onBackPressed() {
+        test?.setAutoProgress(2000)
 //        precent += 0.1f
 //        if(precent.toInt() <= 1){
 //            test?.slipToPosi(0,precent)
