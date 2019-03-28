@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.lorenwang.customview.tablayout.HorizontalSlipTabLayout3
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hstl_tabWidthPercent="0.3"
+        app:hstl_tabHeight="40dp"
+        app:hstl_tabTextSize="18.7sp"
+        app:hstl_tabTextColorY="#ff6947"
+        app:hstl_tabTextColorN="#666666"
+        app:hstl_lineWidth="33dp"
+        app:hstl_lineHeight="0.7dp"
+        app:hstl_lineColor="#ff6947"
+        app:hstl_lineTextSpace="7dp"
+        app:hstl_lineContainerColor="#e8e8e8"
+        app:hstl_lineContainerHeight="0.3dp"
+        tools:ignore="MissingPrefix"/>
+
+
+
+    <!--<attr name="hstl_tabWidth" format="dimension"/>-->
+    <!--<attr name="hstl_tabHeight" format="dimension"/>-->
+    <!--<attr name="hstl_tabTextSize" format="dimension"/>-->
+    <!--<attr name="hstl_tabTextColorY" format="color"/>-->
+    <!--<attr name="hstl_tabTextColorN" format="color"/>-->
+    <!--<attr name="hstl_lineWidth" format="dimension"/>-->
+    <!--<attr name="hstl_lineHeight" format="dimension"/>-->
+    <!--<attr name="hstl_lineColor" format="color"/>-->
+    <!--<attr name="hstl_lineTextSpace" format="dimension"/>-->
+    <!--*      hstl_line_container_color&#45;&#45;下划线容器颜色；-->
+    <!--*      hstl_lineContainerHeight&#45;&#45;下划线容器高度；-->
+    <!--*      hstl_lineContainerWidthPercent&#45;&#45;下划线容器宽度相对于屏幕百分比；-->
+</RelativeLayout>

@@ -32,7 +32,7 @@ import java.util.*
  * 修改时间：
  * 备注：
  */
-class HorizontalSlipTabLayout2 : View {
+class HorizontalSlipTabLayout2 : View ,BaseHorizontalSlipTabLayout{
 
     /*******************************************绘制部分参数****************************************/
     /**
@@ -125,10 +125,13 @@ class HorizontalSlipTabLayout2 : View {
             if (percent.toInt() == 1) {
                 break
             }
-            if (percent < 0.75) {
-                Thread.sleep(15)
-            } else {
-                Thread.sleep(30)
+            try {
+                if (percent < 0.75) {
+                    Thread.sleep(15)
+                } else {
+                    Thread.sleep(30)
+                }
+            } catch (e: Exception) {
             }
         }
         isAllowChangePosi = true;
@@ -263,7 +266,7 @@ class HorizontalSlipTabLayout2 : View {
     /**
      * 设置tab列表
      */
-    fun setTabList(tabList: ArrayList<String>?, selectPosi: Int?) {
+    override fun setTabList(tabList: ArrayList<String>?, selectPosi: Int?) {
         /**
          * 计算坐标
          */
@@ -321,7 +324,7 @@ class HorizontalSlipTabLayout2 : View {
     /**
      * 跳转到指定位置
      */
-    fun skipToPosi(posi: Int) {
+    override fun skipToPosi(posi: Int) {
         if (isAllowChangePosi && posi != selectPosi) {
             if (posi < this.tabList.size) {
                 this.selectPosi = posi
@@ -333,7 +336,7 @@ class HorizontalSlipTabLayout2 : View {
     /**
      * 滑动到指定位置，带百分比滑动
      */
-    fun slipToPosi(slipToPosi: Int, percent: Float) {
+    override fun slipToPosi(slipToPosi: Int, percent: Float) {
         if (isAllowChangePosi && slipToPosi != selectPosi) {
             if (slipToPosi < this.tabList.size) {
                 this.slipToPosi = slipToPosi
@@ -345,7 +348,7 @@ class HorizontalSlipTabLayout2 : View {
     /**
      * 滑动跳转到指定位置
      */
-    fun slipSkipToPosi(slipToPosi: Int) {
+    override fun slipSkipToPosi(slipToPosi: Int) {
         if (isAllowChangePosi && slipToPosi < this.tabList.size
                 && slipToPosi != selectPosi) {
             isAllowChangePosi = false

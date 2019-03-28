@@ -33,6 +33,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':AndroidCustomViewsFromLorenWang')
+    implementation project(':AndroidAnimFromLorenWang')
+    implementation project(':AndroidCustomToolsFromLorenWang')
+    implementation project(':AndroidDataParseFromLorenWang')
+    implementation project(':AndroidNetOptionsFromLorenWang')
+    implementation project(':androidresolutionratio375x667fromlorenwang')
+    implementation project(':AndroidResolutionRatio750x1334FromLorenWang')
+    implementation project(':JavaCustomToolsFromLorenWang')
+    implementation project(':JavaPcToolsFromLorenWang')
 }
 repositories {
     mavenCentral()

@@ -29,7 +29,8 @@ public class ConfirmCancelDialog1 extends BaseDialog {
     private LinearLayout lnOptions;
 
     public ConfirmCancelDialog1(Context context) {
-        super(context, R.layout.dialog_confirm_cancel_1, R.style.dialog_confirm_cancel_1, R.style.dialog_anim_for_center, false);
+        super(context, R.layout.dialog_confirm_cancel_1, R.style.dialog_confirm_cancel_1
+                , R.style.dialog_anim_for_center, false,false,false);
         tvContent = view.findViewById(R.id.tvContent);
         btnLeft = view.findViewById(R.id.btnLeft);
         viewLine = view.findViewById(R.id.viewLine);

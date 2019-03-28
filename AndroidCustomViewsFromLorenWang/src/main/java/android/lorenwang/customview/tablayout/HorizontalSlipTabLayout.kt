@@ -8,6 +8,7 @@ import android.lorenwang.customview.R
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import java.util.*
 
 /**
@@ -33,7 +34,7 @@ import java.util.*
  * 修改时间：
  * 备注：
  */
-class HorizontalSlipTabLayout : View {
+class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
 
     /*******************************************绘制部分参数****************************************/
     /**
@@ -127,10 +128,13 @@ class HorizontalSlipTabLayout : View {
             if (percent.toInt() == 1) {
                 break
             }
-            if (percent < 0.75) {
-                Thread.sleep(15)
-            } else {
-                Thread.sleep(30)
+            try {
+                if (percent < 0.75) {
+                    Thread.sleep(15)
+                } else {
+                    Thread.sleep(30)
+                }
+            } catch (e: Exception) {
             }
         }
         isAllowChangePosi = true;
@@ -144,7 +148,7 @@ class HorizontalSlipTabLayout : View {
         init(context, attrs, -1)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         init(context, attrs, defStyleAttr)
     }
 
@@ -160,6 +164,15 @@ class HorizontalSlipTabLayout : View {
         lineWidth = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineWidth, lineWidth)
         lineTextSpace = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineTextSpace, lineTextSpace)
 
+        //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
+        var tabWidthPercent = attr.getFloat(R.styleable.HorizontalSlipTabLayout_hstl_tabWidthPercent,-1f)
+        if(tabWidthPercent > 0){
+            if(tabWidthPercent > 1){
+                tabWidthPercent = 1f
+            }
+            tabWidth = resources.displayMetrics.widthPixels * tabWidthPercent
+        }
+
         //数据合理性检测，首先检测下划线宽度是否大于tab宽度
         if(lineWidth.compareTo(tabWidth) > 0){
             lineWidth = tabWidth
@@ -174,12 +187,16 @@ class HorizontalSlipTabLayout : View {
         linePaint.reset()
         linePaint.isAntiAlias = true
         linePaint.style = Paint.Style.STROKE
-        linePaint.strokeWidth = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineWidth, 10f)
+        linePaint.strokeWidth = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineHeight, 10f)
         linePaint.color = attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_lineColor, tabTextColorY)
         attr.recycle()
     }
 
     override fun onDraw(canvas: Canvas?) {
+//        if(parent is HorizontalSlipTabLayout3){
+//            (parent as HorizontalSlipTabLayout3).drawParent(canvas)
+//        }
+
         /**
          * 绘制文本
          */
@@ -191,7 +208,6 @@ class HorizontalSlipTabLayout : View {
             }
             canvas?.drawText(tabList[i],tabListCoordinate[2 * i],tabListCoordinate[2 * i + 1],tabPaint)
         }
-
 
         /**
          * 绘制下划线
@@ -242,31 +258,6 @@ class HorizontalSlipTabLayout : View {
             }
         }
 
-
-//        /**
-//         * 判断是否需要变动下划线宽度
-//         */
-//        if(lineWidth > 0){
-//            /**
-//             * 从上一个坐标开始安卓滑动距离进行滑动
-//             */
-//            canvas?.drawLine(tabLineListCoordinate[lastSelectPosi * 2] + slipSpace
-//                    ,tabLineListCoordinate[lastSelectPosi* 2 + 1]
-//                    ,tabLineListCoordinate[lastSelectPosi * 2] + lineWidth + slipSpace
-//                    , tabLineListCoordinate[lastSelectPosi* 2 + 1],linePaint)
-//        }else{
-//            /**
-//             * 获取宽度变化值,值为上一个位置文本宽度减去当前要跳转的位置的宽度乘以百分比
-//             */
-//            val widChange = (tabTextListWidth[lastSelectPosi] - tabTextListWidth[selectPosi]) * lineSlipPercent
-//            /**
-//             * 此时的结尾值为当前位置加上放大或缩小的比例加上移动的距离为endx坐标
-//             */
-//            canvas?.drawLine(tabLineListCoordinate[lastSelectPosi* 2] + slipSpace
-//                    ,tabLineListCoordinate[lastSelectPosi* 2 + 1]
-//                    ,tabLineListCoordinate[lastSelectPosi* 2] + widChange + slipSpace + tabTextListWidth[selectPosi]
-//                    , tabLineListCoordinate[lastSelectPosi* 2 + 1],linePaint)
-//        }
     }
 
     private var lastX: Float = 0.toFloat()
@@ -294,7 +285,7 @@ class HorizontalSlipTabLayout : View {
     /**
      * 设置tab列表
      */
-    fun setTabList(tabList: ArrayList<String>?, selectPosi: Int?) {
+    override fun setTabList(tabList: ArrayList<String>?, selectPosi: Int?) {
         /**
          * 计算坐标
          */
@@ -341,6 +332,17 @@ class HorizontalSlipTabLayout : View {
                     nowLeftWidth += tabWidth
                 }
             }
+
+            /**
+             * 重新设置宽高
+             */
+            if (layoutParams != null) {
+                layoutParams.width = (paddingLeft + paddingRight + tabList.size * tabWidth).toInt()
+                layoutParams.height = (paddingTop + paddingBottom + tabHeight).toInt()
+            } else {
+                layoutParams = ViewGroup.LayoutParams((paddingLeft + paddingRight + tabList.size * tabWidth).toInt()
+                        , (paddingTop + paddingBottom + tabHeight).toInt())
+            }
         }
         /**
          * 跳转到指定位置
@@ -348,12 +350,14 @@ class HorizontalSlipTabLayout : View {
         if(selectPosi != null){
             skipToPosi(selectPosi)
         }
+
+
     }
 
     /**
      * 跳转到指定位置
      */
-    fun skipToPosi(posi:Int){
+    override fun skipToPosi(posi:Int){
         if(isAllowChangePosi) {
             if (posi < this.tabList.size) {
                 this.selectPosi = posi
@@ -365,7 +369,7 @@ class HorizontalSlipTabLayout : View {
     /**
      * 滑动到指定位置，带百分比滑动
      */
-    fun slipToPosi(slipToPosi: Int,percent:Float){
+    override fun slipToPosi(slipToPosi: Int,percent:Float){
         if(isAllowChangePosi) {
             if (slipToPosi < this.tabList.size) {
                 this.slipToPosi = slipToPosi
@@ -377,11 +381,23 @@ class HorizontalSlipTabLayout : View {
     /**
      * 滑动跳转到指定位置
      */
-    fun slipSkipToPosi(slipToPosi:Int){
+    override fun slipSkipToPosi(slipToPosi:Int){
         if(isAllowChangePosi && slipToPosi < this.tabList.size){
             isAllowChangePosi = false
             this.slipToPosi = slipToPosi
             Thread(slipSkipToPosiRunnable).start()
+        }
+    }
+
+
+    /**
+     * 获取下划线y轴坐标
+     */
+    fun getLineCoordinateY():Float{
+        if(tabLineListCoordinate.size > 1){
+            return tabLineListCoordinate[1]
+        }else{
+            return 0f
         }
     }
 

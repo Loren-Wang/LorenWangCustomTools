@@ -7,7 +7,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -31,7 +30,8 @@ public class BottomListOptionsDialogType2 extends BaseDialog {
     private OptionsItemClickListener onOptionsItemClick;
 
     public BottomListOptionsDialogType2(Context context) {
-        super(context, R.layout.dialog_bottom_list_options_type_2, R.style.dialog_bottom_list_options_type_1, R.style.dialog_anim_for_bottom, true);
+        super(context, R.layout.dialog_bottom_list_options_type_2, R.style.dialog_bottom_list_options_type_1
+                , R.style.dialog_anim_for_bottom, true,true,false);
     }
 
     /**
@@ -84,24 +84,6 @@ public class BottomListOptionsDialogType2 extends BaseDialog {
         this.onOptionsItemClick = onOptionsItemClick;
     }
 
-    @Override
-    public void onBackPressed() {
-        if (isShowing()) {
-            dismiss();
-        } else {
-            super.onBackPressed();
-        }
-    }
 
-    @Override
-    public void show() {
-        super.show();
-        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.gravity = Gravity.BOTTOM;
-        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        getWindow().getDecorView().setPadding(0, 0, 0, 0);
-        getWindow().setAttributes(layoutParams);
-    }
 
 }

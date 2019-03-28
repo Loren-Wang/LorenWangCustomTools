@@ -19,11 +19,11 @@ import android.support.annotation.StyleRes;
 public class LoadingDialogType1 extends BaseDialog {
 
     public LoadingDialogType1(Context context) {
-        super(context, R.layout.dialog_loading_type_1,R.style.loading_dialog_type1,R.style.dialog_anim_for_center,false);
+        super(context, R.layout.dialog_loading_type_1,R.style.loading_dialog_type1,R.style.dialog_anim_for_center,false,false,false);
     }
 
     public LoadingDialogType1(Context context, @StyleRes int styleRes) {
-        super(context, R.layout.dialog_loading_type_1,styleRes,R.style.dialog_anim_for_center,false);
+        super(context, R.layout.dialog_loading_type_1,styleRes,R.style.dialog_anim_for_center,false,false,false);
     }
 
     @Override

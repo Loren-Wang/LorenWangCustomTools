@@ -57,13 +57,13 @@ class ImageViewCommonDeal : CustomViewCommon {
         val attr = context.obtainStyledAttributes(attrs, R.styleable.AllImageview, defStyleAttr, 0)
         borderWidth = attr.getDimension(R.styleable.AllImageview_allImageBorderWidth, borderWidth)
         borderColor = attr.getColor(R.styleable.AllImageview_allImageBorderColor, borderColor)
-        attr.recycle()
         //生成圆角的角度数组以及边框角度数组
         generateRoundedRectangleAngles(attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngle, 0f)
                 , attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftTop, 0f)
                 , attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightTop, 0f)
                 , attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftBottom, 0f)
                 , attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightBottom, 0f))
+        attr.recycle()
     }
 
     /**
