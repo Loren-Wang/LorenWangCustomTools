@@ -77,6 +77,10 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
      * 文本以及下划线之间的间距
      */
     private var lineTextSpace = 0f
+    /**
+     * 是否允许绘制线条
+     */
+    private var isAllowDrawLine = false
 
 
     /*******************************************配置部分参数****************************************/
@@ -212,52 +216,53 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
         /**
          * 绘制下划线
          */
-        if(lineSlipPercent == 0f){
-            /**
-             * 此时没有百分比存在，直接定位显示
-             */
-            if(lineWidth > 0){
-                canvas?.drawLine(tabLineListCoordinate[selectPosi* 2]
-                        ,tabLineListCoordinate[selectPosi* 2 + 1]
-                        ,tabLineListCoordinate[selectPosi* 2] + lineWidth
-                        , tabLineListCoordinate[selectPosi* 2 + 1],linePaint)
-            }else {
-                canvas?.drawLine(tabLineListCoordinate[selectPosi * 2]
-                        , tabLineListCoordinate[selectPosi * 2 + 1]
-                        , tabLineListCoordinate[selectPosi * 2] + tabTextListWidth[selectPosi]
-                        , tabLineListCoordinate[selectPosi * 2 + 1], linePaint)
-            }
-        }else{
-            /**
-             * 根据百分比做移动绘制
-             */
-            /**
-             * 滑动距离为目标x坐标减去当前x坐标乘以百分比
-             */
-            val slipSpace = (tabLineListCoordinate[slipToPosi * 2] - tabLineListCoordinate[selectPosi * 2]) * lineSlipPercent
-            /**
-             * 判断是否需要变动下划线宽度
-             */
-            if(lineWidth > 0){
-                canvas?.drawLine(tabLineListCoordinate[selectPosi* 2] + slipSpace
-                        ,tabLineListCoordinate[selectPosi* 2 + 1]
-                        ,tabLineListCoordinate[selectPosi* 2] + lineWidth + slipSpace
-                        , tabLineListCoordinate[selectPosi* 2 + 1],linePaint)
-            }else{
+        if(isAllowDrawLine) {
+            if (lineSlipPercent == 0f) {
                 /**
-                 * 获取宽度变化值,值为目标位置文本宽度减去当前位置文本的宽度乘以百分比
+                 * 此时没有百分比存在，直接定位显示
                  */
-                val widthChange = (tabTextListWidth[slipToPosi] - tabTextListWidth[selectPosi]) * lineSlipPercent
+                if (lineWidth > 0) {
+                    canvas?.drawLine(tabLineListCoordinate[selectPosi * 2]
+                            , tabLineListCoordinate[selectPosi * 2 + 1]
+                            , tabLineListCoordinate[selectPosi * 2] + lineWidth
+                            , tabLineListCoordinate[selectPosi * 2 + 1], linePaint)
+                } else {
+                    canvas?.drawLine(tabLineListCoordinate[selectPosi * 2]
+                            , tabLineListCoordinate[selectPosi * 2 + 1]
+                            , tabLineListCoordinate[selectPosi * 2] + tabTextListWidth[selectPosi]
+                            , tabLineListCoordinate[selectPosi * 2 + 1], linePaint)
+                }
+            } else {
                 /**
-                 * 此时的结尾值为当前位置加上放大或缩小的比例加上移动的距离为endx坐标
+                 * 根据百分比做移动绘制
                  */
-                canvas?.drawLine(tabLineListCoordinate[selectPosi* 2] + slipSpace
-                        ,tabLineListCoordinate[selectPosi* 2 + 1]
-                        ,tabLineListCoordinate[selectPosi* 2] + widthChange + slipSpace + tabTextListWidth[selectPosi]
-                        , tabLineListCoordinate[selectPosi* 2 + 1],linePaint)
+                /**
+                 * 滑动距离为目标x坐标减去当前x坐标乘以百分比
+                 */
+                val slipSpace = (tabLineListCoordinate[slipToPosi * 2] - tabLineListCoordinate[selectPosi * 2]) * lineSlipPercent
+                /**
+                 * 判断是否需要变动下划线宽度
+                 */
+                if (lineWidth > 0) {
+                    canvas?.drawLine(tabLineListCoordinate[selectPosi * 2] + slipSpace
+                            , tabLineListCoordinate[selectPosi * 2 + 1]
+                            , tabLineListCoordinate[selectPosi * 2] + lineWidth + slipSpace
+                            , tabLineListCoordinate[selectPosi * 2 + 1], linePaint)
+                } else {
+                    /**
+                     * 获取宽度变化值,值为目标位置文本宽度减去当前位置文本的宽度乘以百分比
+                     */
+                    val widthChange = (tabTextListWidth[slipToPosi] - tabTextListWidth[selectPosi]) * lineSlipPercent
+                    /**
+                     * 此时的结尾值为当前位置加上放大或缩小的比例加上移动的距离为endx坐标
+                     */
+                    canvas?.drawLine(tabLineListCoordinate[selectPosi * 2] + slipSpace
+                            , tabLineListCoordinate[selectPosi * 2 + 1]
+                            , tabLineListCoordinate[selectPosi * 2] + widthChange + slipSpace + tabTextListWidth[selectPosi]
+                            , tabLineListCoordinate[selectPosi * 2 + 1], linePaint)
+                }
             }
         }
-
     }
 
     private var lastX: Float = 0.toFloat()
@@ -332,6 +337,9 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
                     nowLeftWidth += tabWidth
                 }
             }
+
+            //是否允许绘制线条
+            isAllowDrawLine = tabLineListCoordinate.size == tabList.size * 2
 
             /**
              * 重新设置宽高

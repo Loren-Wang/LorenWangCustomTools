@@ -94,7 +94,8 @@ class HorizontalSlipTabLayout3 : FrameLayout,BaseHorizontalSlipTabLayout {
     private var stopX:Float = 0f
     private var lingContainerY:Float = 0f
     override fun onDraw(canvas: Canvas?) {
-        lingContainerY = tabView.getLineCoordinateY()
+        super.onDraw(canvas)
+        lingContainerY = tabView.getLineCoordinateY() + (height - tabView.height) / 2
         if(lineContainerWidth == null || lineContainerWidth!! > width){
             startX = paddingLeft.toFloat()
             stopX = (width - paddingRight).toFloat()

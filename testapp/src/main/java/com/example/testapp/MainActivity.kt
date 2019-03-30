@@ -21,7 +21,7 @@ class MainActivity : Activity() {
     fun showHorizontalSlipTabLayout3(){
         setContentView(R.layout.activity_main_horizontal_slip_tab_layout_3)
         var test = findViewById<HorizontalSlipTabLayout3>(R.id.test)
-        test.setTabList(arrayListOf("热门","最新"),0)
+//        test.setTabList(arrayListOf("热门","最新"),0)
     }
 
 }
