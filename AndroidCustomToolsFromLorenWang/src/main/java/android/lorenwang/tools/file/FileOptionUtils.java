@@ -251,6 +251,40 @@ public class FileOptionUtils {
         }
     }
 
+    public boolean writeToFile(Context context,boolean isCheckPermisstion,File file, byte[] buffer) {
+        return writeToFile(context,isCheckPermisstion,file, buffer, false);
+    }
+
+    public boolean writeToFile(Context context,boolean isCheckPermisstion,File file, byte[] buffer, boolean append) {
+        if(isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context,file,buffer,append)){
+            return false;
+        }
+        FileOutputStream fos = null;
+        try {
+            if(file.exists()){
+                file.delete();
+            }
+            if(!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
+
+            fos = new FileOutputStream(file, append);
+            fos.write(buffer);
+            return true;
+        } catch (Exception e) {
+            LogUtils.logE(e);
+            return false;
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (Exception e) {
+                LogUtils.logE(e);
+            }
+        }
+    }
+
 
     /******************************************其他文件操作部分**************************************/
 
