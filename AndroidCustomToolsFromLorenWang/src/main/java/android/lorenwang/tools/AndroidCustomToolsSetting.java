@@ -1,4 +1,4 @@
-package android.lorenwang.tools
+package android.lorenwang.tools;
 
 /**
  * 创建时间：2019-01-29 下午 15:41:53
@@ -11,10 +11,9 @@ package android.lorenwang.tools
  * 修改时间：
  * 备注：
  */
-
-object AndroidCustomToolsSetting {
+public class AndroidCustomToolsSetting {
     //是否是debug模式
-    var isDebug = false
+    public static boolean isDebug = false;
     //debug日志存储地址
-    var debugLogFileSavePath:String? = null;
+    public static  String debugLogFileSavePath = null;
 }

@@ -62,7 +62,7 @@ public class ImageCommonUtils {
                 && CheckUtils.getInstance().checkFileIsExit(filePath)
                 && CheckUtils.getInstance().checkFileIsImage(filePath)) {
             LogUtils.logI(TAG, "图片文件地址有效性检测成功，开始获取文件字节");
-            byte[] bytes = FileOptionUtils.Companion.getInstance()
+            byte[] bytes = FileOptionUtils.getInstance()
                     .readImageFileGetBytes(context, false, false, filePath);
             String base64Str = null;
             if (bytes != null) {

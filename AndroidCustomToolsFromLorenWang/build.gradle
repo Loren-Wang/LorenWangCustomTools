@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 //必须引入这2个插件
 apply plugin : 'com.github.dcendents.android-maven'
 apply plugin : 'com.jfrog.bintray'
@@ -37,13 +36,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //官方变色库
     implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 }
 def moduleName = "AndroidCustomToolsFromLorenWang"
 def moduleDescription = "Android自定义工具库"
-version = '1.0.32'
+version = '1.0.38'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

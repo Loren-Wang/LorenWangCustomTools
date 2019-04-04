@@ -1,15 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-
-    <!--漫画书籍首章点赞、喜欢样式-->
     <style name="dialog_cartoon_first_chapter_count">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -22,5 +13,4 @@
         <item name="drawableHeight">23dp</item>
         <item name="drawableTextDistance">18dp</item>
     </style>
-
 </resources>

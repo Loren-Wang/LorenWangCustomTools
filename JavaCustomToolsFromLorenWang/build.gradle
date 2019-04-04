@@ -3,7 +3,6 @@ plugins{
     id 'com.jfrog.bintray'
     id 'com.github.dcendents.android-maven'
 }
-apply plugin: 'kotlin'
 sourceSets{
     main{
         java.srcDirs = ['src']
@@ -17,12 +16,11 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 def moduleName = "JavaCustomToolsFromLorenWang"
 def moduleDescription = "java自定义工具库"
-version '1.0.36'
+version '1.0.37'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -117,16 +115,6 @@ bintray {
                 passphrase = bintrayGpgPwd
             }
         }
-    }
-}
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 

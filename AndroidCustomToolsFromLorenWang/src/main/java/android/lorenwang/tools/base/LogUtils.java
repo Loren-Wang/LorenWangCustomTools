@@ -29,8 +29,8 @@ public final class LogUtils{
 	private static final String LOG_FILE_NAME = "ct.log";
 	// ------------------------------------------------------ Fields
 	//private static boolean isDebuggable = Settings.isDebuggable;
-	public static boolean isDebuggable = AndroidCustomToolsSetting.INSTANCE.isDebug();
-	private static String saveLogNamePath = AndroidCustomToolsSetting.INSTANCE.getDebugLogFileSavePath();//日志保存地址
+	public static boolean isDebuggable = AndroidCustomToolsSetting.isDebug;
+	private static String saveLogNamePath = AndroidCustomToolsSetting.debugLogFileSavePath;//日志保存地址
 
 	// ------------------------------------------------------ Public Methods
 

@@ -188,7 +188,7 @@ public class ActivityUtils {
             InputStream inputStream = null;//文件图片输入流
             try {
                 inputStream = activity.getContentResolver().openInputStream(data.getData());
-                boolean state = FileOptionUtils.Companion.getInstance().writeToFile(activity, true, new File(saveFile), inputStream);
+                boolean state = FileOptionUtils.getInstance().writeToFile(activity, true, new File(saveFile), inputStream,false);
                 if (state) {
                     return saveFile;
                 } else {

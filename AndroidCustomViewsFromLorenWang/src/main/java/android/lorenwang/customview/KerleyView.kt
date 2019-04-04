@@ -23,6 +23,9 @@ class KerleyView : View,CustomViewCommon {
 
     private var spaceLeft = 0f
     private var spaceRight = 0f
+    private var spaceTop = 0f
+    private var spaceBottom = 0f
+    private var orientation = 0
     private var paint = Paint()
 
     constructor(context: Context) : super(context) {
@@ -42,16 +45,23 @@ class KerleyView : View,CustomViewCommon {
      */
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
         val attr = context.obtainStyledAttributes(attrs, R.styleable.KerleyView, defStyleAttr, 0)
-        spaceLeft = attr.getDimension(R.styleable.KerleyView_spaceLeft,spaceLeft)
-        spaceRight = attr.getDimension(R.styleable.KerleyView_spaceRight,spaceRight)
+        spaceLeft = attr.getDimension(R.styleable.KerleyView_kv_spaceLeft,spaceLeft)
+        spaceRight = attr.getDimension(R.styleable.KerleyView_kv_spaceRight,spaceRight)
+        spaceTop = attr.getDimension(R.styleable.KerleyView_kv_spaceTop,spaceTop)
+        spaceBottom = attr.getDimension(R.styleable.KerleyView_kv_spaceBottom,spaceBottom)
+        orientation = attr.getInt(R.styleable.KerleyView_kv_orientation,orientation)
         paint.isAntiAlias = true
-        paint.strokeWidth = attr.getDimension(R.styleable.KerleyView_kerleyHeight,2f)
-        paint.color = attr.getColor(R.styleable.KerleyView_kerleyColor,Color.BLACK)
+        paint.strokeWidth = attr.getDimension(R.styleable.KerleyView_kv_kerleyHeight,2f)
+        paint.color = attr.getColor(R.styleable.KerleyView_kv_kerleyColor,Color.BLACK)
         attr.recycle()
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawLine(spaceLeft, (paint.strokeWidth / 2).toFloat(),width - spaceRight, (paint.strokeWidth / 2).toFloat(),paint)
+        if(orientation == 0) {
+            canvas.drawLine(spaceLeft, paint.strokeWidth / 2 + spaceTop, width - spaceRight, paint.strokeWidth / 2 - spaceBottom, paint)
+        }else if(orientation == 1){
+            canvas.drawLine((width / 2).toFloat(), spaceTop, (width / 2).toFloat(), height - spaceBottom, paint)
+        }
     }
 
     override fun setBackground(background: Drawable?) {

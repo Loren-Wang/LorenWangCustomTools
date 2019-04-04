@@ -1,16 +1,33 @@
 package com.example.testapp
 
 import android.app.Activity
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.lorenwang.customview.tablayout.HorizontalSlipTabLayout
 import android.lorenwang.customview.tablayout.HorizontalSlipTabLayout3
+import android.lorenwang.customview.texiview.CustomDrawableButton
+import android.os.Build
 import android.os.Bundle
 
 class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showHorizontalSlipTabLayout3()
+        showKerleyView()
     }
+
+    fun showKerleyView(){
+        setContentView(R.layout.activity_main_kerley)
+    }
+
+    fun showCustomDrawableButton(){
+        setContentView(R.layout.activity_main_custom_drawable_button)
+        var test = findViewById<CustomDrawableButton>(R.id.test)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            test?.setBackgroundTintList(ColorStateList.valueOf(Color.RED))
+        }
+    }
+
 
 
     fun showHorizontalSlipTabLayout(){
