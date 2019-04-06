@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ import java.util.regex.Pattern;
  *      4、数组转集合  paramesArrayToList
  *      5、将map的所有key值转成集合   paramsHashMapKeyToArrayList
  *      6、格式化长整形到指定位数   paramsLongToNum
+ *      7、生成一个范围随机数
  * 注意：
  * 修改人：
  * 修改时间：
@@ -149,6 +151,19 @@ public class VariateDataParamUtils {
         }
         return list;
     }
+
+
+    /**
+     * 生成一个范围随机数
+     * @param min
+     * @param max
+     * @return
+     */
+    public long generateRandom( long min, long max){
+        return  min + (((long) (new Random().nextDouble() * (max - min))));
+    }
+
+
 
     /******************************************私有方法部分*****************************************/
 
