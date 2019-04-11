@@ -1,7 +1,7 @@
 package android.lorenwang.tools.app;
 
 import android.content.Context;
-import android.lorenwang.tools.common.AndJavaCommonUtils;
+import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
@@ -63,7 +63,7 @@ public class ToastHintUtils {
      * @return 不为空则返回true
      */
     private Boolean checkMsg(String msg)  {
-        return msg != null && !AndJavaCommonUtils.getInstance().isEmpty(msg);
+        return msg != null && !AtlwAndJavaCommonUtils.getInstance().isEmpty(msg);
     }
 
 }

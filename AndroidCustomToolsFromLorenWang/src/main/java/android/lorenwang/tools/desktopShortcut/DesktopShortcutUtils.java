@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.lorenwang.tools.base.LogUtils;
-import android.lorenwang.tools.common.AndJavaCommonUtils;
+import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.lorenwang.tools.messageTransmit.FlyMessageUtils;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,7 +73,7 @@ public class DesktopShortcutUtils {
 
             //设置快捷方式信息
             ShortcutInfoCompat shortcutInfoCompat =
-                    new ShortcutInfoCompat.Builder(context, AndJavaCommonUtils.getInstance().generateUuid(true))
+                    new ShortcutInfoCompat.Builder(context, AtlwAndJavaCommonUtils.getInstance().generateUuid(true))
                             .setIcon(IconCompat.createWithBitmap(bitmap))
                             .setShortLabel(title)
                             .setIntent(intent)

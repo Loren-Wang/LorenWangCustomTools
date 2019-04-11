@@ -1,7 +1,7 @@
 package android.lorenwang.tools.base;
 
 import android.lorenwang.tools.AndroidCustomToolsSetting;
-import android.lorenwang.tools.common.AndJavaCommonUtils;
+import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.util.Log;
 
 
@@ -189,17 +189,17 @@ public final class LogUtils{
 
 	private static void saveLog(String type, String tag, String message){
 		try {
-			if(AndJavaCommonUtils.getInstance().isEmpty(saveLogNamePath)){
+			if(AtlwAndJavaCommonUtils.getInstance().isEmpty(saveLogNamePath)){
 				return;
 			}
 
-			if(AndJavaCommonUtils.getInstance().isEmpty(type)){
+			if(AtlwAndJavaCommonUtils.getInstance().isEmpty(type)){
 				type = "";
 			}
-			if(AndJavaCommonUtils.getInstance().isEmpty(tag)){
+			if(AtlwAndJavaCommonUtils.getInstance().isEmpty(tag)){
 				tag = "";
 			}
-			if(AndJavaCommonUtils.getInstance().isEmpty(message)){
+			if(AtlwAndJavaCommonUtils.getInstance().isEmpty(message)){
 				message = "";
 			}
 

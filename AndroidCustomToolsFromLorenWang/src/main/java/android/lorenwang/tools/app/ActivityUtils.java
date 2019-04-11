@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.lorenwang.tools.base.CheckUtils;
 import android.lorenwang.tools.base.LogUtils;
-import android.lorenwang.tools.common.AndJavaCommonUtils;
+import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.lorenwang.tools.file.FileOptionUtils;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -69,7 +69,7 @@ public class ActivityUtils {
         //版本判断，小于23的不执行权限请求
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             if (permissionRequestCallback != null) {
-                permissionRequestCallback.perissionRequestSuccessCallback(AndJavaCommonUtils.getInstance().paramesArrayToList(permisstions)
+                permissionRequestCallback.perissionRequestSuccessCallback(AtlwAndJavaCommonUtils.getInstance().paramesArrayToList(permisstions)
                         , permissionsRequestCode);
             }
         } else {
@@ -77,7 +77,7 @@ public class ActivityUtils {
             //判断所有的权限是否是通过的
             if (CheckUtils.getInstance().checkAppPermisstion(activity, permisstions)) {
                 if (permissionRequestCallback != null) {
-                    permissionRequestCallback.perissionRequestSuccessCallback(AndJavaCommonUtils.getInstance().paramesArrayToList(permisstions)
+                    permissionRequestCallback.perissionRequestSuccessCallback(AtlwAndJavaCommonUtils.getInstance().paramesArrayToList(permisstions)
                             , permissionsRequestCode);
                 }
             } else {//请求权限

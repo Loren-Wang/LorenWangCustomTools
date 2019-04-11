@@ -39,15 +39,15 @@ import java.io.ByteArrayOutputStream;
  * 修改时间：
  * 备注：
  */
-public class ImageCommonUtils {
+public class AtlwImageCommonUtils {
     private final String TAG = getClass().getName();
-    private static ImageCommonUtils imageCommonUtils;
+    private static AtlwImageCommonUtils atlwImageCommonUtils;
 
-    public static ImageCommonUtils getInstance() {
-        if (imageCommonUtils == null) {
-            imageCommonUtils = new ImageCommonUtils();
+    public static AtlwImageCommonUtils getInstance() {
+        if (atlwImageCommonUtils == null) {
+            atlwImageCommonUtils = new AtlwImageCommonUtils();
         }
-        return imageCommonUtils;
+        return atlwImageCommonUtils;
     }
 
 
