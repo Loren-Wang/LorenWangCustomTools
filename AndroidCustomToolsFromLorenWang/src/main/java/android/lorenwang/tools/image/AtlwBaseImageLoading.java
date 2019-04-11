@@ -1,9 +1,9 @@
 package android.lorenwang.tools.image;
 
 /**
- * 创建时间：2019-04-11 下午 14:26:16
+ * 创建时间：2019-04-11 下午 22:59:34
  * 创建人：王亮（Loren wang）
- * 功能作用：图片加载工具类
+ * 功能作用：图片加载基类方法
  * 思路：
  * 方法：
  * 注意：
@@ -12,5 +12,6 @@ package android.lorenwang.tools.image;
  * 备注：
  */
 
-public class AtlwImageLoadingUtils extends AtlwBaseImageLoading {
+public abstract class AtlwBaseImageLoading {
+
 }

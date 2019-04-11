@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.testapp"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -43,6 +43,8 @@ dependencies {
 
     // 图片加载库
     implementation 'com.github.bumptech.glide:glide:4.8.0'
+    // 高斯模糊工具类
+    implementation 'net.qiujuer.genius:graphics:2.1.1'
 }
 repositories {
     mavenCentral()

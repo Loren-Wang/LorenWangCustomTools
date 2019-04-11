@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import net.qiujuer.genius.graphics.Blur;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
@@ -33,7 +35,7 @@ import javabase.lorenwang.tools.MatchesRegularCommon;
  * 备注：
  */
 
-public class AtlwGlideImageLoadingUtils {
+public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
     private String TAG = "AtlwGlideImageLoadingUtils";
     private static AtlwGlideImageLoadingUtils utils;
 
@@ -94,20 +96,49 @@ public class AtlwGlideImageLoadingUtils {
                 callback.onBitmap(bmp);
             }
         });
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Bitmap bmp = null;
-//                try {
-//                    bmp = Glide.with(context).asBitmap().load(path).apply(requestOptions).submit().get();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//                callback.onBitmap(bmp);
-//            }
-//        }).start();
+    }
+
+    /**
+     * 高斯模糊图片
+     *
+     * @param context          上下文
+     * @param path             图片地址
+     * @param requestOptions   请求操作配置类
+     * @param imageView        图片加载控件
+     * @param radius           模糊精度0--25,值越大，模糊度越高
+     * @param canReuseInBitmap 是否在原始位图中重用
+     */
+    public void loadNetImageBlur(final Context context, final String path, final RequestOptions requestOptions, final ImageView imageView, final int radius, final boolean canReuseInBitmap) {
+        //空判定
+        if (AtlwAndJavaCommonUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
+                && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
+            return;
+        }
+        ThreadUtils.getInstance().postOnChildThread(new Runnable() {
+            Bitmap bmp = null;
+            @Override
+            public void run() {
+                try {
+                    //高斯模糊图片不能影响原图的使用，但是因为又要用到glide的缓存机制，所以自动给所有的图片加个后缀，保证呼和原图地址的缓存区分开
+                    bmp = Glide.with(context).asBitmap().load(path + "?blur").apply(requestOptions).submit().get();
+                    if (bmp != null) {
+                        bmp = Blur.onStackBlurClip(bmp, radius);
+                        if (bmp != null) {
+                            ThreadUtils.getInstance().postOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    imageView.setImageBitmap(bmp);
+                                }
+                            });
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

@@ -172,7 +172,7 @@ public class ThreadUtils {
      * @param r The Runnable to run
      */
     public void runOnChildThread(Runnable r) {
-        if (isRunningOnUiThread()) {
+        if (isRunningOnChildThread()) {
             r.run();
         } else {
             getChildThreadHandler().post(r);
