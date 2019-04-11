@@ -18,6 +18,15 @@
             android:id="@+id/imgLoadOrdinary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取位图加载图片" />
+
+        <ImageView
+            android:id="@+id/imgLoadBitmap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

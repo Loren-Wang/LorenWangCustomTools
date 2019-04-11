@@ -1,7 +1,9 @@
 package android.lorenwang.tools.image;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.lorenwang.tools.app.ThreadUtils;
 import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 
 import javabase.lorenwang.tools.MatchesRegularCommon;
 
@@ -61,6 +64,50 @@ public class AtlwGlideImageLoadingUtils {
             return;
         }
         Glide.with(context).load(path).apply(requestOptions).into(imageView);
+    }
+
+    /**
+     * 加载网址图片获取位图
+     *
+     * @param context        上下文
+     * @param path           图片地址
+     * @param requestOptions 请求操作配置类
+     * @param callback       图片加载回调
+     */
+    public void loadNetImageGetBitmap(final Context context, final String path, final RequestOptions requestOptions, final OnImageLoadCallback callback) {
+        //空判定
+        if (AtlwAndJavaCommonUtils.getInstance().isHaveEmpty(context, path, requestOptions, callback)
+                && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
+            return;
+        }
+        ThreadUtils.getInstance().postOnChildThread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bmp = null;
+                try {
+                    bmp = Glide.with(context).asBitmap().load(path).apply(requestOptions).submit().get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                callback.onBitmap(bmp);
+            }
+        });
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Bitmap bmp = null;
+//                try {
+//                    bmp = Glide.with(context).asBitmap().load(path).apply(requestOptions).submit().get();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//                callback.onBitmap(bmp);
+//            }
+//        }).start();
     }
 
 
