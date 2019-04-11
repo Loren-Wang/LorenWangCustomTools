@@ -1,6 +1,7 @@
 package android.lorenwang.tools.app;
 
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.VisibleForTesting;
 
@@ -28,14 +29,12 @@ public class ThreadUtils {
     private Object sLockChild = new Object();
 
     private ThreadUtils() {
+        //初始化主线程
         sUiThreadHandler = new Handler(Looper.getMainLooper());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                childThreadHandler = new Handler(Looper.myLooper());
-            }
-        }).start();
+        //初始化子线程
+        HandlerThread handlerThread = new HandlerThread("child_thread");
+        handlerThread.start();
+        childThreadHandler = new Handler(handlerThread.getLooper());
     }
 
 
@@ -93,8 +92,6 @@ public class ThreadUtils {
 
     /**
      * 发送到主线程运行
-     * Post the supplied Runnable to run on the main thread. The method will not block, even if
-     * called on the UI thread.
      *
      * @param task The Runnable to run
      */
@@ -104,8 +101,6 @@ public class ThreadUtils {
 
     /**
      * 间隔指定时间后再主线程运行
-     * Post the supplied Runnable to run on the main thread after the given amount of time. The
-     * method will not block, even if called on the UI thread.
      *
      * @param task        The Runnable to run
      * @param delayMillis The delay in milliseconds until the Runnable will be run
@@ -116,8 +111,6 @@ public class ThreadUtils {
     }
 
     /**
-     * Post the supplied FutureTask to run on the main thread. The method will not block, even if
-     * called on the UI thread.
      *
      * @param task The FutureTask to run
      * @return The queried task (to aid inline construction)
@@ -129,8 +122,6 @@ public class ThreadUtils {
 
     /**
      * 如果当前是主线程则直接运行，否则发送到主线程去运行
-     * Run the supplied Runnable on the main thread. The method will block only if the current
-     * thread is the main thread.
      *
      * @param r The Runnable to run
      */
@@ -145,8 +136,6 @@ public class ThreadUtils {
 
     /**
      * 发送到子线程运行
-     * Post the supplied Runnable to run on the child thread. The method will not block, even if
-     * called on the UI thread.
      *
      * @param task The Runnable to run
      */
@@ -156,8 +145,6 @@ public class ThreadUtils {
 
     /**
      * 间隔指定时间后再子线程运行
-     * Post the supplied Runnable to run on the child thread after the given amount of time. The
-     * method will not block, even if called on the UI thread.
      *
      * @param task        The Runnable to run
      * @param delayMillis The delay in milliseconds until the Runnable will be run
@@ -181,8 +168,6 @@ public class ThreadUtils {
 
     /**
      * 如果当前是子线程则直接运行，否则发送到子线程去运行
-     * Run the supplied Runnable on the child thread. The method will block only if the current
-     * thread is the child thread.
      *
      * @param r The Runnable to run
      */
