@@ -18,6 +18,9 @@ class MainActivity : Activity() {
                 R.id.btnImageLoadForGlide -> {
                     startActivity(Intent(this, GlideImageLoadingActivity::class.java))
                 }
+                R.id.btnBrightness -> {
+                    startActivity(Intent(this, BrightnessActivity::class.java))
+                }
                 else -> {
 
                 }

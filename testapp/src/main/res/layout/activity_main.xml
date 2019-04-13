@@ -15,6 +15,12 @@
             android:layout_height="wrap_content"
             android:text="glide图片加载"
             android:onClick="mainClick"/>
+        <Button
+            android:id="@+id/btnBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="屏幕亮度调节"
+            android:onClick="mainClick"/>
     </LinearLayout>
 
 
