@@ -1,8 +1,9 @@
 package android.lorenwang.tools.base;
 
 import android.lorenwang.tools.AndroidCustomToolsSetting;
-import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.util.Log;
+
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 
 /**
@@ -189,17 +190,17 @@ public final class LogUtils{
 
 	private static void saveLog(String type, String tag, String message){
 		try {
-			if(AtlwAndJavaCommonUtils.getInstance().isEmpty(saveLogNamePath)){
+			if(JtlwCheckVariateUtils.getInstance().isEmpty(saveLogNamePath)){
 				return;
 			}
 
-			if(AtlwAndJavaCommonUtils.getInstance().isEmpty(type)){
+			if(JtlwCheckVariateUtils.getInstance().isEmpty(type)){
 				type = "";
 			}
-			if(AtlwAndJavaCommonUtils.getInstance().isEmpty(tag)){
+			if(JtlwCheckVariateUtils.getInstance().isEmpty(tag)){
 				tag = "";
 			}
-			if(AtlwAndJavaCommonUtils.getInstance().isEmpty(message)){
+			if(JtlwCheckVariateUtils.getInstance().isEmpty(message)){
 				message = "";
 			}
 

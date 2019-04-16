@@ -136,6 +136,10 @@ class HorizontalSlipTabLayout2 : View ,BaseHorizontalSlipTabLayout{
         }
         isAllowChangePosi = true;
     }
+    /**
+     * tab改变监听
+     */
+    private var tabChangeListener:BaseHorizontalSlipTabLayoutChangeListener? = null
 
     constructor(context: Context) : super(context) {
         init(context, null, -1)
@@ -328,6 +332,8 @@ class HorizontalSlipTabLayout2 : View ,BaseHorizontalSlipTabLayout{
         if (isAllowChangePosi && posi != selectPosi) {
             if (posi < this.tabList.size) {
                 this.selectPosi = posi
+                //回调位置
+                tabChangeListener?.onChangePosi(this.selectPosi)
                 invalidate()
             }
         }
@@ -340,6 +346,8 @@ class HorizontalSlipTabLayout2 : View ,BaseHorizontalSlipTabLayout{
         if (isAllowChangePosi && slipToPosi != selectPosi) {
             if (slipToPosi < this.tabList.size) {
                 this.slipToPosi = slipToPosi
+                //回调位置
+                tabChangeListener?.onChangePosi(this.selectPosi)
             }
             changeSlipPercent(percent)
         }
@@ -353,6 +361,8 @@ class HorizontalSlipTabLayout2 : View ,BaseHorizontalSlipTabLayout{
                 && slipToPosi != selectPosi) {
             isAllowChangePosi = false
             this.slipToPosi = slipToPosi
+            //回调位置
+            tabChangeListener?.onChangePosi(this.selectPosi)
             Thread(slipSkipToPosiRunnable).start()
         }
     }

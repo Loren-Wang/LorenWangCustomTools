@@ -6,13 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.lorenwang.tools.base.LogUtils;
-import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.lorenwang.tools.messageTransmit.FlyMessageUtils;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.pm.ShortcutInfoCompat;
 import android.support.v4.content.pm.ShortcutManagerCompat;
 import android.support.v4.graphics.drawable.IconCompat;
+
+import javabase.lorenwang.tools.common.JtlwCommonUtils;
 
 import static android.lorenwang.tools.messageTransmit.FlyMessageMsgTypes.DESKTOP_SHORTCUT_CREATE_SUCCESS;
 
@@ -73,7 +74,7 @@ public class DesktopShortcutUtils {
 
             //设置快捷方式信息
             ShortcutInfoCompat shortcutInfoCompat =
-                    new ShortcutInfoCompat.Builder(context, AtlwAndJavaCommonUtils.getInstance().generateUuid(true))
+                    new ShortcutInfoCompat.Builder(context, JtlwCommonUtils.getInstance().generateUuid(true))
                             .setIcon(IconCompat.createWithBitmap(bitmap))
                             .setShortLabel(title)
                             .setIntent(intent)

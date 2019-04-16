@@ -9,7 +9,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.base.CheckUtils;
 import android.lorenwang.tools.base.LogUtils;
-import android.lorenwang.tools.file.FileOptionUtils;
+import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -62,7 +62,7 @@ public class AtlwImageCommonUtils {
                 && CheckUtils.getInstance().checkFileIsExit(filePath)
                 && CheckUtils.getInstance().checkFileIsImage(filePath)) {
             LogUtils.logI(TAG, "图片文件地址有效性检测成功，开始获取文件字节");
-            byte[] bytes = FileOptionUtils.getInstance()
+            byte[] bytes = AtlwFileOptionUtils.getInstance()
                     .readImageFileGetBytes(context, false, false, filePath);
             String base64Str = null;
             if (bytes != null) {

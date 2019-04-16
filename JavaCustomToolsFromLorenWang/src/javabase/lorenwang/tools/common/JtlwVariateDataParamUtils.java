@@ -28,18 +28,18 @@ import java.util.regex.Pattern;
  * 备注：
  */
 
-public class VariateDataParamUtils {
+public class JtlwVariateDataParamUtils {
     private final String TAG = "VariateDataParamUtils";
-    private static VariateDataParamUtils baseUtils;
+    private static JtlwVariateDataParamUtils baseUtils;
 
-    private VariateDataParamUtils() {
+    private JtlwVariateDataParamUtils() {
     }
 
-    public static VariateDataParamUtils getInstance() {
+    public static JtlwVariateDataParamUtils getInstance() {
         if (baseUtils == null) {
-            baseUtils = new VariateDataParamUtils();
+            baseUtils = new JtlwVariateDataParamUtils();
         }
-        return (VariateDataParamUtils) baseUtils;
+        return (JtlwVariateDataParamUtils) baseUtils;
     }
 
     /**

@@ -14,26 +14,27 @@ import java.util.UUID;
  * 备注：
  */
 
-public class CommonUtils {
+public class JtlwCommonUtils {
     private final String TAG = "CommonUtils";
-    private static CommonUtils baseUtils;
-    private CommonUtils(){}
-    public static CommonUtils getInstance(){
+    private static JtlwCommonUtils baseUtils;
+    private JtlwCommonUtils(){}
+    public static JtlwCommonUtils getInstance(){
         if(baseUtils == null){
-            baseUtils = new CommonUtils();
+            baseUtils = new JtlwCommonUtils();
         }
-        return (CommonUtils) baseUtils;
+        return (JtlwCommonUtils) baseUtils;
     }
 
     /**
      * uuid产生器
+     *
      * @param isRemoveSpecialChar 是否移除特殊字符，中划线
      */
-    public String generateUuid(boolean isRemoveSpecialChar){
+    public String generateUuid(boolean isRemoveSpecialChar) {
         String uuid = UUID.randomUUID().toString();
-        if(isRemoveSpecialChar){
-            uuid = uuid.replaceAll("-","");
+        if (isRemoveSpecialChar) {
+            uuid = uuid.replaceAll("-", "");
         }
-        return uuid ;
+        return uuid;
     }
 }

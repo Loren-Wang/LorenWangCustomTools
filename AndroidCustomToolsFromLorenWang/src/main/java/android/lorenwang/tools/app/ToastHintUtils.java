@@ -1,9 +1,10 @@
 package android.lorenwang.tools.app;
 
 import android.content.Context;
-import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
+
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
  * 创建时间：2019-04-04 下午 17:49:41
@@ -63,7 +64,7 @@ public class ToastHintUtils {
      * @return 不为空则返回true
      */
     private Boolean checkMsg(String msg)  {
-        return msg != null && !AtlwAndJavaCommonUtils.getInstance().isEmpty(msg);
+        return msg != null && !JtlwCheckVariateUtils.getInstance().isEmpty(msg);
     }
 
 }

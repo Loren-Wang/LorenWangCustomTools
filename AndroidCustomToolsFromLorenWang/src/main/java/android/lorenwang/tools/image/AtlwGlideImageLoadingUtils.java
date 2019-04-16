@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.app.ThreadUtils;
-import android.lorenwang.tools.common.AtlwAndJavaCommonUtils;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
@@ -19,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 
 import javabase.lorenwang.tools.MatchesRegularCommon;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
  * 创建时间：2019-04-11 下午 14:29:15
@@ -61,7 +61,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
      */
     public void loadNetImage(Context context, String path, RequestOptions requestOptions, ImageView imageView) {
         //空判定
-        if (AtlwAndJavaCommonUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
+        if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
                 && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
@@ -78,7 +78,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
      */
     public void loadNetImageGetBitmap(final Context context, final String path, final RequestOptions requestOptions, final OnImageLoadCallback callback) {
         //空判定
-        if (AtlwAndJavaCommonUtils.getInstance().isHaveEmpty(context, path, requestOptions, callback)
+        if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, callback)
                 && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
@@ -110,7 +110,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
      */
     public void loadNetImageBlur(final Context context, final String path, final RequestOptions requestOptions, final ImageView imageView, final int radius, final boolean canReuseInBitmap) {
         //空判定
-        if (AtlwAndJavaCommonUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
+        if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
                 && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
             return;
         }

@@ -1,6 +1,6 @@
 package javabase.lorenwang.tools.dataConversion;
 
-import javabase.lorenwang.tools.common.CheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
  * 创建时间：2019-01-28 下午 14:21:38
@@ -60,9 +60,9 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal10To2(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             String result = decimalToAssign(num, 2, null, null);
-            if (CheckVariateUtils.getInstance().isInteger(result)) {
+            if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             } else {
                 return null;
@@ -78,9 +78,9 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal10To8(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             String result = decimalToAssign(num, 8, null, null);
-            if (CheckVariateUtils.getInstance().isInteger(result)) {
+            if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             } else {
                 return null;
@@ -96,7 +96,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public String decimal10To16(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             return decimalToAssign(num, 16, null, null);
         }
         return null;
@@ -109,7 +109,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public String decimal10To32(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             return decimalToAssign(num, 32, null, null);
         }
         return null;
@@ -122,7 +122,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public String decimal10To62(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             return decimalToAssign(num, 62, null, null);
         }
         return null;
@@ -138,13 +138,13 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal8To2(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             char[] chars = String.valueOf(num).toCharArray();
             StringBuffer result = new StringBuffer();
             for (char item : chars) {
                 result.append(decimalToAssign(item - 48, 2, 3, null));
             }
-            if (CheckVariateUtils.getInstance().isInteger(result.toString())) {
+            if (JtlwCheckVariateUtils.getInstance().isInteger(result.toString())) {
                 return Integer.valueOf(result.toString());
             } else {
                 return null;
@@ -160,7 +160,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal8To10(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             char[] chars = String.valueOf(num).toCharArray();
             int length = chars.length;
             if (length == 0) {
@@ -182,7 +182,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public String decimal8To16(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             num = decimal8To10(num);
             return decimal10To16(num);
         }
@@ -196,7 +196,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public String decimal8To32(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             num = decimal8To10(num);
             return decimal10To32(num);
         }
@@ -210,7 +210,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public String decimal8To62(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             num = decimal8To10(num);
             return decimal10To62(num);
         }
@@ -227,9 +227,9 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal2To8(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             String result = decimal2ToOther(num, 8, 3);
-            if (CheckVariateUtils.getInstance().isInteger(result)) {
+            if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             } else {
                 return null;
@@ -245,9 +245,9 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal2To10(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             String result = decimal2ToOther(num, 10, null);
-            if (CheckVariateUtils.getInstance().isInteger(result)) {
+            if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             } else {
                 return null;
@@ -263,7 +263,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public String decimal2To16(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             return decimal2ToOther(num, 16, 4);
         }
         return null;
@@ -276,7 +276,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public String decimal2To32(Integer num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             return decimal2ToOther(num, 32, 5);
         }
         return null;
@@ -292,7 +292,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal16To2(String num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             num = num.toLowerCase();
             char[] chars = num.toCharArray();
             int length = chars.length;
@@ -309,7 +309,7 @@ public class DecimalConvertUtils {
                     result = decimalToAssign(character - 87,2,4,null) + result;
                 }
             }
-            if(CheckVariateUtils.getInstance().isInteger(result)){
+            if(JtlwCheckVariateUtils.getInstance().isInteger(result)){
                 return Integer.valueOf(result);
             }
         }
@@ -323,7 +323,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal16To8(String num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             Integer integer = decimal16To2(num);
             return decimal2To8(integer);
         }
@@ -337,7 +337,7 @@ public class DecimalConvertUtils {
      * @return
      */
     public Integer decimal16To10(String num) {
-        if (!CheckVariateUtils.getInstance().isEmpty(num)) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             num = num.toLowerCase();
             char[] chars = num.toCharArray();
             int length = chars.length;

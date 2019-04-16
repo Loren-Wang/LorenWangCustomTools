@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 
 class MainActivity : Activity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,6 +19,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnBrightness -> {
                     startActivity(Intent(this, BrightnessActivity::class.java))
+                }
+                R.id.btnFileOptionsForScan -> {
+                    startActivity(Intent(this, FileOptionsForScanFileActivity::class.java))
                 }
                 else -> {
 

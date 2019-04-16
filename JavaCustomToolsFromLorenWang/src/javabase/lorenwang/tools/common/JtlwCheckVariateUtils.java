@@ -1,7 +1,10 @@
 package javabase.lorenwang.tools.common;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.util.List;
+
+import javabase.lorenwang.tools.JtlwLogUtils;
 
 
 /**
@@ -23,25 +26,28 @@ import java.util.List;
  *      12、
  *      13、
  *      14、销毁当前单例
+ *      15、检查文件是否存在
+ *      16、检测文件是否是图片
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
  */
 
-public class CheckVariateUtils {
+public class JtlwCheckVariateUtils {
     private final String TAG = "RegularOptionsUtils";
-    private static CheckVariateUtils baseUtils;
+    private static JtlwCheckVariateUtils baseUtils;
 
-    private CheckVariateUtils() {
+    private JtlwCheckVariateUtils() {
     }
 
-    public static CheckVariateUtils getInstance() {
+    public static JtlwCheckVariateUtils getInstance() {
         if (baseUtils == null) {
-            baseUtils = new CheckVariateUtils();
+            baseUtils = new JtlwCheckVariateUtils();
         }
         return baseUtils;
     }
+
 
 
     /**
@@ -50,8 +56,27 @@ public class CheckVariateUtils {
      * @param str String
      * @return boolean
      */
-    public<T> boolean isEmpty(T str) {
-        return (str == null || "".equals(str)) ? true : false;
+    public <T> boolean isEmpty(T str) {
+        if (str instanceof String) {
+            return (str == null || "".equals(str)) ? true : false;
+        } else {
+            return (str == null) ? true : false;
+        }
+    }
+
+    /**
+     * 判断变量集合当中是否存在空
+     *
+     * @param objects
+     * @return
+     */
+    public boolean isHaveEmpty(Object... objects) {
+        for (Object object : objects) {
+            if (isEmpty(object)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -240,5 +265,71 @@ public class CheckVariateUtils {
         return false;
     }
 
+    /**
+     * 检查文件是否存在
+     *
+     * @param filePath
+     * @return
+     */
+    public boolean checkFileIsExit(String filePath) {
+        if (isEmpty(filePath)) {
+            JtlwLogUtils.logI(TAG, "被检查文件地址为空，不通过检测");
+            return false;
+        }
+        File file = new File(filePath);
+        boolean isExit = false;//文件是否存在记录
+        if (file == null || file.isDirectory()) {
+            JtlwLogUtils.logI(TAG, "被检查文件为空或被检测的地址为文件夹，不通过检测");
+            return false;
+        }
+        if (file.exists()) {
+            isExit = true;
+            JtlwLogUtils.logI(TAG, "被检查文件存在");
+        } else {
+            JtlwLogUtils.logI(TAG, "被检查文件不存在");
+        }
+        file = null;
+        return isExit;
+    }
+
+    /**
+     * 检测文件是否是图片
+     *
+     * @param filePath
+     * @return
+     */
+    public boolean checkFileIsImage(String filePath) {
+        if (!isEmpty(filePath)) {
+            if (filePath.length() > 4 &&
+                    (filePath.toLowerCase().substring(filePath.length() - 4).contains(".jpg")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".png")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".bmp")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".gif")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".psd")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".swf")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".svg")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".pcx")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".dxf")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".wmf")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".emf")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".lic")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".eps")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".tga"))) {
+                JtlwLogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 4));
+                return true;
+            } else if (filePath.length() > 5 &&
+                    (filePath.toLowerCase().substring(filePath.length() - 5).contains(".jpeg")
+                            || filePath.toLowerCase().substring(filePath.length() - 5).contains(".tiff"))) {
+                JtlwLogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 5));
+                return true;
+            }else {
+                JtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
+                return false;
+            }
+        } else {
+            JtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
+            return false;
+        }
+    }
 
 }
