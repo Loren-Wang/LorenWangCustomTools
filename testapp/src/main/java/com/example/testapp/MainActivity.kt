@@ -2,13 +2,14 @@ package com.example.testapp
 
 import android.app.Activity
 import android.content.Intent
+import android.lorenwang.customview.tablayout.HorizontalSlipTabLayout
 import android.os.Bundle
 import android.view.View
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        showHorizontalSlipTabLayout()
     }
 
     fun mainClick(view: View?) {
@@ -47,9 +48,9 @@ class MainActivity : Activity() {
 
 
     fun showHorizontalSlipTabLayout() {
-//        setContentView(R.layout.activity_main_horizontal_slip_tab_layout)
-//        var test = findViewById<HorizontalSlipTabLayout>(R.id.test)
-//        test.setTabList(arrayListOf("热门", "最新"), 0)
+        setContentView(R.layout.activity_main_horizontal_slip_tab_layout)
+        var test = findViewById<HorizontalSlipTabLayout>(R.id.test)
+        test.setTabList(arrayListOf("热门", "最新"), 0)
     }
 
     fun showHorizontalSlipTabLayout3() {

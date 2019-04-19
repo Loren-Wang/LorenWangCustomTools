@@ -8,7 +8,10 @@
         <attr name="hstl_tabTextSize" format="dimension"/>
         <attr name="hstl_tabTextColorY" format="color"/>
         <attr name="hstl_tabTextColorN" format="color"/>
+        <attr name="hstl_tabTextBoldY" format="boolean"/>
+        <attr name="hstl_tabTextBoldN" format="boolean"/>
         <attr name="hstl_lineWidth" format="dimension"/>
+        <attr name="hstl_lineWidthPercent" format="float"/>
         <attr name="hstl_lineHeight" format="dimension"/>
         <attr name="hstl_lineColor" format="color"/>
         <attr name="hstl_lineTextSpace" format="dimension"/>
@@ -25,6 +28,7 @@
     </declare-styleable>
     <!--tabWidth&#45;&#45;tab宽度;-->
     <!--hstl_tabWidthPercent&#45;&#45;tab宽度相对于屏幕宽度百分比;-->
+    <!--*      hstl_linePercent&#45;&#45;tab下划线宽度百分比；-->
     <!--*      tabHeight&#45;&#45;tab高度；-->
     <!--*      tabTextSize&#45;&#45;tab文本大小；-->
     <!--*      tabTextColorY&#45;&#45;tab文本选中颜色；-->
@@ -36,4 +40,7 @@
     <!--*      hstl_lineContainerColor&#45;&#45;下划线容器颜色；-->
     <!--*      hstl_lineContainerHeight&#45;&#45;下划线容器高度；-->
     <!--*      hstl_lineContainerWidthPercent&#45;&#45;下划线容器宽度相对于屏幕百分比；-->
+
+<!--    hstl_tabTextBoldY ;选中文本是否加粗-->
+    <!--    hstl_tabTextBoldN ;未选中文本是否加粗-->
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.lorenwang.customview.R
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -34,7 +35,7 @@ import java.util.*
  * 修改时间：
  * 备注：
  */
-class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
+class HorizontalSlipTabLayout : View, BaseHorizontalSlipTabLayout {
 
     /*******************************************绘制部分参数****************************************/
     /**
@@ -81,6 +82,14 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
      * 是否允许绘制线条
      */
     private var isAllowDrawLine = false
+    /**
+     * 选中文本是否加粗
+     */
+    private var tabTextBoldY = false;
+    /**
+     * 未选中文本是否加粗
+     */
+    private var tabTextBoldN = false;
 
 
     /*******************************************配置部分参数****************************************/
@@ -100,7 +109,6 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
      * 是否允许修改位置
      */
     private var isAllowChangePosi = true
-
 
 
     /*******************************************内容部分参数****************************************/
@@ -146,7 +154,7 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
     /**
      * tab改变监听
      */
-    var tabChangeListener:BaseHorizontalSlipTabLayoutChangeListener? = null
+    var tabChangeListener: BaseHorizontalSlipTabLayoutChangeListener? = null
 
     constructor(context: Context) : super(context) {
         init(context, null, -1)
@@ -171,18 +179,28 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
         tabTextColorN = attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_tabTextColorN, tabTextColorN)
         lineWidth = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineWidth, lineWidth)
         lineTextSpace = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineTextSpace, lineTextSpace)
+        tabTextBoldN = attr.getBoolean(R.styleable.HorizontalSlipTabLayout_hstl_tabTextBoldN, tabTextBoldN)
+        tabTextBoldY = attr.getBoolean(R.styleable.HorizontalSlipTabLayout_hstl_tabTextBoldY, tabTextBoldY)
 
         //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
-        var tabWidthPercent = attr.getFloat(R.styleable.HorizontalSlipTabLayout_hstl_tabWidthPercent,-1f)
-        if(tabWidthPercent > 0){
-            if(tabWidthPercent > 1){
+        var tabWidthPercent = attr.getFloat(R.styleable.HorizontalSlipTabLayout_hstl_tabWidthPercent, -1f)
+        if (tabWidthPercent > 0) {
+            if (tabWidthPercent > 1) {
                 tabWidthPercent = 1f
             }
             tabWidth = resources.displayMetrics.widthPixels * tabWidthPercent
         }
+        //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
+        var lineWidthPercent = attr.getFloat(R.styleable.HorizontalSlipTabLayout_hstl_lineWidthPercent, -1f)
+        if (lineWidthPercent > 0) {
+            if (lineWidthPercent > 1) {
+                lineWidthPercent = 1f
+            }
+            lineWidth = resources.displayMetrics.widthPixels * lineWidthPercent
+        }
 
         //数据合理性检测，首先检测下划线宽度是否大于tab宽度
-        if(lineWidth.compareTo(tabWidth) > 0){
+        if (lineWidth.compareTo(tabWidth) > 0) {
             lineWidth = tabWidth
         }
 
@@ -190,6 +208,9 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
         tabPaint.reset()
         tabPaint.textSize = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_tabTextSize, 50f);
         tabPaint.isAntiAlias = true
+        if (tabTextBoldY || tabTextBoldN) {
+            tabPaint.typeface = Typeface.DEFAULT_BOLD
+        }
 
         //初始化下划线画笔
         linePaint.reset()
@@ -209,18 +230,28 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
          * 绘制文本
          */
         for (i in 0 until tabList.size) {
-            if(i == selectPosi){
+            if (i == selectPosi) {
                 tabPaint.color = tabTextColorY
-            }else{
+                if(tabTextBoldY) {
+                    tabPaint.typeface = Typeface.DEFAULT_BOLD
+                }else{
+                    tabPaint.typeface = Typeface.DEFAULT
+                }
+            } else {
                 tabPaint.color = tabTextColorN
+                if(tabTextBoldN) {
+                    tabPaint.typeface = Typeface.DEFAULT_BOLD
+                }else{
+                    tabPaint.typeface = Typeface.DEFAULT
+                }
             }
-            canvas?.drawText(tabList[i],tabListCoordinate[2 * i],tabListCoordinate[2 * i + 1],tabPaint)
+            canvas?.drawText(tabList[i], tabListCoordinate[2 * i], tabListCoordinate[2 * i + 1], tabPaint)
         }
 
         /**
          * 绘制下划线
          */
-        if(isAllowDrawLine) {
+        if (isAllowDrawLine) {
             if (lineSlipPercent == 0f) {
                 /**
                  * 此时没有百分比存在，直接定位显示
@@ -279,7 +310,7 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
                     lastY = event.getY()
                     true
                 }
-                MotionEvent.ACTION_UP ->{
+                MotionEvent.ACTION_UP -> {
                     skipToPosi(((event.getX() - paddingLeft) / tabWidth).toInt())
                     return true
                 }
@@ -311,7 +342,7 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
             /**
              * 文本宽度
              */
-            var textWidth:Float
+            var textWidth: Float
             for (text: String? in tabList) {
                 if (text != null && !"".equals(text)) {
                     this.tabList.add(text)
@@ -327,12 +358,12 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
                     /**
                      * 判断是否需要使用和文本相同宽度的下划线
                      */
-                    if(lineWidth != 0f){
+                    if (lineWidth != 0f) {
                         tabLineListCoordinate.add(nowLeftWidth + (tabWidth - lineWidth) / 2)
-                        tabLineListCoordinate.add(textCoordinateY  + linePaint.strokeWidth / 2 + lineTextSpace)
-                    }else{
+                        tabLineListCoordinate.add(textCoordinateY + linePaint.strokeWidth / 2 + lineTextSpace)
+                    } else {
                         tabLineListCoordinate.add(nowLeftWidth + (tabWidth - textWidth) / 2)
-                        tabLineListCoordinate.add(paddingTop + tabHeight  + linePaint.strokeWidth / 2 + lineTextSpace)
+                        tabLineListCoordinate.add(paddingTop + tabHeight + linePaint.strokeWidth / 2 + lineTextSpace)
                     }
                     /**
                      * 存储所有文本宽度
@@ -359,7 +390,7 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
         /**
          * 跳转到指定位置
          */
-        if(selectPosi != null){
+        if (selectPosi != null) {
             skipToPosi(selectPosi)
         }
 
@@ -369,8 +400,8 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
     /**
      * 跳转到指定位置
      */
-    override fun skipToPosi(posi:Int){
-        if(isAllowChangePosi) {
+    override fun skipToPosi(posi: Int) {
+        if (isAllowChangePosi) {
             if (posi < this.tabList.size) {
                 this.selectPosi = posi
                 invalidate()
@@ -383,8 +414,8 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
     /**
      * 滑动到指定位置，带百分比滑动
      */
-    override fun slipToPosi(slipToPosi: Int,percent:Float){
-        if(isAllowChangePosi) {
+    override fun slipToPosi(slipToPosi: Int, percent: Float) {
+        if (isAllowChangePosi) {
             if (slipToPosi < this.tabList.size) {
                 this.slipToPosi = slipToPosi
                 //回调位置
@@ -397,8 +428,8 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
     /**
      * 滑动跳转到指定位置
      */
-    override fun slipSkipToPosi(slipToPosi:Int){
-        if(isAllowChangePosi && slipToPosi < this.tabList.size){
+    override fun slipSkipToPosi(slipToPosi: Int) {
+        if (isAllowChangePosi && slipToPosi < this.tabList.size) {
             isAllowChangePosi = false
             this.slipToPosi = slipToPosi
             //回调位置
@@ -411,10 +442,10 @@ class HorizontalSlipTabLayout : View,BaseHorizontalSlipTabLayout {
     /**
      * 获取下划线y轴坐标
      */
-    fun getLineCoordinateY():Float{
-        if(tabLineListCoordinate.size > 1){
+    fun getLineCoordinateY(): Float {
+        if (tabLineListCoordinate.size > 1) {
             return tabLineListCoordinate[1]
-        }else{
+        } else {
             return 0f
         }
     }
