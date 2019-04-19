@@ -16,3 +16,16 @@ Java自定义工具类
       12、获取绝对路径下最后一个文件夹名称
       13、根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
       14、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
+      
+      
+ <h3>一、JtlwVariateDataParamUtils---（变量格式化工具类）
+ 
+      1、格式化double变量的小数部分为指定数量  paramsDoubleToNum
+      2、除去末尾的0字符操作  clearEndZeroAndParamsForDouble
+      3、去掉回车换行符  clearStringBlank
+      4、数组转集合  paramesArrayToList
+      5、将map的所有key值转成集合   paramsHashMapKeyToArrayList
+      6、格式化长整形到指定位数   paramsLongToNum
+      7、生成一个范围随机数 generateRandom
+      8、获取首字母的拼音 getFirstPinYin
+      9、汉字转为拼音 getPinYin  

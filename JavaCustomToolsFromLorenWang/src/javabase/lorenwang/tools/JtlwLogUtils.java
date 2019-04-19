@@ -13,6 +13,10 @@ package javabase.lorenwang.tools;
  */
 
 public class JtlwLogUtils {
+    public static void logD(String tag, String msg) {
+
+    }
+
     public static void logE(String tag, String ms) {
     }
 

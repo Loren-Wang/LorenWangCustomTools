@@ -1,10 +1,12 @@
 package javabase.lorenwang.tools.common;
 
+import java.text.Collator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -16,12 +18,14 @@ import java.util.regex.Pattern;
  * 功能作用：变量数据格式化
  * 思路：
  * 方法：1、格式化double变量的小数部分为指定数量  paramsDoubleToNum
- *      2、除去末尾的0字符操作  clearEndZeroAndParamsForDouble
- *      3、去掉回车换行符  clearStringBlank
- *      4、数组转集合  paramesArrayToList
- *      5、将map的所有key值转成集合   paramsHashMapKeyToArrayList
- *      6、格式化长整形到指定位数   paramsLongToNum
- *      7、生成一个范围随机数
+ * 2、除去末尾的0字符操作  clearEndZeroAndParamsForDouble
+ * 3、去掉回车换行符  clearStringBlank
+ * 4、数组转集合  paramesArrayToList
+ * 5、将map的所有key值转成集合   paramsHashMapKeyToArrayList
+ * 6、格式化长整形到指定位数   paramsLongToNum
+ * 7、生成一个范围随机数 generateRandom
+ * 8、获取首字母的拼音 getFirstPinYin
+ * 9、汉字转为拼音 getPinYin
  * 注意：
  * 修改人：
  * 修改时间：
@@ -44,8 +48,9 @@ public class JtlwVariateDataParamUtils {
 
     /**
      * 格式化double变量的小数部分为指定数量
+     *
      * @param data double 变量数据
-     * @param num 小数点位数
+     * @param num  小数点位数
      * @return 返回格式化后字符串，小数点部分为指定数量
      */
     public String paramsDoubleToNum(Double data, int num) {
@@ -66,20 +71,21 @@ public class JtlwVariateDataParamUtils {
 
     /**
      * 格式化长整形到指定位数
+     *
      * @param time
      * @param num
      * @return
      */
-    public Long paramsLongToNum(Long time,Integer num){
-        if(time != null && num != null){
+    public Long paramsLongToNum(Long time, Integer num) {
+        if (time != null && num != null) {
             int length = String.valueOf(time).length();
             int compareTo = num.compareTo(length);
-            if(compareTo == 0){
+            if (compareTo == 0) {
                 return time;
-            }else if(compareTo < 0){
-                return Double.valueOf(time / Math.pow(10,(length - num))).longValue();
-            }else {
-                return Double.valueOf(time * Math.pow(10,(length - num))).longValue();
+            } else if (compareTo < 0) {
+                return Double.valueOf(time / Math.pow(10, (length - num))).longValue();
+            } else {
+                return Double.valueOf(time * Math.pow(10, (length - num))).longValue();
             }
         }
         return 0l;
@@ -87,13 +93,14 @@ public class JtlwVariateDataParamUtils {
 
     /**
      * 除去末尾的0字符操作
-     * @param doubleNum 传入所要格式化的值
+     *
+     * @param doubleNum     传入所要格式化的值
      * @param maxDecimalNum 所保留的最大的非0的小数点后的位数
      * @return
      */
-    public String clearEndZeroAndParamsForDouble(Double doubleNum, Integer maxDecimalNum){
-        String str = paramsDoubleToNum(doubleNum,maxDecimalNum);//先进行格式化
-        if(str.indexOf(".") > 0){
+    public String clearEndZeroAndParamsForDouble(Double doubleNum, Integer maxDecimalNum) {
+        String str = paramsDoubleToNum(doubleNum, maxDecimalNum);//先进行格式化
+        if (str.indexOf(".") > 0) {
             str = str.replaceAll("0+?$", "");//去掉多余的0
             str = str.replaceAll("[.]$", "");//如最后一位是.则去掉
         }
@@ -102,11 +109,12 @@ public class JtlwVariateDataParamUtils {
 
     /**
      * 去掉回车换行符
+     *
      * @param str
      * @return
      */
     public String clearStringBlank(String str) {
-        if(str != null && !"".equals(str)) {
+        if (str != null && !"".equals(str)) {
             if (str != null && !"".equals(str)) {
                 Pattern p = Pattern.compile("\\s*|\t|\r|\n");
                 Matcher m = p.matcher(str);
@@ -115,20 +123,21 @@ public class JtlwVariateDataParamUtils {
             } else {
                 return str;
             }
-        }else {
+        } else {
             return str;
         }
     }
 
     /**
      * 数组转集合
+     *
      * @param arrays
      * @param <T>
      * @return
      */
-    public <T> List<T> paramesArrayToList(T[] arrays){
+    public <T> List<T> paramesArrayToList(T[] arrays) {
         List<T> list = new ArrayList<>();
-        if(arrays != null) {
+        if (arrays != null) {
             list.addAll(Arrays.asList(arrays));
         }
         return list;
@@ -136,17 +145,18 @@ public class JtlwVariateDataParamUtils {
 
     /**
      * 将map的所有key值转成集合
+     *
      * @param map
      * @param <T>
      * @return
      */
-    public <K,T> List<K> paramsHashMapKeyToArrayList(Map<K,List<T>> map ){
+    public <K, T> List<K> paramsHashMapKeyToArrayList(Map<K, List<T>> map) {
         List<K> list = new ArrayList<>();
-        if(map == null){
+        if (map == null) {
             return list;
         }
         Iterator<Map.Entry<K, List<T>>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             list.add(iterator.next().getKey());
         }
         return list;
@@ -155,14 +165,63 @@ public class JtlwVariateDataParamUtils {
 
     /**
      * 生成一个范围随机数
+     *
      * @param min
      * @param max
      * @return
      */
-    public long generateRandom( long min, long max){
-        return  min + (((long) (new Random().nextDouble() * (max - min))));
+    public long generateRandom(long min, long max) {
+        return min + (((long) (new Random().nextDouble() * (max - min))));
     }
 
+
+    /**
+     * 获取首字母的拼音
+     *
+     * @param source
+     * @return
+     */
+    public char getFirstPinYin(String source) {
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(source)) {
+            return '#';
+        }
+        Locale newChina = new Locale("zh", "HANS", "CN");//这部分是我做的修复，解决HTC兼容性问题
+        if (!(Arrays.asList(Collator.getAvailableLocales()).contains(Locale.CHINA)
+                || Arrays.asList(Collator.getAvailableLocales()).contains(Locale.CHINESE)
+                || Arrays.asList(Collator.getAvailableLocales()).contains(newChina))
+                || (source != null && !"".equals(source) && (source.charAt(0) <= 'Z' && source.charAt(0) >= 'A') || (source.charAt(0) <= 'z' && source.charAt(0) >= 'a'))) {
+            return source.length() > 0 ? source.toLowerCase().charAt(0) : '#';
+        }
+        ArrayList<HanziToPinyinUtils.Token> tokens = HanziToPinyinUtils.getInstance().get(source);
+        if (tokens == null || tokens.size() == 0) {
+            return source.length() > 0 ? source.toLowerCase().charAt(0) : '#';
+        }
+        if (tokens.size() > 0) {
+            HanziToPinyinUtils.Token token = tokens.get(0);
+            if (token.type == HanziToPinyinUtils.Token.PINYIN) {
+                return token.target.toLowerCase().charAt(0);
+            }
+        }
+        return '#';
+    }
+
+    /**
+     * 汉字转为拼音
+     */
+    public String getPinYin(String input) {
+        ArrayList<HanziToPinyinUtils.Token> tokens = HanziToPinyinUtils.getInstance().get(input);
+        StringBuilder sb = new StringBuilder();
+        if (tokens != null && tokens.size() > 0) {
+            for (HanziToPinyinUtils.Token token : tokens) {
+                if (HanziToPinyinUtils.Token.PINYIN == token.type) {
+                    sb.append(token.target);
+                } else {
+                    sb.append(token.source);
+                }
+            }
+        }
+        return sb.toString().toLowerCase();
+    }
 
 
     /******************************************私有方法部分*****************************************/
