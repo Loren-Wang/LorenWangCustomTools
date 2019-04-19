@@ -29,13 +29,14 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compileOnly project(':AndroidCustomToolsFromLorenWang')
 }
 
 
 
 def moduleName = "AndroidCustomViewsFromLorenWang"
 def moduleDescription = "Android自定义控件库"
-version '1.0.35'
+version '1.0.37'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

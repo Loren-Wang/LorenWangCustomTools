@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="avlw_sidebar">
+        <!--第一种样式-->
+        <attr name="avlw_sbar_text_width" format="dimension" />
+        <attr name="avlw_sbar_text_height" format="dimension" />
+        <attr name="avlw_sbar_text_color_y" format="color" />
+        <attr name="avlw_sbar_text_color_n" format="color" />
+        <attr name="avlw_sbar_text_size" format="dimension" />
+        <attr name="avlw_sbar_text_bg_drawable_y" format="reference" />
+        <attr name="avlw_sbar_text_bg_drawable_n" format="reference" />
+        <attr name="avlw_sbar_text_bg_width" format="dimension" />
+        <attr name="avlw_sbar_text_bg_height" format="dimension" />
+    </declare-styleable>
+    <!--    * sbar_text_width 文本显示宽度-->
+    <!--    * sbar_text_height 文本显示高度-->
+    <!--    * sbar_text_color_y 文本选中颜色-->
+    <!--    * sbar_text_color_n 文本未选中颜色-->
+    <!--    * sbar_text_size 文本大小-->
+    <!--    * sbar_text_bg_drawable_y 文本选中背景-->
+    <!--    * sbar_text_bg_drawable_n 文本未选中背景-->
+    <!--    * sbar_text_bg_width 背景宽度-->
+    <!--    * sbar_text_bg_height  背景高度-->
+</resources>

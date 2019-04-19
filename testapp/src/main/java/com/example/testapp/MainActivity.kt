@@ -23,6 +23,9 @@ class MainActivity : Activity() {
                 R.id.btnFileOptionsForScan -> {
                     startActivity(Intent(this, FileOptionsForScanFileActivity::class.java))
                 }
+                R.id.btnSideBar -> {
+                    startActivity(Intent(this, SideBarActivity::class.java))
+                }
                 else -> {
 
                 }

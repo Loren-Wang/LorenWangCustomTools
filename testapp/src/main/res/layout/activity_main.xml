@@ -27,6 +27,13 @@
             android:layout_height="wrap_content"
             android:text="文件扫描"
             android:onClick="mainClick"/>
+        <Button
+            android:id="@+id/btnSideBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SideBar"
+            android:textAllCaps="false"
+            android:onClick="mainClick"/>
     </LinearLayout>
 
 

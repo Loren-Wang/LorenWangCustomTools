@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".FileOptionsForScanFileActivity">
         </activity>
+        <activity android:name=".SideBarActivity">
+        </activity>
     </application>
 
 </manifest>
