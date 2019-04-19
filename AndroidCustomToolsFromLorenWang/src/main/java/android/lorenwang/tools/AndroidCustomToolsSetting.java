@@ -25,16 +25,22 @@ import static android.lorenwang.tools.messageTransmit.FlyMessageMsgTypes.ACTIVIT
  * 备注：
  */
 public class AndroidCustomToolsSetting {
-    //是否是debug模式
+    /**
+     * 是否是debug模式
+     */
     public static boolean isDebug = false;
-    //debug日志存储地址
+    /**
+     * debug日志存储地址
+     */
     public static String debugLogFileSavePath = null;
     /**
      * 是否注册了生命周期监听
      */
     private static boolean isRegistActivityLifecycleCallback = false;
 
-    //activity生命周期监听
+    /**
+     * activity生命周期监听
+     */
     private static final Application.ActivityLifecycleCallbacks ACTIVITY_LIFECYCLE_CALLBACKS = new Application.ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle bundle) {

@@ -3,12 +3,14 @@ package android.lorenwang.tools.app;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
 import android.lorenwang.tools.base.LogUtils;
 import android.lorenwang.tools.messageTransmit.FlyMessageMsgTypes;
 import android.lorenwang.tools.messageTransmit.FlyMessageUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.ColorInt;
 import android.view.WindowManager;
 
 import java.util.Map;
@@ -117,7 +119,7 @@ public class AtlwBrightnessChangeUtils {
         float screenBrightness = 0;
         if (activity != null) {
             //如果Activity界面不是自动的
-            if(!isActivityAutoBrightness(activity)){
+            if (!isActivityAutoBrightness(activity)) {
                 screenBrightness = activity.getWindow().getAttributes().screenBrightness;
             }
 
@@ -230,6 +232,7 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 判断Activity界面亮度是否是自动的
+     *
      * @return
      */
     public boolean isActivityAutoBrightness() {
@@ -238,6 +241,7 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 判断Activity界面亮度是否是自动的
+     *
      * @param activity
      * @return
      */
@@ -407,5 +411,25 @@ public class AtlwBrightnessChangeUtils {
         return null;
     }
 
+
+    /**
+     * 获取过滤蓝光后的颜色值
+     *
+     * @param blueFilterPercent 蓝光过滤比例[10-80]
+     */
+    public @ColorInt
+    int getColor(int blueFilterPercent) {
+        int realFilter = blueFilterPercent;
+        if (realFilter < 10) {
+            realFilter = 10;
+        } else if (realFilter > 80) {
+            realFilter = 80;
+        }
+        int a = (int) (realFilter / 80f * 180);
+        int r = (int) (200 - (realFilter / 80f) * 190);
+        int g = (int) (180 - (realFilter / 80f) * 170);
+        int b = (int) (60 - realFilter / 80f * 60);
+        return Color.argb(a, r, g, b);
+    }
 
 }

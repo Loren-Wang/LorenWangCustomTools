@@ -182,6 +182,29 @@ public class AtlwImageCommonUtils {
     }
 
     /**
+     * 图片drawable转bitmap
+     *
+     * @param drawable 要转换的drawable
+     */
+    public Bitmap drawableToBitmap(Drawable drawable,int width,int height) {
+        if (drawable != null) {
+
+            // 取 drawable 的颜色格式
+            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
+            // 建立对应 bitmap
+            Bitmap bitmap = Bitmap.createBitmap(width, height, config);
+            // 建立对应 bitmap 的画布
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, width, height);
+            // 把 drawable 内容画到画布中
+            drawable.draw(canvas);
+            return bitmap;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * 位图压缩
      *
      * @param bitmap 要压缩的位图
