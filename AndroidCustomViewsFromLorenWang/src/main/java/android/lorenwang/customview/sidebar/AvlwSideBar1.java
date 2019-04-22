@@ -304,6 +304,7 @@ public class AvlwSideBar1 extends View {
     public void setTextList(List<String> textList) {
         if (textList != null && !textList.isEmpty()) {
             this.textList = textList;
+            postInvalidate();
         }
     }
 

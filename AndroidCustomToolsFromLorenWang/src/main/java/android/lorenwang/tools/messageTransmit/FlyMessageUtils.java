@@ -77,12 +77,12 @@ public class FlyMessageUtils {
         };
 //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE, flyMessgeCallback, false, false);
 //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, flyMessgeCallback, false, false);
-       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
+        registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
 //
 //                registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, flyMessgeCallback, false, false);
 //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED, flyMessgeCallback, false, false);
 //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, flyMessgeCallback, false, false);
-       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
+        registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
 
 
     }
@@ -91,6 +91,8 @@ public class FlyMessageUtils {
     private Map<String, List<CallbackRecodeDto>> recodeMap = new HashMap<>();
     //记录非activity的key列表
     private List<String> notActivityKeyList = new ArrayList<>();
+    //记录activity的key列表
+    private List<String> activityKeyList = new ArrayList<>();
     //当前正在显示的activity
     private Activity nowShowActivity;
 //    //消息队列实体诶
@@ -145,8 +147,10 @@ public class FlyMessageUtils {
         recodeMap.put(key, list);
         if (isActivity) {
             notActivityKeyList.remove(key);
+            activityKeyList.add(key);
         } else {
             notActivityKeyList.add(key);
+            activityKeyList.remove(key);
         }
         key = null;
 
@@ -220,6 +224,11 @@ public class FlyMessageUtils {
         }
         //回传非activity的
         Iterator<String> iterator = notActivityKeyList.iterator();
+        while (iterator.hasNext()) {
+            callbackMsg(recodeMap.get(iterator.next()), messageQueueDto);
+        }
+        //回传activity的
+        iterator = activityKeyList.iterator();
         while (iterator.hasNext()) {
             callbackMsg(recodeMap.get(iterator.next()), messageQueueDto);
         }
