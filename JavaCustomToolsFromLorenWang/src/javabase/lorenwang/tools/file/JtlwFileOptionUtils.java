@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import javabase.lorenwang.tools.JtlwLogUtils;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 
 /**
  * 创建时间：2019-01-28 下午 20:19:47
@@ -39,6 +40,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 12、获取绝对路径下最后一个文件夹名称
  * 13、根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
  * 14、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
+ * 15、格式化文件大小
  *
  * 注意：
  * 修改人：
@@ -272,6 +274,25 @@ public class JtlwFileOptionUtils {
     /******************************************其他文件操作部分**************************************/
 
     /**
+     * 格式化文件大小
+     * @param fileSize
+     * @return
+     */
+    public String paramsFileSize(Long fileSize){
+        if(fileSize.compareTo(1024l) < 0){
+            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize.doubleValue(),2) + "B");
+        }else  if(fileSize.compareTo((long) Math.pow(1024,2)) < 0){
+            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024,2) + "KB");
+        }else  if(fileSize.compareTo((long) Math.pow(1024,3)) < 0){
+            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024 / 1024,2) + "MB");
+        }else  if(fileSize.compareTo((long) Math.pow(1024,4)) < 0){
+            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024 / 1024 / 1024,2) + "GB");
+        }else {
+            return "0B";
+        }
+    }
+
+    /**
      * 复制单个文件
      *
      * @param oldPath String 原文件路径 如：c:/fqf.txt
@@ -426,15 +447,17 @@ public class JtlwFileOptionUtils {
         List<File> list = new ArrayList<>();
         if (!JtlwCheckVariateUtils.getInstance().isHaveEmpty(scanPath, matchRegular)) {
             File file = new File(scanPath);
-            if (file.exists()) {
+            if (file.exists() && file.listFiles() != null) {
                 for (File childFile : file.listFiles()) {
-                    if (childFile.isDirectory()) {
-                        if (!file.getName().matches("^\\..*")) {
-                            list.addAll(getFileListForMatchRecursionScan(childFile.getAbsolutePath(), matchRegular));
-                        }
-                    } else if (childFile.isFile()) {
-                        if (childFile.getName().matches(matchRegular)) {
-                            list.add(childFile);
+                    if(childFile != null) {
+                        if (childFile.isDirectory()) {
+                            if (!file.getName().matches("^\\..*")) {
+                                list.addAll(getFileListForMatchRecursionScan(childFile.getAbsolutePath(), matchRegular));
+                            }
+                        } else if (childFile.isFile()) {
+                            if (childFile.getName().matches(matchRegular)) {
+                                list.add(childFile);
+                            }
                         }
                     }
                 }
@@ -536,12 +559,14 @@ public class JtlwFileOptionUtils {
                 }
             });
             for (File f : fileArray) {
-                if (f.isDirectory()) {
-                    //把目录添加进队列
-                    fileOptionsLinkedQueue.offer(f);
-                } else {
-                    if (f.getName().matches(matchRegular)) {
-                        list.add(f);
+                if(f != null) {
+                    if (f.isDirectory()) {
+                        //把目录添加进队列
+                        fileOptionsLinkedQueue.offer(f);
+                    } else {
+                        if (f.getName().matches(matchRegular)) {
+                            list.add(f);
+                        }
                     }
                 }
             }
