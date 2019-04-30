@@ -1,7 +1,7 @@
 package com.example.testapp
 
 import android.Manifest
-import android.lorenwang.tools.app.ActivityUtils
+import android.lorenwang.tools.app.AtlwActivityUtils
 import android.lorenwang.tools.app.PermissionRequestCallback
 import android.lorenwang.tools.app.ThreadUtils
 import android.lorenwang.tools.file.AtlwFileOptionUtils
@@ -55,7 +55,7 @@ class FileOptionsForScanFileActivity : BaseActivity(), PermissionRequestCallback
     override fun onResume() {
         super.onResume()
         showLoading()
-        ActivityUtils.getInstance().goToRequestPermisstions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0, this)
+        AtlwActivityUtils.getInstance().goToRequestPermisstions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0, this)
     }
 
     override fun perissionRequestSuccessCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {

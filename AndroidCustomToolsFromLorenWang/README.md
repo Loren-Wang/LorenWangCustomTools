@@ -1,14 +1,13 @@
 安卓自定义工具类
 
 
-<h3>一、ActivityUtils---(Activity工具类)
+<h3>一、AtlwActivityUtils---(Activity工具类)
       
     1、去请求权限
     2、权限请求结果返回
     3、控制软键盘显示与隐藏
     4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
-    5、根据手机的分辨率从 dp 的单位 转成为 px(像素)
-    6、根据手机的分辨率从 px(像素) 的单位 转成为 dp
+    
 
 <h3>二、SharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>
 
@@ -108,3 +107,27 @@
     6、获取手机系统sdk版本号
     7、获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)
     8、获取当前网络类型  return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
+
+
+<h3>十六、AtlwScreenUtils---（屏幕相关工具类）
+
+    1、根据手机的分辨率从 dp 的单位 转成为 px(像素)
+    2、根据手机的分辨率从 px(像素) 的单位 转成为 dp
+    3、将sp值转换为px值，保证文字大小不变
+    4、将px值转换为sp值，保证文字大小不变
+    5、获取屏幕宽度
+    6、获取屏幕高度
+    
+    
+<h3>十七、AtlwBrightnessChangeUtils---（亮度相关工具类）
+
+    1、获取当前屏幕亮度
+    2、获取当前屏幕亮度
+    3、更新手机系统亮度模式
+    4、设置亮度:通过设置 Windows 的 screenBrightness 来修改当前 Windows 的亮度
+    5、判断Activity界面亮度是否是自动的
+    6、保存亮度设置状态
+    7、设置屏幕亮度跟随系统
+    8、注册亮度观察者
+    9、解注册亮度观察者
+    10、获取过滤蓝光后的颜色值

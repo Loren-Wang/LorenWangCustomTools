@@ -209,7 +209,6 @@ public final class MobileOptionsUtils {
 		}
 	}
 
-
 	/**
 	 * 获取小米手机的MIUI版本号
 	 *

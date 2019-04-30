@@ -21,17 +21,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * 创建人：王亮（Loren wang）
  * 功能作用：安卓端亮度调节工具类
  * 思路：
- * 方法：1、返回activity生命周期监听
- * 2、注册亮度观察者
- * 3、解注册亮度观察者
- * 4、判断是否开启了自动亮度调节
- * 5、获取屏幕的亮度   * 系统亮度模式中，自动模式与手动模式获取到的系统亮度的值不同
- * 6、获取手动模式下的屏幕亮度
- * 7、获取自动模式下的屏幕亮度
- * 8、 设置亮度:通过设置 Windows 的 screenBrightness 来修改当前 Windows 的亮度
- * 9、保存亮度设置状态
- * 10、停止自动亮度调节
- * 11、开始自动亮度调节
+ * 方法：1、获取当前屏幕亮度
+ * 2、获取当前屏幕亮度
+ * 3、更新手机系统亮度模式
+ * 4、设置亮度:通过设置 Windows 的 screenBrightness 来修改当前 Windows 的亮度
+ * 5、判断Activity界面亮度是否是自动的
+ * 6、保存亮度设置状态
+ * 7、设置屏幕亮度跟随系统
+ * 8、注册亮度观察者
+ * 9、解注册亮度观察者
+ * 10、获取过滤蓝光后的颜色值
  * 注意：
  * 修改人：
  * 修改时间：
@@ -394,7 +393,6 @@ public class AtlwBrightnessChangeUtils {
         }
     }
 
-
     /**
      * 获取Activity
      *
@@ -411,14 +409,12 @@ public class AtlwBrightnessChangeUtils {
         return null;
     }
 
-
     /**
      * 获取过滤蓝光后的颜色值
      *
      * @param blueFilterPercent 蓝光过滤比例[10-80]
      */
-    public @ColorInt
-    int getColor(int blueFilterPercent) {
+    public @ColorInt int getColor(int blueFilterPercent) {
         int realFilter = blueFilterPercent;
         if (realFilter < 10) {
             realFilter = 10;

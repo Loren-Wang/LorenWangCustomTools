@@ -1,6 +1,7 @@
 package android.lorenwang.tools.messageTransmit;
 
 import android.app.Activity;
+import android.lorenwang.tools.app.ThreadUtils;
 import android.lorenwang.tools.base.LogUtils;
 
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
  * Created by LorenWang on 2018/7/26 0026.
@@ -258,7 +261,7 @@ public class FlyMessageUtils {
      *
      * @param callback
      */
-    private synchronized void callbackMsg(FlyMessgeCallback callback, MessageQueueDto messageQueueDto) {
+    private synchronized void callbackMsg(final FlyMessgeCallback callback, final MessageQueueDto messageQueueDto) {
         if (messageQueueDto == null) {
             return;
         }
@@ -269,7 +272,26 @@ public class FlyMessageUtils {
 //                msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
 //            }
         } catch (Exception e) {
-            LogUtils.logE(TAG, "callback msg fail");
+            if (JtlwCheckVariateUtils.getInstance().isEmpty(e)
+                    && JtlwCheckVariateUtils.getInstance().isEmpty(e.getMessage())
+                    && e.getMessage().contains("Only the original thread that created a view hierarchy can touch its views.")) {
+                ThreadUtils.getInstance().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            callback.msg(messageQueueDto.msgType, messageQueueDto.msgs);
+//                          //如果要移除的话则在队列当中移除
+//                         if(messageQueueDto.isFinishRemove && messageQueueList.contains(messageQueueDto)){
+//                             msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
+//                         }
+                        } catch (Exception e) {
+                            LogUtils.logE(TAG, "callback msg fail");
+                        }
+                    }
+                });
+            } else {
+                LogUtils.logE(TAG, "callback msg fail");
+            }
         }
     }
 

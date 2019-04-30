@@ -32,27 +32,25 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  * 2、权限请求结果返回
  * 3、控制软键盘显示与隐藏
  * 4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
- * 5、根据手机的分辨率从 dp 的单位 转成为 px(像素)
- * 6、根据手机的分辨率从 px(像素) 的单位 转成为 dp
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
  */
-public class ActivityUtils {
+public class AtlwActivityUtils {
     private final String TAG = getClass().getName();
-    private static ActivityUtils baseUtils;
+    private static AtlwActivityUtils baseUtils;
     //权限请求键值对
     private Map<Integer, PermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
 
-    private ActivityUtils() {
+    private AtlwActivityUtils() {
     }
 
-    public static ActivityUtils getInstance() {
+    public static AtlwActivityUtils getInstance() {
         if (baseUtils == null) {
-            baseUtils = new ActivityUtils();
+            baseUtils = new AtlwActivityUtils();
         }
-        return (ActivityUtils) baseUtils;
+        return (AtlwActivityUtils) baseUtils;
     }
 
     public Map<Integer, PermissionRequestCallback> getPermissionRequestCallbackMap() {
@@ -216,19 +214,9 @@ public class ActivityUtils {
         }
     }
 
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
-    public int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
 
-    /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-     */
-    public int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
+
+
+
+
 }
