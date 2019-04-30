@@ -18,6 +18,8 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 4、将px值转换为sp值，保证文字大小不变
  * 5、获取屏幕宽度
  * 6、获取屏幕高度
+ * 7、根据宽度获取在屏幕上显示的总的像素值
+ * 8、根据高度获取在屏幕上显示的总的像素值
  * 注意：
  * 修改人：
  * 修改时间：
@@ -151,5 +153,29 @@ public class AtlwScreenUtils {
             screenHeight = dm.heightPixels;         // 屏幕宽度（像素）
         }
         return screenHeight;
+    }
+
+    /**
+     * 根据宽度获取在屏幕上显示的总的像素值
+     *
+     * @param context         上下文
+     * @param layoutBase      标注图或者设计稿基础布局尺寸
+     * @param layoutShowValue 标注图或设计稿上的要显示的控件或其他的尺寸值
+     * @return 要显示的像素值
+     */
+    public int getShowPixelValueForWidth(Context context, int layoutBase, int layoutShowValue) {
+        return (int) (getScreenWidth(context) * (layoutShowValue * 1.0 / layoutBase));
+    }
+
+    /**
+     * 根据高度获取在屏幕上显示的总的像素值
+     *
+     * @param context         上下文
+     * @param layoutBase      标注图或者设计稿基础布局尺寸
+     * @param layoutShowValue 标注图或设计稿上的要显示的控件或其他的尺寸值
+     * @return 要显示的像素值
+     */
+    public int getShowPixelValueForHeight(Context context, int layoutBase, int layoutShowValue) {
+        return (int) (getScreenWidth(context) * (layoutShowValue * 1.0 / layoutBase));
     }
 }
