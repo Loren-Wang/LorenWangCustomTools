@@ -34,6 +34,13 @@
             android:text="SideBar"
             android:textAllCaps="false"
             android:onClick="mainClick"/>
+        <Button
+            android:id="@+id/btnHorizontalSlipTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="水平切换tab"
+            android:textAllCaps="false"
+            android:onClick="mainClick"/>
     </LinearLayout>
 
 

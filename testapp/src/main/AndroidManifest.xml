@@ -32,6 +32,8 @@
         </activity>
         <activity android:name=".SideBarActivity">
         </activity>
+        <activity android:name=".HorizontalSlipTabLayoutActivity">
+        </activity>
     </application>
 
 </manifest>

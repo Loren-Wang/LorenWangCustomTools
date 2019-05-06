@@ -1,4 +1,4 @@
-package android.lorenwang.customview
+package android.lorenwang.customview;
 
 /**
  * 创建时间：2019-03-12 下午 16:07:58
@@ -11,10 +11,9 @@ package android.lorenwang.customview
  * 修改时间：
  * 备注：
  */
-
-interface CustomViewCommon {
+public interface CustomViewCommon {
     /**
      * 释放缓存，用来移除所有变量相关
      */
-    fun release()
+    void release();
 }

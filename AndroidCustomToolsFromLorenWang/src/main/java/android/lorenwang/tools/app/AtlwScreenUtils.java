@@ -1,6 +1,7 @@
 package android.lorenwang.tools.app;
 
 import android.content.Context;
+import android.lorenwang.tools.AndroidCustomToolsSetting;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -159,23 +160,21 @@ public class AtlwScreenUtils {
      * 根据宽度获取在屏幕上显示的总的像素值
      *
      * @param context         上下文
-     * @param layoutBase      标注图或者设计稿基础布局尺寸
      * @param layoutShowValue 标注图或设计稿上的要显示的控件或其他的尺寸值
      * @return 要显示的像素值
      */
-    public int getShowPixelValueForWidth(Context context, int layoutBase, int layoutShowValue) {
-        return (int) (getScreenWidth(context) * (layoutShowValue * 1.0 / layoutBase));
+    public int getShowPixelValueForWidth(Context context, int layoutShowValue) {
+        return (int) (getScreenWidth(context) * (layoutShowValue * 1.0 / AndroidCustomToolsSetting.SCREEN_LAYOUT_BASE_WIDTH));
     }
 
     /**
      * 根据高度获取在屏幕上显示的总的像素值
      *
      * @param context         上下文
-     * @param layoutBase      标注图或者设计稿基础布局尺寸
      * @param layoutShowValue 标注图或设计稿上的要显示的控件或其他的尺寸值
      * @return 要显示的像素值
      */
-    public int getShowPixelValueForHeight(Context context, int layoutBase, int layoutShowValue) {
-        return (int) (getScreenWidth(context) * (layoutShowValue * 1.0 / layoutBase));
+    public int getShowPixelValueForHeight(Context context, int layoutShowValue) {
+        return (int) (getScreenHeight(context) * (layoutShowValue * 1.0 / AndroidCustomToolsSetting.SCREEN_LAYOUT_BASE_HEIGHT));
     }
 }

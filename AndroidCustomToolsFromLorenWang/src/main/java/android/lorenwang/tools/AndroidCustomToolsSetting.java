@@ -37,6 +37,14 @@ public class AndroidCustomToolsSetting {
      * 是否注册了生命周期监听
      */
     private static boolean isRegistActivityLifecycleCallback = false;
+    /**
+     * 设计稿或者屏幕宽度分辨率
+     */
+    public static int SCREEN_LAYOUT_BASE_WIDTH = 750;
+    /**
+     * 设计稿或者屏幕高度度分辨率
+     */
+    public static int SCREEN_LAYOUT_BASE_HEIGHT = 1334;
 
     /**
      * activity生命周期监听

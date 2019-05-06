@@ -27,7 +27,7 @@ public class AtlwViewUtils {
     private AtlwViewUtils() {
     }
 
-    private static AtlwViewUtils getInstance() {
+    public static AtlwViewUtils getInstance() {
         if (utils == null) {
             utils = new AtlwViewUtils();
         }
