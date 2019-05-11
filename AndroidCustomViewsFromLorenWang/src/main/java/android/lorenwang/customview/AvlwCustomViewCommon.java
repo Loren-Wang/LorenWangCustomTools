@@ -11,7 +11,7 @@ package android.lorenwang.customview;
  * 修改时间：
  * 备注：
  */
-public interface CustomViewCommon {
+public interface AvlwCustomViewCommon {
     /**
      * 释放缓存，用来移除所有变量相关
      */

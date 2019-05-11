@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <android.lorenwang.customview.switchButton.AvlwSwitchButton1
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        app:avlwSwitchButtnBgColorY="#0f0"
+        app:avlwSwitchButtnBgColorN="#f00"
+        app:avlwSwitchButtnDrawableTintColor="#00f"
+        app:avlwSwitchButtnIsOpen="true"
+        app:avlwSwitchButtnRadius="15dp"
+        app:avlwSwitchButtnDrawableWidth="20dp"
+        app:avlwSwitchButtnDrawableHeight="20dp"
+        tools:ignore="MissingPrefix" />
+
+
+
+<!--    &lt;!&ndash;背景选中（开关开启）颜色&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnBgColorY" format="color"/>-->
+<!--    &lt;!&ndash;背景未选中（开关关闭）颜色&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnBgColorN" format="color"/>-->
+<!--    &lt;!&ndash;按钮切换动画时间，因为无法使用long，所以直接使用int做取值，所以设置时间时尽量不要大于int的范围&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnChangeAnimMill" format="integer"/>-->
+<!--    &lt;!&ndash;按钮无论开关显示的切换图标（例如左右滑动切换的圆球）&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnDrawable" format="reference"/>-->
+<!--    &lt;!&ndash;按钮无论开关显示的切换图标（例如左右滑动切换的圆球）的渲染颜色，当没有设置Drawable时已渲染颜色为主&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnDrawableTintColor" format="color"/>-->
+<!--    &lt;!&ndash;按钮无论开关显示的切换图标（例如左右滑动切换的圆球）的边框宽度&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnDrawableStorkeWidth" format="dimension"/>-->
+<!--    &lt;!&ndash;按钮无论开关显示的切换图标（例如左右滑动切换的圆球）的边框颜色&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnDrawableStorkeColor" format="color"/>-->
+<!--    &lt;!&ndash;按钮无论开关显示的切换图标（例如左右滑动切换的圆球）的外边距&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnDrawableMarginWidth" format="dimension"/>-->
+<!--    &lt;!&ndash;按钮无论开关显示的切换图标（例如左右滑动切换的圆球）的宽度&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnDrawableWidth" format="dimension"/>-->
+<!--    &lt;!&ndash;按钮无论开关显示的切换图标（例如左右滑动切换的圆球）的高度&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnDrawableHeight" format="dimension"/>-->
+<!--    &lt;!&ndash;控件的圆角角度&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnRadius" format="dimension"/>-->
+<!--    &lt;!&ndash;是否是开启的&ndash;&gt;-->
+<!--    <attr name="avlwSwitchButtnIsOpen" format="boolean"/>-->
+
+</LinearLayout>

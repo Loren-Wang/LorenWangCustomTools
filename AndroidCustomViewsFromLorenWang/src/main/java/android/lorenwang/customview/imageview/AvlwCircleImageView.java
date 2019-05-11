@@ -3,7 +3,7 @@ package android.lorenwang.customview.imageview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.lorenwang.customview.CustomViewCommon;
+import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -21,26 +21,26 @@ import static android.graphics.Canvas.ALL_SAVE_FLAG;
  * 修改时间：
  * 备注：
  */
-public class CircleImageView extends AppCompatImageView implements CustomViewCommon {
+public class AvlwCircleImageView extends AppCompatImageView implements AvlwCustomViewCommon {
     //图片通用处理
-    private ImageViewCommonDeal imageViewCommonDeal;
-    public CircleImageView(Context context) {
+    private AvlwImageViewCommonDeal imageViewCommonDeal;
+    public AvlwCircleImageView(Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public AvlwCircleImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AvlwCircleImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        imageViewCommonDeal = new ImageViewCommonDeal();
+        imageViewCommonDeal = new AvlwImageViewCommonDeal();
         imageViewCommonDeal.init(context, attrs, defStyleAttr);
     }
 

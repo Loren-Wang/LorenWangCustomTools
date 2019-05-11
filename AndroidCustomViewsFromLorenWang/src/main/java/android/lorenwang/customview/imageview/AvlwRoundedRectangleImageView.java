@@ -3,7 +3,7 @@ package android.lorenwang.customview.imageview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.lorenwang.customview.CustomViewCommon;
+import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -23,28 +23,28 @@ import static android.graphics.Canvas.ALL_SAVE_FLAG;
  */
 
 
-public class RoundedRectangleImageView extends AppCompatImageView implements CustomViewCommon {
+public class AvlwRoundedRectangleImageView extends AppCompatImageView implements AvlwCustomViewCommon {
     /**
      * 图片通用处理
      */
-    private ImageViewCommonDeal imageViewCommonDeal;
+    private AvlwImageViewCommonDeal imageViewCommonDeal;
 
     /**
      * 图片占的矩形区域
      */
     private final RectF srcRectF = new RectF();
 
-    public RoundedRectangleImageView(Context context) {
+    public AvlwRoundedRectangleImageView(Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public RoundedRectangleImageView(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwRoundedRectangleImageView(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public RoundedRectangleImageView(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwRoundedRectangleImageView(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -53,7 +53,7 @@ public class RoundedRectangleImageView extends AppCompatImageView implements Cus
      * 控件初始化
      */
     private final void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        imageViewCommonDeal = new ImageViewCommonDeal();
+        imageViewCommonDeal = new AvlwImageViewCommonDeal();
         imageViewCommonDeal.init(context, attrs, defStyleAttr);
     }
 

@@ -1,10 +1,11 @@
-package android.lorenwang.customview;
+package android.lorenwang.customview.sudokuSwipeGestures;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.lorenwang.customview.R;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -44,7 +45,7 @@ import java.util.List;
  * 备注：
  */
 
-public class SudokuSwipeGesturesView extends View {
+public class AvlwSudokuSwipeGesturesView extends View {
     private final String TAG = getClass().getName();
     private final int CIRCLE_SHOW_TYPE_1 = 1;//显示模式1,内圈实心，外圈空心带边框，滑动时内外圈变色，连接线从中心点出来，此模式下需要传入边框宽度
     private final int CIRCLE_SHOW_TYPE_2 = 2;//显示模式2,内圈实心，外圈实心，未选中的时候内圈显示，外圈不显示，滑动时外圈显示，连接线从中心点出来
@@ -112,39 +113,39 @@ public class SudokuSwipeGesturesView extends View {
     };
 
 
-    public SudokuSwipeGesturesView(Context context) {
+    public AvlwSudokuSwipeGesturesView(Context context) {
         super(context);
         init(context,null,-1);
     }
 
-    public SudokuSwipeGesturesView(Context context, @Nullable AttributeSet attrs) {
+    public AvlwSudokuSwipeGesturesView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context,attrs,-1);
     }
 
-    public SudokuSwipeGesturesView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwSudokuSwipeGesturesView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context,attrs,defStyleAttr);
     }
 
 
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr){
-        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.SudokuSwipeGesturesView);
-        circleEffectiveRadius = attributes.getDimensionPixelOffset(R.styleable.SudokuSwipeGesturesView_circleEffectiveRadius,dip2px(25));
-        isShowTrack = attributes.getBoolean(R.styleable.SudokuSwipeGesturesView_isShowTrack,true);
-        connectingLineWidth = attributes.getDimensionPixelOffset(R.styleable.SudokuSwipeGesturesView_connectingLineWidth,dip2px(2));
-        circleShowType = attributes.getInt(R.styleable.SudokuSwipeGesturesView_circleShowType,CIRCLE_SHOW_TYPE_1);
-        circleInnerRingRadius = attributes.getDimensionPixelOffset(R.styleable.SudokuSwipeGesturesView_circleInnerRingRadius,dip2px(10));//圆圈的内圈半径
-        circleOuterRingRadius = attributes.getDimensionPixelOffset(R.styleable.SudokuSwipeGesturesView_circleOuterRingRadius,dip2px(25));//圆圈的外圈半径
-        circleOuterRingBorderWidth = attributes.getDimensionPixelOffset(R.styleable.SudokuSwipeGesturesView_circleOuterRingBorderWidth,dip2px(1));//圆圈的外圈的边框宽度
-        circleInnerRingSelectedColor = attributes.getColor(R.styleable.SudokuSwipeGesturesView_circleInnerRingSelectedColor, Color.WHITE);//圆圈内圈选中颜色
-        circleInnerRingUnSelectedColor = attributes.getColor(R.styleable.SudokuSwipeGesturesView_circleInnerRingUnSelectedColor, Color.WHITE);//圆圈内圈未选中颜色
-        circleInnerRingErrorColor = attributes.getColor(R.styleable.SudokuSwipeGesturesView_circleInnerRingErrorColor, Color.WHITE);//圆圈内圈错误颜色
-        circleOuterRingSelectedColor = attributes.getColor(R.styleable.SudokuSwipeGesturesView_circleOuterRingSelectedColor, Color.WHITE);//圆圈外圈选中颜色
-        circleOuterRingUnSelectedColor = attributes.getColor(R.styleable.SudokuSwipeGesturesView_circleOuterRingUnSelectedColor, Color.WHITE);//圆圈外圈未选中颜色
-        circleOuterRingErrorColor = attributes.getColor(R.styleable.SudokuSwipeGesturesView_circleOuterRingErrorColor, Color.WHITE);//圆圈外圈错误颜色
-        connectingLineColor = attributes.getColor(R.styleable.SudokuSwipeGesturesView_connectingLineColor, Color.WHITE);//连接线链接时颜色
-        connectingLineErrorColor = attributes.getColor(R.styleable.SudokuSwipeGesturesView_connectingLineErrorColor, Color.WHITE);//连接线错误的时候的颜色
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwSudokuSwipeGesturesView);
+        circleEffectiveRadius = attributes.getDimensionPixelOffset(R.styleable.AvlwSudokuSwipeGesturesView_circleEffectiveRadius,dip2px(25));
+        isShowTrack = attributes.getBoolean(R.styleable.AvlwSudokuSwipeGesturesView_isShowTrack,true);
+        connectingLineWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwSudokuSwipeGesturesView_connectingLineWidth,dip2px(2));
+        circleShowType = attributes.getInt(R.styleable.AvlwSudokuSwipeGesturesView_circleShowType,CIRCLE_SHOW_TYPE_1);
+        circleInnerRingRadius = attributes.getDimensionPixelOffset(R.styleable.AvlwSudokuSwipeGesturesView_circleInnerRingRadius,dip2px(10));//圆圈的内圈半径
+        circleOuterRingRadius = attributes.getDimensionPixelOffset(R.styleable.AvlwSudokuSwipeGesturesView_circleOuterRingRadius,dip2px(25));//圆圈的外圈半径
+        circleOuterRingBorderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwSudokuSwipeGesturesView_circleOuterRingBorderWidth,dip2px(1));//圆圈的外圈的边框宽度
+        circleInnerRingSelectedColor = attributes.getColor(R.styleable.AvlwSudokuSwipeGesturesView_circleInnerRingSelectedColor, Color.WHITE);//圆圈内圈选中颜色
+        circleInnerRingUnSelectedColor = attributes.getColor(R.styleable.AvlwSudokuSwipeGesturesView_circleInnerRingUnSelectedColor, Color.WHITE);//圆圈内圈未选中颜色
+        circleInnerRingErrorColor = attributes.getColor(R.styleable.AvlwSudokuSwipeGesturesView_circleInnerRingErrorColor, Color.WHITE);//圆圈内圈错误颜色
+        circleOuterRingSelectedColor = attributes.getColor(R.styleable.AvlwSudokuSwipeGesturesView_circleOuterRingSelectedColor, Color.WHITE);//圆圈外圈选中颜色
+        circleOuterRingUnSelectedColor = attributes.getColor(R.styleable.AvlwSudokuSwipeGesturesView_circleOuterRingUnSelectedColor, Color.WHITE);//圆圈外圈未选中颜色
+        circleOuterRingErrorColor = attributes.getColor(R.styleable.AvlwSudokuSwipeGesturesView_circleOuterRingErrorColor, Color.WHITE);//圆圈外圈错误颜色
+        connectingLineColor = attributes.getColor(R.styleable.AvlwSudokuSwipeGesturesView_connectingLineColor, Color.WHITE);//连接线链接时颜色
+        connectingLineErrorColor = attributes.getColor(R.styleable.AvlwSudokuSwipeGesturesView_connectingLineErrorColor, Color.WHITE);//连接线错误的时候的颜色
         setCircleShowType(circleShowType);
     }
 
@@ -588,7 +589,7 @@ public class SudokuSwipeGesturesView extends View {
 
 
     /*******************************************外部开放方法*****************************************/
-    public SudokuSwipeGesturesView setCircleShowType(@SudokuSwipeGesturesViewShowType int circleShowType) {
+    public AvlwSudokuSwipeGesturesView setCircleShowType(@AvlwSudokuSwipeGesturesViewShowType int circleShowType) {
         this.circleShowType = circleShowType;
         switch (circleShowType){
             case CIRCLE_SHOW_TYPE_2://内圈实心，外圈实心，未选中的时候内圈显示，外圈不显示，滑动时外圈显示，连接线从中心点出来
@@ -644,12 +645,12 @@ public class SudokuSwipeGesturesView extends View {
      * @param inputStateChangeCallback
      * @return
      */
-    public SudokuSwipeGesturesView setInputStateChangeCallback(InputStateChangeCallback inputStateChangeCallback) {
+    public AvlwSudokuSwipeGesturesView setInputStateChangeCallback(InputStateChangeCallback inputStateChangeCallback) {
         this.inputStateChangeCallback = inputStateChangeCallback;
         return this;
     }
 
-    public SudokuSwipeGesturesView setAllowDraw(boolean allowDraw) {
+    public AvlwSudokuSwipeGesturesView setAllowDraw(boolean allowDraw) {
         this.allowDraw = allowDraw;
         return this;
     }

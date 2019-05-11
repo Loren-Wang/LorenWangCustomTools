@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="KerleyView">
+    <declare-styleable name="KerleyViewAvlw">
         <!--左侧空间-->
         <attr name="kv_orientation" format="enum" >
             <enum name="horizontal" value="0"/>

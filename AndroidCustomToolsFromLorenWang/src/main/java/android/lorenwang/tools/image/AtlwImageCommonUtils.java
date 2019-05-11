@@ -5,7 +5,13 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.base.CheckUtils;
 import android.lorenwang.tools.base.LogUtils;
@@ -186,7 +192,7 @@ public class AtlwImageCommonUtils {
      *
      * @param drawable 要转换的drawable
      */
-    public Bitmap drawableToBitmap(Drawable drawable,int width,int height) {
+    public Bitmap drawableToBitmap(Drawable drawable, int width, int height) {
         if (drawable != null) {
 
             // 取 drawable 的颜色格式
@@ -202,6 +208,60 @@ public class AtlwImageCommonUtils {
         } else {
             return null;
         }
+    }
+
+
+    /**
+     * 获取圆角bitmap
+     *
+     * @param drawable 图片，需要转换bitmap
+     * @param width    宽度
+     * @param height   高度
+     * @param radius   圆角角度
+     * @return 圆角bitmap
+     */
+    public Bitmap drawableToBitmap(Drawable drawable, int width, int height, int radius) {
+        if (drawable != null) {
+            // 获取位图
+            Bitmap bitmap = drawableToBitmap(drawable, width, height);
+            return getRoundedCornerBitmap(bitmap, radius);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 获取圆角bitmap
+     *
+     * @param bitmap 位图
+     * @param radius 圆角角度
+     * @return 圆角bitmap
+     */
+    public Bitmap getRoundedCornerBitmap(Bitmap bitmap, int radius) {
+
+        //获取输出的位图
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        //画板背景透明
+        canvas.drawARGB(0, 0, 0, 0);
+
+        //初始化绘制范围
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+
+        //初始化画笔
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.RED);
+
+        //绘制圆角
+        canvas.drawRoundRect(rectF, radius, radius, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        //绘制位图
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+
     }
 
     /**

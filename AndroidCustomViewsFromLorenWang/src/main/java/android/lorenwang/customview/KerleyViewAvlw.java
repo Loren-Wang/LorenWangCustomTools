@@ -18,7 +18,7 @@ import android.view.View;
  * 修改时间：
  * 备注：
  */
-public class KerleyView extends View implements CustomViewCommon {
+public class KerleyViewAvlw extends View implements AvlwCustomViewCommon {
     private float spaceLeft;
     private float spaceRight;
     private float spaceTop;
@@ -26,31 +26,31 @@ public class KerleyView extends View implements CustomViewCommon {
     private int orientation;
     private Paint paint;
 
-    public KerleyView(Context context) {
+    public KerleyViewAvlw(Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public KerleyView(Context context, AttributeSet attrs) {
+    public KerleyViewAvlw(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public KerleyView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public KerleyViewAvlw(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.KerleyView, defStyleAttr, 0);
-        this.spaceLeft = attr.getDimension(R.styleable.KerleyView_kv_spaceLeft, this.spaceLeft);
-        this.spaceRight = attr.getDimension(R.styleable.KerleyView_kv_spaceRight, this.spaceRight);
-        this.spaceTop = attr.getDimension(R.styleable.KerleyView_kv_spaceTop, this.spaceTop);
-        this.spaceBottom = attr.getDimension(R.styleable.KerleyView_kv_spaceBottom, this.spaceBottom);
-        this.orientation = attr.getInt(R.styleable.KerleyView_kv_orientation, this.orientation);
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.KerleyViewAvlw, defStyleAttr, 0);
+        this.spaceLeft = attr.getDimension(R.styleable.KerleyViewAvlw_kv_spaceLeft, this.spaceLeft);
+        this.spaceRight = attr.getDimension(R.styleable.KerleyViewAvlw_kv_spaceRight, this.spaceRight);
+        this.spaceTop = attr.getDimension(R.styleable.KerleyViewAvlw_kv_spaceTop, this.spaceTop);
+        this.spaceBottom = attr.getDimension(R.styleable.KerleyViewAvlw_kv_spaceBottom, this.spaceBottom);
+        this.orientation = attr.getInt(R.styleable.KerleyViewAvlw_kv_orientation, this.orientation);
         this.paint.setAntiAlias(true);
-        this.paint.setStrokeWidth(attr.getDimension(R.styleable.KerleyView_kv_kerleyHeight, 2.0F));
-        this.paint.setColor(attr.getColor(R.styleable.KerleyView_kv_kerleyColor, -16777216));
+        this.paint.setStrokeWidth(attr.getDimension(R.styleable.KerleyViewAvlw_kv_kerleyHeight, 2.0F));
+        this.paint.setColor(attr.getColor(R.styleable.KerleyViewAvlw_kv_kerleyColor, -16777216));
         attr.recycle();
     }
 

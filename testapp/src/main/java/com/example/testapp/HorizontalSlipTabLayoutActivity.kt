@@ -1,6 +1,7 @@
 package com.example.testapp
 
 import android.app.Activity
+import android.lorenwang.customview.tablayout.HorizontalSlipTabLayout
 import android.lorenwang.customview.tablayout.HorizontalSlipTabLayout3
 import android.os.Bundle
 

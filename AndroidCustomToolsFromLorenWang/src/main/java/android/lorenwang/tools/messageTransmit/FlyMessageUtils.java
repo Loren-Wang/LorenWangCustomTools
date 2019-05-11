@@ -5,10 +5,10 @@ import android.lorenwang.tools.app.ThreadUtils;
 import android.lorenwang.tools.base.LogUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
@@ -59,9 +59,9 @@ public class FlyMessageUtils {
                     case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
                         break;
                     case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
-                        nowShowActivity = (Activity) msgs[0];
-                        //activity获得到焦点，开始循环队列发送
-                        msgQueListOptions(false, false, true, null, null);
+//                        nowShowActivity = (Activity) msgs[0];
+//                        //activity获得到焦点，开始循环队列发送
+//                        msgQueListOptions(false, false, true, null, null);
                         break;
                     case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
 //                        unregisterBrightObserver(optionsActivity);
@@ -90,14 +90,17 @@ public class FlyMessageUtils {
 
     }
 
-    //需要回调的集合记录,key:className+hashcode结合，value：回调记录集合
-    private Map<String, List<CallbackRecodeDto>> recodeMap = new HashMap<>();
-    //记录非activity的key列表
-    private List<String> notActivityKeyList = new ArrayList<>();
-    //记录activity的key列表
-    private List<String> activityKeyList = new ArrayList<>();
-    //当前正在显示的activity
-    private Activity nowShowActivity;
+    private Map<Integer,List<CallbackRecodeDto>> recodeMsgCallbackMap = new ConcurrentHashMap<>();
+    private Map<String,List<Integer>> recodeMsgTypeMap = new ConcurrentHashMap<>();
+//
+//    //需要回调的集合记录,key:className+hashcode结合，value：回调记录集合
+//    private Map<String, List<CallbackRecodeDto>> recodeMap = new HashMap<>();
+//    //记录非activity的key列表
+//    private List<String> notActivityKeyList = new ArrayList<>();
+//    //记录activity的key列表
+//    private List<String> activityKeyList = new ArrayList<>();
+//    //当前正在显示的activity
+//    private Activity nowShowActivity;
 //    //消息队列实体诶
 //    private List<MessageQueueDto> messageQueueList = new ArrayList<>();
 
@@ -116,46 +119,24 @@ public class FlyMessageUtils {
         if (object == null || flyMessgeCallback == null) {
             return;
         }
+        //记录消息列表
         String key = getKey(object);
-        List<CallbackRecodeDto> list = recodeMap.get(key);
-        CallbackRecodeDto callbackRecodeDto;
-        //如果在这个key下面只有一个消息实例的话需要将其他的实例移除
-        if (isOnlyMsgType && list != null && list.size() > 0) {
-            List<CallbackRecodeDto> removeList = new ArrayList<>();
-            Iterator<CallbackRecodeDto> iterator = list.iterator();
-            while (iterator.hasNext()) {
-                callbackRecodeDto = iterator.next();
-                if (Integer.valueOf(callbackRecodeDto.msgType).compareTo(msgType) == 0) {
-                    //这个是要被移除的实例
-                    callbackRecodeDto.flyMessgeCallback = null;
-                    removeList.add(callbackRecodeDto);
-                }
-            }
-            //移除其他不要的
-            list.removeAll(removeList);
-            removeList.clear();
-            removeList = null;
-            iterator = null;
-            callbackRecodeDto = null;
+        List<Integer> msgList = recodeMsgTypeMap.get(key);
+        if(msgList == null){
+            msgList = new ArrayList<>();
         }
+        if(!msgList.contains(msgType)){
+            msgList.add(msgType);
+        }
+        recodeMsgTypeMap.put(key,msgList);
 
-        //生成实例添加到记录当中
-        if (list == null) {
-            list = new ArrayList<>();
+        //记录回调实体类
+        List<CallbackRecodeDto> callbackRecodeDtoList = recodeMsgCallbackMap.get(msgType);
+        if(callbackRecodeDtoList == null){
+            callbackRecodeDtoList = new ArrayList<>();
         }
-        callbackRecodeDto = new CallbackRecodeDto();
-        callbackRecodeDto.msgType = msgType;
-        callbackRecodeDto.flyMessgeCallback = flyMessgeCallback;
-        list.add(callbackRecodeDto);
-        recodeMap.put(key, list);
-        if (isActivity) {
-            notActivityKeyList.remove(key);
-            activityKeyList.add(key);
-        } else {
-            notActivityKeyList.add(key);
-            activityKeyList.remove(key);
-        }
-        key = null;
+        callbackRecodeDtoList.add(new CallbackRecodeDto(msgType,flyMessgeCallback));
+        recodeMsgCallbackMap.put(msgType,callbackRecodeDtoList);
 
         //注册回调后，要直接回调，否则部分界面注册可能晚于回调，导致无法获得数据
         msgQueListOptions(false, false, true, null, null);
@@ -170,17 +151,23 @@ public class FlyMessageUtils {
         if (object == null) {
             return;
         }
-        List<CallbackRecodeDto> list = recodeMap.get(getKey(object));
-        if (list != null) {
-            CallbackRecodeDto callbackRecodeDto;
-            Iterator<CallbackRecodeDto> iterator = list.iterator();
-            while (iterator.hasNext()) {
-                callbackRecodeDto = iterator.next();
-                callbackRecodeDto.flyMessgeCallback = null;
-                callbackRecodeDto = null;
+        //移除消息
+        List<Integer> msgTypeList = recodeMsgTypeMap.get(getKey(object));
+        if(msgTypeList != null){
+            Iterator<Integer> iterator = msgTypeList.iterator();
+            int msgType;
+            List<CallbackRecodeDto> callbackRecodeDtos;
+            while (iterator.hasNext()){
+                msgType = iterator.next();
+                callbackRecodeDtos = recodeMsgCallbackMap.get(msgType);
+                if(callbackRecodeDtos != null){
+                    callbackRecodeDtos.clear();
+                    callbackRecodeDtos = null;
+                }
+                iterator.remove();
             }
+            recodeMsgTypeMap.remove(getKey(object));
         }
-        notActivityKeyList.remove(getKey(object));
     }
 
     /**
@@ -221,21 +208,7 @@ public class FlyMessageUtils {
         if (messageQueueDto == null) {
             return;
         }
-        //先回传activity当中的
-        if (nowShowActivity != null) {
-            callbackMsg(recodeMap.get(getKey(nowShowActivity)), messageQueueDto);
-        }
-        //回传非activity的
-        Iterator<String> iterator = notActivityKeyList.iterator();
-        while (iterator.hasNext()) {
-            callbackMsg(recodeMap.get(iterator.next()), messageQueueDto);
-        }
-        //回传activity的
-        iterator = activityKeyList.iterator();
-        while (iterator.hasNext()) {
-            callbackMsg(recodeMap.get(iterator.next()), messageQueueDto);
-        }
-        iterator = null;
+        callbackMsg(recodeMsgCallbackMap.get(messageQueueDto.msgType), messageQueueDto);
     }
 
     /**
@@ -357,6 +330,11 @@ public class FlyMessageUtils {
     private class CallbackRecodeDto {
         int msgType;//消息类型
         FlyMessgeCallback flyMessgeCallback;//消息回调
+
+        public CallbackRecodeDto(int msgType, FlyMessgeCallback flyMessgeCallback) {
+            this.msgType = msgType;
+            this.flyMessgeCallback = flyMessgeCallback;
+        }
     }
 
     /**

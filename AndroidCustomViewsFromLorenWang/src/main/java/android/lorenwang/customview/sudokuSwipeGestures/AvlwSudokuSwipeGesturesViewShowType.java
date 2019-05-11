@@ -1,4 +1,4 @@
-package android.lorenwang.customview;
+package android.lorenwang.customview.sudokuSwipeGestures;
 
 import android.support.annotation.IntDef;
 
@@ -12,5 +12,5 @@ import android.support.annotation.IntDef;
  * 备注：
  */
 @IntDef({1,2})
-public @interface SudokuSwipeGesturesViewShowType {
+public @interface AvlwSudokuSwipeGesturesViewShowType {
 }

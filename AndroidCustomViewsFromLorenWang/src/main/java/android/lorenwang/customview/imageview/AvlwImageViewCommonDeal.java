@@ -10,7 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Xfermode;
-import android.lorenwang.customview.CustomViewCommon;
+import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -27,7 +27,7 @@ import android.util.AttributeSet;
  * 修改时间：
  * 备注：
  */
-public class ImageViewCommonDeal implements CustomViewCommon {
+public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
     //圆形图片路径
     private Paint circlePaint;
     //圆形图片路径

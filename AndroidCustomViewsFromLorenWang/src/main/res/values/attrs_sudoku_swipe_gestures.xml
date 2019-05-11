@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="SudokuSwipeGesturesView">
+    <declare-styleable name="AvlwSudokuSwipeGesturesView">
         <attr name="connectingLineWidth" format="dimension"/>
         <attr name="circleEffectiveRadius" format="dimension"/>
         <attr name="circleInnerRingRadius" format="dimension"/>

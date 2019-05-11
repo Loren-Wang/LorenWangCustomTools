@@ -29,36 +29,14 @@ class MainActivity : Activity() {
                 R.id.btnHorizontalSlipTabLayout -> {
                     startActivity(Intent(this, HorizontalSlipTabLayoutActivity::class.java))
                 }
+                R.id.btnSwitchButton -> {
+                    startActivity(Intent(this, SwitchButtonActivity::class.java))
+                }
                 else -> {
 
                 }
             }
         }
-    }
-
-    fun showKerleyView() {
-//        setContentView(R.layout.activity_main_kerley)
-    }
-
-    fun showCustomDrawableButton() {
-//        setContentView(R.layout.activity_main_custom_drawable_button)
-//        var test = findViewById<CustomDrawableButton>(R.id.test)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            test?.setBackgroundTintList(ColorStateList.valueOf(Color.RED))
-//        }
-    }
-
-
-    fun showHorizontalSlipTabLayout() {
-        setContentView(R.layout.activity_main_horizontal_slip_tab_layout)
-        var test = findViewById<HorizontalSlipTabLayout>(R.id.test)
-        test.setTabList(arrayListOf("热门", "最新"), 0)
-    }
-
-    fun showHorizontalSlipTabLayout3() {
-//        setContentView(R.layout.activity_main_horizontal_slip_tab_layout_3)
-//        var test = findViewById<HorizontalSlipTabLayout3>(R.id.test)
-//        test.setTabList(arrayListOf("热门","最新"),0)
     }
 
 }
