@@ -39,7 +39,8 @@ import java.io.ByteArrayOutputStream;
  * 4、设置图片控件的src资源的着色
  * 5、设置文本控件的Drawable左上右下图片着色
  * 6、图片drawable转bitmap
- * 7、位图压缩
+ * 7、位图压缩、
+ * 8、十进制颜色值转16进制
  * 注意：
  * 修改人：
  * 修改时间：
@@ -289,5 +290,27 @@ public class AtlwImageCommonUtils {
         } else {
             return null;
         }
+    }
+
+    /**
+     * 十进制颜色值转16进制
+     * @param color 十进制颜色值
+     * @return 16进制颜色值
+     */
+    public String toHexEncoding(int color) {
+        String R, G, B;
+        StringBuffer sb = new StringBuffer();
+        R = Integer.toHexString(Color.red(color));
+        G = Integer.toHexString(Color.green(color));
+        B = Integer.toHexString(Color.blue(color));
+        //判断获取到的R,G,B值的长度 如果长度等于1 给R,G,B值的前边添0
+        R = R.length() == 1 ? "0" + R : R;
+        G = G.length() == 1 ? "0" + G : G;
+        B = B.length() == 1 ? "0" + B : B;
+        sb.append("0x");
+        sb.append(R);
+        sb.append(G);
+        sb.append(B);
+        return sb.toString();
     }
 }
