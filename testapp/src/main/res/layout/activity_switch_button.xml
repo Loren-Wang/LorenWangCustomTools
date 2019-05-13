@@ -11,12 +11,13 @@
         android:layout_width="70dp"
         android:layout_height="30dp"
         app:avlwSwitchButtnBgColorY="#0f0"
-        app:avlwSwitchButtnBgColorN="#f00"
+        app:avlwSwitchButtnBgColorN="#dcdcdc"
         app:avlwSwitchButtnDrawableTintColor="#00f"
-        app:avlwSwitchButtnIsOpen="true"
+        app:avlwSwitchButtnIsOpen="false"
         app:avlwSwitchButtnRadius="15dp"
         app:avlwSwitchButtnDrawableWidth="20dp"
         app:avlwSwitchButtnDrawableHeight="20dp"
+        app:avlwSwitchButtnDrawableMarginWidth="5dp"
         tools:ignore="MissingPrefix" />
 
 
