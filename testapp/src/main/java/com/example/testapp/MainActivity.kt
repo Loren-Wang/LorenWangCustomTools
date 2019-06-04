@@ -14,6 +14,9 @@ class MainActivity : Activity() {
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnImageView -> {
+                    startActivity(Intent(this, ImageViewActivity::class.java))
+                }
                 R.id.btnImageLoadForGlide -> {
                     startActivity(Intent(this, GlideImageLoadingActivity::class.java))
                 }

@@ -53,7 +53,7 @@ public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
     //边框颜色(默认透明)
     private int borderColor = Color.WHITE;
     //边框画笔
-    private Paint borderPaint = new Paint();
+    private Paint borderPaint;
     //圆角边框路径
     private Path borderRoundedRectanglePath;
     //边框圆角矩形角度

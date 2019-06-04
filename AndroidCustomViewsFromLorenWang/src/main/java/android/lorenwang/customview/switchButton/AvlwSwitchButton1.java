@@ -221,7 +221,7 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
             changeDrawable = AtlwImageCommonUtils.getInstance().tintDrawable(changeDrawable, ColorStateList.valueOf(changeDrawableTintColor));
         }
         changeDrawable.setBounds(0, 0, changeDrawableWidth, changeDrawableHeight);
-        changeDrawableBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(changeDrawable, changeDrawableWidth, changeDrawableHeight, radius);
+        changeDrawableBitmap = AtlwImageCommonUtils.getInstance().getRoundedCornerBitmap(changeDrawable, changeDrawableWidth, changeDrawableHeight, radius);
         //设置点击事件
         setOnClickListener(null);
     }

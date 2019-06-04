@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:scrollbars="none">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:src="@drawable/test"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp">
+
+            <android.lorenwang.customview.imageview.AvlwCircleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/test"
+                android:scaleType="centerCrop"
+                app:allImageBorderWidth="5dp"
+                app:allImageBorderColor="#0f0"
+                tools:ignore="MissingPrefix"/>
+
+            <android.lorenwang.customview.imageview.AvlwRoundedRectangleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/test"
+                android:scaleType="centerCrop"
+                app:allImageRoundedRectangleAngle="20dp"
+                app:allImageBorderWidth="2dp"
+                tools:ignore="MissingPrefix"
+                android:layout_marginTop="10dp" />
+
+            <android.lorenwang.customview.imageview.AvlwRoundedRectangleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/test"
+                android:scaleType="centerCrop"
+                app:allImageRoundedRectangleAngleLeftTop="20dp"
+                app:allImageBorderWidth="2dp"
+                tools:ignore="MissingPrefix"
+                android:layout_marginTop="10dp"/>
+
+            <android.lorenwang.customview.imageview.AvlwRoundedRectangleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/test"
+                android:scaleType="centerCrop"
+                app:allImageRoundedRectangleAngleRightTop="20dp"
+                app:allImageBorderWidth="2dp"
+                tools:ignore="MissingPrefix"
+                android:layout_marginTop="10dp"/>
+
+            <android.lorenwang.customview.imageview.AvlwRoundedRectangleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/test"
+                android:scaleType="centerCrop"
+                app:allImageRoundedRectangleAngleLeftBottom="20dp"
+                app:allImageBorderWidth="2dp"
+                tools:ignore="MissingPrefix"
+                android:layout_marginTop="10dp"/>
+
+            <android.lorenwang.customview.imageview.AvlwRoundedRectangleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/test"
+                android:scaleType="centerCrop"
+                app:allImageRoundedRectangleAngleRightBottom="20dp"
+                app:allImageBorderWidth="2dp"
+                tools:ignore="MissingPrefix"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>
