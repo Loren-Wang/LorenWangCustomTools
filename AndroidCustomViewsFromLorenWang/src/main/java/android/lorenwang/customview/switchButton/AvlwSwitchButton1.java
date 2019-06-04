@@ -82,7 +82,6 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
      */
     private Runnable changeStateRunnable = new Runnable() {
         private Integer changeAllDistance = null;
-
         @Override
         public void run() {
             nowTimeNum++;
@@ -98,6 +97,13 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
                 postInvalidate();
                 ThreadUtils.getInstance().postOnChildThreadDelayed(this, changeAnimMill / changeTimeNum);
             } else {
+                if(changeListener != null){
+                    if(isOpen){
+                        changeListener.onChangeToOpen();
+                    }else {
+                        changeListener.onChangeToClose();
+                    }
+                }
                 nowTimeNum = 0;
             }
         }
@@ -106,6 +112,10 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
      * 状态切换背景切换动画
      */
     private ValueAnimator changeStateBgAnimator;
+    /**
+     * 状态切换监听
+     */
+    private AvlwSwitchButtonChangeListener changeListener;
 
 
     /**************************************绘制参数*************************************************/
@@ -304,6 +314,14 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
                 }
             }
         });
+    }
+
+    /**
+     * 设置改变监听
+     * @param changeListener
+     */
+    public void setStateChangeListener(AvlwSwitchButtonChangeListener changeListener) {
+        this.changeListener = changeListener;
     }
 
     /**
