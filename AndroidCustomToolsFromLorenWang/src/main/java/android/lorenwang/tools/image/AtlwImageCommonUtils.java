@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -202,7 +203,29 @@ public class AtlwImageCommonUtils {
             Bitmap bitmap = Bitmap.createBitmap(width, height, config);
             // 建立对应 bitmap 的画布
             Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, width, height);
+
+            //做宽高转换
+            float drawableProportion = drawable.getIntrinsicWidth() * 1.0f / drawable.getIntrinsicHeight();
+            float showProportion = width * 1.0f / height;
+            int left = 0;
+            int top = 0;
+            int right = width;
+            int bottom = height;
+            if (drawableProportion > showProportion) {
+                left = -(int) ((drawableProportion - showProportion) / 2 * width);
+                right = (int) (width * drawableProportion + left);
+            }else {
+                top = -(int) ((showProportion - drawableProportion) / 2 * height);
+                bottom = height + left;
+            }
+
+            if (left > 0) {
+                left = 0;
+            }
+            if (top > 0) {
+                top = 0;
+            }
+            drawable.setBounds(left, top, right, bottom);
             // 把 drawable 内容画到画布中
             drawable.draw(canvas);
             return bitmap;
@@ -210,7 +233,6 @@ public class AtlwImageCommonUtils {
             return null;
         }
     }
-
 
     /**
      * 获取圆角bitmap
@@ -221,11 +243,33 @@ public class AtlwImageCommonUtils {
      * @param radius   圆角角度
      * @return 圆角bitmap
      */
-    public Bitmap drawableToBitmap(Drawable drawable, int width, int height, int radius) {
+    public Bitmap getRoundedCornerBitmap(Drawable drawable, int width, int height, int radius) {
         if (drawable != null) {
             // 获取位图
             Bitmap bitmap = drawableToBitmap(drawable, width, height);
             return getRoundedCornerBitmap(bitmap, radius);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 获取圆角bitmap
+     *
+     * @param drawable          图片，需要转换bitmap
+     * @param width             宽度
+     * @param height            高度
+     * @param leftTopRadius     圆角角度
+     * @param rightTopRadius    圆角角度
+     * @param rightBottomRadius 圆角角度
+     * @param leftBottomRadius  圆角角度
+     * @return 圆角bitmap
+     */
+    public Bitmap getRoundedCornerBitmap(Drawable drawable, int width, int height, float leftTopRadius, float rightTopRadius, float rightBottomRadius, float leftBottomRadius) {
+        if (drawable != null) {
+            // 获取位图
+            Bitmap bitmap = drawableToBitmap(drawable, width, height);
+            return getRoundedCornerBitmap(bitmap, leftTopRadius, rightTopRadius, rightBottomRadius, leftBottomRadius);
         } else {
             return null;
         }
@@ -239,6 +283,20 @@ public class AtlwImageCommonUtils {
      * @return 圆角bitmap
      */
     public Bitmap getRoundedCornerBitmap(Bitmap bitmap, int radius) {
+        return getRoundedCornerBitmap(bitmap, radius, radius, radius, radius);
+    }
+
+    /**
+     * 获取圆角bitmap
+     *
+     * @param bitmap            位图
+     * @param leftTopRadius     圆角角度
+     * @param rightTopRadius    圆角角度
+     * @param rightBottomRadius 圆角角度
+     * @param leftBottomRadius  圆角角度
+     * @return 圆角bitmap
+     */
+    public Bitmap getRoundedCornerBitmap(Bitmap bitmap, float leftTopRadius, float rightTopRadius, float rightBottomRadius, float leftBottomRadius) {
 
         //获取输出的位图
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -248,7 +306,6 @@ public class AtlwImageCommonUtils {
 
         //初始化绘制范围
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
 
         //初始化画笔
         final Paint paint = new Paint();
@@ -256,7 +313,61 @@ public class AtlwImageCommonUtils {
         paint.setColor(Color.RED);
 
         //绘制圆角
-        canvas.drawRoundRect(rectF, radius, radius, paint);
+        Path path = new Path();
+        path.addRoundRect(new RectF(rect), new float[]{leftTopRadius, leftTopRadius, rightTopRadius, rightTopRadius, rightBottomRadius, rightBottomRadius, leftBottomRadius, leftBottomRadius}, Path.Direction.CCW);
+        path.close();
+        canvas.drawPath(path, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        //绘制位图
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+
+    }
+
+    /**
+     * 获取圆形bitmap
+     *
+     * @param drawable 图片，需要转换bitmap
+     * @param width    宽度
+     * @param height   高度
+     * @param radius   圆角角度
+     * @return 圆角bitmap
+     */
+    public Bitmap getCircleBitmap(Drawable drawable, int width, int height, int radius) {
+        if (drawable != null) {
+            // 获取位图
+            Bitmap bitmap = drawableToBitmap(drawable, width, height);
+            return getCircleBitmap(bitmap, radius);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 获取圆形bitmap
+     *
+     * @param bitmap 位图
+     * @param radius 圆角角度
+     * @return 圆角bitmap
+     */
+    public Bitmap getCircleBitmap(Bitmap bitmap, int radius) {
+        //获取输出的位图
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        //画板背景透明
+        canvas.drawARGB(0, 0, 0, 0);
+
+        //初始化绘制范围
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        //初始化画笔
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.RED);
+
+        //绘制圆角
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         //绘制位图
         canvas.drawBitmap(bitmap, rect, rect, paint);
@@ -294,6 +405,7 @@ public class AtlwImageCommonUtils {
 
     /**
      * 十进制颜色值转16进制
+     *
      * @param color 十进制颜色值
      * @return 16进制颜色值
      */
