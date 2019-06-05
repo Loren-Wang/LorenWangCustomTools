@@ -4,6 +4,7 @@ import android.app.Activity
 import android.lorenwang.customview.tablayout.HorizontalSlipTabLayout
 import android.lorenwang.customview.tablayout.HorizontalSlipTabLayout3
 import android.os.Bundle
+import android.widget.Button
 
 /**
  * 创建时间：2019-05-06 上午 11:14:21
@@ -17,14 +18,19 @@ import android.os.Bundle
  * 备注：
  */
 class HorizontalSlipTabLayoutActivity : Activity() {
+    private lateinit var test1: HorizontalSlipTabLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_horizontal_slip_tab_layout)
 
-        var test1 = findViewById<HorizontalSlipTabLayout>(R.id.test1)
-        test1.setTabList(arrayListOf("热门", "最新","热门", "最新","热门", "最新","热门", "最新","热门", "最新","热门", "最新"), 0)
+        test1 = findViewById<HorizontalSlipTabLayout>(R.id.test1)
+        test1.setTabList(arrayListOf("热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新"), 0)
 
         var test3 = findViewById<HorizontalSlipTabLayout3>(R.id.test3)
-        test3.setTabList(arrayListOf("热门","最新","热门", "最新","热门", "最新","热门", "最新","热门", "最新","热门", "最新"),0)
+        test3.setTabList(arrayListOf("热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新"), 0)
+
+        findViewById<Button>(R.id.btnChangeList).setOnClickListener {
+            test1.setTabList(arrayListOf("测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试"), 0)
+        }
     }
 }

@@ -278,6 +278,8 @@ public class HorizontalSlipTabLayout2 extends View implements BaseHorizontalSlip
          * 计算坐标
          */
         if (tabList != null) {
+            this.tabList.clear();
+            this.tabListCoordinate.clear();
             Paint.FontMetrics fm = this.tabPaint.getFontMetrics();
             /**
              * 文本底部坐标

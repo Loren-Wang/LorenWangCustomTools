@@ -329,6 +329,11 @@ public class HorizontalSlipTabLayout extends View implements BaseHorizontalSlipT
          * 计算坐标
          */
         if (tabList != null) {
+            this.tabList.clear();
+            this.tabListCoordinate.clear();
+            this.tabLineListCoordinate.clear();
+            this.tabTextListWidth.clear();
+
             Paint.FontMetrics fm = this.tabPaint.getFontMetrics();
             /**
              * 文本底部坐标
