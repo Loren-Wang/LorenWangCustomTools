@@ -30,7 +30,7 @@ class HorizontalSlipTabLayoutActivity : Activity() {
         test3.setTabList(arrayListOf("热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新", "热门", "最新"), 0)
 
         findViewById<Button>(R.id.btnChangeList).setOnClickListener {
-            test1.setTabList(arrayListOf("测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试"), 0)
+            test1.setTabList(arrayListOf("测试", "测试", "测试", "测试"), 0)
         }
     }
 }

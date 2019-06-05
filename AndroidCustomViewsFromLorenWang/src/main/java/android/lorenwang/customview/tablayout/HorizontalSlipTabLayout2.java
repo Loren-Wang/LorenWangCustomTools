@@ -316,8 +316,10 @@ public class HorizontalSlipTabLayout2 extends View implements BaseHorizontalSlip
              * 重新设置宽高
              */
             if (this.getLayoutParams() != null) {
-                this.getLayoutParams().width = (int)((float)(this.getPaddingLeft() + this.getPaddingRight()) + (float)tabList.size() * this.tabWidth);
-                this.getLayoutParams().height = (int)((float)(this.getPaddingTop() + this.getPaddingBottom()) + this.tabHeight);
+                ViewGroup.LayoutParams layoutParams = getLayoutParams();
+                layoutParams.width = (int)((float)(this.getPaddingLeft() + this.getPaddingRight()) + (float)tabList.size() * this.tabWidth);
+                layoutParams.height = (int)((float)(this.getPaddingTop() + this.getPaddingBottom()) + this.tabHeight);
+                setLayoutParams(layoutParams);
             } else {
                 this.setLayoutParams(new ViewGroup.LayoutParams((int)((float)(this.getPaddingLeft() + this.getPaddingRight()) + (float)tabList.size() * this.tabWidth), (int)((float)(this.getPaddingTop() + this.getPaddingBottom()) + this.tabHeight)));
             }
