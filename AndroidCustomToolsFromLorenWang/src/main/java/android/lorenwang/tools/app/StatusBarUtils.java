@@ -3,8 +3,8 @@ package android.lorenwang.tools.app;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
-import android.lorenwang.tools.base.LogUtils;
-import android.lorenwang.tools.mobile.MobilePhoneBrandUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.mobile.AtlwMobilePhoneBrandUtils;
 import android.os.Build;
 import android.view.View;
 import android.view.Window;
@@ -86,9 +86,9 @@ public class StatusBarUtils {
      */
     public void setStatusBarLightMode(Activity activity,boolean isFullscreen){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if(MobilePhoneBrandUtils.getInstance().isXiaoMiMobile()){
+            if(AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()){
                 setStatusBarLightModeForXiaoMi(activity,true);
-            }else if(MobilePhoneBrandUtils.getInstance().isMeiZuMobile()){
+            }else if(AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()){
                 setStatusBarLightModeForMeiZu(activity,true);
             }
         }
@@ -105,9 +105,9 @@ public class StatusBarUtils {
      */
     public void setStatusBarDarkMode(Activity activity){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if(MobilePhoneBrandUtils.getInstance().isXiaoMiMobile()){
+            if(AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()){
                 setStatusBarLightModeForXiaoMi(activity,false);
-            }else if(MobilePhoneBrandUtils.getInstance().isMeiZuMobile()){
+            }else if(AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()){
                 setStatusBarLightModeForMeiZu(activity,false);
             }else {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
@@ -174,9 +174,9 @@ public class StatusBarUtils {
         try {
             Method mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon", boolean.class);
             mSetStatusBarDarkIcon.invoke(activity, dark);
-            LogUtils.logD(TAG,"Set StatusBar success for MeiZu");
+            AtlwLogUtils.logD(TAG,"Set StatusBar success for MeiZu");
         } catch (Exception e) {
-            LogUtils.logD(TAG,"Set StatusBar fail for MeiZu");
+            AtlwLogUtils.logD(TAG,"Set StatusBar fail for MeiZu");
             if (flag) {
                 setStatusBarDarkIcon(activity.getWindow(), dark);
             }

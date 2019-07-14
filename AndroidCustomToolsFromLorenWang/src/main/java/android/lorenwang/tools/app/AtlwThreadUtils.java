@@ -8,8 +8,8 @@ import android.support.annotation.VisibleForTesting;
 import java.util.concurrent.FutureTask;
 
 
-public class ThreadUtils {
-    private static ThreadUtils threadUtils;
+public class AtlwThreadUtils {
+    private static AtlwThreadUtils atlwThreadUtils;
     /**
      * ui线程handler
      */
@@ -28,7 +28,7 @@ public class ThreadUtils {
      */
     private Object sLockChild = new Object();
 
-    private ThreadUtils() {
+    private AtlwThreadUtils() {
         //初始化主线程
         sUiThreadHandler = new Handler(Looper.getMainLooper());
         //初始化子线程
@@ -38,11 +38,13 @@ public class ThreadUtils {
     }
 
 
-    public static ThreadUtils getInstance() {
-        if (threadUtils == null) {
-            threadUtils = new ThreadUtils();
+    public static AtlwThreadUtils getInstance() {
+        synchronized (atlwThreadUtils) {
+            if (atlwThreadUtils == null) {
+                atlwThreadUtils = new AtlwThreadUtils();
+            }
         }
-        return threadUtils;
+        return atlwThreadUtils;
     }
 
     /**

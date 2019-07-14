@@ -2,7 +2,7 @@ package com.example.testapp
 
 import android.lorenwang.customview.switchButton.AvlwSwitchButton1
 import android.lorenwang.customview.switchButton.AvlwSwitchButtonChangeListener
-import android.lorenwang.tools.app.ToastHintUtils
+import android.lorenwang.tools.app.AtlwToastHintUtils
 import android.os.Bundle
 
 /**
@@ -24,11 +24,11 @@ class SwitchButtonActivity : BaseActivity() {
 
         findViewById<AvlwSwitchButton1>(R.id.test1).setStateChangeListener(object : AvlwSwitchButtonChangeListener{
             override fun onChangeToOpen() {
-                ToastHintUtils.getInstance().toastMsg(applicationContext,"open",1)
+                AtlwToastHintUtils.getInstance().toastMsg(applicationContext,"open",1)
             }
 
             override fun onChangeToClose() {
-                ToastHintUtils.getInstance().toastMsg(applicationContext,"close",1)
+                AtlwToastHintUtils.getInstance().toastMsg(applicationContext,"close",1)
             }
 
         })

@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.base.LogUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -284,11 +284,11 @@ public class AvlwSideBar1 extends View {
         postInvalidate();
 
         if (isDown) {
-            LogUtils.logI(TAG, "按下数组位置：" + posi);
+            AtlwLogUtils.logI(TAG, "按下数组位置：" + posi);
         } else if (isMove) {
-            LogUtils.logI(TAG, "滑动数组位置：" + posi);
+            AtlwLogUtils.logI(TAG, "滑动数组位置：" + posi);
         } else if (isUp) {
-            LogUtils.logI(TAG, "抬起数组位置：" + posi);
+            AtlwLogUtils.logI(TAG, "抬起数组位置：" + posi);
         }
 
         if (avlwOnSideBarTounchListener != null) {

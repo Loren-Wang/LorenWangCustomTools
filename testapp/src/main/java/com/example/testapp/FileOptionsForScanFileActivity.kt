@@ -3,7 +3,7 @@ package com.example.testapp
 import android.Manifest
 import android.lorenwang.tools.app.AtlwActivityUtils
 import android.lorenwang.tools.app.PermissionRequestCallback
-import android.lorenwang.tools.app.ThreadUtils
+import android.lorenwang.tools.app.AtlwThreadUtils
 import android.lorenwang.tools.file.AtlwFileOptionUtils
 import android.os.Bundle
 import android.os.Environment
@@ -60,9 +60,9 @@ class FileOptionsForScanFileActivity : BaseActivity(), PermissionRequestCallback
 
     override fun perissionRequestSuccessCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
         files.clear()
-        ThreadUtils.getInstance().postOnChildThread {
+        AtlwThreadUtils.getInstance().postOnChildThread {
             files.addAll(AtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(applicationContext,true, Environment.getExternalStorageDirectory().getPath(), "^[^\\.].*\\.txt$"));
-            ThreadUtils.getInstance().postOnUiThread {
+            AtlwThreadUtils.getInstance().postOnUiThread {
                 adapter?.setData(files);
                 hideLoading()
             }

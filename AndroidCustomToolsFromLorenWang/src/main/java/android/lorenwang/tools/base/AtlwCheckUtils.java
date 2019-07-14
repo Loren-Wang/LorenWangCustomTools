@@ -35,14 +35,16 @@ import static android.content.Context.ACTIVITY_SERVICE;
  * 修改时间：
  * 备注：
  */
-public class CheckUtils {
+public class AtlwCheckUtils {
     private final String TAG = getClass().getName();
-    private static CheckUtils baseUtils;
-    public static CheckUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new CheckUtils();
+    private static AtlwCheckUtils atlwCheckUtils;
+    public static AtlwCheckUtils getInstance() {
+        synchronized (atlwCheckUtils) {
+            if (atlwCheckUtils == null) {
+                atlwCheckUtils = new AtlwCheckUtils();
+            }
         }
-        return (CheckUtils) baseUtils;
+        return (AtlwCheckUtils) atlwCheckUtils;
     }
 
 
@@ -64,20 +66,20 @@ public class CheckUtils {
      */
     public boolean checkFileIsExit(String filePath) {
         if (TextUtils.isEmpty(filePath)) {
-            LogUtils.logI(TAG, "被检查文件地址为空，不通过检测");
+            AtlwLogUtils.logI(TAG, "被检查文件地址为空，不通过检测");
             return false;
         }
         File file = new File(filePath);
         boolean isExit = false;//文件是否存在记录
         if (file == null || file.isDirectory()) {
-            LogUtils.logI(TAG, "被检查文件为空或被检测的地址为文件夹，不通过检测");
+            AtlwLogUtils.logI(TAG, "被检查文件为空或被检测的地址为文件夹，不通过检测");
             return false;
         }
         if (file.exists()) {
             isExit = true;
-            LogUtils.logI(TAG, "被检查文件存在");
+            AtlwLogUtils.logI(TAG, "被检查文件存在");
         } else {
-            LogUtils.logI(TAG, "被检查文件不存在");
+            AtlwLogUtils.logI(TAG, "被检查文件不存在");
         }
         file = null;
         return isExit;
@@ -106,19 +108,19 @@ public class CheckUtils {
                             || filePath.toLowerCase().substring(filePath.length() - 4).contains(".lic")
                             || filePath.toLowerCase().substring(filePath.length() - 4).contains(".eps")
                             || filePath.toLowerCase().substring(filePath.length() - 4).contains(".tga"))) {
-                LogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 4));
+                AtlwLogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 4));
                 return true;
             } else if (filePath.length() > 5 &&
                     (filePath.toLowerCase().substring(filePath.length() - 5).contains(".jpeg")
                             || filePath.toLowerCase().substring(filePath.length() - 5).contains(".tiff"))) {
-                LogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 5));
+                AtlwLogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 5));
                 return true;
             }else {
-                LogUtils.logI(TAG, "被检测地址为空或文件为非图片");
+                AtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
                 return false;
             }
         } else {
-            LogUtils.logI(TAG, "被检测地址为空或文件为非图片");
+            AtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
             return false;
         }
     }

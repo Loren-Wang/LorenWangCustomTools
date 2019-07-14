@@ -1,6 +1,6 @@
 package android.lorenwang.tools.base;
 
-import android.lorenwang.tools.AndroidCustomToolsSetting;
+import android.lorenwang.tools.AtlwSetting;
 import android.util.Log;
 
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
@@ -10,7 +10,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 日志工具类
  *
  */
-public final class LogUtils{
+public final class AtlwLogUtils {
 
 	// ------------------------------------------------------ Constants
 	private static final String DEFAULT_TAG = "";
@@ -30,8 +30,8 @@ public final class LogUtils{
 	private static final String LOG_FILE_NAME = "ct.log";
 	// ------------------------------------------------------ Fields
 	//private static boolean isDebuggable = Settings.isDebuggable;
-	public static boolean isDebuggable = AndroidCustomToolsSetting.isDebug;
-	private static String saveLogNamePath = AndroidCustomToolsSetting.debugLogFileSavePath;//日志保存地址
+	public static boolean isDebuggable = AtlwSetting.isDebug;
+	private static String saveLogNamePath = AtlwSetting.debugLogFileSavePath;//日志保存地址
 
 	// ------------------------------------------------------ Public Methods
 

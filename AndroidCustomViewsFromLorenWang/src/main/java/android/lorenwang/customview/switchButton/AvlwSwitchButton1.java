@@ -15,7 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.ThreadUtils;
+import android.lorenwang.tools.app.AtlwThreadUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -95,7 +95,7 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
             }
             if (nowTimeNum < changeTimeNum) {
                 postInvalidate();
-                ThreadUtils.getInstance().postOnChildThreadDelayed(this, changeAnimMill / changeTimeNum);
+                AtlwThreadUtils.getInstance().postOnChildThreadDelayed(this, changeAnimMill / changeTimeNum);
             } else {
                 if(changeListener != null){
                     if(isOpen){
@@ -284,7 +284,7 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
                 }
                 if (nowTimeNum == 0) {
                     isOpen = !isOpen;
-                    ThreadUtils.getInstance().runOnChildThread(changeStateRunnable);
+                    AtlwThreadUtils.getInstance().runOnChildThread(changeStateRunnable);
 
                     //初始化切换动画
                     if (changeStateBgAnimator == null) {

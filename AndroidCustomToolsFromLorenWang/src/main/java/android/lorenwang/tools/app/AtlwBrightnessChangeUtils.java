@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Color;
-import android.lorenwang.tools.base.LogUtils;
-import android.lorenwang.tools.messageTransmit.FlyMessageMsgTypes;
-import android.lorenwang.tools.messageTransmit.FlyMessageUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes;
+import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -42,37 +42,39 @@ public class AtlwBrightnessChangeUtils {
     private static AtlwBrightnessChangeUtils atlwBrightnessChangeUtils;
 
     public static AtlwBrightnessChangeUtils getInstance() {
-        if (atlwBrightnessChangeUtils == null) {
-            atlwBrightnessChangeUtils = new AtlwBrightnessChangeUtils();
+        synchronized (atlwBrightnessChangeUtils) {
+            if (atlwBrightnessChangeUtils == null) {
+                atlwBrightnessChangeUtils = new AtlwBrightnessChangeUtils();
+            }
         }
         return atlwBrightnessChangeUtils;
     }
 
     private AtlwBrightnessChangeUtils() {
         //获取Activity生命周期监听的消息接收
-        FlyMessageUtils.FlyMessgeCallback flyMessgeCallback = new FlyMessageUtils.FlyMessgeCallback() {
+        AtlwFlyMessageUtils.FlyMessgeCallback flyMessgeCallback = new AtlwFlyMessageUtils.FlyMessgeCallback() {
             @Override
             public void msg(int msgType, Object... msgs) {
                 switch (msgType) {
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE:
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
                         optionsActivity = (Activity) msgs[0];
                         AtlwBrightnessChangeContentObserver observer = observerMap.get(optionsActivity);
                         if (observer != null) {
                             registerBrightObserver(optionsActivity, observer);
                         }
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
 //                        unregisterBrightObserver(optionsActivity);
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
                         break;
                     default:
                         break;
@@ -81,12 +83,12 @@ public class AtlwBrightnessChangeUtils {
         };
 //        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE, flyMessgeCallback, false, false);
 //        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, flyMessgeCallback, false, false);
-        FlyMessageUtils.getInstance().
+        AtlwFlyMessageUtils.getInstance().
 
-                registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
-        FlyMessageUtils.getInstance().
+                registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
+        AtlwFlyMessageUtils.getInstance().
 
-                registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, flyMessgeCallback, false, false);
+                registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, flyMessgeCallback, false, false);
 //        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED, flyMessgeCallback, false, false);
 //        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, flyMessgeCallback, false, false);
 //        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
@@ -126,12 +128,12 @@ public class AtlwBrightnessChangeUtils {
             try {
                 screenBrightness = Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS);
             } catch (Exception e) {
-                LogUtils.logI(TAG, "获取手机系统当前亮度失败");
+                AtlwLogUtils.logI(TAG, "获取手机系统当前亮度失败");
             }
 
-            LogUtils.logI(TAG, "获取手机系统当前亮度:" + screenBrightness);
+            AtlwLogUtils.logI(TAG, "获取手机系统当前亮度:" + screenBrightness);
         } else {
-            LogUtils.logI(TAG, "获取手机系统当前亮度失败");
+            AtlwLogUtils.logI(TAG, "获取手机系统当前亮度失败");
         }
 
         return screenBrightness;
@@ -166,7 +168,7 @@ public class AtlwBrightnessChangeUtils {
                     Settings.System.putInt(activity.getContentResolver(),
                             Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
                 }
-                LogUtils.logI(TAG, "修改手机系统亮度为系统自动亮度" + (isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
+                AtlwLogUtils.logI(TAG, "修改手机系统亮度为系统自动亮度" + (isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
             } else {
                 //动态申请权限
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.System.canWrite(activity)) {
@@ -179,7 +181,7 @@ public class AtlwBrightnessChangeUtils {
                             Settings.System.SCREEN_BRIGHTNESS_MODE,
                             Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
                 }
-                LogUtils.logI(TAG, "修改手机系统亮度为系统手动调节亮度" + (!isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
+                AtlwLogUtils.logI(TAG, "修改手机系统亮度为系统手动调节亮度" + (!isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
             }
         }
     }
@@ -209,7 +211,7 @@ public class AtlwBrightnessChangeUtils {
                         lp.screenBrightness = 1;
                     }
                     activity.getWindow().setAttributes(lp);
-                    LogUtils.logI(TAG, "更新屏幕亮度成功：" + lp.screenBrightness);
+                    AtlwLogUtils.logI(TAG, "更新屏幕亮度成功：" + lp.screenBrightness);
 
                     if (isCallback) {
                         //回传亮度改变
@@ -221,10 +223,10 @@ public class AtlwBrightnessChangeUtils {
                 } else {
                     lp.screenBrightness = brightness;
                     activity.getWindow().setAttributes(lp);
-                    LogUtils.logI(TAG, "更新屏幕亮度成功：使用系统定义的模式，模式值为：" + brightness);
+                    AtlwLogUtils.logI(TAG, "更新屏幕亮度成功：使用系统定义的模式，模式值为：" + brightness);
                 }
             } catch (Exception ex) {
-                LogUtils.logI(TAG, "更新屏幕亮度失败");
+                AtlwLogUtils.logI(TAG, "更新屏幕亮度失败");
             }
         }
     }
@@ -249,9 +251,9 @@ public class AtlwBrightnessChangeUtils {
         if (activity != null) {
             //判断系统是否是自动的
             isAuto = activity.getWindow().getAttributes().screenBrightness < 0;
-            LogUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
+            AtlwLogUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
         } else {
-            LogUtils.logI(TAG, "当前系统的亮度模式获取失败");
+            AtlwLogUtils.logI(TAG, "当前系统的亮度模式获取失败");
         }
         return isAuto;
     }
@@ -274,12 +276,12 @@ public class AtlwBrightnessChangeUtils {
             try {
                 isAuto = Settings.System.getInt(activity.getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
-                LogUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
+                AtlwLogUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
             } catch (Settings.SettingNotFoundException e) {
-                LogUtils.logI(TAG, "当前系统的亮度模式获取失败");
+                AtlwLogUtils.logI(TAG, "当前系统的亮度模式获取失败");
             }
         } else {
-            LogUtils.logI(TAG, "当前系统的亮度模式获取失败");
+            AtlwLogUtils.logI(TAG, "当前系统的亮度模式获取失败");
         }
         return isAuto;
     }
@@ -303,20 +305,20 @@ public class AtlwBrightnessChangeUtils {
                 intent.setData(Uri.parse("package:" + activity.getPackageName()));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent);
-                LogUtils.logI(TAG, "保存亮度设置到手机系统成功");
+                AtlwLogUtils.logI(TAG, "保存亮度设置到手机系统成功");
             } else {
                 try {
                     Uri uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS);
                     Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);
                     // resolver.registerContentObserver(uri, true, myContentObserver);
                     activity.getContentResolver().notifyChange(uri, null);
-                    LogUtils.logI(TAG, "保存亮度设置到手机系统成功");
+                    AtlwLogUtils.logI(TAG, "保存亮度设置到手机系统成功");
                 } catch (Exception ex) {
-                    LogUtils.logI(TAG, "保存亮度设置到手机系统失败");
+                    AtlwLogUtils.logI(TAG, "保存亮度设置到手机系统失败");
                 }
             }
         } else {
-            LogUtils.logI(TAG, "保存亮度设置到手机系统失败");
+            AtlwLogUtils.logI(TAG, "保存亮度设置到手机系统失败");
         }
     }
 
@@ -371,7 +373,7 @@ public class AtlwBrightnessChangeUtils {
                 observerMap.put(activity, mBrightObserver);
             }
         } catch (Throwable throwable) {
-            LogUtils.logE(TAG, "注册亮度观察者异常! " + throwable);
+            AtlwLogUtils.logE(TAG, "注册亮度观察者异常! " + throwable);
         }
     }
 
@@ -389,7 +391,7 @@ public class AtlwBrightnessChangeUtils {
                 }
             }
         } catch (Throwable throwable) {
-            LogUtils.logE(TAG, "解注册亮度观察者异常! " + throwable);
+            AtlwLogUtils.logE(TAG, "解注册亮度观察者异常! " + throwable);
         }
     }
 

@@ -1,7 +1,7 @@
 package android.lorenwang.tools.app;
 
 import android.content.Context;
-import android.lorenwang.tools.AndroidCustomToolsSetting;
+import android.lorenwang.tools.AtlwSetting;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -52,8 +52,10 @@ public class AtlwScreenUtils {
     }
 
     public static AtlwScreenUtils getInstance() {
-        if (utils == null) {
-            utils = new AtlwScreenUtils();
+        synchronized (utils) {
+            if (utils == null) {
+                utils = new AtlwScreenUtils();
+            }
         }
         return utils;
     }
@@ -164,7 +166,7 @@ public class AtlwScreenUtils {
      * @return 要显示的像素值
      */
     public int getShowPixelValueForWidth(Context context, int layoutShowValue) {
-        return (int) (getScreenWidth(context) * (layoutShowValue * 1.0 / AndroidCustomToolsSetting.SCREEN_LAYOUT_BASE_WIDTH));
+        return (int) (getScreenWidth(context) * (layoutShowValue * 1.0 / AtlwSetting.SCREEN_LAYOUT_BASE_WIDTH));
     }
 
     /**
@@ -175,6 +177,6 @@ public class AtlwScreenUtils {
      * @return 要显示的像素值
      */
     public int getShowPixelValueForHeight(Context context, int layoutShowValue) {
-        return (int) (getScreenHeight(context) * (layoutShowValue * 1.0 / AndroidCustomToolsSetting.SCREEN_LAYOUT_BASE_HEIGHT));
+        return (int) (getScreenHeight(context) * (layoutShowValue * 1.0 / AtlwSetting.SCREEN_LAYOUT_BASE_HEIGHT));
     }
 }

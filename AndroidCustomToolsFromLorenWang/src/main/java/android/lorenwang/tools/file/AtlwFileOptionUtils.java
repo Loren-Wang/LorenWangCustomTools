@@ -2,8 +2,8 @@ package android.lorenwang.tools.file;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.lorenwang.tools.base.CheckUtils;
-import android.lorenwang.tools.base.LogUtils;
+import android.lorenwang.tools.base.AtlwCheckUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.util.Xml;
 
 import java.io.ByteArrayInputStream;
@@ -49,8 +49,10 @@ public class AtlwFileOptionUtils {
     private ConcurrentLinkedQueue<File> fileOptionsLinkedQueue;
 
     public static AtlwFileOptionUtils getInstance() {
-        if (atlwFileOptionUtils == null) {
-            atlwFileOptionUtils = new AtlwFileOptionUtils();
+        synchronized (atlwFileOptionUtils) {
+            if (atlwFileOptionUtils == null) {
+                atlwFileOptionUtils = new AtlwFileOptionUtils();
+            }
         }
         return atlwFileOptionUtils;
     }
@@ -67,7 +69,7 @@ public class AtlwFileOptionUtils {
      * @return
      */
     public byte[] readImageFileGetBytes(Context context, Boolean isCheckPermisstion, Boolean isCheckFile, String filePath) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkFileOptionsPermisstion(context)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkFileOptionsPermisstion(context)) {
             return null;
         }
         return JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath);
@@ -77,7 +79,7 @@ public class AtlwFileOptionUtils {
      * 从指定路径的文件中读取Bytes
      */
     public byte[] readBytes(Context context, Boolean isCheckPermisstion, String path) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, path)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, path)) {
             return new byte[]{};
         }
         return JtlwFileOptionUtils.getInstance().readBytes(path);
@@ -87,7 +89,7 @@ public class AtlwFileOptionUtils {
      * 从File中读取Bytes
      */
     public byte[] readBytes(Context context, Boolean isCheckPermisstion, File file) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file)) {
             return new byte[]{};
         }
         return JtlwFileOptionUtils.getInstance().readBytes(file);
@@ -97,7 +99,7 @@ public class AtlwFileOptionUtils {
      * 从InputStream中读取Bytes
      */
     public byte[] readBytes(Context context, Boolean isCheckPermisstion, InputStream inputStream) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, inputStream)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, inputStream)) {
             return new byte[]{};
         }
         return JtlwFileOptionUtils.getInstance().readBytes(inputStream);
@@ -110,7 +112,7 @@ public class AtlwFileOptionUtils {
      * 将InputStream写入File
      */
     public Boolean writeToFile(Context context, Boolean isCheckPermisstion, File file, InputStream inputStream, Boolean append) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file, inputStream)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file, inputStream)) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().writeToFile(file, inputStream, append);
@@ -130,7 +132,7 @@ public class AtlwFileOptionUtils {
         try {
             return writeToFile(context, isCheckPermisstion, file, new ByteArrayInputStream(text.getBytes(encoding)), append);
         } catch (UnsupportedEncodingException e) {
-            LogUtils.logE(e);
+            AtlwLogUtils.logE(e);
             return false;
         }
 
@@ -140,7 +142,7 @@ public class AtlwFileOptionUtils {
      * 将bitmap写入File
      */
     public Boolean writeToFile(Context context, Boolean isCheckPermisstion, File file, Bitmap bitmap, Bitmap.CompressFormat format) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file, bitmap)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file, bitmap)) {
             return false;
         }
         if (!file.getParentFile().exists()) {
@@ -154,13 +156,13 @@ public class AtlwFileOptionUtils {
             fos.close();
             return true;
         } catch (Exception e) {
-            LogUtils.logE(e);
+            AtlwLogUtils.logE(e);
             return false;
         } finally {
             try {
                 fos.close();
             } catch (Exception e) {
-                LogUtils.logE(e);
+                AtlwLogUtils.logE(e);
             }
 
         }
@@ -171,7 +173,7 @@ public class AtlwFileOptionUtils {
     }
 
     public boolean writeToFile(Context context, boolean isCheckPermisstion, File file, byte[] buffer, boolean append) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file, buffer, append)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context, file, buffer, append)) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().writeToFile(file, buffer, append);
@@ -188,7 +190,7 @@ public class AtlwFileOptionUtils {
      * @return boolean
      */
     public Boolean copyFile(Context context, Boolean isCheckPermisstion, String oldPath, String newPath) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().copyFile(oldPath, newPath);
@@ -198,7 +200,7 @@ public class AtlwFileOptionUtils {
      * 删除文件
      */
     public Boolean deleteFile(Context context, Boolean isCheckPermisstion, String url) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().deleteFile(url);
@@ -212,7 +214,7 @@ public class AtlwFileOptionUtils {
      * @return
      */
     public Long getFileSize(Context context, Boolean isCheckPermisstion, File file, String filtrationDir) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
             return 0l;
         }
         return JtlwFileOptionUtils.getInstance().getFileSize(file, filtrationDir);
@@ -225,7 +227,7 @@ public class AtlwFileOptionUtils {
      * @return 目录删除成功返回true，否则返回false
      */
     public Boolean deleteDirectory(Context context, Boolean isCheckPermisstion, String filePath) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().deleteDirectory(filePath);
@@ -239,7 +241,7 @@ public class AtlwFileOptionUtils {
      * @return 文件列表
      */
     public List<File> getFileListForMatchRecursionScan(Context context, Boolean isCheckPermisstion, String scanPath, String matchRegular) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
             return new ArrayList<>();
         }
         return JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(scanPath, matchRegular);
@@ -254,7 +256,7 @@ public class AtlwFileOptionUtils {
      * @return 扫描到的文件列表
      */
     public synchronized List<File> getFileListForMatchLinkedQueueScan(Context context, Boolean isCheckPermisstion, String scanPath, final String matchRegular) {
-        if (isCheckPermisstion && !CheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
             return new ArrayList<>();
         }
         return JtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(scanPath, matchRegular);

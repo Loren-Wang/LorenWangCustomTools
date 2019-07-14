@@ -11,7 +11,7 @@ package android.lorenwang.tools.messageTransmit;
  * 修改时间：
  * 备注：
  */
-public class FlyMessageMsgTypes {
+public class AtlwFlyMessageMsgTypes {
     /**
      * 桌面快捷方式创建成功
      */

@@ -32,14 +32,16 @@ import java.util.Locale;
  * 修改时间：
  * 备注：
  */
-public class MobileSystemInfoUtils {
+public class AtlwMobileSystemInfoUtils {
     private final String TAG = "MobileSystemInfoUtils";
-    private static MobileSystemInfoUtils baseUtils;
-    public static MobileSystemInfoUtils getInstance(){
-        if(baseUtils == null){
-            baseUtils = new MobileSystemInfoUtils();
+    private static AtlwMobileSystemInfoUtils atlwMobileSystemInfoUtils;
+    public static AtlwMobileSystemInfoUtils getInstance(){
+        synchronized (atlwMobileSystemInfoUtils) {
+            if (atlwMobileSystemInfoUtils == null) {
+                atlwMobileSystemInfoUtils = new AtlwMobileSystemInfoUtils();
+            }
         }
-        return (MobileSystemInfoUtils) baseUtils;
+        return (AtlwMobileSystemInfoUtils) atlwMobileSystemInfoUtils;
     }
 
     /**

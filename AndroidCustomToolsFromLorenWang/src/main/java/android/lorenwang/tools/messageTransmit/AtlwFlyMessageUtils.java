@@ -1,8 +1,8 @@
 package android.lorenwang.tools.messageTransmit;
 
 import android.app.Activity;
-import android.lorenwang.tools.app.ThreadUtils;
-import android.lorenwang.tools.base.LogUtils;
+import android.lorenwang.tools.app.AtlwThreadUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,40 +37,42 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 备注：需要在application初始化的时候注册activity监听
  * 注册回调后，要直接回调，否则部分界面注册可能晚于回调，导致无法获得数据
  */
-public class FlyMessageUtils {
+public class AtlwFlyMessageUtils {
     private final String TAG = getClass().getName();
-    private static FlyMessageUtils flyMessageUtils;
+    private static AtlwFlyMessageUtils atlwFlyMessageUtils;
 
-    public synchronized static FlyMessageUtils getInstance() {
-        if (flyMessageUtils == null) {
-            flyMessageUtils = new FlyMessageUtils();
+    public synchronized static AtlwFlyMessageUtils getInstance() {
+        synchronized (atlwFlyMessageUtils) {
+            if (atlwFlyMessageUtils == null) {
+                atlwFlyMessageUtils = new AtlwFlyMessageUtils();
+            }
         }
-        return flyMessageUtils;
+        return atlwFlyMessageUtils;
     }
 
-    private FlyMessageUtils() {
+    private AtlwFlyMessageUtils() {
         //获取Activity生命周期监听的消息接收
         FlyMessgeCallback flyMessgeCallback = new FlyMessgeCallback() {
             @Override
             public void msg(int msgType, Object... msgs) {
                 switch (msgType) {
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE:
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
 //                        nowShowActivity = (Activity) msgs[0];
 //                        //activity获得到焦点，开始循环队列发送
 //                        msgQueListOptions(false, false, true, null, null);
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
 //                        unregisterBrightObserver(optionsActivity);
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
                         break;
-                    case FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
+                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
                         unRegistMsgCallback((Activity) msgs[0]);
                         break;
                     default:
@@ -80,12 +82,12 @@ public class FlyMessageUtils {
         };
 //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE, flyMessgeCallback, false, false);
 //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, flyMessgeCallback, false, false);
-        registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
+        registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
 //
 //                registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, flyMessgeCallback, false, false);
 //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED, flyMessgeCallback, false, false);
 //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, flyMessgeCallback, false, false);
-        registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
+        registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
 
 
     }
@@ -248,7 +250,7 @@ public class FlyMessageUtils {
             if (JtlwCheckVariateUtils.getInstance().isEmpty(e)
                     && JtlwCheckVariateUtils.getInstance().isEmpty(e.getMessage())
                     && e.getMessage().contains("Only the original thread that created a view hierarchy can touch its views.")) {
-                ThreadUtils.getInstance().runOnUiThread(new Runnable() {
+                AtlwThreadUtils.getInstance().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -258,12 +260,12 @@ public class FlyMessageUtils {
 //                             msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
 //                         }
                         } catch (Exception e) {
-                            LogUtils.logE(TAG, "callback msg fail");
+                            AtlwLogUtils.logE(TAG, "callback msg fail");
                         }
                     }
                 });
             } else {
-                LogUtils.logE(TAG, "callback msg fail");
+                AtlwLogUtils.logE(TAG, "callback msg fail");
             }
         }
     }

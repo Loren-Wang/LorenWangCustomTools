@@ -1,6 +1,6 @@
 package android.lorenwang.tools.mobile;
 
-import android.lorenwang.tools.base.LogUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -25,15 +25,17 @@ import java.lang.reflect.Method;
  * 修改时间：
  * 备注：
  */
-public class MobilePhoneBrandUtils {
+public class AtlwMobilePhoneBrandUtils {
     private final String TAG = getClass().getName();
-    private static MobilePhoneBrandUtils mobilePhoneBrandUtils;
+    private static AtlwMobilePhoneBrandUtils atlwMobilePhoneBrandUtils;
 
-    public static MobilePhoneBrandUtils getInstance() {
-        if (mobilePhoneBrandUtils == null) {
-            mobilePhoneBrandUtils = new MobilePhoneBrandUtils();
+    public static AtlwMobilePhoneBrandUtils getInstance() {
+        synchronized (atlwMobilePhoneBrandUtils) {
+            if (atlwMobilePhoneBrandUtils == null) {
+                atlwMobilePhoneBrandUtils = new AtlwMobilePhoneBrandUtils();
+            }
         }
-        return mobilePhoneBrandUtils;
+        return atlwMobilePhoneBrandUtils;
     }
 
     private Boolean isXiaoMi;//是否是小米手机
@@ -60,7 +62,7 @@ public class MobilePhoneBrandUtils {
                     isXiaoMi = false;
                 }
             }
-            LogUtils.logD(TAG, "is xiaomi mobile:" + isXiaoMi);
+            AtlwLogUtils.logD(TAG, "is xiaomi mobile:" + isXiaoMi);
         }
         return isXiaoMi;
     }
@@ -84,7 +86,7 @@ public class MobilePhoneBrandUtils {
                     isMeiZu = false;
                 }
             }
-            LogUtils.logD(TAG, "is meizu mobile:" + isMeiZu);
+            AtlwLogUtils.logD(TAG, "is meizu mobile:" + isMeiZu);
         }
         return isMeiZu;
     }
@@ -109,7 +111,7 @@ public class MobilePhoneBrandUtils {
                     isHuaWei = false;
                 }
             }
-            LogUtils.logD(TAG, "is huawei mobile:" + isHuaWei);
+            AtlwLogUtils.logD(TAG, "is huawei mobile:" + isHuaWei);
         }
         return isHuaWei;
     }
@@ -120,7 +122,7 @@ public class MobilePhoneBrandUtils {
      * @return
      */
     public boolean isVivoMobile() {
-        return "vivo".equals(MobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "vivo".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -129,7 +131,7 @@ public class MobilePhoneBrandUtils {
      * @return
      */
     public boolean isOPPOMobile() {
-        return "oppo".equals(MobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "oppo".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -138,7 +140,7 @@ public class MobilePhoneBrandUtils {
      * @return
      */
     public boolean isCoolpadMobile() {
-        return "coolpad".equals(MobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "coolpad".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -147,7 +149,7 @@ public class MobilePhoneBrandUtils {
      * @return
      */
     public boolean isSamsungMobile() {
-        return "samsung".equals(MobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "samsung".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -156,7 +158,7 @@ public class MobilePhoneBrandUtils {
      * @return
      */
     public boolean isSonyMobile() {
-        return "sony".equals(MobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "sony".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -165,6 +167,6 @@ public class MobilePhoneBrandUtils {
      * @return
      */
     public boolean isLGMobile() {
-        return "lg".equals(MobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "lg".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
     }
 }

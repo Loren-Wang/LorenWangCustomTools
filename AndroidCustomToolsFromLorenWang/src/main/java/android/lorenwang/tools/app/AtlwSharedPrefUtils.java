@@ -18,20 +18,22 @@ import java.util.Set;
  * 备注：
  */
 
-public class SharedPrefUtils {
-    private static SharedPrefUtils sharedPrefUtils;
+public class AtlwSharedPrefUtils {
+    private static AtlwSharedPrefUtils atlwSharedPrefUtils;
     private SharedPreferences mPref;
 
-    public SharedPrefUtils(Context context) {
+    public AtlwSharedPrefUtils(Context context) {
         mPref = PreferenceManager
                 .getDefaultSharedPreferences(context.getApplicationContext());
     }
 
-    public static SharedPrefUtils getInstance(Context context) {
-        if (sharedPrefUtils == null && context != null) {
-            sharedPrefUtils = new SharedPrefUtils(context);
+    public static AtlwSharedPrefUtils getInstance(Context context) {
+        synchronized (atlwSharedPrefUtils) {
+            if (atlwSharedPrefUtils == null && context != null) {
+                atlwSharedPrefUtils = new AtlwSharedPrefUtils(context);
+            }
         }
-        return sharedPrefUtils;
+        return atlwSharedPrefUtils;
     }
 
 

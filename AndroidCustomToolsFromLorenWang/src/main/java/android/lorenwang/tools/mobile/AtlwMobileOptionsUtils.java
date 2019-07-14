@@ -7,7 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.lorenwang.tools.base.LogUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Vibrator;
@@ -40,14 +40,16 @@ import java.io.InputStreamReader;
  * 修改时间：
  * 备注：
  */
-public final class MobileOptionsUtils {
+public final class AtlwMobileOptionsUtils {
 	private static final String TAG = "AppUtils";
-	private static MobileOptionsUtils baseUtils;
-	public static MobileOptionsUtils getInstance(){
-		if(baseUtils == null){
-			baseUtils = new MobileOptionsUtils();
+	private static AtlwMobileOptionsUtils atlwMobileOptionsUtils;
+	public static AtlwMobileOptionsUtils getInstance(){
+		synchronized (atlwMobileOptionsUtils) {
+			if (atlwMobileOptionsUtils == null) {
+				atlwMobileOptionsUtils = new AtlwMobileOptionsUtils();
+			}
 		}
-		return (MobileOptionsUtils) baseUtils;
+		return (AtlwMobileOptionsUtils) atlwMobileOptionsUtils;
 	}
 
 
@@ -64,7 +66,7 @@ public final class MobileOptionsUtils {
 					.getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(milliseconds);
 		} catch (Exception e) {
-			LogUtils.logE(e);
+			AtlwLogUtils.logE(e);
 		}
 	}
 
@@ -102,7 +104,7 @@ public final class MobileOptionsUtils {
 			}
 			activity.startActivityForResult(intent, requestCode);
 		} else {
-			LogUtils.logD(TAG, "don't get camera permisstion");
+			AtlwLogUtils.logD(TAG, "don't get camera permisstion");
 		}
 	}
 
@@ -149,7 +151,7 @@ public final class MobileOptionsUtils {
 				return intent;
 			}
 		}catch (Exception e){
-			LogUtils.logD(TAG,"安装异常：" + e.getMessage());
+			AtlwLogUtils.logD(TAG,"安装异常：" + e.getMessage());
 			return null;
 		}
 	}
@@ -189,7 +191,7 @@ public final class MobileOptionsUtils {
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			activity.startActivityForResult(intent, requestCode);
 		} else {
-			LogUtils.logD(TAG, "don't get camera permisstion");
+			AtlwLogUtils.logD(TAG, "don't get camera permisstion");
 		}
 	}
 
@@ -199,10 +201,10 @@ public final class MobileOptionsUtils {
 	 * @param packageName
 	 */
 	public void jumpToAppPermisstionSettingPage(Context context, String packageName) {
-		LogUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
-		if (MobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
+		AtlwLogUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
+		if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
 			jumpToMeizuAppPermisstionSettingPage(context, packageName);
-		} else if (MobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
+		} else if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
 			jumpToXiaoMiAppPermisstionSettingPage(context, packageName);
 		} else {
 			jumpToDefaultAppPermisstionSettingPage(context, packageName);
@@ -245,7 +247,7 @@ public final class MobileOptionsUtils {
 	 */
 	private void jumpToXiaoMiAppPermisstionSettingPage(Context context, String packageName) {
 		String rom = getMiuiVersion();
-		LogUtils.logI(TAG, "jumpToMiaoMiAppPermisstionSettingPage --- rom : " + rom);
+		AtlwLogUtils.logI(TAG, "jumpToMiaoMiAppPermisstionSettingPage --- rom : " + rom);
 		Intent intent = new Intent();
 		if ("V6".equals(rom) || "V7".equals(rom)) {
 			intent.setAction("miui.intent.action.APP_PERM_EDITOR");

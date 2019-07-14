@@ -5,8 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.lorenwang.tools.base.LogUtils;
-import android.lorenwang.tools.messageTransmit.FlyMessageUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.pm.ShortcutInfoCompat;
@@ -15,7 +15,7 @@ import android.support.v4.graphics.drawable.IconCompat;
 
 import javabase.lorenwang.tools.common.JtlwCommonUtils;
 
-import static android.lorenwang.tools.messageTransmit.FlyMessageMsgTypes.DESKTOP_SHORTCUT_CREATE_SUCCESS;
+import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.DESKTOP_SHORTCUT_CREATE_SUCCESS;
 
 
 /**
@@ -29,17 +29,19 @@ import static android.lorenwang.tools.messageTransmit.FlyMessageMsgTypes.DESKTOP
  * 修改时间：
  * 备注：
  */
-public class DesktopShortcutUtils {
+public class AtlwDesktopShortcutUtils {
     private final String TAG = getClass().getName();
-    private static DesktopShortcutUtils desktopShortcutUtils;
-    private DesktopShortcutUtils(){
+    private static AtlwDesktopShortcutUtils atlwDesktopShortcutUtils;
+    private AtlwDesktopShortcutUtils(){
 
     }
-    public static DesktopShortcutUtils getInstance(){
-        if(desktopShortcutUtils == null){
-            desktopShortcutUtils = new DesktopShortcutUtils();
+    public static AtlwDesktopShortcutUtils getInstance(){
+        synchronized (atlwDesktopShortcutUtils) {
+            if (atlwDesktopShortcutUtils == null) {
+                atlwDesktopShortcutUtils = new AtlwDesktopShortcutUtils();
+            }
         }
-        return desktopShortcutUtils;
+        return atlwDesktopShortcutUtils;
     }
 
     private DesktopShortcutOptionsCallback desktopShortcutOptionsCallback;
@@ -89,11 +91,11 @@ public class DesktopShortcutUtils {
             if(ShortcutManagerCompat.requestPinShortcut(context,shortcutInfoCompat,shortcutCallbackIntent.getIntentSender())){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     //创建消息接收监听
-                    FlyMessageUtils.getInstance().registMsgCallback(context, DESKTOP_SHORTCUT_CREATE_SUCCESS
-                            , new FlyMessageUtils.FlyMessgeCallback() {
+                    AtlwFlyMessageUtils.getInstance().registMsgCallback(context, DESKTOP_SHORTCUT_CREATE_SUCCESS
+                            , new AtlwFlyMessageUtils.FlyMessgeCallback() {
                                 @Override
                                 public void msg(int msgType, Object... msgs) {
-                                    LogUtils.logI(TAG,"快捷方式添加主屏幕成功");
+                                    AtlwLogUtils.logI(TAG,"快捷方式添加主屏幕成功");
                                     if(desktopShortcutOptionsCallback != null){
                                         desktopShortcutOptionsCallback.addSuccess();
                                     }

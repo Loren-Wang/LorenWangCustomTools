@@ -28,8 +28,10 @@ public class AtlwViewUtils {
     }
 
     public static AtlwViewUtils getInstance() {
-        if (utils == null) {
-            utils = new AtlwViewUtils();
+        synchronized (utils) {
+            if (utils == null) {
+                utils = new AtlwViewUtils();
+            }
         }
         return utils;
     }

@@ -3,7 +3,7 @@ package android.lorenwang.tools.image;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.lorenwang.tools.app.ThreadUtils;
+import android.lorenwang.tools.app.AtlwThreadUtils;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
@@ -40,8 +40,10 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
     private static AtlwGlideImageLoadingUtils utils;
 
     public static AtlwGlideImageLoadingUtils getInstance() {
-        if (utils == null) {
-            utils = new AtlwGlideImageLoadingUtils();
+        synchronized (utils) {
+            if (utils == null) {
+                utils = new AtlwGlideImageLoadingUtils();
+            }
         }
         return utils;
     }
@@ -82,7 +84,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
                 && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
-        ThreadUtils.getInstance().postOnChildThread(new Runnable() {
+        AtlwThreadUtils.getInstance().postOnChildThread(new Runnable() {
             @Override
             public void run() {
                 Bitmap bmp = null;
@@ -114,7 +116,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
                 && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
-        ThreadUtils.getInstance().postOnChildThread(new Runnable() {
+        AtlwThreadUtils.getInstance().postOnChildThread(new Runnable() {
             Bitmap bmp = null;
             @Override
             public void run() {
@@ -124,7 +126,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
                     if (bmp != null) {
                         bmp = Blur.onStackBlurClip(bmp, radius);
                         if (bmp != null) {
-                            ThreadUtils.getInstance().postOnUiThread(new Runnable() {
+                            AtlwThreadUtils.getInstance().postOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     imageView.setImageBitmap(bmp);

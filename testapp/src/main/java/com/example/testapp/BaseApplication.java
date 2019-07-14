@@ -1,7 +1,7 @@
 package com.example.testapp;
 
 import android.app.Application;
-import android.lorenwang.tools.AndroidCustomToolsSetting;
+import android.lorenwang.tools.AtlwSetting;
 
 /**
  * 创建时间：2019-04-13 下午 14:30:36
@@ -19,7 +19,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AndroidCustomToolsSetting.isDebug = true;
-        AndroidCustomToolsSetting.registActivityLifecycleCallbacks(this);
+        AtlwSetting.isDebug = true;
+        AtlwSetting.registActivityLifecycleCallbacks(this);
     }
 }

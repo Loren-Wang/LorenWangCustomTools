@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.lorenwang.tools.base.CheckUtils;
-import android.lorenwang.tools.base.LogUtils;
+import android.lorenwang.tools.base.AtlwCheckUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -47,8 +47,10 @@ public class AtlwActivityUtils {
     }
 
     public static AtlwActivityUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new AtlwActivityUtils();
+        synchronized (baseUtils) {
+            if (baseUtils == null) {
+                baseUtils = new AtlwActivityUtils();
+            }
         }
         return (AtlwActivityUtils) baseUtils;
     }
@@ -76,7 +78,7 @@ public class AtlwActivityUtils {
         } else {
             //检测所有的权限是否都已经拥有
             //判断所有的权限是否是通过的
-            if (CheckUtils.getInstance().checkAppPermisstion(activity, permisstions)) {
+            if (AtlwCheckUtils.getInstance().checkAppPermisstion(activity, permisstions)) {
                 if (permissionRequestCallback != null) {
                     permissionRequestCallback.perissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions)
                             , permissionsRequestCode);
@@ -109,9 +111,9 @@ public class AtlwActivityUtils {
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                         successPermissionList.add(permissions[i]);
-                        LogUtils.logI(TAG, "用户同意权限-user granted the permission!" + permissions[i]);
+                        AtlwLogUtils.logI(TAG, "用户同意权限-user granted the permission!" + permissions[i]);
                     } else {
-                        LogUtils.logI(TAG, "用户不同意权限-user denied the permission!" + permissions[i]);
+                        AtlwLogUtils.logI(TAG, "用户不同意权限-user denied the permission!" + permissions[i]);
                         failPermissionList.add(permissions[i]);
                     }
                 }
@@ -127,7 +129,7 @@ public class AtlwActivityUtils {
                     permissionRequestCallback.perissionRequestSuccessCallback(successPermissionList, requestCode);
                 }
             } catch (Exception e) {
-                LogUtils.logE(TAG, e.getMessage());
+                AtlwLogUtils.logE(TAG, e.getMessage());
             } finally {
                 successPermissionList.clear();
                 failPermissionList.clear();
