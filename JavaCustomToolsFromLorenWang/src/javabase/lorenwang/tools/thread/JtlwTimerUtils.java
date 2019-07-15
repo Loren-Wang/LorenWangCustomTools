@@ -12,21 +12,29 @@ import java.util.concurrent.ConcurrentHashMap;
  * 功能作用：定时器单例类
  * 思路：
  * 方法：1、开启一个定时器，在制定时间之后执行runnable
- *      2、开启一个定时器，在等待delay后执行第一次任务，第二次（含）之后间隔period时间后再次执行
+ * 2、开启一个定时器，在等待delay后执行第一次任务，第二次（含）之后间隔period时间后再次执行
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
  */
-public class TimerUtils {
+public class JtlwTimerUtils {
     private final String TAG = getClass().getName();
-    private static TimerUtils baseUtils;
+    private static JtlwTimerUtils baseUtils;
 
-    public static TimerUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new TimerUtils();
+    /**
+     * 私有构造
+     */
+    private JtlwTimerUtils() {
+    }
+
+    public static JtlwTimerUtils getInstance() {
+        synchronized (JtlwTimerUtils.class) {
+            if (baseUtils == null) {
+                baseUtils = new JtlwTimerUtils();
+            }
         }
-        return (TimerUtils) baseUtils;
+        return baseUtils;
     }
 
     private Timer timer = new Timer();
@@ -50,7 +58,7 @@ public class TimerUtils {
             }
         };
         cancelTimerTask(taskId);
-        timerTaskMap.put(taskId,timerTask);
+        timerTaskMap.put(taskId, timerTask);
         timer.schedule(timerTask, delay);
         return timerTask;
     }
@@ -74,7 +82,7 @@ public class TimerUtils {
             }
         };
         cancelTimerTask(taskId);
-        timerTaskMap.put(taskId,timerTask);
+        timerTaskMap.put(taskId, timerTask);
         timer.schedule(timerTask, delay, period);
         return timerTask;
     }
@@ -93,36 +101,38 @@ public class TimerUtils {
 
     /**
      * 倒计时任务
+     *
      * @param taskId
      * @param countDownCallback 倒计时回调
-     * @param sumTime 总时间（必须大于0）
-     * @param period 间隔时间（必须大于0）
+     * @param sumTime           总时间（必须大于0）
+     * @param period            间隔时间（必须大于0）
      * @return
      */
     public TimerTask countDownTask(int taskId, final CountDownCallback countDownCallback
-            ,long sumTime,long period){
+            , long sumTime, long period) {
         if (countDownCallback == null) {
             return null;
         }
         TimerTask timerTask = new TimerTask() {
             private Long nowTime = null;
+
             @Override
             public void run() {
-                if(nowTime == null){
+                if (nowTime == null) {
                     nowTime = sumTime;
                 }
-                if(nowTime <= 0){
+                if (nowTime <= 0) {
                     //结束了就取消任务
                     cancelTimerTask(taskId);
                     countDownCallback.finish();
-                }else {
-                    countDownCallback.countDownTime(sumTime,nowTime);
+                } else {
+                    countDownCallback.countDownTime(sumTime, nowTime);
                 }
                 nowTime -= period;
             }
         };
         cancelTimerTask(taskId);
-        timerTaskMap.put(taskId,timerTask);
+        timerTaskMap.put(taskId, timerTask);
         timer.schedule(timerTask, 0, period);
         return timerTask;
     }

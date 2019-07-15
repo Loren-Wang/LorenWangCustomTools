@@ -19,14 +19,14 @@ import java.util.Locale;
  * 功能作用：手机系统信息工具类
  * 思路：
  * 方法：
- *      1、获取当前手机系统语言
- *      2、获取当前系统上的语言列表(Locale列表)
- *      3、获取当前手机系统版本号
- *      4、获取手机型号
- *      5、获取手机厂商
- *      6、获取手机系统sdk版本号
- *      7、获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)
- *      8、获取当前网络类型  return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
+ * 1、获取当前手机系统语言
+ * 2、获取当前系统上的语言列表(Locale列表)
+ * 3、获取当前手机系统版本号
+ * 4、获取手机型号
+ * 5、获取手机厂商
+ * 6、获取手机系统sdk版本号
+ * 7、获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)
+ * 8、获取当前网络类型  return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
  * 注意：
  * 修改人：
  * 修改时间：
@@ -35,13 +35,20 @@ import java.util.Locale;
 public class AtlwMobileSystemInfoUtils {
     private final String TAG = "MobileSystemInfoUtils";
     private static AtlwMobileSystemInfoUtils atlwMobileSystemInfoUtils;
-    public static AtlwMobileSystemInfoUtils getInstance(){
-        synchronized (atlwMobileSystemInfoUtils) {
+
+    /**
+     * 私有构造方法
+     */
+    private AtlwMobileSystemInfoUtils() {
+    }
+
+    public static AtlwMobileSystemInfoUtils getInstance() {
+        synchronized (AtlwMobileSystemInfoUtils.class) {
             if (atlwMobileSystemInfoUtils == null) {
                 atlwMobileSystemInfoUtils = new AtlwMobileSystemInfoUtils();
             }
         }
-        return (AtlwMobileSystemInfoUtils) atlwMobileSystemInfoUtils;
+        return atlwMobileSystemInfoUtils;
     }
 
     /**
@@ -56,7 +63,7 @@ public class AtlwMobileSystemInfoUtils {
     /**
      * 获取当前系统上的语言列表(Locale列表)
      *
-     * @return  语言列表
+     * @return 语言列表
      */
     public Locale[] getSystemLanguageList() {
         return Locale.getAvailableLocales();
@@ -65,7 +72,7 @@ public class AtlwMobileSystemInfoUtils {
     /**
      * 获取当前手机系统版本号
      *
-     * @return  系统版本号
+     * @return 系统版本号
      */
     public String getSystemVersion() {
         return Build.VERSION.RELEASE;
@@ -74,7 +81,7 @@ public class AtlwMobileSystemInfoUtils {
     /**
      * 获取手机型号
      *
-     * @return  手机型号
+     * @return 手机型号
      */
     public String getSystemModel() {
         return Build.MODEL;
@@ -83,7 +90,7 @@ public class AtlwMobileSystemInfoUtils {
     /**
      * 获取手机厂商
      *
-     * @return  手机厂商
+     * @return 手机厂商
      */
     public String getDeviceBrand() {
         return Build.BRAND;
@@ -91,24 +98,26 @@ public class AtlwMobileSystemInfoUtils {
 
     /**
      * 获取手机系统sdk版本号
+     *
      * @return
      */
-    public int getSystemSdkVersion(){
+    public int getSystemSdkVersion() {
         return Build.VERSION.SDK_INT;
     }
 
     /**
      * 获取手机品牌信息
+     *
      * @return
      */
-    public String getMobileBrand(){
+    public String getMobileBrand() {
         return Build.MANUFACTURER;
     }
 
     /**
      * 获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)
      *
-     * @return  手机IMEI
+     * @return 手机IMEI
      */
     @SuppressLint({"MissingPermission"})
     @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
@@ -122,6 +131,7 @@ public class AtlwMobileSystemInfoUtils {
 
     /**
      * 获取当前网络类型
+     *
      * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
@@ -138,7 +148,7 @@ public class AtlwMobileSystemInfoUtils {
         int nType = networkInfo.getType();
         if (nType == ConnectivityManager.TYPE_MOBILE) {
             String extraInfo = networkInfo.getExtraInfo();
-            if(extraInfo != null) {
+            if (extraInfo != null) {
                 if (extraInfo.toLowerCase().equals("cmnet")) {
                     netType = 3;
                     netTypeName = "cmNet";

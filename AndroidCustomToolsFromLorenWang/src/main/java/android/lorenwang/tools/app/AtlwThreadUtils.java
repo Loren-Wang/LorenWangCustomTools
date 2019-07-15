@@ -39,7 +39,7 @@ public class AtlwThreadUtils {
 
 
     public static AtlwThreadUtils getInstance() {
-        synchronized (atlwThreadUtils) {
+        synchronized (AtlwThreadUtils.class) {
             if (atlwThreadUtils == null) {
                 atlwThreadUtils = new AtlwThreadUtils();
             }

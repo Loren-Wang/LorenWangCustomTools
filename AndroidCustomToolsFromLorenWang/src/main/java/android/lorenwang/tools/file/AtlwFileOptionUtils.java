@@ -48,8 +48,14 @@ public class AtlwFileOptionUtils {
      */
     private ConcurrentLinkedQueue<File> fileOptionsLinkedQueue;
 
+    /**
+     * 私有构造方法
+     */
+    private AtlwFileOptionUtils() {
+    }
+
     public static AtlwFileOptionUtils getInstance() {
-        synchronized (atlwFileOptionUtils) {
+        synchronized (AtlwFileOptionUtils.class) {
             if (atlwFileOptionUtils == null) {
                 atlwFileOptionUtils = new AtlwFileOptionUtils();
             }

@@ -11,15 +11,17 @@ package javabase.lorenwang.tools.common;
  * 修改时间：
  * 备注：
  */
-public class ClassUtils {
-    private static ClassUtils baseUtils;
+public class JtlwClassUtils {
+    private static JtlwClassUtils baseUtils;
 
-    private ClassUtils() {
+    private JtlwClassUtils() {
     }
 
-    public static ClassUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new ClassUtils();
+    public static JtlwClassUtils getInstance() {
+        synchronized (JtlwClassUtils.class) {
+            if (baseUtils == null) {
+                baseUtils = new JtlwClassUtils();
+            }
         }
         return baseUtils;
     }

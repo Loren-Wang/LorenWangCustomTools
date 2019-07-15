@@ -22,13 +22,13 @@ public class AtlwSharedPrefUtils {
     private static AtlwSharedPrefUtils atlwSharedPrefUtils;
     private SharedPreferences mPref;
 
-    public AtlwSharedPrefUtils(Context context) {
+    private AtlwSharedPrefUtils(Context context) {
         mPref = PreferenceManager
                 .getDefaultSharedPreferences(context.getApplicationContext());
     }
 
     public static AtlwSharedPrefUtils getInstance(Context context) {
-        synchronized (atlwSharedPrefUtils) {
+        synchronized (AtlwSharedPrefUtils.class) {
             if (atlwSharedPrefUtils == null && context != null) {
                 atlwSharedPrefUtils = new AtlwSharedPrefUtils(context);
             }

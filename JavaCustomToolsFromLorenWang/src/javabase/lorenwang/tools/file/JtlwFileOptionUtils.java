@@ -60,9 +60,17 @@ public class JtlwFileOptionUtils {
      */
     private final int BUFFER_SIZE = 1024;
 
+    /**
+     * 私有构造
+     */
+    private JtlwFileOptionUtils() {
+    }
+
     public static JtlwFileOptionUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new JtlwFileOptionUtils();
+        synchronized (JtlwFileOptionUtils.class) {
+            if (baseUtils == null) {
+                baseUtils = new JtlwFileOptionUtils();
+            }
         }
         return (JtlwFileOptionUtils) baseUtils;
     }

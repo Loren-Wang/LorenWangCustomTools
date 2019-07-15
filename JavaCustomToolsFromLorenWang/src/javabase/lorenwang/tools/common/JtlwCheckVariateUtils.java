@@ -13,21 +13,21 @@ import javabase.lorenwang.tools.JtlwLogUtils;
  * 功能作用：变量检测工具类
  * 思路：
  * 方法：1、判断字符串是否为空
- *      2、判断是否符合指定的正则表达式
- *      3、判断字符串是否是整型
- *      4、判断字符串是否是长整型
- *      5、判断字符串是否是浮点数
- *      6、字符串是否超过指定长度
- *      7、Double类型是否超过指定长度(小数点前位数)
- *      8、判断字符串是否在列表中
- *      9、判断对象是否在数组中
- *      10、检查传入的路径是否是图片
- *      11、检查传入的路径是否是视频
- *      12、
- *      13、
- *      14、销毁当前单例
- *      15、检查文件是否存在
- *      16、检测文件是否是图片
+ * 2、判断是否符合指定的正则表达式
+ * 3、判断字符串是否是整型
+ * 4、判断字符串是否是长整型
+ * 5、判断字符串是否是浮点数
+ * 6、字符串是否超过指定长度
+ * 7、Double类型是否超过指定长度(小数点前位数)
+ * 8、判断字符串是否在列表中
+ * 9、判断对象是否在数组中
+ * 10、检查传入的路径是否是图片
+ * 11、检查传入的路径是否是视频
+ * 12、
+ * 13、
+ * 14、销毁当前单例
+ * 15、检查文件是否存在
+ * 16、检测文件是否是图片
  * 注意：
  * 修改人：
  * 修改时间：
@@ -42,12 +42,13 @@ public class JtlwCheckVariateUtils {
     }
 
     public static JtlwCheckVariateUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new JtlwCheckVariateUtils();
+        synchronized (JtlwCheckVariateUtils.class) {
+            if (baseUtils == null) {
+                baseUtils = new JtlwCheckVariateUtils();
+            }
         }
         return baseUtils;
     }
-
 
 
     /**
@@ -200,6 +201,7 @@ public class JtlwCheckVariateUtils {
 
     /**
      * 判断对象是否在数组中
+     *
      * @param <T>
      * @param item
      * @param list
@@ -216,13 +218,14 @@ public class JtlwCheckVariateUtils {
 
     /**
      * 检查传入的路径是否是图片
+     *
      * @param path
      * @return
      */
-    public boolean checkIsImage(String path){
-        if(path != null) {
-            if(path.length() > 4){
-                if(path.toLowerCase().substring(path.length() - 4).contains(".jpg")
+    public boolean checkIsImage(String path) {
+        if (path != null) {
+            if (path.length() > 4) {
+                if (path.toLowerCase().substring(path.length() - 4).contains(".jpg")
                         || path.toLowerCase().substring(path.length() - 4).contains(".png")
                         || path.toLowerCase().substring(path.length() - 4).contains(".bmp")
                         || path.toLowerCase().substring(path.length() - 4).contains(".gif")
@@ -235,11 +238,11 @@ public class JtlwCheckVariateUtils {
                         || path.toLowerCase().substring(path.length() - 4).contains(".emf")
                         || path.toLowerCase().substring(path.length() - 4).contains(".lic")
                         || path.toLowerCase().substring(path.length() - 4).contains(".eps")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".tga")){
+                        || path.toLowerCase().substring(path.length() - 4).contains(".tga")) {
                     return true;
-                }else if(path.length() > 5){
-                    if(path.toLowerCase().substring(path.length() - 5).contains(".jpeg")
-                            || path.toLowerCase().substring(path.length() - 5).contains(".tiff")){
+                } else if (path.length() > 5) {
+                    if (path.toLowerCase().substring(path.length() - 5).contains(".jpeg")
+                            || path.toLowerCase().substring(path.length() - 5).contains(".tiff")) {
                         return true;
                     }
                 }
@@ -251,13 +254,14 @@ public class JtlwCheckVariateUtils {
 
     /**
      * 检查传入的路径是否是视频
+     *
      * @param path
      * @return
      */
-    public boolean checkIsVideo(String path){
-        if(path != null) {
-            if(path.length() > 4){
-                if(path.toLowerCase().substring(path.length() - 4).contains(".mp4")){
+    public boolean checkIsVideo(String path) {
+        if (path != null) {
+            if (path.length() > 4) {
+                if (path.toLowerCase().substring(path.length() - 4).contains(".mp4")) {
                     return true;
                 }
             }
@@ -322,7 +326,7 @@ public class JtlwCheckVariateUtils {
                             || filePath.toLowerCase().substring(filePath.length() - 5).contains(".tiff"))) {
                 JtlwLogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 5));
                 return true;
-            }else {
+            } else {
                 JtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
                 return false;
             }

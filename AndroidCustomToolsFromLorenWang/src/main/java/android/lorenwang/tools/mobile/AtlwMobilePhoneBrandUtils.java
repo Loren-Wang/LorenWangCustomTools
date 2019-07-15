@@ -28,9 +28,13 @@ import java.lang.reflect.Method;
 public class AtlwMobilePhoneBrandUtils {
     private final String TAG = getClass().getName();
     private static AtlwMobilePhoneBrandUtils atlwMobilePhoneBrandUtils;
-
+    /**
+     * 私有构造方法
+     */
+    private AtlwMobilePhoneBrandUtils() {
+    }
     public static AtlwMobilePhoneBrandUtils getInstance() {
-        synchronized (atlwMobilePhoneBrandUtils) {
+        synchronized (AtlwMobilePhoneBrandUtils.class) {
             if (atlwMobilePhoneBrandUtils == null) {
                 atlwMobilePhoneBrandUtils = new AtlwMobilePhoneBrandUtils();
             }

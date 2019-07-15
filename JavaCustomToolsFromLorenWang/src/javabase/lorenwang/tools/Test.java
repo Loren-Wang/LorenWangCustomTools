@@ -1,6 +1,6 @@
 package javabase.lorenwang.tools;
 
-import javabase.lorenwang.tools.thread.TimerUtils;
+import javabase.lorenwang.tools.thread.JtlwTimerUtils;
 import javabase.lorenwang.tools.thread.CountDownCallback;
 
 /**
@@ -17,7 +17,7 @@ import javabase.lorenwang.tools.thread.CountDownCallback;
 
 public class Test {
     public static void main(String[] args) {
-        TimerUtils.getInstance().countDownTask(1, new CountDownCallback() {
+        JtlwTimerUtils.getInstance().countDownTask(1, new CountDownCallback() {
             @Override
             public void countDownTime(long sumTime, long nowTime) {
                 System.out.print(nowTime);

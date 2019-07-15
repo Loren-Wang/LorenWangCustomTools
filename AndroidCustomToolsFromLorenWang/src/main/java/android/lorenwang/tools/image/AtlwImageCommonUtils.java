@@ -51,8 +51,14 @@ public class AtlwImageCommonUtils {
     private final String TAG = getClass().getName();
     private static AtlwImageCommonUtils atlwImageCommonUtils;
 
+    /**
+     * 私有构造方法
+     */
+    private AtlwImageCommonUtils() {
+    }
+
     public static AtlwImageCommonUtils getInstance() {
-        synchronized (atlwImageCommonUtils) {
+        synchronized (AtlwImageCommonUtils.class) {
             if (atlwImageCommonUtils == null) {
                 atlwImageCommonUtils = new AtlwImageCommonUtils();
             }
@@ -216,7 +222,7 @@ public class AtlwImageCommonUtils {
             if (drawableProportion > showProportion) {
                 left = -(int) ((drawableProportion - showProportion) / 2 * width);
                 right = (int) (width * drawableProportion + left);
-            }else {
+            } else {
                 top = -(int) ((showProportion - drawableProportion) / 2 * height);
                 bottom = height + left;
             }

@@ -42,7 +42,7 @@ public class AtlwFlyMessageUtils {
     private static AtlwFlyMessageUtils atlwFlyMessageUtils;
 
     public synchronized static AtlwFlyMessageUtils getInstance() {
-        synchronized (atlwFlyMessageUtils) {
+        synchronized (AtlwFlyMessageUtils.class) {
             if (atlwFlyMessageUtils == null) {
                 atlwFlyMessageUtils = new AtlwFlyMessageUtils();
             }

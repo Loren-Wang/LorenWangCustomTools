@@ -21,8 +21,14 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 public class AtlwToastHintUtils {
     private static AtlwToastHintUtils atlwToastHintUtils;
 
+    /**
+     * 私有构造方法
+     */
+    private AtlwToastHintUtils() {
+    }
+
     public static AtlwToastHintUtils getInstance() {
-        synchronized (atlwToastHintUtils) {
+        synchronized (AtlwToastHintUtils.class) {
             if (atlwToastHintUtils == null) {
                 atlwToastHintUtils = new AtlwToastHintUtils();
             }

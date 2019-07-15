@@ -47,7 +47,7 @@ public class AtlwActivityUtils {
     }
 
     public static AtlwActivityUtils getInstance() {
-        synchronized (baseUtils) {
+        synchronized (AtlwActivityUtils.class) {
             if (baseUtils == null) {
                 baseUtils = new AtlwActivityUtils();
             }

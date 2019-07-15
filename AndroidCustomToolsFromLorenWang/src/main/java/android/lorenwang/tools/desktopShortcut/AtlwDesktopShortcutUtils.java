@@ -36,7 +36,7 @@ public class AtlwDesktopShortcutUtils {
 
     }
     public static AtlwDesktopShortcutUtils getInstance(){
-        synchronized (atlwDesktopShortcutUtils) {
+        synchronized (AtlwDesktopShortcutUtils.class) {
             if (atlwDesktopShortcutUtils == null) {
                 atlwDesktopShortcutUtils = new AtlwDesktopShortcutUtils();
             }

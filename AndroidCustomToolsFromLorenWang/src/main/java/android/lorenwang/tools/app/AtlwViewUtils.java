@@ -28,7 +28,7 @@ public class AtlwViewUtils {
     }
 
     public static AtlwViewUtils getInstance() {
-        synchronized (utils) {
+        synchronized (AtlwViewUtils.class) {
             if (utils == null) {
                 utils = new AtlwViewUtils();
             }

@@ -39,8 +39,14 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
     private String TAG = "AtlwGlideImageLoadingUtils";
     private static AtlwGlideImageLoadingUtils utils;
 
+    /**
+     * 私有构造方法
+     */
+    private AtlwGlideImageLoadingUtils() {
+    }
+
     public static AtlwGlideImageLoadingUtils getInstance() {
-        synchronized (utils) {
+        synchronized (AtlwGlideImageLoadingUtils.class) {
             if (utils == null) {
                 utils = new AtlwGlideImageLoadingUtils();
             }
@@ -118,6 +124,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
         }
         AtlwThreadUtils.getInstance().postOnChildThread(new Runnable() {
             Bitmap bmp = null;
+
             @Override
             public void run() {
                 try {

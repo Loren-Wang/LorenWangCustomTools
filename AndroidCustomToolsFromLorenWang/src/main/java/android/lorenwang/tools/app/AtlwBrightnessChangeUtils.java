@@ -42,7 +42,7 @@ public class AtlwBrightnessChangeUtils {
     private static AtlwBrightnessChangeUtils atlwBrightnessChangeUtils;
 
     public static AtlwBrightnessChangeUtils getInstance() {
-        synchronized (atlwBrightnessChangeUtils) {
+        synchronized (AtlwBrightnessChangeUtils.class) {
             if (atlwBrightnessChangeUtils == null) {
                 atlwBrightnessChangeUtils = new AtlwBrightnessChangeUtils();
             }
@@ -416,7 +416,8 @@ public class AtlwBrightnessChangeUtils {
      *
      * @param blueFilterPercent 蓝光过滤比例[10-80]
      */
-    public @ColorInt int getColor(int blueFilterPercent) {
+    public @ColorInt
+    int getColor(int blueFilterPercent) {
         int realFilter = blueFilterPercent;
         if (realFilter < 10) {
             realFilter = 10;

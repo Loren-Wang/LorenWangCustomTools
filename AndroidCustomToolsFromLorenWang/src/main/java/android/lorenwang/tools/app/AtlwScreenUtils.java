@@ -52,7 +52,7 @@ public class AtlwScreenUtils {
     }
 
     public static AtlwScreenUtils getInstance() {
-        synchronized (utils) {
+        synchronized (AtlwScreenUtils.class) {
             if (utils == null) {
                 utils = new AtlwScreenUtils();
             }

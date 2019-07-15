@@ -24,18 +24,20 @@ import java.util.Date;
  * 备注：
  */
 
-public class DateTimeUtils {
+public class JtlwDateTimeUtils {
     private final String TAG = "DateTimeUtils";
-    private static DateTimeUtils baseUtils;
+    private static JtlwDateTimeUtils baseUtils;
 
-    private DateTimeUtils() {
+    private JtlwDateTimeUtils() {
     }
 
-    public static DateTimeUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new DateTimeUtils();
+    public static JtlwDateTimeUtils getInstance() {
+        synchronized (JtlwDateTimeUtils.class) {
+            if (baseUtils == null) {
+                baseUtils = new JtlwDateTimeUtils();
+            }
         }
-        return (DateTimeUtils) baseUtils;
+        return (JtlwDateTimeUtils) baseUtils;
     }
 
     /**

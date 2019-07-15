@@ -30,9 +30,9 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 备注：
  */
 
-public class DecimalConvertUtils {
+public class JtlwDecimalConvertUtils {
     private final String TAG = "DecimalConvertUtils";
-    private static DecimalConvertUtils baseUtils;
+    private static JtlwDecimalConvertUtils baseUtils;
     //小写字母表
     private final char[] ALPHABET_LOWER_CASE = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
@@ -40,14 +40,16 @@ public class DecimalConvertUtils {
     private final char[] ALPHABET_UPPER_CASE = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-    private DecimalConvertUtils() {
+    private JtlwDecimalConvertUtils() {
     }
 
-    public static DecimalConvertUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new DecimalConvertUtils();
+    public static JtlwDecimalConvertUtils getInstance() {
+        synchronized (JtlwDecimalConvertUtils.class) {
+            if (baseUtils == null) {
+                baseUtils = new JtlwDecimalConvertUtils();
+            }
         }
-        return (DecimalConvertUtils) baseUtils;
+        return (JtlwDecimalConvertUtils) baseUtils;
     }
 
 

@@ -19,8 +19,10 @@ public class JtlwCommonUtils {
     private static JtlwCommonUtils baseUtils;
     private JtlwCommonUtils(){}
     public static JtlwCommonUtils getInstance(){
-        if(baseUtils == null){
-            baseUtils = new JtlwCommonUtils();
+        synchronized (JtlwCommonUtils.class) {
+            if (baseUtils == null) {
+                baseUtils = new JtlwCommonUtils();
+            }
         }
         return (JtlwCommonUtils) baseUtils;
     }

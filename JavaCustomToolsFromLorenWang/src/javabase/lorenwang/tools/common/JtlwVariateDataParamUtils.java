@@ -40,8 +40,10 @@ public class JtlwVariateDataParamUtils {
     }
 
     public static JtlwVariateDataParamUtils getInstance() {
-        if (baseUtils == null) {
-            baseUtils = new JtlwVariateDataParamUtils();
+        synchronized (JtlwVariateDataParamUtils.class) {
+            if (baseUtils == null) {
+                baseUtils = new JtlwVariateDataParamUtils();
+            }
         }
         return (JtlwVariateDataParamUtils) baseUtils;
     }
