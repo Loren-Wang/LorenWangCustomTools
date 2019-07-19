@@ -9,3 +9,5 @@ android 自定义框架
 
 
 <h3>3、AvlwSwitchButton1---（仿iOS切换按钮）
+
+<h3>4、AvlwCircleButtonView---（自定义的圆形进度按钮 用于录制视频页面的开始和暂停功能）
