@@ -1,15 +1,22 @@
 package android.lorenwang.tools.mobile;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.lorenwang.tools.app.AtlwActivityUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -21,6 +28,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.media.AudioManager.STREAM_VOICE_CALL;
 
 
 /**
@@ -35,6 +46,16 @@ import java.io.InputStreamReader;
  * 5、开启相机
  * 6、开启图片相册选择
  * 7、跳转到权限设置页面
+ * 8、获取传感器管理器实例
+ * 9、注册距离传感器监听
+ * 10、取消注册距离传感器监听
+ * 11、获取电源设备锁
+ * 12、销毁电源设备锁
+ * 13、申请电源设备锁，关闭屏幕
+ * 14、释放电源设备锁，唤起屏幕
+ * 15、获取系统级别音频管理器
+ * 16、使用听筒播放正在播放的音频
+ * 17、使用扬声器播放正在播放的音频
  * 思路：
  * 修改人：
  * 修改时间：
@@ -305,6 +326,179 @@ public final class AtlwMobileOptionsUtils {
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+    /********************************************电源部分*******************************************/
+
+    /**
+     * 电源设备锁
+     */
+    private PowerManager.WakeLock powerLocalWakeLock;
+
+    /**
+     * 获取电源设备锁
+     */
+    @SuppressLint("InvalidWakeLockTag")
+    public PowerManager.WakeLock getPowerLocalWakeLock(Context context) {
+        if (powerLocalWakeLock == null) {
+            try {
+                //获取系统服务POWER_SERVICE，返回一个PowerManager对象
+                powerLocalWakeLock = ((PowerManager) AtlwActivityUtils.getInstance().getApplicationContext(context)
+                        .getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
+            } catch (Exception e) {
+            }
+
+        }
+        return powerLocalWakeLock;
+    }
+
+    /**
+     * 销毁电源设备锁
+     */
+    public void destoryPowerLocalWakeLock() {
+        if (powerLocalWakeLock != null) {
+            powerLocalWakeLock.setReferenceCounted(false);
+            powerLocalWakeLock.release();//释放电源锁，如果不释放finish这个acitivity后仍然会有自动锁屏的效果，不信可以试一试
+            powerLocalWakeLock = null;
+        }
+    }
+
+    /**
+     * 申请电源设备锁，关闭屏幕
+     *
+     * @param context 上下文
+     */
+    public void applyForPowerLocalWakeLock(Context context) {
+        AtlwLogUtils.logI(TAG, "申请电源设备锁");
+        if (getPowerLocalWakeLock(context) != null) {
+            AtlwLogUtils.logI(TAG, "电源设备锁获取成功，准备申请锁住屏幕。");
+            //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
+            getPowerLocalWakeLock(context).acquire(100);// 申请设备电源锁
+        }
+    }
+
+    /**
+     * 释放电源设备锁，唤起屏幕
+     *
+     * @param context 上下文
+     */
+    public void releasePowerLocalWakeLock(Context context) {
+        AtlwLogUtils.logD(TAG, "释放设备电源锁");
+        if (getPowerLocalWakeLock(context) != null) {
+            AtlwLogUtils.logI(TAG, "电源设备锁获取成功，准备申请释放屏幕并唤醒。");
+            //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
+            getPowerLocalWakeLock(context).setReferenceCounted(false);
+            getPowerLocalWakeLock(context).release(); // 释放设备电源锁
+
+        }
+    }
+
+
+    /****************************************传感器部分*********************************************/
+
+    /**
+     * 系统级别的传感器管理器
+     */
+    private SensorManager sensorManager;
+    /**
+     * 距离传感器所有监听
+     */
+    private final List<SensorEventListener> proximityListenerList = new ArrayList<>();
+
+    /**
+     * 获取传感器管理器实例
+     *
+     * @param context 上下文
+     * @return 传感器实例
+     */
+    public SensorManager getSensorManager(Context context) {
+        if (sensorManager == null) {
+            sensorManager = (SensorManager) AtlwActivityUtils.getInstance().getApplicationContext(context)
+                    .getSystemService(Context.SENSOR_SERVICE);
+        }
+        return sensorManager;
+    }
+
+    /**
+     * 注册距离传感器监听
+     *
+     * @param listener 监听回调
+     */
+    public void registProximitySensorListener(Context context, SensorEventListener listener) {
+        synchronized (proximityListenerList) {
+            if (listener != null && !proximityListenerList.contains(listener)) {
+                getSensorManager(context).registerListener(listener, getSensorManager(context)
+                        .getDefaultSensor(Sensor.TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
+                proximityListenerList.add(listener);
+            }
+        }
+    }
+
+    /**
+     * 取消注册距离传感器监听
+     *
+     * @param context  上下文
+     * @param listener 监听
+     */
+    public void unRegistProximitySensorListener(Context context, SensorEventListener listener) {
+        synchronized (proximityListenerList) {
+            if (listener != null && proximityListenerList.contains(listener)) {
+                getSensorManager(context).unregisterListener(listener);
+                proximityListenerList.remove(listener);
+            }
+        }
+    }
+
+
+    /*****************************************音频管理器********************************************/
+
+    /**
+     * 音频管理器
+     */
+    private AudioManager audioManager;
+
+    /**
+     * 获取系统级别音频管理器
+     *
+     * @param context
+     * @return
+     */
+    public AudioManager getAudioManager(Context context) {
+        if (audioManager == null) {
+            audioManager = (AudioManager) AtlwActivityUtils.getInstance().getApplicationContext(context)
+                    .getSystemService(Context.AUDIO_SERVICE);
+        }
+        return audioManager;
+    }
+
+    /**
+     * 使用听筒播放正在播放的音频
+     *
+     * @param activity activity实例
+     */
+    public void useHandsetToPlay(Activity activity) {
+        if (getAudioManager(activity) != null) {
+            AtlwLogUtils.logD(TAG,"切换到手机听筒播放");
+            activity.setVolumeControlStream(STREAM_VOICE_CALL);
+            getAudioManager(activity).setSpeakerphoneOn(false);//关闭扬声器
+            getAudioManager(activity).setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE, AudioManager.ROUTE_ALL);
+            //把声音设定成Earpiece（听筒）出来，设定为正在通话中
+            getAudioManager(activity).setMode(AudioManager.MODE_IN_CALL);
+        }
+    }
+
+    /**
+     * 使用扬声器播放正在播放的音频
+     *
+     * @param activity activity实例
+     */
+    public void useSpeakersToPlay(Activity activity) {
+        if (getAudioManager(activity) != null) {
+            AtlwLogUtils.logD(TAG,"切换到扬声器播放");
+            getAudioManager(activity).setSpeakerphoneOn(true);
+            getAudioManager(activity).setMode(AudioManager.MODE_NORMAL);
         }
     }
 

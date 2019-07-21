@@ -41,7 +41,8 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  * 13、根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
  * 14、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
  * 15、格式化文件大小
- *
+ * 16、创建文件夹
+ * <p>
  * 注意：
  * 修改人：
  * 修改时间：
@@ -74,6 +75,7 @@ public class JtlwFileOptionUtils {
         }
         return (JtlwFileOptionUtils) baseUtils;
     }
+
 
     /******************************************读取部分*********************************************/
 
@@ -277,25 +279,24 @@ public class JtlwFileOptionUtils {
     }
 
 
-
-
     /******************************************其他文件操作部分**************************************/
 
     /**
      * 格式化文件大小
+     *
      * @param fileSize
      * @return
      */
-    public String paramsFileSize(Long fileSize){
-        if(fileSize.compareTo(1024l) < 0){
-            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize.doubleValue(),2) + "B");
-        }else  if(fileSize.compareTo((long) Math.pow(1024,2)) < 0){
-            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024,2) + "KB");
-        }else  if(fileSize.compareTo((long) Math.pow(1024,3)) < 0){
-            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024 / 1024,2) + "MB");
-        }else  if(fileSize.compareTo((long) Math.pow(1024,4)) < 0){
-            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024 / 1024 / 1024,2) + "GB");
-        }else {
+    public String paramsFileSize(Long fileSize) {
+        if (fileSize.compareTo(1024l) < 0) {
+            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize.doubleValue(), 2) + "B");
+        } else if (fileSize.compareTo((long) Math.pow(1024, 2)) < 0) {
+            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024, 2) + "KB");
+        } else if (fileSize.compareTo((long) Math.pow(1024, 3)) < 0) {
+            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024 / 1024, 2) + "MB");
+        } else if (fileSize.compareTo((long) Math.pow(1024, 4)) < 0) {
+            return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024 / 1024 / 1024, 2) + "GB");
+        } else {
             return "0B";
         }
     }
@@ -442,7 +443,28 @@ public class JtlwFileOptionUtils {
         return path;
     }
 
-
+    /**
+     * 创建文件夹
+     *
+     * @param path
+     * @param isParentDir
+     * @return
+     */
+    public boolean createDirectory(String path, boolean isParentDir) {
+        //检测地址是否为空
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(path)) {
+            return false;
+        }
+        File file = new File(path);
+        //先判断文件夹是否存在
+        if (file.exists()) {
+            return true;
+        }
+        if (isParentDir) {
+            file = file.getParentFile();
+        }
+        return file.mkdirs();
+    }
 
     /**
      * 根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
@@ -457,7 +479,7 @@ public class JtlwFileOptionUtils {
             File file = new File(scanPath);
             if (file.exists() && file.listFiles() != null) {
                 for (File childFile : file.listFiles()) {
-                    if(childFile != null) {
+                    if (childFile != null) {
                         if (childFile.isDirectory()) {
                             if (!file.getName().matches("^\\..*")) {
                                 list.addAll(getFileListForMatchRecursionScan(childFile.getAbsolutePath(), matchRegular));
@@ -567,7 +589,7 @@ public class JtlwFileOptionUtils {
                 }
             });
             for (File f : fileArray) {
-                if(f != null) {
+                if (f != null) {
                     if (f.isDirectory()) {
                         //把目录添加进队列
                         fileOptionsLinkedQueue.offer(f);

@@ -32,6 +32,7 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  * 2、权限请求结果返回
  * 3、控制软键盘显示与隐藏
  * 4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
+ * 5、返回APP级别的实例（对于传递的上下文做转换）
  * 注意：
  * 修改人：
  * 修改时间：
@@ -216,9 +217,23 @@ public class AtlwActivityUtils {
         }
     }
 
-
-
-
+    /**
+     * 返回APP级别的实例（对于传递的上下文做转换）
+     *
+     * @param context 上下文
+     * @return APP级别的实例，如果传入为空则返回也为空
+     */
+    public Context getApplicationContext(Context context) {
+        if (context != null) {
+            Context applicationContext = context.getApplicationContext();
+            if (applicationContext != null) {
+                context = applicationContext;
+            }
+            return context;
+        } else {
+            return null;
+        }
+    }
 
 
 }

@@ -33,6 +33,7 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
  * 9、删除文件夹以及目录下的文件
  * 10、根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
  * 11、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
+ * 12、创建文件夹
  * 注意：
  * 修改人：
  * 修改时间：
@@ -237,6 +238,21 @@ public class AtlwFileOptionUtils {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().deleteDirectory(filePath);
+    }
+
+    /**
+     * 创建文件夹
+     *
+     * @param isCheckPermisstion 是否检测权限
+     * @param path               路径
+     * @param isParentDir  是否创建的是父级文件夹
+     * @return
+     */
+    public boolean createDirectory(Context context, Boolean isCheckPermisstion, String path, boolean isParentDir) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
+            return false;
+        }
+        return JtlwFileOptionUtils.getInstance().createDirectory(path, isParentDir);
     }
 
     /**

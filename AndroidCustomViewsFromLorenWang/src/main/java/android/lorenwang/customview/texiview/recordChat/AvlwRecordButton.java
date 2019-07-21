@@ -3,7 +3,7 @@ package android.lorenwang.customview.texiview.recordChat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.lorenwang.customview.dialog.RecordDialog;
+import android.lorenwang.customview.dialog.AvlwRecordDialog;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.lorenwang.tools.mobile.AtlwMobileOptionsUtils;
@@ -28,7 +28,7 @@ import javabase.lorenwang.tools.common.JtlwCommonUtils;
  * 备注：
  */
 
-public class AvlwRecordChatButton extends AppCompatButton {
+public class AvlwRecordButton extends AppCompatButton {
     private Activity activity;
     private static final String TAG = "AvlwRecordChatButton";
     /**
@@ -74,20 +74,28 @@ public class AvlwRecordChatButton extends AppCompatButton {
     /**
      * 录音弹窗
      */
-    private RecordDialog recordDialog;
+    private AvlwRecordDialog avlwRecordDialog;
+    /**
+     * 录音按钮录音监听
+     */
+    private AvlwRecordListener avlwRecordListener;
+    /**
+     * 录音时间过短线程
+     */
+    private Runnable recordTimeShortRunnable;
 
 
-    public AvlwRecordChatButton(Activity activity) {
+    public AvlwRecordButton(Activity activity) {
         super(activity);
         init(activity);
     }
 
-    public AvlwRecordChatButton(Activity activity, AttributeSet attrs) {
+    public AvlwRecordButton(Activity activity, AttributeSet attrs) {
         super(activity, attrs);
         init(activity);
     }
 
-    public AvlwRecordChatButton(Activity activity, AttributeSet attrs, int defStyleAttr) {
+    public AvlwRecordButton(Activity activity, AttributeSet attrs, int defStyleAttr) {
         super(activity, attrs, defStyleAttr);
         init(activity);
     }
@@ -168,7 +176,6 @@ public class AvlwRecordChatButton extends AppCompatButton {
             //判断录音时间
             if (Long.valueOf(nowRecordEndTheCountdownTime).compareTo(recordTimeForShort) <= 0) {
                 recordTimeShort();
-                return;
             } else if (isCancelRecordHint) {
                 //判断是否取消录音
                 cancelRecord();
@@ -200,11 +207,15 @@ public class AvlwRecordChatButton extends AppCompatButton {
             this.nowRecordEndTheCountdownTime = 0;
             //开始倒计时
             startEndTheCountdown();
-            if (isRecord && recordDialog != null && !recordDialog.isShowing()) {
-                recordDialog.show();
-                recordDialog.startRecord();
+            if (isRecord && avlwRecordDialog != null && !avlwRecordDialog.isShowing()) {
+                avlwRecordDialog.show();
+                avlwRecordDialog.startRecord();
+                //回传状态
+                if (avlwRecordListener != null) {
+                    avlwRecordListener.startRecord();
+                }
                 //震动设备
-                if(AtlwCheckUtils.getInstance().checkAppPermisstion(activity, Manifest.permission.VIBRATE)) {
+                if (AtlwCheckUtils.getInstance().checkAppPermisstion(activity, Manifest.permission.VIBRATE)) {
                     AtlwMobileOptionsUtils.getInstance().vibrate(activity, 100);
                 }
             }
@@ -217,6 +228,106 @@ public class AvlwRecordChatButton extends AppCompatButton {
     private void stopRecord() {
         this.isRecord = false;
         AtlwRecordUtils.getInstance().stop();
+        if (avlwRecordDialog != null && avlwRecordDialog.isShowing()) {
+            //回传状态
+            if (avlwRecordListener != null) {
+                avlwRecordListener.stopRecord();
+            }
+            avlwRecordDialog.dismiss();
+        }
+    }
+
+    /**
+     * 取消录音
+     */
+    private void cancelRecord() {
+        if (isRecord && isCancelRecordHint) {
+            //取消录音
+            AtlwRecordUtils.getInstance().cancel();
+            //隐藏弹窗
+            if (avlwRecordDialog != null && avlwRecordDialog.isShowing()) {
+                avlwRecordDialog.dismiss();
+            }
+            //回传状态
+            if (avlwRecordListener != null) {
+                avlwRecordListener.cancelRecord();
+            }
+        }
+    }
+
+    /**
+     * 取消录音提示显示
+     */
+    private void cancelRecordHintShow() {
+        isCancelRecordHint = true;
+        if (isRecord) {
+            //隐藏弹窗
+            if (avlwRecordDialog != null && avlwRecordDialog.isShowing()) {
+                avlwRecordDialog.cancelRecordHintShow();
+            }
+            //回传状态
+            if (avlwRecordListener != null) {
+                avlwRecordListener.cancelRecordHintShow();
+            }
+        }
+    }
+
+    /**
+     * 取消录音提示隐藏
+     */
+    private void cancelRecordHintHide() {
+        isCancelRecordHint = false;
+        if (isRecord) {
+            //隐藏弹窗
+            if (avlwRecordDialog != null && avlwRecordDialog.isShowing()) {
+                avlwRecordDialog.cancelRecordHintHide();
+            }
+            //回传状态
+            if (avlwRecordListener != null) {
+                avlwRecordListener.cancelRecordHintHide();
+            }
+        }
+    }
+
+    /**
+     * 当前录音时间
+     *
+     * @param nowRecordTime 已经被录音的时间
+     */
+    private void nowRecordTime(long nowRecordTime) {
+        if (isRecord) {
+            if (avlwRecordDialog != null && avlwRecordDialog.isShowing()) {
+                avlwRecordDialog.nowRecordTime(nowRecordTime);
+            }
+            //回传状态
+            if (avlwRecordListener != null) {
+                avlwRecordListener.nowRecordTime(nowRecordTime);
+            }
+        }
+    }
+
+    /**
+     * 录音时间过短
+     */
+    private synchronized void recordTimeShort() {
+        if (recordTimeShortRunnable == null) {
+            recordTimeShortRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    //取消录音
+                    cancelRecord();
+                }
+            };
+        }
+        if (avlwRecordDialog != null && avlwRecordDialog.isShowing()) {
+            avlwRecordDialog.recordTimeShort();
+        }
+        //回传状态
+        if (avlwRecordListener != null) {
+            avlwRecordListener.recordTimeShort();
+        }
+        //延迟时间后取消录音
+        handler.postDelayed(recordTimeShortRunnable, 1500);
 
     }
 
@@ -227,42 +338,6 @@ public class AvlwRecordChatButton extends AppCompatButton {
 
     }
 
-    /**
-     * 录音时间过短
-     */
-    private void recordTimeShort() {
-
-    }
-
-    /**
-     * 取消录音
-     */
-    private void cancelRecord() {
-
-    }
-
-    /**
-     * 取消录音提示显示
-     */
-    private void cancelRecordHintShow() {
-        isCancelRecordHint = true;
-    }
-
-    /**
-     * 取消录音提示隐藏
-     */
-    private void cancelRecordHintHide() {
-        isCancelRecordHint = false;
-    }
-
-    /**
-     * 当前录音时间
-     *
-     * @param nowRecordTime 已经被录音的时间
-     */
-    private void nowRecordTime(long nowRecordTime) {
-
-    }
 
     /********************************************线程操作部分***************************************/
 
@@ -356,5 +431,23 @@ public class AvlwRecordChatButton extends AppCompatButton {
     public void setRecordEndTheCountdownTime(long recordEndTheCountdownTime) {
         //做一下运算，时间必须为s的正数倍
         this.recordEndTheCountdownTime = (recordEndTheCountdownTime / 1000 + 1) * 1000;
+    }
+
+    /**
+     * 设置录音弹窗
+     *
+     * @param avlwRecordDialog 录音弹窗
+     */
+    public void setAvlwRecordDialog(AvlwRecordDialog avlwRecordDialog) {
+        this.avlwRecordDialog = avlwRecordDialog;
+    }
+
+    /**
+     * 设置录音监听
+     *
+     * @param avlwRecordListener 监听实例
+     */
+    public void setAvlwRecordListener(AvlwRecordListener avlwRecordListener) {
+        this.avlwRecordListener = avlwRecordListener;
     }
 }

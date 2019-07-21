@@ -93,6 +93,33 @@ public class AtlwCheckUtils {
     }
 
     /**
+     * 检查文件是否存在
+     *
+     * @param filePath
+     * @return
+     */
+    public boolean checkDirectoryIsExit(String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            AtlwLogUtils.logI(TAG, "被检查文件地址为空，不通过检测");
+            return false;
+        }
+        File file = new File(filePath);
+        boolean isExit = false;//文件是否存在记录
+        if (file == null || file.isFile()) {
+            AtlwLogUtils.logI(TAG, "被检查文件为空或被检测的地址为文件，不通过检测");
+            return false;
+        }
+        if (file.exists()) {
+            isExit = true;
+            AtlwLogUtils.logI(TAG, "被检查文件夹存在");
+        } else {
+            AtlwLogUtils.logI(TAG, "被检查文件夹不存在");
+        }
+        file = null;
+        return isExit;
+    }
+
+    /**
      * 检测文件是否是图片
      *
      * @param filePath
