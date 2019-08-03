@@ -113,7 +113,6 @@ public class AtlwThreadUtils {
     }
 
     /**
-     *
      * @param task The FutureTask to run
      * @return The queried task (to aid inline construction)
      */
@@ -178,6 +177,38 @@ public class AtlwThreadUtils {
             r.run();
         } else {
             getChildThreadHandler().post(r);
+        }
+    }
+
+    /**
+     * 在主、子线程中移除指定的runnable
+     *
+     * @param runnable 要移除的runnable
+     */
+    public void removeRunnable(Runnable runnable) {
+        if (runnable != null) {
+            getChildThreadHandler().removeCallbacks(runnable);
+            getUiThreadHandler().removeCallbacks(runnable);
+        }
+    }
+    /**
+     * 在主、子线程中移除指定的runnable
+     *
+     * @param runnable 要移除的runnable
+     */
+    public void removeRunnableForChild(Runnable runnable) {
+        if (runnable != null) {
+            getChildThreadHandler().removeCallbacks(runnable);
+        }
+    }
+    /**
+     * 在主、子线程中移除指定的runnable
+     *
+     * @param runnable 要移除的runnable
+     */
+    public void removeRunnableForUi(Runnable runnable) {
+        if (runnable != null) {
+            getUiThreadHandler().removeCallbacks(runnable);
         }
     }
 }

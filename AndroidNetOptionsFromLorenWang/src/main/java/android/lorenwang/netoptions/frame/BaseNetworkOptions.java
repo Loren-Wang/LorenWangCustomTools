@@ -152,13 +152,16 @@ public abstract class BaseNetworkOptions {
      * @param requestActName         上下文
      * @param requestPath            请求网址
      * @param requestType            请求类型
+     * @param paramsMapHeader
      * @param paramsMap              post请求参数
      * @param networkRequestCallback 请求返回值
      * @param isFrontRequest         是否是前台的请求
      * @param call                   网络请求请求体
      */
-    protected void recordNetworkRequest(String requestActName, String requestRecordDtoKey, String requestPath, String requestType, Map<String, Object> paramsMap, Object networkRequestCallback, boolean isFrontRequest, Call call) {
-        NetworkOptionsRecordDto networkRequestRecordDto = new NetworkOptionsRecordDto(requestType, requestPath, paramsMap, call, requestActName
+    protected void recordNetworkRequest(String requestActName, String requestRecordDtoKey,
+                                        String requestPath, String requestType, Map<String, Object> paramsMapHeader, Map<String, Object> paramsMap,
+                                        String jsonStr, Object networkRequestCallback, boolean isFrontRequest, Call call) {
+        NetworkOptionsRecordDto networkRequestRecordDto = new NetworkOptionsRecordDto(requestType, requestPath, paramsMapHeader, paramsMap, jsonStr, call, requestActName
                 , AndJavaCommonUtils.getInstance().getMillisecond(), isFrontRequest, networkRequestCallback);
         //存储记录请求内容
         requestRecordDtoMap.put(requestRecordDtoKey, networkRequestRecordDto);
@@ -251,6 +254,7 @@ public abstract class BaseNetworkOptions {
 
     /**
      * 网络在请求时失败
+     *
      * @param failCase               失败原因
      * @param networkRequestCallback 请求回调
      */
@@ -267,12 +271,13 @@ public abstract class BaseNetworkOptions {
 
     /**
      * 文件上传下载进度回调
+     *
      * @param object
-     * @param progress 0-100
+     * @param progress               0-100
      * @param networkRequestCallback
      */
     protected void onNetworkFileRequestProgress(final String filePath, final Object object, final int progress
-            , final NetworkOptionsCallback networkRequestCallback){
+            , final NetworkOptionsCallback networkRequestCallback) {
         if (null != networkRequestCallback) {
             onNetworkFileRequestProgressRunnable = new Runnable() {
                 public void run() {
@@ -280,7 +285,7 @@ public abstract class BaseNetworkOptions {
                     networkRequestCallback.progress(progress);
                 }
             };
-            postMainRunnable(onNetworkFileRequestProgressRunnable,null);
+            postMainRunnable(onNetworkFileRequestProgressRunnable, null);
         }
     }
 
@@ -308,7 +313,6 @@ public abstract class BaseNetworkOptions {
 
         }
     }
-
 
 
     /*******************************************请求处理********************************************/
@@ -350,8 +354,65 @@ public abstract class BaseNetworkOptions {
      * @param isCheckInterval        是否检查时间间隔
      * @param isFrontRequest         是否是前台的请求
      */
-    public abstract void stringRequestForGet(String requestActName, String requestPath
+    public abstract void stringRequestForGet(String requestActName, String requestPath, final Map<String, Object> paramsMapHeader
             , Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest);
+
+    /**
+     * 字符串post请求
+     *
+     * @param requestActName         请求的上下文请求名称
+     * @param requestPath            请求网址
+     * @param paramsMap              map请求参数
+     * @param object                 传递的实体参数
+     * @param networkRequestCallback 请求回调
+     * @param isCheckInterval        是否检查时间间隔
+     * @param isFrontRequest         是否是前台的请求
+     */
+    public abstract void stringRequestForPost(String requestActName, String requestPath, final Map<String, Object> paramsMapHeader
+            , Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest);
+
+    /**
+     * 字符串post请求
+     *
+     * @param requestActName         请求的上下文请求名称
+     * @param requestPath            请求网址
+     * @param jsonStr                请求的json数据
+     * @param object                 传递的实体参数
+     * @param networkRequestCallback 请求回调
+     * @param isCheckInterval        是否检查时间间隔
+     * @param isFrontRequest         是否是前台的请求
+     */
+    public abstract void jsonRequestForPost(String requestActName, String requestPath, final Map<String, Object> paramsMapHeader
+            , String jsonStr, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest);
+
+    /**
+     * delete请求
+     *
+     * @param requestActName         请求的上下文请求名称
+     * @param requestPath            请求网址
+     * @param paramsMap              请求的map数据
+     * @param object                 传递的实体参数
+     * @param networkRequestCallback 请求回调
+     * @param isCheckInterval        是否检查时间间隔
+     * @param isFrontRequest         是否是前台的请求
+     */
+    public abstract void requestForDelete(String requestActName, String requestPath, final Map<String, Object> paramsMapHeader
+            , Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest);
+
+    /**
+     * put请求
+     *
+     * @param requestActName         请求的上下文请求名称
+     * @param requestPath            请求网址
+     * @param paramsMap              请求的map数据
+     * @param object                 传递的实体参数
+     * @param networkRequestCallback 请求回调
+     * @param isCheckInterval        是否检查时间间隔
+     * @param isFrontRequest         是否是前台的请求
+     */
+    public abstract void requestForPut(String requestActName, String requestPath, final Map<String, Object> paramsMapHeader
+            , Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest);
+
 
     /***********************************文件下载请求****************************************/
     /**
@@ -365,7 +426,7 @@ public abstract class BaseNetworkOptions {
      * @param networkRequestCallback 请求回调
      */
 
-    @RequiresPermission(allOf = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
-    public abstract void downLoadFileRequest(final String requestActName, final String requestPath, final String savePath
-            , final Object object, boolean isFrontRequest, final NetworkOptionsCallback networkRequestCallback);
+    @RequiresPermission(allOf = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
+    public abstract void downLoadFileRequest(final String requestActName, final String requestPath, final Map<String, Object> paramsMapHeader
+            , final String savePath, final Object object, boolean isFrontRequest, final NetworkOptionsCallback networkRequestCallback);
 }

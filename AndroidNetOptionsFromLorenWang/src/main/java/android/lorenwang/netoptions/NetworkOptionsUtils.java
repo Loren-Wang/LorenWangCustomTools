@@ -88,16 +88,39 @@ public class NetworkOptionsUtils extends BaseNetworkOptions {
     }
 
     @Override
-    public void stringRequestForGet(String requestActName, String requestPath, Object object
-            , NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
-        nowNetworkOptions.stringRequestForGet(requestActName, requestPath, object, networkRequestCallback
+    public void stringRequestForGet(String requestActName, String requestPath, Map<String, Object> paramsMapHeader, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
+        nowNetworkOptions.stringRequestForGet(requestActName, requestPath, paramsMapHeader, object, networkRequestCallback
                 , isCheckInterval, isFrontRequest);
     }
 
     @Override
-    @RequiresPermission(allOf = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
-    public void downLoadFileRequest(String requestActName, String requestPath, String savePath, Object object
-            , boolean isFrontRequest, NetworkOptionsCallback networkRequestCallback) {
-        nowNetworkOptions.downLoadFileRequest(requestActName, requestPath, savePath, object, isFrontRequest, networkRequestCallback);
+    public void stringRequestForPost(String requestActName, String requestPath, Map<String, Object> paramsMapHeader, Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
+        nowNetworkOptions.stringRequestForPost(requestActName, requestPath, paramsMapHeader, paramsMap, object,
+                networkRequestCallback, isCheckInterval, isFrontRequest);
     }
+
+    @Override
+    public void jsonRequestForPost(String requestActName, String requestPath, Map<String, Object> paramsMapHeader, String jsonStr, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
+        nowNetworkOptions.jsonRequestForPost(requestActName, requestPath, paramsMapHeader, jsonStr, object,
+                networkRequestCallback, isCheckInterval, isFrontRequest);
+    }
+
+    @Override
+    public void requestForDelete(String requestActName, String requestPath, Map<String, Object> paramsMapHeader, Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
+        nowNetworkOptions.requestForDelete(requestActName, requestPath, paramsMapHeader, paramsMap, object,
+                networkRequestCallback, isCheckInterval, isFrontRequest);
+    }
+
+    @Override
+    public void requestForPut(String requestActName, String requestPath, Map<String, Object> paramsMapHeader, Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
+        nowNetworkOptions.requestForPut(requestActName, requestPath, paramsMapHeader, paramsMap, object,
+                networkRequestCallback, isCheckInterval, isFrontRequest);
+    }
+
+    @Override
+    @RequiresPermission(allOf = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void downLoadFileRequest(String requestActName, String requestPath, Map<String, Object> paramsMapHeader, String savePath, Object object, boolean isFrontRequest, NetworkOptionsCallback networkRequestCallback) {
+        nowNetworkOptions.downLoadFileRequest(requestActName, requestPath, paramsMapHeader, savePath, object, isFrontRequest, networkRequestCallback);
+    }
+
 }

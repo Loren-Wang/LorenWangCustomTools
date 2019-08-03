@@ -16,7 +16,9 @@ import java.util.Map;
 public class NetworkOptionsRecordDto {
     public String requestType;//网络请求类型，get，post，参数常量值在网络请求单例中
     public String url;//请求网址
+    public Map<String, Object> paramsMapHeader;//head请求参数
     public Map<String, Object> paramsMap;//post请求参数
+    public String jsonStr;//post请求参数
     public Object requestUtil;//请求实体
     public String activityClassName;//请求界面名称
     public long requestTime;//请求时间
@@ -25,12 +27,14 @@ public class NetworkOptionsRecordDto {
     public String resultData = "";//返回数据
     public boolean isRequestFinish = false;//请求是否完成
 
-    public NetworkOptionsRecordDto(String requestType, String url, Map<String, Object> paramsMap
+    public NetworkOptionsRecordDto(String requestType, String url, Map<String, Object> paramsMapHeader, Map<String, Object> paramsMap, String jsonStr
             , Object requestUtil, String activityClassName, long requestTime, boolean isFrontRequest
             , Object networkRequestCallback) {
         this.requestType = requestType;
         this.url = url;
+        this.paramsMapHeader = paramsMapHeader;
         this.paramsMap = paramsMap;
+        this.jsonStr = jsonStr;
         this.requestUtil = requestUtil;
         this.activityClassName = activityClassName;
         this.requestTime = requestTime;

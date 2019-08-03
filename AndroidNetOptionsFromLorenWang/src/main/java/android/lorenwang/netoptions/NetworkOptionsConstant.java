@@ -34,6 +34,10 @@ public class NetworkOptionsConstant {
     public static final String NETWORK_REQUEST_FOR_GET = "GET";
     //post网络请求
     public static final String NETWORK_REQUEST_FOR_POST = "POST";
+    //delete网络请求
+    public static final String NETWORK_REQUEST_FOR_DELETE = "DELETE";
+    //put网络请求
+    public static final String NETWORK_REQUEST_FOR_PUT = "PUT";
     //网络请求类型之post请求
     public static final String NETWORK_REQUEST_FOR_POST_JSON = "POST_JSON";
     //网络请求类型之上传文件

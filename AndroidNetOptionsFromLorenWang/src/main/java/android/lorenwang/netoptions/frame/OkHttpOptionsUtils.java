@@ -35,10 +35,12 @@ import okhttp3.Response;
 import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_DATA_REQUEST_ERROR;
 import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_DATA_REQUEST_ERROR_TYPE_DOWN_ERROR;
 import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_DATA_REQUEST_FAIL_CASE_REQUEST_FAIL;
+import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_REQUEST_FOR_DELETE;
 import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_REQUEST_FOR_DOWN_LOAD_FILE;
 import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_REQUEST_FOR_GET;
 import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_REQUEST_FOR_POST;
 import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_REQUEST_FOR_POST_JSON;
+import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_REQUEST_FOR_PUT;
 
 
 /**
@@ -108,14 +110,14 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
                             Request request = chain.request();
                             if (reqHeads != null) {
                                 Request.Builder builder = null;
-                                Iterator<String> iterator = reqHeads.keySet().iterator();
-                                String key;
+                                Iterator<Map.Entry<String, String>> iterator = reqHeads.entrySet().iterator();
+                                Map.Entry<String, String> item;
                                 while (iterator.hasNext()) {
-                                    key = iterator.next();
+                                    item = iterator.next();
                                     if (builder == null) {
                                         builder = request.newBuilder();
                                     }
-                                    builder.addHeader(key, reqHeads.get(key));
+                                    builder.addHeader(item.getKey(), item.getValue());
                                 }
                                 request = builder.build();
                             }
@@ -185,10 +187,40 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
     }
 
     @Override
-    public void stringRequestForGet(String requestActName, String requestPath, Object object
+    public void stringRequestForGet(String requestActName, String requestPath, final Map<String, Object> paramsMapHeader, Object object
             , NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
-        networkDataRequest(requestActName, requestPath, NETWORK_REQUEST_FOR_GET, null,null, object, networkRequestCallback, isCheckInterval, isFrontRequest);
+        networkDataRequest(requestActName, requestPath, NETWORK_REQUEST_FOR_GET, paramsMapHeader, null,
+                null, object, networkRequestCallback, isCheckInterval, isFrontRequest);
     }
+
+    @Override
+    public void stringRequestForPost(String requestActName, String requestPath, Map<String, Object> paramsMapHeader, Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
+        networkDataRequest(requestActName, requestPath, NETWORK_REQUEST_FOR_POST, paramsMapHeader, paramsMap, null,
+                object, networkRequestCallback, isCheckInterval, isFrontRequest);
+    }
+
+    @Override
+    public void jsonRequestForPost(String requestActName, String requestPath, Map<String, Object> paramsMapHeader
+            , String jsonStr, Object object, NetworkOptionsCallback networkRequestCallback
+            , boolean isCheckInterval, boolean isFrontRequest) {
+        networkDataRequest(requestActName, requestPath, NETWORK_REQUEST_FOR_POST_JSON, paramsMapHeader, null,
+                jsonStr, object, networkRequestCallback, isCheckInterval, isFrontRequest);
+    }
+
+    @Override
+    public void requestForDelete(String requestActName, String requestPath, Map<String, Object> paramsMapHeader
+            , Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback
+            , boolean isCheckInterval, boolean isFrontRequest) {
+        networkDataRequest(requestActName, requestPath, NETWORK_REQUEST_FOR_DELETE, paramsMapHeader, paramsMap,
+                null, object, networkRequestCallback, isCheckInterval, isFrontRequest);
+    }
+
+    @Override
+    public void requestForPut(String requestActName, String requestPath, Map<String, Object> paramsMapHeader, Map<String, Object> paramsMap, Object object, NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
+        networkDataRequest(requestActName, requestPath, NETWORK_REQUEST_FOR_PUT, paramsMapHeader, paramsMap,
+                null, object, networkRequestCallback, isCheckInterval, isFrontRequest);
+    }
+
 
     /**
      * 网路请求综合
@@ -204,7 +236,7 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
      * @param isFrontRequest         是否是前台的请求
      */
     private void networkDataRequest(String requestActName, final String requestPath, String requestType
-            , final Map<String, Object> paramsMap , String jsonStr
+            , final Map<String, Object> paramsMapHeader, final Map<String, Object> paramsMap, String jsonStr
             , final Object object, final NetworkOptionsCallback networkRequestCallback, boolean isCheckInterval, boolean isFrontRequest) {
         final String requestRecordDtoKey = getRecordKey(requestActName, requestPath, paramsMap);
         if (requestActName == null) {
@@ -215,39 +247,61 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
         }
 
         //构造网络请求
-        Request request = null;
+        Request.Builder build = null;
         switch (requestType) {
             case NETWORK_REQUEST_FOR_GET:
-                request = new Request.Builder().url(requestPath).build();
+                build = new Request.Builder().url(requestPath);
+                break;
+            case NETWORK_REQUEST_FOR_POST_JSON:
+                if (jsonStr != null) {
+                    build = new Request.Builder().url(requestPath)
+                            .post(FormBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr));
+                }
                 break;
             case NETWORK_REQUEST_FOR_POST:
+            case NETWORK_REQUEST_FOR_DELETE:
+            case NETWORK_REQUEST_FOR_PUT:
                 if (paramsMap != null) {
                     //创建请求的参数body
-                    FormBody.Builder builder = new FormBody.Builder();
+                    FormBody.Builder formBuilder = new FormBody.Builder();
                     for (Map.Entry<String, Object> entry : paramsMap.entrySet()) {
                         if (entry.getKey() != null && entry.getValue() != null
                                 && !"".equals(entry.getKey()) && !"".equals(entry.getValue())) {
-                            builder.add(entry.getKey(), String.valueOf(entry.getValue()));
+                            formBuilder.add(entry.getKey(), String.valueOf(entry.getValue()));
                         }
                     }
-                    request = new Request.Builder().url(requestPath).post(builder.build()).build();
-                }
-                break;
-            case NETWORK_REQUEST_FOR_POST_JSON:
-                if (paramsMap != null) {
-                    request = new Request.Builder().url(requestPath)
-                            .post(FormBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr)).build();
+                    switch (requestType) {
+                        case NETWORK_REQUEST_FOR_POST:
+                            build = new Request.Builder().url(requestPath).post(formBuilder.build());
+                            break;
+                        case NETWORK_REQUEST_FOR_DELETE:
+                            build = new Request.Builder().url(requestPath).delete(formBuilder.build());
+                            break;
+                        case NETWORK_REQUEST_FOR_PUT:
+                            build = new Request.Builder().url(requestPath).put(formBuilder.build());
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 break;
             default:
                 break;
         }
+        if (paramsMapHeader != null) {
+            for (Map.Entry<String, Object> entry : paramsMapHeader.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() != null
+                        && !"".equals(entry.getKey()) && !"".equals(entry.getValue())) {
+                    build.addHeader(entry.getKey(), String.valueOf(entry.getValue()));
+                }
+            }
+        }
 
 
-        if (request != null) {
-            Call call = okHttpClient.newCall(request);
+        if (build != null) {
+            Call call = okHttpClient.newCall(build.build());
             //记录网络请求
-            recordNetworkRequest(requestActName, requestRecordDtoKey, requestPath, requestType, paramsMap, networkRequestCallback, isFrontRequest, call);
+            recordNetworkRequest(requestActName, requestRecordDtoKey, requestPath, requestType, paramsMapHeader, paramsMap, jsonStr, networkRequestCallback, isFrontRequest, call);
             final String finalRequestActName = requestActName;
             call.enqueue(new Callback() {
                 @Override
@@ -269,8 +323,7 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
                         try {
                             Log.d(TAG, response.toString());
                             if (response.isSuccessful()) {
-                                onNetworkRequestSuccess(finalRequestActName, object, requestRecordDtoKey
-                                        , new String(response.body().string().getBytes(), dataEncoding), networkRequestCallback);
+                                onNetworkRequestSuccess(finalRequestActName, object, requestRecordDtoKey, new String(response.body().string().getBytes(), dataEncoding), networkRequestCallback);
                             } else {
                                 onNetworkRequestError(object, NETWORK_DATA_REQUEST_ERROR, networkRequestCallback);
                             }
@@ -295,8 +348,7 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
     }
 
     @Override
-    public void downLoadFileRequest(String requestActName, final String requestPath, final String savePath
-            , final Object object, boolean isFrontRequest, final NetworkOptionsCallback networkRequestCallback) {
+    public void downLoadFileRequest(String requestActName, final String requestPath, Map<String, Object> paramsMapHeader, final String savePath, final Object object, boolean isFrontRequest, final NetworkOptionsCallback networkRequestCallback) {
         final String requestRecordDtoKey = getRecordKey(requestActName, requestPath, null);
         if (requestActName == null) {
             requestActName = BuildConfig.APPLICATION_ID;
@@ -309,10 +361,18 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
             return;
         }
         //开启下载
-        Request request = new Request.Builder().url(requestPath).build();
-        Call call = okHttpClient.newCall(request);
+        Request.Builder build = new Request.Builder().url(requestPath);
+        if (paramsMapHeader != null) {
+            for (Map.Entry<String, Object> entry : paramsMapHeader.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() != null
+                        && !"".equals(entry.getKey()) && !"".equals(entry.getValue())) {
+                    build.addHeader(entry.getKey(), String.valueOf(entry.getValue()));
+                }
+            }
+        }
+        Call call = okHttpClient.newCall(build.build());
         //记录网络请求
-        recordNetworkRequest(requestActName, requestRecordDtoKey, requestPath, NETWORK_REQUEST_FOR_DOWN_LOAD_FILE, null, networkRequestCallback, isFrontRequest, call);
+        recordNetworkRequest(requestActName, requestRecordDtoKey, requestPath, NETWORK_REQUEST_FOR_DOWN_LOAD_FILE, paramsMapHeader, null, null, networkRequestCallback, isFrontRequest, call);
         final String finalRequestActName = requestActName;
         call.enqueue(new Callback() {
             @Override
@@ -358,8 +418,10 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
                     is = response.body().byteStream();
                     long total = response.body().contentLength();
                     File file = new File(savePath);
-                    if (!file.getParentFile().exists()) {
-                        file.getParentFile().mkdirs();
+                    //如果不存在同时没有创建成功的话
+                    if (!file.getParentFile().exists()
+                            && !file.getParentFile().mkdirs()) {
+                        return;
                     }
                     fos = new FileOutputStream(file);
                     long sum = 0;
@@ -410,4 +472,5 @@ public class OkHttpOptionsUtils extends BaseNetworkOptions {
             }
         });
     }
+
 }
