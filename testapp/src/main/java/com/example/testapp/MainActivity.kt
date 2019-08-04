@@ -35,6 +35,9 @@ class MainActivity : Activity() {
                 R.id.btnSwitchButton -> {
                     startActivity(Intent(this, SwitchButtonActivity::class.java))
                 }
+                R.id.btnSmartRefreshLayout -> {
+                    startActivity(Intent(this, SmartRefreshLayoutActivity::class.java))
+                }
                 else -> {
 
                 }

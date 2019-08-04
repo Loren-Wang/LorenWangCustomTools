@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.testapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -17,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".SmartRefreshLayoutActivity"
+            android:label="@string/title_activity_smart_refresh_layout"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,20 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GlideImageLoadingActivity">
-        </activity>
-        <activity android:name=".BrightnessActivity">
-        </activity>
-        <activity android:name=".FileOptionsForScanFileActivity">
-        </activity>
-        <activity android:name=".SideBarActivity">
-        </activity>
-        <activity android:name=".HorizontalSlipTabLayoutActivity">
-        </activity>
-        <activity android:name=".SwitchButtonActivity">
-        </activity>
-        <activity android:name=".ImageViewActivity">
-        </activity>
+        <activity android:name=".GlideImageLoadingActivity"></activity>
+        <activity android:name=".BrightnessActivity"></activity>
+        <activity android:name=".FileOptionsForScanFileActivity"></activity>
+        <activity android:name=".SideBarActivity"></activity>
+        <activity android:name=".HorizontalSlipTabLayoutActivity"></activity>
+        <activity android:name=".SwitchButtonActivity"></activity>
+        <activity android:name=".ImageViewActivity"></activity>
     </application>
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

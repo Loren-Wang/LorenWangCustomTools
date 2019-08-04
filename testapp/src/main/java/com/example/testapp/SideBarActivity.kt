@@ -25,6 +25,8 @@ class SideBarActivity : BaseActivity() {
         sidebar1Avlw = findViewById(R.id.sidebar1)
 
         initSideBar1()
+
+
     }
 
     private fun initSideBar1() {
