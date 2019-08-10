@@ -50,7 +50,7 @@ public class AtlwThreadUtils {
     /**
      * 获取UI线程handler
      */
-    private Handler getUiThreadHandler() {
+    public Handler getUiThreadHandler() {
         synchronized (sLockUI) {
             if (sUiThreadHandler == null) {
                 if (sWillOverride) {
@@ -65,7 +65,7 @@ public class AtlwThreadUtils {
     /**
      * 获取子线程handler
      */
-    private Handler getChildThreadHandler() {
+    public Handler getChildThreadHandler() {
         synchronized (sLockChild) {
             if (childThreadHandler == null) {
                 childThreadHandler = new Handler();
@@ -150,7 +150,6 @@ public class AtlwThreadUtils {
      * @param task        The Runnable to run
      * @param delayMillis The delay in milliseconds until the Runnable will be run
      */
-    @VisibleForTesting
     public void postOnChildThreadDelayed(Runnable task, Long delayMillis) {
         getChildThreadHandler().postDelayed(task, delayMillis);
     }

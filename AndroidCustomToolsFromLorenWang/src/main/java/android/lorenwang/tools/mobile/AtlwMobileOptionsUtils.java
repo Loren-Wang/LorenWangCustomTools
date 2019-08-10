@@ -140,14 +140,14 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 安装应用
      *
-     * @param context   上下文
+     * @param activity  上下文
      * @param authority fileprovider 认证字符串
      * @param filePath  安装包地址
      */
-    public void installApp(Context context, String authority, String filePath) {
-        Intent intent = getInstallAppIntent(context, authority, filePath);
+    public void installApp(Activity activity, String authority, String filePath) {
+        Intent intent = getInstallAppIntent(activity, authority, filePath);
         if (intent != null) {
-            context.getApplicationContext().startActivity(intent);
+            activity.startActivity(intent);
         }
     }
 
@@ -480,7 +480,7 @@ public final class AtlwMobileOptionsUtils {
      */
     public void useHandsetToPlay(Activity activity) {
         if (getAudioManager(activity) != null) {
-            AtlwLogUtils.logD(TAG,"切换到手机听筒播放");
+            AtlwLogUtils.logD(TAG, "切换到手机听筒播放");
             activity.setVolumeControlStream(STREAM_VOICE_CALL);
             getAudioManager(activity).setSpeakerphoneOn(false);//关闭扬声器
             getAudioManager(activity).setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE, AudioManager.ROUTE_ALL);
@@ -496,7 +496,7 @@ public final class AtlwMobileOptionsUtils {
      */
     public void useSpeakersToPlay(Activity activity) {
         if (getAudioManager(activity) != null) {
-            AtlwLogUtils.logD(TAG,"切换到扬声器播放");
+            AtlwLogUtils.logD(TAG, "切换到扬声器播放");
             getAudioManager(activity).setSpeakerphoneOn(true);
             getAudioManager(activity).setMode(AudioManager.MODE_NORMAL);
         }

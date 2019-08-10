@@ -235,5 +235,30 @@ public class AtlwActivityUtils {
         }
     }
 
+    /**
+     * 是否允许退出App
+     */
+    private boolean allowExitApp = false;
+
+    /**
+     * 允许退出App的判断以及线程
+     *
+     * @param time 间隔时间
+     * @return 是否允许退出App
+     */
+    public boolean allowExitApp(long time) {
+        if (!allowExitApp) {
+            allowExitApp = true;
+            AtlwThreadUtils.getInstance().postOnChildThreadDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    allowExitApp = false;
+                }
+            }, time);
+            return false;
+        }else {
+            return true;
+        }
+    }
 
 }
