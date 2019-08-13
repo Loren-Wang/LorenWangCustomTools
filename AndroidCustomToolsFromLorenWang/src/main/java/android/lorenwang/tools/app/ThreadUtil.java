@@ -12,7 +12,7 @@ import java.util.concurrent.FutureTask;
  * 线程处理工具
  * Helper methods to deal with threading related tasks.
  */
-public class ThreadUtil {
+class ThreadUtil {
 
     private static final Object sLock = new Object();
 
@@ -179,7 +179,7 @@ public class ThreadUtil {
      * Post the supplied Runnable to run on the main thread after the given amount of time. The
      * method will not block, even if called on the UI thread.
      *
-     * @param task The Runnable to run
+     * @param task        The Runnable to run
      * @param delayMillis The delay in milliseconds until the Runnable will be run
      */
     @VisibleForTesting
@@ -189,7 +189,7 @@ public class ThreadUtil {
 
     /**
      * Throw an exception (when DCHECKs are enabled) if currently not running on the UI thread.
-     *
+     * <p>
      * Can be disabled by setThreadAssertsDisabledForTesting(true).
      */
     public static void assertOnUiThread() {
@@ -200,7 +200,7 @@ public class ThreadUtil {
 
     /**
      * Throw an exception (regardless of build) if currently not running on the UI thread.
-     *
+     * <p>
      * Can be disabled by setThreadAssertsEnabledForTesting(false).
      *
      * @see #assertOnUiThread()
@@ -213,7 +213,7 @@ public class ThreadUtil {
 
     /**
      * Throw an exception (when DCHECKs are enabled) if currently running on the UI thread.
-     *
+     * <p>
      * Can be disabled by setThreadAssertsDisabledForTesting(true).
      */
     public static void assertOnBackgroundThread() {
@@ -224,7 +224,7 @@ public class ThreadUtil {
 
     /**
      * Disables thread asserts.
-     *
+     * <p>
      * Can be used by tests where code that normally runs multi-threaded is going to run
      * single-threaded for the test (otherwise asserts that are valid in production would fail in
      * those tests).

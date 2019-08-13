@@ -61,6 +61,13 @@
             android:text="SmartRefreshLayout"
             android:textAllCaps="false"
             android:onClick="mainClick"/>
+        <Button
+            android:id="@+id/btnFileOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="文件操作按钮"
+            android:textAllCaps="false"
+            android:onClick="mainClick"/>
     </LinearLayout>
 
 

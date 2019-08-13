@@ -38,6 +38,9 @@ class MainActivity : Activity() {
                 R.id.btnSmartRefreshLayout -> {
                     startActivity(Intent(this, SmartRefreshLayoutActivity::class.java))
                 }
+                R.id.btnFileOptions -> {
+                    startActivity(Intent(this, FileOptionsActivity::class.java))
+                }
                 else -> {
 
                 }

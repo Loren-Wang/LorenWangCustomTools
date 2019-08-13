@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
+import android.os.Environment;
 import android.util.Xml;
 
 import java.io.ByteArrayInputStream;
@@ -34,6 +35,8 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
  * 10、根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
  * 11、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
  * 12、创建文件夹
+ * 13、获取根目录文件夹地址
+ * 14、获取App系统文件夹地址
  * 注意：
  * 修改人：
  * 修改时间：
@@ -245,7 +248,7 @@ public class AtlwFileOptionUtils {
      *
      * @param isCheckPermisstion 是否检测权限
      * @param path               路径
-     * @param isParentDir  是否创建的是父级文件夹
+     * @param isParentDir        是否创建的是父级文件夹
      * @return
      */
     public boolean createDirectory(Context context, Boolean isCheckPermisstion, String path, boolean isParentDir) {
@@ -282,5 +285,23 @@ public class AtlwFileOptionUtils {
             return new ArrayList<>();
         }
         return JtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(scanPath, matchRegular);
+    }
+
+    /**
+     * 获取根目录文件夹地址
+     *
+     * @return 根目录文件夹地址
+     */
+    public String getBaseStorageDirPath() {
+        return Environment.getExternalStorageDirectory().getPath() + "/";
+    }
+
+    /**
+     * 获取App系统文件夹地址
+     *
+     * @return 根目录文件夹地址
+     */
+    public String getAppSystemStorageDirPath(String applicationId) {
+        return getBaseStorageDirPath() + "Android/Data/" + applicationId + "/";
     }
 }

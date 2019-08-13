@@ -33,6 +33,8 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  * 3、控制软键盘显示与隐藏
  * 4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
  * 5、返回APP级别的实例（对于传递的上下文做转换）
+ * 6、允许退出App的判断以及线程
+ * 7、检测App版本更新，通过versionName比较
  * 注意：
  * 修改人：
  * 修改时间：
@@ -256,9 +258,60 @@ public class AtlwActivityUtils {
                 }
             }, time);
             return false;
-        }else {
+        } else {
             return true;
         }
+    }
+
+    /**
+     * 检测App版本更新，通过versionName比较
+     *
+     * @param oldVersion 旧版本versionName
+     * @param newVersion 新版本versionName
+     * @return 是否需要更新
+     */
+    public boolean checkAppVersionUpdate(String oldVersion, String newVersion) {
+        if (oldVersion == null || newVersion == null) {
+            return false;
+        }
+        String[] oldVersionSplit = oldVersion.split(".");
+        String[] newVersionSplit = newVersion.split(".");
+        int maxLength = Math.max(newVersion.length(), oldVersion.length());
+        List<Integer> oldList = new ArrayList<>();
+        for (String item : oldVersionSplit) {
+            try {
+                oldList.add(Integer.parseInt(item));
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        if (oldVersionSplit.length < maxLength) {
+            for (int i = 0; i < maxLength - oldVersionSplit.length; i++) {
+                oldList.add(0);
+            }
+        }
+
+        List<Integer> newList = new ArrayList<>();
+        for (String item : newVersionSplit) {
+            try {
+                newList.add(Integer.parseInt(item));
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        if (newVersionSplit.length < maxLength) {
+            for (int i = 0; i < maxLength - newVersionSplit.length; i++) {
+                newList.add(0);
+            }
+        }
+
+        //判断是否有某一位的值大
+        for (int i = 0; i < maxLength; i++) {
+            if (newList.get(i).compareTo(oldList.get(i)) > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
