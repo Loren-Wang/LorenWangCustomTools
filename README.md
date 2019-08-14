@@ -29,8 +29,6 @@
      implementation 'com.github.lorenwang:AndroidAnimFromLorenWang:1.0.0'
      //自定义网络请求库
      implementation 'LorenWangCustomTools:AndroidNetOptionsFromLorenWang:1.0.0'
-     //安卓数据格式化库
-     implementation 'com.github.lorenwang:AndroidDataParseFromLorenWang:1.0.0'
      //java工具类库
      implementation 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.44'`
 

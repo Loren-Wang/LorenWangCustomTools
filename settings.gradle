@@ -1,5 +1,5 @@
 rootProject.name = 'LorenWangCustomTools'
-include ':AndroidCustomToolsFromLorenWang', ':AndroidBluetoothFromLorenWang', ':AndroidCustomViewsFromLorenWang', ':AndroidDataParseFromLorenWang', ':AndroidNetOptionsFromLorenWang', ':AndroidAnimFromLorenWang', ':AndroidResolutionRatio750x1334FromLorenWang', ':testapp', ':androidresolutionratio375x667fromlorenwang'
+include ':AndroidCustomToolsFromLorenWang', ':AndroidBluetoothFromLorenWang', ':AndroidCustomViewsFromLorenWang', ':AndroidNetOptionsFromLorenWang', ':AndroidAnimFromLorenWang', ':AndroidResolutionRatio750x1334FromLorenWang', ':testapp', ':androidresolutionratio375x667fromlorenwang'
 include 'JavaCustomToolsFromLorenWang'
 include 'JavaPcToolsFromLorenWang'
 include 'JavaDataParseFromLorenWang'
