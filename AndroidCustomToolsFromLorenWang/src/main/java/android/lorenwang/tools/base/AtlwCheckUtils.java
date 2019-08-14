@@ -58,7 +58,7 @@ public class AtlwCheckUtils {
     /**
      * 检查是否拥有文件操作权限
      *
-     * @param context
+     * @param context 上下文
      * @return 有权限返回true，无权限返回false
      */
     public boolean checkFileOptionsPermisstion(Context context) {
@@ -68,8 +68,8 @@ public class AtlwCheckUtils {
     /**
      * 检查文件是否存在
      *
-     * @param filePath
-     * @return
+     * @param filePath 文件地址
+     * @return 文件是否存在
      */
     public boolean checkFileIsExit(String filePath) {
         if (TextUtils.isEmpty(filePath)) {
@@ -95,8 +95,8 @@ public class AtlwCheckUtils {
     /**
      * 检查文件是否存在
      *
-     * @param filePath
-     * @return
+     * @param filePath 文件地址
+     * @return 文件是否存在
      */
     public boolean checkDirectoryIsExit(String filePath) {
         if (TextUtils.isEmpty(filePath)) {
@@ -122,8 +122,8 @@ public class AtlwCheckUtils {
     /**
      * 检测文件是否是图片
      *
-     * @param filePath
-     * @return
+     * @param filePath 文件地址
+     * @return 是否是图片
      */
     public boolean checkFileIsImage(String filePath) {
         if (!TextUtils.isEmpty(filePath)) {
@@ -192,8 +192,8 @@ public class AtlwCheckUtils {
      * 检查io操作工具类权限以及传入参数
      *
      * @param context 一定要传入applicationcontext
-     * @param objects
-     * @return
+     * @param objects 传入的参数列表
+     * @return 是否有权限
      */
     public boolean checkIOUtilsOptionsPermissionAndObjects(Context context, Object... objects) {
         if (context == null) {
@@ -244,7 +244,7 @@ public class AtlwCheckUtils {
      *
      * @param context 上下文
      * @param pkgName 要检测的包名
-     * @return
+     * @return app是否安装
      */
     public boolean checkAppIsInstall(Context context, String pkgName) {
         try {
@@ -260,7 +260,7 @@ public class AtlwCheckUtils {
      *
      * @param context  上下文
      * @param packName 包名
-     * @return
+     * @return 是否在运行
      */
     public boolean checkAppIsRunning(Context context, String packName) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -278,9 +278,10 @@ public class AtlwCheckUtils {
     /**
      * 判断一个服务是否在后台运行
      *
+     * @param <T>          泛型
      * @param context      上下文
      * @param judgeService 服务class
-     * @return
+     * @return 是否允许
      */
     public <T> boolean checkServiceIsRunning(Context context, Class<T> judgeService) {
         if (context == null) {

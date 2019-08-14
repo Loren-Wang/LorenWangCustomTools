@@ -49,6 +49,7 @@ public class AtlwThreadUtils {
 
     /**
      * 获取UI线程handler
+     * @return 返回主线程handler
      */
     public Handler getUiThreadHandler() {
         synchronized (sLockUI) {
@@ -64,6 +65,7 @@ public class AtlwThreadUtils {
 
     /**
      * 获取子线程handler
+     * @return 返回子线程handler
      */
     public Handler getChildThreadHandler() {
         synchronized (sLockChild) {
@@ -113,6 +115,7 @@ public class AtlwThreadUtils {
     }
 
     /**
+     * @param <T> 泛型
      * @param task The FutureTask to run
      * @return The queried task (to aid inline construction)
      */
@@ -157,7 +160,7 @@ public class AtlwThreadUtils {
     /**
      * Post the supplied FutureTask to run on the child thread. The method will not block, even if
      * called on the UI thread.
-     *
+     * @param <T> 泛型
      * @param task The FutureTask to run
      * @return The queried task (to aid inline construction)
      */

@@ -30,8 +30,9 @@ import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
 public class StatusBarUtils {
     private final String TAG = getClass().getName();
     private static StatusBarUtils statusBarUtils;
-    public static StatusBarUtils getInstance(){
-        if(statusBarUtils == null){
+
+    public static StatusBarUtils getInstance() {
+        if (statusBarUtils == null) {
             statusBarUtils = new StatusBarUtils();
         }
         return statusBarUtils;
@@ -39,11 +40,12 @@ public class StatusBarUtils {
 
     /**
      * 修改状态栏为全透明,参考链接 https://www.jianshu.com/p/7f5a9969be53
-     * @param activity
+     *
+     * @param activity 页面实例
      */
     @TargetApi(19)
-    public void transparencyBar(Activity activity){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    public void transparencyBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -51,9 +53,8 @@ public class StatusBarUtils {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
 
-        } else
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window =activity.getWindow();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = activity.getWindow();
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -61,10 +62,11 @@ public class StatusBarUtils {
 
     /**
      * 修改状态栏颜色，支持4.4以上版本,参考链接 https://www.jianshu.com/p/7f5a9969be53
-     * @param activity
-     * @param color
+     *
+     * @param activity 页面实例
+     * @param color    颜色值
      */
-    public void setStatusBarColor(Activity activity,int color) {
+    public void setStatusBarColor(Activity activity, int color) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
@@ -81,51 +83,52 @@ public class StatusBarUtils {
 
     /**
      * 当状态栏背景为亮色的时候需要把状态栏图标以及文字改成黑色
-     * @param activity
+     *
+     * @param activity     页面实例
      * @param isFullscreen 是否全屏显示，仅针对于非小米和魅族手机
      */
-    public void setStatusBarLightMode(Activity activity,boolean isFullscreen){
+    public void setStatusBarLightMode(Activity activity, boolean isFullscreen) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if(AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()){
-                setStatusBarLightModeForXiaoMi(activity,true);
-            }else if(AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()){
-                setStatusBarLightModeForMeiZu(activity,true);
+            if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
+                setStatusBarLightModeForXiaoMi(activity, true);
+            } else if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
+                setStatusBarLightModeForMeiZu(activity, true);
             }
         }
-        if(isFullscreen) {
+        if (isFullscreen) {
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }else {
+        } else {
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
 
     /**
      * 当状态栏背景为亮色的时候需要把状态栏图标以及文字改成黑色
-     * @param activity
+     *
+     * @param activity 页面实例
      */
-    public void setStatusBarDarkMode(Activity activity){
+    public void setStatusBarDarkMode(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if(AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()){
-                setStatusBarLightModeForXiaoMi(activity,false);
-            }else if(AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()){
-                setStatusBarLightModeForMeiZu(activity,false);
-            }else {
+            if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
+                setStatusBarLightModeForXiaoMi(activity, false);
+            } else if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
+                setStatusBarLightModeForMeiZu(activity, false);
+            } else {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             }
         }
     }
 
 
-
     /**
      * 需要MIUIV6以上,参考链接 https://www.jianshu.com/p/7f5a9969be53
-     * @param activity
-     * @param dark 是否把状态栏文字及图标颜色设置为深色
-     * @return  boolean 成功执行返回true
      *
+     * @param activity 页面实例
+     * @param dark     是否把状态栏文字及图标颜色设置为深色
+     * @return boolean 成功执行返回true
      */
     private void setStatusBarLightModeForXiaoMi(Activity activity, boolean dark) {
-        Window window=activity.getWindow();
+        Window window = activity.getWindow();
         if (window != null) {
             Class clazz = window.getClass();
             try {
@@ -134,20 +137,20 @@ public class StatusBarUtils {
                 Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
                 darkModeFlag = field.getInt(layoutParams);
                 Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
-                if(dark){
-                    extraFlagField.invoke(window,darkModeFlag,darkModeFlag);//状态栏透明且黑色字体
-                }else{
+                if (dark) {
+                    extraFlagField.invoke(window, darkModeFlag, darkModeFlag);//状态栏透明且黑色字体
+                } else {
                     extraFlagField.invoke(window, 0, darkModeFlag);//清除黑色字体
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     //开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错，所以两个方式都要加上
-                    if(dark){
-                        activity.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN| SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                    }else {
+                    if (dark) {
+                        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                    } else {
                         activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -164,24 +167,27 @@ public class StatusBarUtils {
     private void setStatusBarLightModeForMeiZu(Activity activity, boolean dark) {
         setStatusBarLightModeForMeiZu(activity, dark, true);
     }
+
     /**
      * 设置魅族状态栏颜色
-     * @param activity
-     * @param dark
-     * @param flag
+     *
+     * @param activity 页面实例
+     * @param dark     是否是页面模式
+     * @param flag     icon
      */
-    private void setStatusBarLightModeForMeiZu(Activity activity, boolean dark,boolean flag){
+    private void setStatusBarLightModeForMeiZu(Activity activity, boolean dark, boolean flag) {
         try {
             Method mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon", boolean.class);
             mSetStatusBarDarkIcon.invoke(activity, dark);
-            AtlwLogUtils.logD(TAG,"Set StatusBar success for MeiZu");
+            AtlwLogUtils.logD(TAG, "Set StatusBar success for MeiZu");
         } catch (Exception e) {
-            AtlwLogUtils.logD(TAG,"Set StatusBar fail for MeiZu");
+            AtlwLogUtils.logD(TAG, "Set StatusBar fail for MeiZu");
             if (flag) {
                 setStatusBarDarkIcon(activity.getWindow(), dark);
             }
         }
     }
+
     /**
      * 设置状态栏字体图标颜色(只限全屏非activity情况)
      *
@@ -199,12 +205,14 @@ public class StatusBarUtils {
             }
         }
     }
+
     /**
      * 改变魅族标签
-     * @param winParams
-     * @param flagName
-     * @param on
-     * @return
+     *
+     * @param winParams 页面参数
+     * @param flagName 名称
+     * @param on 内外
+     * @return 是否成功
      */
     private static boolean changeMeizuFlag(WindowManager.LayoutParams winParams, String flagName, boolean on) {
         try {
@@ -235,17 +243,18 @@ public class StatusBarUtils {
         }
         return false;
     }
+
     /**
      * 设置状态栏颜色
      *
-     * @param window
-     * @param color
+     * @param window 窗口
+     * @param color 颜色值
      */
     private static void setStatusBarColor(Window window, int color) {
         WindowManager.LayoutParams winParams = window.getAttributes();
         try {
             Field mStatusBarColorFiled = WindowManager.LayoutParams.class.getField("statusBarColor");
-            if(mStatusBarColorFiled != null) {
+            if (mStatusBarColorFiled != null) {
                 int oldColor = mStatusBarColorFiled.getInt(winParams);
                 if (oldColor != color) {
                     mStatusBarColorFiled.set(winParams, color);
@@ -255,11 +264,12 @@ public class StatusBarUtils {
         } catch (Exception e) {
         }
     }
+
     /**
      * 设置状态栏颜色
      *
-     * @param view
-     * @param dark
+     * @param view 视图
+     * @param dark 是否是页面模式
      */
     private static void setStatusBarDarkIcon(View view, boolean dark) {
         int oldVis = view.getSystemUiVisibility();

@@ -85,6 +85,9 @@ public final class AtlwMobileOptionsUtils {
 
     /**
      * 使设备震动
+     *
+     * @param context      上下文
+     * @param milliseconds 振动时间
      */
     @RequiresPermission(Manifest.permission.VIBRATE)
     public void vibrate(Context context, long milliseconds) {
@@ -100,9 +103,9 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 开启相机
      *
-     * @param activity
-     * @param savePath
-     * @param requestCode
+     * @param activity    上下文
+     * @param savePath    照片保存地址
+     * @param requestCode 请求码
      */
     @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void openCamera(Activity activity, String savePath, int requestCode) {
@@ -156,9 +159,9 @@ public final class AtlwMobileOptionsUtils {
      *
      * @param context            s上下文
      * @param installAppFilePath 安卓文件地址
-     * @param authority          The authority of a {@link FileProvider} defined in a
+     * @param authority          The authority of a {@link android.support.v4.content.FileProvider} defined in a
      *                           {@code <provider>} element in your app's manifest.
-     * @return
+     * @return 安装程序的intent
      */
     public synchronized Intent getInstallAppIntent(Context context, String authority, String installAppFilePath) {
         try {
@@ -188,8 +191,8 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 拨打电话
      *
-     * @param context
-     * @param phoneNo
+     * @param context 上下文
+     * @param phoneNo 要拨打的手机号
      */
     public static void makeCall(Context context, String phoneNo) {
         if (phoneNo != null && !"".equals(phoneNo)) {
@@ -208,8 +211,8 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 开启图片相册选择
      *
-     * @param activity
-     * @param requestCode
+     * @param activity    上下文
+     * @param requestCode 请求码
      */
     @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void openImagePhotoAlbum(Activity activity, int requestCode) {
@@ -228,8 +231,8 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 跳转到权限设置页面
      *
-     * @param context
-     * @param packageName
+     * @param context     上下文
+     * @param packageName 包名
      */
     public void jumpToAppPermisstionSettingPage(Context context, String packageName) {
         AtlwLogUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
@@ -339,6 +342,9 @@ public final class AtlwMobileOptionsUtils {
 
     /**
      * 获取电源设备锁
+     *
+     * @param context 上下文
+     * @return 返回电源设备所
      */
     @SuppressLint("InvalidWakeLockTag")
     public PowerManager.WakeLock getPowerLocalWakeLock(Context context) {
@@ -424,6 +430,7 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 注册距离传感器监听
      *
+     * @param context  上下文
      * @param listener 监听回调
      */
     public void registProximitySensorListener(Context context, SensorEventListener listener) {
@@ -462,8 +469,8 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 获取系统级别音频管理器
      *
-     * @param context
-     * @return
+     * @param context 上下文
+     * @return 音频管理器
      */
     public AudioManager getAudioManager(Context context) {
         if (audioManager == null) {

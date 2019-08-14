@@ -34,8 +34,6 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * // 屏幕宽度算法:屏幕宽度（像素）/屏幕密度
  * int screenWidth = (int) (width / density);  // 屏幕宽度(dp)
  * int screenHeight = (int) (height / density);// 屏幕高度(dp)
- * <p>
- * <p>
  * Log.d("h_bl", "屏幕宽度（像素）：" + width);
  * Log.d("h_bl", "屏幕高度（像素）：" + height);
  * Log.d("h_bl", "屏幕密度（0.75 / 1.0 / 1.5）：" + density);
@@ -69,7 +67,9 @@ public class AtlwScreenUtils {
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      *
-     * @return
+     * @param context 上下文
+     * @param dpValue dp值
+     * @return px像素值
      */
     public float dip2px(Context context, float dpValue) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
@@ -82,7 +82,9 @@ public class AtlwScreenUtils {
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      *
-     * @return
+     * @param context 上下文
+     * @param pxValue px值
+     * @return dp值
      */
     public float px2dip(Context context, float pxValue) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
@@ -95,8 +97,9 @@ public class AtlwScreenUtils {
     /**
      * 将sp值转换为px值，保证文字大小不变
      *
-     * @param spValue
-     * @return
+     * @param context 上下文
+     * @param spValue sp值
+     * @return px值
      */
     public float sp2px(Context context, float spValue) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
@@ -108,9 +111,9 @@ public class AtlwScreenUtils {
 
     /**
      * 将px值转换为sp值，保证文字大小不变
-     *
-     * @param pxValue
-     * @return
+     * @param context 上下文
+     * @param pxValue px像素值
+     * @return sp值
      */
     public float px2sp(Context context, float pxValue) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
@@ -123,8 +126,8 @@ public class AtlwScreenUtils {
     /**
      * 获取屏幕宽度
      *
-     * @param context
-     * @return
+     * @param context 上下文
+     * @return 屏幕宽度
      */
     public int getScreenWidth(Context context) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
@@ -142,8 +145,8 @@ public class AtlwScreenUtils {
     /**
      * 获取屏幕高度
      *
-     * @param context
-     * @return
+     * @param context 上下文
+     * @return 屏幕高度
      */
     public int getScreenHeight(Context context) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {

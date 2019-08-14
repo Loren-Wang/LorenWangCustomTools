@@ -357,9 +357,9 @@ public class JtlwFileOptionUtils {
     /**
      * 获取文件大小，单位B
      *
-     * @param file
-     * @param filtrationDir
-     * @return
+     * @param file 文件地址
+     * @param filtrationDir 过滤的地址
+     * @return 文件大小
      */
     public Long getFileSize(File file, String filtrationDir) {
         long fileSize = 0L;

@@ -31,7 +31,7 @@ public interface AtlwRecordCallback {
      * 录音取消状态
      *
      * @param isSuccess         是否取消成功
-     * @param nowRecordSavePath
+     * @param nowRecordSavePath 当前录音地址
      */
     void recordCancel(boolean isSuccess, String nowRecordSavePath);
 }

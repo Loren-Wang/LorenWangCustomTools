@@ -97,6 +97,7 @@ public class AtlwToastHintUtils {
     /**
      * 显示提示信息
      *
+     * @param context 上下文
      * @param msg 提示文字
      */
     public void toastMsg(Context context, String msg) {
@@ -108,6 +109,7 @@ public class AtlwToastHintUtils {
     /**
      * 显示吐司提示信息
      *
+     * @param context 上下文
      * @param msgResId 提示文字资源id
      */
     public void toastMsg(Context context, @StringRes int msgResId) {
@@ -119,6 +121,7 @@ public class AtlwToastHintUtils {
     /**
      * 显示提示信息
      *
+     * @param context 上下文
      * @param msg      提示文字
      * @param showTime 提示时间,为空则使用默认短时间
      */
@@ -133,7 +136,7 @@ public class AtlwToastHintUtils {
 
     /**
      * 显示吐司提示信息
-     *
+     * @param context 上下文
      * @param msgResId 提示文字资源id
      * @param showTime 提示时间，为空则使用默认短时间
      */

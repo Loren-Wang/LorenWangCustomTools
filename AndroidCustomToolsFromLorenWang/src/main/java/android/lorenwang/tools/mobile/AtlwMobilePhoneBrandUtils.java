@@ -74,7 +74,7 @@ public class AtlwMobilePhoneBrandUtils {
     /**
      * 判断是否是魅族手机
      *
-     * @return
+     * @return 是否是魅族手机
      */
     public boolean isMeiZuMobile() {
         if (isMeiZu == null) {
@@ -98,7 +98,7 @@ public class AtlwMobilePhoneBrandUtils {
     /**
      * 是否是华为手机
      *
-     * @return
+     * @return 是否是华为手机
      */
     public boolean isHuaWeiMobile() {
         if (isHuaWei == null) {
@@ -123,7 +123,7 @@ public class AtlwMobilePhoneBrandUtils {
     /**
      * 是否是vivo手机
      *
-     * @return
+     * @return 是否是vivo手机
      */
     public boolean isVivoMobile() {
         return "vivo".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
@@ -132,7 +132,7 @@ public class AtlwMobilePhoneBrandUtils {
     /**
      * 是否是oppo手机
      *
-     * @return
+     * @return 是否是oppo手机
      */
     public boolean isOPPOMobile() {
         return "oppo".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
@@ -141,7 +141,7 @@ public class AtlwMobilePhoneBrandUtils {
     /**
      * 是否是Coolpad手机
      *
-     * @return
+     * @return 是否是酷派手机
      */
     public boolean isCoolpadMobile() {
         return "coolpad".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
@@ -150,7 +150,7 @@ public class AtlwMobilePhoneBrandUtils {
     /**
      * 是否是samsung手机
      *
-     * @return
+     * @return 是否是三星手机
      */
     public boolean isSamsungMobile() {
         return "samsung".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
@@ -159,7 +159,7 @@ public class AtlwMobilePhoneBrandUtils {
     /**
      * 是否是Sony手机
      *
-     * @return
+     * @return 是否是索尼手机
      */
     public boolean isSonyMobile() {
         return "sony".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
@@ -168,7 +168,7 @@ public class AtlwMobilePhoneBrandUtils {
     /**
      * 是否是LG手机
      *
-     * @return
+     * @return 是否是LG手机
      */
     public boolean isLGMobile() {
         return "lg".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());

@@ -148,8 +148,9 @@ public class AtlwActivityUtils {
     /**
      * 控制软键盘显示与隐藏
      *
-     * @param view
-     * @param visibility
+     * @param activity   界面实例
+     * @param view       要显示或者隐藏的view
+     * @param visibility 显示状态
      */
     public void setInputMethodVisibility(Activity activity, View view, int visibility) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -181,9 +182,10 @@ public class AtlwActivityUtils {
     /**
      * 通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
      *
-     * @param activity
-     * @param data
-     * @param saveFile
+     * @param activity 界面实例
+     * @param data     intent
+     * @param saveFile 保存地址
+     * @return 返回新图片地址
      */
     public String onActivityResultFromPhotoAlbum(Activity activity, Intent data, String saveFile) {
         if (activity == null || data == null || saveFile == null || "".equals(saveFile)) {

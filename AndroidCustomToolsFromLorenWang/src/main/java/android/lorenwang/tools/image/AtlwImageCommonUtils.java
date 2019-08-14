@@ -72,8 +72,9 @@ public class AtlwImageCommonUtils {
     /**
      * 将图片文件转换为base64字符串
      *
-     * @param filePath
-     * @return
+     * @param context  上下文
+     * @param filePath 图片本地地址
+     * @return 转换后的字符串
      */
     public String imageFileToBase64String(Context context, String filePath) {
         if (AtlwCheckUtils.getInstance().checkFileOptionsPermisstion(context)
@@ -177,6 +178,7 @@ public class AtlwImageCommonUtils {
      * 图片drawable转bitmap
      *
      * @param drawable 要转换的drawable
+     * @return 转换后的位图
      */
     public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable != null) {
@@ -203,6 +205,9 @@ public class AtlwImageCommonUtils {
      * 图片drawable转bitmap
      *
      * @param drawable 要转换的drawable
+     * @param width    宽度
+     * @param height   高度
+     * @return 转换后的位图
      */
     public Bitmap drawableToBitmap(Drawable drawable, int width, int height) {
         if (drawable != null) {
@@ -390,7 +395,9 @@ public class AtlwImageCommonUtils {
      * 位图压缩
      *
      * @param bitmap 要压缩的位图
+     * @param format 压缩格式
      * @param size   大小，单位，字节
+     * @return 压缩后返回的位图
      */
     public Bitmap bitmapCompress(Bitmap bitmap, Bitmap.CompressFormat format, int size) {
         if (bitmap != null) {
@@ -445,7 +452,7 @@ public class AtlwImageCommonUtils {
      *            ：缩放后宽度
      * @param newHeight
      *            ：缩放后高度
-     * @return
+     * @return 压缩后的位图
      */
     public Bitmap zoomImage(Bitmap bgimage, double newWidth,
                             double newHeight) {

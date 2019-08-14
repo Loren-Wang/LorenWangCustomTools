@@ -91,7 +91,7 @@ public class AtlwSetting {
     /**
      * application注册生命周期监听
      *
-     * @param application
+     * @param application App的全局基础上下文实例
      */
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public static void registActivityLifecycleCallbacks(Application application) {
@@ -106,7 +106,7 @@ public class AtlwSetting {
     /**
      * 返回是否注册了生命周期监听
      *
-     * @return
+     * @return 是否注册了监听
      */
     public static boolean isRegistActivityLifecycleCallback() {
         return isRegistActivityLifecycleCallback;

@@ -104,7 +104,7 @@ public class AtlwBrightnessChangeUtils {
     /**
      * 获取当前屏幕亮度
      *
-     * @return
+     * @return 当前屏幕亮度
      */
     public float getScreenBrightness() {
         return getScreenBrightness(null);
@@ -113,7 +113,8 @@ public class AtlwBrightnessChangeUtils {
     /**
      * 获取当前屏幕亮度
      *
-     * @return
+     * @param activity 界面实例
+     * @return 屏幕高度
      */
     public float getScreenBrightness(Activity activity) {
         activity = getActivity(activity);
@@ -152,7 +153,8 @@ public class AtlwBrightnessChangeUtils {
     /**
      * 更新手机系统亮度模式
      *
-     * @param isAuto 是否是自动亮度
+     * @param activity 界面实例
+     * @param isAuto   是否是自动亮度
      */
     public void updateMobileSystemBrightnessMode(Activity activity, boolean isAuto) {
         activity = getActivity(activity);
@@ -190,6 +192,9 @@ public class AtlwBrightnessChangeUtils {
     /**
      * 设置亮度:通过设置 Windows 的 screenBrightness 来修改当前 Windows 的亮度
      * lp.screenBrightness:参数范围为 0~1
+     *
+     * @param brightness 亮度范围
+     * @param isCallback 是否回调
      */
     public void setBrightness(float brightness, boolean isCallback) {
         setBrightness(null, brightness, isCallback);
@@ -198,6 +203,10 @@ public class AtlwBrightnessChangeUtils {
     /**
      * 设置亮度:通过设置 Windows 的 screenBrightness 来修改当前 Windows 的亮度
      * lp.screenBrightness:参数范围为 0~1
+     *
+     * @param activity   界面实例
+     * @param brightness 要设置的亮度
+     * @param isCallback 回调
      */
     public void setBrightness(Activity activity, float brightness, boolean isCallback) {
         activity = getActivity(activity);
@@ -234,7 +243,7 @@ public class AtlwBrightnessChangeUtils {
     /**
      * 判断Activity界面亮度是否是自动的
      *
-     * @return
+     * @return 是否是自动的
      */
     public boolean isActivityAutoBrightness() {
         return isActivityAutoBrightness(null);
@@ -243,8 +252,8 @@ public class AtlwBrightnessChangeUtils {
     /**
      * 判断Activity界面亮度是否是自动的
      *
-     * @param activity
-     * @return
+     * @param activity 界面实例
+     * @return 亮度是否是自动的
      */
     public boolean isActivityAutoBrightness(Activity activity) {
         boolean isAuto = false;
@@ -261,6 +270,7 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 判断是否开启了自动亮度调节
+     * @return 是否开启
      */
     public boolean isMobileSystemAutoBrightness() {
         return isMobileSystemAutoBrightness(null);
@@ -268,6 +278,9 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 判断是否开启了自动亮度调节
+     *
+     * @param activity 解码实例
+     * @return 是否是自动亮度
      */
     public boolean isMobileSystemAutoBrightness(Activity activity) {
         boolean isAuto = false;
@@ -289,6 +302,8 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 保存亮度设置状态
+     *
+     * @param brightness 亮度
      */
     public void saveBrightnessToMobileSystem(int brightness) {
         saveBrightnessToMobileSystem(null, brightness);
@@ -296,6 +311,9 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 保存亮度设置状态
+     *
+     * @param activity   界面实例
+     * @param brightness 亮度
      */
     public void saveBrightnessToMobileSystem(Activity activity, int brightness) {
         activity = getActivity(activity);
@@ -358,6 +376,9 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 注册亮度观察者
+     *
+     * @param activity        界面实例
+     * @param mBrightObserver 观察者
      */
     public void registerBrightObserver(Activity activity, AtlwBrightnessChangeContentObserver mBrightObserver) {
         try {
@@ -379,6 +400,7 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 解注册亮度观察者
+     * @param activity 页面实例
      */
     public void unregisterBrightObserver(Activity activity) {
         try {
@@ -415,6 +437,7 @@ public class AtlwBrightnessChangeUtils {
      * 获取过滤蓝光后的颜色值
      *
      * @param blueFilterPercent 蓝光过滤比例[10-80]
+     * @return  过滤后的值
      */
     public @ColorInt
     int getColor(int blueFilterPercent) {

@@ -99,7 +99,7 @@ public class AtlwMobileSystemInfoUtils {
     /**
      * 获取手机系统sdk版本号
      *
-     * @return
+     * @return 手机系统版本号
      */
     public int getSystemSdkVersion() {
         return Build.VERSION.SDK_INT;
@@ -108,7 +108,7 @@ public class AtlwMobileSystemInfoUtils {
     /**
      * 获取手机品牌信息
      *
-     * @return
+     * @return 返回手机品牌信息
      */
     public String getMobileBrand() {
         return Build.MANUFACTURER;
@@ -116,12 +116,12 @@ public class AtlwMobileSystemInfoUtils {
 
     /**
      * 获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)
-     *
+     * @param ctx 上下文
      * @return 手机IMEI
      */
     @SuppressLint({"MissingPermission"})
     @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-    public String getIMEI(Context ctx) {
+    public String getIMEIInfo(Context ctx) {
         TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Activity.TELEPHONY_SERVICE);
         if (tm != null) {
             return tm.getDeviceId();
@@ -131,7 +131,7 @@ public class AtlwMobileSystemInfoUtils {
 
     /**
      * 获取当前网络类型
-     *
+     * @param context 上下文
      * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)

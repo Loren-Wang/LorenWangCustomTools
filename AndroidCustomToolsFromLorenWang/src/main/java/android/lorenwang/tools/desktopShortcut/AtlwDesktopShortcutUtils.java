@@ -48,7 +48,7 @@ public class AtlwDesktopShortcutUtils {
 
     /**
      * 设置回调
-     * @param desktopShortcutOptionsCallback
+     * @param desktopShortcutOptionsCallback 回调
      */
     public void setDesktopShortcutOptionsCallback(DesktopShortcutOptionsCallback desktopShortcutOptionsCallback) {
         this.desktopShortcutOptionsCallback = desktopShortcutOptionsCallback;

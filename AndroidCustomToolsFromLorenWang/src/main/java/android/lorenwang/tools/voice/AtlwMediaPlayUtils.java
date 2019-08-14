@@ -102,7 +102,7 @@ public class AtlwMediaPlayUtils {
      * @param type             播放类型，是听筒还是扬声器播放
      * @param isEndRecord      如果正在录音的话是否结束录音
      * @param isCancelLastPlay 如果上一个正在播放的话是否结束上一个播放
-     * @return
+     * @return 是否开始
      */
     public boolean start(Activity activity, final String playPath, @AtlwMediaPlayOutputType int type, boolean isEndRecord, boolean isCancelLastPlay) {
         //检测传入的地址是否为空
@@ -249,6 +249,7 @@ public class AtlwMediaPlayUtils {
     /**
      * 停止播放，要取消监听器
      *
+     * @param activity 页面实例
      * @return 返回停止状态
      */
     public boolean stop(Activity activity) {

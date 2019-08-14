@@ -23,6 +23,8 @@ public abstract class AtlwBrightnessChangeContentObserver extends ContentObserve
 
     /**
      * Creates a content observer.
+     *
+     * @param activity 界面实例
      */
     public AtlwBrightnessChangeContentObserver(Activity activity) {
         super(new Handler());
@@ -50,7 +52,7 @@ public abstract class AtlwBrightnessChangeContentObserver extends ContentObserve
     /**
      * 亮度改变
      *
-     * @param brightness
+     * @param brightness 亮度
      */
     public abstract void onBrightnessChange(Float brightness);
 

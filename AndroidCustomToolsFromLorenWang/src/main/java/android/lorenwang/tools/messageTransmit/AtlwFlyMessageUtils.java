@@ -92,8 +92,8 @@ public class AtlwFlyMessageUtils {
 
     }
 
-    private Map<Integer,List<CallbackRecodeDto>> recodeMsgCallbackMap = new ConcurrentHashMap<>();
-    private Map<String,List<Integer>> recodeMsgTypeMap = new ConcurrentHashMap<>();
+    private Map<Integer, List<CallbackRecodeDto>> recodeMsgCallbackMap = new ConcurrentHashMap<>();
+    private Map<String, List<Integer>> recodeMsgTypeMap = new ConcurrentHashMap<>();
 //
 //    //需要回调的集合记录,key:className+hashcode结合，value：回调记录集合
 //    private Map<String, List<CallbackRecodeDto>> recodeMap = new HashMap<>();
@@ -124,21 +124,21 @@ public class AtlwFlyMessageUtils {
         //记录消息列表
         String key = getKey(object);
         List<Integer> msgList = recodeMsgTypeMap.get(key);
-        if(msgList == null){
+        if (msgList == null) {
             msgList = new ArrayList<>();
         }
-        if(!msgList.contains(msgType)){
+        if (!msgList.contains(msgType)) {
             msgList.add(msgType);
         }
-        recodeMsgTypeMap.put(key,msgList);
+        recodeMsgTypeMap.put(key, msgList);
 
         //记录回调实体类
         List<CallbackRecodeDto> callbackRecodeDtoList = recodeMsgCallbackMap.get(msgType);
-        if(callbackRecodeDtoList == null){
+        if (callbackRecodeDtoList == null) {
             callbackRecodeDtoList = new ArrayList<>();
         }
-        callbackRecodeDtoList.add(new CallbackRecodeDto(msgType,flyMessgeCallback));
-        recodeMsgCallbackMap.put(msgType,callbackRecodeDtoList);
+        callbackRecodeDtoList.add(new CallbackRecodeDto(msgType, flyMessgeCallback));
+        recodeMsgCallbackMap.put(msgType, callbackRecodeDtoList);
 
         //注册回调后，要直接回调，否则部分界面注册可能晚于回调，导致无法获得数据
         msgQueListOptions(false, false, true, null, null);
@@ -147,7 +147,7 @@ public class AtlwFlyMessageUtils {
     /**
      * 取消注册消息回调记录
      *
-     * @param object
+     * @param object 实例
      */
     public void unRegistMsgCallback(Object object) {
         if (object == null) {
@@ -155,14 +155,14 @@ public class AtlwFlyMessageUtils {
         }
         //移除消息
         List<Integer> msgTypeList = recodeMsgTypeMap.get(getKey(object));
-        if(msgTypeList != null){
+        if (msgTypeList != null) {
             Iterator<Integer> iterator = msgTypeList.iterator();
             int msgType;
             List<CallbackRecodeDto> callbackRecodeDtos;
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 msgType = iterator.next();
                 callbackRecodeDtos = recodeMsgCallbackMap.get(msgType);
-                if(callbackRecodeDtos != null){
+                if (callbackRecodeDtos != null) {
                     callbackRecodeDtos.clear();
                     callbackRecodeDtos = null;
                 }
@@ -175,9 +175,9 @@ public class AtlwFlyMessageUtils {
     /**
      * 发送消息
      *
-     * @param msgType
+     * @param msgType 消息类型
      * @param isFinishRemove 是否回传结束就移除
-     * @param msgs
+     * @param msgs 消息参数
      */
     public synchronized void sendMsg(int msgType, boolean isFinishRemove, Object... msgs) {
         MessageQueueDto messageQueueDto = new MessageQueueDto();
@@ -194,8 +194,8 @@ public class AtlwFlyMessageUtils {
     /**
      * 获取记录存储集合的key
      *
-     * @param object
-     * @return
+     * @param object 实例
+     * @return 存储使用的key
      */
     private String getKey(Object object) {
         return object.getClass().getName() + object.hashCode();
@@ -216,7 +216,7 @@ public class AtlwFlyMessageUtils {
     /**
      * 回传列表消息
      *
-     * @param list
+     * @param list 记录回调列表
      */
     private synchronized void callbackMsg(List<CallbackRecodeDto> list, MessageQueueDto messageQueueDto) {
         if (list != null && list.size() > 0 && messageQueueDto != null) {
@@ -234,7 +234,7 @@ public class AtlwFlyMessageUtils {
     /**
      * 回传单条消息
      *
-     * @param callback
+     * @param callback 回调
      */
     private synchronized void callbackMsg(final FlyMessgeCallback callback, final MessageQueueDto messageQueueDto) {
         if (messageQueueDto == null) {
