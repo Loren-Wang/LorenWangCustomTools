@@ -223,7 +223,7 @@ public class AtlwCheckUtils {
 
     /**
      * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
-     *
+     * @param context 上下文
      * @return true 表示开启
      */
     public boolean checkGpsIsOpen(Context context) {

@@ -255,6 +255,7 @@ public class AtlwFileOptionUtils {
      * @param isCheckPermisstion 是否检测权限
      * @param url                要删除的地址
      *                           删除文件
+     * @return 返回删除结果
      */
     public Boolean deleteFile(Context context, Boolean isCheckPermisstion, String url) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
