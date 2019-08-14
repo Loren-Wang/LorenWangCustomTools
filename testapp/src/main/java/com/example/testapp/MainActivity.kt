@@ -41,6 +41,9 @@ class MainActivity : Activity() {
                 R.id.btnFileOptions -> {
                     startActivity(Intent(this, FileOptionsActivity::class.java))
                 }
+                R.id.btnToast -> {
+                    startActivity(Intent(this, ToastActivity::class.java))
+                }
                 else -> {
 
                 }

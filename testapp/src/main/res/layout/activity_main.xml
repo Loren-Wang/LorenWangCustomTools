@@ -68,6 +68,13 @@
             android:text="文件操作按钮"
             android:textAllCaps="false"
             android:onClick="mainClick"/>
+        <Button
+            android:id="@+id/btnToast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="吐司Toast页面"
+            android:textAllCaps="false"
+            android:onClick="mainClick"/>
     </LinearLayout>
 
 

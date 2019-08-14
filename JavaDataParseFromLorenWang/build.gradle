@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.8.4'
+    compileOnly 'com.google.code.gson:gson:2.8.5'
 }
 def moduleName = "JavaDataParseFromLorenWang"
 def moduleDescription = "java数据格式化工具库"

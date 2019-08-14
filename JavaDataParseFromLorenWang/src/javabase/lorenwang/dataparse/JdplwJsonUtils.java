@@ -22,9 +22,9 @@ import java.util.Map;
  * @author yynie
  *
  */
-public class JvJsonUtils {
+public class JdplwJsonUtils {
 
-	private static final String TAG = JvJsonUtils.class.getName();
+	private static final String TAG = JdplwJsonUtils.class.getName();
 
 	public static final String EMPTY_JSON = "{}"; 		// 空的JSON数据
 	public static final String EMPTY_JSON_ARRAY = "[]"; // 空的数组(集合)数据
