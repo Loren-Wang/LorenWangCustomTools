@@ -23,6 +23,6 @@ class DataParseActivity : BaseActivity() {
     }
 
     fun onClickBtnJsonParseArray(view: View) {
-        JdplwJsonUtils.fromJsonArray(edtData!!.text.toString(), String::class.java)
+        JdplwJsonUtils.fromJsonArray<String>(edtData!!.text.toString())
     }
 }

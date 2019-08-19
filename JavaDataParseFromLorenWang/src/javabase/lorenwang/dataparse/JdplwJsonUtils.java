@@ -3,10 +3,6 @@ package javabase.lorenwang.dataparse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -14,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 
@@ -202,73 +197,10 @@ public class JdplwJsonUtils {
      * json字符串转集合
      *
      * @param json json字符串
-     * @param cls  转换后实体集
      * @param <T>  泛型
      * @return 集合
      */
-    public static <T> List<T> fromJsonArray(String json, Class<T> cls) {
-        try {
-            if (json == null || json.isEmpty()) {
-                return null;
-            }
-            JsonParser jsonParser = new JsonParser();
-            JsonElement jsonElement = jsonParser.parse(json);
-            if(jsonElement == null || !jsonElement.isJsonArray()){
-                return null;
-            }else {
-                return fromJsonArray2(jsonElement.getAsJsonArray(), cls);
-            }
-        } catch (JsonIOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * json字符串转集合
-     *
-     * @param jsonArray json数组
-     * @param cls       转换后实体集
-     * @param <T>       泛型
-     * @return 集合
-     */
-    public static <T> List<T> fromJsonArray2(JsonArray jsonArray, Class<T> cls) {
-        try {
-            if (jsonArray == null) {
-                return null;
-            }
-            List<T> list = new ArrayList<>();
-            Iterator<JsonElement> iterator = jsonArray.iterator();
-            String jsonItemStr;
-            JsonElement item;
-            while (iterator.hasNext()) {
-                item = iterator.next();
-                if (item == null) {
-                    list.add(null);
-                }else {
-                    jsonItemStr = item.getAsString();
-                    if (jsonItemStr != null) {
-                        list.add(fromJson(jsonItemStr, cls));
-                    } else {
-                        list.add(null);
-                    }
-                }
-            }
-            return list;
-        } catch (JsonIOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * json字符串转集合
-     *
-     * @param json json字符串
-     * @param <T>  泛型
-     * @return 集合
-     */
-    public static <T> ArrayList<T> fromJsonArray3(String json) {
+    public static <T> ArrayList<T> fromJsonArray(String json) {
         try {
             return fromJson(json, new ArrayList<T>().getClass());
         } catch (Exception e) {
