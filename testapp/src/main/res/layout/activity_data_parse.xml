@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DataParseActivity">
+
+    <EditText
+        android:id="@+id/edtData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="数据格式化，所有的实体都应为字符串，否则报错"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="4dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnJsonStr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="onClickBtnJsonParseStr"
+        android:text="格式化json字符串"
+        app:layout_constraintEnd_toEndOf="@+id/edtData"
+        app:layout_constraintStart_toStartOf="@+id/edtData"
+        app:layout_constraintTop_toBottomOf="@+id/edtData" />
+
+    <Button
+        android:id="@+id/btnJsonArray"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="onClickBtnJsonParseArray"
+        android:text="格式化json数组"
+        app:layout_constraintEnd_toEndOf="@+id/edtData"
+        app:layout_constraintStart_toStartOf="@+id/edtData"
+        app:layout_constraintTop_toBottomOf="@+id/btnJsonStr" />
+</android.support.constraint.ConstraintLayout>

@@ -44,6 +44,9 @@ class MainActivity : Activity() {
                 R.id.btnToast -> {
                     startActivity(Intent(this, ToastActivity::class.java))
                 }
+                R.id.btnDataParse -> {
+                    startActivity(Intent(this, DataParseActivity::class.java))
+                }
                 else -> {
 
                 }

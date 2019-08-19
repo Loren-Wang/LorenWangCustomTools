@@ -75,6 +75,13 @@
             android:text="吐司Toast页面"
             android:textAllCaps="false"
             android:onClick="mainClick"/>
+        <Button
+            android:id="@+id/btnDataParse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="数据格式化页面"
+            android:textAllCaps="false"
+            android:onClick="mainClick"/>
     </LinearLayout>
 
 
