@@ -137,6 +137,7 @@ public class JdplwJsonUtils {
 	/**
 	 * 将给定的JSON字符串转换成指定的类型对象
 	 *
+	 * @param <T> 泛型
 	 * @param json 给定的JSON字符串
 	 * @param cls 要转换的目标类
 	 * @param datePattern 日期格式
@@ -161,6 +162,7 @@ public class JdplwJsonUtils {
 	/**
 	 * 将给定的JSON字符串转换成指定的类型对象
 	 *
+	 * @param <T> 泛型
 	 * @param json 给定的JSON字符串
 	 * @param token 类型
 	 * @param datePattern 日期格式
@@ -184,8 +186,9 @@ public class JdplwJsonUtils {
 
 	/**
 	 * 将Map转化为Json
-	 *
-	 * @param map
+	 * @param <T> 泛型
+	 * @param map map数据集合
+	 * @param cls 要转换后的实体class
 	 * @return String
 	 */
 	public static <T> T fromJson(Map<String, Object> map, Class<T> cls) {
