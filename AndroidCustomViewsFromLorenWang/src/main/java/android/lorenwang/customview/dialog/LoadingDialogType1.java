@@ -1,6 +1,6 @@
 package android.lorenwang.customview.dialog;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -23,13 +23,20 @@ import android.widget.ProgressBar;
  * 备注：
  */
 public class LoadingDialogType1 extends BaseDialog {
+    /**
+     * 是否允许加载中后退退出当前页面
+     */
+    private boolean allowLoadingBackFinishPage = false;
+    private Activity activity;
 
-    public LoadingDialogType1(Context context) {
-        super(context, R.layout.dialog_loading_type_1, R.style.loading_dialog_type1, R.style.dialog_anim_for_center, false, false, false);
+    public LoadingDialogType1(Activity activity) {
+        super(activity, R.layout.dialog_loading_type_1, R.style.loading_dialog_type1, R.style.dialog_anim_for_center, false, false, false);
+        this.activity = activity;
     }
 
-    public LoadingDialogType1(Context context, @StyleRes int styleRes) {
-        super(context, R.layout.dialog_loading_type_1, styleRes, R.style.dialog_anim_for_center, false, false, false);
+    public LoadingDialogType1(Activity activity, @StyleRes int styleRes) {
+        super(activity, R.layout.dialog_loading_type_1, styleRes, R.style.dialog_anim_for_center, false, false, false);
+        this.activity = activity;
     }
 
     /**
@@ -55,9 +62,28 @@ public class LoadingDialogType1 extends BaseDialog {
         ((ProgressBar) view.findViewById(R.id.progressBar)).setProgressDrawable(drawable);
     }
 
+    /**
+     * 带参数显示弹窗
+     *
+     * @param allowLoadingBackFinishPage 是否允许加载中后退销毁当前页面
+     */
+    public void show(boolean allowLoadingBackFinishPage) {
+        this.allowLoadingBackFinishPage = allowLoadingBackFinishPage;
+        super.show();
+    }
+
+    /**
+     * 禁用原有的显示方法
+     */
+    @Override
+    public void show() {
+    }
+
     @Override
     public void onBackPressed() {
-
+        if (allowLoadingBackFinishPage && activity != null) {
+            activity.finish();
+        }
     }
 
 }
