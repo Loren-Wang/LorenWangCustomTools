@@ -5,6 +5,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
  * 创建时间：2019-04-30 下午 15:47:15
@@ -44,16 +47,27 @@ public class AtlwViewUtils {
      * @param height 控件显示的高度
      * @return 控件的LayoutParams
      */
-    public ViewGroup.LayoutParams getViewLayoutParams(View view, int width, int height) {
+    public ViewGroup.LayoutParams getViewLayoutParams(View view, Integer width, Integer height) {
         if (view != null) {
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
             if (layoutParams == null) {
+                if (width == null) {
+                    width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                }
+                if (height == null) {
+                    height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                }
+
                 if (layoutParams instanceof LinearLayout.LayoutParams) {
                     layoutParams = new LinearLayout.LayoutParams(width, height);
                 } else if (layoutParams instanceof FrameLayout.LayoutParams) {
                     layoutParams = new FrameLayout.LayoutParams(width, height);
                 } else if (layoutParams instanceof RelativeLayout.LayoutParams) {
                     layoutParams = new RelativeLayout.LayoutParams(width, height);
+                } else if (layoutParams instanceof TableLayout.LayoutParams) {
+                    layoutParams = new TableLayout.LayoutParams(width, height);
+                } else if (layoutParams instanceof ConstraintLayout.LayoutParams) {
+                    layoutParams = new TableLayout.LayoutParams(width, height);
                 }
             }
             return layoutParams;
@@ -69,12 +83,16 @@ public class AtlwViewUtils {
      * @param width  控件显示的宽度
      * @param height 控件显示的高度
      */
-    public void setViewWidthHeight(View view, int width, int height) {
-        if (view != null) {
+    public void setViewWidthHeight(View view, Integer width, Integer height) {
+        if (view != null && !(width == null && height == null)) {
             ViewGroup.LayoutParams layoutParams = getViewLayoutParams(view, width, height);
             if (layoutParams != null) {
-                layoutParams.width = width;
-                layoutParams.height = height;
+                if (width != null) {
+                    layoutParams.width = width;
+                }
+                if (height != null) {
+                    layoutParams.height = height;
+                }
                 view.setLayoutParams(layoutParams);
             }
         }

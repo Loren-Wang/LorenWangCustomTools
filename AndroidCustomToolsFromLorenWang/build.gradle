@@ -40,10 +40,11 @@ dependencies {
     compileOnly project(':JavaCustomToolsFromLorenWang')
     // 高斯模糊工具类
     compileOnly 'net.qiujuer.genius:graphics:2.1.1'
+    compileOnly 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
 def moduleName = "AndroidCustomToolsFromLorenWang"
 def moduleDescription = "Android自定义工具库"
-version = '1.0.74'
+version = '1.0.75'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
