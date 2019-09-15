@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
  * 7、生成一个范围随机数 generateRandom
  * 8、获取首字母的拼音 getFirstPinYin
  * 9、汉字转为拼音 getPinYin
+ * 10、布尔值转int值
  * 注意：
  * 修改人：
  * 修改时间：
@@ -223,6 +224,16 @@ public class JtlwVariateDataParamUtils {
             }
         }
         return sb.toString().toLowerCase();
+    }
+
+    /**
+     * 布尔值转int值
+     *
+     * @param value 布尔值
+     * @return 为空或者falese的时候返回0，其他返回1
+     */
+    public int booleanToInt(Boolean value) {
+        return (value == null || !value) ? 0 : 1;
     }
 
 

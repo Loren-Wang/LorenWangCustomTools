@@ -31,3 +31,4 @@ Java自定义工具类
       7、生成一个范围随机数 generateRandom
       8、获取首字母的拼音 getFirstPinYin
       9、汉字转为拼音 getPinYin  
+      10、布尔值转int值
