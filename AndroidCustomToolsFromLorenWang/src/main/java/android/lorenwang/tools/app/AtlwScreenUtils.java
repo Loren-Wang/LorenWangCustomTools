@@ -73,9 +73,9 @@ public class AtlwScreenUtils {
      */
     public float dip2px(Context context, float dpValue) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
-            new NullPointerException("Context is not null");
+            throw new NullPointerException("Context is not null");
         }
-        final float scale = context.getResources().getDisplayMetrics().density;
+        final float scale = getDisplayMetrics(context).density;
         return dpValue * scale + 0.5f;
     }
 
@@ -88,9 +88,9 @@ public class AtlwScreenUtils {
      */
     public float px2dip(Context context, float pxValue) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
-            new NullPointerException("Context is not null");
+            throw new NullPointerException("Context is not null");
         }
-        final float scale = context.getResources().getDisplayMetrics().density;
+        final float scale = getDisplayMetrics(context).density;
         return pxValue / scale + 0.5f;
     }
 
@@ -103,23 +103,24 @@ public class AtlwScreenUtils {
      */
     public float sp2px(Context context, float spValue) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
-            new NullPointerException("Context is not null");
+            throw new NullPointerException("Context is not null");
         }
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        final float fontScale = getDisplayMetrics(context).scaledDensity;
         return spValue * fontScale + 0.5f;
     }
 
     /**
      * 将px值转换为sp值，保证文字大小不变
+     *
      * @param context 上下文
      * @param pxValue px像素值
      * @return sp值
      */
     public float px2sp(Context context, float pxValue) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
-            new NullPointerException("Context is not null");
+            throw new NullPointerException("Context is not null");
         }
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        final float fontScale = getDisplayMetrics(context).scaledDensity;
         return pxValue / fontScale + 0.5f;
     }
 
@@ -131,13 +132,10 @@ public class AtlwScreenUtils {
      */
     public int getScreenWidth(Context context) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
-            new NullPointerException("Context is not null");
+            throw new NullPointerException("Context is not null");
         }
         if (screenWidth == null) {
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            DisplayMetrics dm = new DisplayMetrics();
-            wm.getDefaultDisplay().getMetrics(dm);
-            screenWidth = dm.widthPixels;         // 屏幕宽度（像素）
+            screenWidth = getDisplayMetrics(context).widthPixels;         // 屏幕宽度（像素）
         }
         return screenWidth;
     }
@@ -150,13 +148,10 @@ public class AtlwScreenUtils {
      */
     public int getScreenHeight(Context context) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(context)) {
-            new NullPointerException("Context is not null");
+            throw new NullPointerException("Context is not null");
         }
         if (screenHeight == null) {
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            DisplayMetrics dm = new DisplayMetrics();
-            wm.getDefaultDisplay().getMetrics(dm);
-            screenHeight = dm.heightPixels;         // 屏幕宽度（像素）
+            screenHeight = getDisplayMetrics(context).heightPixels;         // 屏幕宽度（像素）
         }
         return screenHeight;
     }
@@ -181,5 +176,13 @@ public class AtlwScreenUtils {
      */
     public int getShowPixelValueForHeight(Context context, int layoutShowValue) {
         return (int) (getScreenHeight(context) * (layoutShowValue * 1.0 / AtlwSetting.SCREEN_LAYOUT_BASE_HEIGHT));
+    }
+
+
+    private DisplayMetrics getDisplayMetrics(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        return dm;
     }
 }
