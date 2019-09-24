@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -51,24 +52,43 @@ public class AtlwViewUtils {
         if (view != null) {
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
             if (layoutParams == null) {
-                if (width == null) {
-                    width = ViewGroup.LayoutParams.WRAP_CONTENT;
-                }
-                if (height == null) {
-                    height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                if (view.getParent() != null) {
+                    if (width == null) {
+                        width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    }
+                    if (height == null) {
+                        height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    }
+                    try {
+                        //通过反射获取父级的素有属性，然后取出父类中定义的静态params类型然后转换并设置给子view
+                        Class<?>[] classes = view.getParent().getClass().getClasses();
+                        for (Class<?> item : classes) {
+                            if (ViewGroup.LayoutParams.class.isAssignableFrom(item)) {
+                                layoutParams = (ViewGroup.LayoutParams) item.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
+                                break;
+                            }
+                        }
+                    } catch (Exception e) {
+                        if (layoutParams instanceof LinearLayout.LayoutParams) {
+                            layoutParams = new LinearLayout.LayoutParams(width, height);
+                        } else if (layoutParams instanceof FrameLayout.LayoutParams) {
+                            layoutParams = new FrameLayout.LayoutParams(width, height);
+                        } else if (layoutParams instanceof RelativeLayout.LayoutParams) {
+                            layoutParams = new RelativeLayout.LayoutParams(width, height);
+                        } else if (layoutParams instanceof TableLayout.LayoutParams) {
+                            layoutParams = new TableLayout.LayoutParams(width, height);
+                        } else if (layoutParams instanceof ConstraintLayout.LayoutParams) {
+                            layoutParams = new ConstraintLayout.LayoutParams(width, height);
+                        } else if (layoutParams instanceof TableRow.LayoutParams) {
+                            layoutParams = new TableRow.LayoutParams(width, height);
+                        } else if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+                            layoutParams = new ViewGroup.MarginLayoutParams(width, height);
+                        } else {
+                            layoutParams = new ViewGroup.LayoutParams(width, height);
+                        }
+                    }
                 }
 
-                if (layoutParams instanceof LinearLayout.LayoutParams) {
-                    layoutParams = new LinearLayout.LayoutParams(width, height);
-                } else if (layoutParams instanceof FrameLayout.LayoutParams) {
-                    layoutParams = new FrameLayout.LayoutParams(width, height);
-                } else if (layoutParams instanceof RelativeLayout.LayoutParams) {
-                    layoutParams = new RelativeLayout.LayoutParams(width, height);
-                } else if (layoutParams instanceof TableLayout.LayoutParams) {
-                    layoutParams = new TableLayout.LayoutParams(width, height);
-                } else if (layoutParams instanceof ConstraintLayout.LayoutParams) {
-                    layoutParams = new TableLayout.LayoutParams(width, height);
-                }
             }
             return layoutParams;
         } else {
