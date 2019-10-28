@@ -23,7 +23,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 public class AtlwToastHintUtils {
-    private static AtlwToastHintUtils atlwToastHintUtils;
+    private static volatile AtlwToastHintUtils atlwToastHintUtils;
 
 
     /**

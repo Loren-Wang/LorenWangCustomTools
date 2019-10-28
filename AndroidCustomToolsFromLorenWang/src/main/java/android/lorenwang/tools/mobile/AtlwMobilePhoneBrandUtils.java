@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  */
 public class AtlwMobilePhoneBrandUtils {
     private final String TAG = getClass().getName();
-    private static AtlwMobilePhoneBrandUtils atlwMobilePhoneBrandUtils;
+    private static volatile AtlwMobilePhoneBrandUtils atlwMobilePhoneBrandUtils;
     /**
      * 私有构造方法
      */

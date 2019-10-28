@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AtlwBrightnessChangeUtils {
     private final String TAG = "AtlwBrightnessChangeUtils";
-    private static AtlwBrightnessChangeUtils atlwBrightnessChangeUtils;
+    private static volatile AtlwBrightnessChangeUtils atlwBrightnessChangeUtils;
 
     public static AtlwBrightnessChangeUtils getInstance() {
         synchronized (AtlwBrightnessChangeUtils.class) {

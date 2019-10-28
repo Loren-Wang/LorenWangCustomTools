@@ -5,7 +5,10 @@ import android.app.Application;
 import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.AnimRes;
 import android.support.annotation.RequiresApi;
+
+import java.util.Vector;
 
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE;
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED;
@@ -47,6 +50,34 @@ public class AtlwSetting {
      * 设计稿或者屏幕高度度分辨率
      */
     public static int SCREEN_LAYOUT_BASE_HEIGHT = 1334;
+    /**
+     * 页面跳转默认进入动画
+     */
+    @AnimRes
+    public static Integer ACTIVITY_JUMP_DEFAULT_ENTER_ANIM = null;
+    /**
+     * 页面跳转默认退出动画
+     */
+    @AnimRes
+    public static Integer ACTIVITY_JUMP_DEFAULT_EXIT_ANIM = null;
+    /**
+     * 页面后退跳转默认进入动画
+     */
+    @AnimRes
+    public static Integer ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM = null;
+    /**
+     * 页面后退跳转默认退出动画
+     */
+    @AnimRes
+    public static Integer ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM = null;
+    /**
+     * activity实例存储
+     */
+    public static Vector<Activity> activityCollection = new Vector<Activity>();
+    /**
+     * 当前APP实例
+     */
+    public static Application nowApplication;
 
     /**
      * activity生命周期监听
@@ -54,6 +85,7 @@ public class AtlwSetting {
     private static final Application.ActivityLifecycleCallbacks ACTIVITY_LIFECYCLE_CALLBACKS = new Application.ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle bundle) {
+            activityCollection.add(activity);
             AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE, true, activity, bundle);
         }
 
@@ -84,6 +116,7 @@ public class AtlwSetting {
 
         @Override
         public void onActivityDestroyed(Activity activity) {
+            activityCollection.remove(activity);
             AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, true, activity);
         }
     };

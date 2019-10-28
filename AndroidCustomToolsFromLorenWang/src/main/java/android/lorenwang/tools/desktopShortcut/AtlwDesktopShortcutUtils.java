@@ -31,7 +31,7 @@ import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.DES
  */
 public class AtlwDesktopShortcutUtils {
     private final String TAG = getClass().getName();
-    private static AtlwDesktopShortcutUtils atlwDesktopShortcutUtils;
+    private static volatile AtlwDesktopShortcutUtils atlwDesktopShortcutUtils;
     private AtlwDesktopShortcutUtils(){
 
     }

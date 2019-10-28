@@ -29,7 +29,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 public class AtlwRecordUtils {
-    private static AtlwRecordUtils atlwRecordUtils;
+    private static volatile AtlwRecordUtils atlwRecordUtils;
     private final String TAG = getClass().getName();
     /**
      * 是否正在录音

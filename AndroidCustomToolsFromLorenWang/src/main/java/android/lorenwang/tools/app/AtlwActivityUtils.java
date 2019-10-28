@@ -1,9 +1,11 @@
 package android.lorenwang.tools.app;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
@@ -28,13 +30,16 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  * 创建人：王亮（Loren wang）
  * 功能作用：activity工具类
  * 思路：
- * 方法：1、去请求权限
+ * 方法：
+ * 1、去请求权限
  * 2、权限请求结果返回
  * 3、控制软键盘显示与隐藏
  * 4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
  * 5、返回APP级别的实例（对于传递的上下文做转换）
  * 6、允许退出App的判断以及线程
  * 7、检测App版本更新，通过versionName比较
+ * 8、退出应用
+ * 9、获得应用是否在前台
  * 注意：
  * 修改人：
  * 修改时间：
@@ -42,7 +47,7 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  */
 public class AtlwActivityUtils {
     private final String TAG = getClass().getName();
-    private static AtlwActivityUtils baseUtils;
+    private static volatile AtlwActivityUtils baseUtils;
     //权限请求键值对
     private Map<Integer, PermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
 
@@ -312,6 +317,37 @@ public class AtlwActivityUtils {
             if (newList.get(i).compareTo(oldList.get(i)) > 0) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     * 退出应用
+     *
+     * @param activity activity实例
+     */
+    public void exitApp(Activity activity) {
+        try {
+            activity.finish();
+            for (Activity value : AtlwSetting.activityCollection) {
+                value.finish();
+            }
+            System.exit(0);
+        } catch (Exception ignored) {
+        }
+    }
+
+    /**
+     * 获得应用是否在前台
+     */
+    public boolean isOnForeground(Context context) {
+        ActivityManager activityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasksInfo = activityManager.getRunningTasks(1);
+        if (tasksInfo.size() > 0) {
+            // 应用程序位于堆栈的顶层
+            return context.getPackageName().equals(
+                    tasksInfo.get(0).topActivity.getPackageName());
         }
         return false;
     }

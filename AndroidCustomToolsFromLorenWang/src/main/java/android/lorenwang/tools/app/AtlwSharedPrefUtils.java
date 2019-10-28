@@ -19,7 +19,7 @@ import java.util.Set;
  */
 
 public class AtlwSharedPrefUtils {
-    private static AtlwSharedPrefUtils atlwSharedPrefUtils;
+    private static volatile AtlwSharedPrefUtils atlwSharedPrefUtils;
     private SharedPreferences mPref;
 
     private AtlwSharedPrefUtils(Context context) {

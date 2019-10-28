@@ -44,7 +44,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 public class AtlwScreenUtils {
     private final String TAG = "AtlwScreenUtils";
-    private static AtlwScreenUtils utils;
+    private static volatile AtlwScreenUtils utils;
 
     private AtlwScreenUtils() {
     }

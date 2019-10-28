@@ -26,7 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class AtlwViewUtils {
     private final String TAG = "AtlwViewUtils";
-    private static AtlwViewUtils utils;
+    private static volatile AtlwViewUtils utils;
 
     private AtlwViewUtils() {
     }

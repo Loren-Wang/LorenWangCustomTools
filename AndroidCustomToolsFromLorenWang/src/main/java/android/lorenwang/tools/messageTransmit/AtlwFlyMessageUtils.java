@@ -39,7 +39,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 public class AtlwFlyMessageUtils {
     private final String TAG = getClass().getName();
-    private static AtlwFlyMessageUtils atlwFlyMessageUtils;
+    private static volatile AtlwFlyMessageUtils atlwFlyMessageUtils;
 
     public synchronized static AtlwFlyMessageUtils getInstance() {
         synchronized (AtlwFlyMessageUtils.class) {

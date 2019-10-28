@@ -33,7 +33,7 @@ import static android.media.AudioManager.STREAM_VOICE_CALL;
  */
 
 public class AtlwMediaPlayUtils {
-    private static AtlwMediaPlayUtils atlwMediaPlayUtils;
+    private static volatile AtlwMediaPlayUtils atlwMediaPlayUtils;
     private final String TAG = getClass().getName();
     /**
      * 是否正在播放

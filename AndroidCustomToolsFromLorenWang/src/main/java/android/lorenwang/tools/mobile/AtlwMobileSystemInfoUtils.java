@@ -34,7 +34,7 @@ import java.util.Locale;
  */
 public class AtlwMobileSystemInfoUtils {
     private final String TAG = "MobileSystemInfoUtils";
-    private static AtlwMobileSystemInfoUtils atlwMobileSystemInfoUtils;
+    private static volatile AtlwMobileSystemInfoUtils atlwMobileSystemInfoUtils;
 
     /**
      * 私有构造方法

@@ -46,7 +46,7 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 public class AtlwFileOptionUtils {
     private final String TAG = "FileOptionUtils";
     private final int BUFFER_SIZE = 1024; // 流转换的缓存大小
-    private static AtlwFileOptionUtils atlwFileOptionUtils;
+    private static volatile AtlwFileOptionUtils atlwFileOptionUtils;
     /**
      * 线程安全的队列,用于文件操作
      */

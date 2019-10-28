@@ -9,7 +9,7 @@ import java.util.concurrent.FutureTask;
 
 
 public class AtlwThreadUtils {
-    private static AtlwThreadUtils atlwThreadUtils;
+    private static volatile AtlwThreadUtils atlwThreadUtils;
     /**
      * ui线程handler
      */

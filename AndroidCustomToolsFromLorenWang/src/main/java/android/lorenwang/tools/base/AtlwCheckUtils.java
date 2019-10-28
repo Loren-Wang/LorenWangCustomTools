@@ -37,7 +37,7 @@ import static android.content.Context.ACTIVITY_SERVICE;
  */
 public class AtlwCheckUtils {
     private final String TAG = getClass().getName();
-    private static AtlwCheckUtils atlwCheckUtils;
+    private static volatile AtlwCheckUtils atlwCheckUtils;
 
     /**
      * 私有构造方法

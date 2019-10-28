@@ -51,7 +51,7 @@ import java.io.ByteArrayOutputStream;
  */
 public class AtlwImageCommonUtils {
     private final String TAG = getClass().getName();
-    private static AtlwImageCommonUtils atlwImageCommonUtils;
+    private static volatile AtlwImageCommonUtils atlwImageCommonUtils;
 
     /**
      * 私有构造方法
