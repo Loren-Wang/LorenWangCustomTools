@@ -4,12 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import javabase.lorenwang.tools.JtlwLogUtils;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCommonUtils;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 
 /**
@@ -61,10 +64,43 @@ public class JtlwFileOptionUtils {
      */
     private final int BUFFER_SIZE = 1024;
 
+    // 缓存文件头信息-文件头信息
+    private final HashMap<String, String> mFileTypes = new HashMap<String, String>();
+
     /**
      * 私有构造
      */
     private JtlwFileOptionUtils() {
+        // images
+        mFileTypes.put("FFD8FF", "jpg");
+        mFileTypes.put("89504E47", "png");
+        mFileTypes.put("47494638", "gif");
+        mFileTypes.put("49492A00", "tif");
+        mFileTypes.put("424D", "bmp");
+        //
+        mFileTypes.put("41433130", "dwg"); // CAD
+        mFileTypes.put("38425053", "psd");
+        mFileTypes.put("7B5C727466", "rtf"); // 日记本
+        mFileTypes.put("3C3F786D6C", "xml");
+        mFileTypes.put("68746D6C3E", "html");
+        mFileTypes.put("44656C69766572792D646174653A", "eml"); // 邮件
+        mFileTypes.put("D0CF11E0", "doc");
+        mFileTypes.put("D0CF11E0", "xls");//excel2003版本文件
+        mFileTypes.put("5374616E64617264204A", "mdb");
+        mFileTypes.put("252150532D41646F6265", "ps");
+        mFileTypes.put("255044462D312E", "pdf");
+        mFileTypes.put("504B0304", "docx");
+        mFileTypes.put("504B0304", "xlsx");//excel2007以上版本文件
+        mFileTypes.put("52617221", "rar");
+        mFileTypes.put("57415645", "wav");
+        mFileTypes.put("41564920", "avi");
+        mFileTypes.put("2E524D46", "rm");
+        mFileTypes.put("000001BA", "mpg");
+        mFileTypes.put("000001B3", "mpg");
+        mFileTypes.put("6D6F6F76", "mov");
+        mFileTypes.put("3026B2758E66CF11", "asf");
+        mFileTypes.put("4D546864", "mid");
+        mFileTypes.put("1F8B08", "gz");
     }
 
     public static JtlwFileOptionUtils getInstance() {
@@ -357,7 +393,7 @@ public class JtlwFileOptionUtils {
     /**
      * 获取文件大小，单位B
      *
-     * @param file 文件地址
+     * @param file          文件地址
      * @param filtrationDir 过滤的地址
      * @return 文件大小
      */
@@ -602,5 +638,44 @@ public class JtlwFileOptionUtils {
             }
         }
         return list;
+    }
+
+    /**
+     * 获取文件类型
+     *
+     * @param filePath 文件路径
+     * @return 文件类型
+     */
+    public String getFileType(String filePath) {
+        try {
+            return getFileType(new FileInputStream(filePath));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 获取文件类型
+     *
+     * @param inputStream 输入流
+     * @return 返回类型
+     */
+    public String getFileType(InputStream inputStream) {
+        try {
+            if (inputStream == null) {
+                return null;
+            } else {
+                byte[] bytes = new byte[4];
+                inputStream.read(bytes, 0, bytes.length);
+                String fileHeader = JtlwCommonUtils.getInstance().bytesToHexString(bytes);
+                if (mFileTypes.containsKey(fileHeader)) {
+                    return mFileTypes.get(fileHeader);
+                } else {
+                    return null;
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

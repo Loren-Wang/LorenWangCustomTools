@@ -8,6 +8,7 @@ import java.util.UUID;
  * 功能作用：通用方法
  * 思路：
  * 方法：1、uuid产生器
+ * 2、byte数组转字符串
  * 注意：
  * 修改人：
  * 修改时间：
@@ -17,8 +18,11 @@ import java.util.UUID;
 public class JtlwCommonUtils {
     private final String TAG = "CommonUtils";
     private static JtlwCommonUtils baseUtils;
-    private JtlwCommonUtils(){}
-    public static JtlwCommonUtils getInstance(){
+
+    private JtlwCommonUtils() {
+    }
+
+    public static JtlwCommonUtils getInstance() {
         synchronized (JtlwCommonUtils.class) {
             if (baseUtils == null) {
                 baseUtils = new JtlwCommonUtils();
@@ -38,5 +42,27 @@ public class JtlwCommonUtils {
             uuid = uuid.replaceAll("-", "");
         }
         return uuid;
+    }
+
+    /**
+     * byte数组转字符串
+     * @param src 要读取byte数组
+     * @return 转换后字符串
+     */
+    public String bytesToHexString(byte[] src) {
+        StringBuilder builder = new StringBuilder();
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        String hv;
+        for (byte aSrc : src) {
+            // 以十六进制（基数 16）无符号整数形式返回一个整数参数的字符串表示形式
+            hv = Integer.toHexString(aSrc & 0xFF);
+            if (hv.length() < 2) {
+                builder.append(0);
+            }
+            builder.append(hv);
+        }
+        return builder.toString();
     }
 }
