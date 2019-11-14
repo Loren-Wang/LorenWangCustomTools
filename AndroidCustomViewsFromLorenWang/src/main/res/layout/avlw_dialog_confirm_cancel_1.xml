@@ -12,7 +12,7 @@
         android:layout_alignBottom="@+id/lnOptions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/solid_radio_8"
+        android:background="@drawable/avlw_solid_radio_8"
         android:backgroundTint="#fff"/>
 
     <TextView

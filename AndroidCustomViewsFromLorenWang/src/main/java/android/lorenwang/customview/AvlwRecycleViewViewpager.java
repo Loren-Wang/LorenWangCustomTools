@@ -20,23 +20,23 @@ import android.view.MotionEvent;
  * 备注：
  */
 
-public class RecycleViewViewpager extends RecyclerView {
+public class AvlwRecycleViewViewpager extends RecyclerView {
     private Context context;
     private boolean isCanTouchScroll = true;//是否允许触摸滑动
     private int nowPosi = 0;//当前位置
-    private RecycleviewViewPageOnPageChangeListener recycleviewViewPageOnPageChangeListener;
+    private AvlwRecycleviewViewPageOnPageChangeListener recycleviewViewPageOnPageChangeListener;
 
-    public RecycleViewViewpager(Context context) {
+    public AvlwRecycleViewViewpager(Context context) {
         super(context);
         init(context);
     }
 
-    public RecycleViewViewpager(Context context, @Nullable AttributeSet attrs) {
+    public AvlwRecycleViewViewpager(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public RecycleViewViewpager(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public AvlwRecycleViewViewpager(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -83,7 +83,7 @@ public class RecycleViewViewpager extends RecyclerView {
         }
     }
 
-    public RecycleViewViewpager setRecycleviewViewPageOnPageChangeListener(RecycleviewViewPageOnPageChangeListener recycleviewViewPageOnPageChangeListener) {
+    public AvlwRecycleViewViewpager setRecycleviewViewPageOnPageChangeListener(AvlwRecycleviewViewPageOnPageChangeListener recycleviewViewPageOnPageChangeListener) {
         this.recycleviewViewPageOnPageChangeListener = recycleviewViewPageOnPageChangeListener;
         return this;
     }
@@ -112,7 +112,7 @@ public class RecycleViewViewpager extends RecyclerView {
         }
     }
 
-    public RecycleViewViewpager setCanTouchScroll(boolean canTouchScroll) {
+    public AvlwRecycleViewViewpager setCanTouchScroll(boolean canTouchScroll) {
         isCanTouchScroll = canTouchScroll;
         return this;
     }

@@ -11,7 +11,7 @@
         android:id="@+id/lnOptions"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/solid_radio_8"
+        android:background="@drawable/avlw_solid_radio_8"
         android:backgroundTint="#fff">
 
     </LinearLayout>

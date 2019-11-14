@@ -12,6 +12,6 @@ package android.lorenwang.customview.dialog;
  * 备注：
  */
 
-public interface OptionsItemClickListener<T>  {
+public interface AvlwOptionsItemClickListener<T>  {
     void onOptionsItemClick(int posi, T text);
 }

@@ -37,31 +37,31 @@ import java.util.ArrayList;
  * 修改时间：
  * 备注：
  */
-public class HorizontalSlipTabLayout3 extends FrameLayout implements BaseHorizontalSlipTabLayout {
-    private HorizontalSlipTabLayout tabView;
+public class AvlwHorizontalSlipTabLayout3 extends FrameLayout implements AvlwBaseHorizontalSlipTabLayout {
+    private AvlwHorizontalSlipTabLayout tabView;
     /**
      * 下划线容器画笔
      */
     private Paint lineContainerPaint;
     private Float lineContainerWidth;
 
-    public HorizontalSlipTabLayout3(Context context) {
+    public AvlwHorizontalSlipTabLayout3(Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public HorizontalSlipTabLayout3(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwHorizontalSlipTabLayout3(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public HorizontalSlipTabLayout3(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwHorizontalSlipTabLayout3(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        tabView = new HorizontalSlipTabLayout(context, attrs, defStyleAttr);
+        tabView = new AvlwHorizontalSlipTabLayout(context, attrs, defStyleAttr);
         addView(tabView);
         ViewGroup.LayoutParams params = tabView.getLayoutParams();
         if (params == null) {
@@ -72,13 +72,13 @@ public class HorizontalSlipTabLayout3 extends FrameLayout implements BaseHorizon
         }
         tabView.setLayoutParams(params);
 
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.HorizontalSlipTabLayout, defStyleAttr, 0);
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.AvlwHorizontalSlipTabLayout, defStyleAttr, 0);
         lineContainerPaint = new Paint();
         lineContainerPaint.setAntiAlias(true);
-        lineContainerPaint.setColor(attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_lineContainerColor, Color.TRANSPARENT));
-        lineContainerPaint.setStrokeWidth(attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineContainerHeight, 0f));
+        lineContainerPaint.setColor(attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineContainerColor, Color.TRANSPARENT));
+        lineContainerPaint.setStrokeWidth(attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineContainerHeight, 0f));
         //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
-        float lineContainerWidthPercent = attr.getFloat(R.styleable.HorizontalSlipTabLayout_hstl_lineContainerWidthPercent, -1f);
+        float lineContainerWidthPercent = attr.getFloat(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineContainerWidthPercent, -1f);
         if (lineContainerWidthPercent > 0) {
             if (lineContainerWidthPercent > 1) {
                 lineContainerWidthPercent = 1f;

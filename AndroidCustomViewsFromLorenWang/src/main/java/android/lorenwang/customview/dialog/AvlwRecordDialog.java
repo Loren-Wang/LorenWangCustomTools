@@ -15,10 +15,10 @@ import android.lorenwang.customview.R;
  * 备注：
  */
 
-public class AvlwRecordDialog extends BaseDialog{
+public class AvlwRecordDialog extends AvlwBaseDialog {
     public AvlwRecordDialog(Context context) {
-        super(context, R.layout.dialog_confirm_cancel_1, R.style.dialog_confirm_cancel_1
-                , R.style.dialog_anim_for_center, false,false,false);
+        super(context, R.layout.avlw_dialog_confirm_cancel_1, R.style.avlw_dialog_confirm_cancel_1
+                , R.style.avlw_dialog_anim_for_center, false,false,false);
     }
 
     /**

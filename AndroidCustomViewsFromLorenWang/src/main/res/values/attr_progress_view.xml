@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CustomProgressTypeView">
+    <declare-styleable name="AvlwCustomProgressTypeView">
         <attr name="showProgressType">
             <enum name="PROGRESS_TYPE_1" value="0"/>
             <enum name="PROGRESS_TYPE_2" value="1"/>

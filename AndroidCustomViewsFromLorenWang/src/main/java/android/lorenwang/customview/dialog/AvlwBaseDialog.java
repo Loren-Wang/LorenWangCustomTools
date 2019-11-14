@@ -21,21 +21,21 @@ import android.view.WindowManager;
  * 修改时间：
  * 备注：
  */
-public class BaseDialog extends AlertDialog {
+public class AvlwBaseDialog extends AlertDialog {
     protected final String TAG = getClass().getName();
     protected View view;
     protected boolean isFullWidthShow = false;//是否宽度全屏显示
     protected boolean isFullHeightShow = false;//是否高度全屏显示
 
-    protected BaseDialog(Context context) {
+    protected AvlwBaseDialog(Context context) {
         super(context);
     }
 
-    protected BaseDialog(Context context, int style) {
+    protected AvlwBaseDialog(Context context, int style) {
         super(context, style);
     }
 
-    public BaseDialog(Context context, @LayoutRes int dialogViewLayoutResId
+    public AvlwBaseDialog(Context context, @LayoutRes int dialogViewLayoutResId
             , @StyleRes int modelStyleResId, @StyleRes int dialogAnimo
             , boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
         super(context, modelStyleResId);

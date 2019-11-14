@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.lorenwang.customview.tablayout.HorizontalSlipTabLayout
+            <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout
                 android:id="@+id/test1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
     </HorizontalScrollView>
 
 
-    <android.lorenwang.customview.tablayout.HorizontalSlipTabLayout3
+    <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout3
         android:id="@+id/test3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -11,7 +11,7 @@
         android:text="测试弹窗"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="56dp"
-        android:background="@drawable/solid_radio_8"
+        android:background="@drawable/avlw_solid_radio_8"
         android:backgroundTint="#666"
         tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>

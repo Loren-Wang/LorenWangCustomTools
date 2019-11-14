@@ -7,7 +7,7 @@
     android:gravity="center"
     android:background="#0f0">
 
-    <android.lorenwang.customview.tablayout.HorizontalSlipTabLayout
+    <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout
         android:id="@+id/test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

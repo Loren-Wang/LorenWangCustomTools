@@ -28,7 +28,7 @@ import java.util.List;
  * 修改时间：
  * 备注：
  */
-public class SlideTabLayout extends View {
+public class AvlwSlideTabLayout extends View {
 
     private String TAG;
     private int tabTextViewColor;//tab文本显示颜色
@@ -112,17 +112,17 @@ public class SlideTabLayout extends View {
     };
 
 
-    public SlideTabLayout(Context context) {
+    public AvlwSlideTabLayout(Context context) {
         super(context);
         init(context);
     }
 
-    public SlideTabLayout(Context context, @Nullable AttributeSet attrs) {
+    public AvlwSlideTabLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public SlideTabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwSlideTabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -381,7 +381,7 @@ public class SlideTabLayout extends View {
      * @param allowTouchChange
      * @return
      */
-    public SlideTabLayout setAllowTouchChange(boolean allowTouchChange) {
+    public AvlwSlideTabLayout setAllowTouchChange(boolean allowTouchChange) {
         isAllowTouchChange = allowTouchChange;
         return this;
     }

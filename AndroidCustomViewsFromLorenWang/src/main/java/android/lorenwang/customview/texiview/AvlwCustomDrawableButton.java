@@ -19,7 +19,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 
-public class CustomDrawableButton extends android.support.v7.widget.AppCompatButton {
+public class AvlwCustomDrawableButton extends android.support.v7.widget.AppCompatButton {
 
     private final int DRAWABLE_POSI_NONE = 0;//取值为none的时候代表着不显示图片
     private final int DRAWABLE_POSI_LEFT = 1;
@@ -47,19 +47,19 @@ public class CustomDrawableButton extends android.support.v7.widget.AppCompatBut
     private Integer paddingBottom;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public CustomDrawableButton(Context context) {
+    public AvlwCustomDrawableButton(Context context) {
         super(context);
         init(context, null, -1);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public CustomDrawableButton(Context context, AttributeSet attrs) {
+    public AvlwCustomDrawableButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public CustomDrawableButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AvlwCustomDrawableButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -67,12 +67,12 @@ public class CustomDrawableButton extends android.support.v7.widget.AppCompatBut
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
 
-        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.CustomDrawableButton);
-        drawablePosi = attributes.getInt(R.styleable.CustomDrawableButton_drawablePosi, drawablePosi);
-        drawableWidth = attributes.getDimensionPixelOffset(R.styleable.CustomDrawableButton_drawableWidth, drawableWidth);
-        drawableHeight = attributes.getDimensionPixelOffset(R.styleable.CustomDrawableButton_drawableHeight, drawableHeight);
-        drawableTextDistance = attributes.getDimensionPixelOffset(R.styleable.CustomDrawableButton_drawableTextDistance, drawableTextDistance);
-        drawableResId = attributes.getResourceId(R.styleable.CustomDrawableButton_drawableResId, -1);
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwCustomDrawableButton);
+        drawablePosi = attributes.getInt(R.styleable.AvlwCustomDrawableButton_drawablePosi, drawablePosi);
+        drawableWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwCustomDrawableButton_drawableWidth, drawableWidth);
+        drawableHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwCustomDrawableButton_drawableHeight, drawableHeight);
+        drawableTextDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwCustomDrawableButton_drawableTextDistance, drawableTextDistance);
+        drawableResId = attributes.getResourceId(R.styleable.AvlwCustomDrawableButton_drawableResId, -1);
 
         setDrawable(drawablePosi, drawableWidth, drawableHeight, drawableTextDistance, drawableResId);
 
@@ -153,7 +153,7 @@ public class CustomDrawableButton extends android.support.v7.widget.AppCompatBut
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceType")
-    public synchronized CustomDrawableButton setDrawable(Integer drawablePosi
+    public synchronized AvlwCustomDrawableButton setDrawable(Integer drawablePosi
             , Integer drawableWidth, Integer drawableHeight, Integer drawableTextDistance, @DrawableRes Integer drawableResId) {
 
         if (drawablePosi != null) {

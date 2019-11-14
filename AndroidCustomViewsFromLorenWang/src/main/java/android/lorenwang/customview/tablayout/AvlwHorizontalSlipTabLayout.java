@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * 备注：
  */
 
-public class HorizontalSlipTabLayout extends View implements BaseHorizontalSlipTabLayout {
+public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizontalSlipTabLayout {
     /*******************************************绘制部分参数****************************************/
     /**
      * 文本画笔
@@ -150,19 +150,19 @@ public class HorizontalSlipTabLayout extends View implements BaseHorizontalSlipT
     /**
      * tab改变监听
      */
-    private BaseHorizontalSlipTabLayoutChangeListener tabChangeListener;
+    private AvlwBaseHorizontalSlipTabLayoutChangeListener tabChangeListener;
 
-    public HorizontalSlipTabLayout(Context context) {
+    public AvlwHorizontalSlipTabLayout(Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public HorizontalSlipTabLayout(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwHorizontalSlipTabLayout(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public HorizontalSlipTabLayout(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwHorizontalSlipTabLayout(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -171,18 +171,18 @@ public class HorizontalSlipTabLayout extends View implements BaseHorizontalSlipT
      * 控件初始化
      */
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.HorizontalSlipTabLayout, defStyleAttr, 0);
-        this.tabWidth = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_tabWidth, this.tabWidth);
-        this.tabHeight = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_tabHeight, this.tabHeight);
-        this.tabTextColorY = attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_tabTextColorY, this.tabTextColorY);
-        this.tabTextColorN = attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_tabTextColorN, this.tabTextColorN);
-        this.lineWidth = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineWidth, this.lineWidth);
-        this.lineTextSpace = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineTextSpace, this.lineTextSpace);
-        this.tabTextBoldN = attr.getBoolean(R.styleable.HorizontalSlipTabLayout_hstl_tabTextBoldN, this.tabTextBoldN);
-        this.tabTextBoldY = attr.getBoolean(R.styleable.HorizontalSlipTabLayout_hstl_tabTextBoldY, this.tabTextBoldY);
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.AvlwHorizontalSlipTabLayout, defStyleAttr, 0);
+        this.tabWidth = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabWidth, this.tabWidth);
+        this.tabHeight = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabHeight, this.tabHeight);
+        this.tabTextColorY = attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextColorY, this.tabTextColorY);
+        this.tabTextColorN = attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextColorN, this.tabTextColorN);
+        this.lineWidth = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineWidth, this.lineWidth);
+        this.lineTextSpace = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineTextSpace, this.lineTextSpace);
+        this.tabTextBoldN = attr.getBoolean(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextBoldN, this.tabTextBoldN);
+        this.tabTextBoldY = attr.getBoolean(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextBoldY, this.tabTextBoldY);
 
         //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
-        float tabWidthPercent = attr.getFloat(R.styleable.HorizontalSlipTabLayout_hstl_tabWidthPercent, -1.0F);
+        float tabWidthPercent = attr.getFloat(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabWidthPercent, -1.0F);
         if (tabWidthPercent > (float) 0) {
             if (tabWidthPercent > (float) 1) {
                 tabWidthPercent = 1.0F;
@@ -191,7 +191,7 @@ public class HorizontalSlipTabLayout extends View implements BaseHorizontalSlipT
             this.tabWidth = (float) getResources().getDisplayMetrics().widthPixels * tabWidthPercent;
         }
         //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
-        float lineWidthPercent = attr.getFloat(R.styleable.HorizontalSlipTabLayout_hstl_lineWidthPercent, -1.0F);
+        float lineWidthPercent = attr.getFloat(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineWidthPercent, -1.0F);
         if (lineWidthPercent > (float) 0) {
             if (lineWidthPercent > (float) 1) {
                 lineWidthPercent = 1.0F;
@@ -207,7 +207,7 @@ public class HorizontalSlipTabLayout extends View implements BaseHorizontalSlipT
 
         //初始化tab文本画笔
         this.tabPaint.reset();
-        this.tabPaint.setTextSize(attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_tabTextSize, 50.0F));
+        this.tabPaint.setTextSize(attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextSize, 50.0F));
         this.tabPaint.setAntiAlias(true);
         if (this.tabTextBoldY || this.tabTextBoldN) {
             this.tabPaint.setTypeface(Typeface.DEFAULT_BOLD);
@@ -217,8 +217,8 @@ public class HorizontalSlipTabLayout extends View implements BaseHorizontalSlipT
         this.linePaint.reset();
         this.linePaint.setAntiAlias(true);
         this.linePaint.setStyle(Paint.Style.STROKE);
-        this.linePaint.setStrokeWidth(attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_lineHeight, 10.0F));
-        this.linePaint.setColor(attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_lineColor, this.tabTextColorY));
+        this.linePaint.setStrokeWidth(attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineHeight, 10.0F));
+        this.linePaint.setColor(attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineColor, this.tabTextColorY));
         attr.recycle();
     }
 
@@ -477,7 +477,7 @@ public class HorizontalSlipTabLayout extends View implements BaseHorizontalSlipT
         postInvalidate();
     }
 
-    public void setTabChangeListener(BaseHorizontalSlipTabLayoutChangeListener tabChangeListener) {
+    public void setTabChangeListener(AvlwBaseHorizontalSlipTabLayoutChangeListener tabChangeListener) {
         this.tabChangeListener = tabChangeListener;
     }
 }

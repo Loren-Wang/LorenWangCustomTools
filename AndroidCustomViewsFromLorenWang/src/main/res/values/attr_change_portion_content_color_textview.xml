@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ChangePortionContentColorTextView">
+    <declare-styleable name="AvlwChangePortionContentColorTextView">
         <attr name="defaltTextSize" format="dimension" />
         <attr name="defaltTextColor" format="color" />
     </declare-styleable>

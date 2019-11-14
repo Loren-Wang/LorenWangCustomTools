@@ -21,7 +21,7 @@ import java.util.List;
  * 逻辑：重绘制文字，使用记录类（MySpannableString）记录所要修改的区间信息，在使用重绘重新绘制，绘制之前根据用户给的位置信息计算位置坐标，
  * 缺点：只能单行显示，一行排满不会切换到下一行显示
  */
-public class ChangePortionContentColorTextView extends View {
+public class AvlwChangePortionContentColorTextView extends View {
     private Paint paint;
     private String changeText = "123456";
     private Float defaltTextSize ;
@@ -29,19 +29,19 @@ public class ChangePortionContentColorTextView extends View {
     private MySpannableString mySpannableString;
     private static Context context;
 
-    public ChangePortionContentColorTextView(Context context) {
+    public AvlwChangePortionContentColorTextView(Context context) {
         super(context);
         this.context = context;
     }
-    public ChangePortionContentColorTextView(Context context, AttributeSet attrs) {
+    public AvlwChangePortionContentColorTextView(Context context, AttributeSet attrs) {
         this(context, attrs,0);
     }
-    public ChangePortionContentColorTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AvlwChangePortionContentColorTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.ChangePortionContentColorTextView, defStyleAttr, 0);
-        defaltTextSize = attr.getDimension(R.styleable.ChangePortionContentColorTextView_defaltTextSize, Float.valueOf(sp2px(context,10f)));
-        defaltTextColor = attr.getColor(R.styleable.ChangePortionContentColorTextView_defaltTextColor,defaltTextColor);
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.AvlwChangePortionContentColorTextView, defStyleAttr, 0);
+        defaltTextSize = attr.getDimension(R.styleable.AvlwChangePortionContentColorTextView_defaltTextSize, Float.valueOf(sp2px(context,10f)));
+        defaltTextColor = attr.getColor(R.styleable.AvlwChangePortionContentColorTextView_defaltTextColor,defaltTextColor);
     }
 
 

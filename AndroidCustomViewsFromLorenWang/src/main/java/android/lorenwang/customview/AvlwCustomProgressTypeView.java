@@ -11,8 +11,6 @@ import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 /**
  * 创建时间： 2018-07-10 下午 2:27
@@ -38,7 +36,7 @@ import android.widget.LinearLayout;
  * ③.进度条颜色
  * ④.进度条圆角半径
  */
-public class CustomProgressTypeView extends View {
+public class AvlwCustomProgressTypeView extends View {
 
     private final int PROGRESS_TYPE_1 = 0;//第一种进度条
     private final int PROGRESS_TYPE_2 = 1;//第二种进度条
@@ -95,34 +93,34 @@ public class CustomProgressTypeView extends View {
     private int thirdProgressColor;//第三种进度条颜色
     private RectF thirdProgressBgRectf;//第三种进度条位置
 
-    public CustomProgressTypeView(Context context) {
+    public AvlwCustomProgressTypeView(Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public CustomProgressTypeView(Context context, @Nullable AttributeSet attrs) {
+    public AvlwCustomProgressTypeView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public CustomProgressTypeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwCustomProgressTypeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
 
-        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.CustomProgressTypeView);
-        showProgressType = attributes.getInt(R.styleable.CustomProgressTypeView_showProgressType, showProgressType);
-        progressWidth = attributes.getDimensionPixelOffset(R.styleable.CustomProgressTypeView_progressWidth, progressWidth);
-        progressHeight = attributes.getDimensionPixelOffset(R.styleable.CustomProgressTypeView_progressHeight, progressHeight);
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwCustomProgressTypeView);
+        showProgressType = attributes.getInt(R.styleable.AvlwCustomProgressTypeView_showProgressType, showProgressType);
+        progressWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwCustomProgressTypeView_progressWidth, progressWidth);
+        progressHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwCustomProgressTypeView_progressHeight, progressHeight);
         switch (showProgressType) {
             case PROGRESS_TYPE_1:
             case PROGRESS_TYPE_2:
-                progressOuterRingWidth = attributes.getDimensionPixelOffset(R.styleable.CustomProgressTypeView_progressOuterRingWidth, progressOuterRingWidth);
-                progressOuterInnerRingDistance = attributes.getDimensionPixelOffset(R.styleable.CustomProgressTypeView_progressOuterInnerRingDistance, progressOuterInnerRingDistance);
-                progressOuterRingColor = attributes.getColor(R.styleable.CustomProgressTypeView_progressOuterRingColor, progressOuterRingColor);
-                progressInnerRingColor = attributes.getColor(R.styleable.CustomProgressTypeView_progressInnerRingColor, progressInnerRingColor);
+                progressOuterRingWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwCustomProgressTypeView_progressOuterRingWidth, progressOuterRingWidth);
+                progressOuterInnerRingDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwCustomProgressTypeView_progressOuterInnerRingDistance, progressOuterInnerRingDistance);
+                progressOuterRingColor = attributes.getColor(R.styleable.AvlwCustomProgressTypeView_progressOuterRingColor, progressOuterRingColor);
+                progressInnerRingColor = attributes.getColor(R.styleable.AvlwCustomProgressTypeView_progressInnerRingColor, progressInnerRingColor);
 
                 //初始化半径信息
                 progressInnerRingWidth = progressWidth - progressOuterRingWidth - progressOuterInnerRingDistance;
@@ -143,9 +141,9 @@ public class CustomProgressTypeView extends View {
 
                 break;
             case PROGRESS_TYPE_3:
-                thirdProgressRadius = attributes.getDimension(R.styleable.CustomProgressTypeView_progressRadius, thirdProgressRadius);
-                thirdProgressBgColor = attributes.getColor(R.styleable.CustomProgressTypeView_progressBgColor, Color.WHITE);
-                thirdProgressColor = attributes.getColor(R.styleable.CustomProgressTypeView_progressColor, Color.BLACK);
+                thirdProgressRadius = attributes.getDimension(R.styleable.AvlwCustomProgressTypeView_progressRadius, thirdProgressRadius);
+                thirdProgressBgColor = attributes.getColor(R.styleable.AvlwCustomProgressTypeView_progressBgColor, Color.WHITE);
+                thirdProgressColor = attributes.getColor(R.styleable.AvlwCustomProgressTypeView_progressColor, Color.BLACK);
                 thirdProgressPaint = new Paint();
                 thirdProgressPaint.setAntiAlias(true);
                 thirdProgressPaint.setStyle(Paint.Style.FILL);
@@ -217,7 +215,7 @@ public class CustomProgressTypeView extends View {
      * @param progress
      * @return
      */
-    public CustomProgressTypeView setProgress(@FloatRange(from = 0, to = 1) float progress) {
+    public AvlwCustomProgressTypeView setProgress(@FloatRange(from = 0, to = 1) float progress) {
         if(autoProgressTime == 0) {
             this.progress = progress;
             invalidate();
@@ -230,7 +228,7 @@ public class CustomProgressTypeView extends View {
      * @param timeMill
      * @return
      */
-    public CustomProgressTypeView setAutoProgress(long timeMill){
+    public AvlwCustomProgressTypeView setAutoProgress(long timeMill){
         if(autoProgressTime == 0){
             autoProgressTime = timeMill;
             new Thread(autoProgressRunnable).start();

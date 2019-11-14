@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CustomDrawableButton">
+    <declare-styleable name="AvlwCustomDrawableButton">
         <attr name="drawablePosi">
             <enum name="DRAWABLE_POSI_NONE" value="0"/>
             <enum name="DRAWABLE_POSI_LEFT" value="1"/>

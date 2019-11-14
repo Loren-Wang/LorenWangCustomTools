@@ -35,7 +35,7 @@ import java.util.Iterator;
  * 修改时间：
  * 备注：
  */
-public class HorizontalSlipTabLayout2 extends View implements BaseHorizontalSlipTabLayout {
+public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizontalSlipTabLayout {
 
 
     /*******************************************绘制部分参数****************************************/
@@ -148,49 +148,49 @@ public class HorizontalSlipTabLayout2 extends View implements BaseHorizontalSlip
     /**
      * tab改变监听
      */
-    private BaseHorizontalSlipTabLayoutChangeListener tabChangeListener;
+    private AvlwBaseHorizontalSlipTabLayoutChangeListener tabChangeListener;
 
 
-    public HorizontalSlipTabLayout2(Context context) {
+    public AvlwHorizontalSlipTabLayout2(Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public HorizontalSlipTabLayout2(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwHorizontalSlipTabLayout2(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public HorizontalSlipTabLayout2(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwHorizontalSlipTabLayout2(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.HorizontalSlipTabLayout, defStyleAttr, 0);
-        this.tabWidth = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_tabWidth, this.tabWidth);
-        this.tabHeight = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_tabHeight, this.tabHeight);
-        this.tabTextColorY = attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_tabTextColorY, this.tabTextColorY);
-        this.tabTextColorN = attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_tabTextColorN, this.tabTextColorN);
-        this.viewRadius = attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_viewRadius, this.viewRadius);
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.AvlwHorizontalSlipTabLayout, defStyleAttr, 0);
+        this.tabWidth = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabWidth, this.tabWidth);
+        this.tabHeight = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabHeight, this.tabHeight);
+        this.tabTextColorY = attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextColorY, this.tabTextColorY);
+        this.tabTextColorN = attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextColorN, this.tabTextColorN);
+        this.viewRadius = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_viewRadius, this.viewRadius);
 
         this.measure(0, 0);
 
         //初始化tab文本画笔
         this.tabPaint.reset();
-        this.tabPaint.setTextSize(attr.getDimension(R.styleable.HorizontalSlipTabLayout_hstl_tabTextSize, 50.0F));
+        this.tabPaint.setTextSize(attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextSize, 50.0F));
         this.tabPaint.setAntiAlias(true);
 
         //初始化tab背景画笔
         this.tabBgPaint.reset();
         this.tabBgPaint.setAntiAlias(true);
-        this.tabBgPaint.setColor(attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_tabBgColorY, -1));
+        this.tabBgPaint.setColor(attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabBgColorY, -1));
         this.tabBgPaint.setStyle(Paint.Style.FILL);
 
         //视图背景画笔
         this.viewBgPaint.reset();
         this.viewBgPaint.setAntiAlias(true);
-        this.viewBgPaint.setColor(attr.getColor(R.styleable.HorizontalSlipTabLayout_hstl_viewBgColor, -16777216));
+        this.viewBgPaint.setColor(attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_viewBgColor, -16777216));
         this.viewBgPaint.setStyle(Paint.Style.FILL);
         attr.recycle();
     }

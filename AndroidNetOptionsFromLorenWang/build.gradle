@@ -41,7 +41,7 @@ dependencies {
 
 def moduleName = "AndroidNetOptionsFromLorenWang"
 def moduleDescription = "Android自定义网络请求库"
-version '1.0.2'
+version '1.0.4'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

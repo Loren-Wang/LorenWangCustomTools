@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--水平滑动tab标签-->
 <resources>
-    <declare-styleable name="HorizontalSlipTabLayout">
+    <declare-styleable name="AvlwHorizontalSlipTabLayout">
         <attr name="hstl_tabWidth" format="dimension"/>
         <attr name="hstl_tabWidthPercent" format="float"/>
         <attr name="hstl_tabHeight" format="dimension"/>

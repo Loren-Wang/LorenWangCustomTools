@@ -12,7 +12,7 @@ package android.lorenwang.customview.dialog;
  * 备注：
  */
 
-public class OptionsItemAttribute {
+public class AvlwOptionsItemAttribute {
     private String title;
     private Float textSize;
     private Integer textSizeUnit;
@@ -24,7 +24,7 @@ public class OptionsItemAttribute {
     private Integer paddingBottom;
     private Integer gravity;
 
-    public OptionsItemAttribute(String title, Float textSize, Integer textSizeUnit, Integer textColor, Integer textHeight
+    public AvlwOptionsItemAttribute(String title, Float textSize, Integer textSizeUnit, Integer textColor, Integer textHeight
             , Integer paddingLeft, Integer paddingTop, Integer paddingRight, Integer paddingBottom, Integer gravity) {
         this.title = title;
         this.textSize = textSize;

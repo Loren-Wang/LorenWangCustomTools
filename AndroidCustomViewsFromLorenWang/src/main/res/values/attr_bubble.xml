@@ -3,10 +3,10 @@
     <!--气泡的-->
     <declare-styleable name="AvlwBubble">
         <attr name="bubbleDirection">
-            <enum name="left" value="0"></enum>
-            <enum name="top" value="1"></enum>
-            <enum name="right" value="2"></enum>
-            <enum name="bottom" value="3"></enum>
+            <enum name="left" value="0" />
+            <enum name="top" value="1" />
+            <enum name="right" value="2" />
+            <enum name="bottom" value="3" />
         </attr>
         <attr name="bubbleArrowWidth" format="dimension" />
         <attr name="bubbleArrowHeight" format="dimension" />

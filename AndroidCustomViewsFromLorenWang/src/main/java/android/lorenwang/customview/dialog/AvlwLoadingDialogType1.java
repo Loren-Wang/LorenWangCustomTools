@@ -22,20 +22,20 @@ import android.widget.ProgressBar;
  * 修改时间：
  * 备注：
  */
-public class LoadingDialogType1 extends BaseDialog {
+public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
     /**
      * 是否允许加载中后退退出当前页面
      */
     private boolean allowLoadingBackFinishPage = false;
     private Activity activity;
 
-    public LoadingDialogType1(Activity activity) {
-        super(activity, R.layout.dialog_loading_type_1, R.style.loading_dialog_type1, R.style.dialog_anim_for_center, false, false, false);
+    public AvlwLoadingDialogType1(Activity activity) {
+        super(activity, R.layout.avlw_dialog_loading_type_1, R.style.avlw_loading_dialog_type1, R.style.avlw_dialog_anim_for_center, false, false, false);
         this.activity = activity;
     }
 
-    public LoadingDialogType1(Activity activity, @StyleRes int styleRes) {
-        super(activity, R.layout.dialog_loading_type_1, styleRes, R.style.dialog_anim_for_center, false, false, false);
+    public AvlwLoadingDialogType1(Activity activity, @StyleRes int styleRes) {
+        super(activity, R.layout.avlw_dialog_loading_type_1, styleRes, R.style.avlw_dialog_anim_for_center, false, false, false);
         this.activity = activity;
     }
 

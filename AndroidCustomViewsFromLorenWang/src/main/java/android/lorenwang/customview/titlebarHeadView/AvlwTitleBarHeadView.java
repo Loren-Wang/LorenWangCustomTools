@@ -41,7 +41,7 @@ import android.widget.TextView;
  * 修改时间：
  * 备注：
  */
-public class TitleBarHeadView extends FrameLayout{
+public class AvlwTitleBarHeadView extends FrameLayout{
     private final int LAYOUT_TYPE_0 = 0;//（0）自定义view
     private final int LAYOUT_TYPE_1 = 1;//（1）后退、标题
     private final int LAYOUT_TYPE_2 = 2;//（2）后退、标题、右侧按钮
@@ -58,17 +58,17 @@ public class TitleBarHeadView extends FrameLayout{
     private int backImgheight;//后退按钮高
     private int layoutType = LAYOUT_TYPE_1;//布局类型
 
-    public TitleBarHeadView(Context context) {
+    public AvlwTitleBarHeadView(Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public TitleBarHeadView(Context context, @Nullable AttributeSet attrs) {
+    public AvlwTitleBarHeadView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public TitleBarHeadView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwTitleBarHeadView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -81,9 +81,9 @@ public class TitleBarHeadView extends FrameLayout{
      * @param defStyleAttr
      */
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.TitleBarHeadView);
-        layoutType = attributes.getInt(R.styleable.TitleBarHeadView_layoutType, LAYOUT_TYPE_1);
-        int customLayout = attributes.getResourceId(R.styleable.TitleBarHeadView_customLayout, -1);
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwTitleBarHeadView);
+        layoutType = attributes.getInt(R.styleable.AvlwTitleBarHeadView_layoutType, LAYOUT_TYPE_1);
+        int customLayout = attributes.getResourceId(R.styleable.AvlwTitleBarHeadView_customLayout, -1);
 
 
         //根据不同类型，读取不同数据
@@ -112,32 +112,32 @@ public class TitleBarHeadView extends FrameLayout{
                 layoutView = LayoutInflater.from(context).inflate(customLayout, null);
                 break;
             case LAYOUT_TYPE_2:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_2, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_2, null);
                 break;
             case LAYOUT_TYPE_3:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_3, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_3, null);
                 break;
             case LAYOUT_TYPE_4:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_4, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_4, null);
                 break;
             case LAYOUT_TYPE_5:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_5, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_5, null);
                 break;
             case LAYOUT_TYPE_6:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_6, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_6, null);
                 break;
             case LAYOUT_TYPE_7:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_7, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_7, null);
                 break;
             case LAYOUT_TYPE_8:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_8, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_8, null);
                 break;
             case LAYOUT_TYPE_9:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_9, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_9, null);
                 break;
             case LAYOUT_TYPE_1:
             default:
-                layoutView = LayoutInflater.from(context).inflate(R.layout.title_bar_head_view_type_1, null);
+                layoutView = LayoutInflater.from(context).inflate(R.layout.avlw_title_bar_head_view_type_1, null);
                 break;
         }
         return layoutView;
@@ -184,7 +184,7 @@ public class TitleBarHeadView extends FrameLayout{
                 break;
         }
         //设置背景颜色
-        int viewBgColor = attributes.getColor(R.styleable.TitleBarHeadView_viewBgColor, Color.WHITE);
+        int viewBgColor = attributes.getColor(R.styleable.AvlwTitleBarHeadView_viewBgColor, Color.WHITE);
         setBackgroundColor(viewBgColor);
     }
 
@@ -194,15 +194,15 @@ public class TitleBarHeadView extends FrameLayout{
      * @param attributes
      */
     private void setRightBtn(TypedArray attributes) {
-        ((Button) findViewById(R.id.btnRight)).setTextColor(attributes.getColor(R.styleable.TitleBarHeadView_rightBtnTextColor, Color.BLACK));
-        ((Button) findViewById(R.id.btnRight)).setTextSize(TypedValue.COMPLEX_UNIT_PX, attributes.getDimensionPixelSize(R.styleable.TitleBarHeadView_rightBtnTextSize, 50));
-        ((Button) findViewById(R.id.btnRight)).setText(attributes.getString(R.styleable.TitleBarHeadView_rightBtnText));
+        ((Button) findViewById(R.id.btnRight)).setTextColor(attributes.getColor(R.styleable.AvlwTitleBarHeadView_rightBtnTextColor, Color.BLACK));
+        ((Button) findViewById(R.id.btnRight)).setTextSize(TypedValue.COMPLEX_UNIT_PX, attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_rightBtnTextSize, 50));
+        ((Button) findViewById(R.id.btnRight)).setText(attributes.getString(R.styleable.AvlwTitleBarHeadView_rightBtnText));
         //右侧按钮边距
         findViewById(R.id.btnRight).setPadding(
-                Float.valueOf(attributes.getDimension(R.styleable.TitleBarHeadView_rightBtnLeft, 0)).intValue(),
-                Float.valueOf(attributes.getDimension(R.styleable.TitleBarHeadView_rightBtnTop, 0)).intValue(),
-                Float.valueOf(attributes.getDimension(R.styleable.TitleBarHeadView_rightBtnRight, 0)).intValue(),
-                Float.valueOf(attributes.getDimension(R.styleable.TitleBarHeadView_rightBtnBottom, 0)).intValue()
+                Float.valueOf(attributes.getDimension(R.styleable.AvlwTitleBarHeadView_rightBtnLeft, 0)).intValue(),
+                Float.valueOf(attributes.getDimension(R.styleable.AvlwTitleBarHeadView_rightBtnTop, 0)).intValue(),
+                Float.valueOf(attributes.getDimension(R.styleable.AvlwTitleBarHeadView_rightBtnRight, 0)).intValue(),
+                Float.valueOf(attributes.getDimension(R.styleable.AvlwTitleBarHeadView_rightBtnBottom, 0)).intValue()
         );
     }
 
@@ -212,9 +212,9 @@ public class TitleBarHeadView extends FrameLayout{
      * @param attributes
      */
     private void setTitleTextView(TypedArray attributes) {
-        ((TextView) findViewById(R.id.tvTitle)).setTextColor(attributes.getColor(R.styleable.TitleBarHeadView_titleTextColor, Color.BLACK));
-        ((TextView) findViewById(R.id.tvTitle)).setTextSize(TypedValue.COMPLEX_UNIT_PX, attributes.getDimensionPixelSize(R.styleable.TitleBarHeadView_titleTextSize, 50));
-        ((TextView) findViewById(R.id.tvTitle)).setText(attributes.getString(R.styleable.TitleBarHeadView_titleText));
+        ((TextView) findViewById(R.id.tvTitle)).setTextColor(attributes.getColor(R.styleable.AvlwTitleBarHeadView_titleTextColor, Color.BLACK));
+        ((TextView) findViewById(R.id.tvTitle)).setTextSize(TypedValue.COMPLEX_UNIT_PX, attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_titleTextSize, 50));
+        ((TextView) findViewById(R.id.tvTitle)).setText(attributes.getString(R.styleable.AvlwTitleBarHeadView_titleText));
     }
 
     /**
@@ -224,9 +224,9 @@ public class TitleBarHeadView extends FrameLayout{
      */
     private void setBackImgBtn(TypedArray attributes) {
         //设置后退按钮大小
-        backImgWidth = (int) attributes.getDimension(R.styleable.TitleBarHeadView_backImgWidth, -1);
-        backImgheight = (int) attributes.getDimension(R.styleable.TitleBarHeadView_backImgHeight, -1);
-        backImgRes = attributes.getResourceId(R.styleable.TitleBarHeadView_backImgRes, R.mipmap.icon_arrow_left);
+        backImgWidth = (int) attributes.getDimension(R.styleable.AvlwTitleBarHeadView_backImgWidth, -1);
+        backImgheight = (int) attributes.getDimension(R.styleable.AvlwTitleBarHeadView_backImgHeight, -1);
+        backImgRes = attributes.getResourceId(R.styleable.AvlwTitleBarHeadView_backImgRes, R.mipmap.avlw_icon_arrow_left);
         if (backImgWidth > 0 && backImgheight > 0) {
             ViewGroup.LayoutParams layoutParams = findViewById(R.id.imgBtnBack).getLayoutParams();
             if (layoutParams == null) {
@@ -238,7 +238,7 @@ public class TitleBarHeadView extends FrameLayout{
             findViewById(R.id.imgBtnBack).setLayoutParams(layoutParams);
         }
         //设置后退按钮颜色
-        backColor = attributes.getColor(R.styleable.TitleBarHeadView_backImgColor, Color.BLACK);
+        backColor = attributes.getColor(R.styleable.AvlwTitleBarHeadView_backImgColor, Color.BLACK);
         //设置背景图片
         findViewById(R.id.imgBtnBack).setBackgroundResource(backImgRes);
         //设置背景图片修改颜色
@@ -248,10 +248,10 @@ public class TitleBarHeadView extends FrameLayout{
 
         //后退按钮边距
         findViewById(R.id.fmBack).setPadding(
-                Float.valueOf(attributes.getDimension(R.styleable.TitleBarHeadView_backImgLeft, 0)).intValue(),
-                Float.valueOf(attributes.getDimension(R.styleable.TitleBarHeadView_backImgTop, 0)).intValue(),
-                Float.valueOf(attributes.getDimension(R.styleable.TitleBarHeadView_backImgRight, 0)).intValue(),
-                Float.valueOf(attributes.getDimension(R.styleable.TitleBarHeadView_backImgBottom, 0)).intValue()
+                Float.valueOf(attributes.getDimension(R.styleable.AvlwTitleBarHeadView_backImgLeft, 0)).intValue(),
+                Float.valueOf(attributes.getDimension(R.styleable.AvlwTitleBarHeadView_backImgTop, 0)).intValue(),
+                Float.valueOf(attributes.getDimension(R.styleable.AvlwTitleBarHeadView_backImgRight, 0)).intValue(),
+                Float.valueOf(attributes.getDimension(R.styleable.AvlwTitleBarHeadView_backImgBottom, 0)).intValue()
         );
         //设置默认点击事件为后退并销毁当前页面
         setBackClick(new OnClickListener() {

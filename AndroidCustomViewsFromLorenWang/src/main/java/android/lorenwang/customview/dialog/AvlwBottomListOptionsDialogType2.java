@@ -25,13 +25,13 @@ import java.util.List;
  * 修改时间：
  * 备注：
  */
-public class BottomListOptionsDialogType2 extends BaseDialog {
+public class AvlwBottomListOptionsDialogType2 extends AvlwBaseDialog {
 
-    private OptionsItemClickListener onOptionsItemClick;
+    private AvlwOptionsItemClickListener onOptionsItemClick;
 
-    public BottomListOptionsDialogType2(Context context) {
-        super(context, R.layout.dialog_bottom_list_options_type_2, R.style.dialog_bottom_list_options_type_1
-                , R.style.dialog_anim_for_bottom, true,true,false);
+    public AvlwBottomListOptionsDialogType2(Context context) {
+        super(context, R.layout.avlw_dialog_bottom_list_options_type_2, R.style.avlw_dialog_bottom_list_options_type_1
+                , R.style.avlw_dialog_anim_for_bottom, true,true,false);
     }
 
     /**
@@ -39,12 +39,12 @@ public class BottomListOptionsDialogType2 extends BaseDialog {
      *
      * @param list 显示列表属性集合
      */
-    public void setOptionsList(final List<OptionsItemAttribute> list) {
+    public void setOptionsList(final List<AvlwOptionsItemAttribute> list) {
         if (list != null && !list.isEmpty()) {
             LinearLayout linearLayout = view.findViewById(R.id.lnOptions);
             linearLayout.removeAllViews();
-            Iterator<OptionsItemAttribute> iterator = list.iterator();
-            OptionsItemAttribute itemAttribute;
+            Iterator<AvlwOptionsItemAttribute> iterator = list.iterator();
+            AvlwOptionsItemAttribute itemAttribute;
             Button button;
             while (iterator.hasNext()) {
                 itemAttribute = iterator.next();
@@ -65,7 +65,7 @@ public class BottomListOptionsDialogType2 extends BaseDialog {
                             itemAttribute.getPaddingBottom() != null ? itemAttribute.getPaddingBottom() : 20);
                     button.setGravity(itemAttribute.getGravity() != null ? itemAttribute.getGravity() : Gravity.CENTER);
                     linearLayout.addView(button);
-                    final OptionsItemAttribute finalItemAttribute = itemAttribute;
+                    final AvlwOptionsItemAttribute finalItemAttribute = itemAttribute;
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -80,7 +80,7 @@ public class BottomListOptionsDialogType2 extends BaseDialog {
         }
     }
 
-    public void setOnOptionsItemClick(OptionsItemClickListener onOptionsItemClick) {
+    public void setOnOptionsItemClick(AvlwOptionsItemClickListener onOptionsItemClick) {
         this.onOptionsItemClick = onOptionsItemClick;
     }
 

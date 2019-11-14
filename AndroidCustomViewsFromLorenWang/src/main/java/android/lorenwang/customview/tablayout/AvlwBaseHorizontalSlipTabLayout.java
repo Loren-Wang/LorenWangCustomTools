@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * 备注：
  */
 
-public interface BaseHorizontalSlipTabLayout {
+public interface AvlwBaseHorizontalSlipTabLayout {
     /**
      * 设置tab列表
      */

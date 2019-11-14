@@ -21,13 +21,13 @@ import android.widget.LinearLayout;
  * 修改时间：
  * 备注：
  */
-public class BottomListOptionsDialogType1 extends BaseDialog {
+public class AvlwBottomListOptionsDialogType1 extends AvlwBaseDialog {
 
-    private OptionsItemClickListener onOptionsItemClick;
+    private AvlwOptionsItemClickListener onOptionsItemClick;
 
-    public BottomListOptionsDialogType1(Context context) {
-        super(context, R.layout.dialog_bottom_list_options_type_1
-                ,R.style.dialog_bottom_list_options_type_1,R.style.dialog_anim_for_bottom,true,true,false);
+    public AvlwBottomListOptionsDialogType1(Context context) {
+        super(context, R.layout.avlw_dialog_bottom_list_options_type_1
+                ,R.style.avlw_dialog_bottom_list_options_type_1,R.style.avlw_dialog_anim_for_bottom,true,true,false);
     }
 
     /**
@@ -75,7 +75,7 @@ public class BottomListOptionsDialogType1 extends BaseDialog {
         }
     }
 
-    public void setOnOptionsItemClick(OptionsItemClickListener onOptionsItemClick) {
+    public void setOnOptionsItemClick(AvlwOptionsItemClickListener onOptionsItemClick) {
         this.onOptionsItemClick = onOptionsItemClick;
     }
 

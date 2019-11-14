@@ -7,7 +7,7 @@
     android:gravity="center"
     android:background="#0f0">
 
-    <android.lorenwang.customview.texiview.CustomDrawableButton
+    <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
         android:id="@+id/test"
         style="@style/dialog_cartoon_first_chapter_count"
         android:text="0"

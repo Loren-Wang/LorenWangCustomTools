@@ -11,6 +11,6 @@ package android.lorenwang.customview;
  * 备注：
  */
 
-public interface RecycleviewViewPageOnPageChangeListener {
+public interface AvlwRecycleviewViewPageOnPageChangeListener {
     void onPageChange(int nowPagePosition);//滑动结束后的页面
 }

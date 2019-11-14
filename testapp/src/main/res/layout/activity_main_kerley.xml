@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <android.lorenwang.customview.KerleyViewAvlw
+    <android.lorenwang.customview.AvlwKerleyViewAvlw
         android:layout_width="1dp"
         android:layout_height="match_parent"
         app:kv_orientation="vertical"
@@ -16,7 +16,7 @@
         tools:ignore="MissingPrefix"
         android:layout_centerHorizontal="true"/>
 
-    <android.lorenwang.customview.KerleyViewAvlw
+    <android.lorenwang.customview.AvlwKerleyViewAvlw
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:kv_orientation="horizontal"

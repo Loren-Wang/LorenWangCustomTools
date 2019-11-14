@@ -21,16 +21,16 @@ import android.widget.TextView;
  * 备注：
  */
 
-public class ConfirmCancelDialog1 extends BaseDialog {
+public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
     private TextView tvContent;
     private Button btnLeft;
     private View viewLine;
     private Button btnRight;
     private LinearLayout lnOptions;
 
-    public ConfirmCancelDialog1(Context context) {
-        super(context, R.layout.dialog_confirm_cancel_1, R.style.dialog_confirm_cancel_1
-                , R.style.dialog_anim_for_center, false,false,false);
+    public AvlwConfirmCancelDialog1(Context context) {
+        super(context, R.layout.avlw_dialog_confirm_cancel_1, R.style.avlw_dialog_confirm_cancel_1
+                , R.style.avlw_dialog_anim_for_center, false,false,false);
         tvContent = view.findViewById(R.id.tvContent);
         btnLeft = view.findViewById(R.id.btnLeft);
         viewLine = view.findViewById(R.id.viewLine);
