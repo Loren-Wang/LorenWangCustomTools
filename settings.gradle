@@ -8,4 +8,5 @@ include ':testapp'
 include ':JavaCustomToolsFromLorenWang'
 include ':JavaPcToolsFromLorenWang'
 include ':JavaDataParseFromLorenWang'
+include ':KotlinCustomToolsFromLorenWang'
 

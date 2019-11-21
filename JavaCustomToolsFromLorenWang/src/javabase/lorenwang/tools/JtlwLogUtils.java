@@ -17,10 +17,10 @@ public class JtlwLogUtils {
 
     }
 
-    public static void logE(String tag, String ms) {
+    public static void logE(String tag, String msg) {
     }
 
-    public static void logI(String tag, String s) {
+    public static void logI(String tag, String msg) {
 
     }
 }
