@@ -56,7 +56,7 @@ def userEmail = properties.getProperty("userinfo.userEmail")
 def projectGitUrl = properties.getProperty("project.gitUrl")
 def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
 def projectGroupId = properties.getProperty("project.groupId")
-def muduleVersion = version
+def moduleVersion = version
 
 install {
     repositories.mavenInstaller {
@@ -95,7 +95,7 @@ install {
                 dependencies {
                     dependency {
                         groupId projectGroupId
-                        version muduleVersion
+                        version moduleVersion
                         artifactId moduleName
                     }
                 }
@@ -138,7 +138,7 @@ bintray {
     key = bintrayKey
     configurations = ['archives']
     group = projectGroupId
-    version = muduleVersion
+    version = moduleVersion
 
     pkg {
         repo = "maven"

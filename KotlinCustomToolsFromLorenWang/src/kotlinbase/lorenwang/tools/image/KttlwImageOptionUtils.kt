@@ -3,7 +3,9 @@ package kotlinbase.lorenwang.tools.image
 import javabase.lorenwang.tools.JtlwLogUtils
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
+import sun.misc.BASE64Decoder
 import sun.misc.BASE64Encoder
+import java.io.ByteArrayOutputStream
 
 /**
  * 功能作用：图片处理工具类
@@ -17,8 +19,9 @@ import sun.misc.BASE64Encoder
  * 备注：
  */
 class KttlwImageOptionUtils private constructor() {
-    private val TAG = "";
-    private var basE64Encoder: BASE64Encoder? = null;
+    private val TAG = "kttlwImageOptionUtils"
+    private var basE64Encoder: BASE64Encoder? = null
+    private var basE64Decoder: BASE64Decoder? = null
 
     companion object {
         private var optionsInstance: KttlwImageOptionUtils? = null
@@ -51,6 +54,36 @@ class KttlwImageOptionUtils private constructor() {
     }
 
     /**
+     * base64图片字符串转byte数组
+     */
+    fun base64ImageStringToBytes(base64Data: String): ByteArray {
+        var out: ByteArrayOutputStream? = null
+        try {
+            // Base64解码
+            return getBase64Decoder().decodeBuffer(base64Data).emptyCheck({
+                byteArrayOf()
+            }, {
+                // 调整异常数据
+                it.forEachIndexed { index, byte ->
+                    if (byte < 0) {
+                        it[index] = (byte + 256).toByte()
+                    }
+                }
+                //输入到流中
+                out = ByteArrayOutputStream()
+                out?.write(it)
+                out?.flush()
+                it
+            })
+        } catch (e: Exception) {
+            return byteArrayOf()
+        } finally {
+            out?.close()
+        }
+
+    }
+
+    /**
      * 获取base64编码实例
      */
     private fun getBase64Encoder(): BASE64Encoder {
@@ -62,6 +95,20 @@ class KttlwImageOptionUtils private constructor() {
             }
         }
         return basE64Encoder!!
+    }
+
+    /**
+     * 获取base64解码实例
+     */
+    private fun getBase64Decoder(): BASE64Decoder {
+        if (basE64Decoder == null) {
+            synchronized(BASE64Decoder::class) {
+                if (basE64Decoder == null) {
+                    basE64Decoder = BASE64Decoder()
+                }
+            }
+        }
+        return basE64Decoder!!
     }
 
 }

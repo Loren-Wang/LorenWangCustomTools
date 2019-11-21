@@ -86,3 +86,4 @@ app/build/
 build/
 
 *.hprof
+/KotlinCustomToolsFromLorenWang/src/test/
