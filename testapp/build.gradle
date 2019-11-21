@@ -36,8 +36,6 @@ dependencies {
     implementation project(':AndroidAnimFromLorenWang')
     implementation project(':AndroidCustomToolsFromLorenWang')
     implementation project(':AndroidNetOptionsFromLorenWang')
-    implementation project(':androidresolutionratio375x667fromlorenwang')
-    implementation project(':AndroidResolutionRatio750x1334FromLorenWang')
     implementation project(':JavaCustomToolsFromLorenWang')
     implementation project(':JavaPcToolsFromLorenWang')
     implementation project(':JavaDataParseFromLorenWang')
