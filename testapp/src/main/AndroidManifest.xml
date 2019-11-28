@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.testapp">
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -32,7 +33,9 @@
         <activity android:name=".HorizontalSlipTabLayoutActivity" />
         <activity android:name=".SwitchButtonActivity" />
         <activity android:name=".ImageViewActivity" />
+        <activity android:name=".androidTools.MobileContactsActivity" />
     </application>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
@@ -40,5 +43,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
 </manifest>

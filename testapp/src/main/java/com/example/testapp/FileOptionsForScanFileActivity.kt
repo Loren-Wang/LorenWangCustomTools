@@ -2,8 +2,8 @@ package com.example.testapp
 
 import android.Manifest
 import android.lorenwang.tools.app.AtlwActivityUtils
-import android.lorenwang.tools.app.PermissionRequestCallback
 import android.lorenwang.tools.app.AtlwThreadUtils
+import android.lorenwang.tools.app.PermissionRequestCallback
 import android.lorenwang.tools.file.AtlwFileOptionUtils
 import android.os.Bundle
 import android.os.Environment
@@ -32,9 +32,8 @@ class FileOptionsForScanFileActivity : BaseActivity(), PermissionRequestCallback
     private var adapter: FileScanAdapter? = null
     private val files = ArrayList<File>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_file_options_for_scan)
+    override fun onChildCreate(savedInstanceState: Bundle?) {
+        addChildView(R.layout.activity_file_options_for_scan)
         recyList = findViewById(R.id.rv_scan_result)
         val manager = LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false)
@@ -61,7 +60,7 @@ class FileOptionsForScanFileActivity : BaseActivity(), PermissionRequestCallback
     override fun perissionRequestSuccessCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
         files.clear()
         AtlwThreadUtils.getInstance().postOnChildThread {
-            files.addAll(AtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(applicationContext,true, Environment.getExternalStorageDirectory().getPath(), "^[^\\.].*\\.txt$"));
+            files.addAll(AtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(applicationContext, true, Environment.getExternalStorageDirectory().getPath(), "^[^\\.].*\\.txt$"));
             AtlwThreadUtils.getInstance().postOnUiThread {
                 adapter?.setData(files);
                 hideLoading()

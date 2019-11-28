@@ -27,9 +27,9 @@ class ToastActivity : BaseActivity() {
 
     private lateinit var customToastView: View
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_toast)
+    override fun onChildCreate(savedInstanceState: Bundle?) {
+        addChildView(R.layout.activity_toast)
+
 
         edtTime = findViewById(R.id.edtTime)
         btnToastCenter = findViewById(R.id.btnToastCenter)

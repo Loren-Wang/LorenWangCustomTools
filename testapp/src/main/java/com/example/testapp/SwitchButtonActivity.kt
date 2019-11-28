@@ -18,17 +18,16 @@ import android.os.Bundle
  */
 
 class SwitchButtonActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_switch_button)
 
-        findViewById<AvlwSwitchButton1>(R.id.test1).setStateChangeListener(object : AvlwSwitchButtonChangeListener{
+    override fun onChildCreate(savedInstanceState: Bundle?) {
+        addChildView(R.layout.activity_switch_button)
+        findViewById<AvlwSwitchButton1>(R.id.test1).setStateChangeListener(object : AvlwSwitchButtonChangeListener {
             override fun onChangeToOpen() {
-                AtlwToastHintUtils.getInstance().toastMsg(applicationContext,"open",1)
+                AtlwToastHintUtils.getInstance().toastMsg(applicationContext, "open", 1)
             }
 
             override fun onChangeToClose() {
-                AtlwToastHintUtils.getInstance().toastMsg(applicationContext,"close",1)
+                AtlwToastHintUtils.getInstance().toastMsg(applicationContext, "close", 1)
             }
 
         })

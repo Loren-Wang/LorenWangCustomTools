@@ -9,9 +9,8 @@ class FileOptionsActivity : BaseActivity() {
     private var tvFileBasePath: TextView? = null
     private var tvFileAppSystemPath: TextView? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_file_options)
+    override fun onChildCreate(savedInstanceState: Bundle?) {
+        addChildView(R.layout.activity_file_options)
 
         tvFileBasePath = findViewById(R.id.tvFileBasePath)
         tvFileAppSystemPath = findViewById(R.id.tvFileAppSystemPath)

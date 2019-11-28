@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.example.testapp.androidTools.MobileContactsActivity
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +47,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnDataParse -> {
                     startActivity(Intent(this, DataParseActivity::class.java))
+                }
+                R.id.btnMobileContacts -> {
+                    startActivity(Intent(this, MobileContactsActivity::class.java))
                 }
                 else -> {
 

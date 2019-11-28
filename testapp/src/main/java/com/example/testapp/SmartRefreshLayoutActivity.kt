@@ -20,24 +20,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import java.util.*
 
 
-
-
-
-
-
-
-
-
-
-
 class SmartRefreshLayoutActivity : BaseActivity() {
 
     private var mAdapter: BaseRecyclerAdapter<String>? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_smart_refresh_layout)
+    override fun onChildCreate(savedInstanceState: Bundle?) {
+        addChildView(R.layout.activity_smart_refresh_layout)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener(View.OnClickListener { finish() })
@@ -118,6 +106,7 @@ class SmartRefreshLayoutActivity : BaseActivity() {
             refreshLayout.getRefreshFooter()!!.getView().findViewById<View>(ClassicsFooter.ID_TEXT_TITLE).setOnClickListener(View.OnClickListener { Toast.makeText(baseContext, "点击测试", Toast.LENGTH_SHORT).show() })
         }
     }
+
     private fun initData(): Collection<String> {
         return Arrays.asList("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
     }

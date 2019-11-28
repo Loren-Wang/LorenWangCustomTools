@@ -14,8 +14,8 @@ import android.os.Bundle
  * 备注：
  */
 class ImageViewActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image_view)
+
+    override fun onChildCreate(savedInstanceState: Bundle?) {
+        addChildView(R.layout.activity_image_view)
     }
 }

@@ -14,74 +14,92 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="图片控件"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnImageLoadForGlide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="glide图片加载"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnBrightness"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="屏幕亮度调节"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnFileOptionsForScan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="文件扫描"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnSideBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SideBar"
             android:textAllCaps="false"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnHorizontalSlipTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="水平切换tab"
             android:textAllCaps="false"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnSwitchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="切换按钮"
             android:textAllCaps="false"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnSmartRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SmartRefreshLayout"
             android:textAllCaps="false"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnFileOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="文件操作按钮"
             android:textAllCaps="false"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnToast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="吐司Toast页面"
             android:textAllCaps="false"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
         <Button
             android:id="@+id/btnDataParse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="数据格式化页面"
             android:textAllCaps="false"
-            android:onClick="mainClick"/>
+            android:onClick="mainClick" />
+
+        <Button
+            android:id="@+id/btnMobileContacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取手机联系人"
+            android:textAllCaps="false"
+            android:onClick="mainClick" />
     </LinearLayout>
 
 

@@ -9,10 +9,8 @@ class DataParseActivity : BaseActivity() {
 
     private var edtData: EditText? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_data_parse)
-
+    override fun onChildCreate(savedInstanceState: Bundle?) {
+        addChildView(R.layout.activity_data_parse)
         edtData = findViewById(R.id.edtData)
     }
 
@@ -23,6 +21,6 @@ class DataParseActivity : BaseActivity() {
     }
 
     fun onClickBtnJsonParseArray(view: View) {
-        JdplwJsonUtils.fromJsonArray<String>(edtData!!.text.toString())
+//        JdplwJsonUtils.fromJsonArray<String>(edtData!!.text.toString())
     }
 }

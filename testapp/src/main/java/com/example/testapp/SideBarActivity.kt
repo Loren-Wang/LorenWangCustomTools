@@ -17,21 +17,18 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils
  */
 class SideBarActivity : BaseActivity() {
 
-    private lateinit var sidebar1Avlw:AvlwSideBar1
+    private lateinit var sidebar1Avlw: AvlwSideBar1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sidebar)
+    override fun onChildCreate(savedInstanceState: Bundle?) {
+        addChildView(R.layout.activity_sidebar)
         sidebar1Avlw = findViewById(R.id.sidebar1)
 
         initSideBar1()
-
-
     }
 
     private fun initSideBar1() {
         sidebar1Avlw.setTextList(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(
-                arrayOf("A","B","C","D","E","F","G","H","I","J","K","L")
+                arrayOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L")
         ))
     }
 }
