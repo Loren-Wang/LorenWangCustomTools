@@ -20,6 +20,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AtlwSetting.isDebug = true;
+        AtlwSetting.nowApplication = this;
         AtlwSetting.registActivityLifecycleCallbacks(this);
     }
 }

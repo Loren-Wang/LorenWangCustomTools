@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.example.testapp.androidTools.MobileContactsActivity
+import com.example.testapp.androidTools.MobileSmsActivity
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnMobileContacts -> {
                     startActivity(Intent(this, MobileContactsActivity::class.java))
+                }
+                R.id.btnMobileSms -> {
+                    startActivity(Intent(this, MobileSmsActivity::class.java))
                 }
                 else -> {
 

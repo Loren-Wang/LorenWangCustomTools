@@ -34,6 +34,7 @@
         <activity android:name=".SwitchButtonActivity" />
         <activity android:name=".ImageViewActivity" />
         <activity android:name=".androidTools.MobileContactsActivity" />
+        <activity android:name=".androidTools.MobileSmsActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -44,5 +45,6 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
 </manifest>

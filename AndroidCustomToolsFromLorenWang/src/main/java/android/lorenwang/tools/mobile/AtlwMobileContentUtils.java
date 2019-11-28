@@ -4,9 +4,12 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.bean.AtlwMobileContactInfoBean;
+import android.lorenwang.tools.bean.AtlwMobileSmsInfoBean;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 
@@ -223,6 +226,68 @@ public class AtlwMobileContentUtils {
         }
         Collections.sort(contactDtoList, new AtlwMobileContactInfoBean());
         return contactDtoList;
+    }
+
+    /**************************************短信相关*************************************************/
+
+    /**
+     * 获取库短消息表字段
+     * {@link Telephony.TextBasedSmsColumns.TYPE},
+     * {@link Telephony.TextBasedSmsColumns.ADDRESS},
+     * {@link Telephony.TextBasedSmsColumns.DATE},
+     * {@link Telephony.TextBasedSmsColumns.DATE_SENT},
+     * {@link Telephony.TextBasedSmsColumns.READ},
+     * {@link Telephony.TextBasedSmsColumns.STATUS},
+     * {@link Telephony.TextBasedSmsColumns.SUBJECT},
+     * {@link Telephony.TextBasedSmsColumns.BODY},
+     * {@link Telephony.TextBasedSmsColumns.PERSON},
+     **/
+    private static final String[] SMS_PROJECTION = new String[]{
+            "type", "address", "date", "date_sent",
+            "read", "status", "subject", "body", "person"
+    };
+    //以下变量为返回数据在查询语句中的存储返回的位置
+    private static final int INDEX_SMS_TYPE = 0;
+    private static final int INDEX_SMS_ADDRESS = 1;
+    private static final int INDEX_SMS_DATE = 2;
+    private static final int INDEX_SMS_DATE_SENT = 3;
+    private static final int INDEX_SMS_READ = 4;
+    private static final int INDEX_SMS_STATUS = 5;
+    private static final int INDEX_SMS_SUBJECT = 6;
+    private static final int INDEX_SMS_BODY = 7;
+    private static final int INDEX_SMS_PERSON = 8;
+    //以上变量为返回数据在查询语句中的存储返回的位置
+
+
+    /**
+     * 获取系统短消息
+     */
+    public void getSystemSms() {
+        ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
+        // 获取手机系统短信
+        Cursor smsCursor;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            smsCursor = resolver.query(Telephony.Sms.CONTENT_URI, SMS_PROJECTION, null, null, null);
+        } else {
+            smsCursor = resolver.query(Uri.parse("content://sms"), SMS_PROJECTION, null, null, null);
+        }
+        if (smsCursor != null) {
+            List<AtlwMobileSmsInfoBean> list = new ArrayList<>();
+            AtlwMobileSmsInfoBean bean;
+            while (smsCursor.moveToNext()) {
+                bean = new AtlwMobileSmsInfoBean();
+                bean.setType(smsCursor.getInt(INDEX_SMS_TYPE));
+                bean.setSendAddress(smsCursor.getString(INDEX_SMS_ADDRESS));
+                bean.setReceiveDate(smsCursor.getLong(INDEX_SMS_DATE));
+                bean.setSendDate(smsCursor.getLong(INDEX_SMS_DATE_SENT));
+                bean.setReadStatus(smsCursor.getInt(INDEX_SMS_READ) != 0);
+                bean.setSubject(smsCursor.getString(INDEX_SMS_SUBJECT));
+                bean.setBody(smsCursor.getString(INDEX_SMS_BODY));
+                bean.setPersonId(smsCursor.getLong(INDEX_SMS_PERSON));
+                list.add(bean);
+            }
+            smsCursor.close();
+        }
     }
 
 }
