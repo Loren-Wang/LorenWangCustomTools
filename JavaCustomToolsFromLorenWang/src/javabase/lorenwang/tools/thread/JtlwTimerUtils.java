@@ -43,9 +43,9 @@ public class JtlwTimerUtils {
     /**
      * 开启一个定时器，在制定时间之后执行runnable
      *
-     * @param runnable
+     * @param runnable 线程
      * @param delay    等待时间
-     * @return
+     * @return 定时器
      */
     public TimerTask schedule(int taskId, final Runnable runnable, long delay) {
         if (runnable == null) {

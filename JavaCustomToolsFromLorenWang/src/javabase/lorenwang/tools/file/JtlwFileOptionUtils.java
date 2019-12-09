@@ -23,6 +23,7 @@ import javabase.lorenwang.tools.JtlwLogUtils;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import javabase.lorenwang.tools.common.JtlwCommonUtils;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
+import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
 
 /**
  * 创建时间：2019-01-28 下午 20:19:47
@@ -63,45 +64,6 @@ public class JtlwFileOptionUtils {
      * 流转换的缓存大小
      */
     private final int BUFFER_SIZE = 1024;
-
-    // 缓存文件头信息-文件头信息
-    private final HashMap<String, String> mFileTypes = new HashMap<String, String>();
-
-    /**
-     * 私有构造
-     */
-    private JtlwFileOptionUtils() {
-        // images
-        mFileTypes.put("FFD8FF", "jpg");
-        mFileTypes.put("89504E47", "png");
-        mFileTypes.put("47494638", "gif");
-        mFileTypes.put("49492A00", "tif");
-        mFileTypes.put("424D", "bmp");
-        //
-        mFileTypes.put("41433130", "dwg"); // CAD
-        mFileTypes.put("38425053", "psd");
-        mFileTypes.put("7B5C727466", "rtf"); // 日记本
-        mFileTypes.put("3C3F786D6C", "xml");
-        mFileTypes.put("68746D6C3E", "html");
-        mFileTypes.put("44656C69766572792D646174653A", "eml"); // 邮件
-        mFileTypes.put("D0CF11E0", "doc");
-        mFileTypes.put("D0CF11E0", "xls");//excel2003版本文件
-        mFileTypes.put("5374616E64617264204A", "mdb");
-        mFileTypes.put("252150532D41646F6265", "ps");
-        mFileTypes.put("255044462D312E", "pdf");
-        mFileTypes.put("504B0304", "docx");
-        mFileTypes.put("504B0304", "xlsx");//excel2007以上版本文件
-        mFileTypes.put("52617221", "rar");
-        mFileTypes.put("57415645", "wav");
-        mFileTypes.put("41564920", "avi");
-        mFileTypes.put("2E524D46", "rm");
-        mFileTypes.put("000001BA", "mpg");
-        mFileTypes.put("000001B3", "mpg");
-        mFileTypes.put("6D6F6F76", "mov");
-        mFileTypes.put("3026B2758E66CF11", "asf");
-        mFileTypes.put("4D546864", "mid");
-        mFileTypes.put("1F8B08", "gz");
-    }
 
     public static JtlwFileOptionUtils getInstance() {
         synchronized (JtlwFileOptionUtils.class) {
@@ -320,7 +282,7 @@ public class JtlwFileOptionUtils {
     /**
      * 格式化文件大小
      *
-     * @param fileSize
+     * @param fileSize 文件大小
      * @return
      */
     public String paramsFileSize(Long fileSize) {
@@ -646,11 +608,11 @@ public class JtlwFileOptionUtils {
      * @param filePath 文件路径
      * @return 文件类型
      */
-    public String getFileType(String filePath) {
+    public JtlwFileTypeEnum getFileType(String filePath) {
         try {
             return getFileType(new FileInputStream(filePath));
         } catch (FileNotFoundException e) {
-            return null;
+            return JtlwFileTypeEnum.OTHER;
         }
     }
 
@@ -660,22 +622,23 @@ public class JtlwFileOptionUtils {
      * @param inputStream 输入流
      * @return 返回类型
      */
-    public String getFileType(InputStream inputStream) {
+    public JtlwFileTypeEnum getFileType(InputStream inputStream) {
         try {
             if (inputStream == null) {
                 return null;
             } else {
-                byte[] bytes = new byte[4];
+                byte[] bytes = new byte[28];
                 inputStream.read(bytes, 0, bytes.length);
                 String fileHeader = JtlwCommonUtils.getInstance().bytesToHexString(bytes);
-                if (mFileTypes.containsKey(fileHeader)) {
-                    return mFileTypes.get(fileHeader);
-                } else {
-                    return null;
+                for (JtlwFileTypeEnum type : JtlwFileTypeEnum.values()) {
+                    if (fileHeader.startsWith(type.getStart(), 0)) {
+                        return type;
+                    }
                 }
+                return JtlwFileTypeEnum.OTHER;
             }
         } catch (Exception e) {
-            return null;
+            return JtlwFileTypeEnum.OTHER;
         }
     }
 }
