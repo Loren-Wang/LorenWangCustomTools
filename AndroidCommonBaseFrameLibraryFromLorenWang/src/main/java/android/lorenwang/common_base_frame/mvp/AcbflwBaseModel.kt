@@ -6,8 +6,6 @@ import android.lorenwang.tools.base.AtlwLogUtils
 import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtils
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
 import android.lorenwang.common_base_frame.network.AcbflwNetOptionsCallback
-import android.lorenwang.common_base_frame.network.AcbflwRepCodeList.QZG_CODE_LOGIN_STATUS_ERROR
-import android.lorenwang.common_base_frame.network.AcbflwRepCodeList.QZG_CODE_SUCCESS
 import android.lorenwang.common_base_frame.network.bean.AcbflwBaseRepBean
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
@@ -53,19 +51,20 @@ open class AcbflwBaseModel {
             override fun onNext(t: Response<AcbflwBaseRepBean<T>>) {
                 setPageInfo()
                 if (t.code() == 200) {
-                    when (t.body().code) {
-                        QZG_CODE_SUCCESS -> {
-                            //网络请求成功
-                            netOptionsCallback.success(t.body())
+                    val repCode = t.body().code
+                    if (repCode == AcbflwNetRepCode.repCodeSuccess) {
+                        //网络请求成功
+                        netOptionsCallback.success(t.body())
+                    } else {
+                        AcbflwNetRepCode.repCodeLoginStatusError.forEach {
+                            if (it == repCode) {
+                                //用户登陆状态异常，需要跳转到登陆页面
+                                netOptionsCallback.userLoginStatusError(it, t.body().message)
+                                return
+                            }
                         }
-                        QZG_CODE_LOGIN_STATUS_ERROR -> {
-                            //用户登陆状态异常，需要跳转到登陆页面
-                            netOptionsCallback.userLoginStatusError(QZG_CODE_LOGIN_STATUS_ERROR, t.body().message)
-                        }
-                        else -> {
-                            AtlwLogUtils.logE(TAG, t.code().toString())
-                            netOptionsCallback.error(Exception("${t.body().code}-${t.body().message}"))
-                        }
+                        AtlwLogUtils.logE(TAG, t.code().toString())
+                        netOptionsCallback.error(Exception("${repCode}-${t.body().message}"))
                     }
                 } else {
                     AtlwLogUtils.logE(TAG, t.code().toString())
@@ -90,24 +89,24 @@ open class AcbflwBaseModel {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType(AcbflwBaseApplication.appContext) == 0) {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext.getString(R.string.net_error_net))
+                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext.getString(R.string.net_error_server))
+                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
                             }
                         } catch (e: Exception) {
-                            AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext.getString(R.string.net_error_net))
+                            AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                         }
                     }
                     is SocketTimeoutException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType(AcbflwBaseApplication.appContext) == 0) {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext.getString(R.string.net_error_net))
+                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext.getString(R.string.net_error_timeout))
+                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                             }
                         } catch (e: Exception) {
-                            AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext.getString(R.string.net_error_timeout))
+                            AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                         }
                     }
                     else -> {
