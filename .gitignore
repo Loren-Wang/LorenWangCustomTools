@@ -86,4 +86,6 @@ app/build/
 build/
 
 *.hprof
-/KotlinCustomToolsFromLorenWang/src/test/
+*/src/test/
+*/src/androidTest/
+

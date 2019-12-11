@@ -103,7 +103,6 @@ install {
         }
     }
 }
-
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
@@ -127,12 +126,10 @@ javadoc {
         title moduleName
     }
 }
-
 artifacts {
     archives javadocJar
     archives sourcesJar
 }
-
 bintray {
     user = bintrayUser
     key = bintrayKey
