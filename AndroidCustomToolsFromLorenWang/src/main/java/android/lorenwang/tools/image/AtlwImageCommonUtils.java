@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
+import android.media.ExifInterface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -27,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 
 /**
@@ -44,6 +46,11 @@ import java.io.ByteArrayOutputStream;
  * 7、位图压缩、
  * 8、十进制颜色值转16进制
  * 9、图片的缩放方法
+ * 10、读取照片exif信息中的旋转角度
+ * 11、旋转指定图片一定的角度
+ * 12、裁剪位图
+ * 13、释放位图
+ * 14、从中心裁剪图片到指定的宽高
  * 注意：
  * 修改人：
  * 修改时间：
@@ -471,4 +478,148 @@ public class AtlwImageCommonUtils {
         canvas.drawBitmap(bgimage, matrix, null);
         return bitmap;
     }
+
+    /**
+     * 读取照片exif信息中的旋转角度
+     *
+     * @param path 照片路径
+     * @return 角度
+     */
+    public int readPictureDegree(String path) {
+        int degree = 0;
+        ExifInterface exifInterface;
+        try {
+            exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+                default:
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            exifInterface = null;
+        }
+        return degree;
+    }
+
+    /**
+     * 旋转指定图片一定的角度
+     *
+     * @param img    图片位图
+     * @param degree 要旋转的角度
+     * @return 旋转后的位图
+     */
+    public Bitmap toTurnPicture(Bitmap img, int degree) {
+        AtlwLogUtils.logD(TAG, "toTurnPicture degree" + degree);
+        if (degree != 0) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(degree); /*翻转90度*/
+            int width = img.getWidth();
+            int height = img.getHeight();
+            img = Bitmap.createBitmap(img, 0, 0, width, height, matrix, true);
+            matrix = null;
+        }
+        return img;
+    }
+
+    /**
+     * 裁剪位图
+     *
+     * @param bitmap                       原图
+     * @param leftPercentForBitmapWidth    左侧相当于位图宽度百分比
+     * @param topPercentForBitmapHeight    顶部相当于位图高度百分比
+     * @param rightPercentForBitmapWidth   右侧相当于位图宽度百分比
+     * @param bottomPercentForBitmapHeight 底部相当于位图高度百分比
+     * @return 裁剪后的图像
+     */
+    public Bitmap cropBitmap(Bitmap bitmap, int leftPercentForBitmapWidth, int topPercentForBitmapHeight
+            , int rightPercentForBitmapWidth, int bottomPercentForBitmapHeight) {
+        //先进行约束
+        if (leftPercentForBitmapWidth < 0) {
+            leftPercentForBitmapWidth = 0;
+        }
+        if (topPercentForBitmapHeight < 0) {
+            topPercentForBitmapHeight = 0;
+        }
+        if (rightPercentForBitmapWidth < 0) {
+            rightPercentForBitmapWidth = 0;
+        }
+        if (bottomPercentForBitmapHeight < 0) {
+            bottomPercentForBitmapHeight = 0;
+        }
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        int x = (int) (width * leftPercentForBitmapWidth / 100.0);
+        int y = (int) (height * topPercentForBitmapHeight / 100.0);
+        int newWidth = (int) (width * (100 - leftPercentForBitmapWidth - rightPercentForBitmapWidth) / 100.0);
+        int newHeight = (int) (height * (100 - topPercentForBitmapHeight - bottomPercentForBitmapHeight) / 100.0);
+        if (newWidth > 0 && newHeight > 0) {
+            Bitmap cropBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(cropBitmap);
+            canvas.drawBitmap(bitmap, new Rect(x, y, x + newWidth, y + newHeight), new RectF(0, 0, newWidth, newHeight), null);
+            releaseBitmap(bitmap);
+            return cropBitmap;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 从中心裁剪图片到指定的宽高
+     *
+     * @param bitmap                 位图
+     * @param cropPercentWidthHeight 中心相当于宽高百分比
+     * @return 裁剪后位图
+     */
+    public Bitmap cropBitmapForCenter(Bitmap bitmap, double cropPercentWidthHeight) {
+        if (bitmap != null) {
+            int w = bitmap.getWidth();
+            int h = bitmap.getHeight();
+            int x = 0;
+            int y = 0;
+            int cropWidth = w;
+            int cropHeight = h;
+
+            double bitmapPercentWidthHeight = w * 1.0 / h;
+            if (bitmapPercentWidthHeight > cropPercentWidthHeight) {
+                //代表着宽多了，需要把多余的裁掉
+                cropWidth = (int) (h * cropPercentWidthHeight);
+                x = (w - cropWidth) / 2;
+            } else if (bitmapPercentWidthHeight < cropPercentWidthHeight) {
+                //代表标注高度多了
+                cropHeight = (int) (w * 1.0 / cropPercentWidthHeight);
+                y = (h - cropHeight) / 2;
+            }
+
+            return Bitmap.createBitmap(bitmap, x, y, cropWidth, cropHeight, null, false);
+        }
+        return null;
+    }
+
+
+    /**
+     * 释放bitmap
+     *
+     * @param bitmap 位图
+     */
+    public void releaseBitmap(Bitmap bitmap) {
+        if (bitmap != null) {
+            if (!bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
+            bitmap = null;
+        }
+    }
+
 }

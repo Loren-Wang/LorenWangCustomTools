@@ -261,8 +261,11 @@ public class AtlwMobileContentUtils {
 
     /**
      * 获取系统短消息
+     *
+     * @return 系统短信列表
      */
-    public void getSystemSms() {
+    public List<AtlwMobileSmsInfoBean> getSystemSms() {
+        List<AtlwMobileSmsInfoBean> list = new ArrayList<>();
         ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
         // 获取手机系统短信
         Cursor smsCursor;
@@ -271,23 +274,60 @@ public class AtlwMobileContentUtils {
         } else {
             smsCursor = resolver.query(Uri.parse("content://sms"), SMS_PROJECTION, null, null, null);
         }
-        if (smsCursor != null) {
-            List<AtlwMobileSmsInfoBean> list = new ArrayList<>();
+        return getAtlwMobileSmsInfoBeans(list, smsCursor);
+    }
+
+    /**
+     * 得到手机SIM卡短信
+     *
+     * @return 得到手机SIM卡短信列表
+     */
+    private List<AtlwMobileSmsInfoBean> getSIMSms() {
+        List<AtlwMobileSmsInfoBean> list = new ArrayList<>();
+        ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
+        // 获取Sims卡联系人
+        Cursor phoneCursor = resolver.query(Uri.parse("content://icc/adn"), null, null, null,
+                null);
+        return getAtlwMobileSmsInfoBeans(list, phoneCursor);
+    }
+
+    /**
+     * 获取短信信箱实例
+     *
+     * @param list        实例列表
+     * @param phoneCursor 数据库数据光标
+     * @return 转换后的实例列表
+     */
+    private List<AtlwMobileSmsInfoBean> getAtlwMobileSmsInfoBeans(List<AtlwMobileSmsInfoBean> list, Cursor phoneCursor) {
+        if (phoneCursor != null) {
             AtlwMobileSmsInfoBean bean;
-            while (smsCursor.moveToNext()) {
+            while (phoneCursor.moveToNext()) {
                 bean = new AtlwMobileSmsInfoBean();
-                bean.setType(smsCursor.getInt(INDEX_SMS_TYPE));
-                bean.setSendAddress(smsCursor.getString(INDEX_SMS_ADDRESS));
-                bean.setReceiveDate(smsCursor.getLong(INDEX_SMS_DATE));
-                bean.setSendDate(smsCursor.getLong(INDEX_SMS_DATE_SENT));
-                bean.setReadStatus(smsCursor.getInt(INDEX_SMS_READ) != 0);
-                bean.setSubject(smsCursor.getString(INDEX_SMS_SUBJECT));
-                bean.setBody(smsCursor.getString(INDEX_SMS_BODY));
-                bean.setPersonId(smsCursor.getLong(INDEX_SMS_PERSON));
+                bean.setType(phoneCursor.getInt(INDEX_SMS_TYPE));
+                bean.setSendAddress(phoneCursor.getString(INDEX_SMS_ADDRESS));
+                bean.setReceiveDate(phoneCursor.getLong(INDEX_SMS_DATE));
+                bean.setSendDate(phoneCursor.getLong(INDEX_SMS_DATE_SENT));
+                bean.setReadStatus(phoneCursor.getInt(INDEX_SMS_READ) != 0);
+                bean.setSubject(phoneCursor.getString(INDEX_SMS_SUBJECT));
+                bean.setBody(phoneCursor.getString(INDEX_SMS_BODY));
+                bean.setPersonId(phoneCursor.getLong(INDEX_SMS_PERSON));
                 list.add(bean);
             }
-            smsCursor.close();
+            phoneCursor.close();
         }
+        return list;
+    }
+
+    /**
+     * 获取所有的短信，包括手机存储以及sim卡中的
+     *
+     * @return 短信列表
+     */
+    @RequiresPermission(Manifest.permission.READ_SMS)
+    public List<AtlwMobileSmsInfoBean> getAllSms() {
+        List<AtlwMobileSmsInfoBean> list = getSystemSms();
+        list.addAll(getSIMSms());
+        return list;
     }
 
 }
