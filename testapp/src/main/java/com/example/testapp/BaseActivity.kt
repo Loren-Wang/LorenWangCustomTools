@@ -4,8 +4,8 @@ import android.app.Activity
 import android.graphics.Color
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
 import android.os.Bundle
-import android.support.annotation.LayoutRes
 import android.view.ViewStub
+import androidx.annotation.LayoutRes
 
 /**
  * 创建时间：2019-04-15 下午 15:15:55

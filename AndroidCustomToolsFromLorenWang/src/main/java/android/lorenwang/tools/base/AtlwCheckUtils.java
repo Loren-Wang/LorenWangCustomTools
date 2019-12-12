@@ -6,12 +6,13 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.PermissionChecker;
 import android.text.TextUtils;
 
 import java.io.File;
 import java.util.List;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 

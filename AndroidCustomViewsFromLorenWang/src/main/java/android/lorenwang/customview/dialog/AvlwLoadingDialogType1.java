@@ -6,9 +6,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.StyleRes;
 import android.widget.ProgressBar;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.StyleRes;
 
 
 /**

@@ -10,8 +10,9 @@ import android.graphics.Shader;
 import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 /**
  * 创建时间：2019-03-12 下午 16:09:33

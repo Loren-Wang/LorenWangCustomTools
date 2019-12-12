@@ -10,11 +10,12 @@ import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.ColorInt;
 import android.view.WindowManager;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import androidx.annotation.ColorInt;
 
 /**
  * 创建时间：2019-04-05 下午 21:38:10
@@ -270,6 +271,7 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 判断是否开启了自动亮度调节
+     *
      * @return 是否开启
      */
     public boolean isMobileSystemAutoBrightness() {
@@ -400,6 +402,7 @@ public class AtlwBrightnessChangeUtils {
 
     /**
      * 解注册亮度观察者
+     *
      * @param activity 页面实例
      */
     public void unregisterBrightObserver(Activity activity) {
@@ -437,10 +440,10 @@ public class AtlwBrightnessChangeUtils {
      * 获取过滤蓝光后的颜色值
      *
      * @param blueFilterPercent 蓝光过滤比例[10-80]
-     * @return  过滤后的值
+     * @return 过滤后的值
      */
-    public @ColorInt
-    int getColor(int blueFilterPercent) {
+    @ColorInt
+    public int getColor(int blueFilterPercent) {
         int realFilter = blueFilterPercent;
         if (realFilter < 10) {
             realFilter = 10;

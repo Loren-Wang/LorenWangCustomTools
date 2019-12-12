@@ -18,10 +18,11 @@ import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwThreadUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import androidx.annotation.Nullable;
 
 /**
  * 创建时间：2019-05-07 上午 09:59:8
@@ -178,12 +179,12 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
         init(context, null, -1);
     }
 
-    public AvlwSwitchButton1(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwSwitchButton1(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public AvlwSwitchButton1(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwSwitchButton1(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }

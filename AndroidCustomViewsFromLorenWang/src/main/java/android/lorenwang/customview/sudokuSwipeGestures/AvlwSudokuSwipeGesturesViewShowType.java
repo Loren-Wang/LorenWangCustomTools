@@ -1,6 +1,6 @@
 package android.lorenwang.customview.sudokuSwipeGestures;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 /**
  * 创建时间： 0022/2018/5/22 下午 3:50

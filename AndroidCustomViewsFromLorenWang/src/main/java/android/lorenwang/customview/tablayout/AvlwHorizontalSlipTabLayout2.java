@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import androidx.annotation.Nullable;
+
 /**
  * 创建时间：2019-03-15 下午 13:55:20
  * 创建人：王亮（Loren wang）
@@ -156,12 +158,12 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
         init(context, null, -1);
     }
 
-    public AvlwHorizontalSlipTabLayout2(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwHorizontalSlipTabLayout2(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public AvlwHorizontalSlipTabLayout2(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwHorizontalSlipTabLayout2(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }

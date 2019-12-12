@@ -10,10 +10,10 @@ import android.lorenwang.tools.mobile.AtlwMobileOptionsUtils;
 import android.lorenwang.tools.voice.AtlwRecordUtils;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import androidx.appcompat.widget.AppCompatButton;
 import javabase.lorenwang.tools.common.JtlwCommonUtils;
 
 /**

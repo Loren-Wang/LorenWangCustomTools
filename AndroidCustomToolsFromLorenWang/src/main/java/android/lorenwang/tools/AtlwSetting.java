@@ -5,10 +5,11 @@ import android.app.Application;
 import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.AnimRes;
-import android.support.annotation.RequiresApi;
 
 import java.util.Vector;
+
+import androidx.annotation.AnimRes;
+import androidx.annotation.RequiresApi;
 
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE;
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED;

@@ -7,13 +7,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.lorenwang.customview.R;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
 
 
 /**
@@ -157,12 +158,12 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
         init(context, null, -1);
     }
 
-    public AvlwHorizontalSlipTabLayout(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwHorizontalSlipTabLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public AvlwHorizontalSlipTabLayout(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwHorizontalSlipTabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }

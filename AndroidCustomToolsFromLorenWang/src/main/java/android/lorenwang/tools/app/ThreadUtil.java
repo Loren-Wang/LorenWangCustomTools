@@ -2,11 +2,12 @@ package android.lorenwang.tools.app;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.VisibleForTesting;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+
+import androidx.annotation.VisibleForTesting;
 
 /**
  * 线程处理工具

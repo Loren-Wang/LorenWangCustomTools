@@ -21,9 +21,6 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.RequiresPermission;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
@@ -32,6 +29,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.RequiresPermission;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import static android.media.AudioManager.STREAM_VOICE_CALL;
 
@@ -108,7 +109,7 @@ public final class AtlwMobileOptionsUtils {
      *
      * @param context            s上下文
      * @param installAppFilePath 安卓文件地址
-     * @param authority          The authority of a {@link android.support.v4.content.FileProvider} defined in a
+     * @param authority          The authority of a defined in a
      *                           {@code <provider>} element in your app's manifest.
      * @return 安装程序的intent
      */

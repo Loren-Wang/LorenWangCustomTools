@@ -15,6 +15,7 @@ import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.os.Build;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatTextView;
 
 
 /**
@@ -29,7 +30,7 @@ import android.util.AttributeSet;
  * 备注：
  */
 
-public class AvlwBubbleTextView extends android.support.v7.widget.AppCompatTextView {
+public class AvlwBubbleTextView extends AppCompatTextView {
 
 
     private Context context;

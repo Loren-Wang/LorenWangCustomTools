@@ -3,9 +3,10 @@ package android.lorenwang.tools.app;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
-import android.support.annotation.VisibleForTesting;
 
 import java.util.concurrent.FutureTask;
+
+import androidx.annotation.VisibleForTesting;
 
 
 public class AtlwThreadUtils {

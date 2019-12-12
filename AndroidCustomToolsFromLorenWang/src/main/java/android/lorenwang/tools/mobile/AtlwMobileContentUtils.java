@@ -10,13 +10,13 @@ import android.lorenwang.tools.bean.AtlwMobileSmsInfoBean;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
-import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.RequiresPermission;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 
 /**

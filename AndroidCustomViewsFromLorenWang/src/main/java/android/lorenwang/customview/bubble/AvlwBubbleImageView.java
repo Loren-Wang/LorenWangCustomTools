@@ -17,6 +17,7 @@ import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatImageView;
 
 
 /**
@@ -31,7 +32,7 @@ import android.util.AttributeSet;
  * 备注：
  */
 
-public class AvlwBubbleImageView extends android.support.v7.widget.AppCompatImageView {
+public class AvlwBubbleImageView extends AppCompatImageView {
 
 
     private Context context;

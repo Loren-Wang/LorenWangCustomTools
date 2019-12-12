@@ -1,10 +1,10 @@
 package android.lorenwang.tools.app;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.StringRes;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**

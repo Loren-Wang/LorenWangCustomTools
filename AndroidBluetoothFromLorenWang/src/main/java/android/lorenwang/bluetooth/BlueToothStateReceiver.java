@@ -6,7 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.lorenwang.bluetooth.callback.BlueToothReceiverCallback;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import static android.bluetooth.BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED;

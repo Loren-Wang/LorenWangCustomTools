@@ -6,13 +6,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.lorenwang.customview.R;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
 
 /**
  * 创建时间：2019-03-15 下午 13:55:20
@@ -50,12 +51,12 @@ public class AvlwHorizontalSlipTabLayout3 extends FrameLayout implements AvlwBas
         init(context, null, -1);
     }
 
-    public AvlwHorizontalSlipTabLayout3(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwHorizontalSlipTabLayout3(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public AvlwHorizontalSlipTabLayout3(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwHorizontalSlipTabLayout3(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }

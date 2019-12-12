@@ -12,8 +12,9 @@ import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+
+import androidx.annotation.Nullable;
 
 
 /**

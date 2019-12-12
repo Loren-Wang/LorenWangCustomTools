@@ -20,8 +20,6 @@ import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.media.ExifInterface;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +27,9 @@ import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 
 /**

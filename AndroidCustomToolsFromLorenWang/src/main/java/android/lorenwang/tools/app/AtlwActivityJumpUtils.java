@@ -10,10 +10,11 @@ import android.content.pm.PackageManager;
 import android.lorenwang.tools.AtlwSetting;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.AnimRes;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+
+import androidx.annotation.AnimRes;
 
 /**
  * 功能作用：activity页面跳转工具类

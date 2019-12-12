@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +15,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 import javabase.lorenwang.tools.MatchesRegularCommon;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 

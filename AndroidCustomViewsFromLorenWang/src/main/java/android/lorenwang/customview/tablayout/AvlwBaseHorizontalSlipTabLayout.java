@@ -1,9 +1,9 @@
 package android.lorenwang.customview.tablayout;
 
 
-import android.support.annotation.Nullable;
-
 import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
 
 /**
  * 创建时间：2019-05-05 下午 19:38:27

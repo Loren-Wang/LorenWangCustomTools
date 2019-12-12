@@ -6,8 +6,6 @@ import android.lorenwang.netoptions.NetworkOptionsRecordDto;
 import android.lorenwang.netoptions.common.AndJavaCommonUtils;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -15,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import okhttp3.Call;
 
 import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_DATA_REQUEST_FAIL_CASE_TIME_INTERVALIN;

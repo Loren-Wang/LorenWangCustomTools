@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.lorenwang.customview.R;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +15,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by LorenWang on 2018/4/13.

@@ -3,8 +3,8 @@ package android.lorenwang.netoptions;
 import android.Manifest;
 import android.lorenwang.netoptions.frame.BaseNetworkOptions;
 import android.lorenwang.netoptions.frame.OkHttpOptionsUtils;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 import java.util.Map;

@@ -3,7 +3,6 @@ package android.lorenwang.netoptions.frame;
 import android.lorenwang.netoptions.BuildConfig;
 import android.lorenwang.netoptions.NetworkOptionsCallback;
 import android.lorenwang.netoptions.NetworkOptionsRecordDto;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,6 +22,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import androidx.annotation.NonNull;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;

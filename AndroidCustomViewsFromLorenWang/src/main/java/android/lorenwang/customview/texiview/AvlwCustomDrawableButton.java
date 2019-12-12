@@ -12,14 +12,16 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 
-public class AvlwCustomDrawableButton extends android.support.v7.widget.AppCompatButton {
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.graphics.drawable.DrawableCompat;
+
+public class AvlwCustomDrawableButton extends AppCompatButton {
 
     private final int DRAWABLE_POSI_NONE = 0;//取值为none的时候代表着不显示图片
     private final int DRAWABLE_POSI_LEFT = 1;

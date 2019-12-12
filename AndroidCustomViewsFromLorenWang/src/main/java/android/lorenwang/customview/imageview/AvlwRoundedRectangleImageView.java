@@ -13,8 +13,10 @@ import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.os.Build;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 /**
  * 创建时间：2019-03-14 上午 10:50:8
@@ -61,12 +63,12 @@ public class AvlwRoundedRectangleImageView extends AppCompatImageView implements
         init(context, null, -1);
     }
 
-    public AvlwRoundedRectangleImageView(Context context, @android.support.annotation.Nullable AttributeSet attrs) {
+    public AvlwRoundedRectangleImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public AvlwRoundedRectangleImageView(Context context, @android.support.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwRoundedRectangleImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }

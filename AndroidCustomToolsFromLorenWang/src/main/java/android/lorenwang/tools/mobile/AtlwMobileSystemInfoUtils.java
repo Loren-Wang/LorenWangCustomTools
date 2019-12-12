@@ -7,10 +7,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 
 import java.util.Locale;
+
+import androidx.annotation.RequiresPermission;
 
 /**
  * Created by LorenWang on 2018/8/16 0016.
