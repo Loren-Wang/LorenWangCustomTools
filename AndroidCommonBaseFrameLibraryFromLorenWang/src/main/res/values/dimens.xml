@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--标题栏高度-->
+    <dimen name="base_title_bar_head_view_height">45dp</dimen>
+    <!--底部操作栏高度-->
+    <dimen name="base_bottm_view_height">45dp</dimen>
+</resources>

@@ -21,6 +21,10 @@ class AcbflwBaseApplication : Application() {
         //初始化第三方配置
         AtlwSetting.isDebug = BuildConfig.DEBUG
         AtlwSetting.registActivityLifecycleCallbacks(this)
+
+        //基础包初始化配置
+        AcbflwBaseConfig.titleBarHeadViewHeight = resources.getDimensionPixelOffset(R.dimen.base_title_bar_head_view_height)
+        AcbflwBaseConfig.baseBottomViewHeight = resources.getDimensionPixelOffset(R.dimen.base_bottm_view_height)
     }
 
     /**
