@@ -13,6 +13,7 @@ spingboot基础框架包
       配置参数9、邮箱用户名称---emailUserName
       配置参数10、邮箱密码---emailUserPassword
       配置参数11、邮箱配置文件---emailProperties(配置文件名称：application-email.properties
+      配置参数12、当前编译器环境---runCompilingEnvironment
 
 <h3>一、SbcbflwALiYunOssUtils---（阿里云文件上传工具类）
 
@@ -41,4 +42,42 @@ spingboot基础框架包
 <h3>五、SbcbflwEmailUtils---（邮件发送工具）
 
       1、发送邮件---sendEmailMessage(title,content,tiEmail)
+      
+      
+<h3>六、SbcbflwBaseController---（基础接口实例类）
 
+      1、从资源文件中获取文本字符---getMessage(msgCode)
+      2、从资源文件中获取文本字符---getMessage(msgCode,defaultMsg)
+      3、接口处理之后的响应返回---responseContent(stateCode,stateMsg,data)
+      4、接口处理之后的数据列表响应返回---responseDataListContent(stateCode,stateMsg,pageIndex,pageSize,sumCount,dataList)
+
+
+
+<h4>七、SbcbflwBaseHttpServletRequestWrapper---（请求数据拦截，用来对请求头做处理）
+
+      1、添加header---addHeader(name,value)
+      
+      
+      
+<h4>八、SbcbflwBaseRequestBean---（基础请求实体）
+
+      配置参数1：是否返回完整图片地址---returnFullImagePath
+      配置参数2：分页页码---pageIndex
+      配置参数3：每页请求数量---pageSize
+      
+      
+      
+<h4>九、SbcbflwBaseResponseBean---（基础响应实例）
+
+      配置参数1：响应的状态码---stateCode
+      配置参数2：响应的状态信息---stateMessage
+      配置参数3：响应数据---data
+      
+      
+      
+<h4>十、SbcbflwPageResponseBean---（列表分页数据请求响应实体）
+
+      配置参数1：分页的页码---pageIndex
+      配置参数2：分页的每页请求数量---pageSize
+      配置参数3：当前条件下的取到的数据总数---sumCount
+      配置参数4：列表数据实体，不能为空，但是可以为空数组---dataList

@@ -23,6 +23,9 @@ import java.util.*
  * 配置参数9、邮箱用户名称---emailUserName
  * 配置参数10、邮箱密码---emailUserPassword
  * 配置参数11、邮箱配置文件---emailProperties(配置文件名称：application-email.properties)
+ * 配置参数12、当前编译器环境---runCompilingEnvironment
+ * 配置参数13、默认每页大小---defaultRequestPageSize
+ * 配置参数14、默认第一页---defaultRequestPageIndex
  */
 object SbcbflwPropertiesConfig {
     /**
@@ -77,5 +80,18 @@ object SbcbflwPropertiesConfig {
      */
     var emailProperties: Properties = SbcbflwCommonUtils.instance.getProperties("application-email.properties")
 
+    /**
+     * 当前编译器环境
+     */
+    var runCompilingEnvironment = 0
+
+    /**
+     * 默认每页大小
+     */
+    var defaultRequestPageSize = 10;
+    /**
+     * 默认第一页
+     */
+    var defaultRequestPageIndex = 0;
 
 }
