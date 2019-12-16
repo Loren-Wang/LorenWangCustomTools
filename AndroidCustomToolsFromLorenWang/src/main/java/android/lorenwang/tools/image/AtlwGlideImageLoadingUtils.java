@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
-import javabase.lorenwang.tools.MatchesRegularCommon;
+import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
@@ -70,7 +70,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
     public void loadNetImage(Context context, String path, RequestOptions requestOptions, ImageView imageView) {
         //空判定
         if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
-                && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
+                && !path.matches(JtlwMatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
         Glide.with(context).load(path).apply(requestOptions).into(imageView);
@@ -87,7 +87,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
     public void loadNetImageGetBitmap(final Context context, final String path, final RequestOptions requestOptions, final OnImageLoadCallback callback) {
         //空判定
         if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, callback)
-                && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
+                && !path.matches(JtlwMatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
         AtlwThreadUtils.getInstance().postOnChildThread(new Runnable() {
@@ -119,7 +119,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
     public void loadNetImageBlur(final Context context, final String path, final RequestOptions requestOptions, final ImageView imageView, final int radius, final boolean canReuseInBitmap) {
         //空判定
         if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
-                && !path.matches(MatchesRegularCommon.EXP_URL_STR)) {
+                && !path.matches(JtlwMatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
         AtlwThreadUtils.getInstance().postOnChildThread(new Runnable() {

@@ -42,7 +42,7 @@ package javabase.lorenwang.tools;
 /**
  * url的http或者https正则
  */
-public class MatchesRegularCommon {
+public class JtlwMatchesRegularCommon {
     private static final String EXP_URL_SCHEME_HTTP_S = "(((H|h)(t|T)(T|t)(P|p)(S|s){0,1}):\\/\\/)";
     /**
      * url的用户名密码正则
