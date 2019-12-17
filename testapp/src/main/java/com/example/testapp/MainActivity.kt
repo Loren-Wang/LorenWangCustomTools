@@ -55,6 +55,9 @@ class MainActivity : Activity() {
                 R.id.btnMobileSms -> {
                     startActivity(Intent(this, MobileSmsActivity::class.java))
                 }
+                R.id.btnScanCode -> {
+                    startActivity(Intent(this, ScanCodeActivity::class.java))
+                }
                 else -> {
 
                 }
