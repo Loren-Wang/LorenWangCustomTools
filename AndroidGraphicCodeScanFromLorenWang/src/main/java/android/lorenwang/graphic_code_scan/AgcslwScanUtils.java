@@ -24,7 +24,7 @@ import androidx.annotation.RequiresPermission;
  * 创建人：王亮（Loren wang）
  * 思路：
  * 方法：
- * 1、开始扫描---startScan(act,scanView,surfaceView,playBeep,vibrate,scanBarCode,scanQrCode)---需要权限
+ * 1、开始扫描---startScan(act, sFVScan,playBeep,vibrate,scanBarCode,scanQrCode)---需要权限
  * 2、重置扫描---restartPreviewAfterDelay---需要权限
  * 3、手动对焦---manualFocus
  * 4、开启闪光灯---openFlashLight
@@ -34,6 +34,8 @@ import androidx.annotation.RequiresPermission;
  * 8、Activity获取焦点调用---onActResumeChange---需要权限---重要
  * 9、Activity失去焦点调用---onActPauseChange---需要权限---重要
  * 10、Activity结束销毁调用---onActFinish---需要权限---重要
+ * 11、设置描裁裁剪区域属性---setScanCropRect( cusTomCropRect, scanView)
+ * 12、清空扫描裁剪区域属性相关---clearScanCropRect()
  * 注意：
  * 修改人：
  * 修改时间：
@@ -66,8 +68,12 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     private CaptureActivityHandler handler;
     private InactivityTimer inactivityTimer;
     private BeepManager beepManager;
-    //界面属性
+    //界面扫描区域属性
     private Rect mCropRect;
+    /**
+     * 自定义裁剪区域属性
+     */
+    private Rect cusTomCropRect;
     private boolean isHasSurface = false;
     private SurfaceView sFVScan;
     /**
@@ -156,13 +162,13 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         }
         sFVScan = null;
         mCropRect = null;
+        cusTomCropRect = null;
     }
 
     /**
      * 开始扫描
      *
      * @param activity    activity实例
-     * @param scanView    扫描区域view
      * @param sFVScan     surfaceview
      * @param playBeep    扫描结束是否播放声音
      * @param vibrate     扫描结束后是否震动
@@ -170,11 +176,10 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * @param scanQrCode  是否扫描二维码
      */
     @RequiresPermission(Manifest.permission.CAMERA)
-    public void startScan(Activity activity, View scanView, SurfaceView sFVScan,
+    public void startScan(Activity activity, SurfaceView sFVScan,
                           boolean playBeep, boolean vibrate,
                           boolean scanQrCode, boolean scanBarCode) {
         this.sFVScan = sFVScan;
-        this.scanView = scanView;
         //初始化二维码控制属性
         inactivityTimer = new InactivityTimer(activity);
         beepManager = new BeepManager(activity);
@@ -192,6 +197,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         }
     }
 
+
     /**
      * 重置扫描
      */
@@ -200,6 +206,29 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         if (handler != null) {
             handler.sendEmptyMessage(SacnCameraCommon.restart_preview);
         }
+    }
+
+    /**
+     * 设置裁剪扫描区域属性
+     *
+     * @param cusTomCropRect 自定义裁剪区域
+     * @param scanView       扫描区域view
+     */
+    public void setScanCropRect(Rect cusTomCropRect, View scanView) {
+        if (cusTomCropRect != null) {
+            this.cusTomCropRect = cusTomCropRect;
+        }
+        if (scanView != null) {
+            this.scanView = scanView;
+        }
+    }
+
+    /**
+     * 清空扫描裁剪区域属性相关
+     */
+    public void clearScanCropRect() {
+        this.cusTomCropRect = null;
+        this.scanView = null;
     }
 
     /**
@@ -294,7 +323,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * @return 要裁剪的图片区域
      */
     protected Rect getCropRect() {
-        return mCropRect;
+        return cusTomCropRect == null ? mCropRect : cusTomCropRect;
     }
 
     /**
@@ -369,6 +398,10 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * 初始化扫描截取区域
      */
     private void initCrop() {
+        //判断是否有自定义设置的区域属性
+        if (cusTomCropRect != null) {
+            return;
+        }
         //判断是否有初始化设置
         if (scanView == null || sFVScan == null) {
             mCropRect = new Rect(0, 0, 0, 0);
