@@ -219,7 +219,7 @@ class CameraManager {
      *
      * @return
      */
-    public boolean openFlashlight() {
+    public boolean openFlashLight() {
         if (!isFlashlightOpen) {
             try {
                 isFlashlightOpen = true;
@@ -228,6 +228,7 @@ class CameraManager {
                 mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                 camera.setParameters(mParameters);
             } catch (Exception ex) {
+                isFlashlightOpen = false;
                 return false;
             }
         }
@@ -239,7 +240,7 @@ class CameraManager {
      *
      * @return
      */
-    public boolean closeFlashlight() {
+    public boolean closeFlashLight() {
         if (isFlashlightOpen) {
             try {
                 isFlashlightOpen = false;
@@ -248,6 +249,7 @@ class CameraManager {
                 mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                 camera.setParameters(mParameters);
             } catch (Exception ex) {
+                isFlashlightOpen = true;
                 return false;
             }
         }
@@ -260,7 +262,7 @@ class CameraManager {
     public void release() {
         stopPreview();
         closeDriver();
-        closeFlashlight();
+        closeFlashLight();
         context = null;
         if (configManager != null) {
             configManager.release();

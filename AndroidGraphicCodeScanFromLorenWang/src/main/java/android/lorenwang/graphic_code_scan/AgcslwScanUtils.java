@@ -24,6 +24,16 @@ import androidx.annotation.RequiresPermission;
  * 创建人：王亮（Loren wang）
  * 思路：
  * 方法：
+ * 1、开始扫描---startScan(act,scanView,surfaceView,playBeep,vibrate,scanBarCode,scanQrCode)---需要权限
+ * 2、重置扫描---restartPreviewAfterDelay---需要权限
+ * 3、手动对焦---manualFocus
+ * 4、开启闪光灯---openFlashLight
+ * 5、关闭闪光灯---closeFlashLight
+ * 6、切换闪光灯状态---changeFlashLightStatus
+ * 7、设置扫描结果回调---setScanResultCallback(callback)
+ * 8、Activity获取焦点调用---onActResumeChange---需要权限---重要
+ * 9、Activity失去焦点调用---onActPauseChange---需要权限---重要
+ * 10、Activity结束销毁调用---onActFinish---需要权限---重要
  * 注意：
  * 修改人：
  * 修改时间：
@@ -64,6 +74,14 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * 扫描内容view
      */
     private View scanView;
+    /**
+     * 扫描类型
+     */
+    private int decodeMode = DecodeThread.ALL_MODE;
+    /**
+     * 闪光灯状态，默认关闭
+     */
+    private boolean flashLightStatus = false;
 
 
     /**
@@ -143,15 +161,35 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     /**
      * 开始扫描
      *
-     * @param activity activity实例
+     * @param activity    activity实例
+     * @param scanView    扫描区域view
+     * @param sFVScan     surfaceview
+     * @param playBeep    扫描结束是否播放声音
+     * @param vibrate     扫描结束后是否震动
+     * @param scanBarCode 是否扫描条形码
+     * @param scanQrCode  是否扫描二维码
      */
     @RequiresPermission(Manifest.permission.CAMERA)
-    public void startScan(Activity activity, View scanView, SurfaceView sFVScan) {
+    public void startScan(Activity activity, View scanView, SurfaceView sFVScan,
+                          boolean playBeep, boolean vibrate,
+                          boolean scanQrCode, boolean scanBarCode) {
         this.sFVScan = sFVScan;
         this.scanView = scanView;
         //初始化二维码控制属性
         inactivityTimer = new InactivityTimer(activity);
         beepManager = new BeepManager(activity);
+        //设置是否播放声音
+        beepManager.setPlayBeep(playBeep);
+        //设置是否震动
+        beepManager.setVibrate(vibrate);
+        //设置扫描类型
+        if (!scanBarCode && scanQrCode) {
+            decodeMode = DecodeThread.QRCODE_MODE;
+        } else if (scanBarCode && !scanQrCode) {
+            decodeMode = DecodeThread.BARCODE_MODE;
+        } else {
+            decodeMode = DecodeThread.ALL_MODE;
+        }
     }
 
     /**
@@ -170,6 +208,37 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     public void manualFocus() {
         if (cameraManager != null) {
             cameraManager.manualFocus();
+        }
+    }
+
+    /**
+     * 开启闪光灯
+     */
+    public void openFlashLight() {
+        if (cameraManager != null) {
+            flashLightStatus = cameraManager.openFlashLight();
+        }
+    }
+
+    /**
+     * 关闭闪光灯
+     */
+    public void closeFlashLight() {
+        if (cameraManager != null) {
+            flashLightStatus = !cameraManager.openFlashLight();
+        }
+    }
+
+    /**
+     * 修改闪光灯状态
+     */
+    public void changeFlashLightStatus() {
+        if (cameraManager != null) {
+            if (flashLightStatus) {
+                closeFlashLight();
+            } else {
+                openFlashLight();
+            }
         }
     }
 
@@ -235,7 +304,12 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * @param bundle    The extras
      */
     protected void handleDecode(final Result rawResult, final Bundle bundle) {
-        inactivityTimer.onActivity();
+        if (inactivityTimer != null) {
+            inactivityTimer.onActivity();
+        }
+        if (beepManager != null) {
+            beepManager.playBeepSoundAndVibrate();
+        }
         if (rawResult != null && rawResult.getText() != null) {
             String resultText = rawResult.getText();
             AtlwLogUtils.logD(TAG, "扫描结果:::" + resultText);
@@ -278,7 +352,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
             // Creating the handler starts the preview, which can also throw a
             // RuntimeException.
             if (handler == null) {
-                handler = new CaptureActivityHandler(cameraManager, DecodeThread.ALL_MODE);
+                handler = new CaptureActivityHandler(cameraManager, decodeMode);
             }
 
             initCrop();

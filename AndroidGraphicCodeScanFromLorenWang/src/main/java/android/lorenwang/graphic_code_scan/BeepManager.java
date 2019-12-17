@@ -19,12 +19,13 @@ package android.lorenwang.graphic_code_scan;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.androidgraphiccodescanfromlorenwang.R;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -50,10 +51,27 @@ class BeepManager implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErr
         updatePrefs();
     }
 
+    /**
+     * 设置是否播放声音
+     *
+     * @param playBeep 播放剩下
+     */
+    public void setPlayBeep(boolean playBeep) {
+        this.playBeep = playBeep;
+        updatePrefs();
+    }
+
+    /**
+     * 是否要震动
+     *
+     * @param vibrate 是否震动
+     */
+    public void setVibrate(boolean vibrate) {
+        this.vibrate = vibrate;
+        updatePrefs();
+    }
+
     private synchronized void updatePrefs() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        playBeep = shouldBeep(prefs, activity);
-        vibrate = true;
         if (playBeep && mediaPlayer == null) {
             // The volume on STREAM_SYSTEM is not adjustable, and users found it
             // too loud,
@@ -63,6 +81,9 @@ class BeepManager implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErr
         }
     }
 
+    /**
+     * 播放响铃和震动
+     */
     public synchronized void playBeepSoundAndVibrate() {
         if (playBeep && mediaPlayer != null) {
             mediaPlayer.start();
@@ -91,12 +112,12 @@ class BeepManager implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErr
         mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.setOnErrorListener(this);
         try {
-//			AssetFileDescriptor file = activity.getResources().openRawResourceFd(R.raw.beep);
-//			try {
-//				mediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
-//			} finally {
-//				file.close();
-//			}
+            AssetFileDescriptor file = activity.getResources().openRawResourceFd(R.raw.beep);
+            try {
+                mediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
+            } finally {
+                file.close();
+            }
             mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
             mediaPlayer.prepare();
             return mediaPlayer;
