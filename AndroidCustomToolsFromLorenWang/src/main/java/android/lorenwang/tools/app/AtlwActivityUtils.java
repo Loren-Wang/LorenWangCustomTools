@@ -174,7 +174,6 @@ public class AtlwActivityUtils {
                 break;
             case View.GONE:
                 //隐藏软键盘 //
-                view.setFocusableInTouchMode(false);
                 view.clearFocus();
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 break;

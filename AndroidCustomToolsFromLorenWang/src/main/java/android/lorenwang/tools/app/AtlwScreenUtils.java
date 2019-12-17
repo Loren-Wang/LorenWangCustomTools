@@ -21,6 +21,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 6、获取屏幕高度
  * 7、根据宽度获取在屏幕上显示的总的像素值
  * 8、根据高度获取在屏幕上显示的总的像素值
+ * 9、或者状态栏高度
  * 注意：
  * 修改人：
  * 修改时间：
@@ -154,6 +155,20 @@ public class AtlwScreenUtils {
             screenHeight = getDisplayMetrics(context).heightPixels;         // 屏幕宽度（像素）
         }
         return screenHeight;
+    }
+
+    /**
+     * 或者状态栏高度
+     *
+     * @return 获取到返回指定值，无法获取返回0
+     */
+    public int getStatusBarHeight() {
+        int resourceId = AtlwSetting.nowApplication.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return AtlwSetting.nowApplication.getResources().getDimensionPixelSize(resourceId);
+        } else {
+            return 0;
+        }
     }
 
     /**
