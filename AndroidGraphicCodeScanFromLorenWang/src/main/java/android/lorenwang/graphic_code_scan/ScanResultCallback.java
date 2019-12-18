@@ -8,6 +8,9 @@ import android.graphics.Bitmap;
  * 创建人：王亮（Loren wang）
  * 思路：
  * 方法：
+ * 1、扫描文本结果---scanResult（result）
+ * 2、扫描图片结果---scanResultBitmap（bitmap）
+ * 3、扫描出错---scanError（）
  * 注意：
  * 修改人：
  * 修改时间：
@@ -16,7 +19,7 @@ import android.graphics.Bitmap;
 
 public interface ScanResultCallback {
     /**
-     * 扫描结果
+     * 扫描文本结果
      *
      * @param result 结果内容
      */

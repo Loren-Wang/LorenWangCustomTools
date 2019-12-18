@@ -1,17 +1,34 @@
-package com.example.testapp
+条形码、二维码扫描封装库，除了原有的zxing库之外封装后暂时只有两个文件，原有的zxing库不用管，
+只要使用自定义的两个文件就够了
+ 
+<h3>一、AgcslwScanUtils---（扫描工具类）</h3>
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.lorenwang.graphic_code_scan.AgcslwScanUtils
-import android.lorenwang.graphic_code_scan.ScanResultCallback
-import android.lorenwang.tools.app.AtlwActivityUtils
-import android.lorenwang.tools.app.PermissionRequestCallback
-import android.os.Bundle
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_scan_code.*
+      1、开始扫描---startScan(act, sFVScan,playBeep,vibrate,scanBarCode,scanQrCode,returnScanBitmap)---需要权限
+      2、重置扫描---restartPreviewAfterDelay---需要权限
+      3、手动对焦---manualFocus
+      4、开启闪光灯---openFlashLight
+      5、关闭闪光灯---closeFlashLight
+      6、切换闪光灯状态---changeFlashLightStatus
+      7、设置扫描结果回调---setScanResultCallback(callback)
+      8、Activity获取焦点调用---onActResumeChange---需要权限---重要
+      9、Activity失去焦点调用---onActPauseChange---需要权限---重要
+      10、Activity结束销毁调用---onActFinish---需要权限---重要
+      11、设置描裁裁剪区域属性---setScanCropRect( cusTomCropRect, scanView)
+      12、清空扫描裁剪区域属性相关---clearScanCropRect()
+      
+      
+<h3>二、ScanResultCallback---（扫描结果返回接口）</h3>
 
-class ScanCodeActivity : BaseActivity() {
+      1、扫描文本结果---scanResult（result）
+      2、扫描图片结果---scanResultBitmap（bitmap）
+      3、扫描出错---scanError（）
+      
+      
+      
+<h1>样例(可参考testapp中 ScanCodeActivity页面)</h1>
+
+
+    class ScanCodeActivity : BaseActivity() {
     override fun onChildCreate(savedInstanceState: Bundle?) {
         addChildView(R.layout.activity_scan_code)
         //请求权限
