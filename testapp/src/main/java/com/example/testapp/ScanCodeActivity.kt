@@ -3,8 +3,8 @@ package com.example.testapp
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.lorenwang.graphic_code_scan.AgcslwScanResultCallback
 import android.lorenwang.graphic_code_scan.AgcslwScanUtils
-import android.lorenwang.graphic_code_scan.ScanResultCallback
 import android.lorenwang.tools.app.AtlwActivityUtils
 import android.lorenwang.tools.app.PermissionRequestCallback
 import android.os.Bundle
@@ -25,7 +25,7 @@ class ScanCodeActivity : BaseActivity() {
                         //开启扫描
                         AgcslwScanUtils.getInstance().startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true)
                         //扫描结果回调
-                        AgcslwScanUtils.getInstance().setScanResultCallback(object : ScanResultCallback {
+                        AgcslwScanUtils.getInstance().setScanResultCallback(object : AgcslwScanResultCallback {
                             private var toast: Toast? = null
                             override fun scanResult(result: String?) {
                                 AgcslwScanUtils.getInstance().restartPreviewAfterDelay()

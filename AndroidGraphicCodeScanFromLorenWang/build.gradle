@@ -40,7 +40,7 @@ dependencies {
 
 def moduleName = "AndroidGraphicCodeScanFromLorenWang"
 def moduleDescription = "Android图形码扫码库"
-version '1.0.3'
+version '1.0.4'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

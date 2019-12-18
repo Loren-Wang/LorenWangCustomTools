@@ -23,20 +23,20 @@ import com.example.androidgraphiccodescanfromlorenwang.R;
  * 修改人：
  * 修改时间：
  * 备注：
- *     <declare-styleable name="AgcslwScanView">
- *         <!--阴影部分颜色-->
- *         <attr name="shadowColor" format="color" />
- *         <!--左侧阴影百分比，值范围0-1-->
- *         <attr name="shadowPercentLeft" format="float" />
- *         <!--右侧阴影百分比，值范围0-1-->
- *         <attr name="shadowPercentRight" format="float" />
- *         <!--上方阴影百分比，值范围0-1-->
- *         <attr name="shadowPercentTop" format="float" />
- *         <!--下方阴影百分比，值范围0-1-->
- *         <attr name="shadowPercentBottom" format="float" />
- *         <!--非阴影是否是正方形的，是的话则以-->
- *         <attr name="outShadowSquare" format="boolean" />
- *     </declare-styleable>
+ * <declare-styleable name="AgcslwScanView">
+ * <!--阴影部分颜色-->
+ * <attr name="shadowColor" format="color" />
+ * <!--左侧阴影百分比，值范围0-1-->
+ * <attr name="shadowPercentLeft" format="float" />
+ * <!--右侧阴影百分比，值范围0-1-->
+ * <attr name="shadowPercentRight" format="float" />
+ * <!--上方阴影百分比，值范围0-1-->
+ * <attr name="shadowPercentTop" format="float" />
+ * <!--下方阴影百分比，值范围0-1-->
+ * <attr name="shadowPercentBottom" format="float" />
+ * <!--非阴影是否是正方形的，是的话则以-->
+ * <attr name="outShadowSquare" format="boolean" />
+ * </declare-styleable>
  */
 
 public class AgcslwScanView extends FrameLayout {
@@ -44,6 +44,10 @@ public class AgcslwScanView extends FrameLayout {
      * 预览view
      */
     private SurfaceView surfaceView;
+    /**
+     * 绘制的view
+     */
+    private View drawView;
 
     /**************配置参数部分**************/
     /**
@@ -107,8 +111,7 @@ public class AgcslwScanView extends FrameLayout {
         shadowPaint.setAntiAlias(true);
 
         surfaceView = new SurfaceView(context, attrs, defStyleAttr);
-        addView(surfaceView);
-        addView(new View(context, attrs, defStyleAttr) {
+        drawView = new View(context, attrs, defStyleAttr) {
             @Override
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
@@ -116,7 +119,9 @@ public class AgcslwScanView extends FrameLayout {
                 AgcslwScanView.this.onDrawChild(canvas, AgcslwScanUtils.getInstance().parseShowCropRect(shadowPercentLeft, shadowPercentTop, shadowPercentRight, shadowPercentBottom, outShadowSquare, surfaceView))
                 ;
             }
-        });
+        };
+        addView(surfaceView);
+        addView(drawView);
     }
 
     /**
@@ -151,5 +156,17 @@ public class AgcslwScanView extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         onDrawChild(canvas, AgcslwScanUtils.getInstance().parseShowCropRect(shadowPercentLeft, shadowPercentTop, shadowPercentRight, shadowPercentBottom, outShadowSquare, surfaceView));
+    }
+
+    @Override
+    public void postInvalidate() {
+        super.postInvalidate();
+        drawView.postInvalidate();
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        drawView.invalidate();
     }
 }

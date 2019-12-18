@@ -49,7 +49,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     /**
      * 扫描结果回调
      */
-    private ScanResultCallback scanResultCallback;
+    private AgcslwScanResultCallback scanResultCallback;
 
     private AgcslwScanUtils() {
     }
@@ -316,7 +316,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      *
      * @param scanResultCallback 扫描结果回调
      */
-    public void setScanResultCallback(ScanResultCallback scanResultCallback) {
+    public void setScanResultCallback(AgcslwScanResultCallback scanResultCallback) {
         this.scanResultCallback = scanResultCallback;
     }
 

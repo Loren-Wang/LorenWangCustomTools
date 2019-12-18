@@ -17,7 +17,7 @@ import android.graphics.Bitmap;
  * 备注：
  */
 
-public interface ScanResultCallback {
+public interface AgcslwScanResultCallback {
     /**
      * 扫描文本结果
      *
