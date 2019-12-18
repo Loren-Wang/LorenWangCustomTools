@@ -33,14 +33,14 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
-    compileOnly project(':AndroidCustomToolsFromLorenWang')
-    compileOnly project(':JavaCustomToolsFromLorenWang')
+    implementation project(':AndroidCustomToolsFromLorenWang')
+    implementation project(':JavaCustomToolsFromLorenWang')
 }
 
 
 def moduleName = "AndroidGraphicCodeScanFromLorenWang"
 def moduleDescription = "Android图形码扫码库"
-version '1.0.0'
+version '1.0.2'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

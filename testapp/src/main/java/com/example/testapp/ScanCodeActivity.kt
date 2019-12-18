@@ -2,6 +2,7 @@ package com.example.testapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.lorenwang.graphic_code_scan.AgcslwScanUtils
 import android.lorenwang.graphic_code_scan.ScanResultCallback
 import android.lorenwang.tools.app.AtlwActivityUtils
@@ -18,7 +19,11 @@ class ScanCodeActivity : BaseActivity() {
                 object : PermissionRequestCallback {
                     @SuppressLint("MissingPermission")
                     override fun perissionRequestSuccessCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
-                        AgcslwScanUtils.getInstance().startScan(this@ScanCodeActivity, viewScan, surfaceView)
+                        //设置裁剪扫描区域
+                        AgcslwScanUtils.getInstance().setScanCropRect(null, viewScan)
+                        //开启扫描
+                        AgcslwScanUtils.getInstance().startScan(this@ScanCodeActivity, surfaceView, true, true, true, true, true)
+                        //扫描结果回调
                         AgcslwScanUtils.getInstance().setScanResultCallback(object : ScanResultCallback {
                             private var toast: Toast? = null
                             override fun scanResult(result: String?) {
@@ -26,6 +31,12 @@ class ScanCodeActivity : BaseActivity() {
                                 toast?.cancel()
                                 toast = Toast.makeText(this@ScanCodeActivity, result, Toast.LENGTH_LONG)
                                 toast?.show()
+                            }
+
+                            override fun scanResultBitmap(bitmap: Bitmap?) {
+                                bitmap?.let {
+                                    viewScan.setImageBitmap(it)
+                                }
                             }
 
                             override fun scanError() {

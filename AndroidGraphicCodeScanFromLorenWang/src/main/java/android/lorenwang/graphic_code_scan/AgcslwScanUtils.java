@@ -3,6 +3,7 @@ package android.lorenwang.graphic_code_scan;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.app.AtlwScreenUtils;
@@ -24,7 +25,7 @@ import androidx.annotation.RequiresPermission;
  * 创建人：王亮（Loren wang）
  * 思路：
  * 方法：
- * 1、开始扫描---startScan(act, sFVScan,playBeep,vibrate,scanBarCode,scanQrCode)---需要权限
+ * 1、开始扫描---startScan(act, sFVScan,playBeep,vibrate,scanBarCode,scanQrCode,returnScanBitmap)---需要权限
  * 2、重置扫描---restartPreviewAfterDelay---需要权限
  * 3、手动对焦---manualFocus
  * 4、开启闪光灯---openFlashLight
@@ -88,6 +89,10 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * 闪光灯状态，默认关闭
      */
     private boolean flashLightStatus = false;
+    /**
+     * 是否返回扫描结果的位图
+     */
+    private boolean returnScanBitmap = false;
 
 
     /**
@@ -168,18 +173,21 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     /**
      * 开始扫描
      *
-     * @param activity    activity实例
-     * @param sFVScan     surfaceview
-     * @param playBeep    扫描结束是否播放声音
-     * @param vibrate     扫描结束后是否震动
-     * @param scanBarCode 是否扫描条形码
-     * @param scanQrCode  是否扫描二维码
+     * @param activity         activity实例
+     * @param sFVScan          surfaceview
+     * @param playBeep         扫描结束是否播放声音
+     * @param vibrate          扫描结束后是否震动
+     * @param scanBarCode      是否扫描条形码
+     * @param scanQrCode       是否扫描二维码
+     * @param returnScanBitmap 是否返回扫描结果的位图
      */
     @RequiresPermission(Manifest.permission.CAMERA)
     public void startScan(Activity activity, SurfaceView sFVScan,
                           boolean playBeep, boolean vibrate,
-                          boolean scanQrCode, boolean scanBarCode) {
+                          boolean scanQrCode, boolean scanBarCode,
+                          boolean returnScanBitmap) {
         this.sFVScan = sFVScan;
+        this.returnScanBitmap = returnScanBitmap;
         //初始化二维码控制属性
         inactivityTimer = new InactivityTimer(activity);
         beepManager = new BeepManager(activity);
@@ -344,7 +352,17 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
             AtlwLogUtils.logD(TAG, "扫描结果:::" + resultText);
             if (scanResultCallback != null) {
                 scanResultCallback.scanResult(resultText);
+                if (returnScanBitmap) {
+                    try {
+                        byte[] barcodeBitmaps = bundle.getByteArray("barcode_bitmap");
+                        assert barcodeBitmaps != null;
+                        scanResultCallback.scanResultBitmap(BitmapFactory.decodeByteArray(barcodeBitmaps, 0, barcodeBitmaps.length));
+                    } catch (Exception e) {
+                        AtlwLogUtils.logD("处理返回的扫描结果位图数据异常：" + (e.getMessage() != null ? e.getMessage() : ""));
+                    }
+                }
             }
+
         } else {
             if (scanResultCallback != null) {
                 scanResultCallback.scanError();
