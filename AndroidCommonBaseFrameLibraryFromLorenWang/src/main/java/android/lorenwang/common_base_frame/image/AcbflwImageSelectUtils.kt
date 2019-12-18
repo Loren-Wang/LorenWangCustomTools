@@ -82,7 +82,7 @@ PictureSelector.create(MainActivity.this)
 .isDragFrame(false)// 是否可拖动裁剪框(固定)
 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
  */
-class AcbflwImageSelectUtils private constructor() {
+open class AcbflwImageSelectUtils private constructor() {
     companion object {
         private var optionsInstance: AcbflwImageSelectUtils? = null
 

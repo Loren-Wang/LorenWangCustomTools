@@ -49,7 +49,7 @@ import androidx.annotation.AnimRes;
  * 修改时间：
  * 备注：
  */
-class AtlwActivityJumpUtils {
+public class AtlwActivityJumpUtils {
     private AtlwActivityJumpUtils() {
     }
 

@@ -20,4 +20,8 @@ object AcbflwBaseConfig {
      * 基础底部栏高度高度
      */
     var baseBottomViewHeight = 0
+    /**
+     * 基础debugzhuangt
+     */
+    var baseDebugStatus = BuildConfig.DEBUG
 }

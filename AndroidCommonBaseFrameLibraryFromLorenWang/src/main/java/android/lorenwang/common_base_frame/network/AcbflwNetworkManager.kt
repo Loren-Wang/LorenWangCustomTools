@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
  * 修改时间：
  * 备注：
  */
-class AcbflwNetworkManager private constructor() {
+open class AcbflwNetworkManager private constructor() {
     private var lwRetrofit: Retrofit? = null
 
     companion object {

@@ -33,7 +33,18 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      * @param resId                       视图资源id
      * @param titleBarHeadViewLayoutResId 标题栏视图资源id
      */
-    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int) {
+    protected open fun addContentView(@LayoutRes resId: Int) {
+        addContentView(resId, null)
+    }
+
+
+    /**
+     * 添加内容视图，其内部设置了contentview，然后通过baselayout当中的viewstub设置布局并进行绘制显示
+     *
+     * @param resId                       视图资源id
+     * @param titleBarHeadViewLayoutResId 标题栏视图资源id
+     */
+    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?) {
         addContentView(resId, titleBarHeadViewLayoutResId, null)
     }
 
@@ -44,7 +55,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      * @param titleBarHeadViewLayoutResId 标题栏视图资源id
      * @param bottomViewResId 底部操作栏资源id
      */
-    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int, @LayoutRes bottomViewResId: Int?) {
+    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?, @LayoutRes bottomViewResId: Int?) {
         //设置view
         setContentView(R.layout.acbflw_activity_base)
         //内容视图
@@ -52,10 +63,12 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         vsbContent.layoutResource = resId
         vsbContent.inflate()
         //标题栏视图
-        val vsbTitleBarHeadView = findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
-        vsbTitleBarHeadView.layoutResource = titleBarHeadViewLayoutResId
-        AtlwViewUtils.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
-        vsbTitleBarHeadView.inflate()
+        titleBarHeadViewLayoutResId?.let {
+            val vsbTitleBarHeadView = findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
+            vsbTitleBarHeadView.layoutResource = it
+            AtlwViewUtils.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
+            vsbTitleBarHeadView.inflate()
+        }
         //底部栏视图
         bottomViewResId?.let {
             val vsbBottomView = findViewById<ViewStub>(R.id.vsbBottomView)

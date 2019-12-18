@@ -14,12 +14,14 @@ import android.lorenwang.tools.AtlwSetting
  * 修改时间：
  * 备注：
  */
-class AcbflwBaseApplication : Application() {
+open class AcbflwBaseApplication : Application() {
+
     override fun onCreate() {
         super.onCreate()
+        application = this
         appContext = applicationContext
         //初始化第三方配置
-        AtlwSetting.isDebug = BuildConfig.DEBUG
+        AtlwSetting.isDebug = AcbflwBaseConfig.baseDebugStatus
         AtlwSetting.registActivityLifecycleCallbacks(this)
 
         //基础包初始化配置
@@ -34,6 +36,7 @@ class AcbflwBaseApplication : Application() {
     fun setStatus(pro: Boolean) {
         //初始化第三方配置
         AtlwSetting.isDebug = !pro
+        AcbflwBaseConfig.baseDebugStatus = !pro
     }
 
     companion object {
@@ -42,5 +45,10 @@ class AcbflwBaseApplication : Application() {
          */
         @JvmField
         var appContext: Context? = null
+        /**
+         * application实例
+         */
+        @JvmField
+        var application: Application? = null
     }
 }

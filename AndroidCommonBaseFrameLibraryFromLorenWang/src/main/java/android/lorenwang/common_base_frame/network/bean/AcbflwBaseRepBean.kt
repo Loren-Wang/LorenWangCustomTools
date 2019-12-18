@@ -11,7 +11,7 @@ package android.lorenwang.common_base_frame.network.bean
  * 修改时间：
  * 备注：
  */
-class AcbflwBaseRepBean<T> {
+open class AcbflwBaseRepBean<T> {
     var code: Any? = null
     var message: String? = null
     var data: T? = null
