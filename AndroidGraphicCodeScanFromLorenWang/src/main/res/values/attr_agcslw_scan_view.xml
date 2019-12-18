@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AgcslwScanView">
+        <!--阴影部分颜色-->
+        <attr name="shadowColor" format="color" />
+        <!--左侧阴影百分比，值范围0-1-->
+        <attr name="shadowPercentLeft" format="float" />
+        <!--右侧阴影百分比，值范围0-1-->
+        <attr name="shadowPercentRight" format="float" />
+        <!--上方阴影百分比，值范围0-1-->
+        <attr name="shadowPercentTop" format="float" />
+        <!--下方阴影百分比，值范围0-1-->
+        <attr name="shadowPercentBottom" format="float" />
+        <!--非阴影是否是正方形的，是的话则以-->
+        <attr name="outShadowSquare" format="boolean" />
+    </declare-styleable>
+</resources>

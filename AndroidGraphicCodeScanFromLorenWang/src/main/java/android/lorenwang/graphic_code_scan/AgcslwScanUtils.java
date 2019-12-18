@@ -35,8 +35,9 @@ import androidx.annotation.RequiresPermission;
  * 8、Activity获取焦点调用---onActResumeChange---需要权限---重要
  * 9、Activity失去焦点调用---onActPauseChange---需要权限---重要
  * 10、Activity结束销毁调用---onActFinish---需要权限---重要
- * 11、设置描裁裁剪区域属性---setScanCropRect( cusTomCropRect, scanView)
+ * 11、设置描裁裁剪区域属性---setScanCropView(  scanView)
  * 12、清空扫描裁剪区域属性相关---clearScanCropRect()
+ * 13、格式化显示的裁剪区域---parseShowCropRect（leftPercent,topPercent,rightPercent,bottomPercent,square,surfaceView）
  * 注意：
  * 修改人：
  * 修改时间：
@@ -69,12 +70,6 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     private CaptureActivityHandler handler;
     private InactivityTimer inactivityTimer;
     private BeepManager beepManager;
-    //界面扫描区域属性
-    private Rect mCropRect;
-    /**
-     * 自定义裁剪区域属性
-     */
-    private Rect cusTomCropRect;
     private boolean isHasSurface = false;
     private SurfaceView sFVScan;
     /**
@@ -93,6 +88,14 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * 是否返回扫描结果的位图
      */
     private boolean returnScanBitmap = false;
+    /**
+     * 显示的裁剪区域
+     */
+    private Rect showCropRect;
+    /**
+     * 实际图片裁剪区域
+     */
+    private Rect imageCropRect;
 
 
     /**
@@ -166,8 +169,8 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
             beepManager = null;
         }
         sFVScan = null;
-        mCropRect = null;
-        cusTomCropRect = null;
+        showCropRect = null;
+        imageCropRect = null;
     }
 
     /**
@@ -219,15 +222,14 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     /**
      * 设置裁剪扫描区域属性
      *
-     * @param cusTomCropRect 自定义裁剪区域
-     * @param scanView       扫描区域view
+     * @param scanView 扫描区域view
      */
-    public void setScanCropRect(Rect cusTomCropRect, View scanView) {
-        if (cusTomCropRect != null) {
-            this.cusTomCropRect = cusTomCropRect;
-        }
+    public void setScanCropView(View scanView) {
         if (scanView != null) {
-            this.scanView = scanView;
+            synchronized (optionsUtils) {
+                clearScanCropRect();
+                this.scanView = scanView;
+            }
         }
     }
 
@@ -235,8 +237,38 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * 清空扫描裁剪区域属性相关
      */
     public void clearScanCropRect() {
-        this.cusTomCropRect = null;
         this.scanView = null;
+        imageCropRect = null;
+        showCropRect = null;
+    }
+
+    /**
+     * 格式化显示的裁剪区域
+     *
+     * @param leftPercent   左侧百分比
+     * @param topPercent    顶部百分比
+     * @param rightPercent  右侧百分比
+     * @param bottomPercent 底部百分比
+     * @param square        是否是证方形
+     * @param sFVScan       surfaceview
+     * @return 显示的裁剪区域
+     */
+    public Rect parseShowCropRect(float leftPercent, float topPercent, float rightPercent, float bottomPercent, boolean square, SurfaceView sFVScan) {
+        //如果使用的适scanview的话则裁剪区域为裁剪扫描控件属性
+        if (showCropRect == null && scanView == null) {
+            int cropWidth = (int) (sFVScan.getMeasuredWidth() * (1 - leftPercent - rightPercent));
+            int cropHeight = (int) (sFVScan.getMeasuredHeight() * (1 - topPercent - bottomPercent));
+            if (square) {
+                cropWidth = cropHeight = Math.min(cropWidth, cropHeight);
+            }
+
+            //绘制阴影区域
+            int cropLeft = (int) (sFVScan.getMeasuredWidth() * leftPercent);
+            int cropTop = (int) (sFVScan.getMeasuredHeight() * topPercent);
+            return showCropRect = new Rect(cropLeft, cropTop, cropLeft + cropWidth, cropTop + cropHeight);
+        } else {
+            return showCropRect;
+        }
     }
 
     /**
@@ -331,7 +363,10 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * @return 要裁剪的图片区域
      */
     protected Rect getCropRect() {
-        return cusTomCropRect == null ? mCropRect : cusTomCropRect;
+        if (imageCropRect == null) {
+            initCrop();
+        }
+        return imageCropRect;
     }
 
     /**
@@ -416,43 +451,43 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      * 初始化扫描截取区域
      */
     private void initCrop() {
-        //判断是否有自定义设置的区域属性
-        if (cusTomCropRect != null) {
-            return;
-        }
         //判断是否有初始化设置
-        if (scanView == null || sFVScan == null) {
-            mCropRect = new Rect(0, 0, 0, 0);
+        if (sFVScan == null) {
             return;
         }
+
+        //获取相机像素属性
         int cameraWidth = cameraManager.getCameraResolution().y;
         int cameraHeight = cameraManager.getCameraResolution().x;
-
-        /** 获取布局中扫描框的位置信息 */
-        int[] location = new int[2];
-        scanView.getLocationInWindow(location);
-
-        int cropLeft = location[0];
-        int cropTop = location[1] - AtlwScreenUtils.getInstance().getStatusBarHeight();
-
-        int cropWidth = scanView.getWidth();
-        int cropHeight = scanView.getHeight();
-
-        /** 获取布局容器的宽高 */
+        //裁剪区域的属性
+        if (scanView != null) {
+            //获取布局中扫描框的位置信息
+            int[] location = new int[2];
+            scanView.getLocationInWindow(location);
+            int cropLeft = location[0];
+            int cropTop = location[1] - AtlwScreenUtils.getInstance().getStatusBarHeight();
+            int cropWidth = scanView.getWidth();
+            int cropHeight = scanView.getHeight();
+            //修改裁剪区域为裁剪扫描框属性
+            showCropRect = new Rect(cropLeft, cropTop, cropLeft + cropWidth, cropTop + cropHeight);
+        } else if (showCropRect == null) {
+            return;
+        }
+        //获取布局容器的宽高
         int containerWidth = sFVScan.getWidth();
         int containerHeight = sFVScan.getHeight();
 
-        /** 计算最终截取的矩形的左上角顶点x坐标 */
-        int x = cropLeft * cameraWidth / containerWidth;
-        /** 计算最终截取的矩形的左上角顶点y坐标 */
-        int y = cropTop * cameraHeight / containerHeight;
+        //计算最终截取的矩形的左上角顶点x坐标
+        int x = showCropRect.left * cameraWidth / containerWidth;
+        //计算最终截取的矩形的左上角顶点y坐标
+        int y = showCropRect.top * cameraHeight / containerHeight;
 
-        /** 计算最终截取的矩形的宽度 */
-        int width = cropWidth * cameraWidth / containerWidth;
-        /** 计算最终截取的矩形的高度 */
-        int height = cropHeight * cameraHeight / containerHeight;
+        //计算最终截取的矩形的宽度
+        int width = showCropRect.width() * cameraWidth / containerWidth;
+        //计算最终截取的矩形的高度
+        int height = showCropRect.height() * cameraHeight / containerHeight;
 
-        /** 生成最终的截取的矩形 */
-        mCropRect = new Rect(x, y, width + x, height + y);
+        //生成最终的截取的矩形
+        imageCropRect = new Rect(x, y, width + x, height + y);
     }
 }

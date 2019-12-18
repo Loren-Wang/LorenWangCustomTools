@@ -21,9 +21,9 @@ class ScanCodeActivity : BaseActivity() {
                     @SuppressLint("MissingPermission")
                     override fun perissionRequestSuccessCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
                         //设置裁剪扫描区域
-                        AgcslwScanUtils.getInstance().setScanCropRect(null, viewScan)
+                        AgcslwScanUtils.getInstance().setScanCropView(viewScan)
                         //开启扫描
-                        AgcslwScanUtils.getInstance().startScan(this@ScanCodeActivity, surfaceView, true, true, true, true, true)
+                        AgcslwScanUtils.getInstance().startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true)
                         //扫描结果回调
                         AgcslwScanUtils.getInstance().setScanResultCallback(object : ScanResultCallback {
                             private var toast: Toast? = null
