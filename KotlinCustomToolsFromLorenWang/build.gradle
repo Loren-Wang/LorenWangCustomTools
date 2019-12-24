@@ -25,7 +25,7 @@ dependencies {
 
 def moduleName = "KotlinCustomToolsFromLorenWang"
 def moduleDescription = "Kotlin自定义工具类"
-version '1.0.2'
+version '1.0.4'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

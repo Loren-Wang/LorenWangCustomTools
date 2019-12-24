@@ -21,7 +21,7 @@ fun Any?.isEmpty(): Boolean {
 /**
  * 数据检测，根据检测结果调用不同方法，调用结束后返回数据
  */
-fun <T, R> T?.emptyCheck(emptyFun: () -> R, notEmptyFun: (T) -> R): R {
+public inline fun <T, R> T?.emptyCheck(emptyFun: () -> R, notEmptyFun: (T) -> R): R {
     return if (this.isEmpty()) {
         emptyFun()
     } else {
@@ -32,7 +32,7 @@ fun <T, R> T?.emptyCheck(emptyFun: () -> R, notEmptyFun: (T) -> R): R {
 /**
  * 空检测，如果为空调用空方法
  */
-fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
+public inline fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
     if (this.isEmpty()) {
         emptyFun()
     }
@@ -41,7 +41,7 @@ fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
 /**
  * 待检测参数中是否包含空数据
  */
-fun <T, P, R> T.haveEmptyCheck(params: Array<P>, emptyFun: () -> R, notEmptyFun: () -> R): R {
+public inline fun <T, P, R> T.haveEmptyCheck(params: Array<P>, emptyFun: () -> R, notEmptyFun: () -> R): R {
     params.forEach {
         if (it.isEmpty()) {
             return emptyFun()
@@ -49,3 +49,17 @@ fun <T, P, R> T.haveEmptyCheck(params: Array<P>, emptyFun: () -> R, notEmptyFun:
     }
     return notEmptyFun()
 }
+
+/**
+ * 待检测参数中是否包含空数据
+ * @return 有返回true，否则返回false
+ */
+fun <T, P> T.haveEmptyCheck(params: Array<P>): Boolean {
+    params.forEach {
+        if (it.isEmpty()) {
+            return true
+        }
+    }
+    return false
+}
+
