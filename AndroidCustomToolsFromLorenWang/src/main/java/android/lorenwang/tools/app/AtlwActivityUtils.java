@@ -47,7 +47,7 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  */
 public class AtlwActivityUtils {
     private final String TAG = getClass().getName();
-    private static volatile AtlwActivityUtils baseUtils;
+    private static volatile AtlwActivityUtils optionsUtils;
     //权限请求键值对
     private Map<Integer, PermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
 
@@ -56,11 +56,11 @@ public class AtlwActivityUtils {
 
     public static AtlwActivityUtils getInstance() {
         synchronized (AtlwActivityUtils.class) {
-            if (baseUtils == null) {
-                baseUtils = new AtlwActivityUtils();
+            if (optionsUtils == null) {
+                optionsUtils = new AtlwActivityUtils();
             }
         }
-        return (AtlwActivityUtils) baseUtils;
+        return (AtlwActivityUtils) optionsUtils;
     }
 
     public Map<Integer, PermissionRequestCallback> getPermissionRequestCallbackMap() {

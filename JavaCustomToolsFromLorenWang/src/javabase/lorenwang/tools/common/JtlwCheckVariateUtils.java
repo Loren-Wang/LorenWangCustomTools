@@ -36,18 +36,18 @@ import javabase.lorenwang.tools.JtlwLogUtils;
 
 public class JtlwCheckVariateUtils {
     private final String TAG = "RegularOptionsUtils";
-    private static JtlwCheckVariateUtils baseUtils;
+    private static JtlwCheckVariateUtils optionsUtils;
 
     private JtlwCheckVariateUtils() {
     }
 
     public static JtlwCheckVariateUtils getInstance() {
         synchronized (JtlwCheckVariateUtils.class) {
-            if (baseUtils == null) {
-                baseUtils = new JtlwCheckVariateUtils();
+            if (optionsUtils == null) {
+                optionsUtils = new JtlwCheckVariateUtils();
             }
         }
-        return baseUtils;
+        return optionsUtils;
     }
 
 
