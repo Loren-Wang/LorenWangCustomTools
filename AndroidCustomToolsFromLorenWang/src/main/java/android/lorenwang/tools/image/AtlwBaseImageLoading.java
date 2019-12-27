@@ -12,6 +12,6 @@ package android.lorenwang.tools.image;
  * 备注：
  */
 
-public abstract class AtlwBaseImageLoading {
+abstract class AtlwBaseImageLoading {
 
 }

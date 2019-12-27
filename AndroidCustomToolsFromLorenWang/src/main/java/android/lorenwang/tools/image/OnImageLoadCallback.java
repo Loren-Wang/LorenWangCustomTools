@@ -14,7 +14,7 @@ import android.graphics.Bitmap;
  * 备注：
  */
 
-public interface OnImageLoadCallback {
+interface OnImageLoadCallback {
     /**
      * 回调位图
      * @param bitmap 位图数据

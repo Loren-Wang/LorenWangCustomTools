@@ -9,6 +9,7 @@ import android.os.Bundle;
 import java.util.Vector;
 
 import androidx.annotation.AnimRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.RequiresApi;
 
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE;
@@ -51,6 +52,24 @@ public class AtlwSetting {
      * 设计稿或者屏幕高度度分辨率
      */
     public static int SCREEN_LAYOUT_BASE_HEIGHT = 1334;
+    /**
+     * 图片加载框架类型是fresco
+     */
+    public static final int IMAGE_LOAD_LIBRARY_TYPE_FRESCO = 0;
+    /**
+     * 图片加载框架类型是glide
+     */
+    public static final int IMAGE_LOAD_LIBRARY_TYPE_GLIDE = 1;
+    /**
+     * 图片加载失败图片
+     */
+    @DrawableRes
+    public static int imageLoadingFailResId = androidx.customview.R.drawable.notification_bg_low;
+    /**
+     * 图片加载加载中图片
+     */
+    @DrawableRes
+    public static int imageLoadingLoadResId = androidx.customview.R.drawable.notification_bg_low;
     /**
      * 页面跳转默认进入动画
      */

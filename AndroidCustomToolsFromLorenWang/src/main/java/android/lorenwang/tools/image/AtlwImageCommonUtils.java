@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -52,6 +53,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
  * 12、裁剪位图
  * 13、释放位图
  * 14、从中心裁剪图片到指定的宽高
+ * 15、获取位图字节---getBitmapBytes（bitmap）
  * 注意：
  * 修改人：
  * 修改时间：
@@ -429,6 +431,24 @@ public class AtlwImageCommonUtils {
     }
 
     /**
+     * 获取位图字节
+     *
+     * @param bitmap 位图
+     * @return 转换成功返回字节，否则返回null
+     */
+    public byte[] getBitmapBytes(Bitmap bitmap) {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            int bytes = bitmap.getByteCount();
+            ByteBuffer buffer = ByteBuffer.allocate(bytes);
+            bitmap.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
+
+            return buffer.array();//Get the bytes array of the bitmap
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * 十进制颜色值转16进制
      *
      * @param color 十进制颜色值
@@ -607,7 +627,6 @@ public class AtlwImageCommonUtils {
         }
         return null;
     }
-
 
     /**
      * 释放bitmap

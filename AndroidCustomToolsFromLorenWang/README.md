@@ -83,6 +83,7 @@
      12、裁剪位图
      13、释放位图
      14、从中心裁剪图片到指定的宽高
+     15、获取位图字节---getBitmapBytes（bitmap）
   
   <h3>十一、AtlwSimpleBitmapLruCacheUtils---（简单位图lrucache）
   

@@ -35,7 +35,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 备注：
  */
 
-public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
+class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
     private String TAG = "AtlwGlideImageLoadingUtils";
     private static volatile AtlwGlideImageLoadingUtils utils;
 
