@@ -1,23 +1,35 @@
 package android.lorenwang.tools.app;
 
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
  * 创建时间：2019-04-30 下午 15:47:15
  * 创建人：王亮（Loren wang）
  * 功能作用：控件相关工具类
  * 思路：
- * 方法：1、获取控件的LayoutParams
- * 2、设置控件的宽高
- * 3、设置控件宽高以及margin属性
+ * 方法：
+ * 1、获取控件的LayoutParams---getViewLayoutParams（view，width，height）
+ * 2、设置控件的宽高---setViewWidthHeight（view，width，height）
+ * 3、设置控件宽高以及margin属性---setViewWidthHeightMargin（view，width，height，l,t,r,b）
+ * 4、对Drawable着色---tintDrawable(drawable,ColorStateList)
+ * 5、设置背景图片着色---setBackgroundTint(view,ColorStateList)
+ * 6、设置图片控件的src资源的着色---setImageSrcTint(imageView,ColorStateList)
+ * 7、设置文本控件的Drawable左上右下图片着色---setTextViewDrawableLRTBTint(textView,ColorStateList)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -150,4 +162,82 @@ public class AtlwViewUtils {
             }
         }
     }
+
+    /**
+     * 对Drawable着色
+     *
+     * @param drawable 要着色的Drawable
+     * @param colors   着色的颜色
+     * @return f返回着色后的Drawable
+     */
+    public Drawable tintDrawable(Drawable drawable, ColorStateList colors) {
+        final Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(wrappedDrawable, colors);
+        return wrappedDrawable;
+    }
+
+    /**
+     * 设置背景图片着色
+     *
+     * @param view           控件
+     * @param colorStateList 颜色
+     */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void setBackgroundTint(View view, ColorStateList colorStateList) {
+        if (view != null && colorStateList != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.setBackgroundTintList(colorStateList);
+            } else {
+                Drawable background = view.getBackground();
+                if (background != null) {
+                    background = tintDrawable(background, colorStateList);
+                    view.setBackground(background);
+                }
+            }
+        }
+    }
+
+    /**
+     * 设置图片控件的src资源的着色
+     *
+     * @param imageView      图片控件
+     * @param colorStateList 颜色
+     */
+    public void setImageSrcTint(ImageView imageView, ColorStateList colorStateList) {
+        if (imageView != null && colorStateList != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imageView.setImageTintList(colorStateList);
+            } else {
+                Drawable background = imageView.getDrawable();
+                if (background != null) {
+                    background = tintDrawable(background, colorStateList);
+                    imageView.setImageDrawable(background);
+                }
+            }
+        }
+    }
+
+    /**
+     * 设置文本控件的Drawable左上右下图片着色
+     *
+     * @param textView       控件
+     * @param colorStateList 颜色
+     */
+    public void setTextViewDrawableLRTBTint(TextView textView, ColorStateList colorStateList) {
+        if (textView != null && colorStateList != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textView.setCompoundDrawableTintList(colorStateList);
+            } else {
+                //获取图片进行着色
+                Drawable[] compoundDrawables = textView.getCompoundDrawables();
+                for (int i = 0; i < compoundDrawables.length; i++) {
+                    if (compoundDrawables[i] != null)
+                        compoundDrawables[i] = tintDrawable(compoundDrawables[i], colorStateList);
+                }
+                //设置Drawable
+                textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+            }
+        }
+    }
+
 }

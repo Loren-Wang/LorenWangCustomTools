@@ -2,6 +2,7 @@ package android.lorenwang.tools.file;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.os.Environment;
@@ -72,14 +73,13 @@ public class AtlwFileOptionUtils {
     /**
      * 读取图片文件并获取字节
      *
-     * @param context            上下文
      * @param isCheckPermisstion 是否检查权限
      * @param isCheckFile        是否检查文件
      * @param filePath           文件地址
      * @return 读取到的字节
      */
-    public byte[] readImageFileGetBytes(Context context, Boolean isCheckPermisstion, Boolean isCheckFile, String filePath) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkFileOptionsPermisstion(context)) {
+    public byte[] readImageFileGetBytes(Boolean isCheckPermisstion, Boolean isCheckFile, String filePath) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkFileOptionsPermisstion(AtlwSetting.nowApplication)) {
             return null;
         }
         return JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath);

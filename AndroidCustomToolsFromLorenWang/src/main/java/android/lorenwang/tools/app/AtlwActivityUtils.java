@@ -86,7 +86,7 @@ public class AtlwActivityUtils {
         } else {
             //检测所有的权限是否都已经拥有
             //判断所有的权限是否是通过的
-            if (AtlwCheckUtils.getInstance().checkAppPermisstion(activity, permisstions)) {
+            if (AtlwCheckUtils.getInstance().checkAppPermission(permisstions)) {
                 if (permissionRequestCallback != null) {
                     permissionRequestCallback.perissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions)
                             , permissionsRequestCode);

@@ -6,15 +6,15 @@
 
 <h3>一、AtlwActivityUtils---(Activity工具类)
       
- * 1、去请求权限
- * 2、权限请求结果返回
- * 3、控制软键盘显示与隐藏
- * 4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
- * 5、返回APP级别的实例（对于传递的上下文做转换）
- * 6、允许退出App的判断以及线程
- * 7、检测App版本更新，通过versionName比较
- * 8、退出应用
- * 9、获得应用是否在前台
+      1、去请求权限
+      2、权限请求结果返回
+      3、控制软键盘显示与隐藏
+      4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
+      5、返回APP级别的实例（对于传递的上下文做转换）
+      6、允许退出App的判断以及线程
+      7、检测App版本更新，通过versionName比较
+      8、退出应用
+      9、获得应用是否在前台
     
 
 <h3>二、AtlwSharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>
@@ -69,21 +69,24 @@
  
  <h3>十、AtlwImageCommonUtils---（图片处理通用类）
  
-     1、将图片文件转换为base64字符串
-     2、对Drawable着色
-     3、设置背景图片着色
-     4、设置图片控件的src资源的着色
-     5、设置文本控件的Drawable左上右下图片着色
-     6、图片drawable转bitmap
-     7、位图压缩      
-     8、十进制颜色值转16进制     
-     9、图片的缩放方法  
-     10、读取照片exif信息中的旋转角度
-     11、旋转指定图片一定的角度
-     12、裁剪位图
-     13、释放位图
-     14、从中心裁剪图片到指定的宽高
-     15、获取位图字节---getBitmapBytes（bitmap）
+      1、将图片文件转换为base64字符串---imageFileToBase64String(filePath)
+      2、图片drawable转bitmap---drawableToBitmap（drawable）
+      3、图片drawable转bitmap---drawableToBitmap（drawable，width,height）
+      5、获取圆角bitmap---getRoundedCornerBitmap（bitmap，radius）
+      6、获取圆角bitmap---getRoundedCornerBitmap（drawable，width，height，radius）
+      7、获取圆角bitmap---getRoundedCornerBitmap（bitmap，leftRadius,topRadius,rightRadius,bottomRadius）
+      8、获取圆角bitmap---getRoundedCornerBitmap（drawable，width，height，leftRadius,topRadius,rightRadius,bottomRadius）
+      9、获取圆形bitmap---getCircleBitmap（drawable，width，height，radius）
+      10、获取圆形bitmap---getCircleBitmap（getCircleBitmap，radius）
+      11、位图压缩---bitmapCompress（bitmap，format，size）
+      12、获取位图字节---getBitmapBytes（bitmap）
+      13、十进制颜色值转16进制---toHexEncoding（color）
+      14、图片的缩放方法---zoomImage（bitmap，width，height）
+      15、读取照片exif信息中的旋转角度---readPictureDegree（path）
+      16、旋转指定图片一定的角度---toTurnPicture（bitmap，degree）
+      17、裁剪位图---cropBitmap(bitmap, leftPercentForBitmapWidth, topPercentForBitmapHeight, rightPercentForBitmapWidth, bottomPercentForBitmapHeight)
+      18、释放位图---releaseBitmap(bitmap)
+      19、从中心裁剪图片到指定的宽高---cropBitmapForCenter(bitmap,cropPercentWidthHeight)
   
   <h3>十一、AtlwSimpleBitmapLruCacheUtils---（简单位图lrucache）
   
@@ -99,28 +102,28 @@
  
  <h3>十三、AtlwMobileOptionsUtils---（手机操作工具类）
  
- * 1.1、安装应用
- * 1.2、获取App安装的intent
- * 1.3、跳转到权限设置页面
- * 1.4、启动其他应用
- * 1.pri、获取小米手机的MIUI版本号
- * 1.pri、跳转到小米App权限设置
- * 1.pri、跳转到魅族App权限设置
- * 1.pri、跳转到默认App权限设置页面
- * 2.1、使设备震动
- * 2.2、开启相机
- * 2.3、拨打电话
- * 2.4、开启图片相册选择
- * 3.1、获取电源设备锁
- * 3.2、销毁电源设备锁
- * 3.3、申请电源设备锁，关闭屏幕
- * 3.4、释放电源设备锁，唤起屏幕
- * 4.1、获取传感器管理器实例
- * 4.2、注册距离传感器监听
- * 4.3、取消注册距离传感器监听
- * 5.1、获取系统级别音频管理器
- * 5.2、使用听筒播放正在播放的音频
- * 5.3、使用扬声器播放正在播放的音频
+      1.1、安装应用
+      1.2、获取App安装的intent
+      1.3、跳转到权限设置页面
+      1.4、启动其他应用
+      1.pri、获取小米手机的MIUI版本号
+      1.pri、跳转到小米App权限设置
+      1.pri、跳转到魅族App权限设置
+      1.pri、跳转到默认App权限设置页面
+      2.1、使设备震动
+      2.2、开启相机
+      2.3、拨打电话
+      2.4、开启图片相册选择
+      3.1、获取电源设备锁
+      3.2、销毁电源设备锁
+      3.3、申请电源设备锁，关闭屏幕
+      3.4、释放电源设备锁，唤起屏幕
+      4.1、获取传感器管理器实例
+      4.2、注册距离传感器监听
+      4.3、取消注册距离传感器监听
+      5.1、获取系统级别音频管理器
+      5.2、使用听筒播放正在播放的音频
+      5.3、使用扬声器播放正在播放的音频
   
  <h3> 十四、AtlwMobilePhoneBrandUtils---（手机品牌判断工具类）
   
@@ -175,9 +178,13 @@
     
 <h4>十八、AtlwViewUtils---（控件工具类）
 
-    1、获取控件的LayoutParams
-    2、设置控件的宽高
-    3、设置控件宽高以及margin属性
+      1、获取控件的LayoutParams---getViewLayoutParams（view，width，height）
+      2、设置控件的宽高---setViewWidthHeight（view，width，height）
+      3、设置控件宽高以及margin属性---setViewWidthHeightMargin（view，width，height，l,t,r,b）
+      4、对Drawable着色---tintDrawable(drawable,ColorStateList)
+      5、设置背景图片着色---setBackgroundTint(view,ColorStateList)
+      6、设置图片控件的src资源的着色---setImageSrcTint(imageView,ColorStateList)
+      7、设置文本控件的Drawable左上右下图片着色---setTextViewDrawableLRTBTint(textView,ColorStateList)
     
     
 <h4>十九、AtlwRecordUtils---（录音工具类）
@@ -190,25 +197,25 @@
     
 <h4>二十、AtlwActivityJumpUtils---（页面跳转工具类）
 * 1.1、普通页面跳转
- * 1.2、带参数页面跳转
- * 1.3、带参数跳转页面并是否清空栈
- * 2.1、无动画跳转页面
- * 2.2、带参数无动画跳转页面
- * 3.1、后退跳转页面
- * 3.2、带参数后退跳转页面
- * 3.3、带参数后退跳转页面并是否清空栈
- * 4.1、需要进行返回的跳转
- * 4.2、带请求码跳转并需要返回
- * 4.3、带参数跳转并需要返回
- * 4.4、带参数以及请求码跳转并需要返回
- * 4.5、带参数以及请求码跳转并需要返回并决定是否需要清空栈
- * 5.1、无动画需要返回跳转页面
- * 5.2、无动画带请求码需要返回的跳转页面
- * 5.3、带参数请求码无动画跳转页面并决定是否需要清空栈
- * 6.1、通用方法-带参数跳转页面并是否清空栈并设置进入退出动画
- * 6.2、通用方法-带参数跳转页面并设置flag以及设置进入退出动画
- * 6.3、通用方法-带参数跳转页面并设置flag以及设置进入退出动画以及请求码是否存在
- * 7.1、初始化所有Activity的唯一代码
- * 7.2、返回Activity的唯一代码
- * 7.3、调用Activity的overridePendingTransition方法
- * 8.1、通过地址跳转到网页
+      1.2、带参数页面跳转
+      1.3、带参数跳转页面并是否清空栈
+      2.1、无动画跳转页面
+      2.2、带参数无动画跳转页面
+      3.1、后退跳转页面
+      3.2、带参数后退跳转页面
+      3.3、带参数后退跳转页面并是否清空栈
+      4.1、需要进行返回的跳转
+      4.2、带请求码跳转并需要返回
+      4.3、带参数跳转并需要返回
+      4.4、带参数以及请求码跳转并需要返回
+      4.5、带参数以及请求码跳转并需要返回并决定是否需要清空栈
+      5.1、无动画需要返回跳转页面
+      5.2、无动画带请求码需要返回的跳转页面
+      5.3、带参数请求码无动画跳转页面并决定是否需要清空栈
+      6.1、通用方法-带参数跳转页面并是否清空栈并设置进入退出动画
+      6.2、通用方法-带参数跳转页面并设置flag以及设置进入退出动画
+      6.3、通用方法-带参数跳转页面并设置flag以及设置进入退出动画以及请求码是否存在
+      7.1、初始化所有Activity的唯一代码
+      7.2、返回Activity的唯一代码
+      7.3、调用Activity的overridePendingTransition方法
+      8.1、通过地址跳转到网页

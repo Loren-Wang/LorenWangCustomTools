@@ -215,7 +215,7 @@ public class AvlwRecordButton extends AppCompatButton {
                     avlwRecordListener.startRecord();
                 }
                 //震动设备
-                if (AtlwCheckUtils.getInstance().checkAppPermisstion(activity, Manifest.permission.VIBRATE)) {
+                if (AtlwCheckUtils.getInstance().checkAppPermission(activity, Manifest.permission.VIBRATE)) {
                     AtlwMobileOptionsUtils.getInstance().vibrate(activity, 100);
                 }
             }

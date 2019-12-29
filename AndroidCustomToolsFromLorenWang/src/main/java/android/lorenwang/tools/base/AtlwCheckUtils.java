@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.lorenwang.tools.AtlwSetting;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -12,7 +13,6 @@ import java.io.File;
 import java.util.List;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.PermissionChecker;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
@@ -59,11 +59,10 @@ public class AtlwCheckUtils {
     /**
      * 检查是否拥有文件操作权限
      *
-     * @param context 上下文
      * @return 有权限返回true，无权限返回false
      */
-    public boolean checkFileOptionsPermisstion(Context context) {
-        return checkAppPermisstion(context, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+    public boolean checkFileOptionsPermission() {
+        return checkAppPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
     /**
@@ -163,30 +162,26 @@ public class AtlwCheckUtils {
     /**
      * 检测App权限
      *
-     * @param context      App上下文
-     * @param permisstions 权限列表
+     * @param permissions 权限列表
      * @return 有权限返回true，无权限返回false
      */
-    public boolean checkAppPermisstion(Context context, @PermissionChecker.PermissionResult String... permisstions) {
-        if (context == null) {
+    public boolean checkAppPermission(String... permissions) {
+        if (AtlwSetting.nowApplication == null) {
             return false;
         }
-        int length = permisstions.length;
+        int length = permissions.length;
         if (length == 0) {
             return true;
         }
-        context = context.getApplicationContext();
         if (Build.VERSION.SDK_INT >= 23) {
-            for (int i = 0; i < length; i++) {
+            for (String permission : permissions) {
                 //只要一个没权限则全部返回false
-                if (ActivityCompat.checkSelfPermission(context, permisstions[i]) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(AtlwSetting.nowApplication, permission) != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -224,6 +219,7 @@ public class AtlwCheckUtils {
 
     /**
      * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
+     *
      * @param context 上下文
      * @return true 表示开启
      */

@@ -39,21 +39,24 @@ import androidx.core.graphics.drawable.DrawableCompat;
  * 功能作用：图片处理通用类
  * 思路：
  * 方法：
- * 1、将图片文件转换为base64字符串
- * 2、对Drawable着色
- * 3、设置背景图片着色
- * 4、设置图片控件的src资源的着色
- * 5、设置文本控件的Drawable左上右下图片着色
- * 6、图片drawable转bitmap
- * 7、位图压缩、
- * 8、十进制颜色值转16进制
- * 9、图片的缩放方法
- * 10、读取照片exif信息中的旋转角度
- * 11、旋转指定图片一定的角度
- * 12、裁剪位图
- * 13、释放位图
- * 14、从中心裁剪图片到指定的宽高
- * 15、获取位图字节---getBitmapBytes（bitmap）
+ * 1、将图片文件转换为base64字符串---imageFileToBase64String(filePath)
+ * 2、图片drawable转bitmap---drawableToBitmap（drawable）
+ * 3、图片drawable转bitmap---drawableToBitmap（drawable，width,height）
+ * 5、获取圆角bitmap---getRoundedCornerBitmap（bitmap，radius）
+ * 6、获取圆角bitmap---getRoundedCornerBitmap（drawable，width，height，radius）
+ * 7、获取圆角bitmap---getRoundedCornerBitmap（bitmap，leftRadius,topRadius,rightRadius,bottomRadius）
+ * 8、获取圆角bitmap---getRoundedCornerBitmap（drawable，width，height，leftRadius,topRadius,rightRadius,bottomRadius）
+ * 9、获取圆形bitmap---getCircleBitmap（drawable，width，height，radius）
+ * 10、获取圆形bitmap---getCircleBitmap（getCircleBitmap，radius）
+ * 11、位图压缩---bitmapCompress（bitmap，format，size）
+ * 12、获取位图字节---getBitmapBytes（bitmap）
+ * 13、十进制颜色值转16进制---toHexEncoding（color）
+ * 14、图片的缩放方法---zoomImage（bitmap，width，height）
+ * 15、读取照片exif信息中的旋转角度---readPictureDegree（path）
+ * 16、旋转指定图片一定的角度---toTurnPicture（bitmap，degree）
+ * 17、裁剪位图---cropBitmap(bitmap, leftPercentForBitmapWidth, topPercentForBitmapHeight, rightPercentForBitmapWidth, bottomPercentForBitmapHeight)
+ * 18、释放位图---releaseBitmap(bitmap)
+ * 19、从中心裁剪图片到指定的宽高---cropBitmapForCenter(bitmap,cropPercentWidthHeight)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -82,17 +85,15 @@ public class AtlwImageCommonUtils {
     /**
      * 将图片文件转换为base64字符串
      *
-     * @param context  上下文
      * @param filePath 图片本地地址
      * @return 转换后的字符串
      */
-    public String imageFileToBase64String(Context context, String filePath) {
-        if (AtlwCheckUtils.getInstance().checkFileOptionsPermisstion(context)
-                && AtlwCheckUtils.getInstance().checkFileIsExit(filePath)
+    public String imageFileToBase64String(String filePath) {
+        if (AtlwCheckUtils.getInstance().checkFileIsExit(filePath)
                 && AtlwCheckUtils.getInstance().checkFileIsImage(filePath)) {
             AtlwLogUtils.logI(TAG, "图片文件地址有效性检测成功，开始获取文件字节");
             byte[] bytes = AtlwFileOptionUtils.getInstance()
-                    .readImageFileGetBytes(context, false, false, filePath);
+                    .readImageFileGetBytes(false, false, filePath);
             String base64Str = null;
             if (bytes != null) {
                 base64Str = Base64.encodeToString(bytes, Base64.DEFAULT);
@@ -104,83 +105,6 @@ public class AtlwImageCommonUtils {
         } else {
             AtlwLogUtils.logI(TAG, "图片文件转换失败，失败原因可能是以下几点：1、未拥有文件权限；2、文件不存在；3、传输的地址非图片地址");
             return null;
-        }
-    }
-
-    /**
-     * 对Drawable着色
-     *
-     * @param drawable 要着色的Drawable
-     * @param colors   着色的颜色
-     * @return f返回着色后的Drawable
-     */
-    public Drawable tintDrawable(Drawable drawable, ColorStateList colors) {
-        final Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTintList(wrappedDrawable, colors);
-        return wrappedDrawable;
-    }
-
-    /**
-     * 设置背景图片着色
-     *
-     * @param view           控件
-     * @param colorStateList 颜色
-     */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void setBackgroundTint(View view, ColorStateList colorStateList) {
-        if (view != null && colorStateList != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                view.setBackgroundTintList(colorStateList);
-            } else {
-                Drawable background = view.getBackground();
-                if (background != null) {
-                    background = tintDrawable(background, colorStateList);
-                    view.setBackground(background);
-                }
-            }
-        }
-    }
-
-    /**
-     * 设置图片控件的src资源的着色
-     *
-     * @param imageView      图片控件
-     * @param colorStateList 颜色
-     */
-    public void setImageSrcTint(ImageView imageView, ColorStateList colorStateList) {
-        if (imageView != null && colorStateList != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                imageView.setImageTintList(colorStateList);
-            } else {
-                Drawable background = imageView.getDrawable();
-                if (background != null) {
-                    background = tintDrawable(background, colorStateList);
-                    imageView.setImageDrawable(background);
-                }
-            }
-        }
-    }
-
-    /**
-     * 设置文本控件的Drawable左上右下图片着色
-     *
-     * @param textView       控件
-     * @param colorStateList 颜色
-     */
-    public void setTextViewDrawableLRTBTint(TextView textView, ColorStateList colorStateList) {
-        if (textView != null && colorStateList != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                textView.setCompoundDrawableTintList(colorStateList);
-            } else {
-                //获取图片进行着色
-                Drawable[] compoundDrawables = textView.getCompoundDrawables();
-                for (int i = 0; i < compoundDrawables.length; i++) {
-                    if (compoundDrawables[i] != null)
-                        compoundDrawables[i] = tintDrawable(compoundDrawables[i], colorStateList);
-                }
-                //设置Drawable
-                textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
-            }
         }
     }
 
@@ -262,6 +186,17 @@ public class AtlwImageCommonUtils {
     /**
      * 获取圆角bitmap
      *
+     * @param bitmap 位图
+     * @param radius 圆角角度
+     * @return 圆角bitmap
+     */
+    public Bitmap getRoundedCornerBitmap(Bitmap bitmap, int radius) {
+        return getRoundedCornerBitmap(bitmap, radius, radius, radius, radius);
+    }
+
+    /**
+     * 获取圆角bitmap
+     *
      * @param drawable 图片，需要转换bitmap
      * @param width    宽度
      * @param height   高度
@@ -276,39 +211,6 @@ public class AtlwImageCommonUtils {
         } else {
             return null;
         }
-    }
-
-    /**
-     * 获取圆角bitmap
-     *
-     * @param drawable          图片，需要转换bitmap
-     * @param width             宽度
-     * @param height            高度
-     * @param leftTopRadius     圆角角度
-     * @param rightTopRadius    圆角角度
-     * @param rightBottomRadius 圆角角度
-     * @param leftBottomRadius  圆角角度
-     * @return 圆角bitmap
-     */
-    public Bitmap getRoundedCornerBitmap(Drawable drawable, int width, int height, float leftTopRadius, float rightTopRadius, float rightBottomRadius, float leftBottomRadius) {
-        if (drawable != null) {
-            // 获取位图
-            Bitmap bitmap = drawableToBitmap(drawable, width, height);
-            return getRoundedCornerBitmap(bitmap, leftTopRadius, rightTopRadius, rightBottomRadius, leftBottomRadius);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * 获取圆角bitmap
-     *
-     * @param bitmap 位图
-     * @param radius 圆角角度
-     * @return 圆角bitmap
-     */
-    public Bitmap getRoundedCornerBitmap(Bitmap bitmap, int radius) {
-        return getRoundedCornerBitmap(bitmap, radius, radius, radius, radius);
     }
 
     /**
@@ -348,6 +250,28 @@ public class AtlwImageCommonUtils {
 
         return output;
 
+    }
+
+    /**
+     * 获取圆角bitmap
+     *
+     * @param drawable          图片，需要转换bitmap
+     * @param width             宽度
+     * @param height            高度
+     * @param leftTopRadius     圆角角度
+     * @param rightTopRadius    圆角角度
+     * @param rightBottomRadius 圆角角度
+     * @param leftBottomRadius  圆角角度
+     * @return 圆角bitmap
+     */
+    public Bitmap getRoundedCornerBitmap(Drawable drawable, int width, int height, float leftTopRadius, float rightTopRadius, float rightBottomRadius, float leftBottomRadius) {
+        if (drawable != null) {
+            // 获取位图
+            Bitmap bitmap = drawableToBitmap(drawable, width, height);
+            return getRoundedCornerBitmap(bitmap, leftTopRadius, rightTopRadius, rightBottomRadius, leftBottomRadius);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -471,22 +395,19 @@ public class AtlwImageCommonUtils {
         return sb.toString();
     }
 
-    /***
+    /**
      * 图片的缩放方法
      *
-     * @param bgimage
-     *            ：源图片资源
-     * @param newWidth
-     *            ：缩放后宽度
-     * @param newHeight
-     *            ：缩放后高度
+     * @param bgImage   源图片资源
+     * @param newWidth  缩放后宽度
+     * @param newHeight 缩放后高度
      * @return 压缩后的位图
      */
-    public Bitmap zoomImage(Bitmap bgimage, double newWidth,
+    public Bitmap zoomImage(Bitmap bgImage, double newWidth,
                             double newHeight) {
         // 获取这个图片的宽和高
-        float width = bgimage.getWidth();
-        float height = bgimage.getHeight();
+        float width = bgImage.getWidth();
+        float height = bgImage.getHeight();
         // 创建操作图片用的matrix对象
         Matrix matrix = new Matrix();
         // 计算宽高缩放率
@@ -496,7 +417,7 @@ public class AtlwImageCommonUtils {
         matrix.postScale(scaleWidth, scaleHeight);
         Bitmap bitmap = Bitmap.createBitmap((int) newWidth, (int) newHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        canvas.drawBitmap(bgimage, matrix, null);
+        canvas.drawBitmap(bgImage, matrix, null);
         return bitmap;
     }
 

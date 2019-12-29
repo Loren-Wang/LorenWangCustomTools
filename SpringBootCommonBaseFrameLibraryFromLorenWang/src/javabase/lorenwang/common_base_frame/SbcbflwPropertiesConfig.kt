@@ -31,67 +31,82 @@ object SbcbflwPropertiesConfig {
     /**
      * 阿里云oss系统域名
      */
+    @JvmStatic
     var aLiYunOssDomain = ""
     /**
      * 阿里云oss访问域名
      */
+    @JvmStatic
     var aLiYunOssEndpoint = ""
     /**
      * 阿里云oss系统keyid
      */
+    @JvmStatic
     var aLiYunOssAccessKeyId = ""
     /**
      * 阿里云oss系统密钥
      */
+    @JvmStatic
     var aLiYunOssAccessKeySecret = ""
     /**
      * 阿里云存储空间名
      */
+    @JvmStatic
     var aLiYunOssBucket = ""
 
     /*
    * 加密用的Key 可以用26个字母和数字组成 此处使用AES-128-CBC加密模式，key需要为16位。
    */
+    @JvmStatic
     var encryptDecryptKey = ""
     /**
      * 加密解密的算法参数
      */
+    @JvmStatic
     var encryptDecryptIvParameter = ""
 
     /**
      * 是否显示打印log日志
      */
+    @JvmStatic
     var showLog = false
 
     /**
      * 邮箱端口
      */
+    @JvmStatic
     var emailHost = ""
     /**
      * 邮箱用户名称
      */
+    @JvmStatic
     var emailUserName = ""
     /**
      * 邮箱密码
      */
+    @JvmStatic
     var emailUserPassword = ""
     /**
      * 邮箱配置文件
      */
+    @JvmStatic
     var emailProperties: Properties = SbcbflwCommonUtils.instance.getProperties("application-email.properties")
 
     /**
      * 当前编译器环境
      */
+    @JvmStatic
     var runCompilingEnvironment = 0
 
     /**
      * 默认每页大小
      */
+    @JvmStatic
     var defaultRequestPageSize = 10;
     /**
      * 默认第一页
      */
+    @JvmStatic
     var defaultRequestPageIndex = 0;
 
 }

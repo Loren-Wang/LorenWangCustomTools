@@ -88,7 +88,7 @@ public class AtlwRecordUtils {
         }
 
         //开启录音前首先要检测录音权限
-        if (!AtlwCheckUtils.getInstance().checkAppPermisstion(activity, Manifest.permission.RECORD_AUDIO
+        if (!AtlwCheckUtils.getInstance().checkAppPermission(Manifest.permission.RECORD_AUDIO
                 , Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             AtlwLogUtils.logE(TAG, "Not record and storage permisstions!");
             //回传状态
