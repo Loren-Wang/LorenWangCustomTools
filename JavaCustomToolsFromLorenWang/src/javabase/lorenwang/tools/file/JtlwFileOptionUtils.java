@@ -1,5 +1,6 @@
 package javabase.lorenwang.tools.file;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -9,9 +10,11 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
@@ -24,6 +27,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import javabase.lorenwang.tools.common.JtlwCommonUtils;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
+import javabase.lorenwang.tools.enums.JtlwStringCodedFormatEnum;
 
 /**
  * 创建时间：2019-01-28 下午 20:19:47
@@ -55,7 +59,7 @@ import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
 
 public class JtlwFileOptionUtils {
     private final String TAG = "FileOptionUtils";
-    private static JtlwFileOptionUtils baseUtils;
+    private static volatile JtlwFileOptionUtils baseUtils;
     /**
      * 线程安全的队列,用于文件操作
      */
@@ -639,6 +643,108 @@ public class JtlwFileOptionUtils {
             }
         } catch (Exception e) {
             return JtlwFileTypeEnum.OTHER;
+        }
+    }
+
+    /**
+     * 获取文件编码格式
+     *
+     * @param filePath 文件地址
+     * @return 编码格式
+     */
+    public JtlwStringCodedFormatEnum getFileCodedFormat(String filePath) {
+        String javaEncode = EncodingDetect.getJavaEncode(filePath);
+        switch (javaEncode.toLowerCase()) {
+            case "utf-8":
+                return JtlwStringCodedFormatEnum.UTF_8;
+            case "unicode":
+                return JtlwStringCodedFormatEnum.UNICODE;
+            default:
+                return JtlwStringCodedFormatEnum.GBK;
+        }
+    }
+
+    /**
+     * 修改文件编码格式
+     *
+     * @param filePath       文件地址
+     * @param oldCodedFormat 文件编码格式
+     * @return 是否成功，成功返回true
+     */
+    public boolean changeFileCodedFormat(String filePath, JtlwStringCodedFormatEnum oldCodedFormat, JtlwStringCodedFormatEnum newCodedFormat) {
+        //读取文件原内容
+        String content = readFileContent(filePath, oldCodedFormat);
+        //写入新内容
+        try {
+            return writeFilContent(filePath, newCodedFormat, new String(content.getBytes(newCodedFormat.getCodedFormat()), newCodedFormat.getCodedFormat()));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 以指定编码方式读取文件，返回文件内容
+     *
+     * @param filePath    要转换的文件
+     * @param codedFormat 源文件的编码
+     * @return 文件内容
+     */
+    public String readFileContent(String filePath, JtlwStringCodedFormatEnum codedFormat) {
+        byte[] bytes = readBytes(filePath);
+        if (bytes == null) {
+            return "";
+        } else {
+            try {
+                return new String(bytes, codedFormat.getCodedFormat());
+            } catch (UnsupportedEncodingException e) {
+                return "";
+            }
+        }
+    }
+
+    /**
+     * 以指定编码方式写文本文件，存在会覆盖
+     *
+     * @param filePath      要写入的文件
+     * @param toCharsetName 要转换的编码
+     * @param content       文件内容
+     * @return 是否成功
+     */
+    public boolean writeFilContent(String filePath, JtlwStringCodedFormatEnum toCharsetName, String content) {
+        //先删除文件
+        deleteFile(filePath);
+
+        OutputStream outputStream = null;
+        OutputStreamWriter outWrite = null;
+        try {
+            outputStream = new FileOutputStream(filePath);
+            outWrite = new OutputStreamWriter(outputStream, toCharsetName.getCodedFormat());
+            outWrite.write(content);
+            outWrite.flush();
+            outputStream.flush();
+            return true;
+        } catch (Exception e) {
+            System.out.print(e.getClass() + "\n");
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                outputStream = null;
+            }
+            if (outWrite != null) {
+                try {
+                    outWrite.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                outWrite = null;
+            }
         }
     }
 }
