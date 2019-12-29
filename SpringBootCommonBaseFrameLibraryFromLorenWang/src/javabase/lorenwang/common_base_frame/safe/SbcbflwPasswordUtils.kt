@@ -16,6 +16,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder
 class SbcbflwPasswordUtils : Md5PasswordEncoder() {
     companion object {
         private var optionsUtils: SbcbflwPasswordUtils? = null
+        @JvmStatic
         val instance: SbcbflwPasswordUtils
             get() {
                 if (optionsUtils == null) {

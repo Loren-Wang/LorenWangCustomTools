@@ -24,6 +24,7 @@ open class AcbflwNetworkManager private constructor() {
     companion object {
         private var optionsInstance: AcbflwNetworkManager? = null
 
+        @JvmStatic
         val instance: AcbflwNetworkManager
             get() {
                 if (optionsInstance == null) {

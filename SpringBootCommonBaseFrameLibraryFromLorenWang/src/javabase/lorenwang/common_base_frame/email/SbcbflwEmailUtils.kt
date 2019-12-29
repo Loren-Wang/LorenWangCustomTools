@@ -24,6 +24,7 @@ class SbcbflwEmailUtils {
 
     companion object {
         private var optionsUtils: SbcbflwEmailUtils? = null
+        @JvmStatic
         val instance: SbcbflwEmailUtils
             get() {
                 if (optionsUtils == null) {

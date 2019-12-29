@@ -21,6 +21,7 @@ import java.util.*
 class SbcbflwCommonUtils {
     companion object {
         private var optionsUtils: SbcbflwCommonUtils? = null
+        @JvmStatic
         val instance: SbcbflwCommonUtils
             get() {
                 if (optionsUtils == null) {

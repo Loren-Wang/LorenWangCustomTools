@@ -86,6 +86,7 @@ open class AcbflwImageSelectUtils private constructor() {
     companion object {
         private var optionsInstance: AcbflwImageSelectUtils? = null
 
+        @JvmStatic
         val instance: AcbflwImageSelectUtils
             get() {
                 if (optionsInstance == null) {

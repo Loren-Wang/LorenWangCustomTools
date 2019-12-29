@@ -25,6 +25,7 @@ class KttlwImageOptionUtils private constructor() {
 
     companion object {
         private var optionsInstance: KttlwImageOptionUtils? = null
+        @JvmStatic
         val instance: KttlwImageOptionUtils
             get() {
                 if (optionsInstance == null) {

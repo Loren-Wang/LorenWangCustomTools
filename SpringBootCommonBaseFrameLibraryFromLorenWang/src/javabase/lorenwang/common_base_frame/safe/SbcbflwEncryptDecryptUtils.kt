@@ -25,6 +25,7 @@ import javax.crypto.spec.SecretKeySpec
 class SbcbflwEncryptDecryptUtils private constructor() {
     companion object {
         private var optionsUtils: SbcbflwEncryptDecryptUtils? = null
+        @JvmStatic
         val instance: SbcbflwEncryptDecryptUtils
             get() {
                 if (optionsUtils == null) {

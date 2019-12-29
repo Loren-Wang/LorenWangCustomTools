@@ -37,6 +37,7 @@ class SbcbflwALiYunOssUtils private constructor() {
     companion object {
         private var aLiYunOssUtils: SbcbflwALiYunOssUtils? = null
 
+        @JvmStatic
         val instance: SbcbflwALiYunOssUtils
             get() {
                 if (aLiYunOssUtils == null) {
