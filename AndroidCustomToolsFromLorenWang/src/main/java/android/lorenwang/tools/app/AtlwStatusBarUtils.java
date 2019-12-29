@@ -27,13 +27,13 @@ import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
  * 修改时间：
  * 备注：
  */
-public class StatusBarUtils {
+public class AtlwStatusBarUtils {
     private final String TAG = getClass().getName();
-    private static volatile StatusBarUtils statusBarUtils;
+    private static volatile AtlwStatusBarUtils statusBarUtils;
 
-    public static StatusBarUtils getInstance() {
+    public static AtlwStatusBarUtils getInstance() {
         if (statusBarUtils == null) {
-            statusBarUtils = new StatusBarUtils();
+            statusBarUtils = new AtlwStatusBarUtils();
         }
         return statusBarUtils;
     }

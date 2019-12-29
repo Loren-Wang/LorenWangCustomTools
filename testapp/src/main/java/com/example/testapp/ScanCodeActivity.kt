@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.lorenwang.graphic_code_scan.AgcslwScanResultCallback
 import android.lorenwang.graphic_code_scan.AgcslwScanUtils
 import android.lorenwang.tools.app.AtlwActivityUtils
-import android.lorenwang.tools.app.PermissionRequestCallback
+import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_scan_code.*
@@ -17,7 +17,7 @@ class ScanCodeActivity : BaseActivity() {
         //请求权限
         AtlwActivityUtils.getInstance().goToRequestPermisstions(this,
                 arrayOf(Manifest.permission.CAMERA), 0,
-                object : PermissionRequestCallback {
+                object : AtlwPermissionRequestCallback {
                     @SuppressLint("MissingPermission")
                     override fun perissionRequestSuccessCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
                         //设置裁剪扫描区域

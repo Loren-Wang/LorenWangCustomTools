@@ -79,7 +79,7 @@ public class AtlwFileOptionUtils {
      * @return 读取到的字节
      */
     public byte[] readImageFileGetBytes(Boolean isCheckPermisstion, Boolean isCheckFile, String filePath) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkFileOptionsPermisstion(AtlwSetting.nowApplication)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(AtlwSetting.nowApplication)) {
             return null;
         }
         return JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath);

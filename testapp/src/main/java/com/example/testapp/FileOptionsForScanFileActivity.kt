@@ -3,7 +3,7 @@ package com.example.testapp
 import android.Manifest
 import android.lorenwang.tools.app.AtlwActivityUtils
 import android.lorenwang.tools.app.AtlwThreadUtils
-import android.lorenwang.tools.app.PermissionRequestCallback
+import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.lorenwang.tools.file.AtlwFileOptionUtils
 import android.os.Bundle
 import android.os.Environment
@@ -25,7 +25,7 @@ import java.util.*
  * 备注：
  */
 
-class FileOptionsForScanFileActivity : BaseActivity(), PermissionRequestCallback {
+class FileOptionsForScanFileActivity : BaseActivity(), AtlwPermissionRequestCallback {
 
     private lateinit var recyList: RecyclerView
     private val data = ArrayList<File>()

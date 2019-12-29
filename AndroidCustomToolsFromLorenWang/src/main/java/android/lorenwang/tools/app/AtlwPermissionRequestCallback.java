@@ -14,7 +14,7 @@ import java.util.List;
  * 修改时间：
  * 备注：
  */
-public interface PermissionRequestCallback {
+public interface AtlwPermissionRequestCallback {
     void  perissionRequestSuccessCallback(List<String> perissionList, int permissionsRequestCode);//请求成功权限列表
     void  perissionRequestFailCallback(List<String> perissionList, int permissionsRequestCode);//请求失败权限列表
 }

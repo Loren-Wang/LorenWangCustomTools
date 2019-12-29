@@ -49,7 +49,7 @@ public class AtlwActivityUtils {
     private final String TAG = getClass().getName();
     private static volatile AtlwActivityUtils optionsUtils;
     //权限请求键值对
-    private Map<Integer, PermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
+    private Map<Integer, AtlwPermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
 
     private AtlwActivityUtils() {
     }
@@ -63,7 +63,7 @@ public class AtlwActivityUtils {
         return (AtlwActivityUtils) optionsUtils;
     }
 
-    public Map<Integer, PermissionRequestCallback> getPermissionRequestCallbackMap() {
+    public Map<Integer, AtlwPermissionRequestCallback> getPermissionRequestCallbackMap() {
         return permissionRequestCallbackMap;
     }
 
@@ -76,7 +76,7 @@ public class AtlwActivityUtils {
      * @param permissionRequestCallback 权限请求回调
      */
     public void goToRequestPermisstions(Activity activity, @NonNull String[] permisstions, int permissionsRequestCode
-            , PermissionRequestCallback permissionRequestCallback) {
+            , AtlwPermissionRequestCallback permissionRequestCallback) {
         //版本判断，小于23的不执行权限请求
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             if (permissionRequestCallback != null) {
@@ -109,7 +109,7 @@ public class AtlwActivityUtils {
      */
     public void receivePermisstionsResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //获取回调
-        PermissionRequestCallback permissionRequestCallback = permissionRequestCallbackMap.get(requestCode);
+        AtlwPermissionRequestCallback permissionRequestCallback = permissionRequestCallbackMap.get(requestCode);
         if (permissionRequestCallback != null) {
             // If request is cancelled, the result arrays are empty.
             List<String> successPermissionList = new ArrayList<>();

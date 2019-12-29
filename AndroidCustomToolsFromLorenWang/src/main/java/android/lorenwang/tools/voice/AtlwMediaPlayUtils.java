@@ -113,8 +113,7 @@ public class AtlwMediaPlayUtils {
             return false;
         }
         //开启前首先要检测文件权限
-        if (!AtlwCheckUtils.getInstance().checkAppPermission(AtlwActivityUtils.getInstance().getApplicationContext(activity)
-                , Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (!AtlwCheckUtils.getInstance().checkAppPermission( Manifest.permission.READ_EXTERNAL_STORAGE)) {
             AtlwLogUtils.logE(TAG, "Not read and storage permisstions!");
             //回传状态
             playStart(false);
