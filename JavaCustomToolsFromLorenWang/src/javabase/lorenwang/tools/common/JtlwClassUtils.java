@@ -12,7 +12,7 @@ package javabase.lorenwang.tools.common;
  * 备注：
  */
 public class JtlwClassUtils {
-    private static JtlwClassUtils baseUtils;
+    private static volatile JtlwClassUtils baseUtils;
 
     private JtlwClassUtils() {
     }

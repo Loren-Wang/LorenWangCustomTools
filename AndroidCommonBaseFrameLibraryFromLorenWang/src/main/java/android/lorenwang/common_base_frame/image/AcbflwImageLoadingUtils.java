@@ -72,7 +72,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 public class AcbflwImageLoadingUtils {
     private String TAG = getClass().getName();
-    private static AcbflwImageLoadingUtils imageLoadingUtils;
+    private static volatile AcbflwImageLoadingUtils imageLoadingUtils;
     private ExecutorService executeBackgroundTask = Executors.newSingleThreadExecutor();
 
     private int showThumbnaiMaxWidth;

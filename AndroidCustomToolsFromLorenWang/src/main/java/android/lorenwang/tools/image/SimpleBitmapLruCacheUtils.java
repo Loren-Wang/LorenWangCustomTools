@@ -18,7 +18,7 @@ import android.util.LruCache;
 public class SimpleBitmapLruCacheUtils{
     private final String TAG = getClass().getName();
     private LruCache<String,Bitmap> bitmapLruCache;
-    private static SimpleBitmapLruCacheUtils simpleBitmapLruCacheUtils;
+    private static volatile SimpleBitmapLruCacheUtils simpleBitmapLruCacheUtils;
     public static SimpleBitmapLruCacheUtils getInstance(){
         if(simpleBitmapLruCacheUtils == null){
             simpleBitmapLruCacheUtils = new SimpleBitmapLruCacheUtils();

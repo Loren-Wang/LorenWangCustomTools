@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class NetworkOptionsUtils extends BaseNetworkOptions {
     private final String TAG = getClass().getName();
-    private static NetworkOptionsUtils networkOptionsUtils;
+    private static volatile NetworkOptionsUtils networkOptionsUtils;
     private BaseNetworkOptions nowNetworkOptions;
 
     private NetworkOptionsUtils() {

@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class JtlwTimerUtils {
     private final String TAG = getClass().getName();
-    private static JtlwTimerUtils baseUtils;
+    private static volatile JtlwTimerUtils baseUtils;
 
     /**
      * 私有构造

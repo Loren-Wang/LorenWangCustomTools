@@ -55,7 +55,7 @@ import static android.lorenwang.netoptions.NetworkOptionsConstant.NETWORK_REQUES
  * 备注：
  */
 public class OkHttpOptionsUtils extends BaseNetworkOptions {
-    private static OkHttpOptionsUtils okHttpOptionsUtils;
+    private static volatile OkHttpOptionsUtils okHttpOptionsUtils;
     private OkHttpClient okHttpClient;
 
     private OkHttpOptionsUtils() {

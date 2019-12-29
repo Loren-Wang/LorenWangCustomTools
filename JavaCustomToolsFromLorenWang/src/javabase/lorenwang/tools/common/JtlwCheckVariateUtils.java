@@ -36,7 +36,7 @@ import javabase.lorenwang.tools.JtlwLogUtils;
 
 public class JtlwCheckVariateUtils {
     private final String TAG = "RegularOptionsUtils";
-    private static JtlwCheckVariateUtils optionsUtils;
+    private static volatile JtlwCheckVariateUtils optionsUtils;
 
     private JtlwCheckVariateUtils() {
     }

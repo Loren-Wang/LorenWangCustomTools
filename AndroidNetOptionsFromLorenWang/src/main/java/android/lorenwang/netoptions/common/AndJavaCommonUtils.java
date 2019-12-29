@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class AndJavaCommonUtils {
     private final String TAG = "CommonUtils";
-    private static AndJavaCommonUtils baseUtils;
+    private static volatile AndJavaCommonUtils baseUtils;
     private AndJavaCommonUtils(){}
     public static AndJavaCommonUtils getInstance(){
         if(baseUtils == null){

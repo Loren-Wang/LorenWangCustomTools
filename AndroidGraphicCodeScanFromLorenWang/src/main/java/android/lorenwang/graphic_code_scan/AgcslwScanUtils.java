@@ -45,7 +45,7 @@ import androidx.annotation.RequiresPermission;
  */
 public class AgcslwScanUtils implements SurfaceHolder.Callback {
     private final String TAG = "AgcslwScanUtils";
-    private static AgcslwScanUtils optionsUtils;
+    private static volatile AgcslwScanUtils optionsUtils;
     /**
      * 扫描结果回调
      */

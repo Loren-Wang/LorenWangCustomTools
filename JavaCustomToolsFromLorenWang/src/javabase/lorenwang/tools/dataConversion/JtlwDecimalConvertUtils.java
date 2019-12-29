@@ -32,7 +32,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 public class JtlwDecimalConvertUtils {
     private final String TAG = "DecimalConvertUtils";
-    private static JtlwDecimalConvertUtils baseUtils;
+    private static volatile JtlwDecimalConvertUtils baseUtils;
     //小写字母表
     private final char[] ALPHABET_LOWER_CASE = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};

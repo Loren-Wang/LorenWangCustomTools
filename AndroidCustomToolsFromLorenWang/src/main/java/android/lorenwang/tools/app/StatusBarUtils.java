@@ -29,7 +29,7 @@ import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
  */
 public class StatusBarUtils {
     private final String TAG = getClass().getName();
-    private static StatusBarUtils statusBarUtils;
+    private static volatile StatusBarUtils statusBarUtils;
 
     public static StatusBarUtils getInstance() {
         if (statusBarUtils == null) {

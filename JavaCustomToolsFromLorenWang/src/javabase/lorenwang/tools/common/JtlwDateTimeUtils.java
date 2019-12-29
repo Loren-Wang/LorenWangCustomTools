@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class JtlwDateTimeUtils {
     private final String TAG = "DateTimeUtils";
-    private static JtlwDateTimeUtils baseUtils;
+    private static volatile JtlwDateTimeUtils baseUtils;
 
     private JtlwDateTimeUtils() {
     }

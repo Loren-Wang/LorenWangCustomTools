@@ -66,7 +66,7 @@ import okio.Source;
  */
 public class NetRequestUtils {
     private static String TAG;
-    private static NetRequestUtils netRequestUtils;
+    private static volatile NetRequestUtils netRequestUtils;
     public static NetRequestUtils getInstance(){
         if(netRequestUtils == null){
             netRequestUtils = new NetRequestUtils();

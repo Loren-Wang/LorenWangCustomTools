@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class JtlwCommonUtils {
     private final String TAG = "CommonUtils";
-    private static JtlwCommonUtils baseUtils;
+    private static volatile JtlwCommonUtils baseUtils;
 
     private JtlwCommonUtils() {
     }

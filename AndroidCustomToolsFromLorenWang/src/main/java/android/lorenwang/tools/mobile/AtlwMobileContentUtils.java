@@ -33,7 +33,7 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 
 public class AtlwMobileContentUtils {
     private final String TAG = "AtlwMobileContentUtils";
-    private static AtlwMobileContentUtils optionsUtils;
+    private static volatile AtlwMobileContentUtils optionsUtils;
 
     private AtlwMobileContentUtils() {
     }

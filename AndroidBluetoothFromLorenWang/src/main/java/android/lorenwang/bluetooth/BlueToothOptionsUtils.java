@@ -44,7 +44,7 @@ import androidx.core.content.ContextCompat;
  */
 public class BlueToothOptionsUtils {
     private final String TAG = "BlueToothOptions";
-    private static BlueToothOptionsUtils blueToothOptionsUtils;
+    private static volatile BlueToothOptionsUtils blueToothOptionsUtils;
     private final Context context;
     private Resources resources;
     public static BlueToothOptionsUtils getInstance(Context context){

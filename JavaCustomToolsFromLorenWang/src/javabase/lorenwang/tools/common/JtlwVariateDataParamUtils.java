@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 
 public class JtlwVariateDataParamUtils {
     private final String TAG = "VariateDataParamUtils";
-    private static JtlwVariateDataParamUtils baseUtils;
+    private static volatile JtlwVariateDataParamUtils baseUtils;
 
     private JtlwVariateDataParamUtils() {
     }
