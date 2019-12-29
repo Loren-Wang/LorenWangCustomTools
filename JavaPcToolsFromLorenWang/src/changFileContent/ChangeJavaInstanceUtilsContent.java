@@ -17,7 +17,7 @@ import javabase.lorenwang.tools.enums.JtlwStringCodedFormatEnum;
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
 public class ChangeJavaInstanceUtilsContent {
-    private static final String FILE_PATH_DIR = "D:\\DevelopProject\\Custom\\LorenWangCustomTools\\KotlinCustomToolsFromLorenWang\\src\\kotlinbase\\lorenwang\\tools\\image";
+    private static final String FILE_PATH_DIR = "D:\\DevelopProject\\Custom\\LorenWangCustomTools";
 
     public static void main(String[] args) {
         changeKtFile();
@@ -50,6 +50,9 @@ public class ChangeJavaInstanceUtilsContent {
         }
     }
 
+    /**
+     * 修改kt文件
+     */
     private static void changeKtFile() {
         List<File> fileList = JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(FILE_PATH_DIR, "\\S+.kt");
 
@@ -63,8 +66,6 @@ public class ChangeJavaInstanceUtilsContent {
                     Pattern pattern = Pattern.compile("(@JvmStatic\r\n( )+)*val instance");
                     Matcher matcher = pattern.matcher(content);
                     if (matcher.find()) {
-                        data = matcher.group(0);
-                        System.out.print(matcher.group(0) + "\n");
                         content = content.replaceAll(pattern.pattern(), "@JvmStatic\n        val instance");
                         System.out.print(content + "\n");
                         JtlwFileOptionUtils.getInstance().writeFilContent(file.getAbsolutePath(), JtlwStringCodedFormatEnum.UTF_8, content);
