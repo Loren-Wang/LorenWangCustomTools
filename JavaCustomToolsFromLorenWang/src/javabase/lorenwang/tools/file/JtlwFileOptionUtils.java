@@ -1,6 +1,5 @@
 package javabase.lorenwang.tools.file;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,7 +12,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -86,7 +84,7 @@ public class JtlwFileOptionUtils {
      *
      * @param isCheckFile 是否检查文件
      * @param filePath    文件地址
-     * @return
+     * @return 文件字节
      */
     public byte[] readImageFileGetBytes(Boolean isCheckFile, String filePath) {
         if (isCheckFile && JtlwCheckVariateUtils.getInstance().checkFileIsExit(filePath)
@@ -94,11 +92,16 @@ public class JtlwFileOptionUtils {
             return null;
         }
         FileInputStream fileInputStream = null;
+        ByteArrayOutputStream outputStream = null;
         try {
             fileInputStream = new FileInputStream(filePath);
-            byte[] bytes = new byte[fileInputStream.available()];
-            fileInputStream.read(bytes);
-            return bytes;
+            outputStream = new ByteArrayOutputStream();
+            byte[] bytes = new byte[2048];
+            int length;
+            while ((length = fileInputStream.read(bytes)) > 0) {
+                outputStream.write(bytes, 0, length);
+            }
+            return outputStream.toByteArray();
         } catch (Exception e) {
             JtlwLogUtils.logE(TAG, "图片读取异常");
             return null;
@@ -106,6 +109,13 @@ public class JtlwFileOptionUtils {
             if (fileInputStream != null) {
                 try {
                     fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -142,6 +152,7 @@ public class JtlwFileOptionUtils {
             return new byte[]{};
         } finally {
             try {
+                assert fis != null;
                 fis.close();
             } catch (Exception e) {
                 JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
@@ -170,6 +181,7 @@ public class JtlwFileOptionUtils {
             return new byte[]{};
         } finally {
             try {
+                assert baos != null;
                 baos.close();
             } catch (Exception e) {
                 JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
@@ -185,12 +197,10 @@ public class JtlwFileOptionUtils {
      * 将InputStream写入File
      */
     public Boolean writeToFile(File file, InputStream inputStream, Boolean append) {
-        if (file.exists()) {
-            file.delete();
-        }
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
-        }
+        //删除文件
+        deleteFile(file.getAbsolutePath());
+        //创建父级文件夹
+        createDirectory(file.getAbsolutePath(), true);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file, append);
@@ -207,6 +217,7 @@ public class JtlwFileOptionUtils {
             return false;
         } finally {
             try {
+                assert fos != null;
                 fos.close();
             } catch (Exception e) {
                 JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
@@ -239,7 +250,7 @@ public class JtlwFileOptionUtils {
      *
      * @param file   文件
      * @param buffer 要存入的数组
-     * @return
+     * @return 写入结果
      */
     public boolean writeToFile(File file, byte[] buffer) {
         return writeToFile(file, buffer, false);
@@ -251,18 +262,15 @@ public class JtlwFileOptionUtils {
      * @param file   文件
      * @param buffer 要存入的数组
      * @param append 是否追加
-     * @return
+     * @return 写入结果
      */
     public boolean writeToFile(File file, byte[] buffer, boolean append) {
         FileOutputStream fos = null;
         try {
-            if (file.exists()) {
-                file.delete();
-            }
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-
+            //删除文件
+            deleteFile(file.getAbsolutePath());
+            //创建父级文件夹
+            createDirectory(file.getAbsolutePath(), true);
             fos = new FileOutputStream(file, append);
             fos.write(buffer);
             return true;
@@ -287,10 +295,10 @@ public class JtlwFileOptionUtils {
      * 格式化文件大小
      *
      * @param fileSize 文件大小
-     * @return
+     * @return 文件大小
      */
     public String paramsFileSize(Long fileSize) {
-        if (fileSize.compareTo(1024l) < 0) {
+        if (fileSize.compareTo(1024L) < 0) {
             return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize.doubleValue(), 2) + "B");
         } else if (fileSize.compareTo((long) Math.pow(1024, 2)) < 0) {
             return (JtlwVariateDataParamUtils.getInstance().paramsDoubleToNum(fileSize * 1.0 / 1024, 2) + "KB");
@@ -368,10 +376,12 @@ public class JtlwFileOptionUtils {
         if (file.isFile() && file.exists()) {
             fileSize += file.length();
         } else if (file.exists()) {
-            for (File file1 : file.listFiles()) {
+            File[] files = file.listFiles();
+            assert files != null;
+            for (File file1 : files) {
                 if (file1.isFile()) {
                     fileSize += file1.length();
-                } else if (file.isDirectory() || filtrationDir == null || filtrationDir != file.getAbsolutePath()) {
+                } else if (file.isDirectory() || filtrationDir == null || !filtrationDir.equals(file.getAbsolutePath())) {
                     fileSize += getFileSize(file1, filtrationDir);
                 }
             }
@@ -398,14 +408,15 @@ public class JtlwFileOptionUtils {
         flag = true;
         File[] files = dirFile.listFiles();
         //遍历删除文件夹下的所有文件(包括子目录)
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].isFile()) {
-                //删除子文件
-                flag = deleteFile(files[i].getAbsolutePath());
-                if (!flag) break;
-            } else {
-                //删除子目录
-                flag = deleteDirectory(files[i].getAbsolutePath());
+        if (files != null) {
+            for (File childFile : files) {
+                if (childFile.isFile()) {
+                    //删除子文件
+                    flag = deleteFile(childFile.getAbsolutePath());
+                } else {
+                    //删除子目录
+                    flag = deleteDirectory(childFile.getAbsolutePath());
+                }
                 if (!flag) break;
             }
         }
@@ -420,10 +431,10 @@ public class JtlwFileOptionUtils {
     /**
      * 获取绝对路径下最后一个文件夹名称
      *
-     * @param absolutePath
-     * @return
+     * @param absolutePath 文件夹绝对路径
+     * @return 文件名称
      */
-    public String getLastDirctoryName(String absolutePath) {
+    public String getLastDirectoryName(String absolutePath) {
         if (absolutePath == null) {
             return "";
         }
@@ -448,9 +459,9 @@ public class JtlwFileOptionUtils {
     /**
      * 创建文件夹
      *
-     * @param path
-     * @param isParentDir
-     * @return
+     * @param path        文件路径
+     * @param isParentDir 父级文件夹路径
+     * @return 创建结果
      */
     public boolean createDirectory(String path, boolean isParentDir) {
         //检测地址是否为空
@@ -479,8 +490,10 @@ public class JtlwFileOptionUtils {
         List<File> list = new ArrayList<>();
         if (!JtlwCheckVariateUtils.getInstance().isHaveEmpty(scanPath, matchRegular)) {
             File file = new File(scanPath);
-            if (file.exists() && file.listFiles() != null) {
-                for (File childFile : file.listFiles()) {
+            if (file.exists()) {
+                File[] files = file.listFiles();
+                assert files != null;
+                for (File childFile : files) {
                     if (childFile != null) {
                         if (childFile.isDirectory()) {
                             if (!file.getName().matches("^\\..*")) {
@@ -525,22 +538,24 @@ public class JtlwFileOptionUtils {
                 List<Runnable> runnableList = new ArrayList<>();
                 //创建信号量(最多同时有10个线程可以访问)
                 final Semaphore semaphore = new Semaphore(100);
-                for (File f : files) {
-                    if (f.isDirectory()) {
-                        //把目录添加进队列
-                        fileOptionsLinkedQueue.offer(f);
-                        //创建的线程的数目是根目录下文件夹的数目
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                //开启文件夹扫描，使用多线程异步扫描进行处理，只有当全部处理完成是返回
-                                list.addAll(startFileScan(matchRegular));
+                if(files != null) {
+                    for (File f : files) {
+                        if (f.isDirectory()) {
+                            //把目录添加进队列
+                            fileOptionsLinkedQueue.offer(f);
+                            //创建的线程的数目是根目录下文件夹的数目
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    //开启文件夹扫描，使用多线程异步扫描进行处理，只有当全部处理完成是返回
+                                    list.addAll(startFileScan(matchRegular));
+                                }
+                            };
+                            runnableList.add(runnable);
+                        } else if (f.isFile()) {
+                            if (f.getName().matches(matchRegular)) {
+                                list.add(f);
                             }
-                        };
-                        runnableList.add(runnable);
-                    } else if (f.isFile()) {
-                        if (f.getName().matches(matchRegular)) {
-                            list.add(f);
                         }
                     }
                 }
@@ -553,10 +568,7 @@ public class JtlwFileOptionUtils {
                 //不允许再添加线程
                 executorService.shutdown();
                 //等待线程池中的所有线程运行完成
-                while (true) {
-                    if (executorService.isTerminated()) {
-                        break;
-                    }
+                while (!executorService.isTerminated()) {
                     try {
                         //休眠1s
                         TimeUnit.SECONDS.sleep(1);
@@ -590,6 +602,7 @@ public class JtlwFileOptionUtils {
                     return !file.getName().trim().startsWith(".");
                 }
             });
+            assert fileArray != null;
             for (File f : fileArray) {
                 if (f != null) {
                     if (f.isDirectory()) {
@@ -604,6 +617,29 @@ public class JtlwFileOptionUtils {
             }
         }
         return list;
+    }
+
+    /**
+     * 清理指定文件夹下所有的空文件夹
+     *
+     * @param dirPath 目标文件夹
+     */
+    public void clearEmptyFileDir(String dirPath) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(dirPath)) {
+            File file = new File(dirPath);
+            if (file.exists() && file.isDirectory()) {
+                File[] files = file.listFiles();
+                if (files == null || files.length == 0) {
+                    deleteDirectory(file.getAbsolutePath());
+                } else {
+                    for (File childFile : files) {
+                        if (childFile.exists() && childFile.isDirectory()) {
+                            clearEmptyFileDir(file.getAbsolutePath());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
