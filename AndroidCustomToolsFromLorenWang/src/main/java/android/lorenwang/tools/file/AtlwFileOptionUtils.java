@@ -1,10 +1,13 @@
 package android.lorenwang.tools.file;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Xml;
 
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
 /**
@@ -212,6 +216,7 @@ public class AtlwFileOptionUtils {
             return false;
         } finally {
             try {
+                assert fos != null;
                 fos.close();
             } catch (Exception e) {
                 AtlwLogUtils.logE(e);
@@ -275,7 +280,7 @@ public class AtlwFileOptionUtils {
      */
     public Long getFileSize(Context context, Boolean isCheckPermisstion, File file, String filtrationDir) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(context)) {
-            return 0l;
+            return 0L;
         }
         return JtlwFileOptionUtils.getInstance().getFileSize(file, filtrationDir);
     }
@@ -360,5 +365,36 @@ public class AtlwFileOptionUtils {
      */
     public String getAppSystemStorageDirPath(String applicationId) {
         return getBaseStorageDirPath() + "Android/Data/" + applicationId + "/";
+    }
+
+    /**
+     * 根据uri获取图片文件地址
+     *
+     * @param uri   uri地址
+     * @param dbKey 数据库地址代表的字段
+     * @return 地址
+     */
+    public String getUriPath(Uri uri, String dbKey) {
+        String path = "";
+        if (uri != null && !JtlwCheckVariateUtils.getInstance().isEmpty(dbKey)) {
+            final String scheme = uri.getScheme();
+            if (scheme == null)
+                path = uri.getPath();
+            else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+                path = uri.getPath();
+            } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+                Cursor cursor = AtlwSetting.nowApplication.getContentResolver().query(uri, new String[]{dbKey}, null, null, null);
+                if (null != cursor) {
+                    if (cursor.moveToFirst()) {
+                        int index = cursor.getColumnIndex(dbKey);
+                        if (index > -1) {
+                            path = cursor.getString(index);
+                        }
+                    }
+                    cursor.close();
+                }
+            }
+        }
+        return path;
     }
 }

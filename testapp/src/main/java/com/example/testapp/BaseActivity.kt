@@ -1,11 +1,11 @@
 package com.example.testapp
 
-import android.app.Activity
 import android.graphics.Color
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
 import android.os.Bundle
 import android.view.ViewStub
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * 创建时间：2019-04-15 下午 15:15:55
@@ -18,7 +18,7 @@ import androidx.annotation.LayoutRes
  * 修改时间：
  * 备注：
  */
-abstract class BaseActivity : Activity() {
+abstract class BaseActivity : AppCompatActivity() {
     private var loadingDialog: AvlwLoadingDialogType1? = null//加载中弹窗
     private lateinit var vsbContent: ViewStub
 

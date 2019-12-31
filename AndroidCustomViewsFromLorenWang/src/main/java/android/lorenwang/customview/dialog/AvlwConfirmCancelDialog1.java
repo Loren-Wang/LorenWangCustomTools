@@ -4,9 +4,10 @@ import android.content.Context;
 import android.lorenwang.customview.R;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * 创建时间：2019-02-27 下午 16:04:33
@@ -22,15 +23,15 @@ import android.widget.TextView;
  */
 
 public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
-    private TextView tvContent;
-    private Button btnLeft;
+    private AppCompatTextView tvContent;
+    private AppCompatButton btnLeft;
     private View viewLine;
-    private Button btnRight;
+    private AppCompatButton btnRight;
     private LinearLayout lnOptions;
 
     public AvlwConfirmCancelDialog1(Context context) {
         super(context, R.layout.avlw_dialog_confirm_cancel_1, R.style.avlw_dialog_confirm_cancel_1
-                , R.style.avlw_dialog_anim_for_center, false,false,false);
+                , R.style.avlw_dialog_anim_for_center, false, false, false);
         tvContent = view.findViewById(R.id.tvContent);
         btnLeft = view.findViewById(R.id.btnLeft);
         viewLine = view.findViewById(R.id.viewLine);
@@ -41,9 +42,10 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
     /**
      * 设置内容
      *
-     * @param text
+     * @param text 内容文本
+     * @return 当前实例
      */
-    public void setContent(String text, Integer size, Integer color) {
+    public AvlwConfirmCancelDialog1 setContent(String text, Integer size, Integer color) {
         if (text != null) {
             tvContent.setText(text);
         }
@@ -53,15 +55,17 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
         if (color != null) {
             tvContent.setTextColor(color);
         }
+        return this;
     }
 
     /**
      * 设置左侧按钮
      *
-     * @param text
-     * @param onClickListener
+     * @param text            左侧按钮文本
+     * @param onClickListener 点击监听
+     * @return 当前实例
      */
-    public void setBtnLeft(String text, Integer size, Integer color, View.OnClickListener onClickListener) {
+    public AvlwConfirmCancelDialog1 setBtnLeft(String text, Integer size, Integer color, View.OnClickListener onClickListener) {
         if (text != null) {
             btnLeft.setText(text);
         }
@@ -72,15 +76,17 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
             btnLeft.setTextColor(color);
         }
         btnLeft.setOnClickListener(onClickListener);
+        return this;
     }
 
     /**
      * 设置右侧按钮
      *
-     * @param text
-     * @param onClickListener
+     * @param text            右侧按钮文本
+     * @param onClickListener 点击监听
+     * @return 当前实例
      */
-    public void setBtnRight(String text, Integer size, Integer color, View.OnClickListener onClickListener) {
+    public AvlwConfirmCancelDialog1 setBtnRight(String text, Integer size, Integer color, View.OnClickListener onClickListener) {
         if (text != null) {
             btnRight.setText(text);
         }
@@ -91,15 +97,17 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
             btnRight.setTextColor(color);
         }
         btnRight.setOnClickListener(onClickListener);
+        return this;
     }
 
     /**
      * 设置按钮显示状态
      *
-     * @param isShowBtnLeft
-     * @param isShowBtnRight
+     * @param isShowBtnLeft  是否显示左侧按钮
+     * @param isShowBtnRight 是否显示右侧按钮
+     * @return 当前实例
      */
-    public void setOptionsState(boolean isShowBtnLeft, boolean isShowBtnRight,Integer optionsHeight) {
+    public AvlwConfirmCancelDialog1 setOptionsState(boolean isShowBtnLeft, boolean isShowBtnRight, Integer optionsHeight) {
         if (!isShowBtnLeft || !isShowBtnRight) {
             viewLine.setVisibility(View.GONE);
         } else {
@@ -115,14 +123,15 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
         } else {
             btnRight.setVisibility(View.GONE);
         }
-        if(optionsHeight != null){
+        if (optionsHeight != null) {
             ViewGroup.LayoutParams layoutParams = lnOptions.getLayoutParams();
-            if(layoutParams != null){
+            if (layoutParams != null) {
                 layoutParams.height = optionsHeight;
-            }else {
-                layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,optionsHeight);
+            } else {
+                layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, optionsHeight);
             }
             lnOptions.setLayoutParams(layoutParams);
         }
+        return this;
     }
 }

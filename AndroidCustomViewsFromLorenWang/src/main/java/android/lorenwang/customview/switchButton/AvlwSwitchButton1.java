@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwThreadUtils;
+import android.lorenwang.tools.app.AtlwViewUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.annotation.Nullable;
+
 
 /**
  * 创建时间：2019-05-07 上午 09:59:8
@@ -83,6 +85,7 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
      */
     private Runnable changeStateRunnable = new Runnable() {
         private Integer changeAllDistance = null;
+
         @Override
         public void run() {
             nowTimeNum++;
@@ -98,10 +101,10 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
                 postInvalidate();
                 AtlwThreadUtils.getInstance().postOnChildThreadDelayed(this, changeAnimMill / changeTimeNum);
             } else {
-                if(changeListener != null){
-                    if(isOpen){
+                if (changeListener != null) {
+                    if (isOpen) {
                         changeListener.onChangeToOpen();
-                    }else {
+                    } else {
                         changeListener.onChangeToClose();
                     }
                 }
@@ -229,7 +232,7 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
         if (changeDrawable == null) {
             changeDrawable = new ColorDrawable(changeDrawableTintColor);
         } else {
-            changeDrawable = AtlwImageCommonUtils.getInstance().tintDrawable(changeDrawable, ColorStateList.valueOf(changeDrawableTintColor));
+            changeDrawable = AtlwViewUtils.getInstance().tintDrawable(changeDrawable, ColorStateList.valueOf(changeDrawableTintColor));
         }
         changeDrawable.setBounds(0, 0, changeDrawableWidth, changeDrawableHeight);
         changeDrawableBitmap = AtlwImageCommonUtils.getInstance().getRoundedCornerBitmap(changeDrawable, changeDrawableWidth, changeDrawableHeight, radius);
@@ -319,6 +322,7 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
 
     /**
      * 设置改变监听
+     *
      * @param changeListener
      */
     public void setStateChangeListener(AvlwSwitchButtonChangeListener changeListener) {

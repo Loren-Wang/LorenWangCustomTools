@@ -15,7 +15,7 @@
         android:background="@drawable/avlw_solid_radio_8"
         android:backgroundTint="#fff"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvContent"
         android:layout_width="296dp"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_height="62dp"
         android:orientation="horizontal">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLeft"
             android:layout_width="match_parent"
             android:minHeight="0dp"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:background="#d9d9d9"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRight"
             android:layout_width="match_parent"
             android:minHeight="0dp"

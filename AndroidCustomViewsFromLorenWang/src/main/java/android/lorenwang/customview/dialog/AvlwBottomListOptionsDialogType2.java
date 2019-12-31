@@ -7,11 +7,12 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.Iterator;
 import java.util.List;
+
+import androidx.appcompat.widget.AppCompatButton;
 
 
 /**
@@ -45,11 +46,11 @@ public class AvlwBottomListOptionsDialogType2 extends AvlwBaseDialog {
             linearLayout.removeAllViews();
             Iterator<AvlwOptionsItemAttribute> iterator = list.iterator();
             AvlwOptionsItemAttribute itemAttribute;
-            Button button;
+            AppCompatButton button;
             while (iterator.hasNext()) {
                 itemAttribute = iterator.next();
                 if (itemAttribute != null) {
-                    button = new Button(getContext());
+                    button = new AppCompatButton(getContext());
                     button.setText(itemAttribute.getTitle() != null ? itemAttribute.getTitle() : "");
                     button.setTextSize(itemAttribute.getTextSizeUnit() != null ? itemAttribute.getTextSizeUnit() : TypedValue.COMPLEX_UNIT_SP,itemAttribute.getTextSize() != null ? itemAttribute.getTextSize() : 20);
                     button.setTextColor(itemAttribute.getTextColor() != null ? itemAttribute.getTextColor() : Color.BLACK);

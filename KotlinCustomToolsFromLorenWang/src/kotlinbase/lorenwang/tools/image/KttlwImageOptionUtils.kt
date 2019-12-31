@@ -3,9 +3,8 @@ package kotlinbase.lorenwang.tools.image
 import javabase.lorenwang.tools.JtlwLogUtils
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
-import sun.misc.BASE64Decoder
-import sun.misc.BASE64Encoder
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 /**
  * 功能作用：图片处理工具类
@@ -20,8 +19,8 @@ import java.io.ByteArrayOutputStream
  */
 class KttlwImageOptionUtils private constructor() {
     private val TAG = "kttlwImageOptionUtils"
-    private var basE64Encoder: BASE64Encoder? = null
-    private var basE64Decoder: BASE64Decoder? = null
+//    private var basE64Encoder: BASE64Encoder? = null
+//    private var basE64Decoder: BASE64Decoder? = null
 
     companion object {
         private var optionsInstance: KttlwImageOptionUtils? = null
@@ -46,7 +45,7 @@ class KttlwImageOptionUtils private constructor() {
      * @return 文件转码后的base64字符串
      */
     fun imageFileToBase64String(isCheckFile: Boolean, filePath: String): String {
-        return getBase64Encoder().encode(JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath)).emptyCheck({
+        return getBase64Encoder().encodeToString(JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath)).emptyCheck({
             JtlwLogUtils.logI(this.TAG, "图片转换失败,失败原因：文件读取异常")
             ""
         }, {
@@ -61,7 +60,7 @@ class KttlwImageOptionUtils private constructor() {
         var out: ByteArrayOutputStream? = null
         try {
             // Base64解码
-            return getBase64Decoder().decodeBuffer(base64Data).emptyCheck({
+            return getBase64Decoder().decode(base64Data).emptyCheck({
                 byteArrayOf()
             }, {
                 // 调整异常数据
@@ -87,29 +86,32 @@ class KttlwImageOptionUtils private constructor() {
     /**
      * 获取base64编码实例
      */
-    private fun getBase64Encoder(): BASE64Encoder {
-        if (basE64Encoder == null) {
-            synchronized(BASE64Encoder::class) {
-                if (basE64Encoder == null) {
-                    basE64Encoder = BASE64Encoder()
-                }
-            }
-        }
-        return basE64Encoder!!
+    private fun getBase64Encoder(): Base64.Encoder {
+//        if (basE64Encoder == null) {
+//            synchronized(BASE64Encoder::class) {
+//                if (basE64Encoder == null) {
+//                    basE64Encoder = BASE64Encoder()
+//
+//                }
+//            }
+//        }
+//        return basE64Encoder!!
+        return Base64.getEncoder()!!
     }
 
     /**
      * 获取base64解码实例
      */
-    private fun getBase64Decoder(): BASE64Decoder {
-        if (basE64Decoder == null) {
-            synchronized(BASE64Decoder::class) {
-                if (basE64Decoder == null) {
-                    basE64Decoder = BASE64Decoder()
-                }
-            }
-        }
-        return basE64Decoder!!
+    private fun getBase64Decoder(): Base64.Decoder {
+//        if (basE64Decoder == null) {
+//            synchronized(BASE64Decoder::class) {
+//                if (basE64Decoder == null) {
+//                    basE64Decoder = BASE64Decoder()
+//                }
+//            }
+//        }
+//        return basE64Decoder!!
+        return Base64.getDecoder()!!
     }
 
 }

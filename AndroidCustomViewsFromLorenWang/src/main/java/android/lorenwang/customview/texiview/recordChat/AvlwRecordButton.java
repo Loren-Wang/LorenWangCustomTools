@@ -2,7 +2,6 @@ package android.lorenwang.customview.texiview.recordChat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.lorenwang.customview.dialog.AvlwRecordDialog;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
@@ -13,6 +12,7 @@ import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import javabase.lorenwang.tools.common.JtlwCommonUtils;
 
@@ -29,7 +29,7 @@ import javabase.lorenwang.tools.common.JtlwCommonUtils;
  */
 
 public class AvlwRecordButton extends AppCompatButton {
-    private Activity activity;
+    private AppCompatActivity activity;
     private static final String TAG = "AvlwRecordChatButton";
     /**
      * 长按的判断时间
@@ -85,22 +85,22 @@ public class AvlwRecordButton extends AppCompatButton {
     private Runnable recordTimeShortRunnable;
 
 
-    public AvlwRecordButton(Activity activity) {
+    public AvlwRecordButton(AppCompatActivity activity) {
         super(activity);
         init(activity);
     }
 
-    public AvlwRecordButton(Activity activity, AttributeSet attrs) {
+    public AvlwRecordButton(AppCompatActivity activity, AttributeSet attrs) {
         super(activity, attrs);
         init(activity);
     }
 
-    public AvlwRecordButton(Activity activity, AttributeSet attrs, int defStyleAttr) {
+    public AvlwRecordButton(AppCompatActivity activity, AttributeSet attrs, int defStyleAttr) {
         super(activity, attrs, defStyleAttr);
         init(activity);
     }
 
-    private void init(final Activity context) {
+    private void init(final AppCompatActivity context) {
         this.activity = activity;
     }
 

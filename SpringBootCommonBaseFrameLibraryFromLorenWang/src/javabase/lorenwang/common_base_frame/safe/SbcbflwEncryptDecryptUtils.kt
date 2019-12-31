@@ -1,8 +1,7 @@
 package javabase.lorenwang.common_base_frame.safe
 
 import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
-import sun.misc.BASE64Decoder
-import sun.misc.BASE64Encoder
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -74,8 +73,7 @@ class SbcbflwEncryptDecryptUtils private constructor() {
             val skeySpec = SecretKeySpec(raw, "AES")
             val iv = IvParameterSpec(ivs.toByteArray())// 使用CBC模式，需要一个向量iv，可增加加密算法的强度
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv)
-            val encrypted = cipher.doFinal(BASE64Encoder().encode(encData.toByteArray()).toByteArray(charset("utf-8")))
-            BASE64Encoder().encode(encrypted)// 此处使用BASE64做转码。
+            String(cipher.doFinal(Base64.getEncoder().encode(encData.toByteArray())), charset("utf-8"))
         } catch (e: java.lang.Exception) {
             null
         }
@@ -95,9 +93,9 @@ class SbcbflwEncryptDecryptUtils private constructor() {
             val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
             val iv = IvParameterSpec(ivs.toByteArray())
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv)
-            val encrypted1 = BASE64Decoder().decodeBuffer(sSrc)// 先用base64解密
+            val encrypted1 = Base64.getDecoder().decode(sSrc)// 先用base64解密
             val original = cipher.doFinal(encrypted1)
-            String(BASE64Decoder().decodeBuffer(String(original)))
+            String(Base64.getDecoder().decode(String(original)))
         } catch (ex: Exception) {
             null
         }

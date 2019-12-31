@@ -8,11 +8,8 @@ import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.testapp.adapter.BaseRecyclerAdapter
 import com.example.testapp.adapter.holder.SmartViewHolder
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
@@ -87,17 +84,17 @@ class SmartRefreshLayoutActivity : BaseActivity() {
         refreshLayout.autoRefresh()
         //item 点击测试
         mAdapter?.setOnItemClickListener(AdapterView.OnItemClickListener { parent, view, position, id ->
-            val dialog = BottomSheetDialog(this@SmartRefreshLayoutActivity)
-            val dialogView = View.inflate(baseContext, R.layout.activity_smart_refresh_layout, null)
-            val refreshLayout = dialogView.findViewById<SmartRefreshLayout>(R.id.refreshLayout)
-            val recyclerView = RecyclerView(baseContext)
-            recyclerView.layoutManager = LinearLayoutManager(baseContext)
-            recyclerView.adapter = mAdapter
-            refreshLayout.setEnableRefresh(false)
-            refreshLayout.setEnableNestedScroll(false)
-            refreshLayout.setRefreshContent(recyclerView)
-            dialog.setContentView(dialogView)
-            dialog.show()
+//            val dialog = BottomSheetDialog(this@SmartRefreshLayoutActivity)
+//            val dialogView = View.inflate(baseContext, R.layout.activity_smart_refresh_layout, null)
+//            val refreshLayout = dialogView.findViewById<SmartRefreshLayout>(R.id.refreshLayout)
+//            val recyclerView = RecyclerView(baseContext)
+//            recyclerView.layoutManager = LinearLayoutManager(baseContext)
+//            recyclerView.adapter = mAdapter
+//            refreshLayout.setEnableRefresh(false)
+//            refreshLayout.setEnableNestedScroll(false)
+//            refreshLayout.setRefreshContent(recyclerView)
+//            dialog.setContentView(dialogView)
+//            dialog.show()
         })
 
         //点击测试

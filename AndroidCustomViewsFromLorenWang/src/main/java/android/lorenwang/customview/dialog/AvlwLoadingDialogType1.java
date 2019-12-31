@@ -1,6 +1,5 @@
 package android.lorenwang.customview.dialog;
 
-import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,6 +9,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 /**
@@ -28,14 +28,14 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
      * 是否允许加载中后退退出当前页面
      */
     private boolean allowLoadingBackFinishPage = false;
-    private Activity activity;
+    private AppCompatActivity activity;
 
-    public AvlwLoadingDialogType1(Activity activity) {
+    public AvlwLoadingDialogType1(AppCompatActivity activity) {
         super(activity, R.layout.avlw_dialog_loading_type_1, R.style.avlw_loading_dialog_type1, R.style.avlw_dialog_anim_for_center, false, false, false);
         this.activity = activity;
     }
 
-    public AvlwLoadingDialogType1(Activity activity, @StyleRes int styleRes) {
+    public AvlwLoadingDialogType1(AppCompatActivity activity, @StyleRes int styleRes) {
         super(activity, R.layout.avlw_dialog_loading_type_1, styleRes, R.style.avlw_dialog_anim_for_center, false, false, false);
         this.activity = activity;
     }
@@ -43,7 +43,7 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
     /**
      * 设置进度条颜色
      *
-     * @param color
+     * @param color 进度条颜色
      */
     public void setProgressBarColor(@ColorInt int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -57,7 +57,7 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
     /**
      * 设置进度条颜色
      *
-     * @param drawable
+     * @param drawable 进度条颜色
      */
     public void setProgressBarDrawable(Drawable drawable) {
         ((ProgressBar) view.findViewById(R.id.progressBar)).setProgressDrawable(drawable);
