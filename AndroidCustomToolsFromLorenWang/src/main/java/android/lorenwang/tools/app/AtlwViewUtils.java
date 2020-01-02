@@ -1,6 +1,7 @@
 package android.lorenwang.tools.app;
 
 import android.content.res.ColorStateList;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.drawable.DrawableCompat;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
  * 创建时间：2019-04-30 下午 15:47:15
@@ -240,4 +242,132 @@ public class AtlwViewUtils {
         }
     }
 
+    /**
+     * 获取文本字符串宽度
+     *
+     * @param paint 画笔
+     * @param text  文本
+     * @param start 要计算文本的起始位置
+     * @param end   要计算文本的结束为止
+     * @return 字符串宽度
+     */
+    public float getStrTextWidth(Paint paint, String text, Integer start, Integer end) {
+        if (!JtlwCheckVariateUtils.getInstance().isHaveEmpty(paint, text)) {
+            if (start != null) {
+                if (text.length() < start) {
+                    start = text.length() - 1;
+                }
+            } else {
+                start = 0;
+            }
+            if (end != null) {
+                if (text.length() < end) {
+                    end = text.length() - 1;
+                }
+            } else {
+                end = 0;
+            }
+            if (start == 0 && end == 0) {
+                return 0f;
+            } else {
+                return paint.measureText(text, start, end);
+            }
+        }
+        return 0f;
+    }
+
+    /**
+     * 获取文本字符串宽度
+     *
+     * @param paint 画笔
+     * @param text  文本
+     * @return 字符串宽度
+     */
+    public float getStrTextWidth(Paint paint, String text) {
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(text)) {
+            return 0f;
+        }
+        return getStrTextWidth(paint, text, 0, text.length());
+    }
+
+    /**
+     * 获取文本字符串宽度
+     *
+     * @param textSize 文本大小
+     * @param text     文本
+     * @param start    要计算文本的起始位置
+     * @param end      要计算文本的结束为止
+     * @return 字符串宽度
+     */
+    public float getStrTextWidth(int textSize, String text, Integer start, Integer end) {
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(text)) {
+            return 0f;
+        }
+        Paint paint = null;
+        try {
+            paint = new Paint(textSize);
+            paint.setTextSize(textSize);
+            return getStrTextWidth(paint, text, start, end);
+        } finally {
+            paint = null;
+        }
+    }
+
+    /**
+     * 获取文本字符串宽度
+     *
+     * @param textSize 文本大小
+     * @param text     文本
+     * @return 字符串宽度
+     */
+    public float getStrTextWidth(int textSize, String text) {
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(text)) {
+            return 0f;
+        }
+        Paint paint = null;
+        try {
+            paint = new Paint(textSize);
+            paint.setTextSize(textSize);
+            return getStrTextWidth(paint, text, 0, text.length() - 1);
+        } finally {
+            paint = null;
+        }
+    }
+
+    /**
+     * 获取文本高度
+     *
+     * @param paint 画笔
+     * @return 文本高度
+     */
+    public float getStrTextHeight(Paint paint) {
+        Paint.FontMetrics fontMetrics = null;
+        try {
+            if (JtlwCheckVariateUtils.getInstance().isEmpty(paint)) {
+                return 0f;
+            }
+            fontMetrics = paint.getFontMetrics();
+            return fontMetrics.bottom - fontMetrics.top + paint.getStrokeWidth();
+        } finally {
+            fontMetrics = null;
+        }
+
+    }
+
+    /**
+     * 获取文本高度
+     *
+     * @param textSize 文本大小
+     * @return 文本高度
+     */
+    public float getStrTextHeight(int textSize) {
+        Paint paint = null;
+        try {
+            paint = new Paint();
+            paint.setTextSize(textSize);
+            return getStrTextHeight(paint);
+        } finally {
+            paint = null;
+        }
+    }
 }
