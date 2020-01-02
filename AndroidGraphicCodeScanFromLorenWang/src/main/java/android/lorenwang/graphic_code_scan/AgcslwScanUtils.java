@@ -120,7 +120,9 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         } else {
             // Install the callback and wait for surfaceCreated() to init the
             // camera.
-            sFVScan.getHolder().addCallback(this);
+            if (sFVScan != null && sFVScan.getHolder() != null) {
+                sFVScan.getHolder().addCallback(this);
+            }
         }
 
         inactivityTimer.onResume();
@@ -143,7 +145,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         if (cameraManager != null) {
             cameraManager.closeDriver();
         }
-        if (!isHasSurface) {
+        if (!isHasSurface && sFVScan != null && sFVScan.getHolder() != null) {
             sFVScan.getHolder().removeCallback(this);
         }
     }
@@ -168,7 +170,10 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
             beepManager.release();
             beepManager = null;
         }
-        sFVScan = null;
+        if (sFVScan != null && sFVScan.getHolder() != null) {
+            sFVScan.getHolder().removeCallback(this);
+            sFVScan = null;
+        }
         showCropRect = null;
         imageCropRect = null;
     }
