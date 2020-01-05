@@ -1,6 +1,7 @@
 package android.lorenwang.customview.dialog;
 
 import android.content.Context;
+import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,12 @@ public class AvlwBaseDialog extends AlertDialog {
         getWindow().setWindowAnimations(dialogAnimo);
         this.isFullWidthShow = isFullWidthShow;
         this.isFullHeightShow = isFullHeightShow;
+        if (isFullHeightShow) {
+            view.setMinimumHeight(AtlwScreenUtils.getInstance().getScreenHeight(context));
+        }
+        if (isFullWidthShow) {
+            view.setMinimumWidth(AtlwScreenUtils.getInstance().getScreenWidth(context));
+        }
     }
 
 
