@@ -12,18 +12,24 @@ package javabase.lorenwang.tools.common;
  * 备注：
  */
 public class JtlwClassUtils {
-    private static volatile JtlwClassUtils baseUtils;
+    private final String TAG = getClass().getName();
+    private static volatile JtlwClassUtils optionUtils;
 
+    /**
+     * 私有构造
+     */
     private JtlwClassUtils() {
     }
 
     public static JtlwClassUtils getInstance() {
-        synchronized (JtlwClassUtils.class) {
-            if (baseUtils == null) {
-                baseUtils = new JtlwClassUtils();
+        if (optionUtils == null) {
+            synchronized (JtlwClassUtils.class) {
+                if (optionUtils == null) {
+                    optionUtils = new JtlwClassUtils();
+                }
             }
         }
-        return baseUtils;
+        return optionUtils;
     }
 
     /**

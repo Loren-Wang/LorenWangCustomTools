@@ -35,19 +35,24 @@ import javabase.lorenwang.tools.JtlwLogUtils;
  */
 
 public class JtlwCheckVariateUtils {
-    private final String TAG = "RegularOptionsUtils";
-    private static volatile JtlwCheckVariateUtils optionsUtils;
+    private final String TAG = getClass().getName();
+    private static volatile JtlwCheckVariateUtils optionUtils;
 
+    /**
+     * 私有构造
+     */
     private JtlwCheckVariateUtils() {
     }
 
     public static JtlwCheckVariateUtils getInstance() {
-        synchronized (JtlwCheckVariateUtils.class) {
-            if (optionsUtils == null) {
-                optionsUtils = new JtlwCheckVariateUtils();
+        if (optionUtils == null) {
+            synchronized (JtlwCheckVariateUtils.class) {
+                if (optionUtils == null) {
+                    optionUtils = new JtlwCheckVariateUtils();
+                }
             }
         }
-        return optionsUtils;
+        return optionUtils;
     }
 
 

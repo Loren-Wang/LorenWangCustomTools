@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -538,7 +540,7 @@ public class JtlwFileOptionUtils {
                 List<Runnable> runnableList = new ArrayList<>();
                 //创建信号量(最多同时有10个线程可以访问)
                 final Semaphore semaphore = new Semaphore(100);
-                if(files != null) {
+                if (files != null) {
                     for (File f : files) {
                         if (f.isDirectory()) {
                             //把目录添加进队列
@@ -688,15 +690,15 @@ public class JtlwFileOptionUtils {
      * @param filePath 文件地址
      * @return 编码格式
      */
-    public JtlwStringCodedFormatEnum getFileCodedFormat(String filePath) {
+    public Charset getFileCodedFormat(String filePath) {
         String javaEncode = EncodingDetect.getJavaEncode(filePath);
         switch (javaEncode.toLowerCase()) {
             case "utf-8":
-                return JtlwStringCodedFormatEnum.UTF_8;
+                return StandardCharsets.UTF_8;
             case "unicode":
-                return JtlwStringCodedFormatEnum.UNICODE;
+                return Charset.forName("unicode");
             default:
-                return JtlwStringCodedFormatEnum.GBK;
+                return Charset.forName("gbk");
         }
     }
 

@@ -34,19 +34,24 @@ import java.util.regex.Pattern;
  */
 
 public class JtlwVariateDataParamUtils {
-    private final String TAG = "VariateDataParamUtils";
-    private static volatile JtlwVariateDataParamUtils baseUtils;
+    private final String TAG = getClass().getName();
+    private static volatile JtlwVariateDataParamUtils optionUtils;
 
+    /**
+     * 私有构造
+     */
     private JtlwVariateDataParamUtils() {
     }
 
     public static JtlwVariateDataParamUtils getInstance() {
-        synchronized (JtlwVariateDataParamUtils.class) {
-            if (baseUtils == null) {
-                baseUtils = new JtlwVariateDataParamUtils();
+        if (optionUtils == null) {
+            synchronized (JtlwVariateDataParamUtils.class) {
+                if (optionUtils == null) {
+                    optionUtils = new JtlwVariateDataParamUtils();
+                }
             }
         }
-        return (JtlwVariateDataParamUtils) baseUtils;
+        return optionUtils;
     }
 
     /**

@@ -10,14 +10,14 @@ import java.util.Date;
  * 功能作用：时间工具类
  * 思路：
  * 方法：1、获取当前时间的毫秒值
- *      2、获取当前时间的秒值
- *      3、格式化指定时间到指定格式
- *      4、格式化当前时间到指定格式
- *      5、格式化当前时间到指定格式，并返回该格式的相应毫秒值
- *      6、根据日期时间获得毫秒数
- *      7、根据日期时间获得秒数
- *      8、根据输入的年份判断该年份是否是闰年，是则返回true
- *      9、根据月日判断星座
+ * 2、获取当前时间的秒值
+ * 3、格式化指定时间到指定格式
+ * 4、格式化当前时间到指定格式
+ * 5、格式化当前时间到指定格式，并返回该格式的相应毫秒值
+ * 6、根据日期时间获得毫秒数
+ * 7、根据日期时间获得秒数
+ * 8、根据输入的年份判断该年份是否是闰年，是则返回true
+ * 9、根据月日判断星座
  * 注意：
  * 修改人：
  * 修改时间：
@@ -25,19 +25,24 @@ import java.util.Date;
  */
 
 public class JtlwDateTimeUtils {
-    private final String TAG = "DateTimeUtils";
-    private static volatile JtlwDateTimeUtils baseUtils;
+    private final String TAG = getClass().getName();
+    private static volatile JtlwDateTimeUtils optionUtils;
 
+    /**
+     * 私有构造
+     */
     private JtlwDateTimeUtils() {
     }
 
     public static JtlwDateTimeUtils getInstance() {
-        synchronized (JtlwDateTimeUtils.class) {
-            if (baseUtils == null) {
-                baseUtils = new JtlwDateTimeUtils();
+        if (optionUtils == null) {
+            synchronized (JtlwDateTimeUtils.class) {
+                if (optionUtils == null) {
+                    optionUtils = new JtlwDateTimeUtils();
+                }
             }
         }
-        return (JtlwDateTimeUtils) baseUtils;
+        return optionUtils;
     }
 
     /**
@@ -64,7 +69,8 @@ public class JtlwDateTimeUtils {
      * yy/MM/dd HH:mm:ss pm 如 '2002/1/1 17:55:00 pm'
      * yy-MM-dd HH:mm:ss 如 '2002-1-1 17:55:00'
      * yy-MM-dd HH:mm:ss am 如 '2002-1-1 17:55:00 am'
-     *格式化指定时间到指定格式
+     * 格式化指定时间到指定格式
+     *
      * @param pattern
      * @param dateTime
      * @return
@@ -79,6 +85,7 @@ public class JtlwDateTimeUtils {
 
     /**
      * 格式化当前时间到指定格式
+     *
      * @param pattern
      * @return
      */

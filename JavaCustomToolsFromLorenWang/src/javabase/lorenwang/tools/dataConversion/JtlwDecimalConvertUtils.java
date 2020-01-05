@@ -31,8 +31,6 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 public class JtlwDecimalConvertUtils {
-    private final String TAG = "DecimalConvertUtils";
-    private static volatile JtlwDecimalConvertUtils baseUtils;
     //小写字母表
     private final char[] ALPHABET_LOWER_CASE = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
@@ -40,16 +38,24 @@ public class JtlwDecimalConvertUtils {
     private final char[] ALPHABET_UPPER_CASE = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
+    private final String TAG = getClass().getName();
+    private static volatile JtlwDecimalConvertUtils optionUtils;
+
+    /**
+     * 私有构造
+     */
     private JtlwDecimalConvertUtils() {
     }
 
     public static JtlwDecimalConvertUtils getInstance() {
-        synchronized (JtlwDecimalConvertUtils.class) {
-            if (baseUtils == null) {
-                baseUtils = new JtlwDecimalConvertUtils();
+        if (optionUtils == null) {
+            synchronized (JtlwDecimalConvertUtils.class) {
+                if (optionUtils == null) {
+                    optionUtils = new JtlwDecimalConvertUtils();
+                }
             }
         }
-        return (JtlwDecimalConvertUtils) baseUtils;
+        return optionUtils;
     }
 
 
@@ -305,13 +311,13 @@ public class JtlwDecimalConvertUtils {
             Character character;
             for (int i = 0; i < length; i++) {
                 character = chars[i];
-                if(character.compareTo('0') >= 0 && character.compareTo('9') <= 0){
-                    result = decimalToAssign(character - 48,2,4,null) + result;
-                }else   if(character.compareTo('a') >= 0 && character.compareTo('f') <= 0){
-                    result = decimalToAssign(character - 87,2,4,null) + result;
+                if (character.compareTo('0') >= 0 && character.compareTo('9') <= 0) {
+                    result = decimalToAssign(character - 48, 2, 4, null) + result;
+                } else if (character.compareTo('a') >= 0 && character.compareTo('f') <= 0) {
+                    result = decimalToAssign(character - 87, 2, 4, null) + result;
                 }
             }
-            if(JtlwCheckVariateUtils.getInstance().isInteger(result)){
+            if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             }
         }
@@ -350,9 +356,9 @@ public class JtlwDecimalConvertUtils {
             Character character;
             for (int i = 0; i < length; i++) {
                 character = chars[i];
-                if(character.compareTo('0') >= 0 && character.compareTo('9') <= 0){
+                if (character.compareTo('0') >= 0 && character.compareTo('9') <= 0) {
                     result += (character - 48) * (int) Math.pow(16, i);
-                }else   if(character.compareTo('a') >= 0 && character.compareTo('f') <= 0){
+                } else if (character.compareTo('a') >= 0 && character.compareTo('f') <= 0) {
                     result += (character - 87) * (int) Math.pow(16, i);
                 }
             }
@@ -360,8 +366,6 @@ public class JtlwDecimalConvertUtils {
         }
         return null;
     }
-
-
 
 
     /********************************************私有转换方法***************************************/
@@ -519,8 +523,6 @@ public class JtlwDecimalConvertUtils {
                 return String.valueOf(ALPHABET_LOWER_CASE[strPosi]);
         }
     }
-
-
 
 
 }

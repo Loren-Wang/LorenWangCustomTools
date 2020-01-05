@@ -16,19 +16,24 @@ import java.util.UUID;
  */
 
 public class JtlwCommonUtils {
-    private final String TAG = "CommonUtils";
-    private static volatile JtlwCommonUtils baseUtils;
+    private final String TAG = getClass().getName();
+    private static volatile JtlwCommonUtils optionUtils;
 
+    /**
+     * 私有构造
+     */
     private JtlwCommonUtils() {
     }
 
     public static JtlwCommonUtils getInstance() {
-        synchronized (JtlwCommonUtils.class) {
-            if (baseUtils == null) {
-                baseUtils = new JtlwCommonUtils();
+        if (optionUtils == null) {
+            synchronized (JtlwCommonUtils.class) {
+                if (optionUtils == null) {
+                    optionUtils = new JtlwCommonUtils();
+                }
             }
         }
-        return (JtlwCommonUtils) baseUtils;
+        return optionUtils;
     }
 
     /**
@@ -46,6 +51,7 @@ public class JtlwCommonUtils {
 
     /**
      * byte数组转字符串
+     *
      * @param src 要读取byte数组
      * @return 转换后字符串
      */
