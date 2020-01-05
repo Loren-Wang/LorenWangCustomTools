@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.controller
 
 import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
+import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import javabase.lorenwang.tools.JtlwLogUtils
 import org.springframework.context.MessageSource
@@ -78,6 +79,17 @@ open class SbcbflwBaseController {
     }
 
     /**
+     * 响应数据状态处理
+     */
+    public fun <T> responseDataDisposeStatus(bean: SbcbflwBaseDataDisposeStatusBean<T>): String {
+        if (bean.repDataList) {
+            return responseDataListContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
+        } else {
+            return responseContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.data)
+        }
+    }
+
+    /**
      * 接口处理之后的数据列表响应返回
      * @param stateCode 响应状态吗
      * @param stateMessage 响应状态消息
@@ -87,7 +99,7 @@ open class SbcbflwBaseController {
     </T> */
     public fun <E, T : ArrayList<E>> responseDataListContent(
             stateCode: String, stateMessage: String, pageIndex: Int,
-            pageSize: Int, sumCount: Long?, dataList: T): String {
+            pageSize: Int, sumCount: Long, dataList: T): String {
         val baseResponseBean = SbcbflwBaseResponseBean(SbcbflwPageResponseBean(pageIndex, pageSize, sumCount, dataList))
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
