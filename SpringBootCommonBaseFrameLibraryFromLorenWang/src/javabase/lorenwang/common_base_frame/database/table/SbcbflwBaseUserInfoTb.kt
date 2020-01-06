@@ -18,7 +18,7 @@ import javax.persistence.*
  * 备注：
  */
 @JsonAutoDetect
-class SbcbflwBaseUserInfoTb : SbcbflwBaseTb() {
+open class SbcbflwBaseUserInfoTb : SbcbflwBaseTb() {
     /**
      * id
      */
