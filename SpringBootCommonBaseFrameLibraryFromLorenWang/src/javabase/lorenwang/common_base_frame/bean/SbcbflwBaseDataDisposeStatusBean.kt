@@ -11,23 +11,8 @@ package javabase.lorenwang.common_base_frame.bean
  * 修改时间：
  * 备注：
  */
-open class SbcbflwBaseDataDisposeStatusBean<T> {
-    /**
-     * 状态是否成功？
-     */
-    var statusSuccess = true;
-    /**
-     * 状态码
-     */
-    var statusCode: String? = null;
-    /**
-     * 状态消息码
-     */
-    var statusMsgCode: String? = null
-    /**
-     * 数据实体
-     */
-    var data: T? = null
+
+open class SbcbflwBaseDataDisposeStatusBean(var statusResult: Boolean, var statusCode: String?, var statusMsgCode: String?, var body: Any?) {
     /**
      * 页码
      */
@@ -47,28 +32,21 @@ open class SbcbflwBaseDataDisposeStatusBean<T> {
     /**
      * 数据实体
      */
-    var dataList: ArrayList<T> = arrayListOf()
+    var dataList: ArrayList<Any?> = arrayListOf()
 
-    constructor(statusCode: String, statusMsgCode: String) {
-        this.statusSuccess = false;
-        this.statusCode = statusCode
-        this.statusMsgCode = statusMsgCode
-    }
-
-    constructor(data: T) {
-        this.statusSuccess = true;
-        this.data = data;
-    }
-
-    constructor(statusCode: String, statusMsgCode: String, pageIndex: Int,
-                pageSize: Int, sumCount: Long, dataList:  ArrayList<T>) {
+    constructor(statusResult: Boolean, body: Any?) : this(statusResult, null, null, body)
+    constructor(statusResult: Boolean) : this(statusResult, null, null, null)
+    constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String?) : this(statusResult, statusCode, statusMsgCode, null)
+    constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String, pageIndex: Int,
+                pageSize: Int, sumCount: Long, dataList: ArrayList<Any?>) : this(statusResult, statusCode, statusMsgCode, null) {
         this.statusCode = statusCode;
         this.statusMsgCode = statusMsgCode;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
         this.sumCount = sumCount;
-        this.statusSuccess = true;
+        this.statusResult = true;
         this.repDataList = true;
         this.dataList = dataList;
+
     }
 }

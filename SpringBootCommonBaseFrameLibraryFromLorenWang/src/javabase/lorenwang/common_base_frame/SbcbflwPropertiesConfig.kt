@@ -70,6 +70,11 @@ object SbcbflwPropertiesConfig {
      */
     @JvmStatic
     var showLog = false
+    /**
+     * 是否是debug环境
+     */
+    @JvmStatic
+    var isDebug = false
 
     /**
      * 邮箱端口

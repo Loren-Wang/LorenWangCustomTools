@@ -20,6 +20,14 @@ import javax.servlet.http.HttpServletRequestWrapper
 open class SbcbflwBaseHttpServletRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
     private val headerMap = HashMap<String, String>()
+    /**
+     * 所有的token令牌相关的关键字key
+     */
+    val ACCESS_TOKEN_KEY = "accesstoken"
+    /**
+     * 请求中设置用户信息key
+     */
+    val REQUEST_SET_USER_INFO_KEY = "userinfokey"
 
     /**
      * add a header with given name and value

@@ -23,7 +23,7 @@ import javax.annotation.Resource
  * 修改时间：
  * 备注：
  */
-open class SbcbflwBaseController {
+abstract class SbcbflwBaseController {
     @Resource
     private lateinit var messageSource: MessageSource
 
@@ -44,7 +44,7 @@ open class SbcbflwBaseController {
      * @param code ：对应messages配置的key.
      * @return
      */
-    public fun getMessage(code: String?): String {
+    fun getMessage(code: String?): String {
         //这里使用比较方便的方法，不依赖request.
         return getMessage(code, null)
     }
@@ -55,7 +55,7 @@ open class SbcbflwBaseController {
      * @param defaultMessage : 没有设置key的时候的默认值.
      * @return
      */
-    public fun getMessage(code: String?, defaultMessage: String?): String {
+    fun getMessage(code: String?, defaultMessage: String?): String {
         //这里使用比较方便的方法，不依赖request.
         return code?.let {
             messageSource.getMessage(it, null, defaultMessage
@@ -71,7 +71,7 @@ open class SbcbflwBaseController {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    public fun <T> responseContent(stateCode: String, stateMessage: String, obj: T?): String {
+    fun <T> responseContent(stateCode: String, stateMessage: String, obj: T?): String {
         val baseResponseBean = SbcbflwBaseResponseBean(obj)
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
@@ -81,11 +81,11 @@ open class SbcbflwBaseController {
     /**
      * 响应数据状态处理
      */
-    public fun <T> responseDataDisposeStatus(bean: SbcbflwBaseDataDisposeStatusBean<T>): String {
-        if (bean.repDataList) {
-            return responseDataListContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
+    fun responseDataDisposeStatus(bean: SbcbflwBaseDataDisposeStatusBean): String {
+        return if (bean.repDataList) {
+            responseDataListContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
         } else {
-            return responseContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.data)
+            responseContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.body)
         }
     }
 
@@ -97,7 +97,7 @@ open class SbcbflwBaseController {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    public fun <E, T : ArrayList<E>> responseDataListContent(
+    fun <E, T : ArrayList<E>> responseDataListContent(
             stateCode: String, stateMessage: String, pageIndex: Int,
             pageSize: Int, sumCount: Long, dataList: T): String {
         val baseResponseBean = SbcbflwBaseResponseBean(SbcbflwPageResponseBean(pageIndex, pageSize, sumCount, dataList))
@@ -105,5 +105,35 @@ open class SbcbflwBaseController {
         baseResponseBean.stateMessage = stateMessage
         return JdplwJsonUtils.toJson(baseResponseBean)
     }
+
+    /**
+     * 参数异常响应
+     */
+    abstract fun responseErrorForParams(): String
+
+    /**
+     * 数据响应成功
+     */
+    abstract fun responseSuccess(nothing: Any?): String
+
+    /**
+     * 数据删除失败
+     */
+    abstract fun responseDeleteFail(): String
+
+    /**
+     * 未知错误失败
+     */
+    abstract fun responseFailForUnKnow(): String
+
+    /**
+     * 登录验证失败,用户未登录或者token失效
+     */
+    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective(): String
+
+    /**
+     * 无权限异常
+     */
+    abstract fun responseErrorNotPermission(): String
 
 }
