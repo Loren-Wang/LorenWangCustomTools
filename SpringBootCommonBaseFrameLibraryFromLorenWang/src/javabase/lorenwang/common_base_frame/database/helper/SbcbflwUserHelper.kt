@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame.database.helper
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
+import org.apache.commons.lang.RandomStringUtils
 
 /**
  * 功能作用：用户帮助类
@@ -16,6 +17,10 @@ import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
  * 备注：
  */
 abstract class SbcbflwUserHelper {
+    /**
+     * 密码长度，默认10位
+     */
+    protected var passwordLength: Int = 10
 
     companion object {
         lateinit var instance: SbcbflwUserHelper
@@ -46,5 +51,14 @@ abstract class SbcbflwUserHelper {
      */
     abstract fun refreshAccessToken(userInfoRepository: SbcbflwUserInfoRepository, accessToken: String): String
 
-
+    /**
+     * 生成密码,可能为空
+     */
+    fun generatePassword(): String? {
+        return try {
+            RandomStringUtils.randomAlphanumeric(passwordLength)
+        } catch (e: Exception) {
+            null
+        }
+    }
 }
