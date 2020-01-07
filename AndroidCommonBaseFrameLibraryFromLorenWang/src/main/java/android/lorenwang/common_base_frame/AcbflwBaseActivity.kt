@@ -1,11 +1,12 @@
 package android.lorenwang.common_base_frame
 
-import androidx.appcompat.app.AppCompatActivity
 import android.lorenwang.common_base_frame.mvp.AcbflwBaseView
 import android.lorenwang.tools.app.AtlwViewUtils
+import android.os.Bundle
 import android.view.ViewGroup
 import android.view.ViewStub
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * 功能作用：基础activity
@@ -22,6 +23,34 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     protected var titleBarHeadViewHeight = AcbflwBaseConfig.titleBarHeadViewHeight
     protected var baseBottomViewHeight = AcbflwBaseConfig.baseBottomViewHeight
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        initCreateSuperBefore(savedInstanceState)
+        super.onCreate(savedInstanceState)
+        initView(savedInstanceState)
+        initListener(savedInstanceState)
+        initData(savedInstanceState)
+    }
+
+    /**
+     * 初始化create父级方法super之前调用
+     */
+    fun initCreateSuperBefore(savedInstanceState: Bundle?){}
+
+    /**
+     * 初始化view
+     */
+    abstract fun initView(savedInstanceState: Bundle?);
+
+    /**
+     * 初始化监听
+     */
+    abstract fun initListener(savedInstanceState: Bundle?)
+
+    /**
+     * 初始化数据
+     */
+    abstract fun initData(savedInstanceState: Bundle?);
+
     /**
      * 用户登陆状态异常
      */
@@ -36,7 +65,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     protected open fun addContentView(@LayoutRes resId: Int) {
         addContentView(resId, null)
     }
-
 
     /**
      * 添加内容视图，其内部设置了contentview，然后通过baselayout当中的viewstub设置布局并进行绘制显示
