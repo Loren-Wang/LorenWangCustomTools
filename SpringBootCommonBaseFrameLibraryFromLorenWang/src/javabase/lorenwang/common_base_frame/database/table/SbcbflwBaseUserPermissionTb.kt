@@ -3,6 +3,7 @@ package service.qtoolsbaby.official.database.table
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseTb
+import java.io.Serializable
 import javax.persistence.*
 
 /**
@@ -18,7 +19,7 @@ import javax.persistence.*
  */
 @MappedSuperclass
 @JsonAutoDetect
-open class SbcbflwBaseUserPermissionTb : SbcbflwBaseTb() {
+open class SbcbflwBaseUserPermissionTb : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
      * id
      */

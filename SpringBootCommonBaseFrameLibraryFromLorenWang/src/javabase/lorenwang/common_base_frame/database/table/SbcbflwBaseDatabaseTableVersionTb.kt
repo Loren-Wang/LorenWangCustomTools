@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
+import java.io.Serializable
 import javax.persistence.*
 
 /**
@@ -17,7 +18,7 @@ import javax.persistence.*
  */
 @MappedSuperclass
 @JsonAutoDetect
-open class SbcbflwBaseDatabaseTableVersionTb : SbcbflwBaseTb() {
+open class SbcbflwBaseDatabaseTableVersionTb : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
      * 版本id
      */

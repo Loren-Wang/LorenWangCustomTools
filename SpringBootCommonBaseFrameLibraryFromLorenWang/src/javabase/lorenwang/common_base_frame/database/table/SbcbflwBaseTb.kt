@@ -1,8 +1,10 @@
 package javabase.lorenwang.common_base_frame.database.table
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
+import java.io.Serializable
 import java.sql.Timestamp
 import javax.persistence.Column
 import javax.persistence.MappedSuperclass
@@ -19,7 +21,8 @@ import javax.persistence.MappedSuperclass
  * 备注：
  */
 @MappedSuperclass
-open class SbcbflwBaseTb {
+@JsonAutoDetect
+open class SbcbflwBaseTb : Serializable, Cloneable {
     /**
      * 创建时间
      */

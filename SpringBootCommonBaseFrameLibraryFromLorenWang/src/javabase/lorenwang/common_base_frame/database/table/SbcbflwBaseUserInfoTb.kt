@@ -5,6 +5,7 @@ import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatusEnum
 import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
 import javax.persistence.*
+import java.io.Serializable
 
 /**
  * 功能作用：用户表
@@ -18,7 +19,8 @@ import javax.persistence.*
  * 备注：
  */
 @JsonAutoDetect
-open class SbcbflwBaseUserInfoTb : SbcbflwBaseTb() {
+@MappedSuperclass
+open class SbcbflwBaseUserInfoTb : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
      * id
      */
