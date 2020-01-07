@@ -32,7 +32,7 @@ dependencies {
 
 def moduleName = "AndroidAnimFromLorenWang"
 def moduleDescription = "Android自定义动画资源库"
-version '1.0.1'
+version '1.0.2'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
