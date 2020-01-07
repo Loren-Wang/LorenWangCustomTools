@@ -382,6 +382,19 @@ public class AalwAnimUtils {
      * @param from         起始
      * @param to           结束
      * @param duration     动画时间
+     * @return 动画实体
+     */
+    public ValueAnimator getValueAnimator(float from, float to, long duration) {
+        return getValueAnimator(from, to, duration,null,null);
+    }
+
+
+    /**
+     * 获取动画
+     *
+     * @param from         起始
+     * @param to           结束
+     * @param duration     动画时间
      * @param interpolator 拦截器
      * @param listener     监听
      * @return 动画实体
