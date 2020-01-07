@@ -44,7 +44,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     /**
      * 初始化监听
      */
-    abstract fun initListener(savedInstanceState: Bundle?)
+    fun initListener(savedInstanceState: Bundle?) {}
 
     /**
      * 初始化数据
