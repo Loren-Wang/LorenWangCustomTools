@@ -147,7 +147,7 @@ abstract class SbcbflwBaseController {
     /**
      * 数据响应成功
      */
-    abstract fun responseSuccess(nothing: Any?): String
+    abstract fun responseSuccess(data: Any?): String
 
     /**
      * 数据删除失败
