@@ -49,10 +49,10 @@ public class AvlwBaseDialog extends AlertDialog {
         this.isFullWidthShow = isFullWidthShow;
         this.isFullHeightShow = isFullHeightShow;
         if (isFullHeightShow) {
-            view.setMinimumHeight(AtlwScreenUtils.getInstance().getScreenHeight(context));
+            view.setMinimumHeight(AtlwScreenUtils.getInstance().getScreenHeight());
         }
         if (isFullWidthShow) {
-            view.setMinimumWidth(AtlwScreenUtils.getInstance().getScreenWidth(context));
+            view.setMinimumWidth(AtlwScreenUtils.getInstance().getScreenWidth());
         }
     }
 

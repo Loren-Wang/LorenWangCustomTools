@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.os.Build;
@@ -31,23 +32,27 @@ import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.DES
  */
 public class AtlwDesktopShortcutUtils {
     private final String TAG = getClass().getName();
-    private static volatile AtlwDesktopShortcutUtils atlwDesktopShortcutUtils;
-    private AtlwDesktopShortcutUtils(){
+    private static volatile AtlwDesktopShortcutUtils optionsInstance;
 
+    private AtlwDesktopShortcutUtils() {
     }
-    public static AtlwDesktopShortcutUtils getInstance(){
-        synchronized (AtlwDesktopShortcutUtils.class) {
-            if (atlwDesktopShortcutUtils == null) {
-                atlwDesktopShortcutUtils = new AtlwDesktopShortcutUtils();
+
+    public static AtlwDesktopShortcutUtils getInstance() {
+        if (optionsInstance == null) {
+            synchronized (AtlwDesktopShortcutUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwDesktopShortcutUtils();
+                }
             }
         }
-        return atlwDesktopShortcutUtils;
+        return optionsInstance;
     }
 
     private DesktopShortcutOptionsCallback desktopShortcutOptionsCallback;
 
     /**
      * 设置回调
+     *
      * @param desktopShortcutOptionsCallback 回调
      */
     public void setDesktopShortcutOptionsCallback(DesktopShortcutOptionsCallback desktopShortcutOptionsCallback) {
@@ -56,22 +61,23 @@ public class AtlwDesktopShortcutUtils {
 
     /**
      * 添加桌面快捷方式
-     * @param context 上下文
-     * @param openClass 打开的class
+     *
+     * @param context    上下文
+     * @param openClass  打开的class
      * @param openUrlKey 打开url的key
-     * @param title 标题
-     * @param url 链接
-     * @param bitmap icon位图
+     * @param title      标题
+     * @param url        链接
+     * @param bitmap     icon位图
      */
     public void addDesktopShortcut(
-            Context context,Class openClass,String openUrlKey
-            , String title,String url, Bitmap bitmap){
-        if(ShortcutManagerCompat.isRequestPinShortcutSupported(context)){
-            Intent intent = new Intent(context,openClass);
+            Context context, Class openClass, String openUrlKey
+            , String title, String url, Bitmap bitmap) {
+        if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
+            Intent intent = new Intent(AtlwSetting.nowApplication, openClass);
             intent.setAction(Intent.ACTION_VIEW); //action必须设置，不然报错
-            intent.putExtra(openUrlKey,url);
+            intent.putExtra(openUrlKey, url);
             Bundle bundle = new Bundle();
-            bundle.putString(openUrlKey,url);
+            bundle.putString(openUrlKey, url);
             intent.putExtras(bundle);
 
             //设置快捷方式信息
@@ -88,19 +94,19 @@ public class AtlwDesktopShortcutUtils {
 
 
             //请求添加快捷方式
-            if(ShortcutManagerCompat.requestPinShortcut(context,shortcutInfoCompat,shortcutCallbackIntent.getIntentSender())){
+            if (ShortcutManagerCompat.requestPinShortcut(context, shortcutInfoCompat, shortcutCallbackIntent.getIntentSender())) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     //创建消息接收监听
                     AtlwFlyMessageUtils.getInstance().registMsgCallback(context, DESKTOP_SHORTCUT_CREATE_SUCCESS
                             , new AtlwFlyMessageUtils.FlyMessgeCallback() {
                                 @Override
                                 public void msg(int msgType, Object... msgs) {
-                                    AtlwLogUtils.logI(TAG,"快捷方式添加主屏幕成功");
-                                    if(desktopShortcutOptionsCallback != null){
+                                    AtlwLogUtils.logI(TAG, "快捷方式添加主屏幕成功");
+                                    if (desktopShortcutOptionsCallback != null) {
                                         desktopShortcutOptionsCallback.addSuccess();
                                     }
                                 }
-                            },true,context instanceof Activity);
+                            }, true, context instanceof Activity);
                 }
             }
         }

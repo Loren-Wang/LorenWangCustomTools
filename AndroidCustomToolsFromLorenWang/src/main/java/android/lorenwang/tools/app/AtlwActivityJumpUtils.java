@@ -54,21 +54,21 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 备注：
  */
 public class AtlwActivityJumpUtils {
+    private final String TAG = getClass().getName();
+    private static volatile AtlwActivityJumpUtils optionsInstance;
+
     private AtlwActivityJumpUtils() {
     }
 
-    private final String TAG = "AtlwActivityJumpUtils";
-    private static volatile AtlwActivityJumpUtils instanceUtils;
-
     public static AtlwActivityJumpUtils getInstance() {
-        if (instanceUtils == null) {
+        if (optionsInstance == null) {
             synchronized (AtlwActivityJumpUtils.class) {
-                if (instanceUtils == null) {
-                    instanceUtils = new AtlwActivityJumpUtils();
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwActivityJumpUtils();
                 }
             }
         }
-        return instanceUtils;
+        return optionsInstance;
     }
 
     // 以Activity的名称为键，存储Activity的代码
@@ -391,13 +391,11 @@ public class AtlwActivityJumpUtils {
 
     /**
      * 初始化所有Activity的唯一代码
-     *
-     * @param context 上下文实例
      */
-    public void initActivityCode(Context context) {
+    public void initActivityCode() {
         try {
-            PackageManager manager = context.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(context.getPackageName(),
+            PackageManager manager = AtlwSetting.nowApplication.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(AtlwSetting.nowApplication.getPackageName(),
                     PackageManager.GET_ACTIVITIES);
             if (info.activities != null && info.activities.length > 0) {
                 for (ActivityInfo actInfo : info.activities) {
@@ -444,11 +442,10 @@ public class AtlwActivityJumpUtils {
     /**
      * 跳转到应用市场
      *
-     * @param activity  activity实例
      * @param marketPkg 应用市场包名
      * @param appPkg    要查找的App包名
      */
-    public void jumpApplicationMarket(Activity activity, String marketPkg, String appPkg) throws Exception {
+    public void jumpApplicationMarket(String marketPkg, String appPkg) throws Exception {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(appPkg)) {
             return;
         }
@@ -459,46 +456,37 @@ public class AtlwActivityJumpUtils {
         //如果有传应用市场包则指定包，否则自动选择
         if (JtlwCheckVariateUtils.getInstance().isEmpty(marketPkg)) {
             if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                    AtlwAPKPackageNameList.MARKET_XIAO_MI)) {
+                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_XIAO_MI)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_XIAO_MI);
             } else if (AtlwMobilePhoneBrandUtils.getInstance().isVivoMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                    AtlwAPKPackageNameList.MARKET_VIVO)) {
+                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_VIVO)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_VIVO);
             } else if (AtlwMobilePhoneBrandUtils.getInstance().isCoolpadMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                    AtlwAPKPackageNameList.MARKET_COOLPAD)) {
+                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_COOLPAD)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_COOLPAD);
             } else if (AtlwMobilePhoneBrandUtils.getInstance().isHuaWeiMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                    AtlwAPKPackageNameList.MARKET_HUA_WEI)) {
+                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_HUA_WEI)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_HUA_WEI);
             } else if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                    AtlwAPKPackageNameList.MARKET_FLY_ME)) {
+                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_FLY_ME)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_FLY_ME);
             } else if (AtlwMobilePhoneBrandUtils.getInstance().isOPPOMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                    AtlwAPKPackageNameList.MARKET_OPPO)) {
+                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_OPPO)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_OPPO);
             } else if (AtlwMobilePhoneBrandUtils.getInstance().isSamsungMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                    AtlwAPKPackageNameList.MARKET_SAMSUNG)) {
+                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_SAMSUNG)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_SAMSUNG);
             } else {
-                if (AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                        AtlwAPKPackageNameList.MARKET_APPLICATION_OF_TREASURE)) {
+                if (AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_APPLICATION_OF_TREASURE)) {
                     intent.setPackage(AtlwAPKPackageNameList.MARKET_APPLICATION_OF_TREASURE);
-                } else if (AtlwCheckUtils.getInstance().checkAppIsInstall(activity.getApplicationContext(),
-                        AtlwAPKPackageNameList.MARKET_BAIDU)) {
+                } else if (AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_BAIDU)) {
                     intent.setPackage(AtlwAPKPackageNameList.MARKET_BAIDU);
                 }
             }
         } else {
             intent.setPackage(marketPkg);
         }
-        activity.startActivity(intent);
+        AtlwSetting.nowApplication.startActivity(intent);
     }
 
 }

@@ -11,7 +11,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.lorenwang.tools.app.AtlwActivityUtils;
+import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -70,22 +70,21 @@ import static android.media.AudioManager.STREAM_VOICE_CALL;
  * 备注：
  */
 public final class AtlwMobileOptionsUtils {
-    private static final String TAG = "AppUtils";
-    private static volatile AtlwMobileOptionsUtils atlwMobileOptionsUtils;
+    private final String TAG = getClass().getName();
+    private static volatile AtlwMobileOptionsUtils optionsInstance;
 
-    /**
-     * 私有构造方法
-     */
     private AtlwMobileOptionsUtils() {
     }
 
     public static AtlwMobileOptionsUtils getInstance() {
-        synchronized (AtlwMobileOptionsUtils.class) {
-            if (atlwMobileOptionsUtils == null) {
-                atlwMobileOptionsUtils = new AtlwMobileOptionsUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwMobileOptionsUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwMobileOptionsUtils();
+                }
             }
         }
-        return (AtlwMobileOptionsUtils) atlwMobileOptionsUtils;
+        return optionsInstance;
     }
 
     /*******************************************软件部分********************************************/
@@ -98,7 +97,7 @@ public final class AtlwMobileOptionsUtils {
      * @param filePath  安装包地址
      */
     public void installApp(Activity activity, String authority, String filePath) {
-        Intent intent = getInstallAppIntent(activity, authority, filePath);
+        Intent intent = getInstallAppIntent(authority, filePath);
         if (intent != null) {
             activity.startActivity(intent);
         }
@@ -107,13 +106,12 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 获取App安装的intent
      *
-     * @param context            s上下文
      * @param installAppFilePath 安卓文件地址
      * @param authority          The authority of a defined in a
      *                           {@code <provider>} element in your app's manifest.
      * @return 安装程序的intent
      */
-    public synchronized Intent getInstallAppIntent(Context context, String authority, String installAppFilePath) {
+    public synchronized Intent getInstallAppIntent(String authority, String installAppFilePath) {
         try {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 Intent intent = new Intent();
@@ -126,7 +124,7 @@ public final class AtlwMobileOptionsUtils {
                 // 由于没有在Activity环境下启动Activity,设置下面的标签
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
-                Uri apkUri = FileProvider.getUriForFile(context.getApplicationContext(), authority, file);
+                Uri apkUri = FileProvider.getUriForFile(AtlwSetting.nowApplication, authority, file);
                 //添加这一句表示对目标应用临时授权该Uri所代表的文件
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
@@ -141,17 +139,16 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 跳转到权限设置页面
      *
-     * @param context     上下文
      * @param packageName 包名
      */
-    public void jumpToAppPermissionSettingPage(Context context, String packageName) {
+    public void jumpToAppPermissionSettingPage(String packageName) {
         AtlwLogUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
         if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
-            jumpToMeizuAppPermissionSettingPage(context, packageName);
+            jumpToMeizuAppPermissionSettingPage(packageName);
         } else if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
-            jumpToXiaoMiAppPermissionSettingPage(context, packageName);
+            jumpToXiaoMiAppPermissionSettingPage(packageName);
         } else {
-            jumpToDefaultAppPermissionSettingPage(context, packageName);
+            jumpToDefaultAppPermissionSettingPage(packageName);
         }
     }
 
@@ -213,10 +210,9 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 跳转到小米App权限设置
      *
-     * @param context     上下文实例
      * @param packageName 应用包名
      */
-    private void jumpToXiaoMiAppPermissionSettingPage(Context context, String packageName) {
+    private void jumpToXiaoMiAppPermissionSettingPage(String packageName) {
         String rom = getMiuiVersion();
         AtlwLogUtils.logI(TAG, "jumpToMiaoMiAppPermissionSettingPage --- rom : " + rom);
         Intent intent = new Intent();
@@ -229,41 +225,39 @@ public final class AtlwMobileOptionsUtils {
             intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
             intent.putExtra("extra_pkgname", packageName);
         } else {
-            jumpToDefaultAppPermissionSettingPage(context, packageName);
+            jumpToDefaultAppPermissionSettingPage(packageName);
         }
-        context.startActivity(intent);
+        AtlwSetting.nowApplication.startActivity(intent);
     }
 
     /**
      * 跳转到魅族App权限设置
      *
-     * @param context     上下文实例
      * @param packageName 应用包名
      */
-    private void jumpToMeizuAppPermissionSettingPage(Context context, String packageName) {
+    private void jumpToMeizuAppPermissionSettingPage(String packageName) {
         try {
             Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.putExtra("packageName", packageName);
-            context.startActivity(intent);
+            AtlwSetting.nowApplication.startActivity(intent);
         } catch (ActivityNotFoundException localActivityNotFoundException) {
             localActivityNotFoundException.printStackTrace();
-            jumpToDefaultAppPermissionSettingPage(context, packageName);
+            jumpToDefaultAppPermissionSettingPage(packageName);
         }
     }
 
     /**
      * 跳转到默认App权限设置页面
      *
-     * @param context     上下文实例
      * @param packageName 应用包名
      */
-    private void jumpToDefaultAppPermissionSettingPage(Context context, String packageName) {
+    private void jumpToDefaultAppPermissionSettingPage(String packageName) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", packageName, null);
         intent.setData(uri);
         try {
-            context.startActivity(intent);
+            AtlwSetting.nowApplication.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -275,13 +269,12 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 使设备震动
      *
-     * @param context      上下文
      * @param milliseconds 振动时间
      */
     @RequiresPermission(Manifest.permission.VIBRATE)
-    public void vibrate(Context context, long milliseconds) {
+    public void vibrate(long milliseconds) {
         try {
-            Vibrator vibrator = (Vibrator) context
+            Vibrator vibrator = (Vibrator) AtlwSetting.nowApplication
                     .getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(milliseconds);
         } catch (Exception e) {
@@ -330,17 +323,16 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 拨打电话
      *
-     * @param context 上下文
      * @param phoneNo 要拨打的手机号
      */
-    public static void makeCall(Context context, String phoneNo) {
+    public static void makeCall(String phoneNo) {
         if (phoneNo != null && !"".equals(phoneNo)) {
             String number = "tel:" + phoneNo;
             try {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL);
                 callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 callIntent.setData(Uri.parse(number));
-                context.startActivity(callIntent);
+                AtlwSetting.nowApplication.startActivity(callIntent);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -378,16 +370,14 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 获取电源设备锁
      *
-     * @param context 上下文
      * @return 返回电源设备所
      */
     @SuppressLint("InvalidWakeLockTag")
-    public PowerManager.WakeLock getPowerLocalWakeLock(Context context) {
+    public PowerManager.WakeLock getPowerLocalWakeLock() {
         if (powerLocalWakeLock == null) {
             try {
                 //获取系统服务POWER_SERVICE，返回一个PowerManager对象
-                powerLocalWakeLock = ((PowerManager) AtlwActivityUtils.getInstance().getApplicationContext(context)
-                        .getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
+                powerLocalWakeLock = ((PowerManager) AtlwSetting.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
             } catch (Exception e) {
             }
 
@@ -408,30 +398,26 @@ public final class AtlwMobileOptionsUtils {
 
     /**
      * 申请电源设备锁，关闭屏幕
-     *
-     * @param context 上下文
      */
-    public void applyForPowerLocalWakeLock(Context context) {
+    public void applyForPowerLocalWakeLock() {
         AtlwLogUtils.logI(TAG, "申请电源设备锁");
-        if (getPowerLocalWakeLock(context) != null) {
+        if (getPowerLocalWakeLock() != null) {
             AtlwLogUtils.logI(TAG, "电源设备锁获取成功，准备申请锁住屏幕。");
             //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
-            getPowerLocalWakeLock(context).acquire(100);// 申请设备电源锁
+            getPowerLocalWakeLock().acquire(100);// 申请设备电源锁
         }
     }
 
     /**
      * 释放电源设备锁，唤起屏幕
-     *
-     * @param context 上下文
      */
-    public void releasePowerLocalWakeLock(Context context) {
+    public void releasePowerLocalWakeLock() {
         AtlwLogUtils.logD(TAG, "释放设备电源锁");
-        if (getPowerLocalWakeLock(context) != null) {
+        if (getPowerLocalWakeLock() != null) {
             AtlwLogUtils.logI(TAG, "电源设备锁获取成功，准备申请释放屏幕并唤醒。");
             //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
-            getPowerLocalWakeLock(context).setReferenceCounted(false);
-            getPowerLocalWakeLock(context).release(); // 释放设备电源锁
+            getPowerLocalWakeLock().setReferenceCounted(false);
+            getPowerLocalWakeLock().release(); // 释放设备电源锁
 
         }
     }
@@ -451,13 +437,11 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 获取传感器管理器实例
      *
-     * @param context 上下文
      * @return 传感器实例
      */
-    public SensorManager getSensorManager(Context context) {
+    public SensorManager getSensorManager() {
         if (sensorManager == null) {
-            sensorManager = (SensorManager) AtlwActivityUtils.getInstance().getApplicationContext(context)
-                    .getSystemService(Context.SENSOR_SERVICE);
+            sensorManager = (SensorManager) AtlwSetting.nowApplication.getSystemService(Context.SENSOR_SERVICE);
         }
         return sensorManager;
     }
@@ -465,13 +449,12 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 注册距离传感器监听
      *
-     * @param context  上下文
      * @param listener 监听回调
      */
-    public void registProximitySensorListener(Context context, SensorEventListener listener) {
+    public void registProximitySensorListener(SensorEventListener listener) {
         synchronized (proximityListenerList) {
             if (listener != null && !proximityListenerList.contains(listener)) {
-                getSensorManager(context).registerListener(listener, getSensorManager(context)
+                getSensorManager().registerListener(listener, getSensorManager()
                         .getDefaultSensor(Sensor.TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
                 proximityListenerList.add(listener);
             }
@@ -481,13 +464,12 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 取消注册距离传感器监听
      *
-     * @param context  上下文
      * @param listener 监听
      */
-    public void unRegistProximitySensorListener(Context context, SensorEventListener listener) {
+    public void unRegistProximitySensorListener(SensorEventListener listener) {
         synchronized (proximityListenerList) {
             if (listener != null && proximityListenerList.contains(listener)) {
-                getSensorManager(context).unregisterListener(listener);
+                getSensorManager().unregisterListener(listener);
                 proximityListenerList.remove(listener);
             }
         }
@@ -504,13 +486,11 @@ public final class AtlwMobileOptionsUtils {
     /**
      * 获取系统级别音频管理器
      *
-     * @param context 上下文
      * @return 音频管理器
      */
-    public AudioManager getAudioManager(Context context) {
+    public AudioManager getAudioManager() {
         if (audioManager == null) {
-            audioManager = (AudioManager) AtlwActivityUtils.getInstance().getApplicationContext(context)
-                    .getSystemService(Context.AUDIO_SERVICE);
+            audioManager = (AudioManager) AtlwSetting.nowApplication.getSystemService(Context.AUDIO_SERVICE);
         }
         return audioManager;
     }
@@ -521,26 +501,24 @@ public final class AtlwMobileOptionsUtils {
      * @param activity activity实例
      */
     public void useHandsetToPlay(Activity activity) {
-        if (getAudioManager(activity) != null) {
+        if (getAudioManager() != null) {
             AtlwLogUtils.logD(TAG, "切换到手机听筒播放");
             activity.setVolumeControlStream(STREAM_VOICE_CALL);
-            getAudioManager(activity).setSpeakerphoneOn(false);//关闭扬声器
-            getAudioManager(activity).setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE, AudioManager.ROUTE_ALL);
+            getAudioManager().setSpeakerphoneOn(false);//关闭扬声器
+            getAudioManager().setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE, AudioManager.ROUTE_ALL);
             //把声音设定成Earpiece（听筒）出来，设定为正在通话中
-            getAudioManager(activity).setMode(AudioManager.MODE_IN_CALL);
+            getAudioManager().setMode(AudioManager.MODE_IN_CALL);
         }
     }
 
     /**
      * 使用扬声器播放正在播放的音频
-     *
-     * @param activity activity实例
      */
-    public void useSpeakersToPlay(Activity activity) {
-        if (getAudioManager(activity) != null) {
+    public void useSpeakersToPlay() {
+        if (getAudioManager() != null) {
             AtlwLogUtils.logD(TAG, "切换到扬声器播放");
-            getAudioManager(activity).setSpeakerphoneOn(true);
-            getAudioManager(activity).setMode(AudioManager.MODE_NORMAL);
+            getAudioManager().setSpeakerphoneOn(true);
+            getAudioManager().setMode(AudioManager.MODE_NORMAL);
         }
     }
 

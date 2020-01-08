@@ -29,13 +29,20 @@ import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
  */
 public class AtlwStatusBarUtils {
     private final String TAG = getClass().getName();
-    private static volatile AtlwStatusBarUtils statusBarUtils;
+    private static volatile AtlwStatusBarUtils optionsInstance;
+
+    private AtlwStatusBarUtils() {
+    }
 
     public static AtlwStatusBarUtils getInstance() {
-        if (statusBarUtils == null) {
-            statusBarUtils = new AtlwStatusBarUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwStatusBarUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwStatusBarUtils();
+                }
+            }
         }
-        return statusBarUtils;
+        return optionsInstance;
     }
 
     /**
@@ -210,8 +217,8 @@ public class AtlwStatusBarUtils {
      * 改变魅族标签
      *
      * @param winParams 页面参数
-     * @param flagName 名称
-     * @param on 内外
+     * @param flagName  名称
+     * @param on        内外
      * @return 是否成功
      */
     private static boolean changeMeizuFlag(WindowManager.LayoutParams winParams, String flagName, boolean on) {
@@ -248,7 +255,7 @@ public class AtlwStatusBarUtils {
      * 设置状态栏颜色
      *
      * @param window 窗口
-     * @param color 颜色值
+     * @param color  颜色值
      */
     private static void setStatusBarColor(Window window, int color) {
         WindowManager.LayoutParams winParams = window.getAttributes();

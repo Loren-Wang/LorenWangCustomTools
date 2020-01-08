@@ -68,12 +68,12 @@ public class AvlwBubbleTextView extends AppCompatTextView {
         this.context = context;
 
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwBubble);
-        this.bubbleArrowWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleArrowWidth, (int) AtlwScreenUtils.getInstance().dip2px(context,10));
-        this.bubbleArrowHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleArrowHeight,(int) AtlwScreenUtils.getInstance().dip2px(context,10));
+        this.bubbleArrowWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleArrowWidth, (int) AtlwScreenUtils.getInstance().dip2px(10));
+        this.bubbleArrowHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleArrowHeight,(int) AtlwScreenUtils.getInstance().dip2px(10));
         this.bubbleArrowIsCenterVertical = attributes.getBoolean(R.styleable.AvlwBubble_bubbleArrowIsCenterVertical,true);
-        this.bubbleRadius = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleRadius,(int) AtlwScreenUtils.getInstance().dip2px(context,8));
-        this.bubbleMarginTop = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleMarginTop,(int) AtlwScreenUtils.getInstance().dip2px(context,10));
-        this.bubbleMarginLeft = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleMarginLeft,(int) AtlwScreenUtils.getInstance().dip2px(context,10));
+        this.bubbleRadius = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleRadius,(int) AtlwScreenUtils.getInstance().dip2px(8));
+        this.bubbleMarginTop = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleMarginTop,(int) AtlwScreenUtils.getInstance().dip2px(10));
+        this.bubbleMarginLeft = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleMarginLeft,(int) AtlwScreenUtils.getInstance().dip2px(10));
         this.bubbleStrokeWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleStrokeWidth,0);
         this.bubbleStrokeColor = attributes.getColor(R.styleable.AvlwBubble_bubbleStrokeColor, Color.RED);
         this.bubbleBackGround = attributes.getColor(R.styleable.AvlwBubble_bubbleBackGround, Color.parseColor("#00ffffff"));

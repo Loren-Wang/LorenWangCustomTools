@@ -26,7 +26,7 @@ import androidx.appcompat.widget.AppCompatImageView;
  * 创建人：王亮（Loren wang）
  * 功能作用：气泡对话框
  * 思路：使用三层覆盖的方法，最底层使用path绘制出来一个带有箭头的圆角黑图，然后使用图片相交模式中的LIGHTEN方式进行
- *      显示截取（其他方法不知道为什么不行反而有问题），然后再使用path再绘制一个带有箭头的圆角边框，然后不要使用paint绘制到画布上
+ * 显示截取（其他方法不知道为什么不行反而有问题），然后再使用path再绘制一个带有箭头的圆角边框，然后不要使用paint绘制到画布上
  * 修改人：
  * 修改时间：
  * 备注：
@@ -60,11 +60,11 @@ public class AvlwBubbleImageView extends AppCompatImageView {
 
 
     public AvlwBubbleImageView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public AvlwBubbleImageView(Context context, AttributeSet attrs) {
-        this(context,attrs,0);
+        this(context, attrs, 0);
     }
 
     public AvlwBubbleImageView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -73,26 +73,26 @@ public class AvlwBubbleImageView extends AppCompatImageView {
         this.context = context;
 
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwBubble);
-        this.bubbleArrowWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleArrowWidth,dip2px(10));
-        this.bubbleArrowHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleArrowHeight,dip2px(10));
-        this.bubbleArrowIsCenterVertical = attributes.getBoolean(R.styleable.AvlwBubble_bubbleArrowIsCenterVertical,true);
-        this.bubbleRadius = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleRadius,dip2px(8));
-        this.bubbleMarginTop = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleMarginTop,-1);
-        this.bubbleMarginLeft = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleMarginLeft,-1);
-        this.bubbleStrokeWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleStrokeWidth,0);
+        this.bubbleArrowWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleArrowWidth, dip2px(10));
+        this.bubbleArrowHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleArrowHeight, dip2px(10));
+        this.bubbleArrowIsCenterVertical = attributes.getBoolean(R.styleable.AvlwBubble_bubbleArrowIsCenterVertical, true);
+        this.bubbleRadius = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleRadius, dip2px(8));
+        this.bubbleMarginTop = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleMarginTop, -1);
+        this.bubbleMarginLeft = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleMarginLeft, -1);
+        this.bubbleStrokeWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwBubble_bubbleStrokeWidth, 0);
         this.bubbleStrokeColor = attributes.getColor(R.styleable.AvlwBubble_bubbleStrokeColor, Color.WHITE);
         this.bubbleDirection = attributes.getString(R.styleable.AvlwBubble_bubbleDirection);
-        this.bubbleBackGround = attributes.getColor(R.styleable.AvlwBubble_bubbleBackGround,Color.WHITE);
-        if(this.bubbleDirection == null || "".equals(this.bubbleDirection)){
+        this.bubbleBackGround = attributes.getColor(R.styleable.AvlwBubble_bubbleBackGround, Color.WHITE);
+        if (this.bubbleDirection == null || "".equals(this.bubbleDirection)) {
             this.bubbleDirection = BUBBLE_DIRECTION_LEFT;
         }
 
         //百分比和数值都有的话以数值为准
         String bubbleMarginTopPercent = attributes.getString(R.styleable.AvlwBubble_bubbleMarginTopPercent);
         String bubbleMarginLeftPercent = attributes.getString(R.styleable.AvlwBubble_bubbleMarginLeftPercent);
-        if(bubbleMarginLeft == -1){
-            if(bubbleMarginLeftPercent != null) {
-                int percentStrValue = getPercentStrValue(context, bubbleMarginLeftPercent);
+        if (bubbleMarginLeft == -1) {
+            if (bubbleMarginLeftPercent != null) {
+                int percentStrValue = getPercentStrValue(bubbleMarginLeftPercent);
                 if (percentStrValue > 0) {
                     bubbleMarginLeft = percentStrValue;
                 } else {
@@ -102,9 +102,9 @@ public class AvlwBubbleImageView extends AppCompatImageView {
                 bubbleMarginLeft = dip2px(10);
             }
         }
-        if(bubbleMarginTop == -1){
-            if(bubbleMarginTopPercent != null) {
-                int percentStrValue = getPercentStrValue(context, bubbleMarginTopPercent);
+        if (bubbleMarginTop == -1) {
+            if (bubbleMarginTopPercent != null) {
+                int percentStrValue = getPercentStrValue(bubbleMarginTopPercent);
                 if (percentStrValue > 0) {
                     bubbleMarginTop = percentStrValue;
                 } else {
@@ -114,8 +114,6 @@ public class AvlwBubbleImageView extends AppCompatImageView {
                 bubbleMarginTop = dip2px(10);
             }
         }
-
-
 
 
         paint = new Paint();
@@ -148,19 +146,19 @@ public class AvlwBubbleImageView extends AppCompatImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if(getMeasuredHeight() != 0 && getMeasuredWidth() != 0){
+        if (getMeasuredHeight() != 0 && getMeasuredWidth() != 0) {
             //将绘制操作保存到新的图层（更官方的说法应该是离屏缓存，不使用可能会导致混合是出现黑块）,绘制完成之后还要还原画布，进行修改的保存
             int sc = canvas.saveLayer(0, 0, getMeasuredWidth(), getMeasuredHeight(), null, Canvas.ALL_SAVE_FLAG);
             //绘制底图
-            if(backgroundBitmap == null){
+            if (backgroundBitmap == null) {
                 backgroundBitmap = initBubbleStrokeBitmap();
             }
-            if(backgroundBitmap != null){
-                canvas.drawBitmap(initBubbleBackGroundBitmap(),0,0,paint);
+            if (backgroundBitmap != null) {
+                canvas.drawBitmap(initBubbleBackGroundBitmap(), 0, 0, paint);
             }
 
             //绘制真实图片
-            if(mBitmap != null){
+            if (mBitmap != null) {
                 //设置图形相交模式
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
                 //画覆盖层（蓝色矩形）SRC
@@ -171,11 +169,11 @@ public class AvlwBubbleImageView extends AppCompatImageView {
             }
 
             //绘制边框图
-            if(bubbleStrokeWidth > 0){
-                if(strokeBitmap == null){
+            if (bubbleStrokeWidth > 0) {
+                if (strokeBitmap == null) {
                     strokeBitmap = initBubbleStrokeBitmap();
                 }
-                if(strokeBitmap != null){
+                if (strokeBitmap != null) {
                     canvas.drawBitmap(strokeBitmap, 0, 0, null);
                 }
             }
@@ -189,16 +187,17 @@ public class AvlwBubbleImageView extends AppCompatImageView {
 
     /**
      * 初始化底图位图
+     *
      * @return
      */
-    private Bitmap initBubbleBackGroundBitmap(){
+    private Bitmap initBubbleBackGroundBitmap() {
         int paddingLeft = getPaddingLeft();
         int paddingTop = getPaddingTop();
         int paddingRight = getPaddingRight();
         int paddingBottopm = getPaddingBottom();
         int viewWidth = getMeasuredWidth();
         int viewHeight = getMeasuredHeight();
-        Bitmap bubbleBackGroundBitmap = Bitmap.createBitmap(viewWidth ,viewHeight,Bitmap.Config.ARGB_8888);
+        Bitmap bubbleBackGroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
         Canvas bubbleBackGroundCanvas = new Canvas(bubbleBackGroundBitmap);
         Paint bubbleBackGroundPaint = new Paint();
         bubbleBackGroundPaint.setAntiAlias(true);
@@ -210,88 +209,88 @@ public class AvlwBubbleImageView extends AppCompatImageView {
         int nowBubbleArrowY = 0;//箭头的尖的坐标
         switch (this.bubbleDirection) {
             case BUBBLE_DIRECTION_LEFT:
-                if(bubbleArrowIsCenterVertical){
+                if (bubbleArrowIsCenterVertical) {
                     nowBubbleArrowX = paddingLeft + bubbleStrokeWidth / 2;
                     nowBubbleArrowY = (viewHeight - paddingTop - paddingBottopm) / 2 + paddingTop;
-                }else {
+                } else {
                     nowBubbleArrowX = paddingLeft + bubbleStrokeWidth / 2;
                     nowBubbleArrowY = bubbleMarginTop + paddingTop;
                 }
                 //绘制实心箭头
-                bubbleBackGroundPath.moveTo(nowBubbleArrowX + bubbleArrowWidth,nowBubbleArrowY - bubbleArrowHeight / 2);
-                bubbleBackGroundPath.lineTo(nowBubbleArrowX,nowBubbleArrowY);
-                bubbleBackGroundPath.lineTo(nowBubbleArrowX + bubbleArrowWidth,nowBubbleArrowY + bubbleArrowHeight / 2);
+                bubbleBackGroundPath.moveTo(nowBubbleArrowX + bubbleArrowWidth, nowBubbleArrowY - bubbleArrowHeight / 2);
+                bubbleBackGroundPath.lineTo(nowBubbleArrowX, nowBubbleArrowY);
+                bubbleBackGroundPath.lineTo(nowBubbleArrowX + bubbleArrowWidth, nowBubbleArrowY + bubbleArrowHeight / 2);
                 //绘制圆角矩形
                 bubbleBackGroundPath.addRoundRect(new RectF(nowBubbleArrowX + bubbleArrowWidth
-                                ,bubbleStrokeWidth / 2 + paddingTop
-                                ,viewWidth - bubbleStrokeWidth / 2 - paddingRight
-                                ,viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
-                        ,bubbleRadius,bubbleRadius, Path.Direction.CCW);
+                                , bubbleStrokeWidth / 2 + paddingTop
+                                , viewWidth - bubbleStrokeWidth / 2 - paddingRight
+                                , viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
+                        , bubbleRadius, bubbleRadius, Path.Direction.CCW);
                 //绘制到画布
-                bubbleBackGroundCanvas.drawPath(bubbleBackGroundPath,bubbleBackGroundPaint);
+                bubbleBackGroundCanvas.drawPath(bubbleBackGroundPath, bubbleBackGroundPaint);
                 break;
             case BUBBLE_DIRECTION_TOP:
-                if(bubbleArrowIsCenterVertical){
+                if (bubbleArrowIsCenterVertical) {
                     nowBubbleArrowX = (viewWidth - paddingLeft - paddingRight) / 2 + paddingLeft;
                     nowBubbleArrowY = paddingTop + bubbleStrokeWidth / 2;
-                }else {
+                } else {
                     nowBubbleArrowX = paddingLeft + bubbleMarginLeft;
                     nowBubbleArrowY = paddingTop + bubbleStrokeWidth / 2;
                 }
                 //绘制实心箭头
-                bubbleBackGroundPath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2,nowBubbleArrowY + bubbleArrowHeight);
-                bubbleBackGroundPath.lineTo(nowBubbleArrowX,nowBubbleArrowY);
-                bubbleBackGroundPath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2,nowBubbleArrowY + bubbleArrowHeight);
+                bubbleBackGroundPath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2, nowBubbleArrowY + bubbleArrowHeight);
+                bubbleBackGroundPath.lineTo(nowBubbleArrowX, nowBubbleArrowY);
+                bubbleBackGroundPath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2, nowBubbleArrowY + bubbleArrowHeight);
                 //绘制圆角矩形
                 bubbleBackGroundPath.addRoundRect(new RectF(paddingLeft + bubbleStrokeWidth / 2
-                                ,nowBubbleArrowY + bubbleArrowHeight
-                                ,viewWidth - bubbleStrokeWidth / 2 - paddingRight
-                                ,viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
-                        ,bubbleRadius,bubbleRadius, Path.Direction.CCW);
+                                , nowBubbleArrowY + bubbleArrowHeight
+                                , viewWidth - bubbleStrokeWidth / 2 - paddingRight
+                                , viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
+                        , bubbleRadius, bubbleRadius, Path.Direction.CCW);
                 //绘制到画布
-                bubbleBackGroundCanvas.drawPath(bubbleBackGroundPath,bubbleBackGroundPaint);
+                bubbleBackGroundCanvas.drawPath(bubbleBackGroundPath, bubbleBackGroundPaint);
                 break;
             case BUBBLE_DIRECTION_RIGHT:
-                if(bubbleArrowIsCenterVertical){
+                if (bubbleArrowIsCenterVertical) {
                     nowBubbleArrowX = viewWidth - paddingRight - bubbleStrokeWidth / 2;
                     nowBubbleArrowY = (viewHeight - paddingTop - paddingBottopm) / 2 + paddingTop;
-                }else {
+                } else {
                     nowBubbleArrowX = viewWidth - paddingRight - bubbleStrokeWidth / 2;
                     nowBubbleArrowY = bubbleMarginTop + paddingTop;
                 }
                 //绘制实心箭头
-                bubbleBackGroundPath.moveTo(nowBubbleArrowX - bubbleArrowWidth,nowBubbleArrowY - bubbleArrowHeight / 2);
-                bubbleBackGroundPath.lineTo(nowBubbleArrowX,nowBubbleArrowY);
-                bubbleBackGroundPath.lineTo(nowBubbleArrowX - bubbleArrowWidth,nowBubbleArrowY + bubbleArrowHeight / 2);
+                bubbleBackGroundPath.moveTo(nowBubbleArrowX - bubbleArrowWidth, nowBubbleArrowY - bubbleArrowHeight / 2);
+                bubbleBackGroundPath.lineTo(nowBubbleArrowX, nowBubbleArrowY);
+                bubbleBackGroundPath.lineTo(nowBubbleArrowX - bubbleArrowWidth, nowBubbleArrowY + bubbleArrowHeight / 2);
                 //绘制圆角矩形
                 bubbleBackGroundPath.addRoundRect(new RectF(paddingLeft + bubbleStrokeWidth / 2
-                                ,bubbleStrokeWidth / 2 + paddingTop
-                                ,nowBubbleArrowX - bubbleArrowWidth
-                                ,viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
-                        ,bubbleRadius,bubbleRadius, Path.Direction.CCW);
+                                , bubbleStrokeWidth / 2 + paddingTop
+                                , nowBubbleArrowX - bubbleArrowWidth
+                                , viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
+                        , bubbleRadius, bubbleRadius, Path.Direction.CCW);
                 //绘制到画布
-                bubbleBackGroundCanvas.drawPath(bubbleBackGroundPath,bubbleBackGroundPaint);
+                bubbleBackGroundCanvas.drawPath(bubbleBackGroundPath, bubbleBackGroundPaint);
                 break;
             case BUBBLE_DIRECTION_BOTTOM:
-                if(bubbleArrowIsCenterVertical){
+                if (bubbleArrowIsCenterVertical) {
                     nowBubbleArrowX = (viewWidth - paddingLeft - paddingRight) / 2 + paddingLeft;
                     nowBubbleArrowY = viewHeight - paddingBottopm - bubbleStrokeWidth / 2;
-                }else {
+                } else {
                     nowBubbleArrowX = paddingLeft + bubbleMarginLeft;
                     nowBubbleArrowY = viewHeight - paddingBottopm - bubbleStrokeWidth / 2;
                 }
                 //绘制实心箭头
-                bubbleBackGroundPath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2,nowBubbleArrowY - bubbleArrowHeight);
-                bubbleBackGroundPath.lineTo(nowBubbleArrowX,nowBubbleArrowY);
-                bubbleBackGroundPath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2,nowBubbleArrowY - bubbleArrowHeight);
+                bubbleBackGroundPath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2, nowBubbleArrowY - bubbleArrowHeight);
+                bubbleBackGroundPath.lineTo(nowBubbleArrowX, nowBubbleArrowY);
+                bubbleBackGroundPath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2, nowBubbleArrowY - bubbleArrowHeight);
                 //绘制圆角矩形
                 bubbleBackGroundPath.addRoundRect(new RectF(paddingLeft + bubbleStrokeWidth / 2
-                                ,paddingTop + bubbleStrokeWidth / 2
-                                ,viewWidth - bubbleStrokeWidth / 2 - paddingRight
-                                ,nowBubbleArrowY - bubbleArrowHeight)
-                        ,bubbleRadius,bubbleRadius, Path.Direction.CCW);
+                                , paddingTop + bubbleStrokeWidth / 2
+                                , viewWidth - bubbleStrokeWidth / 2 - paddingRight
+                                , nowBubbleArrowY - bubbleArrowHeight)
+                        , bubbleRadius, bubbleRadius, Path.Direction.CCW);
                 //绘制到画布
-                bubbleBackGroundCanvas.drawPath(bubbleBackGroundPath,bubbleBackGroundPaint);
+                bubbleBackGroundCanvas.drawPath(bubbleBackGroundPath, bubbleBackGroundPaint);
                 break;
             default:
                 break;
@@ -303,19 +302,20 @@ public class AvlwBubbleImageView extends AppCompatImageView {
 
     /**
      * 流程：先确定方向--》确定箭头尖部的坐标--》确定箭头三个点的位置坐标---》绘制圆角矩形
+     *
      * @return
      */
-    private Bitmap initBubbleStrokeBitmap(){
+    private Bitmap initBubbleStrokeBitmap() {
         int viewWidth = getMeasuredWidth();
         int viewHeight = getMeasuredHeight();
-        if(viewWidth <= 0 || viewHeight <= 0){
+        if (viewWidth <= 0 || viewHeight <= 0) {
             return null;
         }
         int paddingLeft = getPaddingLeft();
         int paddingTop = getPaddingTop();
         int paddingRight = getPaddingRight();
         int paddingBottopm = getPaddingBottom();
-        Bitmap bubbleStrokeBitmap = Bitmap.createBitmap(viewWidth ,viewHeight,Bitmap.Config.ARGB_8888);
+        Bitmap bubbleStrokeBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
         Canvas bubbleStrokeCanvas = new Canvas(bubbleStrokeBitmap);
         Paint bubbleStrokePaint = new Paint();
         bubbleStrokePaint.setAntiAlias(true);
@@ -330,28 +330,28 @@ public class AvlwBubbleImageView extends AppCompatImageView {
         int nowBubbleArrowY = 0;//箭头的尖的坐标
         switch (this.bubbleDirection) {
             case BUBBLE_DIRECTION_LEFT:
-                if(bubbleArrowIsCenterVertical){
+                if (bubbleArrowIsCenterVertical) {
                     nowBubbleArrowX = paddingLeft + bubbleStrokeWidth / 2;
                     nowBubbleArrowY = (viewHeight - paddingTop - paddingBottopm) / 2 + paddingTop;
-                }else {
+                } else {
                     nowBubbleArrowX = paddingLeft + bubbleStrokeWidth / 2;
                     nowBubbleArrowY = bubbleMarginTop + paddingTop;
                 }
                 //绘制实心箭头
-                bubbleStrokePath.moveTo(nowBubbleArrowX + bubbleArrowWidth,nowBubbleArrowY - bubbleArrowHeight / 2);
-                bubbleStrokePath.lineTo(nowBubbleArrowX,nowBubbleArrowY);
-                bubbleStrokePath.lineTo(nowBubbleArrowX + bubbleArrowWidth,nowBubbleArrowY + bubbleArrowHeight / 2);
+                bubbleStrokePath.moveTo(nowBubbleArrowX + bubbleArrowWidth, nowBubbleArrowY - bubbleArrowHeight / 2);
+                bubbleStrokePath.lineTo(nowBubbleArrowX, nowBubbleArrowY);
+                bubbleStrokePath.lineTo(nowBubbleArrowX + bubbleArrowWidth, nowBubbleArrowY + bubbleArrowHeight / 2);
                 bubbleStrokePaint.setStyle(Paint.Style.FILL);
-                bubbleStrokeCanvas.drawPath(bubbleStrokePath,bubbleStrokePaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokePath, bubbleStrokePaint);
                 //绘制空心圆角矩形
                 bubbleStrokePaint.setStyle(Paint.Style.STROKE);
                 bubbleStrokePath.addRoundRect(new RectF(nowBubbleArrowX + bubbleArrowWidth
-                        ,bubbleStrokeWidth / 2 + paddingTop
-                        ,viewWidth - bubbleStrokeWidth / 2 - paddingRight
-                        ,viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
-                        ,bubbleRadius,bubbleRadius, Path.Direction.CCW);
+                                , bubbleStrokeWidth / 2 + paddingTop
+                                , viewWidth - bubbleStrokeWidth / 2 - paddingRight
+                                , viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
+                        , bubbleRadius, bubbleRadius, Path.Direction.CCW);
                 //绘制到画布
-                bubbleStrokeCanvas.drawPath(bubbleStrokePath,bubbleStrokePaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokePath, bubbleStrokePaint);
                 bubbleStrokeCanvas.save();
                 //绘制覆盖掉箭头的封闭线的实心三角
                 bubbleStrokeOverlayPaint = new Paint(bubbleStrokePaint);
@@ -361,37 +361,37 @@ public class AvlwBubbleImageView extends AppCompatImageView {
                 bubbleStrokeOverlayPaint.setAntiAlias(true);
                 bubbleStrokeOverlayPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));//设置覆盖物的显示方式
                 bubbleStrokeOverlayPath = new Path();
-                bubbleStrokeOverlayPath.moveTo(nowBubbleArrowX + bubbleArrowWidth + bubbleStrokeWidth,nowBubbleArrowY - bubbleArrowHeight / 2);
-                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX + bubbleStrokeWidth,nowBubbleArrowY);
-                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX + bubbleArrowWidth + bubbleStrokeWidth,nowBubbleArrowY + bubbleArrowHeight / 2);
+                bubbleStrokeOverlayPath.moveTo(nowBubbleArrowX + bubbleArrowWidth + bubbleStrokeWidth, nowBubbleArrowY - bubbleArrowHeight / 2);
+                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX + bubbleStrokeWidth, nowBubbleArrowY);
+                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX + bubbleArrowWidth + bubbleStrokeWidth, nowBubbleArrowY + bubbleArrowHeight / 2);
                 bubbleStrokeOverlayPath.close();
                 //绘制进行覆盖显示
-                bubbleStrokeCanvas.drawPath(bubbleStrokeOverlayPath,bubbleStrokeOverlayPaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokeOverlayPath, bubbleStrokeOverlayPaint);
                 bubbleStrokeCanvas.restore();
                 break;
             case BUBBLE_DIRECTION_TOP:
-                if(bubbleArrowIsCenterVertical){
+                if (bubbleArrowIsCenterVertical) {
                     nowBubbleArrowX = (viewWidth - paddingLeft - paddingRight) / 2 + paddingLeft;
                     nowBubbleArrowY = paddingTop + bubbleStrokeWidth / 2;
-                }else {
+                } else {
                     nowBubbleArrowX = paddingLeft + bubbleMarginLeft;
                     nowBubbleArrowY = paddingTop + bubbleStrokeWidth / 2;
                 }
                 //绘制实心箭头
-                bubbleStrokePath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2,nowBubbleArrowY + bubbleArrowHeight);
-                bubbleStrokePath.lineTo(nowBubbleArrowX,nowBubbleArrowY);
-                bubbleStrokePath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2,nowBubbleArrowY + bubbleArrowHeight);
+                bubbleStrokePath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2, nowBubbleArrowY + bubbleArrowHeight);
+                bubbleStrokePath.lineTo(nowBubbleArrowX, nowBubbleArrowY);
+                bubbleStrokePath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2, nowBubbleArrowY + bubbleArrowHeight);
                 bubbleStrokePaint.setStyle(Paint.Style.FILL);
-                bubbleStrokeCanvas.drawPath(bubbleStrokePath,bubbleStrokePaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokePath, bubbleStrokePaint);
                 //绘制空心圆角矩形
                 bubbleStrokePaint.setStyle(Paint.Style.STROKE);
                 bubbleStrokePath.addRoundRect(new RectF(paddingLeft + bubbleStrokeWidth / 2
-                                ,nowBubbleArrowY + bubbleArrowHeight
-                                ,viewWidth - bubbleStrokeWidth / 2 - paddingRight
-                                ,viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
-                        ,bubbleRadius,bubbleRadius, Path.Direction.CCW);
+                                , nowBubbleArrowY + bubbleArrowHeight
+                                , viewWidth - bubbleStrokeWidth / 2 - paddingRight
+                                , viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
+                        , bubbleRadius, bubbleRadius, Path.Direction.CCW);
                 //绘制到画布
-                bubbleStrokeCanvas.drawPath(bubbleStrokePath,bubbleStrokePaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokePath, bubbleStrokePaint);
                 bubbleStrokeCanvas.save();
                 //绘制覆盖掉箭头的封闭线的实心三角
                 bubbleStrokeOverlayPaint = new Paint(bubbleStrokePaint);
@@ -401,37 +401,37 @@ public class AvlwBubbleImageView extends AppCompatImageView {
                 bubbleStrokeOverlayPaint.setAntiAlias(true);
                 bubbleStrokeOverlayPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));//设置覆盖物的显示方式
                 bubbleStrokeOverlayPath = new Path();
-                bubbleStrokeOverlayPath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2,nowBubbleArrowY + bubbleArrowHeight + bubbleStrokeWidth);
-                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX,nowBubbleArrowY + bubbleStrokeWidth);
-                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2,nowBubbleArrowY + bubbleArrowHeight + bubbleStrokeWidth);
+                bubbleStrokeOverlayPath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2, nowBubbleArrowY + bubbleArrowHeight + bubbleStrokeWidth);
+                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX, nowBubbleArrowY + bubbleStrokeWidth);
+                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2, nowBubbleArrowY + bubbleArrowHeight + bubbleStrokeWidth);
                 bubbleStrokeOverlayPath.close();
                 //绘制进行覆盖显示
-                bubbleStrokeCanvas.drawPath(bubbleStrokeOverlayPath,bubbleStrokeOverlayPaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokeOverlayPath, bubbleStrokeOverlayPaint);
                 bubbleStrokeCanvas.restore();
                 break;
             case BUBBLE_DIRECTION_RIGHT:
-                if(bubbleArrowIsCenterVertical){
+                if (bubbleArrowIsCenterVertical) {
                     nowBubbleArrowX = viewWidth - paddingRight - bubbleStrokeWidth / 2;
                     nowBubbleArrowY = (viewHeight - paddingTop - paddingBottopm) / 2 + paddingTop;
-                }else {
+                } else {
                     nowBubbleArrowX = viewWidth - paddingRight - bubbleStrokeWidth / 2;
                     nowBubbleArrowY = bubbleMarginTop + paddingTop;
                 }
                 //绘制实心箭头
-                bubbleStrokePath.moveTo(nowBubbleArrowX - bubbleArrowWidth,nowBubbleArrowY - bubbleArrowHeight / 2);
-                bubbleStrokePath.lineTo(nowBubbleArrowX,nowBubbleArrowY);
-                bubbleStrokePath.lineTo(nowBubbleArrowX - bubbleArrowWidth,nowBubbleArrowY + bubbleArrowHeight / 2);
+                bubbleStrokePath.moveTo(nowBubbleArrowX - bubbleArrowWidth, nowBubbleArrowY - bubbleArrowHeight / 2);
+                bubbleStrokePath.lineTo(nowBubbleArrowX, nowBubbleArrowY);
+                bubbleStrokePath.lineTo(nowBubbleArrowX - bubbleArrowWidth, nowBubbleArrowY + bubbleArrowHeight / 2);
                 bubbleStrokePaint.setStyle(Paint.Style.FILL);
-                bubbleStrokeCanvas.drawPath(bubbleStrokePath,bubbleStrokePaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokePath, bubbleStrokePaint);
                 //绘制空心圆角矩形
                 bubbleStrokePaint.setStyle(Paint.Style.STROKE);
                 bubbleStrokePath.addRoundRect(new RectF(paddingLeft + bubbleStrokeWidth / 2
-                                ,bubbleStrokeWidth / 2 + paddingTop
-                                ,nowBubbleArrowX - bubbleArrowWidth
-                                ,viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
-                        ,bubbleRadius,bubbleRadius, Path.Direction.CCW);
+                                , bubbleStrokeWidth / 2 + paddingTop
+                                , nowBubbleArrowX - bubbleArrowWidth
+                                , viewHeight - bubbleStrokeWidth / 2 - paddingBottopm)
+                        , bubbleRadius, bubbleRadius, Path.Direction.CCW);
                 //绘制到画布
-                bubbleStrokeCanvas.drawPath(bubbleStrokePath,bubbleStrokePaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokePath, bubbleStrokePaint);
                 bubbleStrokeCanvas.save();
                 //绘制覆盖掉箭头的封闭线的实心三角
                 bubbleStrokeOverlayPaint = new Paint(bubbleStrokePaint);
@@ -441,37 +441,37 @@ public class AvlwBubbleImageView extends AppCompatImageView {
                 bubbleStrokeOverlayPaint.setAntiAlias(true);
                 bubbleStrokeOverlayPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));//设置覆盖物的显示方式
                 bubbleStrokeOverlayPath = new Path();
-                bubbleStrokeOverlayPath.moveTo(nowBubbleArrowX - bubbleArrowWidth - bubbleStrokeWidth ,nowBubbleArrowY - bubbleArrowHeight / 2);
-                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX - bubbleStrokeWidth,nowBubbleArrowY);
-                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX - bubbleArrowWidth - bubbleStrokeWidth,nowBubbleArrowY + bubbleArrowHeight / 2);
+                bubbleStrokeOverlayPath.moveTo(nowBubbleArrowX - bubbleArrowWidth - bubbleStrokeWidth, nowBubbleArrowY - bubbleArrowHeight / 2);
+                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX - bubbleStrokeWidth, nowBubbleArrowY);
+                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX - bubbleArrowWidth - bubbleStrokeWidth, nowBubbleArrowY + bubbleArrowHeight / 2);
                 bubbleStrokeOverlayPath.close();
                 //绘制进行覆盖显示
-                bubbleStrokeCanvas.drawPath(bubbleStrokeOverlayPath,bubbleStrokeOverlayPaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokeOverlayPath, bubbleStrokeOverlayPaint);
                 bubbleStrokeCanvas.restore();
                 break;
             case BUBBLE_DIRECTION_BOTTOM:
-                if(bubbleArrowIsCenterVertical){
+                if (bubbleArrowIsCenterVertical) {
                     nowBubbleArrowX = (viewWidth - paddingLeft - paddingRight) / 2 + paddingLeft;
                     nowBubbleArrowY = viewHeight - paddingBottopm - bubbleStrokeWidth / 2;
-                }else {
+                } else {
                     nowBubbleArrowX = paddingLeft + bubbleMarginLeft;
                     nowBubbleArrowY = viewHeight - paddingBottopm - bubbleStrokeWidth / 2;
                 }
                 //绘制实心箭头
-                bubbleStrokePath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2,nowBubbleArrowY - bubbleArrowHeight);
-                bubbleStrokePath.lineTo(nowBubbleArrowX,nowBubbleArrowY);
-                bubbleStrokePath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2,nowBubbleArrowY - bubbleArrowHeight);
+                bubbleStrokePath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2, nowBubbleArrowY - bubbleArrowHeight);
+                bubbleStrokePath.lineTo(nowBubbleArrowX, nowBubbleArrowY);
+                bubbleStrokePath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2, nowBubbleArrowY - bubbleArrowHeight);
                 bubbleStrokePaint.setStyle(Paint.Style.FILL);
-                bubbleStrokeCanvas.drawPath(bubbleStrokePath,bubbleStrokePaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokePath, bubbleStrokePaint);
                 //绘制空心圆角矩形
                 bubbleStrokePaint.setStyle(Paint.Style.STROKE);
                 bubbleStrokePath.addRoundRect(new RectF(paddingLeft + bubbleStrokeWidth / 2
-                                ,paddingTop + bubbleStrokeWidth / 2
-                                ,viewWidth - bubbleStrokeWidth / 2 - paddingRight
-                                ,nowBubbleArrowY - bubbleArrowHeight)
-                        ,bubbleRadius,bubbleRadius, Path.Direction.CCW);
+                                , paddingTop + bubbleStrokeWidth / 2
+                                , viewWidth - bubbleStrokeWidth / 2 - paddingRight
+                                , nowBubbleArrowY - bubbleArrowHeight)
+                        , bubbleRadius, bubbleRadius, Path.Direction.CCW);
                 //绘制到画布
-                bubbleStrokeCanvas.drawPath(bubbleStrokePath,bubbleStrokePaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokePath, bubbleStrokePaint);
                 bubbleStrokeCanvas.save();
                 //绘制覆盖掉箭头的封闭线的实心三角
                 bubbleStrokeOverlayPaint = new Paint(bubbleStrokePaint);
@@ -481,12 +481,12 @@ public class AvlwBubbleImageView extends AppCompatImageView {
                 bubbleStrokeOverlayPaint.setAntiAlias(true);
                 bubbleStrokeOverlayPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));//设置覆盖物的显示方式
                 bubbleStrokeOverlayPath = new Path();
-                bubbleStrokeOverlayPath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2,nowBubbleArrowY - bubbleArrowHeight - bubbleStrokeWidth);
-                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX,nowBubbleArrowY - bubbleStrokeWidth);
-                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2,nowBubbleArrowY - bubbleArrowHeight - bubbleStrokeWidth);
+                bubbleStrokeOverlayPath.moveTo(nowBubbleArrowX + bubbleArrowWidth / 2, nowBubbleArrowY - bubbleArrowHeight - bubbleStrokeWidth);
+                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX, nowBubbleArrowY - bubbleStrokeWidth);
+                bubbleStrokeOverlayPath.lineTo(nowBubbleArrowX - bubbleArrowWidth / 2, nowBubbleArrowY - bubbleArrowHeight - bubbleStrokeWidth);
                 bubbleStrokeOverlayPath.close();
                 //绘制进行覆盖显示
-                bubbleStrokeCanvas.drawPath(bubbleStrokeOverlayPath,bubbleStrokeOverlayPaint);
+                bubbleStrokeCanvas.drawPath(bubbleStrokeOverlayPath, bubbleStrokeOverlayPaint);
                 bubbleStrokeCanvas.restore();
                 break;
             default:
@@ -500,9 +500,9 @@ public class AvlwBubbleImageView extends AppCompatImageView {
     public void setImageBitmap(Bitmap bm) {
         try {
             super.setImageBitmap(bm);
-            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(bm,getMeasuredWidth(),getMeasuredHeight());
+            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(bm, getMeasuredWidth(), getMeasuredHeight());
             postInvalidate();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -511,9 +511,9 @@ public class AvlwBubbleImageView extends AppCompatImageView {
     public void setImageDrawable(Drawable drawable) {
         try {
             super.setImageDrawable(drawable);
-            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(AtlwImageCommonUtils.getInstance().drawableToBitmap(drawable),getMeasuredWidth(),getMeasuredHeight());
+            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(AtlwImageCommonUtils.getInstance().drawableToBitmap(drawable), getMeasuredWidth(), getMeasuredHeight());
             postInvalidate();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -523,23 +523,23 @@ public class AvlwBubbleImageView extends AppCompatImageView {
     public void setImageResource(int resId) {
         try {
             super.setImageResource(resId);
-            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(AtlwImageCommonUtils.getInstance().drawableToBitmap(getDrawable()),getMeasuredWidth(),getMeasuredHeight());
+            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(AtlwImageCommonUtils.getInstance().drawableToBitmap(getDrawable()), getMeasuredWidth(), getMeasuredHeight());
             postInvalidate();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public int getPercentStrValue(Context context,String percent){
+    public int getPercentStrValue(String percent) {
         double itemHeight = 0;
-        if(percent != null) {
+        if (percent != null) {
             if (percent.contains("w")) {
-                itemHeight = Double.valueOf(percent.substring(0, percent.indexOf("%")).toString()) * 0.01 * AtlwScreenUtils.getInstance().getScreenWidth(context);
+                itemHeight = Double.valueOf(percent.substring(0, percent.indexOf("%")).toString()) * 0.01 * AtlwScreenUtils.getInstance().getScreenWidth();
             } else if (percent.contains("h")) {
-                itemHeight = Double.valueOf(percent.substring(0, percent.indexOf("%")).toString()) * 0.01 * AtlwScreenUtils.getInstance().getScreenHeight(context);
+                itemHeight = Double.valueOf(percent.substring(0, percent.indexOf("%")).toString()) * 0.01 * AtlwScreenUtils.getInstance().getScreenHeight();
             }
         }
-        return (int)itemHeight;
+        return (int) itemHeight;
     }
 
 

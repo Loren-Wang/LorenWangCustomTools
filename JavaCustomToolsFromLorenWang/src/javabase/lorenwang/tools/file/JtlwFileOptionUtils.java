@@ -27,7 +27,6 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import javabase.lorenwang.tools.common.JtlwCommonUtils;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
-import javabase.lorenwang.tools.enums.JtlwStringCodedFormatEnum;
 
 /**
  * 创建时间：2019-01-28 下午 20:19:47
@@ -709,16 +708,11 @@ public class JtlwFileOptionUtils {
      * @param oldCodedFormat 文件编码格式
      * @return 是否成功，成功返回true
      */
-    public boolean changeFileCodedFormat(String filePath, JtlwStringCodedFormatEnum oldCodedFormat, JtlwStringCodedFormatEnum newCodedFormat) {
+    public boolean changeFileCodedFormat(String filePath, Charset oldCodedFormat, Charset newCodedFormat) {
         //读取文件原内容
         String content = readFileContent(filePath, oldCodedFormat);
         //写入新内容
-        try {
-            return writeFilContent(filePath, newCodedFormat, new String(content.getBytes(newCodedFormat.getCodedFormat()), newCodedFormat.getCodedFormat()));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return writeFilContent(filePath, newCodedFormat, new String(content.getBytes(newCodedFormat), newCodedFormat));
     }
 
     /**
@@ -728,16 +722,12 @@ public class JtlwFileOptionUtils {
      * @param codedFormat 源文件的编码
      * @return 文件内容
      */
-    public String readFileContent(String filePath, JtlwStringCodedFormatEnum codedFormat) {
+    public String readFileContent(String filePath, Charset codedFormat) {
         byte[] bytes = readBytes(filePath);
         if (bytes == null) {
             return "";
         } else {
-            try {
-                return new String(bytes, codedFormat.getCodedFormat());
-            } catch (UnsupportedEncodingException e) {
-                return "";
-            }
+            return new String(bytes, codedFormat);
         }
     }
 
@@ -749,7 +739,7 @@ public class JtlwFileOptionUtils {
      * @param content       文件内容
      * @return 是否成功
      */
-    public boolean writeFilContent(String filePath, JtlwStringCodedFormatEnum toCharsetName, String content) {
+    public boolean writeFilContent(String filePath, Charset toCharsetName, String content) {
         //先删除文件
         deleteFile(filePath);
 
@@ -757,7 +747,7 @@ public class JtlwFileOptionUtils {
         OutputStreamWriter outWrite = null;
         try {
             outputStream = new FileOutputStream(filePath);
-            outWrite = new OutputStreamWriter(outputStream, toCharsetName.getCodedFormat());
+            outWrite = new OutputStreamWriter(outputStream, toCharsetName);
             outWrite.write(content);
             outWrite.flush();
             outputStream.flush();

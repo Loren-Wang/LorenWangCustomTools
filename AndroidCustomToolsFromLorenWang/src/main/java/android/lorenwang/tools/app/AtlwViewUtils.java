@@ -39,19 +39,21 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 public class AtlwViewUtils {
-    private final String TAG = "AtlwViewUtils";
-    private static volatile AtlwViewUtils utils;
+    private final String TAG = getClass().getName();
+    private static volatile AtlwViewUtils optionsInstance;
 
     private AtlwViewUtils() {
     }
 
     public static AtlwViewUtils getInstance() {
-        synchronized (AtlwViewUtils.class) {
-            if (utils == null) {
-                utils = new AtlwViewUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwViewUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwViewUtils();
+                }
             }
         }
-        return utils;
+        return optionsInstance;
     }
 
     /**

@@ -39,15 +39,17 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 public class AtlwFlyMessageUtils {
     private final String TAG = getClass().getName();
-    private static volatile AtlwFlyMessageUtils atlwFlyMessageUtils;
+    private static volatile AtlwFlyMessageUtils optionsInstance;
 
-    public synchronized static AtlwFlyMessageUtils getInstance() {
-        synchronized (AtlwFlyMessageUtils.class) {
-            if (atlwFlyMessageUtils == null) {
-                atlwFlyMessageUtils = new AtlwFlyMessageUtils();
+    public static AtlwFlyMessageUtils getInstance() {
+        if (optionsInstance == null) {
+            synchronized (AtlwFlyMessageUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwFlyMessageUtils();
+                }
             }
         }
-        return atlwFlyMessageUtils;
+        return optionsInstance;
     }
 
     private AtlwFlyMessageUtils() {
@@ -175,9 +177,9 @@ public class AtlwFlyMessageUtils {
     /**
      * 发送消息
      *
-     * @param msgType 消息类型
+     * @param msgType        消息类型
      * @param isFinishRemove 是否回传结束就移除
-     * @param msgs 消息参数
+     * @param msgs           消息参数
      */
     public synchronized void sendMsg(int msgType, boolean isFinishRemove, Object... msgs) {
         MessageQueueDto messageQueueDto = new MessageQueueDto();

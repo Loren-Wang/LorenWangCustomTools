@@ -1,11 +1,9 @@
 package android.lorenwang.tools.image.loading;
 
 import android.graphics.Bitmap;
-import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 
 import java.io.File;
 
@@ -50,8 +48,8 @@ public abstract class AtlwBaseImageLoading {
     protected int showThumbnailMaxHeight;
 
     public AtlwBaseImageLoading() {
-        showThumbnailMaxWidth = (int) (AtlwScreenUtils.getInstance().getScreenWidth(AtlwSetting.nowApplication.getApplicationContext()) * 0.05);
-        showThumbnailMaxHeight = (int) (AtlwScreenUtils.getInstance().getScreenHeight(AtlwSetting.nowApplication.getApplicationContext()) * 0.05);
+        showThumbnailMaxWidth = (int) (AtlwScreenUtils.getInstance().getScreenWidth() * 0.05);
+        showThumbnailMaxHeight = (int) (AtlwScreenUtils.getInstance().getScreenHeight() * 0.05);
     }
 
     /**

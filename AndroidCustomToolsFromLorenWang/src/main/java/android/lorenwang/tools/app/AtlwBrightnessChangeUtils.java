@@ -39,16 +39,18 @@ import androidx.annotation.ColorInt;
  */
 
 public class AtlwBrightnessChangeUtils {
-    private final String TAG = "AtlwBrightnessChangeUtils";
-    private static volatile AtlwBrightnessChangeUtils atlwBrightnessChangeUtils;
+    private final String TAG = getClass().getName();
+    private static volatile AtlwBrightnessChangeUtils optionsInstance;
 
     public static AtlwBrightnessChangeUtils getInstance() {
-        synchronized (AtlwBrightnessChangeUtils.class) {
-            if (atlwBrightnessChangeUtils == null) {
-                atlwBrightnessChangeUtils = new AtlwBrightnessChangeUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwBrightnessChangeUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwBrightnessChangeUtils();
+                }
             }
         }
-        return atlwBrightnessChangeUtils;
+        return optionsInstance;
     }
 
     private AtlwBrightnessChangeUtils() {

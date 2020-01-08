@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.lorenwang.tools.AtlwSetting;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -34,22 +35,21 @@ import androidx.annotation.RequiresPermission;
  * 备注：
  */
 public class AtlwMobileSystemInfoUtils {
-    private final String TAG = "MobileSystemInfoUtils";
-    private static volatile AtlwMobileSystemInfoUtils atlwMobileSystemInfoUtils;
+    private final String TAG = getClass().getName();
+    private static volatile AtlwMobileSystemInfoUtils optionsInstance;
 
-    /**
-     * 私有构造方法
-     */
     private AtlwMobileSystemInfoUtils() {
     }
 
     public static AtlwMobileSystemInfoUtils getInstance() {
-        synchronized (AtlwMobileSystemInfoUtils.class) {
-            if (atlwMobileSystemInfoUtils == null) {
-                atlwMobileSystemInfoUtils = new AtlwMobileSystemInfoUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwMobileSystemInfoUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwMobileSystemInfoUtils();
+                }
             }
         }
-        return atlwMobileSystemInfoUtils;
+        return optionsInstance;
     }
 
     /**
@@ -117,13 +117,13 @@ public class AtlwMobileSystemInfoUtils {
 
     /**
      * 获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)
-     * @param ctx 上下文
+     *
      * @return 手机IMEI
      */
     @SuppressLint({"MissingPermission"})
     @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-    public String getIMEIInfo(Context ctx) {
-        TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Activity.TELEPHONY_SERVICE);
+    public String getIMEIInfo() {
+        TelephonyManager tm = (TelephonyManager)  AtlwSetting.nowApplication.getSystemService(Activity.TELEPHONY_SERVICE);
         if (tm != null) {
             return tm.getDeviceId();
         }
@@ -132,14 +132,14 @@ public class AtlwMobileSystemInfoUtils {
 
     /**
      * 获取当前网络类型
-     * @param context 上下文
+     *
      * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    public static int getNetworkType(Context context) {
+    public static int getNetworkType() {
         int netType = 0;
         String netTypeName = null;
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) AtlwSetting.nowApplication.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
             return netType;

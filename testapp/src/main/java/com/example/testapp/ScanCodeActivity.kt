@@ -15,7 +15,7 @@ class ScanCodeActivity : BaseActivity() {
     override fun onChildCreate(savedInstanceState: Bundle?) {
         addChildView(R.layout.activity_scan_code)
         //请求权限
-        AtlwActivityUtils.getInstance().goToRequestPermisstions(this,
+        AtlwActivityUtils.getInstance().goToRequestPermissions(this,
                 arrayOf(Manifest.permission.CAMERA), 0,
                 object : AtlwPermissionRequestCallback {
                     @SuppressLint("MissingPermission")

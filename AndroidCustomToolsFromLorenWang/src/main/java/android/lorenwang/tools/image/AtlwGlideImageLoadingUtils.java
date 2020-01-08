@@ -36,22 +36,21 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
-    private String TAG = "AtlwGlideImageLoadingUtils";
-    private static volatile AtlwGlideImageLoadingUtils utils;
+    private final String TAG = getClass().getName();
+    private static volatile AtlwGlideImageLoadingUtils optionsInstance;
 
-    /**
-     * 私有构造方法
-     */
     private AtlwGlideImageLoadingUtils() {
     }
 
     public static AtlwGlideImageLoadingUtils getInstance() {
-        synchronized (AtlwGlideImageLoadingUtils.class) {
-            if (utils == null) {
-                utils = new AtlwGlideImageLoadingUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwGlideImageLoadingUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwGlideImageLoadingUtils();
+                }
             }
         }
-        return utils;
+        return optionsInstance;
     }
 
     /**

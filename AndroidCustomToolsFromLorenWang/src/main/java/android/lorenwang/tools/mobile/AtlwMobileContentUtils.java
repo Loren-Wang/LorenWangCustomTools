@@ -2,7 +2,6 @@ package android.lorenwang.tools.mobile;
 
 import android.Manifest;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.database.Cursor;
 import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.bean.AtlwMobileContactInfoBean;
@@ -32,22 +31,21 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  */
 
 public class AtlwMobileContentUtils {
-    private final String TAG = "AtlwMobileContentUtils";
-    private static volatile AtlwMobileContentUtils optionsUtils;
+    private final String TAG = getClass().getName();
+    private static volatile AtlwMobileContentUtils optionsInstance;
 
     private AtlwMobileContentUtils() {
     }
 
-
     public static AtlwMobileContentUtils getInstance() {
-        if (optionsUtils == null) {
+        if (optionsInstance == null) {
             synchronized (AtlwMobileContentUtils.class) {
-                if (optionsUtils == null) {
-                    optionsUtils = new AtlwMobileContentUtils();
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwMobileContentUtils();
                 }
             }
         }
-        return optionsUtils;
+        return optionsInstance;
     }
 
     /******************************************手机通讯录相关***************************************/
@@ -96,8 +94,8 @@ public class AtlwMobileContentUtils {
     /**
      * 获取系统本机通讯录列表
      */
-    private void getSystemContacts(Context context) {
-        ContentResolver resolver = context.getContentResolver();
+    private void getSystemContacts() {
+        ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
         // 获取手机联系人
         Cursor phoneCursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, null, null, null);
         if (phoneCursor != null) {
@@ -144,8 +142,8 @@ public class AtlwMobileContentUtils {
     /**
      * 得到手机SIM卡联系人人信息
      **/
-    private void getSIMContacts(Context context) {
-        ContentResolver resolver = context.getContentResolver();
+    private void getSIMContacts() {
+        ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
         // 获取Sims卡联系人
         Uri uri = Uri.parse("content://icc/adn");
         Cursor phoneCursor = resolver.query(uri, null, null, null,
@@ -195,9 +193,9 @@ public class AtlwMobileContentUtils {
      * @return 联系人信息列表
      */
     @RequiresPermission(Manifest.permission.READ_CONTACTS)
-    public List<AtlwMobileContactInfoBean> getAllContacts(Context context) {
-        getSystemContacts(context);
-        getSIMContacts(context);
+    public List<AtlwMobileContactInfoBean> getAllContacts() {
+        getSystemContacts();
+        getSIMContacts();
         for (int i = 0; i < mContactsName.size(); i++) {
             for (int j = 0; j < mContactsName.size(); j++) {
                 if (mContactsName.get(i).equals(mContactsName.get(j)) && mContactsNumber.get(i).equals(mContactsNumber.get(j)) && i != j) {

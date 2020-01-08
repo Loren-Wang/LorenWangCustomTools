@@ -15,16 +15,22 @@ import android.util.LruCache;
  * 修改时间：
  * 备注：
  */
-public class SimpleBitmapLruCacheUtils{
+public class SimpleBitmapLruCacheUtils {
+    private LruCache<String, Bitmap> bitmapLruCache;
     private final String TAG = getClass().getName();
-    private LruCache<String,Bitmap> bitmapLruCache;
-    private static volatile SimpleBitmapLruCacheUtils simpleBitmapLruCacheUtils;
-    public static SimpleBitmapLruCacheUtils getInstance(){
-        if(simpleBitmapLruCacheUtils == null){
-            simpleBitmapLruCacheUtils = new SimpleBitmapLruCacheUtils();
+    private static volatile SimpleBitmapLruCacheUtils optionsInstance;
+
+    public static SimpleBitmapLruCacheUtils getInstance() {
+        if (optionsInstance == null) {
+            synchronized (SimpleBitmapLruCacheUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new SimpleBitmapLruCacheUtils();
+                }
+            }
         }
-        return simpleBitmapLruCacheUtils;
+        return optionsInstance;
     }
+
     private SimpleBitmapLruCacheUtils() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 
@@ -43,6 +49,7 @@ public class SimpleBitmapLruCacheUtils{
             bitmapLruCache.put(key, bitmap);
         }
     }
+
     public Bitmap getBitmapFromMemCache(String key) {
         return bitmapLruCache.get(key);
     }

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.lorenwang.tools.app.AtlwActivityUtils;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.mobile.AtlwMobileOptionsUtils;
@@ -33,8 +32,9 @@ import static android.media.AudioManager.STREAM_VOICE_CALL;
  */
 
 public class AtlwMediaPlayUtils {
-    private static volatile AtlwMediaPlayUtils atlwMediaPlayUtils;
     private final String TAG = getClass().getName();
+    private static volatile AtlwMediaPlayUtils optionsInstance;
+
     /**
      * 是否正在播放
      */
@@ -73,25 +73,18 @@ public class AtlwMediaPlayUtils {
     private AtlwMediaPlayCallback atlwMediaPlayCallback;
 
 
-    /**
-     * 私有化构造
-     */
     private AtlwMediaPlayUtils() {
-
     }
 
-    /**
-     * 获取单例
-     *
-     * @return 返回当前的唯一实例
-     */
     public static AtlwMediaPlayUtils getInstance() {
-        synchronized (AtlwMediaPlayUtils.class) {
-            if (atlwMediaPlayUtils == null) {
-                atlwMediaPlayUtils = new AtlwMediaPlayUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwMediaPlayUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwMediaPlayUtils();
+                }
             }
         }
-        return atlwMediaPlayUtils;
+        return optionsInstance;
     }
 
     /**
@@ -113,7 +106,7 @@ public class AtlwMediaPlayUtils {
             return false;
         }
         //开启前首先要检测文件权限
-        if (!AtlwCheckUtils.getInstance().checkAppPermission( Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (!AtlwCheckUtils.getInstance().checkAppPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
             AtlwLogUtils.logE(TAG, "Not read and storage permisstions!");
             //回传状态
             playStart(false);
@@ -312,11 +305,11 @@ public class AtlwMediaPlayUtils {
                             if (values[0] == 0.0) {
                                 if (playing) {
                                     AtlwLogUtils.logI(TAG, "申请电源设备锁");
-                                    AtlwMobileOptionsUtils.getInstance().applyForPowerLocalWakeLock(activity);
+                                    AtlwMobileOptionsUtils.getInstance().applyForPowerLocalWakeLock();
                                 }
                             } else {
                                 AtlwLogUtils.logI(TAG, "释放设备电源锁");
-                                AtlwMobileOptionsUtils.getInstance().releasePowerLocalWakeLock(activity);
+                                AtlwMobileOptionsUtils.getInstance().releasePowerLocalWakeLock();
                             }
                         }
                         //判断是否允许修改输出设备
@@ -333,7 +326,7 @@ public class AtlwMediaPlayUtils {
                                     if (nowPlayOutputStreamType == STREAM_VOICE_CALL) {
                                         AtlwLogUtils.logI(TAG, "远离手机，切换到扬声器播放");
                                         nowPlayOutputStreamType = STREAM_MUSIC;
-                                        AtlwMobileOptionsUtils.getInstance().useSpeakersToPlay(activity);
+                                        AtlwMobileOptionsUtils.getInstance().useSpeakersToPlay();
                                         start(activity, nowPlayPath, AtlwMediaPlayOutputType.SPEAKER, true, true);
                                     }
                                 }
@@ -356,7 +349,7 @@ public class AtlwMediaPlayUtils {
      */
     private void registProximitySensorListener(Activity activity) {
         if (isUsePowerWakeLock || isAllowChangeOutputType) {
-            AtlwMobileOptionsUtils.getInstance().registProximitySensorListener(activity, getProximityListener(activity));
+            AtlwMobileOptionsUtils.getInstance().registProximitySensorListener( getProximityListener(activity));
         }
     }
 
@@ -365,7 +358,7 @@ public class AtlwMediaPlayUtils {
      */
     private void unRegistProximitySensorListener(Activity activity) {
         if (proximityListener != null) {
-            AtlwMobileOptionsUtils.getInstance().unRegistProximitySensorListener(activity, getProximityListener(activity));
+            AtlwMobileOptionsUtils.getInstance().unRegistProximitySensorListener( getProximityListener(activity));
             proximityListener = null;
         }
     }

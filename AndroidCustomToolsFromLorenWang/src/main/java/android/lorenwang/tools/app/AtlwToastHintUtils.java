@@ -1,6 +1,6 @@
 package android.lorenwang.tools.app;
 
-import android.content.Context;
+import android.lorenwang.tools.AtlwSetting;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,22 +23,21 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 public class AtlwToastHintUtils {
-    private static volatile AtlwToastHintUtils atlwToastHintUtils;
+    private final String TAG = getClass().getName();
+    private static volatile AtlwToastHintUtils optionsInstance;
 
-
-    /**
-     * 私有构造方法
-     */
     private AtlwToastHintUtils() {
     }
 
     public static AtlwToastHintUtils getInstance() {
-        synchronized (AtlwToastHintUtils.class) {
-            if (atlwToastHintUtils == null) {
-                atlwToastHintUtils = new AtlwToastHintUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwToastHintUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwToastHintUtils();
+                }
             }
         }
-        return atlwToastHintUtils;
+        return optionsInstance;
     }
 
     /**
@@ -66,24 +65,22 @@ public class AtlwToastHintUtils {
     /**
      * 提示自定义view消息
      *
-     * @param context    上下文
      * @param customView 自定义view
      */
-    public void toastView(Context context, View customView) {
-        toastView(context, customView, showTime);
+    public void toastView(View customView) {
+        toastView(customView, showTime);
     }
 
     /**
      * 提示自定义view消息
      *
-     * @param context    上下文
      * @param customView 自定义view
      * @param showTime   显示时间
      */
-    public void toastView(Context context, View customView, Long showTime) {
-        if (context != null && customView != null) {
+    public void toastView(View customView, Long showTime) {
+        if (customView != null) {
             cancelToast();
-            initToast(context, "", true);
+            initToast("", true);
             try {
                 allToast.setView(customView);
                 allToast.show();
@@ -97,38 +94,35 @@ public class AtlwToastHintUtils {
     /**
      * 显示提示信息
      *
-     * @param context 上下文
      * @param msg 提示文字
      */
-    public void toastMsg(Context context, String msg) {
-        if (context != null && checkMsg(msg)) {
-            toastMsg(context, msg, showTime);
+    public void toastMsg(String msg) {
+        if (checkMsg(msg)) {
+            toastMsg(msg, showTime);
         }
     }
 
     /**
      * 显示吐司提示信息
      *
-     * @param context 上下文
      * @param msgResId 提示文字资源id
      */
-    public void toastMsg(Context context, @StringRes int msgResId) {
-        if (context != null && checkMsg(context.getApplicationContext().getString(msgResId))) {
-            toastMsg(context, context.getApplicationContext().getString(msgResId));
+    public void toastMsg(@StringRes int msgResId) {
+        if (checkMsg(AtlwSetting.nowApplication.getApplicationContext().getString(msgResId))) {
+            toastMsg(AtlwSetting.nowApplication.getApplicationContext().getString(msgResId));
         }
     }
 
     /**
      * 显示提示信息
      *
-     * @param context 上下文
      * @param msg      提示文字
      * @param showTime 提示时间,为空则使用默认短时间
      */
-    public void toastMsg(Context context, String msg, Long showTime) {
-        if (context != null && checkMsg(msg)) {
+    public void toastMsg(String msg, Long showTime) {
+        if (checkMsg(msg)) {
             cancelToast();
-            initToast(context, msg, false);
+            initToast(msg, false);
             allToast.show();
             sendHideMessageDelayed(showTime);
         }
@@ -136,18 +130,19 @@ public class AtlwToastHintUtils {
 
     /**
      * 显示吐司提示信息
-     * @param context 上下文
+     *
      * @param msgResId 提示文字资源id
      * @param showTime 提示时间，为空则使用默认短时间
      */
-    public void toastMsg(Context context, @StringRes int msgResId, Long showTime) {
-        if (context != null && checkMsg(context.getApplicationContext().getString(msgResId))) {
-            toastMsg(context, context.getApplicationContext().getString(msgResId), showTime);
+    public void toastMsg(@StringRes int msgResId, Long showTime) {
+        if (checkMsg(AtlwSetting.nowApplication.getApplicationContext().getString(msgResId))) {
+            toastMsg(AtlwSetting.nowApplication.getString(msgResId), showTime);
         }
     }
 
     /**
      * 设置弹窗参数，全局使用，以最后一次变更为准
+     *
      * @param showTime         显示时间,最长不能超过7s
      * @param gravity          the location at which the notification should appear on the screen.
      * @param xOffset          X offset in pixels to apply to the gravity's location.
@@ -204,19 +199,18 @@ public class AtlwToastHintUtils {
     /**
      * 初始化吐司
      *
-     * @param context      上下文
      * @param showText     显示文本
      * @param isCustomView 是否是自定义view
      */
-    private void initToast(Context context, String showText, boolean isCustomView) {
+    private void initToast(String showText, boolean isCustomView) {
         if (!isCustomView) {
             if (showText != null) {
-                allToast = Toast.makeText(context, showText, Toast.LENGTH_LONG);
+                allToast = Toast.makeText(AtlwSetting.nowApplication, showText, Toast.LENGTH_LONG);
             } else {
-                allToast = Toast.makeText(context, "", Toast.LENGTH_LONG);
+                allToast = Toast.makeText(AtlwSetting.nowApplication, "", Toast.LENGTH_LONG);
             }
         } else {
-            allToast = new Toast(context);
+            allToast = new Toast(AtlwSetting.nowApplication);
             allToast.setDuration(Toast.LENGTH_LONG);
         }
         //设置gravity

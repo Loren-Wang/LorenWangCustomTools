@@ -1,7 +1,5 @@
 package android.lorenwang.tools.image;
 
-import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -19,18 +17,11 @@ import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.media.ExifInterface;
-import android.os.Build;
 import android.util.Base64;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 
 /**
@@ -64,21 +55,20 @@ import androidx.core.graphics.drawable.DrawableCompat;
  */
 public class AtlwImageCommonUtils {
     private final String TAG = getClass().getName();
-    private static volatile AtlwImageCommonUtils atlwImageCommonUtils;
+    private static volatile AtlwImageCommonUtils optionsInstance;
 
-    /**
-     * 私有构造方法
-     */
     private AtlwImageCommonUtils() {
     }
 
     public static AtlwImageCommonUtils getInstance() {
-        synchronized (AtlwImageCommonUtils.class) {
-            if (atlwImageCommonUtils == null) {
-                atlwImageCommonUtils = new AtlwImageCommonUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwImageCommonUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwImageCommonUtils();
+                }
             }
         }
-        return atlwImageCommonUtils;
+        return optionsInstance;
     }
 
 

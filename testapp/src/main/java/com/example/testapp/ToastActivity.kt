@@ -44,7 +44,7 @@ class ToastActivity : BaseActivity() {
             edtTime?.text?.toString()?.let {
                 if (it.isNotEmpty()) {
                     AtlwToastHintUtils.getInstance().setParams(it.toLong(), Gravity.CENTER, 0, 0, 0f, 0f)
-                    AtlwToastHintUtils.getInstance().toastMsg(this, "重按退出")
+                    AtlwToastHintUtils.getInstance().toastMsg("重按退出")
                 }
             }
         }
@@ -52,7 +52,7 @@ class ToastActivity : BaseActivity() {
             edtTime?.text?.toString()?.let {
                 if (it.isNotEmpty()) {
                     AtlwToastHintUtils.getInstance().setParams(it.toLong(), Gravity.BOTTOM, 0, 0, 0f, 0f)
-                    AtlwToastHintUtils.getInstance().toastMsg(this, "重按退出")
+                    AtlwToastHintUtils.getInstance().toastMsg("重按退出")
                 }
             }
         }
@@ -60,7 +60,7 @@ class ToastActivity : BaseActivity() {
             edtTime?.text?.toString()?.let {
                 if (it.isNotEmpty()) {
                     AtlwToastHintUtils.getInstance().setParams(it.toLong(), Gravity.TOP, 0, 0, 0f, 0f)
-                    AtlwToastHintUtils.getInstance().toastMsg(this, "重按退出")
+                    AtlwToastHintUtils.getInstance().toastMsg("重按退出")
                 }
             }
         }
@@ -68,7 +68,7 @@ class ToastActivity : BaseActivity() {
             edtTime?.text?.toString()?.let {
                 if (it.isNotEmpty()) {
                     AtlwToastHintUtils.getInstance().setParams(it.toLong(), Gravity.CENTER, 0, 0, 0f, 0f)
-                    AtlwToastHintUtils.getInstance().toastView(this, customToastView)
+                    AtlwToastHintUtils.getInstance().toastView(customToastView)
                 }
             }
         }

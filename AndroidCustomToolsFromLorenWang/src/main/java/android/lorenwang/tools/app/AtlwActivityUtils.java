@@ -47,7 +47,7 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  */
 public class AtlwActivityUtils {
     private final String TAG = getClass().getName();
-    private static volatile AtlwActivityUtils optionsUtils;
+    private static volatile AtlwActivityUtils optionsInstance;
     //权限请求键值对
     private Map<Integer, AtlwPermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
 
@@ -55,12 +55,14 @@ public class AtlwActivityUtils {
     }
 
     public static AtlwActivityUtils getInstance() {
-        synchronized (AtlwActivityUtils.class) {
-            if (optionsUtils == null) {
-                optionsUtils = new AtlwActivityUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwActivityUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwActivityUtils();
+                }
             }
         }
-        return (AtlwActivityUtils) optionsUtils;
+        return optionsInstance;
     }
 
     public Map<Integer, AtlwPermissionRequestCallback> getPermissionRequestCallbackMap() {
@@ -75,7 +77,7 @@ public class AtlwActivityUtils {
      * @param permissionsRequestCode    权限请求码
      * @param permissionRequestCallback 权限请求回调
      */
-    public void goToRequestPermisstions(Activity activity, @NonNull String[] permisstions, int permissionsRequestCode
+    public void goToRequestPermissions(Activity activity, @NonNull String[] permisstions, int permissionsRequestCode
             , AtlwPermissionRequestCallback permissionRequestCallback) {
         //版本判断，小于23的不执行权限请求
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -102,12 +104,11 @@ public class AtlwActivityUtils {
     /**
      * 接收到权限请求返回，需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法
      *
-     * @param activity     Activity实体
      * @param requestCode  权限请求码
      * @param permissions  权限列表
      * @param grantResults 权限状态
      */
-    public void receivePermisstionsResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void receivePermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //获取回调
         AtlwPermissionRequestCallback permissionRequestCallback = permissionRequestCallbackMap.get(requestCode);
         if (permissionRequestCallback != null) {
@@ -186,21 +187,20 @@ public class AtlwActivityUtils {
     /**
      * 通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
      *
-     * @param activity 界面实例
      * @param data     intent
      * @param saveFile 保存地址
      * @return 返回新图片地址
      */
-    public String onActivityResultFromPhotoAlbum(Activity activity, Intent data, String saveFile) {
-        if (activity == null || data == null || saveFile == null || "".equals(saveFile)) {
+    public String onActivityResultFromPhotoAlbum(Intent data, String saveFile) {
+        if (data == null || saveFile == null || "".equals(saveFile)) {
             return null;
         }
         if (data != null && data.getData() != null) {
             //目标文件夹
             InputStream inputStream = null;//文件图片输入流
             try {
-                inputStream = activity.getContentResolver().openInputStream(data.getData());
-                boolean state = AtlwFileOptionUtils.getInstance().writeToFile(activity, true, new File(saveFile), inputStream, false);
+                inputStream = AtlwSetting.nowApplication.getContentResolver().openInputStream(data.getData());
+                boolean state = AtlwFileOptionUtils.getInstance().writeToFile(true, new File(saveFile), inputStream, false);
                 if (state) {
                     return saveFile;
                 } else {
@@ -339,13 +339,13 @@ public class AtlwActivityUtils {
     /**
      * 获得应用是否在前台
      */
-    public boolean isOnForeground(Context context) {
-        ActivityManager activityManager = (ActivityManager) context
+    public boolean isOnForeground() {
+        ActivityManager activityManager = (ActivityManager) AtlwSetting.nowApplication
                 .getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> tasksInfo = activityManager.getRunningTasks(1);
         if (tasksInfo.size() > 0) {
             // 应用程序位于堆栈的顶层
-            return context.getPackageName().equals(
+            return AtlwSetting.nowApplication.getPackageName().equals(
                     tasksInfo.get(0).topActivity.getPackageName());
         }
         return false;

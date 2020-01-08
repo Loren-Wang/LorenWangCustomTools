@@ -24,7 +24,7 @@ class MobileContactsActivity : BaseActivity() {
         addChildView(R.layout.activity_android_tools_mobile_contacts)
 
         val contacts = StringBuilder()
-        AtlwMobileContentUtils.getInstance().getAllContacts(this).forEach {
+        AtlwMobileContentUtils.getInstance().allContacts.forEach {
             contacts.append(it.contactName).append(it.phoneNumber).append('\n')
         }
         findViewById<TextView>(R.id.tvShow).setText(contacts.toString())

@@ -215,8 +215,8 @@ public class AvlwRecordButton extends AppCompatButton {
                     avlwRecordListener.startRecord();
                 }
                 //震动设备
-                if (AtlwCheckUtils.getInstance().checkAppPermission( Manifest.permission.VIBRATE)) {
-                    AtlwMobileOptionsUtils.getInstance().vibrate(activity, 100);
+                if (AtlwCheckUtils.getInstance().checkAppPermission(Manifest.permission.VIBRATE)) {
+                    AtlwMobileOptionsUtils.getInstance().vibrate(100);
                 }
             }
         }
@@ -420,7 +420,7 @@ public class AvlwRecordButton extends AppCompatButton {
         }
         this.recordSavePathDir = recordSavePathDir;
         //不管文件夹是否存在，都创建个文件夹
-        AtlwFileOptionUtils.getInstance().createDirectory(activity, true, recordSavePathDir, false);
+        AtlwFileOptionUtils.getInstance().createDirectory(true, recordSavePathDir, false);
     }
 
     /**

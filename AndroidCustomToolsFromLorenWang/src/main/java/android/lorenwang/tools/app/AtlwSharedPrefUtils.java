@@ -2,6 +2,7 @@ package android.lorenwang.tools.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.lorenwang.tools.AtlwSetting;
 import android.preference.PreferenceManager;
 
 import java.util.Set;
@@ -19,30 +20,35 @@ import java.util.Set;
  */
 
 public class AtlwSharedPrefUtils {
-    private static volatile AtlwSharedPrefUtils atlwSharedPrefUtils;
+    private final String TAG = getClass().getName();
+    private static volatile AtlwSharedPrefUtils optionsInstance;
     private SharedPreferences mPref;
 
-    private AtlwSharedPrefUtils(Context context) {
+    private AtlwSharedPrefUtils() {
         mPref = PreferenceManager
-                .getDefaultSharedPreferences(context.getApplicationContext());
+                .getDefaultSharedPreferences(AtlwSetting.nowApplication);
     }
 
-    public static AtlwSharedPrefUtils getInstance(Context context) {
-        synchronized (AtlwSharedPrefUtils.class) {
-            if (atlwSharedPrefUtils == null && context != null) {
-                atlwSharedPrefUtils = new AtlwSharedPrefUtils(context);
+    public static AtlwSharedPrefUtils getInstance() {
+        if (optionsInstance == null) {
+            synchronized (AtlwSharedPrefUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwSharedPrefUtils();
+                }
             }
         }
-        return atlwSharedPrefUtils;
+        return optionsInstance;
     }
 
+    private static volatile AtlwSharedPrefUtils atlwSharedPrefUtils;
 
-    public SharedPreferences getSharedPreferences(Context context, String name) {
-        return context.getApplicationContext().getSharedPreferences(name, Context.MODE_PRIVATE);
+
+    public SharedPreferences getSharedPreferences(String name) {
+        return AtlwSetting.nowApplication.getSharedPreferences(name, Context.MODE_PRIVATE);
     }
 
-    public SharedPreferences getSharedPreferences(Context context, String name, int mode) {
-        return context.getApplicationContext().getSharedPreferences(name, mode);
+    public SharedPreferences getSharedPreferences(String name, int mode) {
+        return AtlwSetting.nowApplication.getSharedPreferences(name, mode);
     }
 
     public Boolean clear() {

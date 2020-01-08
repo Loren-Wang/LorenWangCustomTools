@@ -23,11 +23,11 @@ class SwitchButtonActivity : BaseActivity() {
         addChildView(R.layout.activity_switch_button)
         findViewById<AvlwSwitchButton1>(R.id.test1).setStateChangeListener(object : AvlwSwitchButtonChangeListener {
             override fun onChangeToOpen() {
-                AtlwToastHintUtils.getInstance().toastMsg(applicationContext, "open", 1)
+                AtlwToastHintUtils.getInstance().toastMsg("open", 1)
             }
 
             override fun onChangeToClose() {
-                AtlwToastHintUtils.getInstance().toastMsg(applicationContext, "close", 1)
+                AtlwToastHintUtils.getInstance().toastMsg("close", 1)
             }
 
         })

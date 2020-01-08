@@ -29,8 +29,8 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 public class AtlwRecordUtils {
-    private static volatile AtlwRecordUtils atlwRecordUtils;
     private final String TAG = getClass().getName();
+    private static volatile AtlwRecordUtils optionsInstance;
     /**
      * 是否正在录音
      */
@@ -48,24 +48,19 @@ public class AtlwRecordUtils {
      */
     private AtlwRecordCallback atlwRecordCallback;
 
-    /**
-     * 私有化单例类
-     */
+
     private AtlwRecordUtils() {
     }
 
-    /**
-     * 返回单例
-     *
-     * @return 当前实例
-     */
     public static AtlwRecordUtils getInstance() {
-        synchronized (AtlwRecordUtils.class) {
-            if (atlwRecordUtils == null) {
-                atlwRecordUtils = new AtlwRecordUtils();
+        if (optionsInstance == null) {
+            synchronized (AtlwRecordUtils.class) {
+                if (optionsInstance == null) {
+                    optionsInstance = new AtlwRecordUtils();
+                }
             }
         }
-        return atlwRecordUtils;
+        return optionsInstance;
     }
 
 
@@ -139,7 +134,7 @@ public class AtlwRecordUtils {
         }
 
         //检测文件夹是否存在，没有存在则创建文件夹，如果创建失败则返回失败
-        if (!AtlwFileOptionUtils.getInstance().createDirectory(activity, true, savePath, true)) {
+        if (!AtlwFileOptionUtils.getInstance().createDirectory(true, savePath, true)) {
             AtlwLogUtils.logE(TAG, "Directory creation failed");
             //回传状态
             recordStart(false);
