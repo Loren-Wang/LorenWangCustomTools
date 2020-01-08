@@ -1,5 +1,6 @@
 package javabase.lorenwang.common_base_frame.database.helper
 
+import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
@@ -23,6 +24,8 @@ abstract class SbcbflwUserRolePermissionHelper {
     /**
      * 检测是否有权限
      */
-    abstract fun checkUserHavePermission(sbcbflwBaseHttpServletRequestWrapper: SbcbflwBaseHttpServletRequestWrapper, userInfo: SbcbflwBaseUserInfoTb, permission: SbcbflwBaseUserPermissionTypeEnum, userInfoRepository: SbcbflwUserInfoRepository): Boolean
+    abstract fun checkUserHavePermission(sbcbflwBaseHttpServletRequestWrapper: SbcbflwBaseHttpServletRequestWrapper,
+                                         userInfo: SbcbflwBaseUserInfoTb,
+                                         permission: SbcbflwBaseUserPermissionTypeEnum): SbcbflwBaseDataDisposeStatusBean
 
 }

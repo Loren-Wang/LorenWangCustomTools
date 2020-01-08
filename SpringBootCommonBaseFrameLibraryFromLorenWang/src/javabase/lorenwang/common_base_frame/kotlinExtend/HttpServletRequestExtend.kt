@@ -38,7 +38,6 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
         baseController: SbcbflwBaseController,
-        userInfoRepository: SbcbflwUserInfoRepository,
         noinline notLoginFun: (() -> Any)?,
         noinline notPermissionFun: ((userInfoTb: SbcbflwBaseUserInfoTb) -> Any)?,
         crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb) -> Any,
@@ -77,7 +76,8 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
                     false
                 }, { deToken ->
                     //判断token是否是正常的
-                    if (SbcbflwUserHelper.instance.checkAccessTokenEffective(deToken)) {
+                    val tokenEffective = SbcbflwUserHelper.instance.checkAccessTokenEffective(deToken)
+                    if (tokenEffective.statusResult) {
                         //token是正常的，开始验证用户信息，首先获取用户id
                         SbcbflwUserHelper.instance.getUserIdByAccessToken(deToken)!!.let { tokenUserId ->
                             //因为token已经验证过了，所以id是可以正常取值的
@@ -101,7 +101,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
             //当前是登录状态，判断用户权限
             JtlwLogUtils.logD(this::class.java, "用户${userInfo?.account}开始权限检测")
             for (permission in checkPermissionArray) {
-                if (!SbcbflwUserRolePermissionHelper.instance.checkUserHavePermission(this, userInfo!!, permission, userInfoRepository)) {
+                if (!SbcbflwUserRolePermissionHelper.instance.checkUserHavePermission(this, userInfo!!, permission).statusResult) {
                     JtlwLogUtils.logI(this::class.java, "用户${userInfo.account}没有相关权限")
                     permissionCheckStatus = false
                     break;
@@ -238,11 +238,10 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
         baseController: SbcbflwBaseController,
-        userInfoRepository: SbcbflwUserInfoRepository,
         noinline notLoginFun: (() -> Any)?,
         noinline notPermissionFun: ((userInfoTb: SbcbflwBaseUserInfoTb) -> Any)?,
         crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb) -> Any): String {
-    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController, userInfoRepository,
+    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController,
             notLoginFun, notPermissionFun, unKnownRepositoryOptionsFun, null)
 }
 
@@ -253,10 +252,9 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
         baseController: SbcbflwBaseController,
-        userInfoRepository: SbcbflwUserInfoRepository,
         noinline notLoginAndPermissionFun: () -> Any,
         crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb) -> Any): String {
-    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController, userInfoRepository,
+    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController,
             { notLoginAndPermissionFun() }, { notLoginAndPermissionFun() }, unKnownRepositoryOptionsFun, null)
 }
 
@@ -267,9 +265,8 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
         baseController: SbcbflwBaseController,
-        userInfoRepository: SbcbflwUserInfoRepository,
         crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb) -> Any): String {
-    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController, userInfoRepository,
+    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController,
             null, null, unKnownRepositoryOptionsFun, null)
 }
 
@@ -323,9 +320,9 @@ fun <TB : SbcbflwBaseTb, CURD : CrudRepository<TB, Long>> SbcbflwBaseHttpServlet
         baseController: SbcbflwBaseController,
         curd: CURD, deleteId: Long?,
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
-        userInfoRepository: SbcbflwUserInfoRepository, entityManager: EntityManager,
+        entityManager: EntityManager,
         tableName: String, primaryKeyColumn: String): String {
-    return this.controllerCheckAndOptions(arrayOf(deleteId), checkPermissionArray, baseController, userInfoRepository) {
+    return this.controllerCheckAndOptions(arrayOf(deleteId), checkPermissionArray, baseController) {
         val deleteTbInfo = entityManager.createNativeQuery("select $RANK from $tableName where $primaryKeyColumn=$deleteId").resultList
         curd.deleteById(deleteId!!)
         return@controllerCheckAndOptions if (curd.existsById(deleteId)) {
@@ -347,9 +344,9 @@ fun <TB : SbcbflwBaseTb, CURD : CrudRepository<TB, Long>> SbcbflwBaseHttpServlet
         baseController: SbcbflwBaseController,
         curd: CURD, rankBean: SbcbflwBaseUpDateRankReqBean,
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
-        userInfoRepository: SbcbflwUserInfoRepository, checkOldCount: Boolean,
+        checkOldCount: Boolean,
         getNewSaveTbFun: (oldTbInfo: TB, firstRank: Long, newIds: Array<Long>) -> TB): String {
-    return this.controllerCheckAndOptions(arrayOf(rankBean.ids), checkPermissionArray, baseController, userInfoRepository) {
+    return this.controllerCheckAndOptions(arrayOf(rankBean.ids), checkPermissionArray, baseController) {
         //需要进行数量判断，请求和数据库数量不一致则禁止更新
         if (checkOldCount && rankBean.ids!!.size.compareTo(curd.count()) != 0) {
             return@controllerCheckAndOptions baseController.responseErrorForParams()

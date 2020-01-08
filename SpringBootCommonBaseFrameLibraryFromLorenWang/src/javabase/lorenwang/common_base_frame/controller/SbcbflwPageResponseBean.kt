@@ -18,8 +18,8 @@ import io.swagger.annotations.ApiModelProperty
  * 配置参数4：列表数据实体，不能为空，但是可以为空数组---dataList
  */
 open class SbcbflwPageResponseBean<T>(@ApiModelProperty(value = "分页的页码，由传递进来的数据决定", required = true) var pageIndex: Int,
-                                 @ApiModelProperty(value = "分页的每页请求数量，为实际数量而不是请求数量", required = true) var pageSize: Int,
-                                 @ApiModelProperty(value = "当前条件下的取到的数据总数", required = true) var sumCount: Long?,
-                                 @ApiModelProperty(value = "列表数据实体，不能为空，但是可以为空数组", required = true) var dataList: T) {
+                                      @ApiModelProperty(value = "分页的每页请求数量，为实际数量而不是请求数量", required = true) var pageSize: Int,
+                                      @ApiModelProperty(value = "当前条件下的取到的数据总数", required = true) var sumCount: Long?,
+                                      @ApiModelProperty(value = "列表数据实体，不能为空，但是可以为空数组", required = true) var dataList: T) : SbcbflwBaseResponseBean<T>() {
 
 }

@@ -60,7 +60,7 @@ dependencies {
 
 def moduleName = "SpringBootCommonBaseFrameLibraryFromLorenWang"
 def moduleDescription = "SpringBoot通用基础框架包"
-version '1.0.6'
+version '1.0.7'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

@@ -91,7 +91,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
         //token检测
         JtlwLogUtils.logD(javaClass, "接收到接口请求，开始检测用户登录状态，如果有token的话")
         SbcbflwUserHelper.instance.getAccessTokenByReqHeader(req)?.let {
-            val userStatus = SbcbflwUserHelper.instance.checkUserLogin(req, userInfoRepository)
+            val userStatus = SbcbflwUserHelper.instance.checkUserLogin(req)
             userStatus.emptyCheck({
                 JtlwLogUtils.logD(javaClass, "token无效或者不存在，生成提示信息")
                 val responseFailInfo = emptyController.responseErrorUserLoginEmptyOrTokenNoneffective()
@@ -102,7 +102,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
                 return
             }, {
                 JtlwLogUtils.logD(javaClass, "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息")
-                SbcbflwUserHelper.instance.refreshAccessToken(userInfoRepository, it.accessToken!!).let { newToken ->
+                SbcbflwUserHelper.instance.refreshAccessToken(it.accessToken!!).let { newToken ->
                     if (!it.accessToken.equals(newToken)) {
                         it.accessToken = newToken
                         response.setHeader(req.ACCESS_TOKEN_KEY, it.accessToken)

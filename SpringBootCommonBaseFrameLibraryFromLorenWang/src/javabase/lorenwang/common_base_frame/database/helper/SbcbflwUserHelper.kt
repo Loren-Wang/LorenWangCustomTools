@@ -1,5 +1,6 @@
 package javabase.lorenwang.common_base_frame.database.helper
 
+import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
@@ -34,22 +35,22 @@ abstract class SbcbflwUserHelper {
     /**
      * 检查token是否有效
      */
-    abstract fun checkAccessTokenEffective(deToken: String): Boolean
+    abstract fun checkAccessTokenEffective(token: String?): SbcbflwBaseDataDisposeStatusBean
 
     /**
      * 根据用户token获取用户id
      */
-    abstract fun getUserIdByAccessToken(deToken: String): Long?
+    abstract fun getUserIdByAccessToken(token: String?): Long?
 
     /**
      * 检测用户是否已经登录
      */
-    abstract fun checkUserLogin(req: SbcbflwBaseHttpServletRequestWrapper, userInfoRepository: SbcbflwUserInfoRepository): SbcbflwBaseUserInfoTb
+    abstract fun checkUserLogin(req: SbcbflwBaseHttpServletRequestWrapper): SbcbflwBaseUserInfoTb
 
     /**
      * 刷新用户token
      */
-    abstract fun refreshAccessToken(userInfoRepository: SbcbflwUserInfoRepository, accessToken: String): String
+    abstract fun refreshAccessToken(accessToken: String): String
 
     /**
      * 生成密码,可能为空
