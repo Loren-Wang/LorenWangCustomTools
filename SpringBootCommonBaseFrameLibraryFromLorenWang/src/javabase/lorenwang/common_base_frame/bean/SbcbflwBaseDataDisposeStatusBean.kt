@@ -12,7 +12,7 @@ package javabase.lorenwang.common_base_frame.bean
  * 备注：
  */
 
-open class SbcbflwBaseDataDisposeStatusBean(var statusResult: Boolean, var statusCode: String?, var statusMsgCode: String?, var body: Any?) {
+open class SbcbflwBaseDataDisposeStatusBean(var statusResult: Boolean, var statusCode: String?, var statusMsgCode: String?, var statusMsg: String?, var body: Any?) {
     /**
      * 页码
      */
@@ -34,11 +34,26 @@ open class SbcbflwBaseDataDisposeStatusBean(var statusResult: Boolean, var statu
      */
     var dataList: ArrayList<Any?> = arrayListOf()
 
-    constructor(statusResult: Boolean, body: Any?) : this(statusResult, null, null, body)
-    constructor(statusResult: Boolean) : this(statusResult, null, null, null)
-    constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String?) : this(statusResult, statusCode, statusMsgCode, null)
+    constructor(statusResult: Boolean, body: Any?) : this(statusResult, null, null, null, body)
+    constructor(statusResult: Boolean) : this(statusResult, null, null, null, null)
+    constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String?) : this(statusResult, statusCode, statusMsgCode, null, null)
+    constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String?, statusMsg: String?) : this(statusResult, statusCode, statusMsgCode, statusMsg, null)
+    constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String, statusMsg: String?, pageIndex: Int,
+                pageSize: Int, sumCount: Long, dataList: ArrayList<Any?>) : this(statusResult, statusCode, statusMsgCode, statusMsg, null) {
+        this.statusCode = statusCode;
+        this.statusMsgCode = statusMsgCode;
+        this.statusMsg = statusMsg;
+        this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
+        this.sumCount = sumCount;
+        this.statusResult = true;
+        this.repDataList = true;
+        this.dataList = dataList;
+
+    }
+
     constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String, pageIndex: Int,
-                pageSize: Int, sumCount: Long, dataList: ArrayList<Any?>) : this(statusResult, statusCode, statusMsgCode, null) {
+                pageSize: Int, sumCount: Long, dataList: ArrayList<Any?>) : this(statusResult, statusCode, statusMsgCode, null, null) {
         this.statusCode = statusCode;
         this.statusMsgCode = statusMsgCode;
         this.pageIndex = pageIndex;

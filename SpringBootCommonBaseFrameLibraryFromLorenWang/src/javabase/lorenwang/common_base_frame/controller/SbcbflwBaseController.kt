@@ -79,11 +79,27 @@ abstract class SbcbflwBaseController {
     }
 
     /**
+     * 接口处理之后的响应返回
+     * @param stateCode 响应状态吗
+     * @param stateMessage 响应状态消息
+     * @param obj 响应数据
+     * @param <T> 泛型
+     * @return 格式化后字符串
+    </T> */
+    fun <T> responseContentCode(stateCode: String, stateMessageCode: String, obj: T?): String {
+        val baseResponseBean = SbcbflwBaseResponseBean(obj)
+        baseResponseBean.stateCode = stateCode
+        baseResponseBean.stateMessage = getMessage(stateMessageCode)
+        return JdplwJsonUtils.toJson(baseResponseBean)
+    }
+
+    /**
      * 响应数据状态处理
      */
     fun responseDataDisposeStatus(bean: SbcbflwBaseDataDisposeStatusBean): String {
         return if (bean.repDataList) {
-            responseDataListContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
+            responseDataListContent(bean.statusCode!!, if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else getMessage(bean.statusMsgCode),
+                    bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
         } else {
             responseContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.body)
         }
@@ -103,6 +119,23 @@ abstract class SbcbflwBaseController {
         val baseResponseBean = SbcbflwBaseResponseBean(SbcbflwPageResponseBean(pageIndex, pageSize, sumCount, dataList))
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
+        return JdplwJsonUtils.toJson(baseResponseBean)
+    }
+
+    /**
+     * 接口处理之后的数据列表响应返回
+     * @param stateCode 响应状态吗
+     * @param stateMessage 响应状态消息
+     * @param obj 响应数据
+     * @param <T> 泛型
+     * @return 格式化后字符串
+    </T> */
+    fun <E, T : ArrayList<E>> responseDataListContentCode(
+            stateCode: String, stateMessageCode: String, pageIndex: Int,
+            pageSize: Int, sumCount: Long, dataList: T): String {
+        val baseResponseBean = SbcbflwBaseResponseBean(SbcbflwPageResponseBean(pageIndex, pageSize, sumCount, dataList))
+        baseResponseBean.stateCode = stateCode
+        baseResponseBean.stateMessage = getMessage(stateMessageCode)
         return JdplwJsonUtils.toJson(baseResponseBean)
     }
 
