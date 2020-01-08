@@ -49,4 +49,16 @@ public class AtlwAPKPackageNameList {
      * 百度手机助手
      */
     public static final String MARKET_BAIDU = "com.baidu.appserch";
+    /**
+     * 百度地图
+     */
+    public static final String MAP_BAIDU = "com.baidu.BaiduMaps";
+    /**
+     * 腾讯地图
+     */
+    public static final String MAP_TENCENT = "com.tencent.map";
+    /**
+     * 高德地图
+     */
+    public static final String MAP_GAODE = "com.autonavi.minimap";
 }
