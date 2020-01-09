@@ -52,7 +52,7 @@ public class AtlwAPKPackageNameList {
     /**
      * 百度地图
      */
-    public static final String MAP_BAIDU = "com.baidu.BaiduMaps";
+    public static final String MAP_BAIDU = "com.baidu.BaiduMap";
     /**
      * 腾讯地图
      */
