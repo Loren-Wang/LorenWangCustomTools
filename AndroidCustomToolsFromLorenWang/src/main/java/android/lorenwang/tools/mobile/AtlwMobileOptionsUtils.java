@@ -141,14 +141,14 @@ public final class AtlwMobileOptionsUtils {
      *
      * @param packageName 包名
      */
-    public void jumpToAppPermissionSettingPage(String packageName) {
+    public void jumpToAppPermissionSettingPage(Activity activity, String packageName) {
         AtlwLogUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
         if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
-            jumpToMeizuAppPermissionSettingPage(packageName);
+            jumpToMeizuAppPermissionSettingPage(activity, packageName);
         } else if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
-            jumpToXiaoMiAppPermissionSettingPage(packageName);
+            jumpToXiaoMiAppPermissionSettingPage(activity, packageName);
         } else {
-            jumpToDefaultAppPermissionSettingPage(packageName);
+            jumpToDefaultAppPermissionSettingPage(activity, packageName);
         }
     }
 
@@ -212,7 +212,7 @@ public final class AtlwMobileOptionsUtils {
      *
      * @param packageName 应用包名
      */
-    private void jumpToXiaoMiAppPermissionSettingPage(String packageName) {
+    private void jumpToXiaoMiAppPermissionSettingPage(Activity activity, String packageName) {
         String rom = getMiuiVersion();
         AtlwLogUtils.logI(TAG, "jumpToMiaoMiAppPermissionSettingPage --- rom : " + rom);
         Intent intent = new Intent();
@@ -225,9 +225,9 @@ public final class AtlwMobileOptionsUtils {
             intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
             intent.putExtra("extra_pkgname", packageName);
         } else {
-            jumpToDefaultAppPermissionSettingPage(packageName);
+            jumpToDefaultAppPermissionSettingPage(activity, packageName);
         }
-        AtlwSetting.nowApplication.startActivity(intent);
+        activity.startActivity(intent);
     }
 
     /**
@@ -235,15 +235,15 @@ public final class AtlwMobileOptionsUtils {
      *
      * @param packageName 应用包名
      */
-    private void jumpToMeizuAppPermissionSettingPage(String packageName) {
+    private void jumpToMeizuAppPermissionSettingPage(Activity activity, String packageName) {
         try {
             Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.putExtra("packageName", packageName);
-            AtlwSetting.nowApplication.startActivity(intent);
+            activity.startActivity(intent);
         } catch (ActivityNotFoundException localActivityNotFoundException) {
             localActivityNotFoundException.printStackTrace();
-            jumpToDefaultAppPermissionSettingPage(packageName);
+            jumpToDefaultAppPermissionSettingPage(activity, packageName);
         }
     }
 
@@ -252,12 +252,12 @@ public final class AtlwMobileOptionsUtils {
      *
      * @param packageName 应用包名
      */
-    private void jumpToDefaultAppPermissionSettingPage(String packageName) {
+    private void jumpToDefaultAppPermissionSettingPage(Activity activity, String packageName) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", packageName, null);
         intent.setData(uri);
         try {
-            AtlwSetting.nowApplication.startActivity(intent);
+            activity.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -325,14 +325,14 @@ public final class AtlwMobileOptionsUtils {
      *
      * @param phoneNo 要拨打的手机号
      */
-    public static void makeCall(String phoneNo) {
+    public static void makeCall(Activity activity, String phoneNo) {
         if (phoneNo != null && !"".equals(phoneNo)) {
             String number = "tel:" + phoneNo;
             try {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL);
                 callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 callIntent.setData(Uri.parse(number));
-                AtlwSetting.nowApplication.startActivity(callIntent);
+                activity.startActivity(callIntent);
             } catch (Exception e) {
                 e.printStackTrace();
             }

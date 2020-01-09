@@ -287,28 +287,13 @@ public class AtlwActivityJumpUtils {
     public void jumpToWeb(Activity activity, String url) {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             activity.startActivity(intent);
             overridePendingTransition(activity,
                     AtlwSetting.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
                     AtlwSetting.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * 通过地址跳转到网页
-     *
-     * @param url 网址
-     */
-    public void jumpToWeb(String url) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (AtlwSetting.nowApplication != null) {
-                AtlwSetting.nowApplication.startActivity(intent);
-            }
-        } catch (Exception e) {
         }
     }
 
@@ -445,7 +430,7 @@ public class AtlwActivityJumpUtils {
      * @param marketPkg 应用市场包名
      * @param appPkg    要查找的App包名
      */
-    public void jumpApplicationMarket(String marketPkg, String appPkg) throws Exception {
+    public void jumpApplicationMarket(Activity activity, String marketPkg, String appPkg) throws Exception {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(appPkg)) {
             return;
         }
@@ -486,7 +471,7 @@ public class AtlwActivityJumpUtils {
         } else {
             intent.setPackage(marketPkg);
         }
-        AtlwSetting.nowApplication.startActivity(intent);
+        activity.startActivity(intent);
     }
 
 }
