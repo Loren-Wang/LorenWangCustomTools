@@ -1,8 +1,8 @@
 package android.lorenwang.common_base_frame.adapter
 
 import android.app.Activity
+import android.lorenwang.common_base_frame.list.AcbflwBaseListDataOptionsDecorator
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
@@ -34,108 +34,126 @@ import androidx.recyclerview.widget.RecyclerView
  * 5、显示空数据布局
  * 6、清空数据列表
  */
-abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRecyclerViewHolder<T>> {
-    var dataList: ArrayList<AcbflwBaseType<T>>? = null
+abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRecyclerViewHolder<T>>, AcbflwBaseListDataOptionsDecorator<T> {
+    var dataList: ArrayList<AcbflwBaseType<T>> = arrayListOf()
         private set
     var activity: Activity
 
     constructor(activity: Activity, dataList: ArrayList<AcbflwBaseType<T>>?) {
-        this.dataList = dataList
+        dataList?.let {
+            this.dataList = dataList;
+        }
         this.activity = activity
     }
 
     constructor(activity: Activity) {
-        if (dataList == null) {
-            dataList = ArrayList()
-        }
         this.activity = activity
     }
 
 
     override fun getItemViewType(position: Int): Int {
-        return dataList!![position].layoutResId
+        return dataList[position].layoutResId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcbflwBaseRecyclerViewHolder<T> {
-        val itemView = LayoutInflater.from(activity).inflate(viewType, parent, false)
-        return getViewHolder(viewType, itemView)
+        val itemView = LayoutInflater.from(activity)
+                .inflate(viewType, parent, false)
+        return getListViewHolder(viewType, itemView)!!
     }
 
     override fun onBindViewHolder(holder: AcbflwBaseRecyclerViewHolder<T>, position: Int) {
         holder.adapter = this
-        holder.setViewData(activity, dataList!![position].bean, position)
+        holder.setViewData(activity, dataList[position].bean, position)
     }
 
     override fun getItemCount(): Int {
-        return dataList!!.size
+        return dataList.size
     }
 
     /**
-     * 获取viewholder
-     * @param viewType 视图类型
-     * @param itemView 每条item的view视图
+     * 获取数据列表
+     *
+     * @return 数据列表
      */
-    abstract fun getViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>
+    override val adapterDataList: ArrayList<AcbflwBaseType<T>>
+        get() = dataList
 
     /**
-     * 清空列表
+     * 清空数据列表
      */
-    fun clear() {
-        dataList!!.clear()
+    override fun clear() {
+        dataList.clear()
     }
 
-    /*
-     * 添加
-     * */
-    fun singleTypeLoad(list: List<T>?, layoutId: Int) {
-        if (list != null) {
-            for (i in list.indices) {
-                dataList!!.add(AcbflwBaseType(layoutId, list[i]))
+    /**
+     * 添加数据和布局id
+     *
+     * @param list     数据列表
+     * @param layoutId 布局id
+     */
+    override fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean) {
+        list?.let {
+            for (t in list) {
+                if (t != null) {
+                    dataList.add(AcbflwBaseType(layoutId, t))
+                } else {
+                    return
+                }
             }
             notifyDataSetChanged()
         }
     }
 
-    /*
-     * 添加
-     * */
-    fun multiTypeLoad(list: List<AcbflwBaseType<T>>?) {
-        if (list != null) {
-            dataList!!.addAll(list)
+    /**
+     * 添加转换后的basetype数据
+     *
+     * @param list basetype数据列表
+     */
+    override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
+        list?.let {
+            this.dataList.addAll(list);
             notifyDataSetChanged()
         }
     }
 
-    /*
-     * 清除 添加
-     * */
-    fun singleTypeRefresh(list: List<T>?, layoutId: Int) {
-        if (list != null) {
-            dataList!!.clear()
-            for (i in list.indices) {
-                dataList!!.add(AcbflwBaseType(layoutId, list[i]))
+    /**
+     * 清除旧数据并添加新数据和布局id
+     *
+     * @param list     数据列表
+     * @param layoutId 布局id
+     */
+    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean) {
+        list?.let {
+            dataList.clear()
+            for (t in list) {
+                dataList.add(AcbflwBaseType(layoutId, t))
             }
             notifyDataSetChanged()
         }
     }
 
-    /*
-     * 清除 添加
-     * */
-    fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?) {
-        if (list != null && list.isNotEmpty()) {
-            dataList!!.clear()
-            dataList!!.addAll(list)
+    /**
+     * 清除旧数据并添加转换后的basetype数据
+     *
+     * @param list basetype数据列表
+     */
+    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
+        if (list != null && list.size > 0) {
+            dataList.clear()
+            dataList.addAll(list)
             notifyDataSetChanged()
         }
     }
 
     /**
      * 显示空视图
+     *
+     * @param layoutId 布局资源id
+     * @param desc     空视图实例
      */
-    fun showEmptyView(layoutId: Int, desc: T) {
-        dataList!!.clear()
-        dataList!!.add(AcbflwBaseType(layoutId, desc))
+    override fun showEmptyView(layoutId: Int, desc: T, haveMoreData: Boolean) {
+        dataList.clear()
+        dataList.add(AcbflwBaseType(layoutId, desc))
         notifyDataSetChanged()
     }
 }
