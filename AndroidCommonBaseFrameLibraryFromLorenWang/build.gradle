@@ -37,9 +37,9 @@ dependencies {
     //自定义控件库
     implementation 'com.github.lorenwang:AndroidCustomViewsFromLorenWang:1.0.60'
     //自定义工具类
-    implementation 'com.github.lorenwang:AndroidCustomToolsFromLorenWang:1.0.78'
+    implementation 'com.github.lorenwang:AndroidCustomToolsFromLorenWang:1.0.92'
     //java工具类库
-    implementation 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.47'
+    implementation 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.5'
     //java数据格式化类库
     implementation 'com.github.lorenwang:JavaDataParseFromLorenWang:1.0.11'
     //kotlin工具类
@@ -58,6 +58,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     //Toast提示框架
     implementation 'com.github.hss01248:Toasty:2.0.6'
+    //列表数据加载
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
+//    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'  //没有使用特殊Header，可以不加这行
 }
 
 def moduleName = "AndroidCommonBaseFrameLibraryFromLorenWang"
