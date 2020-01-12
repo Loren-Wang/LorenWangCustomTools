@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse
 abstract class SbcbflwBaseControllerFilter : Filter {
 
     @Autowired
-    private lateinit var userInfoRepository: SbcbflwUserInfoRepository
+    private lateinit var userInfoRepository: SbcbflwUserInfoRepository<SbcbflwBaseUserInfoTb>
     @Autowired
     private lateinit var emptyController: SbcbflwBaseController
     private val swaggerPathList = ArrayList<String>()

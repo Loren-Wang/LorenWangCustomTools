@@ -18,7 +18,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport
  * 修改时间：
  * 备注：
  */
-abstract class SbcbflwDataBaseTableVersionUpdateOptions {
+abstract class SbcbflwDataBaseTableVersionUpdateOptions<T : SbcbflwBaseDatabaseTableVersionTb> {
     //数据库表版本表操作实例
     private lateinit var databaseTableVersionRepository: SbcbflwDatabaseTableVersionRepository;
 

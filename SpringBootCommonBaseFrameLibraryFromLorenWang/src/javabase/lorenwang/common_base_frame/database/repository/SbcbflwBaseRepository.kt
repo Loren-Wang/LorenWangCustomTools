@@ -1,6 +1,8 @@
 package javabase.lorenwang.common_base_frame.database.repository
 
+import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
+import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.repository.PagingAndSortingRepository
 
@@ -15,6 +17,6 @@ import org.springframework.data.repository.PagingAndSortingRepository
  * 修改时间：
  * 备注：
  */
-public interface SbcbflwUserInfoRepository<T : SbcbflwBaseUserInfoTb> : SbcbflwBaseRepository<T> {
+public interface SbcbflwBaseRepository<T : SbcbflwBaseTb> : JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
 
 }
