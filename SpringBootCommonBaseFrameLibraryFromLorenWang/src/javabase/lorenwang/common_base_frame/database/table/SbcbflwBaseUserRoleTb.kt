@@ -31,6 +31,11 @@ open class SbcbflwBaseUserRoleTb : SbcbflwBaseTb(), Serializable, Cloneable {
     @Column(name = SbcbflwBaseTableConfig.UserRoleColumn.ID)
     var id: Long? = null
     /**
+     * 角色类型
+     */
+    @Column(name = SbcbflwBaseTableConfig.UserRoleColumn.ROLE_TYPE, nullable = false, columnDefinition = "int comment '角色类型'")
+    var roleType: Int? = null
+    /**
      * 角色名称
      */
     @Column(name = SbcbflwBaseTableConfig.UserRoleColumn.ROLE_NAME, nullable = false, columnDefinition = "varchar(50) comment '角色名称'")

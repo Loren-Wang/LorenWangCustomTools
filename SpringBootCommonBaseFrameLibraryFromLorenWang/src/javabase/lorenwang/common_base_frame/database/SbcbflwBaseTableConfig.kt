@@ -156,6 +156,10 @@ object SbcbflwBaseTableConfig {
          */
         const val ID = "id"
         /**
+         * 角色类型
+         */
+        const val ROLE_TYPE = "role_type"
+        /**
          * 角色名称
          */
         const val ROLE_NAME = "role_name"
