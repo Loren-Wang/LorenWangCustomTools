@@ -18,7 +18,7 @@ import java.util.*
  * 修改时间：
  * 备注：
  */
-class SbcbflwCommonUtils {
+open class SbcbflwCommonUtils {
     companion object {
         private var optionsUtils: SbcbflwCommonUtils? = null
         @JvmStatic

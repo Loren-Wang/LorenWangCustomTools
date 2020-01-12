@@ -19,7 +19,7 @@ import org.springframework.mail.javamail.MimeMessageHelper
  * 修改时间：
  * 备注：
  */
-class SbcbflwEmailUtils {
+open class SbcbflwEmailUtils {
     private var javaMailSender: JavaMailSenderImpl? = null
 
     companion object {

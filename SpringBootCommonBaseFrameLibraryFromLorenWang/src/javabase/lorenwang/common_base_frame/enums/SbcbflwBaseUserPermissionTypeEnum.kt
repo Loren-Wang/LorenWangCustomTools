@@ -11,5 +11,5 @@ package javabase.lorenwang.common_base_frame.enums
  * 修改时间：
  * 备注：
  */
-abstract class SbcbflwBaseUserPermissionTypeEnum {
+public abstract class SbcbflwBaseUserPermissionTypeEnum {
 }

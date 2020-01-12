@@ -13,7 +13,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder
  * 修改时间：
  * 备注：
  */
-class SbcbflwPasswordUtils : Md5PasswordEncoder() {
+open class SbcbflwPasswordUtils : Md5PasswordEncoder() {
     companion object {
         private var optionsUtils: SbcbflwPasswordUtils? = null
         @JvmStatic

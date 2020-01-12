@@ -27,7 +27,7 @@ import java.util.*
  * 配置参数13、默认每页大小---defaultRequestPageSize
  * 配置参数14、默认第一页---defaultRequestPageIndex
  */
-object SbcbflwPropertiesConfig {
+public object SbcbflwPropertiesConfig {
     /**
      * 阿里云oss系统域名
      */

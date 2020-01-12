@@ -17,7 +17,7 @@ import org.apache.commons.lang.RandomStringUtils
  * 修改时间：
  * 备注：
  */
-abstract class SbcbflwUserHelper {
+public abstract class SbcbflwUserHelper {
     /**
      * 密码长度，默认10位
      */
@@ -30,7 +30,7 @@ abstract class SbcbflwUserHelper {
     /**
      * 通过请求头获取用户token
      */
-    abstract fun getAccessTokenByReqHeader(sbcbflwBaseHttpServletRequestWrapper: SbcbflwBaseHttpServletRequestWrapper): String?
+    abstract fun getAccessTokenByReqHeader(request: SbcbflwBaseHttpServletRequestWrapper): String?
 
     /**
      * 检查token是否有效
@@ -45,12 +45,12 @@ abstract class SbcbflwUserHelper {
     /**
      * 检测用户是否已经登录
      */
-    abstract fun checkUserLogin(req: SbcbflwBaseHttpServletRequestWrapper): SbcbflwBaseUserInfoTb
+    abstract fun checkUserLogin(request: SbcbflwBaseHttpServletRequestWrapper): SbcbflwBaseDataDisposeStatusBean
 
     /**
      * 刷新用户token
      */
-    abstract fun refreshAccessToken(accessToken: String): String
+    abstract fun refreshAccessToken(token: String): String
 
     /**
      * 生成密码,可能为空

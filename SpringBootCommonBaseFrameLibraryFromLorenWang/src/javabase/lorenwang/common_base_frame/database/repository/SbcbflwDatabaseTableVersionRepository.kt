@@ -14,6 +14,6 @@ import org.springframework.data.repository.CrudRepository
  * 修改时间：
  * 备注：
  */
-interface SbcbflwDatabaseTableVersionRepository : CrudRepository<SbcbflwBaseDatabaseTableVersionTb, Long> {
+public interface SbcbflwDatabaseTableVersionRepository : CrudRepository<SbcbflwBaseDatabaseTableVersionTb, Long> {
     fun findDatabaseTableVersionTbByVersionCodeAndVersionName(versionCode: Long, versionName: String): SbcbflwBaseDatabaseTableVersionTb?
 }

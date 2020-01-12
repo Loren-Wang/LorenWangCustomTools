@@ -17,7 +17,7 @@ import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionTypeE
  * 修改时间：
  * 备注：
  */
-abstract class SbcbflwUserRolePermissionHelper {
+public abstract class SbcbflwUserRolePermissionHelper {
     companion object {
         lateinit var instance: SbcbflwUserRolePermissionHelper
     }

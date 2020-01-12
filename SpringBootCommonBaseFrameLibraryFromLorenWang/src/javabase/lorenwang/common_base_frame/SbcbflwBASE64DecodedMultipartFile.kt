@@ -14,7 +14,7 @@ import java.io.*
  * 修改时间：
  * 备注：
  */
-class SbcbflwBASE64DecodedMultipartFile (private val imgContent: ByteArray, private val contentType: String) : MultipartFile {
+open class SbcbflwBASE64DecodedMultipartFile (private val imgContent: ByteArray, private val contentType: String) : MultipartFile {
 
     override fun getName(): String {
         return "xxxx.${contentType.replace(Regex(".*/"), "")}"

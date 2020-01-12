@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame.controller
 import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserHelper
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
+import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import org.springframework.beans.factory.annotation.Autowired
@@ -92,7 +93,19 @@ abstract class SbcbflwBaseControllerFilter : Filter {
         JtlwLogUtils.logD(javaClass, "接收到接口请求，开始检测用户登录状态，如果有token的话")
         SbcbflwUserHelper.instance.getAccessTokenByReqHeader(req)?.let {
             val userStatus = SbcbflwUserHelper.instance.checkUserLogin(req)
-            userStatus.emptyCheck({
+            if (userStatus.statusResult && userStatus.body != null && userStatus.body is SbcbflwBaseUserInfoTb) {
+                val accessToken = (userStatus.body as SbcbflwBaseUserInfoTb).accessToken
+                JtlwLogUtils.logD(javaClass, "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息")
+                SbcbflwUserHelper.instance.refreshAccessToken(accessToken!!).let { newToken ->
+                    if (!accessToken.equals(newToken)) {
+                        (userStatus.body as SbcbflwBaseUserInfoTb).accessToken = newToken
+                        response.setHeader(req.ACCESS_TOKEN_KEY, newToken)
+                        req.addHeader(req.ACCESS_TOKEN_KEY, newToken)
+                        JtlwLogUtils.logI(javaClass, "token已更新")
+                    }
+                    req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, userStatus.body)
+                }
+            }else{
                 JtlwLogUtils.logD(javaClass, "token无效或者不存在，生成提示信息")
                 val responseFailInfo = emptyController.responseErrorUserLoginEmptyOrTokenNoneffective()
                 //通过设置响应头控制浏览器以UTF-8的编码显示数据
@@ -100,18 +113,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
                 //获取OutputStream输出流
                 rep.outputStream.write(responseFailInfo.toByteArray())
                 return
-            }, {
-                JtlwLogUtils.logD(javaClass, "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息")
-                SbcbflwUserHelper.instance.refreshAccessToken(it.accessToken!!).let { newToken ->
-                    if (!it.accessToken.equals(newToken)) {
-                        it.accessToken = newToken
-                        response.setHeader(req.ACCESS_TOKEN_KEY, it.accessToken)
-                        req.addHeader(req.ACCESS_TOKEN_KEY, it.accessToken!!)
-                        JtlwLogUtils.logI(javaClass, "token已更新")
-                    }
-                    req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, it)
-                }
-            })
+            }
         }
 
         //正常发起请求

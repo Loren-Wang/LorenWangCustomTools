@@ -22,7 +22,7 @@ import javax.crypto.spec.SecretKeySpec
  * 修改时间：
  * 备注：
  */
-class SbcbflwEncryptDecryptUtils private constructor() {
+open class SbcbflwEncryptDecryptUtils private constructor() {
     companion object {
         private var optionsUtils: SbcbflwEncryptDecryptUtils? = null
         @JvmStatic

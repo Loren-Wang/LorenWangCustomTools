@@ -11,7 +11,7 @@ package javabase.lorenwang.common_base_frame.enums
  * 修改时间：
  * 备注：
  */
-enum class SbcbflwBaseUserStatusEnum constructor(var status: Int) {
+public enum class SbcbflwBaseUserStatusEnum constructor(var status: Int) {
     /**
      * 启用
      */

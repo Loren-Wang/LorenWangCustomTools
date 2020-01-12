@@ -31,7 +31,7 @@ import java.net.URL
  * 备注：
  */
 @Service
-class SbcbflwALiYunOssUtils private constructor() {
+open class SbcbflwALiYunOssUtils private constructor() {
     private val filePathRegex = Regex("^[hH][tT]{2}[p|P][sS]?://${SbcbflwPropertiesConfig.aLiYunOssDomain}/")
 
     companion object {

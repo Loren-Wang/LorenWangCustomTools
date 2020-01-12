@@ -15,6 +15,6 @@ import org.springframework.data.repository.PagingAndSortingRepository
  * 修改时间：
  * 备注：
  */
-interface SbcbflwUserInfoRepository : PagingAndSortingRepository<SbcbflwBaseUserInfoTb, Long>, JpaSpecificationExecutor<SbcbflwBaseUserInfoTb> {
+public interface SbcbflwUserInfoRepository : PagingAndSortingRepository<SbcbflwBaseUserInfoTb, Long>, JpaSpecificationExecutor<SbcbflwBaseUserInfoTb> {
 
 }
