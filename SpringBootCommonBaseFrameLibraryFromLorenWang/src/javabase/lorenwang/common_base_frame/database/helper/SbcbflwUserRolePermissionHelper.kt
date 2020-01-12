@@ -5,6 +5,7 @@ import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletReq
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionTypeEnum
+import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
 
 /**
  * 功能作用：用户角色权限帮助类
@@ -21,11 +22,12 @@ public abstract class SbcbflwUserRolePermissionHelper {
     companion object {
         lateinit var instance: SbcbflwUserRolePermissionHelper
     }
+
     /**
      * 检测是否有权限
      */
-    abstract fun checkUserHavePermission(sbcbflwBaseHttpServletRequestWrapper: SbcbflwBaseHttpServletRequestWrapper,
-                                         userInfo: SbcbflwBaseUserInfoTb,
+    abstract fun checkUserHavePermission(request: SbcbflwBaseHttpServletRequestWrapper,
+                                         userInfo: SbcbflwBaseUserInfoTb<*, *>,
                                          permission: SbcbflwBaseUserPermissionTypeEnum): SbcbflwBaseDataDisposeStatusBean
 
 }

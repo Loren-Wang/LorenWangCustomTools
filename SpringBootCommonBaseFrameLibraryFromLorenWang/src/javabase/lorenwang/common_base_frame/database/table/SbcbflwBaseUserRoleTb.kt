@@ -22,7 +22,7 @@ import javax.persistence.*
  */
 @MappedSuperclass
 @JsonAutoDetect
-open class SbcbflwBaseUserRoleTb : SbcbflwBaseTb(), Serializable, Cloneable {
+open class SbcbflwBaseUserRoleTb<T> : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
      * id
      */
@@ -49,7 +49,7 @@ open class SbcbflwBaseUserRoleTb : SbcbflwBaseTb(), Serializable, Cloneable {
     @JoinTable(name = INTERMEDIATE_USER_ROLE_PERMISSION,
             joinColumns = [JoinColumn(name = ROLE_ID, referencedColumnName = SbcbflwBaseTableConfig.UserRoleColumn.ID)],
             inverseJoinColumns = [JoinColumn(name = PERMISSION_ID, referencedColumnName = SbcbflwBaseTableConfig.UserPermissionColumn.ID)])
-    var permission: MutableSet<SbcbflwBaseUserPermissionTb>? = null
+    var permission: MutableSet<T>? = null
 
 
 }

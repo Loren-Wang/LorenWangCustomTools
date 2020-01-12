@@ -39,8 +39,8 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
         baseController: SbcbflwBaseController,
         noinline notLoginFun: (() -> Any)?,
-        noinline notPermissionFun: ((userInfoTb: SbcbflwBaseUserInfoTb) -> Any)?,
-        crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb) -> Any,
+        noinline notPermissionFun: ((userInfoTb: SbcbflwBaseUserInfoTb<*,*>) -> Any)?,
+        crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb<*,*>) -> Any,
         noinline unKnownRepositoryErrorFun: ((data: Any?) -> Any)?): String {
 
     //先判断数据是否有空数据,返回空检测状态
@@ -62,7 +62,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         val userInfo = this.getAttribute(REQUEST_SET_USER_INFO_KEY).emptyCheck({
             null
         }, {
-            it as SbcbflwBaseUserInfoTb
+            it as SbcbflwBaseUserInfoTb<*,*>
         })
         JtlwLogUtils.logD(this::class.java, "用户${userInfo?.account}开始登录检测")
         //通过请求中的参数获取登录状态，因为在基础中已经做了登录拦截，所以这里仅仅对相应参数做比较，不再进行数据库查询
@@ -239,8 +239,8 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
         baseController: SbcbflwBaseController,
         noinline notLoginFun: (() -> Any)?,
-        noinline notPermissionFun: ((userInfoTb: SbcbflwBaseUserInfoTb) -> Any)?,
-        crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb) -> Any): String {
+        noinline notPermissionFun: ((userInfoTb: SbcbflwBaseUserInfoTb<*,*>) -> Any)?,
+        crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb<*,*>) -> Any): String {
     return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController,
             notLoginFun, notPermissionFun, unKnownRepositoryOptionsFun, null)
 }
@@ -253,7 +253,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
         baseController: SbcbflwBaseController,
         noinline notLoginAndPermissionFun: () -> Any,
-        crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb) -> Any): String {
+        crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb<*,*>) -> Any): String {
     return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController,
             { notLoginAndPermissionFun() }, { notLoginAndPermissionFun() }, unKnownRepositoryOptionsFun, null)
 }
@@ -265,7 +265,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
         baseController: SbcbflwBaseController,
-        crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb) -> Any): String {
+        crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb<*,*>) -> Any): String {
     return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController,
             null, null, unKnownRepositoryOptionsFun, null)
 }

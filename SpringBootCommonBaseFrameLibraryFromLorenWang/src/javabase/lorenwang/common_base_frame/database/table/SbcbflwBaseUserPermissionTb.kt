@@ -19,7 +19,7 @@ import javax.persistence.*
  */
 @MappedSuperclass
 @JsonAutoDetect
-open class SbcbflwBaseUserPermissionTb : SbcbflwBaseTb(), Serializable, Cloneable {
+open class SbcbflwBaseUserPermissionTb<T> : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
      * id
      */
@@ -44,5 +44,5 @@ open class SbcbflwBaseUserPermissionTb : SbcbflwBaseTb(), Serializable, Cloneabl
      */
     @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.PERMISSION_ROLE, nullable = false)
     @ManyToMany(mappedBy = SbcbflwBaseTableConfig.UserRoleColumn.ROLE_PERMISSION)
-    var permissionRole: MutableSet<SbcbflwBaseUserRoleTb>? = null
+    var permissionRole: MutableSet<T>? = null
 }

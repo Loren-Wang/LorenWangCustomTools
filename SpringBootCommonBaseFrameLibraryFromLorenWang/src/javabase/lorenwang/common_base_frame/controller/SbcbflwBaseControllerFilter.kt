@@ -27,10 +27,6 @@ import javax.servlet.http.HttpServletResponse
 @Transactional
 abstract class SbcbflwBaseControllerFilter : Filter {
 
-    @Autowired
-    private lateinit var userInfoRepository: SbcbflwUserInfoRepository<SbcbflwBaseUserInfoTb>
-    @Autowired
-    private lateinit var emptyController: SbcbflwBaseController
     private val swaggerPathList = ArrayList<String>()
 
     init {
@@ -93,21 +89,21 @@ abstract class SbcbflwBaseControllerFilter : Filter {
         JtlwLogUtils.logD(javaClass, "接收到接口请求，开始检测用户登录状态，如果有token的话")
         SbcbflwUserHelper.instance.getAccessTokenByReqHeader(req)?.let {
             val userStatus = SbcbflwUserHelper.instance.checkUserLogin(req)
-            if (userStatus.statusResult && userStatus.body != null && userStatus.body is SbcbflwBaseUserInfoTb) {
-                val accessToken = (userStatus.body as SbcbflwBaseUserInfoTb).accessToken
+            if (userStatus.statusResult && userStatus.body != null && userStatus.body is SbcbflwBaseUserInfoTb<*,*>) {
+                val accessToken = (userStatus.body as SbcbflwBaseUserInfoTb<*,*>).accessToken
                 JtlwLogUtils.logD(javaClass, "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息")
                 SbcbflwUserHelper.instance.refreshAccessToken(accessToken!!).let { newToken ->
                     if (!accessToken.equals(newToken)) {
-                        (userStatus.body as SbcbflwBaseUserInfoTb).accessToken = newToken
+                        (userStatus.body as SbcbflwBaseUserInfoTb<*,*>).accessToken = newToken
                         response.setHeader(req.ACCESS_TOKEN_KEY, newToken)
                         req.addHeader(req.ACCESS_TOKEN_KEY, newToken)
                         JtlwLogUtils.logI(javaClass, "token已更新")
                     }
                     req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, userStatus.body)
                 }
-            }else{
+            } else {
                 JtlwLogUtils.logD(javaClass, "token无效或者不存在，生成提示信息")
-                val responseFailInfo = emptyController.responseErrorUserLoginEmptyOrTokenNoneffective()
+                val responseFailInfo = responseErrorUserLoginEmptyOrTokenNoneffective()
                 //通过设置响应头控制浏览器以UTF-8的编码显示数据
                 rep.setHeader("content-type", "text/html;charset=UTF-8")
                 //获取OutputStream输出流
@@ -123,4 +119,9 @@ abstract class SbcbflwBaseControllerFilter : Filter {
     override fun destroy() {
         JtlwLogUtils.logI(javaClass, "销毁筛选器")
     }
+
+    /**
+     * 登录验证失败,用户未登录或者token失效
+     */
+    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective(): String
 }

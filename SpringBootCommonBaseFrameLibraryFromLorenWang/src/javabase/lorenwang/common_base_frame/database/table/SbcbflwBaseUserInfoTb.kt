@@ -20,7 +20,7 @@ import java.io.Serializable
  */
 @JsonAutoDetect
 @MappedSuperclass
-open class SbcbflwBaseUserInfoTb : SbcbflwBaseTb(), Serializable, Cloneable {
+open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
      * id
      */
@@ -52,7 +52,7 @@ open class SbcbflwBaseUserInfoTb : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
      * 邮箱
      */
-    @Column(name = SbcbflwBaseTableConfig.CommonColumn.EMAIL, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.EMAIL} comment '邮箱'")
+    @Column(name = SbcbflwBaseTableConfig.CommonColumn.EMAIL, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.EMAIL} comment '邮箱'")
     var email: String? = null
     /**
      * security加密的密码种子，和md5加密的密码类似
@@ -64,7 +64,7 @@ open class SbcbflwBaseUserInfoTb : SbcbflwBaseTb(), Serializable, Cloneable {
      */
     @JoinColumn(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ROLE, nullable = false, columnDefinition = "bigint comment '用户角色'")
     @ManyToOne
-    var userRole: SbcbflwBaseUserRoleTb? = null
+    var userRole: ROLE_TB? = null
     /**
      * 用户昵称
      */
