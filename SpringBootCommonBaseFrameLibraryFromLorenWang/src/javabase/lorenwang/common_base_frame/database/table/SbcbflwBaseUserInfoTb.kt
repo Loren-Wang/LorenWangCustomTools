@@ -25,7 +25,7 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
      * id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ID)
     var userId: Long? = null
     /**
