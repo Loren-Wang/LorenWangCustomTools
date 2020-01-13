@@ -1,5 +1,6 @@
 package javabase.lorenwang.common_base_frame.email
 
+import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
@@ -41,10 +42,10 @@ open class SbcbflwEmailUtils {
     init {
         try {
             javaMailSender = JavaMailSenderImpl()
-            javaMailSender?.javaMailProperties = SbcbflwPropertiesConfig.emailProperties
-            javaMailSender?.host = SbcbflwPropertiesConfig.emailHost
-            javaMailSender?.username = SbcbflwPropertiesConfig.emailUserName
-            javaMailSender?.password = SbcbflwPropertiesConfig.emailUserPassword
+            javaMailSender?.javaMailProperties = SbcbflwCommonUtils.instance.propertiesConfig.emailProperties
+            javaMailSender?.host = SbcbflwCommonUtils.instance.propertiesConfig.emailHost
+            javaMailSender?.username = SbcbflwCommonUtils.instance.propertiesConfig.emailUserName
+            javaMailSender?.password = SbcbflwCommonUtils.instance.propertiesConfig.emailUserPassword
             javaMailSender?.testConnection()
             JtlwLogUtils.logI(this::class.java, "邮件发送工具初始化结束，测试连接状态")
         } catch (e: Exception) {
@@ -69,7 +70,7 @@ open class SbcbflwEmailUtils {
                 JtlwLogUtils.logI(this::class.java, "开始向${toEmail}发送邮件")
                 val message = it.createMimeMessage()
                 val messageHelper = MimeMessageHelper(message, true, "utf-8")
-                messageHelper.setFrom(SbcbflwPropertiesConfig.emailUserName)
+                messageHelper.setFrom(SbcbflwCommonUtils.instance.propertiesConfig.emailUserName)
                 messageHelper.setTo(toEmail)
                 messageHelper.setSubject(title)
                 messageHelper.setText(content)

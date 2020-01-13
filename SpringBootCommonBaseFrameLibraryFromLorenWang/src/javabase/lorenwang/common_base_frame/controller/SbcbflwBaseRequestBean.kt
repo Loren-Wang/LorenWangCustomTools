@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.controller
 
 import io.swagger.annotations.ApiModelProperty
 import io.swagger.annotations.ApiParam
+import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 
 /**
@@ -30,11 +31,11 @@ open class SbcbflwBaseRequestBean {
      */
     @ApiModelProperty(value = "进行分页列表请求是传递的分页页码")
     @ApiParam(value = "请求中返回的图片相关是否返回全地址链接")
-    var pageIndex = SbcbflwPropertiesConfig.defaultRequestPageIndex;
+    var pageIndex = SbcbflwCommonUtils.instance.propertiesConfig.defaultRequestPageIndex;
     /**
      * 每页请求数量
      */
     @ApiModelProperty(value = "进行分页列表请求是传递的每页请求数量")
     @ApiParam(value = "进行分页列表请求是传递的每页请求数量")
-    var pageSize = SbcbflwPropertiesConfig.defaultRequestPageSize;
+    var pageSize = SbcbflwCommonUtils.instance.propertiesConfig.defaultRequestPageSize;
 }

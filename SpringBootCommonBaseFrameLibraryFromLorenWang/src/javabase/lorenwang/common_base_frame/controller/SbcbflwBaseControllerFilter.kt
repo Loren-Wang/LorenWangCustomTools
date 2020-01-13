@@ -1,5 +1,6 @@
 package javabase.lorenwang.common_base_frame.controller
 
+import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserHelper
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
@@ -49,7 +50,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
         val rep = response as HttpServletResponse
 
         //允许跨域请求
-        if (SbcbflwPropertiesConfig.isDebug) {
+        if (SbcbflwCommonUtils.instance.propertiesConfig.isDebug) {
             //设置允许跨域的配置
             // 这里填写你允许进行跨域的主机ip（正式上线时可以动态配置具体允许的域名和IP）
             rep.setHeader("Access-Control-Allow-Origin", "*")
@@ -87,16 +88,16 @@ abstract class SbcbflwBaseControllerFilter : Filter {
 
         //token检测
         JtlwLogUtils.logD(javaClass, "接收到接口请求，开始检测用户登录状态，如果有token的话")
-        SbcbflwUserHelper.instance.getAccessTokenByReqHeader(req)?.let {
-            val userStatus = SbcbflwUserHelper.instance.checkUserLogin(req)
-            if (userStatus.statusResult && userStatus.body != null && userStatus.body is SbcbflwBaseUserInfoTb<*,*>) {
+        SbcbflwUserHelper.baseInstance?.getAccessTokenByReqHeader(req)?.let {
+            val userStatus = SbcbflwUserHelper.baseInstance?.checkUserLogin(req)
+            if (userStatus != null && userStatus.statusResult && userStatus.body != null && userStatus.body is SbcbflwBaseUserInfoTb<*,*>) {
                 val accessToken = (userStatus.body as SbcbflwBaseUserInfoTb<*,*>).accessToken
                 JtlwLogUtils.logD(javaClass, "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息")
-                SbcbflwUserHelper.instance.refreshAccessToken(accessToken!!).let { newToken ->
+                SbcbflwUserHelper.baseInstance?.refreshAccessToken(accessToken!!).let { newToken ->
                     if (!accessToken.equals(newToken)) {
                         (userStatus.body as SbcbflwBaseUserInfoTb<*,*>).accessToken = newToken
                         response.setHeader(req.ACCESS_TOKEN_KEY, newToken)
-                        req.addHeader(req.ACCESS_TOKEN_KEY, newToken)
+                        req.addHeader(req.ACCESS_TOKEN_KEY, newToken!!)
                         JtlwLogUtils.logI(javaClass, "token已更新")
                     }
                     req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, userStatus.body)

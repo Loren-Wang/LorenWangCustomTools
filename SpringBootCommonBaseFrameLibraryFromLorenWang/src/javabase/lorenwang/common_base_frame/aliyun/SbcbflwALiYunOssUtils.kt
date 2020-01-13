@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame.aliyun
 import com.aliyun.oss.OSSClient
 import com.aliyun.oss.model.ObjectMetadata
 import javabase.lorenwang.common_base_frame.SbcbflwBASE64DecodedMultipartFile
+import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
 import org.springframework.stereotype.Service
@@ -32,7 +33,7 @@ import java.net.URL
  */
 @Service
 open class SbcbflwALiYunOssUtils private constructor() {
-    private val filePathRegex = Regex("^[hH][tT]{2}[p|P][sS]?://${SbcbflwPropertiesConfig.aLiYunOssDomain}/")
+    private val filePathRegex = Regex("^[hH][tT]{2}[p|P][sS]?://${SbcbflwCommonUtils.instance.propertiesConfig.aLiYunOssDomain}/")
 
     companion object {
         private var aLiYunOssUtils: SbcbflwALiYunOssUtils? = null
@@ -62,7 +63,7 @@ open class SbcbflwALiYunOssUtils private constructor() {
             ""
         } else {
             if (isFullPath) {
-                "http://${SbcbflwPropertiesConfig.aLiYunOssDomain}/${clearImageDomain(imgPath)}"
+                "http://${SbcbflwCommonUtils.instance.propertiesConfig.aLiYunOssDomain}/${clearImageDomain(imgPath)}"
             } else imgPath!!
         }
     }
@@ -111,12 +112,12 @@ open class SbcbflwALiYunOssUtils private constructor() {
      */
     fun upLoadFile(inputStream: InputStream, savePath: String): Boolean {
         // 创建OSSClient实例。
-        val ossClient = OSSClient(SbcbflwPropertiesConfig.aLiYunOssEndpoint,
-                SbcbflwPropertiesConfig.aLiYunOssAccessKeyId,
-                SbcbflwPropertiesConfig.aLiYunOssAccessKeySecret)
+        val ossClient = OSSClient(SbcbflwCommonUtils.instance.propertiesConfig.aLiYunOssEndpoint,
+                SbcbflwCommonUtils.instance.propertiesConfig.aLiYunOssAccessKeyId,
+                SbcbflwCommonUtils.instance.propertiesConfig.aLiYunOssAccessKeySecret)
 
         return try { // 上传文件流。
-            ossClient.putObject(SbcbflwPropertiesConfig.aLiYunOssBucket, savePath, inputStream, ObjectMetadata())
+            ossClient.putObject(SbcbflwCommonUtils.instance.propertiesConfig.aLiYunOssBucket, savePath, inputStream, ObjectMetadata())
             true
         } catch (e: Exception) {
             false

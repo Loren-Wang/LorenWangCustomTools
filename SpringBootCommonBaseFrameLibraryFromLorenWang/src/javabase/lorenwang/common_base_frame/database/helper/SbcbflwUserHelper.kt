@@ -24,7 +24,7 @@ public abstract class SbcbflwUserHelper {
     protected var passwordLength: Int = 10
 
     companion object {
-        lateinit var instance: SbcbflwUserHelper
+        var baseInstance: SbcbflwUserHelper? = null
     }
 
     /**

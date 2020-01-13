@@ -20,7 +20,7 @@ import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
  */
 public abstract class SbcbflwUserRolePermissionHelper {
     companion object {
-        lateinit var instance: SbcbflwUserRolePermissionHelper
+        var baseInstance: SbcbflwUserRolePermissionHelper? = null
     }
 
     /**

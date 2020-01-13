@@ -1,5 +1,6 @@
 package javabase.lorenwang.common_base_frame
 
+import org.springframework.beans.factory.annotation.Value
 import java.util.*
 
 /**
@@ -27,91 +28,90 @@ import java.util.*
  * 配置参数13、默认每页大小---defaultRequestPageSize
  * 配置参数14、默认第一页---defaultRequestPageIndex
  */
-public object SbcbflwPropertiesConfig {
+open class SbcbflwPropertiesConfig {
     /**
      * 阿里云oss系统域名
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.aliyun.oss.domain}")
     var aLiYunOssDomain = ""
     /**
      * 阿里云oss访问域名
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.aliyun.oss.Endpoint}")
     var aLiYunOssEndpoint = ""
     /**
      * 阿里云oss系统keyid
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.aliyun.oss.AccessKeyId}")
     var aLiYunOssAccessKeyId = ""
     /**
      * 阿里云oss系统密钥
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.aliyun.oss.AccessKeySecret}")
     var aLiYunOssAccessKeySecret = ""
     /**
      * 阿里云存储空间名
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.aliyun.oss.Bucket}")
     var aLiYunOssBucket = ""
 
     /*
    * 加密用的Key 可以用26个字母和数字组成 此处使用AES-128-CBC加密模式，key需要为16位。
    */
-    @JvmStatic
+    @Value("\${Sbcbflw.encryptDecrypt.Key}")
     var encryptDecryptKey = ""
     /**
      * 加密解密的算法参数
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.encryptDecrypt.IvParameter}")
     var encryptDecryptIvParameter = ""
 
     /**
      * 是否显示打印log日志
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.showLog}")
     var showLog = false
     /**
      * 是否是debug环境
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.isDebug}")
     var isDebug = false
 
     /**
      * 邮箱端口
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.emai.host}")
     var emailHost = ""
     /**
      * 邮箱用户名称
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.emai.UserName}")
     var emailUserName = ""
     /**
      * 邮箱密码
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.emai.UserPassword}")
     var emailUserPassword = ""
     /**
      * 邮箱配置文件
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.emai.Properties}")
     var emailProperties: Properties = SbcbflwCommonUtils.instance.getProperties("application-email.properties")
 
     /**
      * 当前编译器环境
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.runCompilingEnvironment}")
     var runCompilingEnvironment = 0
 
     /**
      * 默认每页大小
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.default.page.size}")
     var defaultRequestPageSize = 10;
     /**
      * 默认第一页
      */
-    @JvmStatic
+    @Value("\${Sbcbflw.default.page.index}")
     var defaultRequestPageIndex = 0;
-
 }

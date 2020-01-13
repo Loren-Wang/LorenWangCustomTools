@@ -57,4 +57,6 @@ open class SbcbflwCommonUtils {
         }
         return props
     }
+
+    lateinit var propertiesConfig: SbcbflwPropertiesConfig
 }
