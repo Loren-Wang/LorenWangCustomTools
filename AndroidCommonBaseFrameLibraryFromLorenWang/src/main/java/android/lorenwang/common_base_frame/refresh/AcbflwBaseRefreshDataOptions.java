@@ -29,11 +29,15 @@ public class AcbflwBaseRefreshDataOptions implements AcbflwBaseRefreshDataOption
     /**
      * 刷新头
      */
-    RefreshHeader refreshHeader;
+    private RefreshHeader refreshHeader;
     /**
      * 刷新底
      */
-    RefreshFooter refreshFooter;
+    private RefreshFooter refreshFooter;
+    /**
+     * 是否是第一次刷新
+     */
+    private boolean firstRefresh = true;
 
     private AcbflwBaseRefreshDataOptionsDecorator qtBaseRefreshDataOptionsDecorator;
 
@@ -96,7 +100,6 @@ public class AcbflwBaseRefreshDataOptions implements AcbflwBaseRefreshDataOption
         }
     }
 
-
     /**
      * 结束刷新或者结束加载更多
      */
@@ -129,13 +132,24 @@ public class AcbflwBaseRefreshDataOptions implements AcbflwBaseRefreshDataOption
         }
     }
 
+    /**
+     * 是否是首次刷新
+     *
+     * @return 是返回true
+     */
+    public boolean isFirstRefresh() {
+        return firstRefresh;
+    }
+
     @Override
     public void startRefreshing() {
+        firstRefresh = false;
         this.qtBaseRefreshDataOptionsDecorator.startRefreshing();
     }
 
     @Override
     public void startLoadingMore() {
+        firstRefresh = false;
         this.qtBaseRefreshDataOptionsDecorator.startLoadingMore();
     }
 }

@@ -8,7 +8,6 @@ import android.lorenwang.common_base_frame.refresh.AcbflwBaseRefreshDataOptions
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
 
 /**
  * 功能作用：列表数据操作
@@ -21,7 +20,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
  * 修改时间：
  * 备注：
  */
-class AcbflwBaseListDataOptions<T>(activity: Activity?,
+class AcbflwBaseListDataOptions<T>(val activity: Activity?,
                                    /**
                                     * 装饰器接口
                                     */
@@ -33,15 +32,15 @@ class AcbflwBaseListDataOptions<T>(activity: Activity?,
                                    /**
                                     * 列表控件群
                                     */
-                                   private val recyclerView: RecyclerView) : AcbflwBaseListDataOptionsDecorator<T> {
+                                   private var recyclerView: RecyclerView) : AcbflwBaseListDataOptionsDecorator<T> {
     /**
      * 列表布局管理器
      */
-    private var layoutManager: RecyclerView.LayoutManager?
+    private lateinit var layoutManager: RecyclerView.LayoutManager
     /**
      * 适配器
      */
-    private val adapter: AcbflwBaseRecyclerAdapter<T>?
+    private lateinit var adapter: AcbflwBaseRecyclerAdapter<T>
     /**
      * 数据列表
      */
@@ -52,96 +51,46 @@ class AcbflwBaseListDataOptions<T>(activity: Activity?,
     }
 
     override fun clear() {
-        if (adapter != null) {
-            adapter.clear()
-            list = adapter.adapterDataList
-        } else {
-            list.clear()
-        }
+        adapter.clear()
+        list = adapter.adapterDataList
         refreshDataOptions?.setAllowLoadMore(false)
     }
 
     override fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean) {
         list?.let {
-            if (adapter != null) {
-                adapter.singleTypeLoad(list, layoutId, haveMoreData)
-                this.list = adapter.adapterDataList
-            } else {
-                if (!JtlwCheckVariateUtils.getInstance().isEmpty(list)) {
-                    for (t in list) {
-                        if (t != null) {
-                            this.list.add(AcbflwBaseType(layoutId, t))
-                        } else {
-                            return
-                        }
-                    }
-                } else {
-                    this.list.clear()
-                }
-            }
+            adapter.singleTypeLoad(list, layoutId, haveMoreData)
+            this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
     }
 
     override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
         list?.let {
-            if (adapter != null) {
-                adapter.multiTypeLoad(list, haveMoreData)
-                this.list = adapter.adapterDataList
-            } else {
-                if (!JtlwCheckVariateUtils.getInstance().isEmpty(list)) {
-                    this.list.addAll(list)
-                } else {
-                    this.list.clear()
-                }
-            }
+            adapter.multiTypeLoad(list, haveMoreData)
+            this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
     }
 
     override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean) {
         list?.let {
-            if (adapter != null) {
-                adapter.singleTypeRefresh(list, layoutId, haveMoreData)
-                this.list = adapter.adapterDataList
-            } else {
-                this.list.clear()
-                if (!JtlwCheckVariateUtils.getInstance().isEmpty(list)) {
-                    for (t in list) {
-                        if (t != null) {
-                            this.list.add(AcbflwBaseType(layoutId, t))
-                        } else {
-                            return
-                        }
-                    }
-                }
-            }
+            adapter.singleTypeRefresh(list, layoutId, haveMoreData)
+            this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
     }
 
     override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
         list?.let {
-            if (adapter != null) {
-                adapter.multiTypeRefresh(list, haveMoreData)
-                this.list = adapter.adapterDataList
-            } else {
-                this.list.clear()
-                if (!JtlwCheckVariateUtils.getInstance().isEmpty(list)) {
-                    this.list.addAll(list)
-                }
-            }
+            adapter.multiTypeRefresh(list, haveMoreData)
+            this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
     }
 
     override fun showEmptyView(layoutId: Int, desc: T, haveMoreData: Boolean) {
-        if (adapter != null) {
-            adapter.showEmptyView(layoutId, desc, haveMoreData)
-            list = adapter.adapterDataList
-        } else {
-            list.clear()
-        }
+        adapter.showEmptyView(layoutId, desc, haveMoreData)
+        list = adapter.adapterDataList
         refreshDataOptions?.setAllowLoadMore(haveMoreData)
     }
 
@@ -154,23 +103,23 @@ class AcbflwBaseListDataOptions<T>(activity: Activity?,
      */
     fun setRecycle(recyclerView: RecyclerView?, layoutManager: RecyclerView.LayoutManager?) {
         if (recyclerView != null) {
-            this.layoutManager = layoutManager
-                    ?: if (this.layoutManager != null) this.layoutManager else LinearLayoutManager(recyclerView.context)
-            recyclerView.layoutManager = this.layoutManager
+            this.recyclerView = recyclerView;
+            this.layoutManager = layoutManager ?: this.layoutManager
+            this.recyclerView.layoutManager = this.layoutManager
+            this.recyclerView.layoutManager = layoutManager
+            adapter = object : AcbflwBaseRecyclerAdapter<T>(activity!!) {
+                override fun getListViewHolder(viewType: Int, itemView: View?): AcbflwBaseRecyclerViewHolder<T>? {
+                    return this@AcbflwBaseListDataOptions.getListViewHolder(viewType, itemView)
+                }
+            }
+            this.recyclerView.adapter = adapter
         }
     }
 
     init {
-        layoutManager = LinearLayoutManager(recyclerView.context)
-        recyclerView.layoutManager = layoutManager
-        adapter = object : AcbflwBaseRecyclerAdapter<T>(activity!!) {
-            override fun getListViewHolder(viewType: Int, itemView: View?): AcbflwBaseRecyclerViewHolder<T>? {
-                return this@AcbflwBaseListDataOptions.getListViewHolder(viewType, itemView)
-            }
-        }
-        recyclerView.adapter = adapter
+        setRecycle(recyclerView, LinearLayoutManager(recyclerView.context))
     }
 
     override val adapterDataList: ArrayList<AcbflwBaseType<T>>
-        get() = adapter!!.dataList
+        get() = adapter.dataList
 }
