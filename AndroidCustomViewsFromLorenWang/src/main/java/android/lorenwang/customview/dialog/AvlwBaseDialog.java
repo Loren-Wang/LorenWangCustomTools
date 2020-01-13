@@ -38,14 +38,14 @@ public class AvlwBaseDialog extends AlertDialog {
     }
 
     public AvlwBaseDialog(Context context, @LayoutRes int dialogViewLayoutResId
-            , @StyleRes int modelStyleResId, @StyleRes int dialogAnimo
+            , @StyleRes int modelStyleResId, @StyleRes int dialogAnim
             , boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
         super(context, modelStyleResId);
         view = LayoutInflater.from(context).inflate(dialogViewLayoutResId, null);
         new Builder(context, modelStyleResId).create();
         setView(view);
         setCanceledOnTouchOutside(isOutSideCancel);
-        getWindow().setWindowAnimations(dialogAnimo);
+        getWindow().setWindowAnimations(dialogAnim);
         this.isFullWidthShow = isFullWidthShow;
         this.isFullHeightShow = isFullHeightShow;
         if (isFullHeightShow) {
