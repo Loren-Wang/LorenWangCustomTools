@@ -65,65 +65,86 @@ public class AtlwViewUtils {
      */
     public ViewGroup.LayoutParams getViewLayoutParams(View view, Integer width, Integer height) {
         if (view != null) {
+            //当前params
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-            if (width == null) {
-                width = ViewGroup.LayoutParams.WRAP_CONTENT;
-            }
-            if (height == null) {
-                height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            }
-            if (layoutParams == null) {
-                //先获取当前view的params属性
+            if (layoutParams != null) {
+                if (width == null) {
+                    width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                }
+                if (height == null) {
+                    height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                }
+                layoutParams.width = width;
+                layoutParams.height = height;
+            } else {
+                //params为空，获取view的params类型进行更新
                 try {
                     //通过反射获取父级的素有属性，然后取出父类中定义的静态params类型然后转换并设置给子view
                     Class<?>[] classes = view.getClass().getClasses();
                     for (Class<?> item : classes) {
                         if (ViewGroup.LayoutParams.class.isAssignableFrom(item)) {
-                            layoutParams = (ViewGroup.LayoutParams) item.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
-                            break;
+                            return getViewLayoutParams(item, width, height);
                         }
                     }
                 } catch (Exception e) {
                     AtlwLogUtils.logE(TAG, "当前ViewParams获取异常");
                 }
-                //判断是否需要获取父级的
-                if (layoutParams == null && view.getParent() != null) {
-                    //当前的params获取失败，获取父级的
+                //当前的params获取失败，获取父级的
+                if (view.getParent() != null) {
                     try {
                         //通过反射获取父级的素有属性，然后取出父类中定义的静态params类型然后转换并设置给子view
                         Class<?>[] classes = view.getParent().getClass().getClasses();
                         for (Class<?> item : classes) {
                             if (ViewGroup.LayoutParams.class.isAssignableFrom(item)) {
-                                layoutParams = (ViewGroup.LayoutParams) item.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
-                                break;
+                                return getViewLayoutParams(item, width, height);
                             }
                         }
                     } catch (Exception e) {
                         AtlwLogUtils.logE(TAG, "当前View父级Params获取异常");
                     }
                 }
-                if (layoutParams == null) {
-                    if (view instanceof LinearLayout) {
-                        layoutParams = new LinearLayout.LayoutParams(width, height);
-                    } else if (view instanceof FrameLayout) {
-                        layoutParams = new FrameLayout.LayoutParams(width, height);
-                    } else if (view instanceof RelativeLayout) {
-                        layoutParams = new RelativeLayout.LayoutParams(width, height);
-                    } else if (view instanceof ConstraintLayout) {
-                        layoutParams = new ConstraintLayout.LayoutParams(width, height);
-                    } else if (view instanceof ViewGroup) {
-                        layoutParams = new ViewGroup.LayoutParams(width, height);
-                    }
+                if (view instanceof LinearLayout) {
+                    return getViewLayoutParams(LinearLayout.LayoutParams.class, width, height);
+                } else if (view instanceof FrameLayout) {
+                    return getViewLayoutParams(FrameLayout.LayoutParams.class, width, height);
+                } else if (view instanceof RelativeLayout) {
+                    return getViewLayoutParams(RelativeLayout.LayoutParams.class, width, height);
+                } else if (view instanceof ConstraintLayout) {
+                    return getViewLayoutParams(ConstraintLayout.LayoutParams.class, width, height);
+                } else if (view instanceof ViewGroup) {
+                    return getViewLayoutParams(ViewGroup.LayoutParams.class, width, height);
                 }
             }
-            if (layoutParams != null) {
-                layoutParams.width = width;
-                layoutParams.height = height;
-            }
-            return layoutParams;
-        } else {
-            return null;
         }
+        return null;
+    }
+
+    /**
+     * 获取控件的LayoutParams
+     *
+     * @param paramsClass params 的class
+     * @param width       控件显示的宽度
+     * @param height      控件显示的高度
+     * @return 控件的LayoutParams
+     */
+    public <T extends ViewGroup.LayoutParams> T getViewLayoutParams(Class<?> paramsClass, Integer width, Integer height) {
+        if (paramsClass != null) {
+            try {
+                if (width == null) {
+                    width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                }
+                if (height == null) {
+                    height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                }
+                T params = (T) paramsClass.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
+                params.width = width;
+                params.height = height;
+                return params;
+            } catch (Exception e) {
+                AtlwLogUtils.logE(TAG, "Params获取异常");
+            }
+        }
+        return null;
     }
 
     /**
@@ -162,45 +183,77 @@ public class AtlwViewUtils {
     public void setViewWidthHeightMargin(View view, int width, int height, Integer left, Integer top, Integer right, Integer bottom) {
         if (view != null) {
             ViewGroup.LayoutParams layoutParams = getViewLayoutParams(view, width, height);
-            if (layoutParams != null) {
-                if (view instanceof LinearLayout) {
-                    ViewGroup.MarginLayoutParams params = (LinearLayout.LayoutParams) layoutParams;
-                    params.setMargins(left == null ? params.leftMargin : left
-                            , top == null ? params.topMargin : top
-                            , right == null ? params.rightMargin : right
-                            , bottom == null ? params.bottomMargin : bottom);
-                    layoutParams = params;
-                } else if (view instanceof FrameLayout) {
-                    ViewGroup.MarginLayoutParams params = (FrameLayout.LayoutParams) layoutParams;
-                    params.setMargins(left == null ? params.leftMargin : left
-                            , top == null ? params.topMargin : top
-                            , right == null ? params.rightMargin : right
-                            , bottom == null ? params.bottomMargin : bottom);
-                    layoutParams = params;
-                } else if (view instanceof RelativeLayout) {
-                    ViewGroup.MarginLayoutParams params = (RelativeLayout.LayoutParams) layoutParams;
-                    params.setMargins(left == null ? params.leftMargin : left
-                            , top == null ? params.topMargin : top
-                            , right == null ? params.rightMargin : right
-                            , bottom == null ? params.bottomMargin : bottom);
-                    layoutParams = params;
-                } else if (view instanceof ConstraintLayout) {
-                    ViewGroup.MarginLayoutParams params = (ConstraintLayout.LayoutParams) layoutParams;
-                    params.setMargins(left == null ? params.leftMargin : left
-                            , top == null ? params.topMargin : top
-                            , right == null ? params.rightMargin : right
-                            , bottom == null ? params.bottomMargin : bottom);
-                    layoutParams = params;
-                } else if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
-                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) layoutParams;
-                    params.setMargins(left == null ? params.leftMargin : left
-                            , top == null ? params.topMargin : top
-                            , right == null ? params.rightMargin : right
-                            , bottom == null ? params.bottomMargin : bottom);
-                    layoutParams = params;
-                }
-                view.setLayoutParams(layoutParams);
+            setViewMarginParams(view, layoutParams, left, top, right, bottom);
+        }
+    }
+
+    /**
+     * 设置控件宽高以及margin属性
+     *
+     * @param view   要设置的控件
+     * @param width  控件显示的宽度
+     * @param height 控件显示的高度
+     * @param left   左外边距
+     * @param top    上外边距
+     * @param right  右外边距
+     * @param bottom 下外边距
+     */
+    public void setViewWidthHeightMargin(View view, Class<?> paramsClass, int width, int height, Integer left, Integer top, Integer right, Integer bottom) {
+        if (view != null) {
+            ViewGroup.LayoutParams layoutParams = getViewLayoutParams(paramsClass, width, height);
+            setViewMarginParams(view, layoutParams, left, top, right, bottom);
+        }
+    }
+
+    /**
+     * 设置view的外边距params
+     *
+     * @param layoutParams 布局params
+     * @param view         要设置的控件
+     * @param left         左外边距
+     * @param top          上外边距
+     * @param right        右外边距
+     * @param bottom       下外边距
+     */
+    public void setViewMarginParams(View view, ViewGroup.LayoutParams layoutParams, Integer left, Integer top, Integer right, Integer bottom) {
+        if (layoutParams != null) {
+            if (view instanceof LinearLayout) {
+                ViewGroup.MarginLayoutParams params = (LinearLayout.LayoutParams) layoutParams;
+                params.setMargins(left == null ? params.leftMargin : left
+                        , top == null ? params.topMargin : top
+                        , right == null ? params.rightMargin : right
+                        , bottom == null ? params.bottomMargin : bottom);
+                view.setLayoutParams(params);
+            } else if (view instanceof FrameLayout) {
+                ViewGroup.MarginLayoutParams params = (FrameLayout.LayoutParams) layoutParams;
+                params.setMargins(left == null ? params.leftMargin : left
+                        , top == null ? params.topMargin : top
+                        , right == null ? params.rightMargin : right
+                        , bottom == null ? params.bottomMargin : bottom);
+                view.setLayoutParams(params);
+            } else if (view instanceof RelativeLayout) {
+                ViewGroup.MarginLayoutParams params = (RelativeLayout.LayoutParams) layoutParams;
+                params.setMargins(left == null ? params.leftMargin : left
+                        , top == null ? params.topMargin : top
+                        , right == null ? params.rightMargin : right
+                        , bottom == null ? params.bottomMargin : bottom);
+                view.setLayoutParams(params);
+            } else if (view instanceof ConstraintLayout) {
+                ViewGroup.MarginLayoutParams params = (ConstraintLayout.LayoutParams) layoutParams;
+                params.setMargins(left == null ? params.leftMargin : left
+                        , top == null ? params.topMargin : top
+                        , right == null ? params.rightMargin : right
+                        , bottom == null ? params.bottomMargin : bottom);
+                view.setLayoutParams(params);
+            } else if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) layoutParams;
+                params.setMargins(left == null ? params.leftMargin : left
+                        , top == null ? params.topMargin : top
+                        , right == null ? params.rightMargin : right
+                        , bottom == null ? params.bottomMargin : bottom);
+                view.setLayoutParams(params);
             }
+
         }
     }
 
