@@ -217,41 +217,15 @@ public class AtlwViewUtils {
      */
     public void setViewMarginParams(View view, ViewGroup.LayoutParams layoutParams, Integer left, Integer top, Integer right, Integer bottom) {
         if (layoutParams != null) {
-            if (view instanceof LinearLayout) {
+            if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams params = (LinearLayout.LayoutParams) layoutParams;
                 params.setMargins(left == null ? params.leftMargin : left
                         , top == null ? params.topMargin : top
                         , right == null ? params.rightMargin : right
                         , bottom == null ? params.bottomMargin : bottom);
                 view.setLayoutParams(params);
-            } else if (view instanceof FrameLayout) {
-                ViewGroup.MarginLayoutParams params = (FrameLayout.LayoutParams) layoutParams;
-                params.setMargins(left == null ? params.leftMargin : left
-                        , top == null ? params.topMargin : top
-                        , right == null ? params.rightMargin : right
-                        , bottom == null ? params.bottomMargin : bottom);
-                view.setLayoutParams(params);
-            } else if (view instanceof RelativeLayout) {
-                ViewGroup.MarginLayoutParams params = (RelativeLayout.LayoutParams) layoutParams;
-                params.setMargins(left == null ? params.leftMargin : left
-                        , top == null ? params.topMargin : top
-                        , right == null ? params.rightMargin : right
-                        , bottom == null ? params.bottomMargin : bottom);
-                view.setLayoutParams(params);
-            } else if (view instanceof ConstraintLayout) {
-                ViewGroup.MarginLayoutParams params = (ConstraintLayout.LayoutParams) layoutParams;
-                params.setMargins(left == null ? params.leftMargin : left
-                        , top == null ? params.topMargin : top
-                        , right == null ? params.rightMargin : right
-                        , bottom == null ? params.bottomMargin : bottom);
-                view.setLayoutParams(params);
-            } else if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) layoutParams;
-                params.setMargins(left == null ? params.leftMargin : left
-                        , top == null ? params.topMargin : top
-                        , right == null ? params.rightMargin : right
-                        , bottom == null ? params.bottomMargin : bottom);
-                view.setLayoutParams(params);
+            } else {
+                view.setLayoutParams(layoutParams);
             }
 
         }
