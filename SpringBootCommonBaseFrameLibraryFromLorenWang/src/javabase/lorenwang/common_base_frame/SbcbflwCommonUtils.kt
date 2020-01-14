@@ -58,5 +58,26 @@ open class SbcbflwCommonUtils {
         return props
     }
 
+    /**
+     * 获取配置内容Map并更新map
+     * @param propertiesName 全名称，例如：application-email.properties
+     */
+    fun getPropertiesDataMap(propertiesName: String, map: HashMap<String, Any>): HashMap<String, Any> {
+        return getPropertiesDataMap(getProperties(propertiesName), map)
+    }
+
+    /**
+     * 获取配置内容Map并更新map
+     */
+    fun getPropertiesDataMap(properties: Properties, map: HashMap<String, Any>): HashMap<String, Any> {
+        val iterator = properties.entries.iterator()
+        var entry: MutableMap.MutableEntry<Any, Any>
+        while (iterator.hasNext()) {
+            entry = iterator.next()
+            map[entry.key as String] = entry.value
+        }
+        return map
+    }
+
     lateinit var propertiesConfig: SbcbflwPropertiesConfig
 }

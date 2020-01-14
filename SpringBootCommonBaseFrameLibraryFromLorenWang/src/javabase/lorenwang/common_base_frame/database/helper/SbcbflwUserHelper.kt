@@ -2,8 +2,6 @@ package javabase.lorenwang.common_base_frame.database.helper
 
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
-import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
-import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import org.apache.commons.lang.RandomStringUtils
 
 /**

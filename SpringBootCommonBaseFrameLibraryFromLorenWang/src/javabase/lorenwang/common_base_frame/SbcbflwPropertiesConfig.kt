@@ -1,7 +1,6 @@
 package javabase.lorenwang.common_base_frame
 
 import org.springframework.beans.factory.annotation.Value
-import java.util.*
 
 /**
  * 功能作用：属性配置文件
@@ -92,11 +91,6 @@ open class SbcbflwPropertiesConfig {
      */
     @Value("\${Sbcbflw.emai.UserPassword}")
     var emailUserPassword = ""
-    /**
-     * 邮箱配置文件
-     */
-    @Value("\${Sbcbflw.emai.Properties}")
-    var emailProperties: Properties = SbcbflwCommonUtils.instance.getProperties("application-email.properties")
 
     /**
      * 当前编译器环境

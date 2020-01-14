@@ -1,7 +1,6 @@
 package javabase.lorenwang.common_base_frame.email
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
-import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import org.springframework.mail.javamail.JavaMailSenderImpl
@@ -42,7 +41,7 @@ open class SbcbflwEmailUtils {
     init {
         try {
             javaMailSender = JavaMailSenderImpl()
-            javaMailSender?.javaMailProperties = SbcbflwCommonUtils.instance.propertiesConfig.emailProperties
+            javaMailSender?.javaMailProperties = SbcbflwCommonUtils.instance.getProperties("application-email.properties")
             javaMailSender?.host = SbcbflwCommonUtils.instance.propertiesConfig.emailHost
             javaMailSender?.username = SbcbflwCommonUtils.instance.propertiesConfig.emailUserName
             javaMailSender?.password = SbcbflwCommonUtils.instance.propertiesConfig.emailUserPassword
