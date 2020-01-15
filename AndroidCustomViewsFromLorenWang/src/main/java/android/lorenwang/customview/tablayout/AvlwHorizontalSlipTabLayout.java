@@ -7,12 +7,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.lorenwang.customview.R;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 
@@ -30,6 +33,7 @@ import androidx.annotation.Nullable;
  */
 
 public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizontalSlipTabLayout {
+    private final String TAG = getClass().getName();
     /*******************************************绘制部分参数****************************************/
     /**
      * 文本画笔
@@ -91,6 +95,10 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
      */
     private float lineWidth = 0f;
     /**
+     * 下划线高度
+     */
+    private float lineHeight = 10.0F;
+    /**
      * 下划线滑动百分比
      */
     private float lineSlipPercent = 0f;
@@ -125,14 +133,12 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
     private final Runnable slipSkipToPosiRunnable = new Runnable() {
         @Override
         public void run() {
-            Float percent = 0f;
+            float percent = 0f;
             while (true) {
                 percent += 0.05f;
-                /**
-                 * 修改滑动进度
-                 */
+                //修改滑动进度
                 changeSlipPercent(percent);
-                if (percent.intValue() == 1) {
+                if ((int) percent == 1) {
                     break;
                 }
                 try {
@@ -142,6 +148,7 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
                         Thread.sleep(30);
                     }
                 } catch (Exception e) {
+                    AtlwLogUtils.logE(TAG, "滑动异常");
                 }
             }
             isAllowChangePosi = true;
@@ -168,6 +175,7 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
         init(context, attrs, defStyleAttr);
     }
 
+
     /**
      * 控件初始化
      */
@@ -181,6 +189,8 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
         this.lineTextSpace = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineTextSpace, this.lineTextSpace);
         this.tabTextBoldN = attr.getBoolean(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextBoldN, this.tabTextBoldN);
         this.tabTextBoldY = attr.getBoolean(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextBoldY, this.tabTextBoldY);
+        //使用默认位置
+        this.selectPosi = attr.getInt(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabDefaultPosition, this.selectPosi);
 
         //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
         float tabWidthPercent = attr.getFloat(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabWidthPercent, -1.0F);
@@ -218,16 +228,21 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
         this.linePaint.reset();
         this.linePaint.setAntiAlias(true);
         this.linePaint.setStyle(Paint.Style.STROKE);
-        this.linePaint.setStrokeWidth(attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineHeight, 10.0F));
+        this.linePaint.setStrokeWidth(lineHeight = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineHeight, lineHeight));
         this.linePaint.setColor(attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_lineColor, this.tabTextColorY));
+
+        //读取tab文本列表hstl_tabTextList
+        String texts = attr.getString(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextList);
+        texts = texts == null ? "" : texts;
+        //格式化处理文本列表
+        String[] split = texts.split("~~");
+        setTabList(Arrays.asList(split), selectPosi);
         attr.recycle();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        /**
-         * 绘制文本
-         */
+        //绘制文本
         for (int i = 0; i < tabList.size(); i++) {
             if (i == this.selectPosi) {
                 this.tabPaint.setColor(this.tabTextColorY);
@@ -247,14 +262,10 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
             canvas.drawText(tabList.get(i), tabListCoordinate.get(2 * i), tabListCoordinate.get(2 * i + 1), tabPaint);
         }
 
-        /**
-         * 绘制下划线
-         */
+        //绘制下划线
         if (isAllowDrawLine) {
             if (lineSlipPercent == 0f) {
-                /**
-                 * 此时没有百分比存在，直接定位显示
-                 */
+                //此时没有百分比存在，直接定位显示
                 if (lineWidth > 0) {
                     canvas.drawLine(tabLineListCoordinate.get(selectPosi * 2)
                             , tabLineListCoordinate.get(selectPosi * 2 + 1)
@@ -267,26 +278,18 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
                             , tabLineListCoordinate.get(selectPosi * 2 + 1), linePaint);
                 }
             } else {
-                /**
-                 * 滑动距离为目标x坐标减去当前x坐标乘以百分比
-                 */
+                //滑动距离为目标x坐标减去当前x坐标乘以百分比
                 float slipSpace = (tabLineListCoordinate.get(slipToPosi * 2) - tabLineListCoordinate.get(selectPosi * 2)) * lineSlipPercent;
-                /**
-                 * 判断是否需要变动下划线宽度
-                 */
+                //判断是否需要变动下划线宽度
                 if (lineWidth > 0) {
                     canvas.drawLine(tabLineListCoordinate.get(selectPosi * 2) + slipSpace
                             , tabLineListCoordinate.get(selectPosi * 2 + 1)
                             , tabLineListCoordinate.get(selectPosi * 2) + lineWidth + slipSpace
                             , tabLineListCoordinate.get(selectPosi * 2 + 1), linePaint);
                 } else {
-                    /**
-                     * 获取宽度变化值,值为目标位置文本宽度减去当前位置文本的宽度乘以百分比
-                     */
+                    //获取宽度变化值,值为目标位置文本宽度减去当前位置文本的宽度乘以百分比
                     float widthChange = (tabTextListWidth.get(slipToPosi) - tabTextListWidth.get(selectPosi)) * lineSlipPercent;
-                    /**
-                     * 此时的结尾值为当前位置加上放大或缩小的比例加上移动的距离为endx坐标
-                     */
+                    //此时的结尾值为当前位置加上放大或缩小的比例加上移动的距离为endx坐标
                     canvas.drawLine(tabLineListCoordinate.get(selectPosi * 2) + slipSpace
                             , tabLineListCoordinate.get(selectPosi * 2 + 1)
                             , tabLineListCoordinate.get(selectPosi * 2) + widthChange + slipSpace + tabTextListWidth.get(selectPosi)
@@ -296,6 +299,11 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),
+                (int) (tabHeight + lineTextSpace + lineHeight / 2 + getPaddingTop() + getPaddingBottom()));
+    }
 
     private float lastX;
     private float lastY;
@@ -325,10 +333,8 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
      * 设置tab列表
      */
     @Override
-    public void setTabList(@Nullable ArrayList<String> tabList, @Nullable Integer selectPosi) {
-        /**
-         * 计算坐标
-         */
+    public void setTabList(@Nullable List<String> tabList, @Nullable Integer selectPosi) {
+        //计算坐标
         if (tabList != null) {
             this.tabList.clear();
             this.tabListCoordinate.clear();
@@ -336,17 +342,11 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
             this.tabTextListWidth.clear();
 
             Paint.FontMetrics fm = this.tabPaint.getFontMetrics();
-            /**
-             * 文本底部坐标
-             */
+            //文本底部坐标
             float textCoordinateY = (this.tabHeight - fm.bottom - fm.top) / (float) 2 + (float) this.getPaddingTop();
-            /**
-             * 当前左侧宽度
-             */
+            //当前左侧宽度
             float nowLeftWidth = (float) this.getPaddingLeft();
-            /**
-             * 文本宽度
-             */
+            //文本宽度
             float textWidth = 0.0F;
             for (String text : tabList) {
                 if (text != null && !"".equals(text)) {
@@ -355,14 +355,10 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
                     if (textWidth > tabWidth) {
                         textWidth = tabWidth;
                     }
-                    /**
-                     * 添加文本坐标
-                     */
+                    //添加文本坐标
                     this.tabListCoordinate.add(nowLeftWidth + (tabWidth - textWidth) / 2);
                     this.tabListCoordinate.add(textCoordinateY);
-                    /**
-                     * 判断是否需要使用和文本相同宽度的下划线
-                     */
+                    //判断是否需要使用和文本相同宽度的下划线
                     if (lineWidth != 0f) {
                         tabLineListCoordinate.add(nowLeftWidth + (tabWidth - lineWidth) / 2);
                         tabLineListCoordinate.add(textCoordinateY + linePaint.getStrokeWidth() / 2 + lineTextSpace);
@@ -370,9 +366,7 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
                         tabLineListCoordinate.add(nowLeftWidth + (tabWidth - textWidth) / 2);
                         tabLineListCoordinate.add(getPaddingTop() + tabHeight + linePaint.getStrokeWidth() / 2 + lineTextSpace);
                     }
-                    /**
-                     * 存储所有文本宽度
-                     */
+                    //存储所有文本宽度
                     tabTextListWidth.add(textWidth);
                     nowLeftWidth += tabWidth;
                 }
@@ -381,9 +375,7 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
             //是否允许绘制线条
             isAllowDrawLine = tabLineListCoordinate.size() == tabList.size() * 2;
 
-            /**
-             * 重新设置宽高
-             */
+            //重新设置宽高
             if (getLayoutParams() != null) {
                 ViewGroup.LayoutParams layoutParams = getLayoutParams();
                 layoutParams.width = Float.valueOf(getPaddingLeft() + getPaddingRight() + tabList.size() * tabWidth).intValue();
@@ -393,12 +385,14 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
                 setLayoutParams(new ViewGroup.LayoutParams(Float.valueOf(getPaddingLeft() + getPaddingRight() + tabList.size() * tabWidth).intValue()
                         , Float.valueOf(getPaddingTop() + getPaddingBottom() + tabHeight).intValue()));
             }
+
         }
-        /**
-         * 跳转到指定位置
-         */
+        //跳转到指定位置
         if (selectPosi != null) {
             skipToPosi(selectPosi);
+        } else {
+            //重绘
+            invalidate();
         }
 
     }
@@ -464,7 +458,7 @@ public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizon
     /**
      * 修改滑动进度
      */
-    private final void changeSlipPercent(Float percent) {
+    private void changeSlipPercent(Float percent) {
         if (percent == 1) {
             this.selectPosi = slipToPosi;
             lineSlipPercent = 0f;

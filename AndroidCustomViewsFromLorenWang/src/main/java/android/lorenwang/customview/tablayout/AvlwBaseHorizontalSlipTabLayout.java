@@ -1,7 +1,7 @@
 package android.lorenwang.customview.tablayout;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 
@@ -21,7 +21,7 @@ public interface AvlwBaseHorizontalSlipTabLayout {
     /**
      * 设置tab列表
      */
-    void setTabList(@Nullable ArrayList<String> tabList, @Nullable Integer selectPosi);
+    void setTabList(@Nullable List<String> tabList, @Nullable Integer selectPosi);
 
     /**
      * 跳转到指定位置

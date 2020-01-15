@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.lorenwang.customview.R;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -14,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 
@@ -23,14 +26,14 @@ import androidx.annotation.Nullable;
  * 创建人：王亮（Loren wang）
  * 功能作用：水平滑动tab布局类型2
  * 思路：在初始化时设置圆角角度，这个控件没有下划线，只有每个选中tab的切换背景
- *         <attr name="tabWidth" format="dimension"/>tab宽度
- *         <attr name="tabHeight" format="dimension"/>tab高度
- *         <attr name="tabTextSize" format="dimension"/>tab文本大小
- *         <attr name="tabTextColorY" format="color"/>tab文本选中颜色
- *         <attr name="tabTextColorN" format="color"/>tab文本未选中颜色
- *         <attr name="tabBgColorY" format="color"/>tab选中背景颜色
- *         <attr name="viewRadius" format="dimension"/>视图半径
- *         <attr name="viewBgColor" format="color"/>视图背景颜色
+ * <attr name="tabWidth" format="dimension"/>tab宽度
+ * <attr name="tabHeight" format="dimension"/>tab高度
+ * <attr name="tabTextSize" format="dimension"/>tab文本大小
+ * <attr name="tabTextColorY" format="color"/>tab文本选中颜色
+ * <attr name="tabTextColorN" format="color"/>tab文本未选中颜色
+ * <attr name="tabBgColorY" format="color"/>tab选中背景颜色
+ * <attr name="viewRadius" format="dimension"/>视图半径
+ * <attr name="viewBgColor" format="color"/>视图背景颜色
  * 方法：
  * 注意：
  * 修改人：
@@ -38,7 +41,7 @@ import androidx.annotation.Nullable;
  * 备注：
  */
 public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizontalSlipTabLayout {
-
+    private final String TAG = getClass().getName();
 
     /*******************************************绘制部分参数****************************************/
     /**
@@ -111,7 +114,7 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
     /**
      * 选中位置
      */
-    private int selectPosi = 0 ;
+    private int selectPosi = 0;
     /**
      * 滑动到指定位置
      */
@@ -125,14 +128,12 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
     private final Runnable slipSkipToPosiRunnable = new Runnable() {
         @Override
         public void run() {
-            Float percent = 0f;
+            float percent = 0f;
             while (true) {
                 percent += 0.05f;
-                /**
-                 * 修改滑动进度
-                 */
+                //修改滑动进度
                 changeSlipPercent(percent);
-                if (percent.intValue() == 1) {
+                if ((int) percent == 1) {
                     break;
                 }
                 try {
@@ -142,6 +143,7 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
                         Thread.sleep(30);
                     }
                 } catch (Exception e) {
+                    AtlwLogUtils.logE(TAG, "滑动异常");
                 }
             }
             isAllowChangePosi = true;
@@ -175,8 +177,20 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
         this.tabTextColorY = attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextColorY, this.tabTextColorY);
         this.tabTextColorN = attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextColorN, this.tabTextColorN);
         this.viewRadius = attr.getDimension(R.styleable.AvlwHorizontalSlipTabLayout_hstl_viewRadius, this.viewRadius);
+        //使用默认位置
+        this.selectPosi = attr.getInt(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabDefaultPosition, this.selectPosi);
 
         this.measure(0, 0);
+
+        //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
+        float tabWidthPercent = attr.getFloat(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabWidthPercent, -1.0F);
+        if (tabWidthPercent > (float) 0) {
+            if (tabWidthPercent > (float) 1) {
+                tabWidthPercent = 1.0F;
+            }
+
+            this.tabWidth = (float) getResources().getDisplayMetrics().widthPixels * tabWidthPercent;
+        }
 
         //初始化tab文本画笔
         this.tabPaint.reset();
@@ -192,52 +206,49 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
         //视图背景画笔
         this.viewBgPaint.reset();
         this.viewBgPaint.setAntiAlias(true);
-        this.viewBgPaint.setColor(attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_viewBgColor, -16777216));
+        this.viewBgPaint.setColor(attr.getColor(R.styleable.AvlwHorizontalSlipTabLayout_hstl_viewBgColor, Color.TRANSPARENT));
         this.viewBgPaint.setStyle(Paint.Style.FILL);
+
+        //读取tab文本列表hstl_tabTextList
+        String texts = attr.getString(R.styleable.AvlwHorizontalSlipTabLayout_hstl_tabTextList);
+        texts = texts == null ? "" : texts;
+        //格式化处理文本列表
+        String[] split = texts.split("~~");
+        setTabList(Arrays.asList(split), selectPosi);
         attr.recycle();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        /**
-         * 绘制整体背景
-         */
+        //绘制整体背景
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            canvas.drawRoundRect(0.0F, 0.0F, (float)this.getWidth(), (float)this.getHeight(), this.viewRadius, this.viewRadius, this.viewBgPaint);
+            canvas.drawRoundRect(0.0F, 0.0F, (float) this.getWidth(), (float) this.getHeight(), this.viewRadius, this.viewRadius, this.viewBgPaint);
         } else {
-            canvas.drawRoundRect(new RectF(0.0F, 0.0F, (float)this.getWidth(), (float)this.getHeight()), this.viewRadius, this.viewRadius, this.viewBgPaint);
+            canvas.drawRoundRect(new RectF(0.0F, 0.0F, (float) this.getWidth(), (float) this.getHeight()), this.viewRadius, this.viewRadius, this.viewBgPaint);
         }
 
-        /**
-         * 绘制tab背景
-         */
-        this.tabBgTop = ((float)this.getHeight() - this.tabHeight) / (float)2;
+        //绘制tab背景
+        this.tabBgTop = ((float) this.getHeight() - this.tabHeight) / (float) 2;
         this.tabBgBottom = this.tabBgTop + this.tabHeight;
         if (this.tabBgSlipPercent == 0.0F) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                canvas.drawRoundRect((float)this.selectPosi * this.tabWidth + (float)this.getPaddingLeft(), this.tabBgTop, (float)(this.selectPosi + 1) * this.tabWidth + (float)this.getPaddingLeft(), this.tabBgBottom, this.viewRadius, this.viewRadius, this.tabBgPaint);
+                canvas.drawRoundRect((float) this.selectPosi * this.tabWidth + (float) this.getPaddingLeft(), this.tabBgTop, (float) (this.selectPosi + 1) * this.tabWidth + (float) this.getPaddingLeft(), this.tabBgBottom, this.viewRadius, this.viewRadius, this.tabBgPaint);
             } else {
-                canvas.drawRoundRect(new RectF((float)this.selectPosi * this.tabWidth + (float)this.getPaddingLeft(), this.tabBgTop, (float)(this.selectPosi + 1) * this.tabWidth + (float)this.getPaddingLeft(), this.tabBgBottom), this.viewRadius, this.viewRadius, this.tabBgPaint);
+                canvas.drawRoundRect(new RectF((float) this.selectPosi * this.tabWidth + (float) this.getPaddingLeft(), this.tabBgTop, (float) (this.selectPosi + 1) * this.tabWidth + (float) this.getPaddingLeft(), this.tabBgBottom), this.viewRadius, this.viewRadius, this.tabBgPaint);
             }
         } else {
-            /**
-             * 根据百分比做移动绘制
-             */
-            /**
-             * 滑动距离为目标x坐标减去当前x坐标乘以百分比
-             */
+            //根据百分比做移动绘制
+            //滑动距离为目标x坐标减去当前x坐标乘以百分比
             float slipSpace = this.tabWidth * this.tabBgSlipPercent;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                canvas.drawRoundRect((float)this.selectPosi * this.tabWidth + slipSpace + (float)this.getPaddingLeft(), this.tabBgTop, (float)(this.selectPosi + 1) * this.tabWidth + slipSpace + (float)this.getPaddingLeft(), this.tabBgBottom, this.viewRadius, this.viewRadius, this.tabBgPaint);
+                canvas.drawRoundRect((float) this.selectPosi * this.tabWidth + slipSpace + (float) this.getPaddingLeft(), this.tabBgTop, (float) (this.selectPosi + 1) * this.tabWidth + slipSpace + (float) this.getPaddingLeft(), this.tabBgBottom, this.viewRadius, this.viewRadius, this.tabBgPaint);
             } else {
-                canvas.drawRoundRect(new RectF((float)this.selectPosi * this.tabWidth + slipSpace + (float)this.getPaddingLeft(), this.tabBgTop, (float)(this.selectPosi + 1) * this.tabWidth + slipSpace + (float)this.getPaddingLeft(), this.tabBgBottom), this.viewRadius, this.viewRadius, this.tabBgPaint);
+                canvas.drawRoundRect(new RectF((float) this.selectPosi * this.tabWidth + slipSpace + (float) this.getPaddingLeft(), this.tabBgTop, (float) (this.selectPosi + 1) * this.tabWidth + slipSpace + (float) this.getPaddingLeft(), this.tabBgBottom), this.viewRadius, this.viewRadius, this.tabBgPaint);
             }
         }
 
-        /**
-         * 绘制文本
-         */
-        for (int i =0 ; i < tabList.size() ; i++) {
+        //绘制文本
+        for (int i = 0; i < tabList.size(); i++) {
             if (i == this.selectPosi) {
                 this.tabPaint.setColor(this.tabTextColorY);
             } else {
@@ -248,6 +259,12 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),
+                Math.max((int) (tabHeight + getPaddingTop() + getPaddingBottom()), getDefaultSize(getSuggestedMinimumWidth(), heightMeasureSpec)));
+    }
+
     private float lastX = 0f;
     private float lastY = 0f;
 
@@ -255,12 +272,12 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
     public boolean onTouchEvent(MotionEvent event) {
         if (isAllowChangePosi && isAllowTouchChange) {
             switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN : {
+                case MotionEvent.ACTION_DOWN: {
                     lastX = event.getX();
                     lastY = event.getY();
                     return true;
                 }
-                case MotionEvent.ACTION_UP : {
+                case MotionEvent.ACTION_UP: {
                     skipToPosi(Float.valueOf((event.getX() - getPaddingRight()) / tabWidth).intValue());
                     return true;
                 }
@@ -271,33 +288,26 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
             return super.onTouchEvent(event);
         }
     }
+
     /**
      * 设置tab列表
      */
     @Override
-    public void setTabList( ArrayList<String> tabList,  Integer selectPosi) {
-        /**
-         * 计算坐标
-         */
+    public void setTabList(List<String> tabList, Integer selectPosi) {
+        //计算坐标
         if (tabList != null) {
             this.tabList.clear();
             this.tabListCoordinate.clear();
             Paint.FontMetrics fm = this.tabPaint.getFontMetrics();
-            /**
-             * 文本底部坐标
-             */
-            float textCoordinateY = (this.tabHeight - fm.bottom - fm.top) / (float)2 + (float)this.getPaddingTop();
-            /**
-             * 当前左侧宽度
-             */
-            float nowLeftWidth = (float)this.getPaddingLeft();
-            /**
-             * 文本宽度
-             */
+            //文本底部坐标
+            float textCoordinateY = (this.tabHeight - fm.bottom - fm.top) / (float) 2 + (float) this.getPaddingTop();
+            //当前左侧宽度
+            float nowLeftWidth = (float) this.getPaddingLeft();
+            //文本宽度
             float textWidth = 0.0F;
             Iterator<String> iterator = tabList.iterator();
             String text;
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 text = iterator.next();
                 if (text != null && !"".equals(text)) {
                     this.tabList.add(text);
@@ -305,36 +315,30 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
                     if (textWidth > tabWidth) {
                         textWidth = tabWidth;
                     }
-                    /**
-                     * 添加文本坐标
-                     */
+                    //添加文本坐标
                     this.tabListCoordinate.add(nowLeftWidth + (tabWidth - textWidth) / 2);
                     this.tabListCoordinate.add(textCoordinateY);
                     nowLeftWidth += tabWidth;
                 }
             }
 
-            /**
-             * 重新设置宽高
-             */
+            //重新设置宽高
             if (this.getLayoutParams() != null) {
                 ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                layoutParams.width = (int)((float)(this.getPaddingLeft() + this.getPaddingRight()) + (float)tabList.size() * this.tabWidth);
-                layoutParams.height = (int)((float)(this.getPaddingTop() + this.getPaddingBottom()) + this.tabHeight);
+                layoutParams.width = (int) ((float) (this.getPaddingLeft() + this.getPaddingRight()) + (float) tabList.size() * this.tabWidth);
+//                layoutParams.height = (int) ((float) (this.getPaddingTop() + this.getPaddingBottom()) + this.tabHeight);
                 setLayoutParams(layoutParams);
             } else {
-                this.setLayoutParams(new ViewGroup.LayoutParams((int)((float)(this.getPaddingLeft() + this.getPaddingRight()) + (float)tabList.size() * this.tabWidth), (int)((float)(this.getPaddingTop() + this.getPaddingBottom()) + this.tabHeight)));
+                this.setLayoutParams(new ViewGroup.LayoutParams((int) ((float) (this.getPaddingLeft() + this.getPaddingRight()) + (float) tabList.size() * this.tabWidth), getHeight()));
             }
         }
 
-
-        /**
-         * 跳转到指定位置
-         */
+        //跳转到指定位置
         if (selectPosi != null) {
             skipToPosi(selectPosi);
         }
     }
+
     /**
      * 跳转到指定位置
      */
@@ -344,12 +348,13 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
             if (posi < this.tabList.size()) {
                 this.selectPosi = posi;
                 //回调位置
-                if(tabChangeListener != null)
-                tabChangeListener.onChangePosi(this.selectPosi);
+                if (tabChangeListener != null)
+                    tabChangeListener.onChangePosi(this.selectPosi);
                 invalidate();
             }
         }
     }
+
     /**
      * 滑动到指定位置，带百分比滑动
      */
@@ -359,12 +364,13 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
             if (slipToPosi < this.tabList.size()) {
                 this.slipToPosi = slipToPosi;
                 //回调位置
-                if(tabChangeListener != null)
-                tabChangeListener.onChangePosi(this.selectPosi);
+                if (tabChangeListener != null)
+                    tabChangeListener.onChangePosi(this.selectPosi);
             }
             changeSlipPercent(percent);
         }
     }
+
     /**
      * 滑动跳转到指定位置
      */
@@ -375,8 +381,8 @@ public class AvlwHorizontalSlipTabLayout2 extends View implements AvlwBaseHorizo
             isAllowChangePosi = false;
             this.slipToPosi = slipToPosi;
             //回调位置
-            if(tabChangeListener != null)
-            tabChangeListener.onChangePosi(this.selectPosi);
+            if (tabChangeListener != null)
+                tabChangeListener.onChangePosi(this.selectPosi);
             new Thread(slipSkipToPosiRunnable).start();
         }
     }

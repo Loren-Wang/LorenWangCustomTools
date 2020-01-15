@@ -16,7 +16,7 @@ import java.util.List;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 /**
  * 创建时间： 2018/11/1 0001 上午 10:59:21
@@ -49,7 +49,7 @@ public class AvlwSlideTabLayout extends View {
     private Context context;
     private LinearLayout lineView;
     private List<String> tabTitleList = new ArrayList<>();
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private boolean isAllowTouchChange = true;//是否允许触摸切换
 
     private float viewWidth = 0;//控件整体宽度
@@ -72,7 +72,7 @@ public class AvlwSlideTabLayout extends View {
     private boolean isShowIntervalLine = false;//是否显示间隔线
 
 
-    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+    private ViewPager2.OnPageChangeCallback onPageChangeListener = new ViewPager2.OnPageChangeCallback() {
         private Float fromPosiTextWidth;//起点文字宽度
         private Float toPosiTextWidth;//位移终点文字宽度
         private Float nowLineAllPaddingLeft;//当前下划线总共需要的位移
@@ -131,7 +131,7 @@ public class AvlwSlideTabLayout extends View {
     /**
      * 设置默认的初始属性
      *
-     * @param context
+     * @param context 上下文
      */
     private void init(Context context) {
         this.context = context;
@@ -201,7 +201,7 @@ public class AvlwSlideTabLayout extends View {
 
             //下划线
             float right = getPaddingLeft() + nowLinePaddingLeft + everyLastTextContentWidth - ((everyLastTextContentWidth - lineWidth) / 2);
-            right = right > (viewWidth - getPaddingLeft() - getPaddingRight()) ? (viewWidth - getPaddingLeft() - getPaddingRight()) : right;
+            right = Math.min(right, (viewWidth - getPaddingLeft() - getPaddingRight()));
             canvas.drawRect(getPaddingLeft() + nowLinePaddingLeft + ((everyLastTextContentWidth - lineWidth) / 2),
                     getPaddingTop() + viewHeight - lineHeight,
                     right,
@@ -240,9 +240,9 @@ public class AvlwSlideTabLayout extends View {
     /**
      * 判断位置
      *
-     * @param nowX
-     * @param nowY
-     * @return
+     * @param nowX 当前x坐标
+     * @param nowY 当前点击y坐标
+     * @return 点击范围是否一致，在误差范围内
      */
     private boolean judge(float nowX, float nowY) {
         if (Math.abs(nowX - lastX) < 50 && Math.abs(nowY - lastY) < 50) {
@@ -257,9 +257,9 @@ public class AvlwSlideTabLayout extends View {
     /**
      * 设置默认属性
      *
-     * @param tabTextViewColor
-     * @param tabTextViewSize
-     * @param tabSelectColor
+     * @param tabTextViewColor   tab文本颜色
+     * @param tabTextViewSize    tab文本大小
+     * @param tabSelectColor     tab选中颜色
      * @param viewWidth        控件宽度
      * @param viewHeight       控件整体高度
      */
@@ -272,10 +272,10 @@ public class AvlwSlideTabLayout extends View {
             , Integer lineWidth
             , Integer lineHeight
             , Integer lineColor
-            , @Nullable double viewWidth
-            , @Nullable double viewHeight
+            , double viewWidth
+            , double viewHeight
             , List<String> tabTitleList
-            , ViewPager viewPager) {
+            , ViewPager2 viewPager) {
         this.tabTextViewColor = tabTextViewColor != null ? tabTextViewColor : this.tabTextViewColor;
         this.tabTextViewSize = tabTextViewSize != null ? tabTextViewSize : this.tabTextViewSize;
         this.isTabTextViewBold = isTabTextViewBold;
@@ -298,8 +298,8 @@ public class AvlwSlideTabLayout extends View {
         this.lineWidth = lineWidth != null ? lineWidth : everyLastTextContentWidth;
         isFirstSetData = true;
 
-        viewPager.removeOnPageChangeListener(onPageChangeListener);
-        viewPager.addOnPageChangeListener(onPageChangeListener);
+        viewPager.unregisterOnPageChangeCallback(onPageChangeListener);
+        viewPager.registerOnPageChangeCallback(onPageChangeListener);
 
         setPaint();
         postInvalidate();
@@ -308,9 +308,9 @@ public class AvlwSlideTabLayout extends View {
     /**
      * 设置默认属性，带有分割线样式
      *
-     * @param tabTextViewColor
-     * @param tabTextViewSize
-     * @param tabSelectColor
+     * @param tabTextViewColor   tab文本颜色
+     * @param tabTextViewSize    tab文本大小
+     * @param tabSelectColor     tab选中颜色
      * @param viewWidth          控件宽度
      * @param viewHeight         控件整体高度
      * @param intervalLineColor  分割线颜色
@@ -326,10 +326,10 @@ public class AvlwSlideTabLayout extends View {
             , Integer lineWidth
             , Integer lineHeight
             , Integer lineColor
-            , @Nullable double viewWidth
-            , @Nullable double viewHeight
+            , double viewWidth
+            , double viewHeight
             , List<String> tabTitleList
-            , ViewPager viewPager, @ColorInt int intervalLineColor
+            , ViewPager2 viewPager, @ColorInt int intervalLineColor
             , int intervalLineWidth, int intervalLineHeight) {
         this.intervalLineColor = intervalLineColor;
         this.intervalLineWidth = intervalLineWidth;
@@ -370,7 +370,7 @@ public class AvlwSlideTabLayout extends View {
     /**
      * 获取是否允许触摸变动位置
      *
-     * @return
+     * @return 是否允许触摸改变位置
      */
     public boolean isAllowTouchChange() {
         return isAllowTouchChange;
@@ -379,8 +379,8 @@ public class AvlwSlideTabLayout extends View {
     /**
      * 设置是否允许触摸变动位置
      *
-     * @param allowTouchChange
-     * @return
+     * @param allowTouchChange 是否允许触摸改变位置
+     * @return 当前实例
      */
     public AvlwSlideTabLayout setAllowTouchChange(boolean allowTouchChange) {
         isAllowTouchChange = allowTouchChange;

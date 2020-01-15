@@ -2,11 +2,11 @@ package android.lorenwang.common_base_frame.mvp
 
 import android.lorenwang.common_base_frame.AcbflwBaseApplication
 import android.lorenwang.common_base_frame.R
+import android.lorenwang.common_base_frame.network.AcbflwNetOptionsCallback
+import android.lorenwang.common_base_frame.network.bean.AcbflwBaseRepBean
 import android.lorenwang.tools.base.AtlwLogUtils
 import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtils
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
-import android.lorenwang.common_base_frame.network.AcbflwNetOptionsCallback
-import android.lorenwang.common_base_frame.network.bean.AcbflwBaseRepBean
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -88,7 +88,7 @@ open class AcbflwBaseModel {
                     is HttpException, is UnknownHostException -> {
                         //判断是无网络还是其他问题
                         try {
-                            if (AtlwMobileSystemInfoUtils.getNetworkType(AcbflwBaseApplication.appContext) == 0) {
+                            if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
                                 AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
                                 AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
@@ -100,7 +100,7 @@ open class AcbflwBaseModel {
                     is SocketTimeoutException -> {
                         //判断是无网络还是其他问题
                         try {
-                            if (AtlwMobileSystemInfoUtils.getNetworkType(AcbflwBaseApplication.appContext) == 0) {
+                            if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
                                 AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
                                 AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))

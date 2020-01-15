@@ -54,6 +54,14 @@
             android:onClick="mainClick" />
 
         <Button
+            android:id="@+id/btnTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TabLayout"
+            android:textAllCaps="false"
+            android:onClick="mainClick" />
+
+        <Button
             android:id="@+id/btnSwitchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

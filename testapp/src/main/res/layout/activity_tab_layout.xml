@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TabLayoutActivity">
+
+    <android.lorenwang.customview.tablayout.AvlwTabLayout
+        android:id="@+id/tb1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:avlw_tl_tabTextList="测试~~开发~~测试"
+        app:avlw_tl_tabWidth="60dp"
+        app:avlw_tl_tabHeight="40dp"
+        app:avlw_tl_tabDefaultPosition="2"
+        app:avlw_tl_tabTextBoldY="true"
+        app:avlw_tl_tabTextSizeN="20sp"
+        app:avlw_tl_tabTextSizeY="12sp"
+        app:avlw_tl_lineTextBaselineAligning="false"
+        app:avlw_tl_lineBg="#0f0"
+        tools:ignore="MissingConstraints,MissingPrefix" />
+
+    <android.lorenwang.customview.tablayout.AvlwTabLayout
+        app:layout_constraintTop_toBottomOf="@id/tb1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:avlw_tl_tabTextList="测试~~开发中~~测试"
+        app:avlw_tl_tabWidth="60dp"
+        app:avlw_tl_tabHeight="40dp"
+        app:avlw_tl_tabDefaultPosition="1"
+        app:avlw_tl_tabTextBoldY="true"
+        app:avlw_tl_tabTextSizeN="12sp"
+        app:avlw_tl_tabTextSizeY="20sp"
+        app:avlw_tl_lineTextBaselineAligning="false"
+        app:avlw_tl_lineBg="@drawable/ic_launcher_background"
+        app:avlw_tl_lineHeight="2dp"
+        tools:ignore="MissingConstraints,MissingPrefix" />
+
+    <!--    &lt;!&ndash;tab文本，中间使用~~（双）做分隔&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabTextList" format="string" />-->
+    <!--    &lt;!&ndash;tab默认位置，只有在没有通过代码动态设置时生效&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabDefaultPosition" format="integer" />-->
+    <!--    &lt;!&ndash;tab宽度&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabWidth" format="dimension" />-->
+    <!--    &lt;!&ndash;tab宽度百分比&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabWidthPercent" format="float" />-->
+    <!--    &lt;!&ndash;tab高度&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabHeight" format="dimension" />-->
+    <!--    &lt;!&ndash;tab选中文本大小&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabTextSizeN" format="dimension" />-->
+    <!--    &lt;!&ndash;tab未选中文本大小&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabTextSizeY" format="dimension" />-->
+    <!--    &lt;!&ndash;tab文本选中颜色&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabTextColorY" format="color" />-->
+    <!--    &lt;!&ndash;tab文本未选中颜色&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabTextColorN" format="color" />-->
+    <!--    &lt;!&ndash;tab选中文本是否加粗&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabTextBoldY" format="boolean" />-->
+    <!--    &lt;!&ndash;tab未选中文本是否加粗&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_tabTextBoldN" format="boolean" />-->
+
+    <!--    &lt;!&ndash;第一种类型视图&ndash;&gt;-->
+    <!--    &lt;!&ndash;下划线宽度,默认和文本宽度一致&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_lineWidth" format="dimension" />-->
+    <!--    &lt;!&ndash;下划线宽度百分比&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_lineWidthPercent" format="float" />-->
+    <!--    &lt;!&ndash;下划线高度&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_lineHeight" format="dimension" />-->
+    <!--    &lt;!&ndash;下划线颜色,默认和文本颜色一致&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_lineBg" format="reference|color" />-->
+    <!--    &lt;!&ndash;下划线和文本之间的距离&ndash;&gt;-->
+    <!--    <attr name="avlw_tl_lineTextSpace" format="dimension" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

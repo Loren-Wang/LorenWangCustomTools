@@ -123,7 +123,7 @@ public class NativeUtil {
         //如果jni保存失败的话
         File file = new File(filePath);
         if (!file.exists()) {
-            AtlwFileOptionUtils.getInstance().writeToFile(AcbflwBaseApplication.appContext, true, new File(filePath), result, format);
+            AtlwFileOptionUtils.getInstance().writeToFile(true, new File(filePath), result, format);
         }
         file = null;
         // 释放Bitmap

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--水平滑动tab标签-->
+<resources>
+    <declare-styleable name="AvlwTabLayout">
+        <attr name="avlw_tl_showType" format="enum">
+            <!--文本和下划线类型-->
+            <enum name="textLine" value="0" />
+            <!--文本和背景类型-->
+            <enum name="textBg" value="1" />
+            <!--文本、下划线、下划线容器类型-->
+            <enum name="textLineContainer" value="2" />
+        </attr>
+        <!--tab文本，中间使用~~（双）做分隔-->
+        <attr name="avlw_tl_tabTextList" format="string" />
+        <!--tab默认位置，只有在没有通过代码动态设置时生效-->
+        <attr name="avlw_tl_tabDefaultPosition" format="integer" />
+        <!--tab宽度-->
+        <attr name="avlw_tl_tabWidth" format="dimension" />
+        <!--tab宽度百分比-->
+        <attr name="avlw_tl_tabWidthPercent" format="float" />
+        <!--tab高度-->
+        <attr name="avlw_tl_tabHeight" format="dimension" />
+        <!--tab选中文本大小-->
+        <attr name="avlw_tl_tabTextSizeN" format="dimension" />
+        <!--tab未选中文本大小-->
+        <attr name="avlw_tl_tabTextSizeY" format="dimension" />
+        <!--tab文本选中颜色-->
+        <attr name="avlw_tl_tabTextColorY" format="color" />
+        <!--tab文本未选中颜色-->
+        <attr name="avlw_tl_tabTextColorN" format="color" />
+        <!--tab选中文本是否加粗-->
+        <attr name="avlw_tl_tabTextBoldY" format="boolean" />
+        <!--tab未选中文本是否加粗-->
+        <attr name="avlw_tl_tabTextBoldN" format="boolean" />
+        <!--文本使用baseline做对齐，默认是true，false的话会根据高度进行居中-->
+        <attr name="avlw_tl_lineTextBaselineAligning" format="boolean" />
+
+        <!--第一种类型视图-->
+        <!--下划线宽度,默认和文本宽度一致-->
+        <attr name="avlw_tl_lineWidth" format="dimension" />
+        <!--下划线宽度百分比-->
+        <attr name="avlw_tl_lineWidthPercent" format="float" />
+        <!--下划线高度-->
+        <attr name="avlw_tl_lineHeight" format="dimension" />
+        <!--下划线颜色,默认和文本颜色一致-->
+        <attr name="avlw_tl_lineBg" format="reference|color" />
+        <!--下划线和文本之间的距离-->
+        <attr name="avlw_tl_lineTextSpace" format="dimension" />
+
+        <!--第二种类型的视图-->
+        <!--tab背景宽度，默认是文本宽度-->
+        <attr name="avlw_tl_tabBgWidth" format="dimension" />
+        <!--tab背景高度，默认是文本高度，但是不能小于文字高度-->
+        <attr name="avlw_tl_tabBgHeight" format="dimension" />
+        <!--tab选中背景-->
+        <attr name="avlw_tl_tabBgY" format="reference|color" />
+        <!--tab未选中背景-->
+        <attr name="avlw_tl_tabBgN" format="reference|color" />
+
+        <!--第三中类型视图-->
+        <!--下划线所属容器图片-->
+        <attr name="avlw_tl_lineContainerBg" format="reference|color" />
+        <!--下划线容器高度-->
+        <attr name="avlw_tl_lineContainerHeight" format="dimension" />
+        <!--下划线容器高度偏移，默认下划线是在下划线容器居中-->
+        <attr name="avlw_tl_lineContainerOffset" format="dimension" />
+    </declare-styleable>
+</resources>

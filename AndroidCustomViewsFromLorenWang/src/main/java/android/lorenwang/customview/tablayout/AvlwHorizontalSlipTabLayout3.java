@@ -11,7 +11,7 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 
@@ -113,7 +113,7 @@ public class AvlwHorizontalSlipTabLayout3 extends FrameLayout implements AvlwBas
      * 设置tab列表
      */
     @Override
-    public void setTabList(@Nullable ArrayList<String> tabList, @Nullable Integer selectPosi) {
+    public void setTabList(@Nullable List<String> tabList, @Nullable Integer selectPosi) {
         tabView.setTabList(tabList, selectPosi);
     }
 

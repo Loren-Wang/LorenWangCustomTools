@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import com.example.testapp.androidTools.MobileContactsActivity
 import com.example.testapp.androidTools.MobileSmsActivity
 
@@ -11,6 +12,7 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        findViewById<Button>(R.id.btnTabLayout).performClick()
     }
 
     fun mainClick(view: View?) {
@@ -27,6 +29,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnFileOptionsForScan -> {
                     startActivity(Intent(this, FileOptionsForScanFileActivity::class.java))
+                }
+                R.id.btnTabLayout -> {
+                    startActivity(Intent(this, TabLayoutActivity::class.java))
                 }
                 R.id.btnSideBar -> {
                     startActivity(Intent(this, SideBarActivity::class.java))

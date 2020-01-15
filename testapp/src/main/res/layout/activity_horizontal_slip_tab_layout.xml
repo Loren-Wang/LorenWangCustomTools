@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ChangeList"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
 
             <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout
                 android:id="@+id/test1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hstl_tabWidthPercent="0.3"
                 app:hstl_tabHeight="40dp"
@@ -36,6 +36,8 @@
                 app:hstl_lineColor="#ff6947"
                 app:hstl_lineTextSpace="7dp"
                 app:hstl_tabTextBoldY="true"
+                app:hstl_tabTextList="测试~~开发~~测试"
+                app:hstl_tabDefaultPosition="2"
                 tools:ignore="MissingPrefix" />
         </FrameLayout>
     </HorizontalScrollView>
@@ -56,6 +58,24 @@
         app:hstl_lineTextSpace="7dp"
         app:hstl_lineContainerColor="#e8e8e8"
         app:hstl_lineContainerHeight="0.3dp"
+        app:hstl_tabTextList="测试~~开发~~测试"
+        app:hstl_tabDefaultPosition="2"
         tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout2
+        android:id="@+id/test2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hstl_tabWidthPercent="0.3"
+        app:hstl_tabHeight="40dp"
+        app:hstl_tabTextSize="18.7sp"
+        app:hstl_tabTextColorY="#ff6947"
+        app:hstl_tabTextColorN="#666666"
+        app:hstl_tabTextList="测试~~开发~~测试"
+        app:hstl_tabDefaultPosition="2"
+        app:hstl_viewBgColor="#0f0"
+        app:hstl_tabBgColorY="#00f"
+        tools:ignore="MissingPrefix" />
+
 
 </LinearLayout>
