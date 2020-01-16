@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 //必须引入这2个插件
-apply plugin : 'com.github.dcendents.android-maven'
-apply plugin : 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 28
@@ -34,10 +34,9 @@ dependencies {
 }
 
 
-
 def moduleName = "AndroidCustomViewsFromLorenWang"
 def moduleDescription = "Android自定义控件库"
-version '1.0.7'
+version '1.0.8'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -51,7 +50,7 @@ def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
 def projectGroupId = properties.getProperty("project.groupId")
 def moduleVersion = version
 
-install{
+install {
     repositories.mavenInstaller {
         // 生成pom.xml和参数
         pom {
@@ -85,8 +84,8 @@ install{
                     developerConnection projectGitUrl // Git仓库地址。
                     url projectWebsiteUrl // 项目主页。
                 }
-                dependencies{
-                    dependency{
+                dependencies {
+                    dependency {
                         groupId projectGroupId
                         version moduleVersion
                         artifactId moduleName
@@ -140,8 +139,8 @@ bintray {
         vcsUrl = projectGitUrl
         licenses = ["Apache-2.0"]
         publish = true
-        version{
-            gpg{
+        version {
+            gpg {
                 sign = true
                 passphrase = bintrayGpgPwd
             }

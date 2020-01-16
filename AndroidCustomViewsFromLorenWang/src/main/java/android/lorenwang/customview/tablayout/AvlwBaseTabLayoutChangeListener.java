@@ -12,6 +12,6 @@ package android.lorenwang.customview.tablayout;
  * 备注：
  */
 
-interface AvlwBaseHorizontalSlipTabLayoutChangeListener {
-    void onChangePosi(int posi);
+interface AvlwBaseTabLayoutChangeListener {
+    void onChangePosition(int position);
 }

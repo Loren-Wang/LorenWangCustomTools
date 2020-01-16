@@ -128,7 +128,7 @@ class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
     }
 
     @Override
-    public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, boolean isCurrent, float textWidth, float textHeight) {
+    public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, float scrollToTextX, float scrollToTextWidth, float lineScrollPercent, boolean isCurrent, float textWidth, float textHeight) {
 
     }
 

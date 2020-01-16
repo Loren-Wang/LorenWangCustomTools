@@ -1,7 +1,6 @@
 package com.example.testapp
 
 import android.app.Activity
-import android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout
 import android.os.Bundle
 
 /**
@@ -16,7 +15,6 @@ import android.os.Bundle
  * 备注：
  */
 class HorizontalSlipTabLayoutActivity : Activity() {
-    private lateinit var test1: AvlwHorizontalSlipTabLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_horizontal_slip_tab_layout)

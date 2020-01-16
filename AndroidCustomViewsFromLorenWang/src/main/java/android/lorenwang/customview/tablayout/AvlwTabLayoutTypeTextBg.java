@@ -74,7 +74,7 @@ class AvlwTabLayoutTypeTextBg implements AvlwBaseTabLayout {
         this.tabBgTextHeightPadding = attributes.getDimension(R.styleable.AvlwTabLayout_avlw_tl_tabBgTextHeightPadding, this.tabBgTextHeightPadding);
 
         //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
-        float widthPercent = attributes.getFloat(R.styleable.AvlwTabLayout_avlw_tl_tabWidthPercent, -1.0F);
+        float widthPercent = attributes.getFloat(R.styleable.AvlwTabLayout_avlw_tl_tabBgWidthPercent, -1.0F);
         if (widthPercent > (float) 0) {
             if (widthPercent > (float) 1) {
                 widthPercent = 1.0F;
@@ -110,8 +110,22 @@ class AvlwTabLayoutTypeTextBg implements AvlwBaseTabLayout {
 
     }
 
+    /**
+     * 绘制背景区域
+     *
+     * @param canvas            画板
+     * @param textPaint         文本画笔
+     * @param drawTextX         文本x坐标
+     * @param drawTextY         文本y坐标
+     * @param scrollToTextX     滑动目标的文本x坐标
+     * @param scrollToTextWidth 滑动到目标的文本宽度
+     * @param lineScrollPercent 滑动到目标的滑动百分比
+     * @param isCurrent         当前是否是选中的
+     * @param textWidth         文本宽度
+     * @param textHeight        文本高度
+     */
     @Override
-    public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, boolean isCurrent, float textWidth, float textHeight) {
+    public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, float scrollToTextX, float scrollToTextWidth, float lineScrollPercent, boolean isCurrent, float textWidth, float textHeight) {
         float width = this.tabBgWidth;
         float height = this.tabBgHeight;
         //获取处理后的宽度
@@ -126,6 +140,12 @@ class AvlwTabLayoutTypeTextBg implements AvlwBaseTabLayout {
         height = Math.min(height, tabHeight);
         //宽高均不为0
         if (width > 0 && height > 0) {
+            //获取偏移
+            float offset = 0f;
+            if (lineScrollPercent != 0) {
+                offset = lineScrollPercent * Math.abs(drawTextX - scrollToTextX);
+            }
+
             Bitmap bitmap;
             //获取不同的位图
             if (isCurrent) {
@@ -137,9 +157,9 @@ class AvlwTabLayoutTypeTextBg implements AvlwBaseTabLayout {
             float widthOffset = (width - textWidth) / 2;
             float heightOffset = (height - textHeight) / 2;
             canvas.drawBitmap(bitmap, null,
-                    new RectF(drawTextX - widthOffset,
+                    new RectF(drawTextX - widthOffset + offset,
                             drawTextY + textPaint.ascent() - heightOffset,
-                            drawTextX + textWidth + widthOffset,
+                            drawTextX + textWidth + widthOffset + offset,
                             drawTextY + textPaint.descent() + heightOffset), null);
         }
     }

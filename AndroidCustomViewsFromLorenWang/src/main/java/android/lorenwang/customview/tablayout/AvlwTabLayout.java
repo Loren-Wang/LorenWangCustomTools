@@ -47,6 +47,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * 文本、下划线、下划线容器类型
      */
     private final int SHOW_TYPE_TEXT_LINE_CONTAINER = 2;
+    private AvlwBaseTabLayoutChangeListener changeListener;
 
     /** **************************************绘制参数**********************************************/
     /**
@@ -254,6 +255,25 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //绘制基础部分
+        String currentText = tabTextList.get(currentPosition);
+        float currentWidth = getTextWidth(tabTextPaintY, currentText);
+        float scrollToWidth = currentWidth;
+        Float startX = getDrawTextX(currentWidth, currentPosition);
+        float stopX = startX;
+        if (currentPosition.compareTo(scrollToPosition) == 0) {
+            drawTabLayout.drawTypeChild(canvas, currentPosition, currentPosition, lineSlipPercent,
+                    startX, startX, currentWidth, currentWidth);
+        } else {
+            String scrollToText = tabTextList.get(scrollToPosition);
+            scrollToWidth = getTextWidth(tabTextPaintY, scrollToText);
+            stopX = getDrawTextX(scrollToWidth, scrollToPosition);
+            drawTabLayout.drawTypeChild(canvas, currentPosition, scrollToPosition, lineSlipPercent,
+                    startX, stopX, currentWidth, scrollToWidth);
+        }
+
+        List<Float> drawTextLocation = new ArrayList<>();
+
         //item部分绘制
         Paint paint;
         String text;
@@ -261,68 +281,86 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
         float drawTextX;
         float drawTextY;
         float textWidth;
+        //绘制子view的item的type
         for (int i = 0; i < tabTextList.size(); i++) {
             //当前是否选中
             isCurrent = currentPosition.compareTo(i) == 0;
+            //获取要使用的哪个画笔
             paint = isCurrent ? tabTextPaintY : tabTextPaintN;
+            //要绘制的文本
             text = tabTextList.get(i);
+            //要绘制的文本宽度
             textWidth = getTextWidth(paint, text);
             //获取文本坐标
             drawTextX = getDrawTextX(textWidth, i);
             drawTextY = getDrawTextY(isCurrent);
-            //item类型绘制
-            drawTypeItem(canvas, paint, drawTextX, drawTextY, isCurrent, textWidth, paint.descent() - paint.ascent());
+            drawTextLocation.add(drawTextX);
+            drawTextLocation.add(drawTextY);
+            //item类型绘制，为了子view的动态
+            if (currentPosition.compareTo(scrollToPosition) != 0) {
+                //当前和要滑动的不是一个，为了子view的动态
+                if (currentPosition.compareTo(i) == 0) {
+                    //当前遍历到的位置是当前选中的，为了子view的动态
+                    drawTypeItem(canvas, paint, drawTextX, drawTextY, stopX, scrollToWidth, startX.compareTo(stopX) > 0 ? -lineSlipPercent : lineSlipPercent,
+                            isCurrent, textWidth, paint.descent() - paint.ascent());
+                } else if (scrollToPosition.compareTo(i) == 0) {
+                    //当前遍历到的是目标位置的，为了子view的动态
+                    drawTypeItem(canvas, paint, drawTextX, drawTextY, startX, currentWidth, startX.compareTo(stopX) > 0 ? lineSlipPercent : -lineSlipPercent,
+                            isCurrent, textWidth, paint.descent() - paint.ascent());
+                } else {
+                    //其余情况正常绘制
+                    drawTypeItem(canvas, paint, drawTextX, drawTextY, drawTextX, textWidth, 0, isCurrent, textWidth, paint.descent() - paint.ascent());
+                }
+            } else {
+                drawTypeItem(canvas, paint, drawTextX, drawTextY, drawTextX, textWidth, 0, isCurrent, textWidth, paint.descent() - paint.ascent());
+            }
+        }
+        //绘制文本
+        for (int i = 0; i < tabTextList.size(); i++) {
+            //当前是否选中
+            isCurrent = currentPosition.compareTo(i) == 0;
+            //获取要使用的哪个画笔
+            paint = isCurrent ? tabTextPaintY : tabTextPaintN;
+            //要绘制的文本
+            text = tabTextList.get(i);
             //绘制文本
-            canvas.drawText(text, drawTextX, drawTextY, paint);
+            canvas.drawText(text, drawTextLocation.get(i * 2), drawTextLocation.get(i * 2 + 1), paint);
         }
-        //绘制基础部分
-        String currentText = tabTextList.get(currentPosition);
-        float currentWidth = getTextWidth(tabTextPaintY, currentText);
-        float startX = getDrawTextX(currentWidth, currentPosition);
-        if (currentPosition.compareTo(scrollToPosition) == 0) {
-            drawTabLayout.drawTypeChild(canvas, currentPosition, currentPosition, lineSlipPercent,
-                    startX, startX, currentWidth, currentWidth);
-        } else {
-            String scrollToText = tabTextList.get(scrollToPosition);
-            float scrollToWidth = getTextWidth(tabTextPaintY, scrollToText);
-            drawTabLayout.drawTypeChild(canvas, currentPosition, scrollToPosition, lineSlipPercent,
-                    startX, getDrawTextX(scrollToWidth, scrollToPosition), currentWidth, scrollToWidth);
-        }
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (allowTouchChange) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    downX = event.getX();
-                    downY = event.getY();
-                    return true;
-                case MotionEvent.ACTION_MOVE:
-                    layoutOffset = lastLayoutOffset + event.getX() - downX;
-                    if (layoutOffset > 0) {
-                        //一旦大于0代表着已经滑动到了左边界
-                        layoutOffset = 0;
-                    } else if (Math.abs(layoutOffset) > getMeasureWidth(this, 0, tabTextListSize) - getWidth()) {
-                        //绝对值大于差值则代表着已经到了右边界
-                        layoutOffset = -Math.abs(getMeasureWidth(this, 0, tabTextListSize) - getWidth());
-                    }
-                    invalidate();
-                    return true;
-                case MotionEvent.ACTION_UP:
-                    lastLayoutOffset = layoutOffset;
-                    if (checkChangePosition(event.getX(), event.getY())) {
-                        return true;
-                    } else {
-                        return super.onTouchEvent(event);
-                    }
-                default:
-                    return true;
-            }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = event.getX();
+                downY = event.getY();
+                lastLayoutOffset = layoutOffset;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                layoutOffset = lastLayoutOffset + event.getX() - downX;
+                if (layoutOffset > 0) {
+                    //一旦大于0代表着已经滑动到了左边界
+                    layoutOffset = 0;
+                } else if (Math.abs(layoutOffset) > getMeasureWidth(this, 0, tabTextListSize) - getWidth()) {
+                    //绝对值大于差值则代表着已经到了右边界
+                    layoutOffset = -Math.abs(getMeasureWidth(this, 0, tabTextListSize) - getWidth());
+                }
+                AtlwLogUtils.logD(TAG, String.valueOf(layoutOffset));
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                if (allowTouchChange) {
+                    checkChangePosition(event.getX(), event.getY());
+                }
+                break;
+            default:
+                break;
         }
-        return super.onTouchEvent(event);
+        return true;
     }
+
 
     /**
      * 检测是否是要修改位置,如果要修改则直接切换位置
@@ -332,7 +370,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @return 点击范围是否一致，在误差范围内
      */
     private boolean checkChangePosition(float nowX, float nowY) {
-        if (Math.abs(nowX - downX) < 50 && Math.abs(nowY - downY) < 50) {
+        if (Math.abs(nowX - downX) < 25 && Math.abs(nowY - downY) < 25) {
             int clickPosition = (int) ((nowX - getPaddingLeft() - layoutOffset) / tabWidth);
             setCurrentPosition(clickPosition);
             return true;
@@ -380,17 +418,20 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
     /**
      * 绘制子view的item
      *
-     * @param canvas     画板
-     * @param textPaint  文本画笔
-     * @param drawTextX  文本x坐标
-     * @param drawTextY  文本y坐标
-     * @param isCurrent  当前是否是选中状态的
-     * @param textWidth  文本宽度
-     * @param textHeight 文本高度
+     * @param canvas            画板
+     * @param textPaint         文本画笔
+     * @param drawTextX         文本x坐标
+     * @param drawTextY         文本y坐标
+     * @param scrollToTextX     滑动目标的文本x坐标
+     * @param scrollToTextWidth 滑动到目标的文本宽度
+     * @param lineScrollPercent 滑动到目标的滑动百分比
+     * @param isCurrent         当前是否是选中的
+     * @param textWidth         文本宽度
+     * @param textHeight        文本高度
      */
     @Override
-    public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, boolean isCurrent, float textWidth, float textHeight) {
-        drawTabLayout.drawTypeItem(canvas, textPaint, drawTextX, drawTextY, isCurrent, textWidth, textHeight);
+    public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, float scrollToTextX, float scrollToTextWidth, float lineScrollPercent, boolean isCurrent, float textWidth, float textHeight) {
+        drawTabLayout.drawTypeItem(canvas, textPaint, drawTextX, drawTextY, scrollToTextX, scrollToTextWidth, lineScrollPercent, isCurrent, textWidth, textHeight);
     }
 
     /**
@@ -462,6 +503,15 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
     }
 
     /**
+     * 设置改变监听
+     *
+     * @param changeListener 改变监听
+     */
+    public void setChangeListener(AvlwBaseTabLayoutChangeListener changeListener) {
+        this.changeListener = changeListener;
+    }
+
+    /**
      * 获取绘制的文本y坐标
      *
      * @param isCurrent 是否是当前选中
@@ -525,9 +575,12 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
         if (currentX < Math.abs(layoutOffset) + tabWidth) {
             //当前目标切换位置在左边界外则需要切换回来
             lastLayoutOffset = layoutOffset = -currentX;
-        } else if (layoutOffset + getWidth() < currentX + tabWidth) {
+        } else if (Math.abs(layoutOffset) + getWidth() < currentX + tabWidth) {
             //当前目标切换位置在右边界外则需要切换回来
             lastLayoutOffset = layoutOffset = -(currentX + tabWidth - getWidth());
+        }
+        if (changeListener != null) {
+            changeListener.onChangePosition(currentPosition);
         }
     }
 
