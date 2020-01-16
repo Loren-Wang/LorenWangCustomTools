@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwThreadUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.FloatRange;
 import androidx.annotation.Nullable;
 
 /**
@@ -509,6 +511,152 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      */
     public void setChangeListener(AvlwBaseTabLayoutChangeListener changeListener) {
         this.changeListener = changeListener;
+    }
+
+    /**
+     * 设置tab数据列表
+     *
+     * @param tabTextList tab数据列表
+     * @return 当前实例
+     */
+    public AvlwTabLayout setTabTextList(List<String> tabTextList) {
+        if (tabTextList != null) {
+            this.tabTextList = tabTextList;
+            tabTextListSize = tabTextList.size();
+        }
+        return this;
+    }
+
+    /**
+     * 设置tab宽度
+     *
+     * @param tabWidth tab宽度
+     * @return 当前view实例
+     */
+    public AvlwTabLayout setTabWidth(float tabWidth) {
+        this.tabWidth = tabWidth;
+        return this;
+    }
+
+    /**
+     * 设置屏幕宽度百分比
+     *
+     * @param percent 宽度百分比0-1
+     * @return 当前实例
+     */
+    public AvlwTabLayout setTabWidthPercent(@FloatRange(from = 0, to = 1) float percent) {
+        //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
+        if (percent > (float) 0) {
+            if (percent > (float) 1) {
+                percent = 1.0F;
+            }
+            this.tabWidth = (float) getResources().getDisplayMetrics().widthPixels * percent;
+        }
+        return this;
+    }
+
+    /**
+     * 设置文本配置
+     *
+     * @param textSizeY   选中文本大小
+     * @param textSizeN   非选中文本大小
+     * @param textColorY  选中文本颜色
+     * @param textColorN  非选中文本颜色
+     * @param isTextYBold 选中文本是否加粗
+     * @param isTextNBold 非选中文本是否加粗
+     * @return 当前实例
+     */
+    public AvlwTabLayout setTabTextConfig(Integer textSizeY, Integer textSizeN, Integer textColorY,
+                                          Integer textColorN, Boolean isTextYBold, Boolean isTextNBold, Boolean isAllowLineTextBaselineAligning) {
+        if (textSizeY != null) {
+            tabTextPaintY.setTextSize(textSizeY);
+        }
+        if (textSizeN != null) {
+            tabTextPaintN.setTextSize(textSizeN);
+        }
+        if (textColorY != null) {
+            tabTextPaintY.setColor(textColorY);
+        }
+        if (textColorN != null) {
+            tabTextPaintN.setColor(textColorN);
+        }
+        //加粗配置
+        if (isTextYBold != null) {
+            if (isTextYBold) {
+                tabTextPaintY.setTypeface(Typeface.DEFAULT_BOLD);
+            } else {
+                tabTextPaintY.setTypeface(Typeface.DEFAULT);
+            }
+        }
+        //加粗配置
+        if (isTextNBold != null) {
+            if (isTextNBold) {
+                tabTextPaintN.setTypeface(Typeface.DEFAULT_BOLD);
+            } else {
+                tabTextPaintN.setTypeface(Typeface.DEFAULT);
+            }
+        }
+        //是否允许基线对齐
+        if (isAllowLineTextBaselineAligning != null) {
+            this.lineTextBaselineAligning = isAllowLineTextBaselineAligning;
+        }
+        return this;
+    }
+
+    /**
+     * 下划线数据配置
+     *
+     * @param lineWidth        下划线宽度,默认和文本宽度一致
+     * @param lineWidthPercent 下划线宽度百分比
+     * @param lineHeight       下划线高度
+     * @param lineBgDrawable   下划线颜色
+     * @param lineTextSpace    下划线和文本之间的距离
+     * @return 当前实例
+     */
+    public AvlwTabLayout setLineConfig(Float lineWidth, @FloatRange(from = 0, to = 1) Float lineWidthPercent,
+                                       Float lineHeight, Drawable lineBgDrawable, Float lineTextSpace) {
+        if (drawTabLayout instanceof AvlwTabLayoutTypeTextLine) {
+            ((AvlwTabLayoutTypeTextLine) drawTabLayout).setLineConfig(lineWidth, lineWidthPercent, lineHeight, lineBgDrawable, lineTextSpace);
+        }
+        return this;
+    }
+
+    /**
+     * 下划线容器数据配置
+     *
+     * @param lineContainerBg        下划线所属容器图片
+     * @param lineContainerHeight    下划线容器高度
+     * @param lineContainerTextSpace 下划线容器和文本之间的间距
+     * @return 当前实例
+     */
+    public AvlwTabLayout setLineContainerConfig(Drawable lineContainerBg,
+                                                Float lineContainerHeight, Float lineContainerTextSpace) {
+        if (drawTabLayout instanceof AvlwTabLayoutTypeTextLineContainer) {
+            ((AvlwTabLayoutTypeTextLineContainer) drawTabLayout).setLineContainerConfig(lineContainerBg, lineContainerHeight, lineContainerTextSpace);
+        }
+        return this;
+    }
+
+    /**
+     * 设置文本背景配置
+     *
+     * @param tabBgWidth             tab背景宽度，默认是文本宽度,但是宽度不能大于tab宽度
+     * @param tabBgWidthPercent      tab背景宽度百分比，默认是文本宽度
+     * @param tabBgHeight            tab背景高度，默认是文本高度，但是不能小于文字高度
+     * @param tabBgTextWidthPadding  tab背景宽度距离文本间距
+     * @param tabBgTextHeightPadding tab背景高度距离文本间距
+     * @param tabBgY                 tab选中背景
+     * @param tabBgN                 tab未选中背景
+     * @return 当前实例
+     */
+    public AvlwTabLayout setTextBgConfig(Float tabBgWidth, @FloatRange(from = 0, to = 1) Float tabBgWidthPercent,
+                                         Float tabBgHeight, Float tabBgTextWidthPadding, Float tabBgTextHeightPadding,
+                                         Drawable tabBgY, Drawable tabBgN) {
+        if (drawTabLayout instanceof AvlwTabLayoutTypeTextBg) {
+            ((AvlwTabLayoutTypeTextBg) drawTabLayout).setTextBgConfig(tabBgWidth, tabBgWidthPercent,
+                    tabBgHeight, tabBgTextWidthPadding, tabBgTextHeightPadding, tabBgY, tabBgN);
+        }
+        return this;
     }
 
     /**

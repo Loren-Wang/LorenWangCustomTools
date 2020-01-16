@@ -76,9 +76,7 @@ class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
         }
 
         //数据合理性检测，首先检测下划线宽度是否大于tab宽度
-        if (Float.compare(this.lineWidth, this.tabWidth) > 0) {
-            this.lineWidth = this.tabWidth;
-        }
+        this.lineWidth = Math.min(this.lineWidth, this.tabWidth);
     }
 
     @Override
@@ -130,6 +128,42 @@ class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
     @Override
     public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, float scrollToTextX, float scrollToTextWidth, float lineScrollPercent, boolean isCurrent, float textWidth, float textHeight) {
 
+    }
+
+    /**
+     * 下划线数据配置
+     *
+     * @param lineWidth        下划线宽度,默认和文本宽度一致
+     * @param lineWidthPercent 下划线宽度百分比
+     * @param lineHeight       下划线高度
+     * @param lineBgDrawable   下划线颜色
+     * @param lineTextSpace    下划线和文本之间的距离
+     */
+    public void setLineConfig(Float lineWidth, Float lineWidthPercent, Float lineHeight,
+                              Drawable lineBgDrawable, Float lineTextSpace) {
+        if (lineWidth != null) {
+            this.lineWidth = lineWidth;
+        }
+        if (lineWidthPercent != null) {
+            //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
+            if (lineWidthPercent > (float) 0) {
+                if (lineWidthPercent > (float) 1) {
+                    lineWidthPercent = 1.0F;
+                }
+                this.lineWidth = (float) context.getResources().getDisplayMetrics().widthPixels * lineWidthPercent;
+            }
+        }
+        //数据合理性检测，首先检测下划线宽度是否大于tab宽度
+        this.lineWidth = Math.min(this.lineWidth, this.tabWidth);
+        if (lineHeight != null) {
+            this.lineHeight = lineHeight;
+        }
+        if (lineBgDrawable != null) {
+            this.lingBgDrawable = lineBgDrawable;
+        }
+        if (lineTextSpace != null) {
+            this.lineTextSpace = lineTextSpace;
+        }
     }
 
     /**

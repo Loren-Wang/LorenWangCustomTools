@@ -71,6 +71,26 @@ class AvlwTabLayoutTypeTextLineContainer extends AvlwTabLayoutTypeTextLine {
     }
 
     /**
+     * 下划线容器数据配置
+     *
+     * @param lineContainerBg        下划线所属容器图片
+     * @param lineContainerHeight    下划线容器高度
+     * @param lineContainerTextSpace 下划线容器和文本之间的间距
+     */
+    public void setLineContainerConfig(Drawable lineContainerBg, Float lineContainerHeight,
+                                       Float lineContainerTextSpace) {
+        if (lineContainerBg != null) {
+            this.lingContainerBgDrawable = lineContainerBg;
+        }
+        if (lineContainerHeight != null) {
+            this.lineContainerHeight = lineContainerHeight;
+        }
+        if (lineContainerTextSpace != null) {
+            this.lineContainerTextSpace = lineContainerTextSpace;
+        }
+    }
+
+    /**
      * 获取下划线位图
      *
      * @return 位图

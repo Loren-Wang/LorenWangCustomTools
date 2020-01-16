@@ -41,7 +41,7 @@
         <attr name="avlw_tl_lineWidthPercent" format="float" />
         <!--下划线高度-->
         <attr name="avlw_tl_lineHeight" format="dimension" />
-        <!--下划线颜色,默认和文本颜色一致-->
+        <!--下划线颜色-->
         <attr name="avlw_tl_lineBg" format="reference|color" />
         <!--下划线和文本之间的距离-->
         <attr name="avlw_tl_lineTextSpace" format="dimension" />

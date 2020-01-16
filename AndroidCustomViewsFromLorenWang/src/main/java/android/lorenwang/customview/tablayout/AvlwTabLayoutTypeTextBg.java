@@ -165,6 +165,48 @@ class AvlwTabLayoutTypeTextBg implements AvlwBaseTabLayout {
     }
 
     /**
+     * 设置文本背景配置
+     *
+     * @param tabBgWidth             tab背景宽度，默认是文本宽度,但是宽度不能大于tab宽度
+     * @param tabBgWidthPercent      tab背景宽度百分比，默认是文本宽度
+     * @param tabBgHeight            tab背景高度，默认是文本高度，但是不能小于文字高度
+     * @param tabBgTextWidthPadding  tab背景宽度距离文本间距
+     * @param tabBgTextHeightPadding tab背景高度距离文本间距
+     * @param tabBgY                 tab选中背景
+     * @param tabBgN                 tab未选中背景
+     */
+    public void setTextBgConfig(Float tabBgWidth, Float tabBgWidthPercent, Float tabBgHeight,
+                                Float tabBgTextWidthPadding, Float tabBgTextHeightPadding,
+                                Drawable tabBgY, Drawable tabBgN) {
+        if (tabBgWidth != null) {
+            this.tabBgWidth = tabBgWidth;
+        }
+        if (tabBgWidthPercent != null) {
+            if (tabBgWidthPercent > (float) 0) {
+                if (tabBgWidthPercent > (float) 1) {
+                    tabBgWidthPercent = 1.0F;
+                }
+                this.tabBgWidth = (float) context.getResources().getDisplayMetrics().widthPixels * tabBgWidthPercent;
+            }
+        }
+        if (tabBgHeight != null) {
+            this.tabBgHeight = tabBgHeight;
+        }
+        if (tabBgTextWidthPadding != null) {
+            this.tabBgTextWidthPadding = tabBgTextWidthPadding;
+        }
+        if (tabBgTextHeightPadding != null) {
+            this.tabBgTextHeightPadding = tabBgTextHeightPadding;
+        }
+        if (tabBgY != null) {
+            this.tabBgDrawableY = tabBgY;
+        }
+        if (tabBgN != null) {
+            this.tabBgDrawableN = tabBgN;
+        }
+    }
+
+    /**
      * 获取选中背景位图
      *
      * @return 位图
