@@ -32,7 +32,7 @@ import androidx.annotation.Nullable;
  * 备注：
  */
 
-public class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizontalSlipTabLayout {
+class AvlwHorizontalSlipTabLayout extends View implements AvlwBaseHorizontalSlipTabLayout {
     private final String TAG = getClass().getName();
     /*******************************************绘制部分参数****************************************/
     /**

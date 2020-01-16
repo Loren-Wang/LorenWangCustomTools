@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -26,9 +27,9 @@ import android.lorenwang.tools.image.AtlwImageCommonUtils;
 class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
     private final String TAG = getClass().getName();
     private Context context;
-    private AvlwTabLayout avlwTabLayout;
+    protected AvlwTabLayout avlwTabLayout;
     private float tabWidth;
-    private float tabHeight;
+    protected float tabHeight;
     /**
      * 下划线宽度
      */
@@ -36,11 +37,11 @@ class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
     /**
      * 下划线高度
      */
-    private float lineHeight = 0f;
+    protected float lineHeight = 0f;
     /**
      * 下划线和文本之间的间距
      */
-    private float lineTextSpace = 0f;
+    protected float lineTextSpace = 0f;
     /**
      * 下划线背景
      */
@@ -115,7 +116,7 @@ class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
         if (lineBg != null) {
             float offset = startX;
             if (lineSlipPercent != 0) {
-                offset = (stopX - startX) * lineSlipPercent;
+                offset = startX + (stopX - startX) * lineSlipPercent;
             }
             //绘制下划线
             float left = avlwTabLayout.getPaddingLeft() + offset;
@@ -124,28 +125,10 @@ class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
                     left, top, left + showLineWidth, top + lineHeight), null);
         }
 
-
-//        //滑动距离为目标x坐标减去当前x坐标乘以百分比
-//        float slipSpace = (tabLineListCoordinate.get(slipToPosi * 2) - tabLineListCoordinate.get(selectPosi * 2)) * lineSlipPercent;
-//        //判断是否需要变动下划线宽度
-//        if (lineWidth > 0) {
-//            canvas.drawLine(tabLineListCoordinate.get(selectPosi * 2) + slipSpace
-//                    , tabLineListCoordinate.get(selectPosi * 2 + 1)
-//                    , tabLineListCoordinate.get(selectPosi * 2) + lineWidth + slipSpace
-//                    , tabLineListCoordinate.get(selectPosi * 2 + 1), linePaint);
-//        } else {
-//            //获取宽度变化值,值为目标位置文本宽度减去当前位置文本的宽度乘以百分比
-//            float widthChange = (tabTextListWidth.get(slipToPosi) - tabTextListWidth.get(selectPosi)) * lineSlipPercent;
-//            //此时的结尾值为当前位置加上放大或缩小的比例加上移动的距离为endx坐标
-//            canvas.drawLine(tabLineListCoordinate.get(selectPosi * 2) + slipSpace
-//                    , tabLineListCoordinate.get(selectPosi * 2 + 1)
-//                    , tabLineListCoordinate.get(selectPosi * 2) + widthChange + slipSpace + tabTextListWidth.get(selectPosi)
-//                    , tabLineListCoordinate.get(selectPosi * 2 + 1), linePaint);
-//        }
     }
 
     @Override
-    public void drawTypeItem(float drawTextX, float drawTextY) {
+    public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, boolean isCurrent, float textWidth, float textHeight) {
 
     }
 

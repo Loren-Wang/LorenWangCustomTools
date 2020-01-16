@@ -47,21 +47,27 @@
         <attr name="avlw_tl_lineTextSpace" format="dimension" />
 
         <!--第二种类型的视图-->
-        <!--tab背景宽度，默认是文本宽度-->
+        <!--tab背景宽度，默认是文本宽度,但是宽度不能大于tab宽度-->
         <attr name="avlw_tl_tabBgWidth" format="dimension" />
+        <!--tab背景宽度百分比，默认是文本宽度-->
+        <attr name="avlw_tl_tabBgWidthPercent" format="float" />
         <!--tab背景高度，默认是文本高度，但是不能小于文字高度-->
         <attr name="avlw_tl_tabBgHeight" format="dimension" />
+        <!--tab背景宽度距离文本间距-->
+        <attr name="avlw_tl_tabBgTextWidthPadding" format="dimension" />
+        <!--tab背景高度距离文本间距-->
+        <attr name="avlw_tl_tabBgTextHeightPadding" format="dimension" />
         <!--tab选中背景-->
         <attr name="avlw_tl_tabBgY" format="reference|color" />
         <!--tab未选中背景-->
         <attr name="avlw_tl_tabBgN" format="reference|color" />
 
-        <!--第三中类型视图-->
+        <!--第三中类型视图,在第一种基础上-->
         <!--下划线所属容器图片-->
         <attr name="avlw_tl_lineContainerBg" format="reference|color" />
         <!--下划线容器高度-->
         <attr name="avlw_tl_lineContainerHeight" format="dimension" />
-        <!--下划线容器高度偏移，默认下划线是在下划线容器居中-->
-        <attr name="avlw_tl_lineContainerOffset" format="dimension" />
+        <!--下划线容器和文本之间的间距-->
+        <attr name="avlw_tl_lineContainerTextSpace" format="dimension" />
     </declare-styleable>
 </resources>

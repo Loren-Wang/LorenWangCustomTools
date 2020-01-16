@@ -1,6 +1,7 @@
 package android.lorenwang.customview.tablayout;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 /**
  * 功能作用：基础tablayout布局接口
@@ -53,9 +54,14 @@ public interface AvlwBaseTabLayout {
     /**
      * item数据绘制
      *
-     * @param drawTextX 文本x坐标
-     * @param drawTextY 文本y坐标
+     * @param canvas     画板
+     * @param textPaint  文本画笔
+     * @param drawTextX  文本x坐标
+     * @param drawTextY  文本y坐标
+     * @param isCurrent  当前是否是选中的
+     * @param textWidth  文本宽度
+     * @param textHeight 文本高度
      */
-    void drawTypeItem(float drawTextX, float drawTextY);
+    void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, boolean isCurrent, float textWidth, float textHeight);
 
 }

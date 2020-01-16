@@ -29,7 +29,7 @@ import androidx.viewpager2.widget.ViewPager2;
  * 修改时间：
  * 备注：
  */
-public class AvlwSlideTabLayout extends View {
+class AvlwSlideTabLayout extends View {
 
     private String TAG;
     private int tabTextViewColor;//tab文本显示颜色

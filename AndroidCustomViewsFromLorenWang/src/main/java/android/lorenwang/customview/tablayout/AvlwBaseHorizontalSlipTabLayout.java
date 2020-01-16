@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
  * 备注：
  */
 
-public interface AvlwBaseHorizontalSlipTabLayout {
+interface AvlwBaseHorizontalSlipTabLayout {
     /**
      * 设置tab列表
      */

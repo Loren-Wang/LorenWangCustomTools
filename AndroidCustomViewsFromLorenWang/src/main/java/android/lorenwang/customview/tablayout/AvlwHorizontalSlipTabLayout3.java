@@ -38,7 +38,7 @@ import androidx.annotation.Nullable;
  * 修改时间：
  * 备注：
  */
-public class AvlwHorizontalSlipTabLayout3 extends FrameLayout implements AvlwBaseHorizontalSlipTabLayout {
+class AvlwHorizontalSlipTabLayout3 extends FrameLayout implements AvlwBaseHorizontalSlipTabLayout {
     private AvlwHorizontalSlipTabLayout tabView;
     /**
      * 下划线容器画笔
