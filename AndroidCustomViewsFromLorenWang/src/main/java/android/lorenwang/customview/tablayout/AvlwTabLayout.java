@@ -154,7 +154,6 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                     AtlwLogUtils.logE(TAG, "滑动异常");
                 }
             }
-            allowScrollChange = true;
         }
     };
 
@@ -369,15 +368,11 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      *
      * @param nowX 当前x坐标
      * @param nowY 当前点击y坐标
-     * @return 点击范围是否一致，在误差范围内
      */
-    private boolean checkChangePosition(float nowX, float nowY) {
+    private void checkChangePosition(float nowX, float nowY) {
         if (Math.abs(nowX - downX) < 25 && Math.abs(nowY - downY) < 25) {
             int clickPosition = (int) ((nowX - getPaddingLeft() - layoutOffset) / tabWidth);
-            setCurrentPosition(clickPosition);
-            return true;
-        } else {
-            return false;
+            setCurrentPosition(clickPosition, false);
         }
     }
 
@@ -442,7 +437,23 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param currentPosition 当前位置
      */
     public void setCurrentPosition(int currentPosition) {
-        setCurrentPosition(currentPosition, true);
+        setCurrentPosition(currentPosition, false);
+    }
+
+    /**
+     * 切换位置
+     *
+     * @param currentPosition 目标位置
+     * @param percent         目标百分比
+     */
+    public void setCurrentPosition(int currentPosition, @FloatRange(from = 0, to = 1) float percent) {
+        if (tabTextList == null || currentPosition >= tabTextList.size()) {
+            return;
+        }
+        allowScrollChange = false;
+        this.scrollToPosition = currentPosition;
+        changeScrollPercent(percent);
+        allowScrollChange = true;
     }
 
     /**
@@ -467,6 +478,15 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
             currentPositionChangeFinish();
             invalidate();
         }
+    }
+
+    /**
+     * 获取当前位置
+     *
+     * @return 当前位置
+     */
+    public int getCurrentPosition() {
+        return currentPosition;
     }
 
     /**
@@ -710,6 +730,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
             //切换结束之后位置处理
             currentPositionChangeFinish();
             lineSlipPercent = 0f;
+            allowScrollChange = true;
         } else {
             lineSlipPercent = percent;
         }

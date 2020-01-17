@@ -1,5 +1,7 @@
 package android.lorenwang.customview.tablayout;
 
+import androidx.annotation.FloatRange;
+
 /**
  * 创建时间：2019-04-14 上午 00:00:26
  * 创建人：王亮（Loren wang）
@@ -13,5 +15,17 @@ package android.lorenwang.customview.tablayout;
  */
 
 public interface AvlwBaseTabLayoutChangeListener {
+    /**
+     * 位置切换
+     *
+     * @param position 切换后的位置
+     */
     void onChangePosition(int position);
+
+    /**
+     * 切换进度
+     *
+     * @param percent 进度
+     */
+    void onChangePercent(@FloatRange(from = 0, to = 1) float percent);
 }
