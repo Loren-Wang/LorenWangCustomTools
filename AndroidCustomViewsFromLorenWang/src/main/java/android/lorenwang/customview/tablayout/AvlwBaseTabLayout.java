@@ -15,7 +15,7 @@ import android.graphics.Paint;
  * 备注：
  */
 
-public interface AvlwBaseTabLayout {
+interface AvlwBaseTabLayout {
 
     /**
      * 获取要绘制的宽度
@@ -69,6 +69,7 @@ public interface AvlwBaseTabLayout {
 
     /**
      * 设置tab宽度
+     *
      * @param tabWidth tab宽度
      */
     AvlwBaseTabLayout setTabWidth(float tabWidth);
