@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TabLayoutActivity"></activity>
+        <activity android:name=".RecycleViewPageActivity"></activity>
+        <activity android:name=".TabLayoutActivity" />
         <activity android:name=".ScanCodeActivity" />
         <activity android:name=".DataParseActivity" />
         <activity android:name=".ToastActivity" />
@@ -37,16 +38,16 @@
         <activity android:name=".androidTools.MobileContactsActivity" />
         <activity android:name=".androidTools.MobileSmsActivity" />
     </application>
-    <uses-permission
-        android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
 
 </manifest>

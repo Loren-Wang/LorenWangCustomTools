@@ -12,7 +12,7 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        findViewById<Button>(R.id.btnTabLayout).performClick()
+        findViewById<Button>(R.id.btnRecycleViewPager).performClick()
     }
 
     fun mainClick(view: View?) {
@@ -62,6 +62,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnScanCode -> {
                     startActivity(Intent(this, ScanCodeActivity::class.java))
+                }
+                R.id.btnRecycleViewPager -> {
+                    startActivity(Intent(this, RecycleViewPageActivity::class.java))
                 }
                 else -> {
 

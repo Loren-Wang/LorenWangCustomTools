@@ -64,7 +64,7 @@ public class AvlwRecycleViewViewpager extends RecyclerView {
                     downX = ev.getX();
                     return super.dispatchTouchEvent(ev);
                 case MotionEvent.ACTION_HOVER_MOVE:
-                    return super.dispatchTouchEvent(ev);
+                    return false;
                 case MotionEvent.ACTION_UP:
                     if (downX < ev.getX()) {
                         moveToLastItem();

@@ -36,7 +36,7 @@ dependencies {
 
 def moduleName = "AndroidCustomViewsFromLorenWang"
 def moduleDescription = "Android自定义控件库"
-version '1.0.852'
+version '1.0.853'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

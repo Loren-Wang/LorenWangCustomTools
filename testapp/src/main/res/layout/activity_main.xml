@@ -124,6 +124,14 @@
             android:text="图形码扫描"
             android:textAllCaps="false"
             android:onClick="mainClick" />
+
+        <Button
+            android:id="@+id/btnRecycleViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RecycleviewViewPager"
+            android:textAllCaps="false"
+            android:onClick="mainClick" />
     </LinearLayout>
 
 
