@@ -7,21 +7,21 @@
     android:gravity="center"
     android:background="#0f0">
 
-    <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:hstl_tabWidthPercent="0.3"
-        app:hstl_tabHeight="40dp"
-        app:hstl_tabTextSize="18.7sp"
-        app:hstl_tabTextColorY="#ff6947"
-        app:hstl_tabTextColorN="#666666"
-        app:hstl_lineWidthPercent="0.3"
-        app:hstl_lineHeight="1dp"
-        app:hstl_lineColor="#ff6947"
-        app:hstl_lineTextSpace="7dp"
-        app:hstl_tabTextBoldY="true"
-        tools:ignore="MissingPrefix"/>
+<!--     <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout-->
+<!--        android:id="@+id/test"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:hstl_tabWidthPercent="0.3"-->
+<!--        app:hstl_tabHeight="40dp"-->
+<!--        app:hstl_tabTextSize="18.7sp"-->
+<!--        app:hstl_tabTextColorY="#ff6947"-->
+<!--        app:hstl_tabTextColorN="#666666"-->
+<!--        app:hstl_lineWidthPercent="0.3"-->
+<!--        app:hstl_lineHeight="1dp"-->
+<!--        app:hstl_lineColor="#ff6947"-->
+<!--        app:hstl_lineTextSpace="7dp"-->
+<!--        app:hstl_tabTextBoldY="true"-->
+<!--        tools:ignore="MissingPrefix"/>-->
 
 
 

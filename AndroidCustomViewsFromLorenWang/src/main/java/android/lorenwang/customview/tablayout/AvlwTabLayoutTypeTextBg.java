@@ -164,6 +164,12 @@ class AvlwTabLayoutTypeTextBg implements AvlwBaseTabLayout {
         }
     }
 
+    @Override
+    public AvlwBaseTabLayout setTabWidth(float tabWidth) {
+        this.tabWidth = tabWidth;
+        return this;
+    }
+
     /**
      * 设置文本背景配置
      *

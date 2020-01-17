@@ -166,6 +166,12 @@ class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
         }
     }
 
+    @Override
+    public AvlwBaseTabLayout setTabWidth(float tabWidth) {
+        this.tabWidth = tabWidth;
+        return this;
+    }
+
     /**
      * 获取下划线位图
      *

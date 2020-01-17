@@ -535,6 +535,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      */
     public AvlwTabLayout setTabWidth(float tabWidth) {
         this.tabWidth = tabWidth;
+        drawTabLayout.setTabWidth(tabWidth);
         return this;
     }
 
@@ -551,6 +552,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                 percent = 1.0F;
             }
             this.tabWidth = (float) getResources().getDisplayMetrics().widthPixels * percent;
+            drawTabLayout.setTabWidth(tabWidth);
         }
         return this;
     }

@@ -5,22 +5,22 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout3
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:hstl_tabWidthPercent="0.3"
-        app:hstl_tabHeight="40dp"
-        app:hstl_tabTextSize="18.7sp"
-        app:hstl_tabTextColorY="#ff6947"
-        app:hstl_tabTextColorN="#666666"
-        app:hstl_lineWidth="33dp"
-        app:hstl_lineHeight="0.7dp"
-        app:hstl_lineColor="#ff6947"
-        app:hstl_lineTextSpace="7dp"
-        app:hstl_lineContainerColor="#e8e8e8"
-        app:hstl_lineContainerHeight="0.3dp"
-        tools:ignore="MissingPrefix"/>
+<!--    <android.lorenwang.customview.tablayout.AvlwHorizontalSlipTabLayout3-->
+    <!--        android:id="@+id/test"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:hstl_tabWidthPercent="0.3"-->
+    <!--        app:hstl_tabHeight="40dp"-->
+    <!--        app:hstl_tabTextSize="18.7sp"-->
+    <!--        app:hstl_tabTextColorY="#ff6947"-->
+    <!--        app:hstl_tabTextColorN="#666666"-->
+    <!--        app:hstl_lineWidth="33dp"-->
+    <!--        app:hstl_lineHeight="0.7dp"-->
+    <!--        app:hstl_lineColor="#ff6947"-->
+    <!--        app:hstl_lineTextSpace="7dp"-->
+    <!--        app:hstl_lineContainerColor="#e8e8e8"-->
+    <!--        app:hstl_lineContainerHeight="0.3dp"-->
+    <!--        tools:ignore="MissingPrefix"/>-->
 
 
 

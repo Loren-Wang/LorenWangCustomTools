@@ -67,4 +67,9 @@ public interface AvlwBaseTabLayout {
      */
     void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY, float scrollToTextX, float scrollToTextWidth, float lineScrollPercent, boolean isCurrent, float textWidth, float textHeight);
 
+    /**
+     * 设置tab宽度
+     * @param tabWidth tab宽度
+     */
+    AvlwBaseTabLayout setTabWidth(float tabWidth);
 }
