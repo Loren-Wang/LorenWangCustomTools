@@ -26,13 +26,13 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
      */
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ID)
+    @Column(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ID, nullable = false, columnDefinition = "bigint comment '用户id'")
     var userId: Long? = null
     /**
      * 乐观锁锁数据
      */
     @Version
-    @Column(name = SbcbflwBaseTableConfig.CommonColumn.OPTIMISTIC_LOCKING)
+    @Column(name = SbcbflwBaseTableConfig.CommonColumn.OPTIMISTIC_LOCKING, nullable = false, columnDefinition = "int comment '用户乐观锁'")
     var version: Int = 0
     /**
      * 用户账户

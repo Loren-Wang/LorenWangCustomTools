@@ -26,7 +26,7 @@ object SbcbflwBaseTableConfig {
         /**
          * 乐观锁字段
          */
-        const val OPTIMISTIC_LOCKING = "locaing_version"
+        const val OPTIMISTIC_LOCKING = "locking_version"
         /**
          * 创建时间
          */

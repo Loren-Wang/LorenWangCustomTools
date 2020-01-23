@@ -2,7 +2,7 @@ package javabase.lorenwang.common_base_frame.database.helper
 
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
-import org.apache.commons.lang.RandomStringUtils
+import javabase.lorenwang.common_base_frame.utils.SbcbflwRandomStringUtils
 
 /**
  * 功能作用：用户帮助类
@@ -55,7 +55,7 @@ public abstract class SbcbflwUserHelper {
      */
     fun generatePassword(): String? {
         return try {
-            RandomStringUtils.randomAlphanumeric(passwordLength)
+            SbcbflwRandomStringUtils.randomAlphanumeric(passwordLength)
         } catch (e: Exception) {
             null
         }
