@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.kotlinExtend
 
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
 import javabase.lorenwang.tools.JtlwLogUtils
+import kotlinbase.lorenwang.tools.extend.isEmpty
 import org.springframework.jdbc.core.JdbcTemplate
 import java.math.BigInteger
 import javax.persistence.EntityManager
@@ -151,7 +152,6 @@ fun EntityManager.addNewRank(tableName: String, primaryKeyColumn: String, newRan
 /**
  * 移除排行
  */
-
 fun EntityManager.removeRank(tableName: String, primaryKeyColumn: String, oldRank: Long): Long? {
     return upDataAllRankMove(tableName, primaryKeyColumn, oldRank, 0L)
 }
