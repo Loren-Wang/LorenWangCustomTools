@@ -20,7 +20,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport
  */
 abstract class SbcbflwDataBaseTableVersionUpdateOptions<T : SbcbflwBaseDatabaseTableVersionTb, R : SbcbflwDatabaseTableVersionRepository<T>> {
     @Transactional
-    fun initData(applicationContext: ConfigurableApplicationContext, databaseTableVersionRepository: R) {
+    fun initData(databaseTableVersionRepository: R) {
 
         try {
             JtlwLogUtils.logI(javaClass, "开始执行版本${getVersionName()}的更新")

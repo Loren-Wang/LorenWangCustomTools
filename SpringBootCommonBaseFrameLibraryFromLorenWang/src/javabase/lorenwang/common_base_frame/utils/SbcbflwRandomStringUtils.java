@@ -2,18 +2,6 @@ package javabase.lorenwang.common_base_frame.utils;
 
 import java.util.Random;
 
-/**
- * 功能作用：
- * 创建时间：2020-01-23 下午 13:38:15
- * 创建人：王亮（Loren wang）
- * 思路：
- * 方法：
- * 注意：
- * 修改人：
- * 修改时间：
- * 备注：
- */
-
 public class SbcbflwRandomStringUtils {
 
     /**
