@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame.kotlinExtend
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseController
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
+import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseRequestBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseUpDateRankReqBean
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
 import javabase.lorenwang.common_base_frame.database.SbcbflwDatabaseParams.FIRST_RANK_LIST
@@ -183,7 +184,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
 /**
  * 接口检测并操作扩展
  */
-inline fun <DATA> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         data: DATA?,
         baseController: SbcbflwBaseController,
@@ -275,7 +276,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
 /**
  * 接口检测并操作扩展
  */
-inline fun <DATA> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         data: DATA?,
         baseController: SbcbflwBaseController,
@@ -286,7 +287,7 @@ inline fun <DATA> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions
 /**
  * 接口检测并操作扩展
  */
-inline fun <DATA> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         data: DATA?, baseController: SbcbflwBaseController,
         crossinline unKnownRepositoryOptionsFun: (data: DATA?) -> Any,
         noinline unKnownRepositoryErrorFun: ((data: Any?) -> Any)?): String {
@@ -296,7 +297,7 @@ inline fun <DATA> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions
 /**
  * 接口检测并操作扩展
  */
-inline fun <DATA> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         crossinline unKnownRepositoryOptionsFun: (data: DATA?) -> Any,
         noinline unKnownRepositoryErrorFun: ((data: Any?) -> Any)?): String {
