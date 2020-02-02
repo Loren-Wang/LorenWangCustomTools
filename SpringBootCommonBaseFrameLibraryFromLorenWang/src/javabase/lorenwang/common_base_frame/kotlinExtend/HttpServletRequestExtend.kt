@@ -35,9 +35,9 @@ import javax.persistence.EntityManager
 /**
  * 接口检测并操作扩展
  */
-inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
-        checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
+        checkPermissionArray: Array<P>,
         baseController: SbcbflwBaseController,
         noinline notLoginFun: (() -> Any)?,
         noinline notPermissionFun: ((userInfoTb: SbcbflwBaseUserInfoTb<*, *>) -> Any)?,
@@ -236,9 +236,9 @@ inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.
 /**
  * 接口检测并操作扩展
  */
-inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
-        checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
+        checkPermissionArray: Array<P>,
         baseController: SbcbflwBaseController,
         noinline notLoginFun: (() -> Any)?,
         noinline notPermissionFun: ((userInfoTb: SbcbflwBaseUserInfoTb<*, *>) -> Any)?,
@@ -250,9 +250,9 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
 /**
  * 接口检测并操作扩展
  */
-inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
-        checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
+        checkPermissionArray: Array<P>,
         baseController: SbcbflwBaseController,
         noinline notLoginAndPermissionFun: () -> Any,
         crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb<*, *>) -> Any): String {
@@ -263,9 +263,9 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
 /**
  * 接口检测并操作扩展
  */
-inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
-        checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
+        checkPermissionArray: Array<P>,
         baseController: SbcbflwBaseController,
         crossinline unKnownRepositoryOptionsFun: (userInfoTb: SbcbflwBaseUserInfoTb<*, *>) -> Any): String {
     return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, baseController,
@@ -310,7 +310,7 @@ inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.
 inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         crossinline unKnownRepositoryOptionsFun: () -> Any): String {
-    return this.controllerCheckAndOptions(null, null, baseController, {
+    return this.controllerCheckAndOptions(null, baseController, {
         unKnownRepositoryOptionsFun()
     }, null)
 }
@@ -318,10 +318,10 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
 /**
  * 删除表信息中的某一条数据
  */
-fun <TB : SbcbflwBaseTb, CURD : CrudRepository<TB, Long>> SbcbflwBaseHttpServletRequestWrapper.deleteTbInfo(
+fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, CURD : CrudRepository<TB, Long>> SbcbflwBaseHttpServletRequestWrapper.deleteTbInfo(
         baseController: SbcbflwBaseController,
         curd: CURD, deleteId: Long?,
-        checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
+        checkPermissionArray: Array<P>,
         entityManager: EntityManager,
         tableName: String, primaryKeyColumn: String): String {
     return this.controllerCheckAndOptions(arrayOf(deleteId), checkPermissionArray, baseController) {
@@ -342,10 +342,10 @@ fun <TB : SbcbflwBaseTb, CURD : CrudRepository<TB, Long>> SbcbflwBaseHttpServlet
 /**
  * 更新一个表中所有排行信息
  */
-fun <TB : SbcbflwBaseTb, CURD : CrudRepository<TB, Long>> SbcbflwBaseHttpServletRequestWrapper.upDataTbAllRank(
+fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, CURD : CrudRepository<TB, Long>> SbcbflwBaseHttpServletRequestWrapper.upDataTbAllRank(
         baseController: SbcbflwBaseController,
         curd: CURD, rankBean: SbcbflwBaseUpDateRankReqBean,
-        checkPermissionArray: Array<SbcbflwBaseUserPermissionTypeEnum>,
+        checkPermissionArray: Array<P>,
         checkOldCount: Boolean,
         getNewSaveTbFun: (oldTbInfo: TB, firstRank: Long, newIds: Array<Long>) -> TB): String {
     return this.controllerCheckAndOptions(arrayOf(rankBean.ids), checkPermissionArray, baseController) {
