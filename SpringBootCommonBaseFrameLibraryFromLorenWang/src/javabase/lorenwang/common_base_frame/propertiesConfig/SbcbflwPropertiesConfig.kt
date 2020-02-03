@@ -1,4 +1,4 @@
-package javabase.lorenwang.common_base_frame
+package javabase.lorenwang.common_base_frame.propertiesConfig
 
 import org.springframework.beans.factory.annotation.Value
 
@@ -29,30 +29,20 @@ import org.springframework.beans.factory.annotation.Value
  */
 open class SbcbflwPropertiesConfig {
     /**
-     * 阿里云oss系统域名
+     * oss系统协议，通用参数
      */
-    @Value("\${Sbcbflw.aliyun.oss.domain}")
-    open var aLiYunOssDomain = ""
+    @Value("\${Sbcbflw.oss.type.protocol}")
+    open var ossTypeProtocol = false
     /**
-     * 阿里云oss访问域名
+     * 是否是阿里云存储
      */
-    @Value("\${Sbcbflw.aliyun.oss.Endpoint}")
-    open var aLiYunOssEndpoint = ""
+    @Value("\${Sbcbflw.oss.type.aliYun}")
+    open var ossTypeAliYun = false
     /**
-     * 阿里云oss系统keyid
+     * 是否是七牛存储
      */
-    @Value("\${Sbcbflw.aliyun.oss.AccessKeyId}")
-    open var aLiYunOssAccessKeyId = ""
-    /**
-     * 阿里云oss系统密钥
-     */
-    @Value("\${Sbcbflw.aliyun.oss.AccessKeySecret}")
-    open var aLiYunOssAccessKeySecret = ""
-    /**
-     * 阿里云存储空间名
-     */
-    @Value("\${Sbcbflw.aliyun.oss.Bucket}")
-    open var aLiYunOssBucket = ""
+    @Value("\${Sbcbflw.oss.type.qiNiu}")
+    open var ossTypeQiNiu = false
 
     /*
    * 加密用的Key 可以用26个字母和数字组成 此处使用AES-128-CBC加密模式，key需要为16位。

@@ -1,12 +1,7 @@
 package javabase.lorenwang.common_base_frame.safe
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
-import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 import javabase.lorenwang.tools.safe.JtlwEncryptDecryptUtils
-import java.util.*
-import javax.crypto.Cipher
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
 
 /**
  * 功能作用：加密解密工具类

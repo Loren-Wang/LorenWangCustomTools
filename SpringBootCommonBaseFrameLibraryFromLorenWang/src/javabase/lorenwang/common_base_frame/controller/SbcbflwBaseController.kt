@@ -1,7 +1,6 @@
 package javabase.lorenwang.common_base_frame.controller
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
-import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import javabase.lorenwang.tools.JtlwLogUtils

@@ -3,7 +3,6 @@ package javabase.lorenwang.common_base_frame.controller
 import io.swagger.annotations.ApiModelProperty
 import io.swagger.annotations.ApiParam
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
-import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 
 /**
  * 功能作用：基础请求实体

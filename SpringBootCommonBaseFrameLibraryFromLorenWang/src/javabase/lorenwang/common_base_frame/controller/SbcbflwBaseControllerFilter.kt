@@ -1,14 +1,11 @@
 package javabase.lorenwang.common_base_frame.controller
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
-import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserHelper
-import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 import java.io.IOException
 import javax.servlet.*

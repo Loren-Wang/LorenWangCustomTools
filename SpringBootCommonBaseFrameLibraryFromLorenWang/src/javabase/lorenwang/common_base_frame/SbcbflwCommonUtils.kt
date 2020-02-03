@@ -1,6 +1,10 @@
 package javabase.lorenwang.common_base_frame
 
+import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwAlLiYunOssPropertiesConfig
+import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwPropertiesConfig
+import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwQiNiuOssPropertiesConfig
 import javabase.lorenwang.tools.JtlwLogUtils
+import org.springframework.context.ConfigurableApplicationContext
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
@@ -23,6 +27,18 @@ open class SbcbflwCommonUtils {
      * 用户headerKey的token
      */
     var headerKeyUserAccessToken = "accessToken";
+    /**
+     * 基础配置
+     */
+    lateinit var propertiesConfig: SbcbflwPropertiesConfig
+    /**
+     * 阿里云oss配置
+     */
+    lateinit var aliYunPropertiesConfig: SbcbflwAlLiYunOssPropertiesConfig
+    /**
+     * 七牛oss配置
+     */
+    lateinit var qiNiuPropertiesConfig: SbcbflwQiNiuOssPropertiesConfig
 
     companion object {
         private var optionsUtils: SbcbflwCommonUtils? = null
@@ -38,6 +54,20 @@ open class SbcbflwCommonUtils {
                 }
                 return optionsUtils!!
             }
+    }
+
+    /**
+     * 初始化
+     * @param applicationContext 运行实例
+     * @param propertiesConfig 基础配置文件
+     */
+    fun initBase(applicationContext: ConfigurableApplicationContext, propertiesConfig: SbcbflwPropertiesConfig) {
+        this.propertiesConfig = propertiesConfig;
+        if (propertiesConfig.ossTypeAliYun) {
+            aliYunPropertiesConfig = applicationContext.getBean(SbcbflwAlLiYunOssPropertiesConfig::class.java)
+        } else if (propertiesConfig.ossTypeQiNiu) {
+            qiNiuPropertiesConfig = applicationContext.getBean(SbcbflwQiNiuOssPropertiesConfig::class.java)
+        }
     }
 
     /**
@@ -84,5 +114,5 @@ open class SbcbflwCommonUtils {
         return map
     }
 
-    lateinit var propertiesConfig: SbcbflwPropertiesConfig
+
 }
