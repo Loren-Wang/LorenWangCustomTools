@@ -775,4 +775,57 @@ public class JtlwFileOptionUtils {
             }
         }
     }
+
+    /**
+     * 所有文档类型枚举
+     */
+    private final List<JtlwFileTypeEnum> allDocFileTypeEnum = new ArrayList<JtlwFileTypeEnum>();
+    /**
+     * 所有图片类型枚举
+     */
+    private final List<JtlwFileTypeEnum> allImageFileTypeEnum = new ArrayList<JtlwFileTypeEnum>();
+
+    /**
+     * 获取所有文档相关类型
+     */
+    public List<JtlwFileTypeEnum> getDocType() {
+        if (allDocFileTypeEnum.isEmpty()) {
+            synchronized (allDocFileTypeEnum) {
+                if (allDocFileTypeEnum.isEmpty()) {
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.DOC);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.XLS);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.PDF);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.DOCX);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.XLSX);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.MDB);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.PST);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.DBX);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.XLSX_DOCX);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.XLS_DOC);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.VSD);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.WPS);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.WPD);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.EPS);
+                    allDocFileTypeEnum.add(JtlwFileTypeEnum.TXT);
+                }
+            }
+        }
+        return allDocFileTypeEnum;
+    }
+
+    public List<JtlwFileTypeEnum> getImageType() {
+        if (allImageFileTypeEnum.isEmpty()) {
+            synchronized (allImageFileTypeEnum) {
+                if (allImageFileTypeEnum.isEmpty()) {
+                    allImageFileTypeEnum.add(JtlwFileTypeEnum.JPG);
+                    allImageFileTypeEnum.add(JtlwFileTypeEnum.JPEG);
+                    allImageFileTypeEnum.add(JtlwFileTypeEnum.PNG);
+                    allImageFileTypeEnum.add(JtlwFileTypeEnum.BMP);
+                    allImageFileTypeEnum.add(JtlwFileTypeEnum.GIF);
+                    allImageFileTypeEnum.add(JtlwFileTypeEnum.TIF);
+                }
+            }
+        }
+        return allImageFileTypeEnum;
+    }
 }
