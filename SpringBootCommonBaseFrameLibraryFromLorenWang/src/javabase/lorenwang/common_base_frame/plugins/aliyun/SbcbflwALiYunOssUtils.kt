@@ -58,7 +58,7 @@ internal class SbcbflwALiYunOssUtils : OssOptions() {
 
         return try { // 上传文件流。
             ossClient.putObject(SbcbflwCommonUtils.instance.aliYunPropertiesConfig.bucket, savePath, inputStream, ObjectMetadata())
-            SbcbflwBaseDataDisposeStatusBean(true)
+            SbcbflwBaseDataDisposeStatusBean(true,savePath)
         } catch (e: Exception) {
             SbcbflwBaseDataDisposeStatusBean(false)
         } finally {

@@ -64,7 +64,7 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
                 val response: Response = uploadManager.put(inputStream, savePath, upToken, null, null)
                 //解析上传成功的结果
                 val putRet: DefaultPutRet = JdplwJsonUtils.fromJson(response.bodyString(), DefaultPutRet::class.java)
-                return SbcbflwBaseDataDisposeStatusBean(true)
+                return SbcbflwBaseDataDisposeStatusBean(true, putRet.key)
             } catch (ex: QiniuException) {
                 val r: Response = ex.response
                 System.err.println(r.toString())
