@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.propertiesConfig
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
 
 /**
@@ -28,27 +29,28 @@ import org.springframework.stereotype.Component
  * 配置参数13、默认每页大小---defaultRequestPageSize
  * 配置参数14、默认第一页---defaultRequestPageIndex
  */
-@Component
-class SbcbflwQiNiuOssPropertiesConfig {
+internal class SbcbflwQiNiuOssPropertiesConfig(applicationContext: ConfigurableApplicationContext) {
     /**
      * 七牛oss系统文件域名
      */
-    @Value("\${Sbcbflw.oss.type.qiNiu.domain}")
     var domain = ""
     /**
      * 七牛oss系统secretKey
      */
-    @Value("\${Sbcbflw.oss.type.qiNiu.secretKey}")
     var secretKey = ""
     /**
      * 七牛oss系统accessKey
      */
-    @Value("\${Sbcbflw.oss.type.qiNiu.accessKey}")
     var accessKey = ""
     /**
      * 七牛oss系统bucket
      */
     @Value("\${Sbcbflw.oss.type.qiNiu.bucket}")
     var bucket = ""
-
+    init {
+        this.domain = applicationContext.environment.getProperty("Sbcbflw.oss.type.qiNiu.domain", "")
+        this.secretKey = applicationContext.environment.getProperty("Sbcbflw.oss.type.qiNiu.secretKey", "")
+        this.accessKey = applicationContext.environment.getProperty("Sbcbflw.oss.type.qiNiu.accessKey", "")
+        this.bucket = applicationContext.environment.getProperty("Sbcbflw.oss.type.qiNiu.bucket", "")
+    }
 }

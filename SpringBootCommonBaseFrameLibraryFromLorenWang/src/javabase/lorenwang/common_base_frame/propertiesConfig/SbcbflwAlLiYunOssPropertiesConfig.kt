@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.propertiesConfig
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
 
 /**
@@ -28,31 +29,34 @@ import org.springframework.stereotype.Component
  * 配置参数13、默认每页大小---defaultRequestPageSize
  * 配置参数14、默认第一页---defaultRequestPageIndex
  */
-@Component
-class SbcbflwAlLiYunOssPropertiesConfig {
+internal class SbcbflwAlLiYunOssPropertiesConfig(applicationContext: ConfigurableApplicationContext) {
+
     /**
      * 阿里云oss系统域名
      */
-    @Value("\${Sbcbflw.oss.type.aliYun.domain}")
     var domain = ""
     /**
      * 阿里云oss访问域名
      */
-    @Value("\${Sbcbflw.oss.type.aliYun.endpoint}")
     var endpoint = ""
     /**
      * 阿里云oss系统keyid
      */
-    @Value("\${Sbcbflw.oss.type.aliYun.accessKeyId}")
     var accessKeyId = ""
     /**
      * 阿里云oss系统密钥
      */
-    @Value("\${Sbcbflw.oss.type.aliYun.accessKeySecret}")
     var accessKeySecret = ""
     /**
      * 阿里云存储空间名
      */
-    @Value("\${Sbcbflw.oss.type.aliYun.bucket}")
     var bucket = ""
+
+    init {
+        this.domain = applicationContext.environment.getProperty("Sbcbflw.oss.type.aliYun.domain", "")
+        this.endpoint = applicationContext.environment.getProperty("Sbcbflw.oss.type.aliYun.endpoint", "")
+        this.accessKeyId = applicationContext.environment.getProperty("Sbcbflw.oss.type.aliYun.accessKeyId", "")
+        this.accessKeySecret = applicationContext.environment.getProperty("Sbcbflw.oss.type.aliYun.accessKeySecret", "")
+        this.bucket = applicationContext.environment.getProperty("Sbcbflw.oss.type.aliYun.bucket", "")
+    }
 }

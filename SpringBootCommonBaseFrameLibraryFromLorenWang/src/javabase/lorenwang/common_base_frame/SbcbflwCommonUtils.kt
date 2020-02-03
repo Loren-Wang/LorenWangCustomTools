@@ -35,11 +35,11 @@ open class SbcbflwCommonUtils {
     /**
      * 阿里云oss配置
      */
-    lateinit var aliYunPropertiesConfig: SbcbflwAlLiYunOssPropertiesConfig
+    internal lateinit var aliYunPropertiesConfig: SbcbflwAlLiYunOssPropertiesConfig
     /**
      * 七牛oss配置
      */
-    lateinit var qiNiuPropertiesConfig: SbcbflwQiNiuOssPropertiesConfig
+    internal lateinit var qiNiuPropertiesConfig: SbcbflwQiNiuOssPropertiesConfig
 
     companion object {
         private var optionsUtils: SbcbflwCommonUtils? = null
@@ -65,9 +65,9 @@ open class SbcbflwCommonUtils {
     fun initBase(applicationContext: ConfigurableApplicationContext, propertiesConfig: SbcbflwPropertiesConfig) {
         this.propertiesConfig = propertiesConfig;
         if (propertiesConfig.ossTypeAliYun) {
-            aliYunPropertiesConfig = applicationContext.getBean(SbcbflwAlLiYunOssPropertiesConfig::class.java)
+            aliYunPropertiesConfig = SbcbflwAlLiYunOssPropertiesConfig(applicationContext)
         } else if (propertiesConfig.ossTypeQiNiu) {
-            qiNiuPropertiesConfig = applicationContext.getBean(SbcbflwQiNiuOssPropertiesConfig::class.java)
+            qiNiuPropertiesConfig = SbcbflwQiNiuOssPropertiesConfig(applicationContext)
         }
     }
 
