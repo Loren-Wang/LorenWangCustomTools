@@ -69,9 +69,13 @@ object SbcbflwLogUtils {
     private fun getLogger(cls: Class<*>): Logger? {
         synchronized(logControllerMap) {
             var logger: Logger? = logControllerMap[cls]
-            if (logger == null && SbcbflwCommonUtils.instance.propertiesConfig.showLog) {
-                logger = LoggerFactory.getLogger(cls)
-                logControllerMap[cls] = logger
+            try {
+                if (logger == null && SbcbflwCommonUtils.instance.propertiesConfig.showLog) {
+                    logger = LoggerFactory.getLogger(cls)
+                    logControllerMap[cls] = logger
+                }
+            } catch (e: Exception) {
+                //数据无法初始化不打印日志
             }
             return logger
         }

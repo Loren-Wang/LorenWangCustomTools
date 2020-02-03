@@ -19,6 +19,11 @@ import java.util.*
  * 备注：
  */
 open class SbcbflwCommonUtils {
+    /**
+     * 用户headerKey的token
+     */
+    var headerKeyUserAccessToken = "accessToken";
+
     companion object {
         private var optionsUtils: SbcbflwCommonUtils? = null
         @JvmStatic

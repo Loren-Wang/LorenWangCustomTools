@@ -21,10 +21,6 @@ open class SbcbflwBaseHttpServletRequestWrapper(request: HttpServletRequest) : H
 
     private val headerMap = HashMap<String, String>()
     /**
-     * 所有的token令牌相关的关键字key
-     */
-    val ACCESS_TOKEN_KEY = "accesstoken"
-    /**
      * 请求中设置用户信息key
      */
     val REQUEST_SET_USER_INFO_KEY = "userinfokey"

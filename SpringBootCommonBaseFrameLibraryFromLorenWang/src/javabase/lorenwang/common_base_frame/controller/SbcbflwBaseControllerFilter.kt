@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.controller
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.SbcbflwPropertiesConfig
+import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserHelper
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
@@ -58,7 +59,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
             rep.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH")
             // Access-Control-Max-Age 用于 CORS 相关配置的缓存
             rep.setHeader("Access-Control-Max-Age", "3600")
-            rep.setHeader("Access-Control-Allow-Headers", "${req.ACCESS_TOKEN_KEY},Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers,Origin," +
+            rep.setHeader("Access-Control-Allow-Headers", "${SbcbflwCommonUtils.instance.headerKeyUserAccessToken},Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers,Origin," +
                     " X-Requested-With, Content-Type, Accept,WG-App-Version, WG-Device-Id, WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model," +
                     " WG-CPU, WG-Sid, WG-App-Id, WG-Token")
             rep.characterEncoding = "UTF-8"
@@ -81,7 +82,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
         }
 
         //响应中允许返回被读取的header，不添加客户端无法读取该key
-        response.setHeader("Access-Control-Expose-Headers", req.ACCESS_TOKEN_KEY)
+        response.setHeader("Access-Control-Expose-Headers", SbcbflwCommonUtils.instance.headerKeyUserAccessToken)
 
         //做该关键字拦截，因为后面要用到该关键字所有信息，所以此处要拦截，防止被攻击时传递该参数导致能够获取响应用户权限数据
         req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, "")
@@ -99,8 +100,8 @@ abstract class SbcbflwBaseControllerFilter : Filter {
                 SbcbflwUserHelper.baseInstance?.refreshAccessToken(accessToken!!).let { newToken ->
                     if (!accessToken.equals(newToken)) {
                         (userStatus.body as SbcbflwBaseUserInfoTb<*, *>).accessToken = newToken
-                        response.setHeader(req.ACCESS_TOKEN_KEY, newToken)
-                        req.addHeader(req.ACCESS_TOKEN_KEY, newToken!!)
+                        response.setHeader(SbcbflwCommonUtils.instance.headerKeyUserAccessToken, newToken)
+                        req.addHeader(SbcbflwCommonUtils.instance.headerKeyUserAccessToken, newToken!!)
                         JtlwLogUtils.logI(javaClass, "token已更新")
                     }
                     req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, userStatus.body)
@@ -109,11 +110,12 @@ abstract class SbcbflwBaseControllerFilter : Filter {
                 chain.doFilter(req, response)
             } else {
                 JtlwLogUtils.logD(javaClass, "token无效或者不存在，生成提示信息")
-                val responseFailInfo = responseErrorUserLoginEmptyOrTokenNoneffective()
+                val responseFailInfo = responseErrorUser(userStatus)
                 //通过设置响应头控制浏览器以UTF-8的编码显示数据
                 rep.setHeader("content-type", "text/html;charset=UTF-8")
                 //获取OutputStream输出流
                 rep.outputStream.write(responseFailInfo.toByteArray())
+                rep.status = 200
                 return
             }
         })
@@ -126,5 +128,5 @@ abstract class SbcbflwBaseControllerFilter : Filter {
     /**
      * 登录验证失败,用户未登录或者token失效
      */
-    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective(): String
+    abstract fun responseErrorUser(errorInfo: SbcbflwBaseDataDisposeStatusBean?): String
 }

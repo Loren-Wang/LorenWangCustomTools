@@ -32,80 +32,81 @@ open class SbcbflwPropertiesConfig {
      * 阿里云oss系统域名
      */
     @Value("\${Sbcbflw.aliyun.oss.domain}")
-    var aLiYunOssDomain = ""
+    open var aLiYunOssDomain = ""
     /**
      * 阿里云oss访问域名
      */
     @Value("\${Sbcbflw.aliyun.oss.Endpoint}")
-    var aLiYunOssEndpoint = ""
+    open var aLiYunOssEndpoint = ""
     /**
      * 阿里云oss系统keyid
      */
     @Value("\${Sbcbflw.aliyun.oss.AccessKeyId}")
-    var aLiYunOssAccessKeyId = ""
+    open var aLiYunOssAccessKeyId = ""
     /**
      * 阿里云oss系统密钥
      */
     @Value("\${Sbcbflw.aliyun.oss.AccessKeySecret}")
-    var aLiYunOssAccessKeySecret = ""
+    open var aLiYunOssAccessKeySecret = ""
     /**
      * 阿里云存储空间名
      */
     @Value("\${Sbcbflw.aliyun.oss.Bucket}")
-    var aLiYunOssBucket = ""
+    open var aLiYunOssBucket = ""
 
     /*
    * 加密用的Key 可以用26个字母和数字组成 此处使用AES-128-CBC加密模式，key需要为16位。
    */
     @Value("\${Sbcbflw.encryptDecrypt.Key}")
-    var encryptDecryptKey = ""
+    open var encryptDecryptKey = ""
     /**
      * 加密解密的算法参数
      */
     @Value("\${Sbcbflw.encryptDecrypt.IvParameter}")
-    var encryptDecryptIvParameter = ""
+    open var encryptDecryptIvParameter = ""
 
     /**
      * 是否显示打印log日志
      */
     @Value("\${Sbcbflw.showLog}")
-    var showLog = false
+    open var showLog = false
     /**
      * 是否是debug环境
      */
     @Value("\${Sbcbflw.isDebug}")
-    var isDebug = false
+    open var isDebug = false
 
     /**
      * 邮箱端口
      */
     @Value("\${Sbcbflw.emai.host}")
-    var emailHost = ""
+    open var emailHost = ""
     /**
      * 邮箱用户名称
      */
     @Value("\${Sbcbflw.emai.UserName}")
-    var emailUserName = ""
+    open var emailUserName = ""
     /**
      * 邮箱密码
      */
     @Value("\${Sbcbflw.emai.UserPassword}")
-    var emailUserPassword = ""
+    open var emailUserPassword = ""
 
     /**
      * 当前编译器环境
      */
     @Value("\${Sbcbflw.runCompilingEnvironment}")
-    var runCompilingEnvironment = 0
+    open var runCompilingEnvironment = 0
 
     /**
      * 默认每页大小
      */
     @Value("\${Sbcbflw.default.page.size}")
-    var defaultRequestPageSize = 10;
+    open var defaultRequestPageSize = 10;
     /**
      * 默认第一页
      */
     @Value("\${Sbcbflw.default.page.index}")
-    var defaultRequestPageIndex = 0;
+    open var defaultRequestPageIndex = 0;
+
 }
