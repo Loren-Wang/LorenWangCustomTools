@@ -4,7 +4,10 @@ import com.aliyun.oss.OSSClient
 import com.aliyun.oss.model.ObjectMetadata
 import javabase.lorenwang.common_base_frame.SbcbflwBASE64DecodedMultipartFile
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
+import javabase.lorenwang.common_base_frame.utils.SbcbflwBaseFileOptionsUtils
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
+import javabase.lorenwang.tools.enums.JtlwFileTypeEnum
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import org.springframework.web.multipart.MultipartFile
 import java.io.InputStream
@@ -82,12 +85,24 @@ abstract class OssOptions {
      * @param file 上传文件
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    fun upLoadFile(file: MultipartFile, savePath: String): Boolean {
-        return try { // 上传文件流。
-            upLoadFile(file.inputStream, savePath)
-        } catch (e: Exception) {
-            false
-        }
+    fun upLoadFile(file: MultipartFile, savePath: String): SbcbflwBaseDataDisposeStatusBean {
+        return upLoadFile(file, savePath, arrayOf())
+    }
+
+    /**
+     * 上传MultipartFile文件
+     * @param file 上传文件
+     * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
+     */
+    fun upLoadFile(file: MultipartFile, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
+        //检测文件接收类型
+        return SbcbflwBaseFileOptionsUtils.baseInstance.emptyCheck({
+            SbcbflwBaseDataDisposeStatusBean(false)
+        }, {
+            it.checkFileStatus(file, receiveFileTypes) {
+                upLoadFile(file.inputStream, savePath)
+            }
+        })
     }
 
     /**
@@ -95,7 +110,7 @@ abstract class OssOptions {
      * @param downLoadPath 下载地址
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    fun downLoadAndUpLoadFile(downLoadPath: String, savePath: String): Boolean {
+    fun downLoadAndUpLoadFile(downLoadPath: String, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         return try { // 上传文件流。
             /**
              * 获取外部文件流
@@ -107,7 +122,7 @@ abstract class OssOptions {
             conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)")
             upLoadFile(conn.inputStream, savePath)
         } catch (e: Exception) {
-            false
+            SbcbflwBaseDataDisposeStatusBean(false)
         }
     }
 
@@ -117,8 +132,26 @@ abstract class OssOptions {
      * @param contentType 文件类型
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String): Boolean {
+    fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         return this.upLoadFile(SbcbflwBASE64DecodedMultipartFile(bytes, contentType), savePath)
+    }
+
+    /**
+     * 上传字节数组文件
+     * @param bytes 文件字节
+     * @param contentType 文件类型
+     * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
+     */
+    fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
+        //检测文件接收类型
+        return SbcbflwBaseFileOptionsUtils.baseInstance.emptyCheck({
+            SbcbflwBaseDataDisposeStatusBean(false)
+        }, {
+            val file = SbcbflwBASE64DecodedMultipartFile(bytes, contentType)
+            it.checkFileStatus(file, receiveFileTypes) {
+                upLoadFile(file.inputStream, savePath)
+            }
+        })
     }
 
     /**
@@ -127,5 +160,6 @@ abstract class OssOptions {
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      * @return 返回结果
      */
-    abstract fun upLoadFile(inputStream: InputStream, savePath: String): Boolean
+    abstract fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean
+
 }

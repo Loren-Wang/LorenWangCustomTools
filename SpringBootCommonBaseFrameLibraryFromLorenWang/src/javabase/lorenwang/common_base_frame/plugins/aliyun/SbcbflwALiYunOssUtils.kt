@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame.plugins.aliyun
 import com.aliyun.oss.OSSClient
 import com.aliyun.oss.model.ObjectMetadata
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.OssOptions
 import java.io.InputStream
 
@@ -49,7 +50,7 @@ internal class SbcbflwALiYunOssUtils : OssOptions() {
      * @param inputStream 文件流
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    override fun upLoadFile(inputStream: InputStream, savePath: String): Boolean {
+    override fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         // 创建OSSClient实例。
         val ossClient = OSSClient(SbcbflwCommonUtils.instance.aliYunPropertiesConfig.endpoint,
                 SbcbflwCommonUtils.instance.aliYunPropertiesConfig.accessKeyId,
@@ -57,9 +58,9 @@ internal class SbcbflwALiYunOssUtils : OssOptions() {
 
         return try { // 上传文件流。
             ossClient.putObject(SbcbflwCommonUtils.instance.aliYunPropertiesConfig.bucket, savePath, inputStream, ObjectMetadata())
-            true
+            SbcbflwBaseDataDisposeStatusBean(true)
         } catch (e: Exception) {
-            false
+            SbcbflwBaseDataDisposeStatusBean(false)
         } finally {
             // 关闭OSSClient。
             ossClient.shutdown()

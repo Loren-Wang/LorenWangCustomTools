@@ -8,6 +8,7 @@ import com.qiniu.storage.UploadManager
 import com.qiniu.storage.model.DefaultPutRet
 import com.qiniu.util.Auth
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.OssOptions
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import java.io.ByteArrayInputStream
@@ -50,7 +51,7 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
      * @param inputStream 文件流
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    override fun upLoadFile(inputStream: InputStream, savePath: String): Boolean {
+    override fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         //构造一个带指定 Region 对象的配置类
         val cfg = Configuration(Region.region0())
         val uploadManager = UploadManager(cfg)
@@ -63,7 +64,7 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
                 val response: Response = uploadManager.put(inputStream, savePath, upToken, null, null)
                 //解析上传成功的结果
                 val putRet: DefaultPutRet = JdplwJsonUtils.fromJson(response.bodyString(), DefaultPutRet::class.java)
-                return true
+                return SbcbflwBaseDataDisposeStatusBean(true)
             } catch (ex: QiniuException) {
                 val r: Response = ex.response
                 System.err.println(r.toString())
@@ -71,10 +72,10 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
                     System.err.println(r.bodyString())
                 } catch (ex2: QiniuException) { //ignore
                 }
-                return false
+                return SbcbflwBaseDataDisposeStatusBean(false)
             }
         } catch (ex: UnsupportedEncodingException) { //ignore
-            return false
+            return SbcbflwBaseDataDisposeStatusBean(false)
         }
     }
 }

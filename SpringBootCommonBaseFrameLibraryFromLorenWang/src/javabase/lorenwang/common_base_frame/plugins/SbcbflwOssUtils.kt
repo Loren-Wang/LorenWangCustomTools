@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.plugins
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.aliyun.SbcbflwALiYunOssUtils
 import javabase.lorenwang.common_base_frame.plugins.qiniu.SbcbflwQiNiuOssUtils
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwAlLiYunOssPropertiesConfig
@@ -80,9 +81,9 @@ open class SbcbflwOssUtils private constructor() : OssOptions() {
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      * @return 返回结果
      */
-    override fun upLoadFile(inputStream: InputStream, savePath: String): Boolean {
+    override fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         return ossOptions.emptyCheck({
-            false
+            SbcbflwBaseDataDisposeStatusBean(false)
         }, {
             it.upLoadFile(inputStream, savePath)
         })

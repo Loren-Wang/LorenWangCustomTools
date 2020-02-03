@@ -4,6 +4,7 @@ import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwAlLiYunOssPr
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwPropertiesConfig
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwQiNiuOssPropertiesConfig
 import javabase.lorenwang.tools.JtlwLogUtils
+import javabase.lorenwang.tools.enums.JtlwFileTypeEnum
 import org.springframework.context.ConfigurableApplicationContext
 import java.io.IOException
 import java.io.InputStream
@@ -115,4 +116,25 @@ open class SbcbflwCommonUtils {
     }
 
 
+    /**
+     * 获取所有文档相关类型
+     */
+    open fun getDocType(): Array<JtlwFileTypeEnum> {
+        return arrayOf(JtlwFileTypeEnum.DOC, JtlwFileTypeEnum.XLS,
+                JtlwFileTypeEnum.PDF, JtlwFileTypeEnum.DOCX,
+                JtlwFileTypeEnum.XLSX, JtlwFileTypeEnum.MDB,
+                JtlwFileTypeEnum.PST, JtlwFileTypeEnum.DBX,
+                JtlwFileTypeEnum.XLSX_DOCX, JtlwFileTypeEnum.XLS_DOC,
+                JtlwFileTypeEnum.VSD, JtlwFileTypeEnum.WPS,
+                JtlwFileTypeEnum.WPD, JtlwFileTypeEnum.EPS, JtlwFileTypeEnum.TXT)
+    }
+
+    /**
+     * 所有图片文件类型
+     */
+    open fun getImageType(): Array<JtlwFileTypeEnum> {
+        return arrayOf(JtlwFileTypeEnum.JPG, JtlwFileTypeEnum.JPEG,
+                JtlwFileTypeEnum.PNG, JtlwFileTypeEnum.BMP,
+                JtlwFileTypeEnum.GIF, JtlwFileTypeEnum.TIF)
+    }
 }
