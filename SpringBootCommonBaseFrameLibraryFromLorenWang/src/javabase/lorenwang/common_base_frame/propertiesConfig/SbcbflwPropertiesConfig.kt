@@ -23,7 +23,7 @@ open class SbcbflwPropertiesConfig {
      * oss系统协议，通用参数
      */
     @Value("\${Sbcbflw.oss.type.protocol}")
-    open var ossTypeProtocol = false
+    open var ossTypeProtocol = ""
     /**
      * 是否是阿里云存储
      */
