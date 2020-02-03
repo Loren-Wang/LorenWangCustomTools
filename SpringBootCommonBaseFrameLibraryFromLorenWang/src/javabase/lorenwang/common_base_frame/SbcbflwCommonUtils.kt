@@ -114,27 +114,4 @@ open class SbcbflwCommonUtils {
         }
         return map
     }
-
-
-    /**
-     * 获取所有文档相关类型
-     */
-    open fun getDocType(): Array<JtlwFileTypeEnum> {
-        return arrayOf(JtlwFileTypeEnum.DOC, JtlwFileTypeEnum.XLS,
-                JtlwFileTypeEnum.PDF, JtlwFileTypeEnum.DOCX,
-                JtlwFileTypeEnum.XLSX, JtlwFileTypeEnum.MDB,
-                JtlwFileTypeEnum.PST, JtlwFileTypeEnum.DBX,
-                JtlwFileTypeEnum.XLSX_DOCX, JtlwFileTypeEnum.XLS_DOC,
-                JtlwFileTypeEnum.VSD, JtlwFileTypeEnum.WPS,
-                JtlwFileTypeEnum.WPD, JtlwFileTypeEnum.EPS, JtlwFileTypeEnum.TXT)
-    }
-
-    /**
-     * 所有图片文件类型
-     */
-    open fun getImageType(): Array<JtlwFileTypeEnum> {
-        return arrayOf(JtlwFileTypeEnum.JPG, JtlwFileTypeEnum.JPEG,
-                JtlwFileTypeEnum.PNG, JtlwFileTypeEnum.BMP,
-                JtlwFileTypeEnum.GIF, JtlwFileTypeEnum.TIF)
-    }
 }

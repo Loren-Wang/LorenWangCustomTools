@@ -19,7 +19,7 @@ import java.io.InputStream
  * 修改时间：
  * 备注：
  */
-abstract class SbcbflwBaseFileOptionsUtils private constructor() {
+abstract class SbcbflwBaseFileOptionsUtils {
     companion object {
         var baseInstance: SbcbflwBaseFileOptionsUtils? = null
     }
