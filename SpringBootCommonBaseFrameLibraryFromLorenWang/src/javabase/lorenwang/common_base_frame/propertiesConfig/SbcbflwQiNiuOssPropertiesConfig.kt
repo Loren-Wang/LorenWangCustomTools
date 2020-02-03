@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.propertiesConfig
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
 
 /**
  * 功能作用：属性配置文件
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value
  * 配置参数13、默认每页大小---defaultRequestPageSize
  * 配置参数14、默认第一页---defaultRequestPageIndex
  */
+@Component
 class SbcbflwQiNiuOssPropertiesConfig {
     /**
      * 七牛oss系统文件域名
