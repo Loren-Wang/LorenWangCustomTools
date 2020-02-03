@@ -72,7 +72,7 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequest
         } else {
             tokenByReqHeader.let {
                 //解密token信息
-                val decryptToken = SbcbflwEncryptDecryptUtils.instance.decrypt(it)
+                val decryptToken = SbcbflwUserHelper.baseInstance?.decryptAccessToken(it)
                 decryptToken.emptyCheck({
                     false
                 }, { deToken ->

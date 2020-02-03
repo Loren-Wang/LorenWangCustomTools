@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.database.helper
 
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
+import javabase.lorenwang.common_base_frame.safe.SbcbflwEncryptDecryptUtils
 import javabase.lorenwang.common_base_frame.utils.SbcbflwRandomStringUtils
 
 /**
@@ -15,11 +16,15 @@ import javabase.lorenwang.common_base_frame.utils.SbcbflwRandomStringUtils
  * 修改时间：
  * 备注：
  */
-public abstract class SbcbflwUserHelper {
+abstract class SbcbflwUserHelper {
     /**
      * 密码长度，默认10位
      */
     protected var passwordLength: Int = 10
+    /**
+     * 是否加密了token，自动调用，当执行过加密方法之后会被自动设置为true
+     */
+    var encryptAccessToken = false
 
     companion object {
         var baseInstance: SbcbflwUserHelper? = null
@@ -61,4 +66,22 @@ public abstract class SbcbflwUserHelper {
         }
     }
 
+    /**
+     * 加密token
+     */
+    open fun encryptAccessToken(token: String): String? {
+        encryptAccessToken = true
+        return SbcbflwEncryptDecryptUtils.instance.encrypt(token)
+    }
+
+    /**
+     * 解密token
+     */
+    open fun decryptAccessToken(token: String): String? {
+        return if (encryptAccessToken) {
+            SbcbflwEncryptDecryptUtils.instance.decrypt(token)
+        } else {
+            token
+        }
+    }
 }
