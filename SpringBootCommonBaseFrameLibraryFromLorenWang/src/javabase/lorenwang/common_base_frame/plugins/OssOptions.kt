@@ -44,7 +44,7 @@ abstract class OssOptions {
      * @param imgPath 图片地址 可能为完整也可能不为完整地址
      * @return 图片地址
      */
-    fun getImageUrl(isFullPath: Boolean, imgPath: String?): String {
+    open fun getImageUrl(isFullPath: Boolean, imgPath: String?): String {
         return imgPath.emptyCheck({
             ""
         }, {
@@ -61,7 +61,7 @@ abstract class OssOptions {
      * @param imgPath 图片地址 可能为完整也可能不为完整地址
      * @return 图片地址
      */
-    fun clearImageDomain(imgPath: String?): String {
+    open fun clearImageDomain(imgPath: String?): String {
         return imgPath.emptyCheck({
             ""
         }, {
@@ -72,7 +72,7 @@ abstract class OssOptions {
     /**
      * 是否有地址域名
      */
-    fun haveImageDomain(imgPath: String?): Boolean {
+    open fun haveImageDomain(imgPath: String?): Boolean {
         return imgPath.emptyCheck({
             false
         }, {
@@ -85,7 +85,7 @@ abstract class OssOptions {
      * @param file 上传文件
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    fun upLoadFile(file: MultipartFile, savePath: String): SbcbflwBaseDataDisposeStatusBean {
+    open fun upLoadFile(file: MultipartFile, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         return upLoadFile(file, savePath, arrayOf())
     }
 
@@ -94,7 +94,7 @@ abstract class OssOptions {
      * @param file 上传文件
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    fun upLoadFile(file: MultipartFile, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
+    open fun upLoadFile(file: MultipartFile, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
         //检测文件接收类型
         return SbcbflwBaseFileOptionsUtils.baseInstance.emptyCheck({
             SbcbflwBaseDataDisposeStatusBean(false)
@@ -110,7 +110,7 @@ abstract class OssOptions {
      * @param downLoadPath 下载地址
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    fun downLoadAndUpLoadFile(downLoadPath: String, savePath: String): SbcbflwBaseDataDisposeStatusBean {
+    open fun downLoadAndUpLoadFile(downLoadPath: String, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         return try { // 上传文件流。
             /**
              * 获取外部文件流
@@ -132,7 +132,7 @@ abstract class OssOptions {
      * @param contentType 文件类型
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String): SbcbflwBaseDataDisposeStatusBean {
+    open fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         return this.upLoadFile(SbcbflwBASE64DecodedMultipartFile(bytes, contentType), savePath)
     }
 
@@ -142,7 +142,7 @@ abstract class OssOptions {
      * @param contentType 文件类型
      * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
      */
-    fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
+    open fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
         //检测文件接收类型
         return SbcbflwBaseFileOptionsUtils.baseInstance.emptyCheck({
             SbcbflwBaseDataDisposeStatusBean(false)
