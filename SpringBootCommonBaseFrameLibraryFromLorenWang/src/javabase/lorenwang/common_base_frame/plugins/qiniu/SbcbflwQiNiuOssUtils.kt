@@ -28,7 +28,14 @@ import java.io.UnsupportedEncodingException
  * 备注：
  */
 internal class SbcbflwQiNiuOssUtils : OssOptions() {
+    /**
+     * 文件地址正则
+     */
     private val filePathRegex = Regex("^[hH][tT]{2}[p|P][sS]?://${SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.domain}")
+    /**
+     * 保存地址手部被替换的，如果查找不到则不会替换
+     */
+    private val savePathFirstReplace = Regex("^/")
 
     /**
      * 获取文件地址前缀，最后不包含斜杠
@@ -61,10 +68,11 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
                     SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.secretKey)
             val upToken = auth.uploadToken(SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.bucket)
             try {
-                val response: Response = uploadManager.put(inputStream, savePath, upToken, null, null)
+                val response: Response = uploadManager.put(inputStream, savePath.replace(savePathFirstReplace,""), upToken, null, null)
                 //解析上传成功的结果
                 val putRet: DefaultPutRet = JdplwJsonUtils.fromJson(response.bodyString(), DefaultPutRet::class.java)
-                return SbcbflwBaseDataDisposeStatusBean(true, putRet.key)
+                //不要返回解析结果数据，使用传递数据，以便于统一处理
+                return SbcbflwBaseDataDisposeStatusBean(true, savePath)
             } catch (ex: QiniuException) {
                 val r: Response = ex.response
                 System.err.println(r.toString())
