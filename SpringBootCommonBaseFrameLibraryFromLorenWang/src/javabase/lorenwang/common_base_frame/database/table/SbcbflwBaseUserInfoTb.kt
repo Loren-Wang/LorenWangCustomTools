@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
+import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatusEnum
 import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
 import javax.persistence.*
@@ -26,7 +27,7 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
      */
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ID, nullable = false, columnDefinition = "bigint comment '用户id'")
+    @Column(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ID, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '用户id'")
     var userId: Long? = null
     /**
      * 乐观锁锁数据
@@ -47,7 +48,7 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
     /**
      * 联系方式
      */
-    @Column(name = SbcbflwBaseTableConfig.CommonColumn.PHONE_NUM, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.PHONE_NUM} comment '联系电话'")
+    @Column(name = SbcbflwBaseTableConfig.CommonColumn.PHONE_NUM, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.PHONE_NUMBER} comment '联系电话'")
     var phoneNum: String? = null// varchar(31) DEFAULT NULL,
     /**
      * 邮箱

@@ -28,7 +28,7 @@ open class SbcbflwBaseUserRoleTb<T> : SbcbflwBaseTb(), Serializable, Cloneable {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = SbcbflwBaseTableConfig.UserRoleColumn.ID, nullable = false, columnDefinition = "bigint comment '角色id'")
+    @Column(name = SbcbflwBaseTableConfig.UserRoleColumn.ID, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '角色id'")
     var id: Long? = null
     /**
      * 角色类型

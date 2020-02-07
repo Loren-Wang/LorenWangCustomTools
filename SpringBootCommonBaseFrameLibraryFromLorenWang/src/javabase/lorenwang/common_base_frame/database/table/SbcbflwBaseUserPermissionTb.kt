@@ -25,7 +25,7 @@ open class SbcbflwBaseUserPermissionTb<T> : SbcbflwBaseTb(), Serializable, Clone
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.ID, nullable = false, columnDefinition = "bigint comment '权限id'")
+    @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.ID, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '权限id'")
     var permissionId: Long? = null
     /**
      * 权限名称

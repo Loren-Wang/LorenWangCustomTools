@@ -42,11 +42,19 @@ object SbcbflwBaseTableConfig {
         /**
          * 名称
          */
+        const val NAME = "name"
+        /**
+         * 名称id
+         */
         const val NAME_ID = "name_id"
         /**
          * 图片
          */
-        const val IMG_ID = "img_id"
+        const val IMG_PATH = "img_path"
+        /**
+         * 图片
+         */
+        const val IMG_PATH_ID = "img_path_id"
         /**
          * 排行
          */
@@ -71,6 +79,10 @@ object SbcbflwBaseTableConfig {
          * 类型
          */
         const val TYPE = "type"
+        /**
+         * 是否必选
+         */
+        const val IS_REQUIRED = "is_required"
     }
 
     /**********************************字段类型*********************************/
@@ -78,7 +90,7 @@ object SbcbflwBaseTableConfig {
         /**
          * 手机号
          */
-        const val PHONE_NUM = "varchar(30)"
+        const val PHONE_NUMBER = "varchar(30)"
         /**
          * 邮箱
          */
@@ -88,13 +100,25 @@ object SbcbflwBaseTableConfig {
          */
         const val IMAGE = "text"
         /**
+         * 自定义的图片上传使用的
+         */
+        const val IMAGE_CUSTOM = "VARCHAR(1024)"
+        /**
          * 人员名称
          */
         const val PERSON_NAME = "varchar(100)"
         /**
-         * 状态
+         * 状态类型
          */
         const val STATUS = "int"
+        /**
+         * 通用主键类型
+         */
+        const val COMMON_PRIMARY_KEY = "bigint"
+        /**
+         * 类型字段类型
+         */
+        const val TYPE = "int"
     }
 
     /********************************数据库表版本表部分*****************************/
