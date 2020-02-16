@@ -18,15 +18,17 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     //java工具类库
-    compileOnly 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.5'
+    compileOnly 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.6'
     //java数据格式化类库
     compileOnly 'com.github.lorenwang:JavaDataParseFromLorenWang:1.0.11'
-//    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.50"
+    //swagger注释
+    implementation("io.springfox:springfox-swagger2:2.6.0")
+    implementation("io.springfox:springfox-swagger-ui:2.6.0")
 }
 
 def moduleName = "KotlinCustomToolsFromLorenWang"
 def moduleDescription = "Kotlin自定义工具类"
-version '1.0.6'
+version '1.0.7'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
