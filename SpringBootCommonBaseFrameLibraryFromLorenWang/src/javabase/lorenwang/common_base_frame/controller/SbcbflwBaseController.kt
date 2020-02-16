@@ -4,6 +4,8 @@ import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import javabase.lorenwang.tools.JtlwLogUtils
+import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
+import kotlinbase.lorenwang.tools.common.bean.KttlwNetPageResponseBean
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import javax.annotation.Resource
@@ -72,7 +74,7 @@ abstract class SbcbflwBaseController {
      * @return 格式化后字符串
     </T> */
     fun <T> responseContent(stateCode: String, stateMessage: String, obj: T?): String {
-        val baseResponseBean = SbcbflwBaseResponseBean(obj)
+        val baseResponseBean = KttlwBaseNetResponseBean(obj)
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
         return JdplwJsonUtils.toJson(baseResponseBean)
@@ -87,7 +89,7 @@ abstract class SbcbflwBaseController {
      * @return 格式化后字符串
     </T> */
     fun <T> responseContentCode(stateCode: String, stateMessageCode: String, obj: T?): String {
-        val baseResponseBean = SbcbflwBaseResponseBean(obj)
+        val baseResponseBean = KttlwBaseNetResponseBean(obj)
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = getMessage(stateMessageCode)
         return JdplwJsonUtils.toJson(baseResponseBean)
@@ -116,7 +118,7 @@ abstract class SbcbflwBaseController {
     fun <E, T : ArrayList<E>> responseDataListContent(
             stateCode: String, stateMessage: String, pageIndex: Int,
             pageSize: Int, sumCount: Long, dataList: T): String {
-        val baseResponseBean = SbcbflwBaseResponseBean(SbcbflwPageResponseBean(pageIndex, pageSize, sumCount, dataList))
+        val baseResponseBean = KttlwBaseNetResponseBean(KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
         return JdplwJsonUtils.toJson(baseResponseBean)
@@ -133,7 +135,7 @@ abstract class SbcbflwBaseController {
     fun <E, T : ArrayList<E>> responseDataListContentCode(
             stateCode: String, stateMessageCode: String, pageIndex: Int,
             pageSize: Int, sumCount: Long, dataList: T): String {
-        val baseResponseBean = SbcbflwBaseResponseBean(SbcbflwPageResponseBean(pageIndex, pageSize, sumCount, dataList))
+        val baseResponseBean = KttlwBaseNetResponseBean(KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = getMessage(stateMessageCode)
         return JdplwJsonUtils.toJson(baseResponseBean)

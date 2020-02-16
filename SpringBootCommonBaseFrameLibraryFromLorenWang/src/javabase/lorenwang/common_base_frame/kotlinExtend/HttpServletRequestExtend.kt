@@ -3,8 +3,6 @@ package javabase.lorenwang.common_base_frame.kotlinExtend
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseController
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
-import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseRequestBean
-import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseUpDateRankReqBean
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
 import javabase.lorenwang.common_base_frame.database.SbcbflwDatabaseParams.FIRST_RANK_LIST
 import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserHelper
@@ -15,6 +13,8 @@ import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionTypeEnum
 import javabase.lorenwang.common_base_frame.safe.SbcbflwEncryptDecryptUtils
 import javabase.lorenwang.tools.JtlwLogUtils
+import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
+import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetUpDateRankReqBean
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import kotlinbase.lorenwang.tools.extend.haveEmptyCheck
 import org.springframework.data.repository.CrudRepository
@@ -184,7 +184,7 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequest
 /**
  * 接口检测并操作扩展
  */
-inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <T, DATA : KttlwBaseNetResponseBean<T>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         data: DATA?,
         baseController: SbcbflwBaseController,
@@ -276,7 +276,7 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequest
 /**
  * 接口检测并操作扩展
  */
-inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <T, DATA : KttlwBaseNetResponseBean<T>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         data: DATA?,
         baseController: SbcbflwBaseController,
@@ -287,7 +287,7 @@ inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.
 /**
  * 接口检测并操作扩展
  */
-inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <T, DATA : KttlwBaseNetResponseBean<T>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         data: DATA?, baseController: SbcbflwBaseController,
         crossinline unKnownRepositoryOptionsFun: (data: DATA?) -> Any,
         noinline unKnownRepositoryErrorFun: ((data: Any?) -> Any)?): String {
@@ -297,20 +297,20 @@ inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.
 /**
  * 接口检测并操作扩展
  */
-inline fun <DATA : SbcbflwBaseRequestBean> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <T, DATA : KttlwBaseNetResponseBean<T>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         crossinline unKnownRepositoryOptionsFun: (data: DATA?) -> Any,
         noinline unKnownRepositoryErrorFun: ((data: Any?) -> Any)?): String {
-    return this.controllerCheckAndOptions(null, null, baseController, unKnownRepositoryOptionsFun, unKnownRepositoryErrorFun)
+    return this.controllerCheckAndOptions<T, DATA>(null, null, baseController, unKnownRepositoryOptionsFun, unKnownRepositoryErrorFun)
 }
 
 /**
  * 接口检测并操作扩展
  */
-inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <T, DATA : KttlwBaseNetResponseBean<T>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         crossinline unKnownRepositoryOptionsFun: () -> Any): String {
-    return this.controllerCheckAndOptions(null, baseController, {
+    return this.controllerCheckAndOptions<T, DATA>(null, baseController, {
         unKnownRepositoryOptionsFun()
     }, null)
 }
@@ -342,12 +342,12 @@ fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, CURD : CrudRepos
 /**
  * 更新一个表中所有排行信息
  */
-fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, CURD : CrudRepository<TB, Long>> SbcbflwBaseHttpServletRequestWrapper.upDataTbAllRank(
+fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>> SbcbflwBaseHttpServletRequestWrapper.upDataTbAllRank(
         baseController: SbcbflwBaseController,
-        curd: CURD, rankBean: SbcbflwBaseUpDateRankReqBean,
+        curd: CURD, rankBean: KttlwBaseNetUpDateRankReqBean<ID>,
         checkPermissionArray: Array<P>,
         checkOldCount: Boolean,
-        getNewSaveTbFun: (oldTbInfo: TB, firstRank: Long, newIds: Array<Long>) -> TB): String {
+        getNewSaveTbFun: (oldTbInfo: TB, firstRank: Long, newIds: Array<ID>) -> TB): String {
     return this.controllerCheckAndOptions(arrayOf(rankBean.ids), checkPermissionArray, baseController) {
         //需要进行数量判断，请求和数据库数量不一致则禁止更新
         if (checkOldCount && rankBean.ids!!.size.compareTo(curd.count()) != 0) {

@@ -69,8 +69,8 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
             val upToken = auth.uploadToken(SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.bucket)
             try {
                 val response: Response = uploadManager.put(inputStream, savePath.replace(savePathFirstReplace,""), upToken, null, null)
-                //解析上传成功的结果
-                val putRet: DefaultPutRet = JdplwJsonUtils.fromJson(response.bodyString(), DefaultPutRet::class.java)
+                //解析上传成功的结果 val putRet: DefaultPutRet =
+                JdplwJsonUtils.fromJson(response.bodyString(), DefaultPutRet::class.java)
                 //不要返回解析结果数据，使用传递数据，以便于统一处理
                 return SbcbflwBaseDataDisposeStatusBean(true, savePath)
             } catch (ex: QiniuException) {
