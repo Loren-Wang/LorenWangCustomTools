@@ -34,7 +34,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     /**
      * 初始化create父级方法super之前调用
      */
-    fun initCreateSuperBefore(savedInstanceState: Bundle?){}
+    open fun initCreateSuperBefore(savedInstanceState: Bundle?){}
 
     /**
      * 初始化view
@@ -44,7 +44,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     /**
      * 初始化监听
      */
-    fun initListener(savedInstanceState: Bundle?) {}
+    open fun initListener(savedInstanceState: Bundle?) {}
 
     /**
      * 初始化数据
