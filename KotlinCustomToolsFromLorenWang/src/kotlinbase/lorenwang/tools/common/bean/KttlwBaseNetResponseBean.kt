@@ -21,4 +21,9 @@ open class KttlwBaseNetResponseBean<T>(var data: T? = null) {
     var stateCode: String = "0"
     @ApiModelProperty(value = "响应的状态信息，例如错误信息等", required = true)
     var stateMessage: String? = null
+
+    /**
+     * 空参数实体构造
+     */
+    constructor() : this(null)
 }
