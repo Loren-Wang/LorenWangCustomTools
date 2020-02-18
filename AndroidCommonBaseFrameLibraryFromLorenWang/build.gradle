@@ -43,7 +43,7 @@ dependencies {
     //java数据格式化类库
     implementation 'com.github.lorenwang:JavaDataParseFromLorenWang:1.0.11'
     //kotlin工具类
-    implementation 'com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.0.7'
+    implementation 'com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.0.71'
     // RxJava 引用
     implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -65,7 +65,7 @@ dependencies {
 
 def moduleName = "AndroidCommonBaseFrameLibraryFromLorenWang"
 def moduleDescription = "安卓通用基础框架包"
-version '1.0.92'
+version '1.0.95'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

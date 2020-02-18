@@ -2,11 +2,11 @@ package android.lorenwang.common_base_frame.mvp
 
 import android.lorenwang.common_base_frame.AcbflwBaseApplication
 import android.lorenwang.common_base_frame.R
-import android.lorenwang.common_base_frame.network.AcbflwNetOptionsCallback
+import android.lorenwang.common_base_frame.network.AcbflwBaseRetrofitObserver
+import android.lorenwang.common_base_frame.network.callback.AcbflwNetOptionsByModelCallback
 import android.lorenwang.tools.base.AtlwLogUtils
 import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtils
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
-import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javabase.lorenwang.dataparse.JdplwJsonUtils
@@ -45,10 +45,25 @@ open class AcbflwBaseModel {
 
     /**
      * 获取响应处理Observer
+     * @param pageIndex 页码
+     * @param pageCount 页面数量
+     * @param netOptionsCallback 请求结果回调
      */
-    fun <T> getBaseObserver(pageIndex: Int?, pageCount: Int?, netOptionsCallback: AcbflwNetOptionsCallback<KttlwBaseNetResponseBean<T>>): Observer<Response<KttlwBaseNetResponseBean<T>>> {
-        return object : Observer<Response<KttlwBaseNetResponseBean<T>>> {
-            override fun onNext(t: Response<KttlwBaseNetResponseBean<T>>) {
+    open fun <D, T : KttlwBaseNetResponseBean<D>> getBaseObserver(
+            pageIndex: Int?, pageCount: Int?, netOptionsCallback: AcbflwNetOptionsByModelCallback<D, T>): AcbflwBaseRetrofitObserver<D, T> {
+        return object : AcbflwBaseRetrofitObserver<D, T> {
+            override fun onComplete() {
+                setPageInfo()
+                netOptionsCallback.onCompleteFinish()
+            }
+
+            override fun onSubscribe(d: Disposable) {
+                setPageInfo()
+                compositeDisposable.add(d)
+                netOptionsCallback.onSubscribeStart()
+            }
+
+            override fun onNext(t: Response<T>) {
                 setPageInfo()
                 if (t.code() == 200) {
                     val repCode = t.body().stateCode
@@ -70,17 +85,6 @@ open class AcbflwBaseModel {
                     AtlwLogUtils.logE(TAG, t.code().toString())
                     netOptionsCallback.error(Exception("${t.code()}-${t.message()}"))
                 }
-            }
-
-            override fun onComplete() {
-                setPageInfo()
-                netOptionsCallback.onCompleteFinish()
-            }
-
-            override fun onSubscribe(d: Disposable) {
-                setPageInfo()
-                compositeDisposable.add(d)
-                netOptionsCallback.onSubscribeStart()
             }
 
             override fun onError(e: Throwable) {
@@ -133,7 +137,7 @@ open class AcbflwBaseModel {
      * @param dataArray 请求数据数组
      * @return 返回格式化后字符串
      */
-    fun getDataStr(keyArray: Array<String>?, dataArray: Array<Any?>?): String? {
+    open fun getDataStr(keyArray: Array<String>?, dataArray: Array<Any?>?): String? {
         return getDataStr(null, null, null, keyArray, dataArray)
     }
 
@@ -146,7 +150,7 @@ open class AcbflwBaseModel {
      * @param dataArray 请求数据数组
      * @return 返回格式化后字符串
      */
-    fun getDataStr(currentPage: Int?, limit: Int?, total: Int?, keyArray: Array<String>?, dataArray: Array<Any?>?): String? {
+    open fun getDataStr(currentPage: Int?, limit: Int?, total: Int?, keyArray: Array<String>?, dataArray: Array<Any?>?): String? {
         //map存储请求数据
         val map = hashMapOf<String, Any?>()
         currentPage?.let {

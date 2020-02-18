@@ -1,9 +1,11 @@
-package android.lorenwang.common_base_frame.network
+package android.lorenwang.common_base_frame.network.callback
+
+import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 
 /**
+ * 功能作用：网络接口操作回调(主要对model层的基础处理回调，处理后会回调到presenter层)
  * 创建时间：2019-08-05 17:23
  * 创建人：王亮（Loren wang）
- * 功能作用：网络接口操作回调
  * 思路：
  * 方法：
  * 注意：
@@ -11,7 +13,7 @@ package android.lorenwang.common_base_frame.network
  * 修改时间：
  * 备注：该类主要放到model层中，主要是对接口返回的数据的处理，例如转换成本地使用的数据结构类型等
  */
-abstract class AcbflwNetOptionsCallback<T> {
+abstract class AcbflwNetOptionsByModelCallback<D, T : KttlwBaseNetResponseBean<D>> {
     /**
      * 页码
      */
@@ -24,7 +26,7 @@ abstract class AcbflwNetOptionsCallback<T> {
     /**
      * 请求成功
      */
-    abstract fun success(dto: T?)
+    abstract fun success(dto: T)
 
     /**
      * 请求发生异常
@@ -44,5 +46,5 @@ abstract class AcbflwNetOptionsCallback<T> {
     /**
      * 用户登陆状态异常
      */
-    abstract fun userLoginStatusError( code: Any?,message: String?)
+    abstract fun userLoginStatusError(code: Any?, message: String?)
 }
