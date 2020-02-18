@@ -5,6 +5,7 @@ import android.lorenwang.common_base_frame.network.manage.AcbflwResponseGsonConv
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import retrofit2.Converter
 import retrofit2.Retrofit
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -45,7 +46,7 @@ open class AcbflwNetworkManager private constructor() {
      * @param baseUrl 基础url链接
      * @param interceptor 网络拦截器
      */
-    fun initRetrofit(baseUrl: String, interceptor: Interceptor?) {
+    fun initRetrofit(baseUrl: String, interceptor: Interceptor?, converterFactory: Converter.Factory?) {
         var builder = OkHttpClient.Builder()
         //防止无法进行http请求
         builder = builder.connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))
@@ -59,7 +60,8 @@ open class AcbflwNetworkManager private constructor() {
                 .baseUrl(baseUrl)
                 .client(builder.build())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(AcbflwResponseGsonConverterFactory.create()) //使用自定义的gson数据解析器，部分代码取自源码当中的gson解析器
+                .addConverterFactory(converterFactory
+                        ?: AcbflwResponseGsonConverterFactory.create()) //使用自定义的gson数据解析器，部分代码取自源码当中的gson解析器
                 .build()
     }
 

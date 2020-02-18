@@ -3,7 +3,6 @@ package android.lorenwang.common_base_frame.mvp
 import android.lorenwang.common_base_frame.AcbflwBaseApplication
 import android.lorenwang.common_base_frame.R
 import android.lorenwang.common_base_frame.network.AcbflwNetOptionsCallback
-import android.lorenwang.common_base_frame.network.bean.AcbflwBaseRepBean
 import android.lorenwang.tools.base.AtlwLogUtils
 import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtils
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
@@ -11,6 +10,7 @@ import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javabase.lorenwang.dataparse.JdplwJsonUtils
+import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -46,12 +46,12 @@ open class AcbflwBaseModel {
     /**
      * 获取响应处理Observer
      */
-    fun <T> getBaseObserver(pageIndex: Int?, pageCount: Int?, netOptionsCallback: AcbflwNetOptionsCallback<AcbflwBaseRepBean<T>>): Observer<Response<AcbflwBaseRepBean<T>>> {
-        return object : Observer<Response<AcbflwBaseRepBean<T>>> {
-            override fun onNext(t: Response<AcbflwBaseRepBean<T>>) {
+    fun <T> getBaseObserver(pageIndex: Int?, pageCount: Int?, netOptionsCallback: AcbflwNetOptionsCallback<KttlwBaseNetResponseBean<T>>): Observer<Response<KttlwBaseNetResponseBean<T>>> {
+        return object : Observer<Response<KttlwBaseNetResponseBean<T>>> {
+            override fun onNext(t: Response<KttlwBaseNetResponseBean<T>>) {
                 setPageInfo()
                 if (t.code() == 200) {
-                    val repCode = t.body().code
+                    val repCode = t.body().stateCode
                     if (repCode == AcbflwNetRepCode.repCodeSuccess) {
                         //网络请求成功
                         netOptionsCallback.success(t.body())
@@ -59,12 +59,12 @@ open class AcbflwBaseModel {
                         AcbflwNetRepCode.repCodeLoginStatusError.forEach {
                             if (it == repCode) {
                                 //用户登陆状态异常，需要跳转到登陆页面
-                                netOptionsCallback.userLoginStatusError(it, t.body().message)
+                                netOptionsCallback.userLoginStatusError(it, t.body().stateMessage)
                                 return
                             }
                         }
                         AtlwLogUtils.logE(TAG, t.code().toString())
-                        netOptionsCallback.error(Exception("${repCode}-${t.body().message}"))
+                        netOptionsCallback.error(Exception("${repCode}-${t.body().stateMessage}"))
                     }
                 } else {
                     AtlwLogUtils.logE(TAG, t.code().toString())
