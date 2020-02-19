@@ -6,7 +6,6 @@ import android.lorenwang.common_base_frame.AcbflwBaseActivity
 import android.lorenwang.common_base_frame.AcbflwBaseConfig
 import android.lorenwang.common_base_frame.network.callback.AcbflwNetOptionsByModelCallback
 import android.lorenwang.common_base_frame.network.callback.AcbflwRepOptionsByPresenterCallback
-import javabase.lorenwang.tools.common.JtlwClassUtils
 import kotlinbase.lorenwang.tools.KttlwConfig
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 
@@ -68,8 +67,8 @@ abstract class AcbflwBasePresenter(var activity: AcbflwBaseActivity) {
     /**
      * 获取响应数据回调
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>, RESULT : AcbflwNetOptionsByModelCallback<D, T>>
-            getNetOptionsCallback(repOptionsCallback: CALL): RESULT {
+    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+            repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         return getNetOptionsCallback(showLoading = true, successHideLoading = true, errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
 
@@ -77,8 +76,8 @@ abstract class AcbflwBasePresenter(var activity: AcbflwBaseActivity) {
      * 获取响应数据回调
      * @param successHideLoading 成功是否隐藏加载中
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>, RESULT : AcbflwNetOptionsByModelCallback<D, T>>
-            getNetOptionsCallback(successHideLoading: Boolean, repOptionsCallback: CALL):RESULT {
+    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+            successHideLoading: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         return getNetOptionsCallback(showLoading = true, successHideLoading = successHideLoading, errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
 
@@ -91,10 +90,10 @@ abstract class AcbflwBasePresenter(var activity: AcbflwBaseActivity) {
      * @param repOptionsCallback 数据操作后的回调
      * @return 网络请求回调
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>, RESULT : AcbflwNetOptionsByModelCallback<D, T>>
-            getNetOptionsCallback(showLoading: Boolean, successHideLoading: Boolean, errorHideLoading: Boolean,
-                                  allowLoadingBackFinishPage: Boolean, repOptionsCallback: CALL): RESULT {
-        return object : RESULT() {
+    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+            showLoading: Boolean, successHideLoading: Boolean, errorHideLoading: Boolean,
+            allowLoadingBackFinishPage: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+        return object : AcbflwNetOptionsByModelCallback<D, T>() {
             override fun success(dto: T) {
                 if (activity.isFinishing) {
                     return

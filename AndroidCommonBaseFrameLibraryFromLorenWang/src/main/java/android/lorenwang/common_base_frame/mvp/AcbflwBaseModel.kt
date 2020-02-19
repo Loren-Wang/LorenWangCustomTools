@@ -2,7 +2,6 @@ package android.lorenwang.common_base_frame.mvp
 
 import android.lorenwang.common_base_frame.AcbflwBaseApplication
 import android.lorenwang.common_base_frame.R
-import android.lorenwang.common_base_frame.network.AcbflwBaseRetrofitObservable
 import android.lorenwang.common_base_frame.network.AcbflwBaseRetrofitObserver
 import android.lorenwang.common_base_frame.network.callback.AcbflwNetOptionsByModelCallback
 import android.lorenwang.tools.base.AtlwLogUtils
