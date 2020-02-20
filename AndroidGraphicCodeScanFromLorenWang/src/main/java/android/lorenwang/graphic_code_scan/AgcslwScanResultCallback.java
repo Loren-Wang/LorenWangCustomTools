@@ -43,4 +43,11 @@ public interface AgcslwScanResultCallback {
      * @param permissions 权限集合
      */
     void notPermissions(String... permissions);
+
+    /**
+     * 权限请求失败，保留方法，留给子类扩展，后续该框架也可能会使用
+     *
+     * @param permissions 权限列表
+     */
+    void permissionRequestFail(String... permissions);
 }
