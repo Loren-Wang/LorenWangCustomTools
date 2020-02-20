@@ -111,4 +111,7 @@ class DecodeThread extends Thread {
         handlerInitLatch = null;
     }
 
+    public Map<DecodeHintType, Object> getHints() {
+        return hints;
+    }
 }

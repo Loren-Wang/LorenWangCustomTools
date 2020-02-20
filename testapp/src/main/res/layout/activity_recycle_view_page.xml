@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <view
+        <View
             android:layout_width="match_parent"
             android:layout_height="300dp" />
 
@@ -23,7 +23,7 @@
 
         </android.lorenwang.customview.AvlwRecycleViewViewpager>
 
-        <view
+        <View
             android:layout_width="match_parent"
             android:layout_height="300dp" />
     </LinearLayout>

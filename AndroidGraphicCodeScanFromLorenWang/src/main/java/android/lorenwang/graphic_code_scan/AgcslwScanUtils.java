@@ -5,19 +5,35 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.file.AtlwFileOptionUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.ChecksumException;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.FormatException;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.RGBLuminanceSource;
+import com.google.zxing.Reader;
 import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
 import androidx.annotation.RequiresPermission;
 import androidx.core.content.ContextCompat;
@@ -107,7 +123,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     @RequiresPermission(Manifest.permission.CAMERA)
     public void onActResumeChange() {
         //权限检测
-        if (!checkPermissions()) {
+        if (!checkPermissions(Manifest.permission.CAMERA)) {
             return;
         }
         // CameraManager must be initialized here, not in onCreate(). This is
@@ -203,7 +219,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
                           boolean returnScanBitmap) {
         this.activity = activity;
         //权限检测
-        if (!checkPermissions()) {
+        if (!checkPermissions(Manifest.permission.CAMERA)) {
             return;
         }
         this.sFVScan = sFVScan;
@@ -241,6 +257,8 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
                             boolean playBeep, boolean vibrate,
                             boolean scanQrCode, boolean scanBarCode,
                             boolean returnScanBitmap) {
+        onActPauseChange();
+        onActFinish();
         startScan(activity, sFVScan, playBeep, vibrate, scanQrCode, scanBarCode, returnScanBitmap);
         restartPreviewAfterDelay();
     }
@@ -251,11 +269,58 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     @RequiresPermission(Manifest.permission.CAMERA)
     public void restartPreviewAfterDelay() {
         //权限检测
-        if (!checkPermissions()) {
+        if (!checkPermissions(Manifest.permission.CAMERA)) {
             return;
         }
         if (handler != null) {
             handler.sendEmptyMessage(SacnCameraCommon.restart_preview);
+        }
+    }
+
+    /**
+     * 扫描相册图片
+     *
+     * @param path 图片地址
+     */
+    @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void scanPhotoAlbumImage(String path) {
+        if (checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE) && scanResultCallback != null) {
+            //有权限继续处理
+            if (path == null || !new File(path).exists()) {
+                //地址为空或者文件不存在
+                scanResultCallback.scanError();
+                return;
+            }
+            try {
+                //文件正常，开始扫描
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = false; // 获取新的大小
+                int sampleSize = (int) (options.outHeight / (float) 200);
+                if (sampleSize <= 0)
+                    sampleSize = 1;
+                options.inSampleSize = sampleSize;
+                Bitmap scanBitmap = BitmapFactory.decodeFile(path, options);
+                int[] intArray = new int[scanBitmap.getWidth() * scanBitmap.getHeight()];
+                scanBitmap.getPixels(intArray, 0, scanBitmap.getWidth(), 0, 0, scanBitmap.getWidth(), scanBitmap.getHeight());
+                RGBLuminanceSource source = new RGBLuminanceSource(scanBitmap.getWidth(), scanBitmap.getHeight(), intArray);
+                BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
+                MultiFormatReader reader = new MultiFormatReader();
+                DecodeThread decodeThread = new DecodeThread(decodeMode);
+                Result result = reader.decode(bitmap1, decodeThread.getHints());
+                if (returnScanBitmap) {
+                    Bundle bundle = new Bundle();
+                    bundle.putByteArray("barcode_bitmap", AtlwImageCommonUtils.getInstance().getBitmapBytes(scanBitmap));
+                    handleDecode(result, bundle);
+                } else {
+                    handleDecode(result, null);
+                }
+                decodeThread.release();
+                decodeThread = null;
+                reader.release();
+                reader = null;
+            } catch (Exception e) {
+                scanResultCallback.scanError();
+            }
         }
     }
 
@@ -534,12 +599,23 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     /**
      * 检测权限
      */
-    private boolean checkPermissions() {
-        if (activity == null || ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            scanResultCallback.notPermissions(Manifest.permission.CAMERA);
+    private boolean checkPermissions(String... permissions) {
+        if (activity == null) {
+            scanResultCallback.notPermissions(permissions);
             return false;
+        } else {
+            List<String> notPermissions = new ArrayList<>();
+            for (String permission : permissions) {
+                if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
+                    notPermissions.add(permission);
+                }
+            }
+            if (notPermissions.isEmpty()) {
+                return true;
+            } else {
+                scanResultCallback.notPermissions(notPermissions.toArray(new String[notPermissions.size()]));
+                return false;
+            }
         }
-        return true;
-
     }
 }

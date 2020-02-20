@@ -2,12 +2,16 @@ package com.example.testapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.lorenwang.graphic_code_scan.AgcslwScanResultCallback
 import android.lorenwang.graphic_code_scan.AgcslwScanUtils
 import android.lorenwang.tools.app.AtlwActivityUtils
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
+import android.lorenwang.tools.file.AtlwFileOptionUtils
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_scan_code.*
 
@@ -16,7 +20,7 @@ class ScanCodeActivity : BaseActivity() {
         addChildView(R.layout.activity_scan_code)
         //请求权限
         AtlwActivityUtils.getInstance().goToRequestPermissions(this,
-                arrayOf(Manifest.permission.CAMERA), 0,
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0,
                 object : AtlwPermissionRequestCallback {
                     @SuppressLint("MissingPermission")
                     override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
@@ -40,7 +44,13 @@ class ScanCodeActivity : BaseActivity() {
                                 }
                             }
 
+                            override fun notPermissions(vararg permissions: String?) {
+                            }
+
                             override fun scanError() {
+                            }
+
+                            override fun permissionRequestFail(vararg permissions: String?) {
                             }
                         })
                     }
@@ -51,9 +61,21 @@ class ScanCodeActivity : BaseActivity() {
                 })
 
         viewScan.setOnClickListener {
-            AgcslwScanUtils.getInstance().manualFocus()
+            //            AgcslwScanUtils.getInstance().manualFocus()
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 1)
         }
 
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            val path = AtlwFileOptionUtils.getInstance().getUriPath(data!!.data, MediaStore.MediaColumns.DATA)
+            AgcslwScanUtils.getInstance().scanPhotoAlbumImage(path);
+        }
     }
 
     @SuppressLint("MissingPermission")
