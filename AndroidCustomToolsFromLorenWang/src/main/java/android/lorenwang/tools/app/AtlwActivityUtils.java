@@ -82,7 +82,7 @@ public class AtlwActivityUtils {
         //版本判断，小于23的不执行权限请求
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             if (permissionRequestCallback != null) {
-                permissionRequestCallback.perissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions)
+                permissionRequestCallback.permissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions)
                         , permissionsRequestCode);
             }
         } else {
@@ -90,7 +90,7 @@ public class AtlwActivityUtils {
             //判断所有的权限是否是通过的
             if (AtlwCheckUtils.getInstance().checkAppPermission(permisstions)) {
                 if (permissionRequestCallback != null) {
-                    permissionRequestCallback.perissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions)
+                    permissionRequestCallback.permissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions)
                             , permissionsRequestCode);
                 }
             } else {//请求权限
@@ -133,9 +133,9 @@ public class AtlwActivityUtils {
             }
             try {//只要有一个权限不通过则都失败
                 if (failPermissionList.size() > 0) {
-                    permissionRequestCallback.perissionRequestFailCallback(failPermissionList, requestCode);
+                    permissionRequestCallback.permissionRequestFailCallback(failPermissionList, requestCode);
                 } else {
-                    permissionRequestCallback.perissionRequestSuccessCallback(successPermissionList, requestCode);
+                    permissionRequestCallback.permissionRequestSuccessCallback(successPermissionList, requestCode);
                 }
             } catch (Exception e) {
                 AtlwLogUtils.logE(TAG, e.getMessage());

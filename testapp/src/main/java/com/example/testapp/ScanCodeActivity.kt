@@ -19,7 +19,7 @@ class ScanCodeActivity : BaseActivity() {
                 arrayOf(Manifest.permission.CAMERA), 0,
                 object : AtlwPermissionRequestCallback {
                     @SuppressLint("MissingPermission")
-                    override fun perissionRequestSuccessCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                    override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
                         //设置裁剪扫描区域
                         AgcslwScanUtils.getInstance().setScanCropView(viewScan)
                         //开启扫描
@@ -45,7 +45,7 @@ class ScanCodeActivity : BaseActivity() {
                         })
                     }
 
-                    override fun perissionRequestFailCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                    override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
                     }
 
                 })

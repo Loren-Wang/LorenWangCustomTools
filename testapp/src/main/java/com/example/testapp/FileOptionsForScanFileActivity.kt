@@ -57,7 +57,7 @@ class FileOptionsForScanFileActivity : BaseActivity(), AtlwPermissionRequestCall
         AtlwActivityUtils.getInstance().goToRequestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0, this)
     }
 
-    override fun perissionRequestSuccessCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
+    override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
         files.clear()
         AtlwThreadUtils.getInstance().postOnChildThread {
             files.addAll(AtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan( true, Environment.getExternalStorageDirectory().getPath(), "^[^\\.].*\\.txt$"));
@@ -68,7 +68,7 @@ class FileOptionsForScanFileActivity : BaseActivity(), AtlwPermissionRequestCall
         }
     }
 
-    override fun perissionRequestFailCallback(perissionList: MutableList<String>?, permissionsRequestCode: Int) {
+    override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
     }
 
 }
