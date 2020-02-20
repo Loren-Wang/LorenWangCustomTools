@@ -36,4 +36,11 @@ public interface AgcslwScanResultCallback {
      * 扫描出错
      */
     void scanError();
+
+    /**
+     * 无扫描权限
+     *
+     * @param permissions 权限集合
+     */
+    void notPermissions(String... permissions);
 }

@@ -1,8 +1,10 @@
 package android.lorenwang.graphic_code_scan;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.lorenwang.tools.AtlwSetting;
@@ -18,6 +20,7 @@ import com.google.zxing.Result;
 import java.io.IOException;
 
 import androidx.annotation.RequiresPermission;
+import androidx.core.content.ContextCompat;
 
 /**
  * 功能作用：扫描工具类
@@ -65,6 +68,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         return optionsUtils;
     }
 
+    private Activity activity;
     //二维码控制属性
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
@@ -97,12 +101,15 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      */
     private Rect imageCropRect;
 
-
     /**
      * Activity获取焦点
      */
     @RequiresPermission(Manifest.permission.CAMERA)
     public void onActResumeChange() {
+        //权限检测
+        if (!checkPermissions()) {
+            return;
+        }
         // CameraManager must be initialized here, not in onCreate(). This is
         // necessary because we don't
         // want to open the camera driver and measure the screen size if we're
@@ -194,6 +201,11 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
                           boolean playBeep, boolean vibrate,
                           boolean scanQrCode, boolean scanBarCode,
                           boolean returnScanBitmap) {
+        this.activity = activity;
+        //权限检测
+        if (!checkPermissions()) {
+            return;
+        }
         this.sFVScan = sFVScan;
         this.returnScanBitmap = returnScanBitmap;
         //初始化二维码控制属性
@@ -213,12 +225,35 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         }
     }
 
+    /**
+     * 重新初始化
+     *
+     * @param activity         activity实例
+     * @param sFVScan          surfaceview
+     * @param playBeep         扫描结束是否播放声音
+     * @param vibrate          扫描结束后是否震动
+     * @param scanBarCode      是否扫描条形码
+     * @param scanQrCode       是否扫描二维码
+     * @param returnScanBitmap 是否返回扫描结果的位图
+     */
+    @RequiresPermission(Manifest.permission.CAMERA)
+    public void restartInit(Activity activity, SurfaceView sFVScan,
+                            boolean playBeep, boolean vibrate,
+                            boolean scanQrCode, boolean scanBarCode,
+                            boolean returnScanBitmap) {
+        startScan(activity, sFVScan, playBeep, vibrate, scanQrCode, scanBarCode, returnScanBitmap);
+        restartPreviewAfterDelay();
+    }
 
     /**
      * 重置扫描
      */
     @RequiresPermission(Manifest.permission.CAMERA)
     public void restartPreviewAfterDelay() {
+        //权限检测
+        if (!checkPermissions()) {
+            return;
+        }
         if (handler != null) {
             handler.sendEmptyMessage(SacnCameraCommon.restart_preview);
         }
@@ -494,5 +529,17 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
 
         //生成最终的截取的矩形
         imageCropRect = new Rect(x, y, width + x, height + y);
+    }
+
+    /**
+     * 检测权限
+     */
+    private boolean checkPermissions() {
+        if (activity == null || ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            scanResultCallback.notPermissions(Manifest.permission.CAMERA);
+            return false;
+        }
+        return true;
+
     }
 }
