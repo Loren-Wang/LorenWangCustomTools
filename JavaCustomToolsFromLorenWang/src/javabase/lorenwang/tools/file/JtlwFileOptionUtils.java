@@ -88,8 +88,8 @@ public class JtlwFileOptionUtils {
      * @return 文件字节
      */
     public byte[] readImageFileGetBytes(Boolean isCheckFile, String filePath) {
-        if (isCheckFile && JtlwCheckVariateUtils.getInstance().checkFileIsExit(filePath)
-                && JtlwCheckVariateUtils.getInstance().checkFileIsImage(filePath)) {
+        if (isCheckFile && !JtlwCheckVariateUtils.getInstance().checkFileIsExit(filePath)
+                && !JtlwCheckVariateUtils.getInstance().checkFileIsImage(filePath)) {
             return null;
         }
         FileInputStream fileInputStream = null;
