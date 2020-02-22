@@ -27,6 +27,7 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Reader;
 import com.google.zxing.Result;
+import com.google.zxing.WriterException;
 import com.google.zxing.common.HybridBinarizer;
 
 import java.io.File;
@@ -423,6 +424,20 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      */
     public void setScanResultCallback(AgcslwScanResultCallback scanResultCallback) {
         this.scanResultCallback = scanResultCallback;
+    }
+
+    /**
+     * 生成二维码
+     *
+     * @param str        二维码字符串
+     * @param width      二维码宽度
+     * @param height     二维码高度
+     * @param logoBitmap logo图片位图
+     * @return 生成的二维码位图
+     * @throws WriterException 生成二维码异常
+     */
+    public Bitmap generateQrCode(String str, int width, int height, Bitmap logoBitmap) throws WriterException {
+        return CodeCreator.createQRCode(str, width, height, logoBitmap);
     }
 
     @Override
