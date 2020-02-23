@@ -99,12 +99,14 @@ public class AgcslwScan implements SurfaceHolder.Callback {
     /***************************************扫描主方法**********************************************/
     /**
      * Activity获取焦点
+     *
+     * @return
      */
     @RequiresPermission(Manifest.permission.CAMERA)
-    public void onActResumeChange() {
+    public boolean onActResumeChange() {
         //权限检测
         if (!checkPermissions(Manifest.permission.CAMERA)) {
-            return;
+            return false;
         }
         // CameraManager must be initialized here, not in onCreate(). This is
         // necessary because we don't
@@ -129,6 +131,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         }
 
         inactivityTimer.onResume();
+        return true;
     }
 
     /**
@@ -192,19 +195,20 @@ public class AgcslwScan implements SurfaceHolder.Callback {
      * @param sFVScan          surfaceview
      * @param playBeep         扫描结束是否播放声音
      * @param vibrate          扫描结束后是否震动
-     * @param scanBarCode      是否扫描条形码
      * @param scanQrCode       是否扫描二维码
+     * @param scanBarCode      是否扫描条形码
      * @param returnScanBitmap 是否返回扫描结果的位图
+     * @return
      */
     @RequiresPermission(Manifest.permission.CAMERA)
-    public void startScan(Activity activity, SurfaceView sFVScan,
-                          boolean playBeep, boolean vibrate,
-                          boolean scanQrCode, boolean scanBarCode,
-                          boolean returnScanBitmap) {
+    public boolean startScan(Activity activity, SurfaceView sFVScan,
+                             boolean playBeep, boolean vibrate,
+                             boolean scanQrCode, boolean scanBarCode,
+                             boolean returnScanBitmap) {
         this.activity = activity;
         //权限检测
         if (!checkPermissions(Manifest.permission.CAMERA)) {
-            return;
+            return false;
         }
         this.sFVScan = sFVScan;
         this.returnScanBitmap = returnScanBitmap;
@@ -223,20 +227,24 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         } else {
             decodeMode = DecodeThread.ALL_MODE;
         }
+        return true;
     }
 
     /**
      * 重置扫描
+     *
+     * @return
      */
     @RequiresPermission(Manifest.permission.CAMERA)
-    public void restartPreviewAfterDelay() {
+    public boolean restartPreviewAfterDelay() {
         //权限检测
         if (!checkPermissions(Manifest.permission.CAMERA)) {
-            return;
+            return false;
         }
         if (handler != null) {
             handler.sendEmptyMessage(SacnCameraCommon.restart_preview);
         }
+        return true;
     }
 
 
@@ -246,15 +254,16 @@ public class AgcslwScan implements SurfaceHolder.Callback {
      * 扫描相册图片
      *
      * @param path 图片地址
+     * @return
      */
     @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE})
-    public void scanPhotoAlbumImage(String path) {
+    public boolean scanPhotoAlbumImage(String path) {
         if (checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE) && scanResultCallback != null) {
             //有权限继续处理
             if (path == null || !new File(path).exists()) {
                 //地址为空或者文件不存在
                 scanResultCallback.scanPhotoAlbumImageError(path, true, false);
-                return;
+                return false;
             }
             try {
                 //文件正常，开始扫描
@@ -283,10 +292,12 @@ public class AgcslwScan implements SurfaceHolder.Callback {
                 decodeThread = null;
                 reader.release();
                 reader = null;
+                return true;
             } catch (Exception e) {
                 scanResultCallback.scanPhotoAlbumImageError(path, false, true);
             }
         }
+        return false;
     }
 
     /**
