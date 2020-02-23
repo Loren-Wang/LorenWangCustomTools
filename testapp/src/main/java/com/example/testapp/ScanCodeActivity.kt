@@ -5,17 +5,20 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.lorenwang.graphic_code_scan.AgcslwScanResultCallback
-import android.lorenwang.graphic_code_scan.AgcslwScanUtils
+import android.lorenwang.graphic_code_scan.AgcslwScan
 import android.lorenwang.tools.app.AtlwActivityUtils
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.lorenwang.tools.file.AtlwFileOptionUtils
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_scan_code.*
 
 class ScanCodeActivity : BaseActivity() {
+    private val scan = AgcslwScan()
     override fun onChildCreate(savedInstanceState: Bundle?) {
         addChildView(R.layout.activity_scan_code)
         //请求权限
@@ -25,14 +28,24 @@ class ScanCodeActivity : BaseActivity() {
                     @SuppressLint("MissingPermission")
                     override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
                         //设置裁剪扫描区域
-                        AgcslwScanUtils.getInstance().setScanCropView(viewScan)
+//                        scan.setScanCropView(viewScan)
+                        surfaceView.setAgcslwScan(scan)
                         //开启扫描
-                        AgcslwScanUtils.getInstance().startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true)
+                        scan.startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true)
                         //扫描结果回调
-                        AgcslwScanUtils.getInstance().setScanResultCallback(object : AgcslwScanResultCallback {
+                        scan.setScanResultCallback(object : AgcslwScanResultCallback {
                             private var toast: Toast? = null
+                            /**
+                             * 扫描视图裁剪矩阵变化
+                             *
+                             * @param cropRect 裁剪矩阵位置,仅相对于扫描控件scanview的坐标
+                             */
+                            override fun scanViewCropRectChange(cropRect: Rect) {
+                                findViewById<TextView>(R.id.tvTest).setPadding(0, cropRect.bottom, 0, 0)
+                            }
+
                             override fun scanResult(result: String?) {
-                                AgcslwScanUtils.getInstance().restartPreviewAfterDelay()
+                                scan.restartPreviewAfterDelay()
                                 toast?.cancel()
                                 toast = Toast.makeText(this@ScanCodeActivity, result, Toast.LENGTH_LONG)
                                 toast?.show()
@@ -74,24 +87,24 @@ class ScanCodeActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
             val path = AtlwFileOptionUtils.getInstance().getUriPath(data!!.data, MediaStore.MediaColumns.DATA)
-            AgcslwScanUtils.getInstance().scanPhotoAlbumImage(path);
+            scan.scanPhotoAlbumImage(path);
         }
     }
 
     @SuppressLint("MissingPermission")
     override fun onResume() {
         super.onResume()
-        AgcslwScanUtils.getInstance().onActResumeChange()
+        scan.onActResumeChange()
     }
 
     override fun onPause() {
         super.onPause()
-        AgcslwScanUtils.getInstance().onActPauseChange()
+        scan.onActPauseChange()
     }
 
     override fun finish() {
         super.finish()
-        AgcslwScanUtils.getInstance().onActFinish()
+        scan.onActFinish()
     }
 
 }

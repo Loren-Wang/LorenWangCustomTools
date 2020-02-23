@@ -39,7 +39,7 @@ dependencies {
 
 def moduleName = "AndroidGraphicCodeScanFromLorenWang"
 def moduleDescription = "Android图形码扫码库"
-version '1.0.9'
+version '1.1.1'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -126,7 +126,6 @@ artifacts {
     archives javadocJar
     archives sourcesJar
 }
-
 
 bintray {
     user = bintrayUser

@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import android.view.View;
@@ -48,6 +49,7 @@ public class AgcslwScanView extends FrameLayout {
      * 绘制的view
      */
     private View drawView;
+    protected AgcslwScan agcslwScan;
 
     /**************配置参数部分**************/
     /**
@@ -80,6 +82,10 @@ public class AgcslwScanView extends FrameLayout {
      * 阴影画笔
      */
     private Paint shadowPaint;
+    /**
+     * 上一次裁剪矩形矩阵
+     */
+    private Rect lastCropRect;
 
     public AgcslwScanView(Context context) {
         super(context);
@@ -116,8 +122,15 @@ public class AgcslwScanView extends FrameLayout {
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 //如果非阴影区域是正方形，那么则取非阴影部分最小宽度向左、上适配
-                AgcslwScanView.this.onDrawChild(canvas, AgcslwScanUtils.getInstance().parseShowCropRect(shadowPercentLeft, shadowPercentTop, shadowPercentRight, shadowPercentBottom, outShadowSquare, surfaceView))
-                ;
+                if (agcslwScan != null) {
+                    Rect cropRect = agcslwScan.parseShowCropRect(shadowPercentLeft, shadowPercentTop, shadowPercentRight, shadowPercentBottom, outShadowSquare, surfaceView);
+                    AgcslwScanView.this.onDrawChild(canvas, cropRect);
+                    if (lastCropRect == null || !lastCropRect.equals(cropRect)) {
+                        //两者相等，不做回调，两者不等，回调数据
+                        lastCropRect = cropRect;
+                        agcslwScan.scanViewCropRectChange(lastCropRect);
+                    }
+                }
             }
         };
         addView(surfaceView);
@@ -155,7 +168,9 @@ public class AgcslwScanView extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        onDrawChild(canvas, AgcslwScanUtils.getInstance().parseShowCropRect(shadowPercentLeft, shadowPercentTop, shadowPercentRight, shadowPercentBottom, outShadowSquare, surfaceView));
+        if (agcslwScan != null) {
+            onDrawChild(canvas, agcslwScan.parseShowCropRect(shadowPercentLeft, shadowPercentTop, shadowPercentRight, shadowPercentBottom, outShadowSquare, surfaceView));
+        }
     }
 
     @Override
@@ -169,4 +184,9 @@ public class AgcslwScanView extends FrameLayout {
         super.invalidate();
         drawView.invalidate();
     }
+
+    public void setAgcslwScan(AgcslwScan agcslwScan) {
+        this.agcslwScan = agcslwScan;
+    }
+
 }

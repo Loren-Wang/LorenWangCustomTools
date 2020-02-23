@@ -1,6 +1,9 @@
 package android.lorenwang.graphic_code_scan;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
+
+import androidx.annotation.NonNull;
 
 /**
  * 功能作用：扫描结果返回
@@ -18,6 +21,13 @@ import android.graphics.Bitmap;
  */
 
 public interface AgcslwScanResultCallback {
+    /**
+     * 扫描视图裁剪矩阵变化
+     *
+     * @param cropRect 裁剪矩阵位置,仅相对于扫描控件scanview的坐标
+     */
+    void scanViewCropRectChange(@NonNull Rect cropRect);
+
     /**
      * 扫描文本结果
      *

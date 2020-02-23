@@ -45,12 +45,13 @@ class DecodeThread extends Thread {
     private Map<DecodeHintType, Object> hints;
     private DecodeHandler handler;
     private CountDownLatch handlerInitLatch;
+    private AgcslwScan agcslwScan;
 
-    public DecodeThread(int decodeMode) {
-
+    public DecodeThread(int decodeMode,AgcslwScan agcslwScan) {
+        this.agcslwScan = agcslwScan;
         handlerInitLatch = new CountDownLatch(1);
 
-        hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
+        hints = new EnumMap<>(DecodeHintType.class);
 
         Collection<BarcodeFormat> decodeFormats = new ArrayList<BarcodeFormat>();
         decodeFormats.addAll(EnumSet.of(BarcodeFormat.AZTEC));
@@ -90,7 +91,7 @@ class DecodeThread extends Thread {
     public void run() {
         Looper.prepare();
         if (hints != null) {
-            handler = new DecodeHandler(hints);
+            handler = new DecodeHandler(hints,agcslwScan);
             handlerInitLatch.countDown();
         }
         Looper.loop();

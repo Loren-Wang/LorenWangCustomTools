@@ -1,7 +1,6 @@
 package android.lorenwang.graphic_code_scan;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.graphics.Rect;
 import android.lorenwang.tools.AtlwSetting;
 import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
@@ -19,13 +17,8 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.google.zxing.BinaryBitmap;
-import com.google.zxing.ChecksumException;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.FormatException;
 import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
 import com.google.zxing.RGBLuminanceSource;
-import com.google.zxing.Reader;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.HybridBinarizer;
@@ -33,9 +26,9 @@ import com.google.zxing.common.HybridBinarizer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 import androidx.core.content.ContextCompat;
 
@@ -63,27 +56,12 @@ import androidx.core.content.ContextCompat;
  * 修改时间：
  * 备注：
  */
-public class AgcslwScanUtils implements SurfaceHolder.Callback {
+public class AgcslwScan implements SurfaceHolder.Callback {
     private final String TAG = "AgcslwScanUtils";
-    private static volatile AgcslwScanUtils optionsUtils;
     /**
      * 扫描结果回调
      */
     private AgcslwScanResultCallback scanResultCallback;
-
-    private AgcslwScanUtils() {
-    }
-
-    public static AgcslwScanUtils getInstance() {
-        if (optionsUtils == null) {
-            synchronized (AgcslwScanUtils.class) {
-                if (optionsUtils == null) {
-                    optionsUtils = new AgcslwScanUtils();
-                }
-            }
-        }
-        return optionsUtils;
-    }
 
     private Activity activity;
     //二维码控制属性
@@ -172,6 +150,9 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         if (!isHasSurface && sFVScan != null && sFVScan.getHolder() != null) {
             sFVScan.getHolder().removeCallback(this);
         }
+        if (flashLightStatus) {
+            closeFlashLight();
+        }
     }
 
     /**
@@ -200,6 +181,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         }
         showCropRect = null;
         imageCropRect = null;
+        scanView = null;
     }
 
     /**
@@ -306,7 +288,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
                 RGBLuminanceSource source = new RGBLuminanceSource(scanBitmap.getWidth(), scanBitmap.getHeight(), intArray);
                 BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
                 MultiFormatReader reader = new MultiFormatReader();
-                DecodeThread decodeThread = new DecodeThread(decodeMode);
+                DecodeThread decodeThread = new DecodeThread(decodeMode, this);
                 Result result = reader.decode(bitmap1, decodeThread.getHints());
                 if (returnScanBitmap) {
                     Bundle bundle = new Bundle();
@@ -332,10 +314,8 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
      */
     public void setScanCropView(View scanView) {
         if (scanView != null) {
-            synchronized (optionsUtils) {
-                clearScanCropRect();
-                this.scanView = scanView;
-            }
+            clearScanCropRect();
+            this.scanView = scanView;
         }
     }
 
@@ -362,15 +342,15 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     public Rect parseShowCropRect(float leftPercent, float topPercent, float rightPercent, float bottomPercent, boolean square, SurfaceView sFVScan) {
         //如果使用的适scanview的话则裁剪区域为裁剪扫描控件属性
         if (showCropRect == null && scanView == null) {
-            int cropWidth = (int) (sFVScan.getMeasuredWidth() * (1 - leftPercent - rightPercent));
-            int cropHeight = (int) (sFVScan.getMeasuredHeight() * (1 - topPercent - bottomPercent));
+            int cropWidth = (int) (getBaseWidth(sFVScan) * (1 - leftPercent - rightPercent));
+            int cropHeight = (int) (getBaseHeight(sFVScan) * (1 - topPercent - bottomPercent));
             if (square) {
                 cropWidth = cropHeight = Math.min(cropWidth, cropHeight);
             }
 
             //绘制阴影区域
-            int cropLeft = (int) (sFVScan.getMeasuredWidth() * leftPercent);
-            int cropTop = (int) (sFVScan.getMeasuredHeight() * topPercent);
+            int cropLeft = (int) (getBaseWidth(sFVScan) * leftPercent);
+            int cropTop = (int) (getBaseHeight(sFVScan) * topPercent);
             return showCropRect = new Rect(cropLeft, cropTop, cropLeft + cropWidth, cropTop + cropHeight);
         } else {
             return showCropRect;
@@ -440,6 +420,29 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         return CodeCreator.createQRCode(str, width, height, logoBitmap);
     }
 
+    /**
+     * 扫描视图裁剪矩阵变化
+     *
+     * @param rect 裁剪矩阵位置,仅相对于扫描控件scanview的坐标
+     */
+    public void scanViewCropRectChange(@NonNull Rect rect) {
+        if (scanResultCallback != null) {
+            scanResultCallback.scanViewCropRectChange(rect);
+        }
+    }
+
+    /**
+     * 获取要裁剪的图片区域
+     *
+     * @return 要裁剪的图片区域
+     */
+    protected Rect getCropRect() {
+        if (imageCropRect == null) {
+            initCrop();
+        }
+        return imageCropRect;
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         if (!isHasSurface) {
@@ -457,7 +460,6 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
     }
-
 
     /**
      * 获取相机管理器
@@ -477,17 +479,6 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         return handler;
     }
 
-    /**
-     * 获取要裁剪的图片区域
-     *
-     * @return 要裁剪的图片区域
-     */
-    protected Rect getCropRect() {
-        if (imageCropRect == null) {
-            initCrop();
-        }
-        return imageCropRect;
-    }
 
     /**
      * 扫描结果返回值
@@ -554,7 +545,7 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
             // Creating the handler starts the preview, which can also throw a
             // RuntimeException.
             if (handler == null) {
-                handler = new CaptureActivityHandler(cameraManager, decodeMode);
+                handler = new CaptureActivityHandler(cameraManager, decodeMode, this);
             }
 
             initCrop();
@@ -577,8 +568,16 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
         }
 
         //获取相机像素属性
-        int cameraWidth = cameraManager.getCameraResolution().y;
-        int cameraHeight = cameraManager.getCameraResolution().x;
+        int cameraWidth = AtlwScreenUtils.getInstance().getScreenWidth();
+        int cameraHeight = AtlwScreenUtils.getInstance().getScreenHeight();
+        try {
+            cameraWidth = cameraManager.getCameraResolution().y;
+        } catch (Exception ignored) {
+        }
+        try {
+            cameraHeight = cameraManager.getCameraResolution().x;
+        } catch (Exception ignored) {
+        }
         //裁剪区域的属性
         if (scanView != null) {
             //获取布局中扫描框的位置信息
@@ -586,16 +585,16 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
             scanView.getLocationInWindow(location);
             int cropLeft = location[0];
             int cropTop = location[1] - AtlwScreenUtils.getInstance().getStatusBarHeight();
-            int cropWidth = scanView.getWidth();
-            int cropHeight = scanView.getHeight();
+            int cropWidth = getBaseWidth(scanView);
+            int cropHeight = getBaseHeight(scanView);
             //修改裁剪区域为裁剪扫描框属性
             showCropRect = new Rect(cropLeft, cropTop, cropLeft + cropWidth, cropTop + cropHeight);
         } else if (showCropRect == null) {
             return;
         }
         //获取布局容器的宽高
-        int containerWidth = sFVScan.getWidth();
-        int containerHeight = sFVScan.getHeight();
+        int containerWidth = getBaseWidth(sFVScan) > 0 ? getBaseWidth(sFVScan) : AtlwScreenUtils.getInstance().getScreenWidth();
+        int containerHeight = getBaseHeight(sFVScan) > 0 ? getBaseHeight(sFVScan) : AtlwScreenUtils.getInstance().getScreenHeight();
 
         //计算最终截取的矩形的左上角顶点x坐标
         int x = showCropRect.left * cameraWidth / containerWidth;
@@ -632,5 +631,31 @@ public class AgcslwScanUtils implements SurfaceHolder.Callback {
                 return false;
             }
         }
+    }
+
+    /**
+     * 获取基础宽度
+     *
+     * @param view 控件
+     * @return 基础宽度
+     */
+    private int getBaseWidth(View view) {
+        if (view == null) {
+            return AtlwScreenUtils.getInstance().getScreenWidth();
+        }
+        return view.getMeasuredWidthAndState() > 0 ? view.getMeasuredWidthAndState() : AtlwScreenUtils.getInstance().getScreenWidth();
+    }
+
+    /**
+     * 获取基础高度
+     *
+     * @param view 控件
+     * @return 基础高度
+     */
+    private int getBaseHeight(View view) {
+        if (view == null) {
+            return AtlwScreenUtils.getInstance().getScreenHeight();
+        }
+        return view.getMeasuredHeightAndState() > 0 ? view.getMeasuredHeightAndState() : AtlwScreenUtils.getInstance().getScreenHeight();
     }
 }

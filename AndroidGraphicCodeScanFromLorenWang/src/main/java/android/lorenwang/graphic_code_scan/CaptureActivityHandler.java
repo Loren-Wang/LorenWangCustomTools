@@ -33,13 +33,15 @@ class CaptureActivityHandler extends Handler {
     private DecodeThread decodeThread;
     private CameraManager cameraManager;
     private State state;
+    private AgcslwScan agcslwScan;
 
     private enum State {
         PREVIEW, SUCCESS, DONE
     }
 
-    public CaptureActivityHandler(CameraManager cameraManager, int decodeMode) {
-        decodeThread = new DecodeThread(decodeMode);
+    public CaptureActivityHandler(CameraManager cameraManager, int decodeMode, AgcslwScan agcslwScan) {
+        this.agcslwScan = agcslwScan;
+        decodeThread = new DecodeThread(decodeMode, agcslwScan);
         decodeThread.start();
         state = State.SUCCESS;
 
@@ -58,7 +60,7 @@ class CaptureActivityHandler extends Handler {
             case SacnCameraCommon.decode_succeeded:
                 state = State.SUCCESS;
                 Bundle bundle = message.getData();
-                AgcslwScanUtils.getInstance().handleDecode((Result) message.obj, bundle);
+                agcslwScan.handleDecode((Result) message.obj, bundle);
                 break;
             case SacnCameraCommon.decode_failed:
                 // We're decoding as fast as possible, so when one decode fails,

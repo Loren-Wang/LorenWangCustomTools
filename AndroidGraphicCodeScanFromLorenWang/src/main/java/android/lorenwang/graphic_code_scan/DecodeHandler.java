@@ -52,10 +52,12 @@ class DecodeHandler extends Handler {
      */
     private MultiFormatReader multiFormatReader;
     private boolean running = true;
+    private AgcslwScan agcslwScan;
 
-    public DecodeHandler(Map<DecodeHintType, Object> hints) {
+    public DecodeHandler(Map<DecodeHintType, Object> hints,AgcslwScan agcslwScan) {
         multiFormatReader = new MultiFormatReader();
         multiFormatReader.setHints(hints);
+        this.agcslwScan = agcslwScan;
     }
 
     @Override
@@ -84,7 +86,7 @@ class DecodeHandler extends Handler {
      * @param height The height of the preview frame.
      */
     private void decode(byte[] data, int width, int height) {
-        CameraManager cameraManager = AgcslwScanUtils.getInstance().getCameraManager();
+        CameraManager cameraManager = agcslwScan.getCameraManager();
         if (cameraManager != null) {
             Size size = cameraManager.getPreviewSize();
             if (size != null) {
@@ -113,7 +115,7 @@ class DecodeHandler extends Handler {
                     }
                 }
 
-                Handler handler = AgcslwScanUtils.getInstance().getHandler();
+                Handler handler = agcslwScan.getHandler();
                 if (rawResult != null) {
                     // Don't log the barcode contents for security.
                     if (handler != null) {
@@ -153,7 +155,7 @@ class DecodeHandler extends Handler {
      * @return A PlanarYUVLuminanceSource instance.
      */
     public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
-        Rect rect = AgcslwScanUtils.getInstance().getCropRect();
+        Rect rect = agcslwScan.getCropRect();
         if (rect == null) {
             return null;
         }
