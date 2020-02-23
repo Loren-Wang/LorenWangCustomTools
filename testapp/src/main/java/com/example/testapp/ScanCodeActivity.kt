@@ -57,7 +57,7 @@ class ScanCodeActivity : BaseActivity() {
                                 }
                             }
 
-                            override fun notPermissions(vararg permissions: String?) {
+                            fun notPermissions(shouldShowRequestPermissionRationale: Boolean, vararg permissions: Array<String>) {
                             }
 
                             override fun scanError() {

@@ -2,7 +2,6 @@ package android.lorenwang.graphic_code_scan;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +29,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 /**
@@ -96,6 +96,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
      */
     private Rect imageCropRect;
 
+    /***************************************扫描主方法**********************************************/
     /**
      * Activity获取焦点
      */
@@ -225,28 +226,6 @@ public class AgcslwScan implements SurfaceHolder.Callback {
     }
 
     /**
-     * 重新初始化
-     *
-     * @param activity         activity实例
-     * @param sFVScan          surfaceview
-     * @param playBeep         扫描结束是否播放声音
-     * @param vibrate          扫描结束后是否震动
-     * @param scanBarCode      是否扫描条形码
-     * @param scanQrCode       是否扫描二维码
-     * @param returnScanBitmap 是否返回扫描结果的位图
-     */
-    @RequiresPermission(Manifest.permission.CAMERA)
-    public void restartInit(Activity activity, SurfaceView sFVScan,
-                            boolean playBeep, boolean vibrate,
-                            boolean scanQrCode, boolean scanBarCode,
-                            boolean returnScanBitmap) {
-        onActPauseChange();
-        onActFinish();
-        startScan(activity, sFVScan, playBeep, vibrate, scanQrCode, scanBarCode, returnScanBitmap);
-        restartPreviewAfterDelay();
-    }
-
-    /**
      * 重置扫描
      */
     @RequiresPermission(Manifest.permission.CAMERA)
@@ -260,6 +239,9 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         }
     }
 
+
+    /*****************************************公开方法**********************************************/
+
     /**
      * 扫描相册图片
      *
@@ -271,7 +253,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
             //有权限继续处理
             if (path == null || !new File(path).exists()) {
                 //地址为空或者文件不存在
-                scanResultCallback.scanError();
+                scanResultCallback.scanPhotoAlbumImageError(path, true, false);
                 return;
             }
             try {
@@ -302,59 +284,32 @@ public class AgcslwScan implements SurfaceHolder.Callback {
                 reader.release();
                 reader = null;
             } catch (Exception e) {
-                scanResultCallback.scanError();
+                scanResultCallback.scanPhotoAlbumImageError(path, false, true);
             }
         }
     }
 
     /**
-     * 设置裁剪扫描区域属性
+     * 生成二维码
      *
-     * @param scanView 扫描区域view
+     * @param str        二维码字符串
+     * @param width      二维码宽度
+     * @param height     二维码高度
+     * @param logoBitmap logo图片位图
+     * @return 生成的二维码位图
+     * @throws WriterException 生成二维码异常
      */
-    public void setScanCropView(View scanView) {
-        if (scanView != null) {
-            clearScanCropRect();
-            this.scanView = scanView;
-        }
+    public Bitmap generateQrCode(String str, int width, int height, Bitmap logoBitmap) throws WriterException {
+        return CodeCreator.createQRCode(str, width, height, logoBitmap);
     }
 
     /**
-     * 清空扫描裁剪区域属性相关
-     */
-    public void clearScanCropRect() {
-        this.scanView = null;
-        imageCropRect = null;
-        showCropRect = null;
-    }
-
-    /**
-     * 格式化显示的裁剪区域
+     * 设置扫描结果回调
      *
-     * @param leftPercent   左侧百分比
-     * @param topPercent    顶部百分比
-     * @param rightPercent  右侧百分比
-     * @param bottomPercent 底部百分比
-     * @param square        是否是证方形
-     * @param sFVScan       surfaceview
-     * @return 显示的裁剪区域
+     * @param scanResultCallback 扫描结果回调
      */
-    public Rect parseShowCropRect(float leftPercent, float topPercent, float rightPercent, float bottomPercent, boolean square, SurfaceView sFVScan) {
-        //如果使用的适scanview的话则裁剪区域为裁剪扫描控件属性
-        if (showCropRect == null && scanView == null) {
-            int cropWidth = (int) (getBaseWidth(sFVScan) * (1 - leftPercent - rightPercent));
-            int cropHeight = (int) (getBaseHeight(sFVScan) * (1 - topPercent - bottomPercent));
-            if (square) {
-                cropWidth = cropHeight = Math.min(cropWidth, cropHeight);
-            }
-
-            //绘制阴影区域
-            int cropLeft = (int) (getBaseWidth(sFVScan) * leftPercent);
-            int cropTop = (int) (getBaseHeight(sFVScan) * topPercent);
-            return showCropRect = new Rect(cropLeft, cropTop, cropLeft + cropWidth, cropTop + cropHeight);
-        } else {
-            return showCropRect;
-        }
+    public void setScanResultCallback(AgcslwScanResultCallback scanResultCallback) {
+        this.scanResultCallback = scanResultCallback;
     }
 
     /**
@@ -398,30 +353,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
     }
 
     /**
-     * 设置扫描结果回调
-     *
-     * @param scanResultCallback 扫描结果回调
-     */
-    public void setScanResultCallback(AgcslwScanResultCallback scanResultCallback) {
-        this.scanResultCallback = scanResultCallback;
-    }
-
-    /**
-     * 生成二维码
-     *
-     * @param str        二维码字符串
-     * @param width      二维码宽度
-     * @param height     二维码高度
-     * @param logoBitmap logo图片位图
-     * @return 生成的二维码位图
-     * @throws WriterException 生成二维码异常
-     */
-    public Bitmap generateQrCode(String str, int width, int height, Bitmap logoBitmap) throws WriterException {
-        return CodeCreator.createQRCode(str, width, height, logoBitmap);
-    }
-
-    /**
-     * 扫描视图裁剪矩阵变化
+     * 扫描视图裁剪矩阵变化,回调使用
      *
      * @param rect 裁剪矩阵位置,仅相对于扫描控件scanview的坐标
      */
@@ -432,16 +364,56 @@ public class AgcslwScan implements SurfaceHolder.Callback {
     }
 
     /**
-     * 获取要裁剪的图片区域
+     * 格式化显示的裁剪区域
      *
-     * @return 要裁剪的图片区域
+     * @param leftPercent   左侧百分比
+     * @param topPercent    顶部百分比
+     * @param rightPercent  右侧百分比
+     * @param bottomPercent 底部百分比
+     * @param square        是否是证方形
+     * @param sFVScan       surfaceview
+     * @return 显示的裁剪区域
      */
-    protected Rect getCropRect() {
-        if (imageCropRect == null) {
-            initCrop();
+    public Rect parseShowCropRect(float leftPercent, float topPercent, float rightPercent, float bottomPercent, boolean square, SurfaceView sFVScan) {
+        //如果使用的适scanview的话则裁剪区域为裁剪扫描控件属性
+        if (showCropRect == null && scanView == null) {
+            int cropWidth = (int) (getBaseWidth(sFVScan) * (1 - leftPercent - rightPercent));
+            int cropHeight = (int) (getBaseHeight(sFVScan) * (1 - topPercent - bottomPercent));
+            if (square) {
+                cropWidth = cropHeight = Math.min(cropWidth, cropHeight);
+            }
+
+            //绘制阴影区域
+            int cropLeft = (int) (getBaseWidth(sFVScan) * leftPercent);
+            int cropTop = (int) (getBaseHeight(sFVScan) * topPercent);
+            return showCropRect = new Rect(cropLeft, cropTop, cropLeft + cropWidth, cropTop + cropHeight);
+        } else {
+            return showCropRect;
         }
-        return imageCropRect;
     }
+
+    /**
+     * 设置裁剪扫描区域属性
+     *
+     * @param scanView 扫描区域view
+     */
+    public void setScanCropView(View scanView) {
+        if (scanView != null) {
+            clearScanCropRect();
+            this.scanView = scanView;
+        }
+    }
+
+    /**
+     * 清空扫描裁剪区域属性相关
+     */
+    public void clearScanCropRect() {
+        this.scanView = null;
+        imageCropRect = null;
+        showCropRect = null;
+    }
+
+    /***************************************导入接口方法********************************************/
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -461,6 +433,19 @@ public class AgcslwScan implements SurfaceHolder.Callback {
 
     }
 
+    /**********************************同一文件下其他类调用方法**************************************/
+    /**
+     * 获取要裁剪的图片区域
+     *
+     * @return 要裁剪的图片区域
+     */
+    protected Rect getCropRect() {
+        if (imageCropRect == null) {
+            initCrop();
+        }
+        return imageCropRect;
+    }
+
     /**
      * 获取相机管理器
      *
@@ -478,7 +463,6 @@ public class AgcslwScan implements SurfaceHolder.Callback {
     protected CaptureActivityHandler getHandler() {
         return handler;
     }
-
 
     /**
      * 扫描结果返回值
@@ -511,51 +495,37 @@ public class AgcslwScan implements SurfaceHolder.Callback {
 
         } else {
             if (scanResultCallback != null) {
-                scanResultCallback.scanError();
+                scanResultCallback.scanDecodeError();
             }
         }
     }
 
+    /****************************************私有方法**********************************************/
+
     /**
-     * 设置返回
+     * 获取基础宽度
      *
-     * @param resultOk
-     * @param obj
+     * @param view 控件
+     * @return 基础宽度
      */
-    protected void setResult(int resultOk, Intent obj) {
+    private int getBaseWidth(View view) {
+        if (view == null) {
+            return AtlwScreenUtils.getInstance().getScreenWidth();
+        }
+        return view.getMeasuredWidthAndState() > 0 ? view.getMeasuredWidthAndState() : AtlwScreenUtils.getInstance().getScreenWidth();
     }
 
-
-    /*********************************************相机初始化***************************************/
     /**
-     * 相机初始化
+     * 获取基础高度
      *
-     * @param surfaceHolder
+     * @param view 控件
+     * @return 基础高度
      */
-    private void initCamera(SurfaceHolder surfaceHolder) {
-        if (surfaceHolder == null) {
-            throw new IllegalStateException("No SurfaceHolder provided");
+    private int getBaseHeight(View view) {
+        if (view == null) {
+            return AtlwScreenUtils.getInstance().getScreenHeight();
         }
-        if (cameraManager.isOpen()) {
-            AtlwLogUtils.logD(TAG, "initCamera() while already open -- late SurfaceView callback?");
-            return;
-        }
-        try {
-            cameraManager.openDriver(surfaceHolder);
-            // Creating the handler starts the preview, which can also throw a
-            // RuntimeException.
-            if (handler == null) {
-                handler = new CaptureActivityHandler(cameraManager, decodeMode, this);
-            }
-
-            initCrop();
-        } catch (IOException ioe) {
-            AtlwLogUtils.logD(TAG, ioe.getMessage());
-        } catch (RuntimeException e) {
-            // Barcode Scanner has seen crashes in the wild of this variety:
-            // java.?lang.?RuntimeException: Fail to connect to camera service
-            AtlwLogUtils.logD(TAG, "Unexpected error initializing camera", e);
-        }
+        return view.getMeasuredHeightAndState() > 0 ? view.getMeasuredHeightAndState() : AtlwScreenUtils.getInstance().getScreenHeight();
     }
 
     /**
@@ -573,6 +543,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         try {
             cameraWidth = cameraManager.getCameraResolution().y;
         } catch (Exception ignored) {
+            cameraWidth = AtlwScreenUtils.getInstance().getScreenWidth();
         }
         try {
             cameraHeight = cameraManager.getCameraResolution().x;
@@ -611,15 +582,55 @@ public class AgcslwScan implements SurfaceHolder.Callback {
     }
 
     /**
+     * 相机初始化
+     *
+     * @param surfaceHolder surfaceHolder
+     */
+    private void initCamera(SurfaceHolder surfaceHolder) {
+        if (surfaceHolder == null) {
+            throw new IllegalStateException("No SurfaceHolder provided");
+        }
+        if (cameraManager.isOpen()) {
+            AtlwLogUtils.logD(TAG, "initCamera() while already open -- late SurfaceView callback?");
+            return;
+        }
+        try {
+            cameraManager.openDriver(surfaceHolder);
+            // Creating the handler starts the preview, which can also throw a
+            // RuntimeException.
+            if (handler == null) {
+                handler = new CaptureActivityHandler(cameraManager, decodeMode, this);
+            }
+
+            initCrop();
+        } catch (IOException ioe) {
+            AtlwLogUtils.logD(TAG, ioe.getMessage());
+            if (scanResultCallback != null) {
+                scanResultCallback.cameraInitError();
+            }
+        } catch (RuntimeException e) {
+            // Barcode Scanner has seen crashes in the wild of this variety:
+            // java.?lang.?RuntimeException: Fail to connect to camera service
+            AtlwLogUtils.logD(TAG, "Unexpected error initializing camera", e);
+            if (scanResultCallback != null) {
+                scanResultCallback.cameraInitError();
+            }
+        }
+    }
+
+    /**
      * 检测权限
      */
     private boolean checkPermissions(String... permissions) {
         if (activity == null) {
-            scanResultCallback.notPermissions(permissions);
+            scanResultCallback.notPermissions(false, permissions);
             return false;
         } else {
             List<String> notPermissions = new ArrayList<>();
+            //是否能显示自定义权限弹窗
+            boolean shouldShowRequestPermissionRationale = false;
             for (String permission : permissions) {
+                shouldShowRequestPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) || shouldShowRequestPermissionRationale;
                 if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
                     notPermissions.add(permission);
                 }
@@ -627,35 +638,9 @@ public class AgcslwScan implements SurfaceHolder.Callback {
             if (notPermissions.isEmpty()) {
                 return true;
             } else {
-                scanResultCallback.notPermissions(notPermissions.toArray(new String[notPermissions.size()]));
+                scanResultCallback.notPermissions(shouldShowRequestPermissionRationale, notPermissions.toArray(new String[0]));
                 return false;
             }
         }
-    }
-
-    /**
-     * 获取基础宽度
-     *
-     * @param view 控件
-     * @return 基础宽度
-     */
-    private int getBaseWidth(View view) {
-        if (view == null) {
-            return AtlwScreenUtils.getInstance().getScreenWidth();
-        }
-        return view.getMeasuredWidthAndState() > 0 ? view.getMeasuredWidthAndState() : AtlwScreenUtils.getInstance().getScreenWidth();
-    }
-
-    /**
-     * 获取基础高度
-     *
-     * @param view 控件
-     * @return 基础高度
-     */
-    private int getBaseHeight(View view) {
-        if (view == null) {
-            return AtlwScreenUtils.getInstance().getScreenHeight();
-        }
-        return view.getMeasuredHeightAndState() > 0 ? view.getMeasuredHeightAndState() : AtlwScreenUtils.getInstance().getScreenHeight();
     }
 }

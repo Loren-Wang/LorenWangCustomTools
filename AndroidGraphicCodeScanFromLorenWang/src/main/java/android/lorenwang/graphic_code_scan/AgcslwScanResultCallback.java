@@ -43,16 +43,17 @@ public interface AgcslwScanResultCallback {
     void scanResultBitmap(Bitmap bitmap);
 
     /**
-     * 扫描出错
+     * 扫描解码出错
      */
-    void scanError();
+    void scanDecodeError();
 
     /**
      * 无扫描权限
      *
-     * @param permissions 权限集合
+     * @param shouldShowRequestPermissionRationale 是否能显示自定义权限弹窗
+     * @param permissions                          权限集合
      */
-    void notPermissions(String... permissions);
+    void notPermissions(boolean shouldShowRequestPermissionRationale, String... permissions);
 
     /**
      * 权限请求失败，保留方法，留给子类扩展，后续该框架也可能会使用
@@ -60,4 +61,18 @@ public interface AgcslwScanResultCallback {
      * @param permissions 权限列表
      */
     void permissionRequestFail(String... permissions);
+
+    /**
+     * 扫描相册图片异常
+     *
+     * @param path              传递的图片地址
+     * @param isPathNotExists   图片地址代表的文件不存在
+     * @param isScanDecodeError 扫描解码异常
+     */
+    void scanPhotoAlbumImageError(String path, boolean isPathNotExists, boolean isScanDecodeError);
+
+    /**
+     * 相机初始化异常
+     */
+    void cameraInitError();
 }
