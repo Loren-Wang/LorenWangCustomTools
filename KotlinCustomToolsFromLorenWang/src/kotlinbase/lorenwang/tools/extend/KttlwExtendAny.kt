@@ -56,7 +56,7 @@ inline fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
 /**
  * 待检测参数中是否包含空数据，包括空字符串检测
  */
-inline fun <T, P, R> T.haveEmptyCheck(params: Array<P>, emptyFun: () -> R, notEmptyFun: () -> R): R {
+inline fun <T, P, R> T.haveEmptyCheck(vararg params: P, emptyFun: () -> R, notEmptyFun: () -> R): R {
     params.forEach {
         if (it.isEmpty()) {
             return emptyFun()
@@ -108,7 +108,7 @@ fun <T> T?.isNotNull(): Boolean {
 /**
  * 数据为null检测，为null时执行fun
  */
-inline fun <T> T.nullCheck(exec: () -> Unit) {
+inline fun <T> T?.nullCheck(exec: () -> Unit) {
     if (this.isNull()) {
         exec()
     }
@@ -117,16 +117,16 @@ inline fun <T> T.nullCheck(exec: () -> Unit) {
 /**
  * 数据不为null检测，不为null时执行fun
  */
-inline fun <T> T.notNullCheck(exec: (T) -> Unit) {
+inline fun <T> T?.notNullCheck(exec: (T) -> Unit) {
     if (this.isNotNull()) {
-        exec(this)
+        exec(this!!)
     }
 }
 
 /**
  * 数据null检测，分情况执行fun
  */
-inline fun <T, R> T.nullCheck(nullFun: () -> R, notNullFun: () -> R): R {
+inline fun <T, R> T?.nullCheck(nullFun: () -> R, notNullFun: () -> R): R {
     return if ((this.isNull())) {
         nullFun()
     } else {
@@ -137,7 +137,7 @@ inline fun <T, R> T.nullCheck(nullFun: () -> R, notNullFun: () -> R): R {
 /**
  * 待检测参数中是否有null数据
  */
-inline fun <T, P, R> T.haveNullCheck(params: Array<P>, nullFun: () -> R, notNullFun: () -> R): R {
+inline fun <T, P, R> T?.haveNullCheck(vararg params: P, nullFun: () -> R, notNullFun: () -> R): R {
     params.forEach {
         if (it.isNull()) {
             return nullFun()
