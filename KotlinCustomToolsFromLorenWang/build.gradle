@@ -16,19 +16,20 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     //java工具类库
     compileOnly 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.6'
     //java数据格式化类库
     compileOnly 'com.github.lorenwang:JavaDataParseFromLorenWang:1.0.11'
     //swagger注释
-    implementation("io.springfox:springfox-swagger2:2.6.0")
-    implementation("io.springfox:springfox-swagger-ui:2.6.0")
+    implementation 'io.springfox:springfox-swagger2:2.6.0'
+    implementation 'io.springfox:springfox-swagger-ui:2.6.0'
 }
 
 def moduleName = "KotlinCustomToolsFromLorenWang"
 def moduleDescription = "Kotlin自定义工具类"
-version '1.0.71'
+version '1.1.0'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -42,6 +43,28 @@ def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
 def projectGroupId = properties.getProperty("project.groupId")
 def moduleVersion = version
 
+task sourcesJar(type: Jar) {
+    from sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title moduleName
+    }
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
 install {
     repositories.mavenInstaller {
         // 生成pom.xml和参数
@@ -87,28 +110,6 @@ install {
         }
     }
 }
-task sourcesJar(type: Jar) {
-    from sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-javadoc {
-    options {
-        encoding "UTF-8"
-        charSet 'UTF-8'
-        author true
-        version true
-        links "http://docs.oracle.com/javase/7/docs/api"
-        title moduleName
-    }
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
 bintray {
     user = bintrayUser
     key = bintrayKey
@@ -141,5 +142,4 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
-
 

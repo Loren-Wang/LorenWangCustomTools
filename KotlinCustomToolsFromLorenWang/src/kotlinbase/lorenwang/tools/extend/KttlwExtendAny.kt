@@ -14,15 +14,27 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
  * 修改时间：
  * 备注：
  */
+
 /**
- * 检测基础数据是否为空
+ * 获取实例的json数据
  */
-fun Any?.isEmpty(): Boolean {
+fun <T> T.toJsonData(): String {
+    return try {
+        JdplwJsonUtils.toJson(this) ?: ""
+    } catch (e: Exception) {
+        ""
+    }
+}
+
+/**
+ * 检测基础数据是否为空，包括空字符串
+ */
+fun <T> T?.isEmpty(): Boolean {
     return JtlwCheckVariateUtils.getInstance().isEmpty(this)
 }
 
 /**
- * 数据检测，根据检测结果调用不同方法，调用结束后返回数据
+ * 数据检测，根据检测结果调用不同方法，调用结束后返回数据，包括空字符串检测
  */
 inline fun <T, R> T?.emptyCheck(emptyFun: () -> R, notEmptyFun: (T) -> R): R {
     return if (this.isEmpty()) {
@@ -33,7 +45,7 @@ inline fun <T, R> T?.emptyCheck(emptyFun: () -> R, notEmptyFun: (T) -> R): R {
 }
 
 /**
- * 空检测，如果为空调用空方法
+ * 空检测，如果为空调用空方法，包括空字符串检测
  */
 inline fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
     if (this.isEmpty()) {
@@ -42,7 +54,7 @@ inline fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
 }
 
 /**
- * 待检测参数中是否包含空数据
+ * 待检测参数中是否包含空数据，包括空字符串检测
  */
 inline fun <T, P, R> T.haveEmptyCheck(params: Array<P>, emptyFun: () -> R, notEmptyFun: () -> R): R {
     params.forEach {
@@ -54,10 +66,10 @@ inline fun <T, P, R> T.haveEmptyCheck(params: Array<P>, emptyFun: () -> R, notEm
 }
 
 /**
- * 待检测参数中是否包含空数据
+ * 待检测参数中是否包含空数据，包括空字符串检测
  * @return 有返回true，否则返回false
  */
-fun <T, P> T.haveEmptyCheck(params: Array<P>): Boolean {
+fun <T, P> T.haveEmptyCheck(vararg params: P): Boolean {
     params.forEach {
         if (it.isEmpty()) {
             return true
@@ -67,10 +79,10 @@ fun <T, P> T.haveEmptyCheck(params: Array<P>): Boolean {
 }
 
 /**
- * 待检测参数中是否全部是空数据
+ * 待检测参数中是否全部是空数据，包括空字符串检测
  * @return 有返回true，否则返回false
  */
-fun <T, P> T.allEmptyCheck(params: Array<P>): Boolean {
+fun <T, P> T.allEmptyCheck(vararg params: P): Boolean {
     params.forEach {
         if (!it.isEmpty()) {
             return false
@@ -80,12 +92,82 @@ fun <T, P> T.allEmptyCheck(params: Array<P>): Boolean {
 }
 
 /**
- * 获取实例的json数据
+ * 检测数据是否为空，仅仅是空，仅仅是null判断
  */
-fun <T> T.toJsonData(): String {
-    return try {
-        JdplwJsonUtils.toJson(this) ?: ""
-    } catch (e: Exception) {
-        ""
+fun <T> T?.isNull(): Boolean {
+    return this == null
+}
+
+/**
+ * 检测数据是否不为空，仅仅是空，仅仅是null判断
+ */
+fun <T> T?.isNotNull(): Boolean {
+    return this != null
+}
+
+/**
+ * 数据为null检测，为null时执行fun
+ */
+inline fun <T> T.nullCheck(exec: () -> Unit) {
+    if (this.isNull()) {
+        exec()
     }
+}
+
+/**
+ * 数据不为null检测，不为null时执行fun
+ */
+inline fun <T> T.notNullCheck(exec: (T) -> Unit) {
+    if (this.isNotNull()) {
+        exec(this)
+    }
+}
+
+/**
+ * 数据null检测，分情况执行fun
+ */
+inline fun <T, R> T.nullCheck(nullFun: () -> R, notNullFun: () -> R): R {
+    return if ((this.isNull())) {
+        nullFun()
+    } else {
+        notNullFun()
+    }
+}
+
+/**
+ * 待检测参数中是否有null数据
+ */
+inline fun <T, P, R> T.haveNullCheck(params: Array<P>, nullFun: () -> R, notNullFun: () -> R): R {
+    params.forEach {
+        if (it.isNull()) {
+            return nullFun()
+        }
+    }
+    return notNullFun()
+}
+
+/**
+ * 待检测参数中是否包含null
+ * @return 有返回true，否则返回false
+ */
+fun <T, P> T.haveNullCheck(vararg params: P): Boolean {
+    params.forEach {
+        if (it.isNull()) {
+            return true
+        }
+    }
+    return false
+}
+
+/**
+ * 待检测参数中是否全部是null
+ * @return 全是返回true，否则返回false
+ */
+fun <T, P> T.allNullCheck(vararg params: P): Boolean {
+    params.forEach {
+        if (!it.isNull()) {
+            return false
+        }
+    }
+    return true
 }
