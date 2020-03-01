@@ -23,6 +23,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import androidx.annotation.FloatRange;
+import androidx.annotation.NonNull;
+
 
 /**
  * 创建时间：2018-11-16 上午 10:15:2
@@ -539,6 +542,81 @@ public class AtlwImageCommonUtils {
         return null;
     }
 
+
+    /**
+     * 使背景透明
+     *
+     * @param bitmap 要透明的图片位图
+     * @return 透明后的图片位图
+     */
+    public Bitmap makeBgTransparent(@NonNull Bitmap bitmap) {
+        try {
+            int portraitWidth = bitmap.getWidth();
+            int portraitHeight = bitmap.getHeight();
+            int[] argbs = new int[portraitWidth * portraitHeight];
+            bitmap.getPixels(argbs, 0, portraitWidth, 0, 0, portraitWidth, portraitHeight);// 获得图片的ARGB值
+            for (int i = 0; i < argbs.length; i++) {
+                int a = Color.alpha(argbs[i]);
+                int r = Color.red(argbs[i]);
+                int g = Color.green(argbs[i]);
+                int b = Color.blue(argbs[i]);
+                if (r > 240 && g > 240 && b > 240) {
+                    argbs[i] = 0x00FFFFFF;
+                }
+            }
+            return Bitmap.createBitmap(argbs, 0, portraitWidth, portraitWidth, portraitHeight, bitmap.getConfig());
+        } catch (Exception e) {
+            AtlwLogUtils.logE(TAG, "是位图背景透明处理异常" + (e.getMessage() == null ? "" : e.getMessage()));
+            return bitmap;
+        }
+    }
+
+    /**
+     * 合并位图
+     *
+     * @param bitmapBg        位图背景
+     * @param bitmapTop       位图顶部显示图片
+     * @param topShowWidth    顶部图片显示宽度
+     * @param topShowHeight   顶部图片显示高度
+     * @param leftBgPercent   顶部图片左侧距离百分百（相对于背景）
+     * @param topBgPercent    顶部图片顶部侧距离百分百（相对于背景），为空时以底部百分比为准
+     * @param bottomBgPercent 顶部图片低部侧距离百分百（相对于背景），为空时不做处理
+     * @return 合并后的位图
+     */
+    public Bitmap mergeBitmap(@NonNull Bitmap bitmapBg, @NonNull Bitmap bitmapTop,
+                              int topShowWidth, int topShowHeight,
+                              @FloatRange(from = 0, to = 1) float leftBgPercent,
+                              @FloatRange(from = 0, to = 1) Float topBgPercent,
+                              @FloatRange(from = 0, to = 1) Float bottomBgPercent) {
+        try {
+            //定义顶部要合并显示的坐标矩阵，默认为相应位图宽高，后续要根据参数进行计算修改
+            Rect topShowRect = new Rect(0, 0, topShowWidth, topShowHeight);
+            //根据百分百进行定位
+            topShowRect.left = (int) (bitmapBg.getWidth() * leftBgPercent);
+            topShowRect.right = topShowWidth + topShowRect.left;
+            //判断是使用顶部背景百分百还是底部百分比，然后换算位置坐标
+            if (topBgPercent == null) {
+                if (bottomBgPercent != null) {
+                    topShowRect.bottom = (int) (bitmapBg.getHeight() - bitmapBg.getHeight() * bottomBgPercent);
+                    topShowRect.top = topShowRect.bottom - topShowHeight;
+                }
+            } else {
+                topShowRect.top = (int) (bitmapBg.getHeight() * topBgPercent);
+                topShowRect.bottom = topShowHeight + topShowRect.top;
+            }
+
+            Canvas canvas = new Canvas(bitmapBg);
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            canvas.drawBitmap(bitmapTop,
+                    new Rect(0, 0, bitmapTop.getWidth(), bitmapTop.getHeight()),
+                    topShowRect, paint);
+            return bitmapBg;
+        } catch (Exception e) {
+            AtlwLogUtils.logE(TAG, "合并位图异常" + (e.getMessage() == null ? "" : e.getMessage()));
+            return bitmapBg;
+        }
+    }
     /**
      * 释放bitmap
      *
