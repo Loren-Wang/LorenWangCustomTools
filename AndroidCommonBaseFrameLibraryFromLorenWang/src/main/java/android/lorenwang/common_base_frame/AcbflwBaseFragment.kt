@@ -22,26 +22,28 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     protected var fgView: View? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fgView = inflater.inflate(getFgLayoutResId(), null)
-        initView()
-        initListener()
-        initData()
+        fgView?.let {
+            initView(it)
+            initListener(it)
+            initData(it)
+        }
         return fgView
     }
 
     /**
      * 初始化view
      */
-    abstract fun initView();
+    abstract fun initView(view: View);
 
     /**
      * 初始化监听
      */
-    open fun initListener() {}
+    open fun initListener(view: View) {}
 
     /**
      * 初始化数据
      */
-    abstract fun initData();
+    abstract fun initData(view: View);
 
     /**
      * 获取fragment资源id
