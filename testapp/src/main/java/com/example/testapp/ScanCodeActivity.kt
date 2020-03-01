@@ -57,13 +57,46 @@ class ScanCodeActivity : BaseActivity() {
                                 }
                             }
 
+                            /**
+                             * 无扫描权限
+                             *
+                             * @param shouldShowRequestPermissionRationale 是否能显示自定义权限弹窗
+                             * @param permissions                          权限集合
+                             */
+                            override fun notPermissions(shouldShowRequestPermissionRationale: Boolean, vararg permissions: String?) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+
+                            /**
+                             * 扫描解码出错
+                             */
+                            override fun scanDecodeError() {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+
                             fun notPermissions(shouldShowRequestPermissionRationale: Boolean, vararg permissions: Array<String>) {
                             }
 
-                            override fun scanError() {
-                            }
 
                             override fun permissionRequestFail(vararg permissions: String?) {
+                            }
+
+                            /**
+                             * 扫描相册图片异常
+                             *
+                             * @param path              传递的图片地址
+                             * @param isPathNotExists   图片地址代表的文件不存在
+                             * @param isScanDecodeError 扫描解码异常
+                             */
+                            override fun scanPhotoAlbumImageError(path: String?, isPathNotExists: Boolean, isScanDecodeError: Boolean) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+
+                            /**
+                             * 相机初始化异常
+                             */
+                            override fun cameraInitError() {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                             }
                         })
                     }
