@@ -2,13 +2,13 @@ package android.lorenwang.common_base_frame.pulgins.share;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.lorenwang.common_base_frame.pulgins.AcbflwPluginErrorTypeEnum;
+import android.lorenwang.common_base_frame.pulgins.AcbflwPluginTargetTypeEnum;
+import android.lorenwang.common_base_frame.pulgins.AcbflwPluginUtils;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 
-import com.qtools.base.pulgins.QtPluginErrorTypeEnum;
-import com.qtools.base.pulgins.QtPluginTargetTypeEnum;
-import com.qtools.base.pulgins.QtPluginUtils;
-import com.qtools.base.utils.QtLogUtils;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXFileObject;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
@@ -42,9 +42,9 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 9、发送小程序分享---sendMiniProgramShare（bean）
  */
 
-class QtWeChatShare {
+class AcbflwWeChatShare {
 
-    private static final String TAG = "QtWeChatShare";
+    private static final String TAG = "AcbflwWeChatShare";
     /**
      * 消息标题	限制长度不超过 512Bytes
      */
@@ -103,7 +103,7 @@ class QtWeChatShare {
             //检查描述内容
             if (!checkStrSize(shareDataBean.getText(), MAX_SIZE_TEXT)) {
                 //回调异常
-                callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_TEXT_IS_TOO_LONG);
+                callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_TEXT_IS_TOO_LONG);
                 return;
             }
             //描述为空则使用文本内容
@@ -135,11 +135,11 @@ class QtWeChatShare {
                         Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE)), shareTargetType);
             } else {
                 //回调异常
-                callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
+                callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
             }
         } else {
             //回调异常
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_IMAGE_EMPTY);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_EMPTY);
         }
 
 
@@ -190,7 +190,7 @@ class QtWeChatShare {
             //发送分享
             sendMessage(shareDataBean, music, shareTargetType);
         } else {
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_MUSIC_URL_EMPTY_OR_IS_TOO_LONG);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_MUSIC_URL_EMPTY_OR_IS_TOO_LONG);
         }
     }
 
@@ -214,7 +214,7 @@ class QtWeChatShare {
             //发送分享
             sendMessage(shareDataBean, video, shareTargetType);
         } else {
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_VIDEO_URL_EMPTY_OR_IS_TOO_LONG);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_VIDEO_URL_EMPTY_OR_IS_TOO_LONG);
         }
     }
 
@@ -233,7 +233,7 @@ class QtWeChatShare {
             sendMessage(shareDataBean, webPage, shareTargetType);
         } else {
             //异常回调
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_WEB_PAGE_URL_EMPTY_OR_IS_TOO_LONG);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_WEB_PAGE_URL_EMPTY_OR_IS_TOO_LONG);
         }
     }
 
@@ -250,7 +250,7 @@ class QtWeChatShare {
                 sendMessage(shareDataBean, new WXFileObject(shareDataBean.getFileData()), shareTargetType);
             } else {
                 //异常回调
-                callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_FILE_IS_TOO_LONG);
+                callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_FILE_IS_TOO_LONG);
             }
         } else if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getFilePath())) {
             File file = new File(shareDataBean.getFilePath());
@@ -259,12 +259,12 @@ class QtWeChatShare {
                 sendMessage(shareDataBean, new WXFileObject(shareDataBean.getFilePath()), shareTargetType);
             } else {
                 //异常回调
-                callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_FILE_IS_TOO_LONG);
+                callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_FILE_IS_TOO_LONG);
             }
             file = null;
         } else {
             //异常回调
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_FILE_EMPTY);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_FILE_EMPTY);
         }
 
     }
@@ -277,17 +277,17 @@ class QtWeChatShare {
     public void sendMiniProgramShare(AcbflwShareDataBean shareDataBean) {
         //判断分享链接
         if (!checkStrSize(shareDataBean.getWebPageUrl(), MAX_SIZE_WEB_PAGE_URL)) {
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_WEB_PAGE_URL_EMPTY_OR_IS_TOO_LONG);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_WEB_PAGE_URL_EMPTY_OR_IS_TOO_LONG);
             return;
         }
         //小程序id检测
         if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getUserName())) {
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_USER_NAME_EMPTY);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_USER_NAME_EMPTY);
             return;
         }
         //小程序页面路径检测
         if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getPath())) {
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_PATH_EMPTY);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_PATH_EMPTY);
             return;
         }
         WXMiniProgramObject miniProgramObj = new WXMiniProgramObject();
@@ -296,7 +296,7 @@ class QtWeChatShare {
         miniProgramObj.userName = shareDataBean.getUserName();     // 小程序原始id
         miniProgramObj.path = shareDataBean.getPath();            //小程序页面路径；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "
         //发送分享
-        sendMessage(shareDataBean, miniProgramObj, QtPluginTargetTypeEnum.getShareTargetType(QtPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION));
+        sendMessage(shareDataBean, miniProgramObj, AcbflwPluginTargetTypeEnum.getShareTargetType(AcbflwPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION));
     }
 
     /**
@@ -307,7 +307,7 @@ class QtWeChatShare {
      * @param mTargetScene  分享目标
      */
     private void sendMessage(AcbflwShareDataBean shareDataBean, WXMediaMessage.IMediaObject mediaObject, int mTargetScene) {
-        QtLogUtils.i(TAG, "微信分享已构造完分享请求类型实体");
+        AtlwLogUtils.logI(TAG, "微信分享已构造完分享请求类型实体");
         //用 WXTextObject 对象初始化一个 WXMediaMessage 对象
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = mediaObject;
@@ -315,7 +315,7 @@ class QtWeChatShare {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getText())
                 && !checkStrSize(shareDataBean.getText(), MAX_SIZE_TITLE)) {
             //回调异常
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_TITLE_IS_TOO_LONG);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_TITLE_IS_TOO_LONG);
             return;
         } else {
             msg.title = shareDataBean.getTitle();
@@ -324,7 +324,7 @@ class QtWeChatShare {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getDescription())
                 && !checkStrSize(shareDataBean.getText(), MAX_SIZE_DESCRIPTION)) {
             //回调异常
-            callBackError(shareDataBean, QtPluginErrorTypeEnum.SHARE_DESCRIPTION_IS_TOO_LONG);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_DESCRIPTION_IS_TOO_LONG);
             return;
         } else {
             msg.description = shareDataBean.getDescription();
@@ -335,17 +335,17 @@ class QtWeChatShare {
                     AtlwImageCommonUtils.getInstance().bitmapCompress(shareDataBean.getThumbBmp(), Bitmap.CompressFormat.JPEG, MAX_SIZE_THUMB_DATA)
             );
         }
-        QtLogUtils.i(TAG, "微信分享msg已构造完成");
+        AtlwLogUtils.logI(TAG, "微信分享msg已构造完成");
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         //classname，hashcode，时间戳
         req.transaction = "wx_share_" + msg.getClass().getName() + msg.hashCode() + System.currentTimeMillis();  //transaction字段用与唯一标示一个请求
         req.message = msg;
         req.scene = mTargetScene;
-        QtLogUtils.i(TAG, "微信分享准备向微信发送分享");
-        QtPluginUtils.getInstance().getApi().sendReq(req);
+        AtlwLogUtils.logI(TAG, "微信分享准备向微信发送分享");
+        AcbflwPluginUtils.getInstance().getApi().sendReq(req);
         //记录回调
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getShareCallBack())) {
-            QtPluginUtils.getInstance().addCallBack(req.transaction, shareDataBean.getShareCallBack());
+            AcbflwPluginUtils.getInstance().addCallBack(req.transaction, shareDataBean.getShareCallBack());
         }
     }
 
@@ -372,7 +372,7 @@ class QtWeChatShare {
      * @param bean      分享实体
      * @param errorType 异常类型
      */
-    public void callBackError(AcbflwShareDataBean bean, QtPluginErrorTypeEnum errorType) {
+    public void callBackError(AcbflwShareDataBean bean, AcbflwPluginErrorTypeEnum errorType) {
         if (bean != null && bean.getShareCallBack() != null && errorType != null) {
             bean.getShareCallBack().error(errorType);
         }

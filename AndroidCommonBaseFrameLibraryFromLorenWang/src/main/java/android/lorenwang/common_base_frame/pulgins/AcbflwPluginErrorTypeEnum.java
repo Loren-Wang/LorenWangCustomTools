@@ -1,6 +1,7 @@
 package android.lorenwang.common_base_frame.pulgins;
 
-import com.qtools.base.R;
+
+import android.lorenwang.common_base_frame.R;
 
 import androidx.annotation.StringRes;
 

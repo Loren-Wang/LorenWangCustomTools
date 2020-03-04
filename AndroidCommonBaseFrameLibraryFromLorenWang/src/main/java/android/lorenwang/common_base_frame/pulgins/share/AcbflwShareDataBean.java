@@ -1,9 +1,9 @@
 package android.lorenwang.common_base_frame.pulgins.share;
 
 import android.graphics.Bitmap;
+import android.lorenwang.common_base_frame.pulgins.AcbflwPluginCallBack;
+import android.lorenwang.common_base_frame.pulgins.AcbflwPluginTargetTypeEnum;
 
-import com.qtools.base.pulgins.QtPluginCallBack;
-import com.qtools.base.pulgins.QtPluginTargetTypeEnum;
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 
 /**
@@ -42,11 +42,11 @@ public class AcbflwShareDataBean {
     /**
      * 分享回调
      */
-    private QtPluginCallBack shareCallBack;
+    private AcbflwPluginCallBack shareCallBack;
     /**
      * 分享目标
      */
-    QtPluginTargetTypeEnum targetType;
+    AcbflwPluginTargetTypeEnum targetType;
     /**
      * 分享内容类型
      */
@@ -140,11 +140,11 @@ public class AcbflwShareDataBean {
      */
     private int miniProgramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
 
-    public QtPluginCallBack getShareCallBack() {
+    public AcbflwPluginCallBack getShareCallBack() {
         return shareCallBack;
     }
 
-    public QtPluginTargetTypeEnum getTargetType() {
+    public AcbflwPluginTargetTypeEnum getTargetType() {
         return targetType;
     }
 
@@ -240,11 +240,11 @@ public class AcbflwShareDataBean {
         /**
          * 分享回调
          */
-        private QtPluginCallBack shareCallBack;
+        private AcbflwPluginCallBack shareCallBack;
         /**
          * 分享目标
          */
-        QtPluginTargetTypeEnum targetType;
+        AcbflwPluginTargetTypeEnum targetType;
         /**
          * 分享内容类型
          */
@@ -338,12 +338,12 @@ public class AcbflwShareDataBean {
          */
         private int miniProgramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
 
-        public Build setShareCallBack(QtPluginCallBack shareCallBack) {
+        public Build setShareCallBack(AcbflwPluginCallBack shareCallBack) {
             this.shareCallBack = shareCallBack;
             return this;
         }
 
-        public Build setTargetType(QtPluginTargetTypeEnum targetType) {
+        public Build setTargetType(AcbflwPluginTargetTypeEnum targetType) {
             this.targetType = targetType;
             return this;
         }
