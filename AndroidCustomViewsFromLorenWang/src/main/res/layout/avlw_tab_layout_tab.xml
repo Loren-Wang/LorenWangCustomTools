@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.lorenwang.customview.tablayout.AvlwTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hstlTabList"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:avlw_tl_tabHeight="40dp"
+    app:avlw_tl_tabTextSizeN="@dimen/textSize14"
+    app:avlw_tl_tabTextSizeY="@dimen/textSize14"
+    app:avlw_tl_tabTextColorY="#00C4B3"
+    app:avlw_tl_tabTextColorN="#464646"
+    app:avlw_tl_lineHeight="2dp"
+    app:avlw_tl_lineBg="#00C4B3"
+    tools:ignore="MissingConstraints,MissingPrefix" />

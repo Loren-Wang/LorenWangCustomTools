@@ -118,13 +118,10 @@ javadoc {
         title moduleName
     }
 }
-
 artifacts {
     archives javadocJar
     archives sourcesJar
 }
-
-
 bintray {
     user = bintrayUser
     key = bintrayKey
