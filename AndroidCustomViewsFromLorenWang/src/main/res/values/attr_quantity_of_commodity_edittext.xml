@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvlwQuantityOfCommodityEditText">
+        <!--新增按钮允许操作颜色-->
+        <attr name="avlw_addButtonDrawableAllow" format="reference" />
+        <!--新增按钮禁止操作颜色-->
+        <attr name="avlw_addButtonDrawableNotAllow" format="reference" />
+        <!--减少按钮允许操作颜色-->
+        <attr name="avlw_reduceButtonDrawableAllow" format="reference" />
+        <!--减少按钮禁止操作颜色-->
+        <attr name="avlw_reduceButtonDrawableNotAllow" format="reference" />
+        <!--操作按钮和文本之间的间距-->
+        <attr name="avlw_optionsButtonAndTextDistance" format="dimension" />
+        <!--操作按钮宽度，高度和控件高度一致-->
+        <attr name="avlw_optionsButtonWidth" format="dimension" />
+        <!--操作按钮左右边距-->
+        <attr name="avlw_optionsButtonLeftRightDistance" format="dimension" />
+        <!--边框颜色-->
+        <attr name="avlw_quantityBorderColor" format="color" />
+        <!--边框宽度-->
+        <attr name="avlw_quantityBorderWidth" format="dimension" />
+        <!--边框角度-->
+        <attr name="avlw_quantityBorderRadio" format="dimension" />
+    </declare-styleable>
+</resources>
