@@ -6,8 +6,8 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Rect
-import android.lorenwang.graphic_code_scan.AgcslwScanResultCallback
 import android.lorenwang.graphic_code_scan.AgcslwScan
+import android.lorenwang.graphic_code_scan.AgcslwScanResultCallback
 import android.lorenwang.tools.app.AtlwActivityUtils
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.lorenwang.tools.file.AtlwFileOptionUtils
@@ -57,13 +57,20 @@ class ScanCodeActivity : BaseActivity() {
                                 }
                             }
 
-                            fun notPermissions(shouldShowRequestPermissionRationale: Boolean, vararg permissions: Array<String>) {
+                            override fun notPermissions(shouldShowRequestPermissionRationale: Boolean, vararg permissions: String?) {
                             }
 
-                            override fun scanError() {
+                            override fun scanDecodeError() {
                             }
+
 
                             override fun permissionRequestFail(vararg permissions: String?) {
+                            }
+
+                            override fun scanPhotoAlbumImageError(path: String?, isPathNotExists: Boolean, isScanDecodeError: Boolean) {
+                            }
+
+                            override fun cameraInitError() {
                             }
                         })
                     }
