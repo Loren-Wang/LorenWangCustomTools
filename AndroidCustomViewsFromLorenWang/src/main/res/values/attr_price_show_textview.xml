@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvlwPriceShowTextView">
+        <!--显示类型-->
+        <attr name="avlw_price_show_ShowType" format="enum">
+            <!--默认只显示货币-->
+            <enum name="DEFAULT" value="0" />
+            <!--货币符号-->
+            <enum name="CURRENCY_SYMBOL" value="1" />
+            <!--货币符号和描述-->
+            <enum name="CURRENCY_SYMBOL_AND_DES" value="2" />
+        </attr>
+        <!--金额符号-->
+        <attr name="avlwPriceShowPriceSymbol" format="enum">
+            <!--默认的，按照原有金额符号处理-->
+            <enum name="DEFAULT" value="0" />
+            <!--空，什么都不加，原有的符号也会被移除-->
+            <enum name="NONE" value="1" />
+            <!--正数，会在货币符号前加“+”原有的符号也会被移除-->
+            <enum name="POSITIVE" value="2" />
+            <!--负数，会在货币符号前加“-”原有的符号也会被移除-->
+            <enum name="MINUS" value="3" />
+            <!--相反的，也就是值为负的时候显示正，之为正则显示负-->
+            <enum name="OPPOSITE" value="4" />
+            <!--相反的，也就是值为负的时候显示正，之为正则显示负,同时转换后是正值的情况下不显示符号-->
+            <enum name="OPPOSITE_AND_POSITIVE_NONE" value="5" />
+        </attr>
+        <!--金额格式化格式-->
+        <attr name="avlwPriceShowPriceFormatPattern" format="string" />
+        <!--金额文本大小-->
+        <attr name="avlwPriceShowPriceTextSize" format="dimension" />
+        <!--金额符号和金额之间的间距-->
+        <attr name="avlwPriceShowPriceSymbolPriceDistance" format="dimension" />
+        <!--金额文本颜色-->
+        <attr name="avlwPriceShowPriceTextColor" format="color" />
+        <!--金额文本-->
+        <attr name="avlwPriceShowPriceText" format="string" />
+        <!--金额文本是否加粗-->
+        <attr name="avlwPriceShowPriceTextBold" format="boolean" />
+        <!--金额文本处理模式-->
+        <attr name="avlwPriceShowPriceRoundingMode" format="integer" />
+
+
+        <!--货币符号-->
+        <attr name="avlwPriceShowCurrencySymbol" format="string" />
+        <!--金额符号在金额的位置-->
+        <attr name="avlwPriceShowCurrencySymbolLocation" format="enum">
+            <!--左上顶部齐平-->
+            <enum name="leftTop" value="0" />
+            <!--左下底部齐平-->
+            <enum name="leftBottom" value="1" />
+            <!--上左，左侧齐平-->
+            <enum name="topLeft" value="2" />
+            <!--下左，左侧齐平-->
+            <enum name="bottomLeft" value="3" />
+            <!--右上，顶部齐平-->
+            <enum name="rightTop" value="4" />
+            <!--右下，底部齐平-->
+            <enum name="rightBottom" value="5" />
+            <!--上右，右侧齐平-->
+            <enum name="topRight" value="6" />
+            <!--下右，右侧齐平-->
+            <enum name="bottomRight" value="7" />
+        </attr>
+        <!--金额符号和文本之间的间距-->
+        <attr name="avlwPriceShowCurrencySymbolPriceDistance" format="dimension" />
+        <!--金额符号文本大小-->
+        <attr name="avlwPriceShowCurrencySymbolTextSize" format="dimension" />
+        <!--金额符号文本颜色-->
+        <attr name="avlwPriceShowCurrencySymbolTextColor" format="color" />
+
+        <!--描述内容-->
+        <attr name="avlwPriceShowDescribe" format="string" />
+        <!--描述内容和文本之间的间距-->
+        <attr name="avlwPriceShowDescribePriceDistance" format="dimension" />
+        <!--描述内容文本大小-->
+        <attr name="avlwPriceShowDescribeTextSize" format="dimension" />
+        <!--描述内容文本颜色-->
+        <attr name="avlwPriceShowDescribeTextColor" format="color" />
+        <!--描述内容文本最大宽度-->
+        <attr name="avlwPriceShowDescribeMaxWidth" format="dimension" />
+        <!--描述内容文本最大高度-->
+        <attr name="avlwPriceShowDescribeMaxHeight" format="dimension" />
+
+    </declare-styleable>
+</resources>
