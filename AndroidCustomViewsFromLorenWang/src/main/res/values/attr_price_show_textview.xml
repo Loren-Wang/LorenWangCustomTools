@@ -2,7 +2,7 @@
 <resources>
     <declare-styleable name="AvlwPriceShowTextView">
         <!--显示类型-->
-        <attr name="avlw_price_show_ShowType" format="enum">
+        <attr name="avlwPriceShowShowType" format="enum">
             <!--默认只显示货币-->
             <enum name="DEFAULT" value="0" />
             <!--货币符号-->

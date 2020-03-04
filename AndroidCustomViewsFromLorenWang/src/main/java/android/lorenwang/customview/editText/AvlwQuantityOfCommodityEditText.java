@@ -165,21 +165,21 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
     private void init(Context context, AttributeSet attrs) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwQuantityOfCommodityEditText);
         //获取间距
-        optionsButtonAndTextDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_optionsButtonAndTextDistance, optionsButtonAndTextDistance);
+        optionsButtonAndTextDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEOptionsButtonAndTextDistance, optionsButtonAndTextDistance);
         //获取操作按钮宽度
-        optionsButtonWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_optionsButtonWidth, optionsButtonWidth);
+        optionsButtonWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEOptionsButtonWidth, optionsButtonWidth);
         //操作按钮左右边距
-        optionsButtonLeftRightDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_optionsButtonLeftRightDistance, optionsButtonLeftRightDistance);
+        optionsButtonLeftRightDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEOptionsButtonLeftRightDistance, optionsButtonLeftRightDistance);
         //边框角度半径
-        borderRadio = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_quantityBorderRadio, borderRadio);
+        borderRadio = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEQuantityBorderRadio, borderRadio);
         //边框宽度
-        borderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_quantityBorderWidth, borderWidth);
+        borderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEQuantityBorderWidth, borderWidth);
         //按钮部分数据参数
         try {
-            addButtonAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlw_addButtonDrawableAllow));
-            addButtonNotAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlw_addButtonDrawableNotAllow));
-            reduceButtonAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlw_reduceButtonDrawableAllow));
-            reduceButtonNotAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlw_reduceButtonDrawableNotAllow));
+            addButtonAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEAddButtonDrawableAllow));
+            addButtonNotAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEAddButtonDrawableNotAllow));
+            reduceButtonAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableAllow));
+            reduceButtonNotAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableNotAllow));
         } catch (Exception e) {
             AtlwLogUtils.logE(TAG, "数量控件初始化异常");
         }
@@ -201,7 +201,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
         borderPaint = new Paint();
         borderPaint.setAntiAlias(true);
         borderPaint.setStrokeWidth(borderWidth);
-        borderPaint.setColor(attributes.getColor(R.styleable.AvlwQuantityOfCommodityEditText_avlw_quantityBorderColor, Color.TRANSPARENT));
+        borderPaint.setColor(attributes.getColor(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEQuantityBorderColor, Color.TRANSPARENT));
         borderPaint.setStyle(Paint.Style.STROKE);
 
 

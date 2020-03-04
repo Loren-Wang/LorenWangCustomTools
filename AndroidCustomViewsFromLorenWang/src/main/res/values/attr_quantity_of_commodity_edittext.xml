@@ -2,24 +2,24 @@
 <resources>
     <declare-styleable name="AvlwQuantityOfCommodityEditText">
         <!--新增按钮允许操作颜色-->
-        <attr name="avlw_addButtonDrawableAllow" format="reference" />
+        <attr name="avlwQOCEAddButtonDrawableAllow" format="reference" />
         <!--新增按钮禁止操作颜色-->
-        <attr name="avlw_addButtonDrawableNotAllow" format="reference" />
+        <attr name="avlwQOCEAddButtonDrawableNotAllow" format="reference" />
         <!--减少按钮允许操作颜色-->
-        <attr name="avlw_reduceButtonDrawableAllow" format="reference" />
+        <attr name="avlwQOCEReduceButtonDrawableAllow" format="reference" />
         <!--减少按钮禁止操作颜色-->
-        <attr name="avlw_reduceButtonDrawableNotAllow" format="reference" />
+        <attr name="avlwQOCEReduceButtonDrawableNotAllow" format="reference" />
         <!--操作按钮和文本之间的间距-->
-        <attr name="avlw_optionsButtonAndTextDistance" format="dimension" />
+        <attr name="avlwQOCEOptionsButtonAndTextDistance" format="dimension" />
         <!--操作按钮宽度，高度和控件高度一致-->
-        <attr name="avlw_optionsButtonWidth" format="dimension" />
+        <attr name="avlwQOCEOptionsButtonWidth" format="dimension" />
         <!--操作按钮左右边距-->
-        <attr name="avlw_optionsButtonLeftRightDistance" format="dimension" />
+        <attr name="avlwQOCEOptionsButtonLeftRightDistance" format="dimension" />
         <!--边框颜色-->
-        <attr name="avlw_quantityBorderColor" format="color" />
+        <attr name="avlwQOCEQuantityBorderColor" format="color" />
         <!--边框宽度-->
-        <attr name="avlw_quantityBorderWidth" format="dimension" />
+        <attr name="avlwQOCEQuantityBorderWidth" format="dimension" />
         <!--边框角度-->
-        <attr name="avlw_quantityBorderRadio" format="dimension" />
+        <attr name="avlwQOCEQuantityBorderRadio" format="dimension" />
     </declare-styleable>
 </resources>
