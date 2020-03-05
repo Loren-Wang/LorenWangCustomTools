@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import com.example.testapp.androidTools.MobileContactsActivity
 import com.example.testapp.androidTools.MobileSmsActivity
+import com.example.testapp.dialog.DialogsActivity
 import com.example.testapp.textview.ShowPriceTextViewActivity
 import com.example.testapp.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.viewpager.BannerActivity
@@ -80,6 +81,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnViewPager2 -> {
                     startActivity(Intent(this, ViewPager2Activity::class.java))
+                }
+                R.id.btnDialogs -> {
+                    startActivity(Intent(this, DialogsActivity::class.java))
                 }
                 else -> {
 

@@ -11,159 +11,108 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnImageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="图片控件"
-            android:onClick="mainClick" />
+            style="@style/mainButtons"
+            android:text="图片控件" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnImageLoadForGlide"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="glide图片加载"
-            android:onClick="mainClick" />
+            style="@style/mainButtons"
+            android:text="glide图片加载" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBrightness"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="屏幕亮度调节"
-            android:onClick="mainClick" />
+            style="@style/mainButtons"
+            android:text="屏幕亮度调节" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnFileOptionsForScan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="文件扫描"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSideBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="SideBar"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnHorizontalSlipTabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="水平切换tab"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnTabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="TabLayout"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSwitchButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="切换按钮"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSmartRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="SmartRefreshLayout"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnFileOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="文件操作按钮"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnToast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="吐司Toast页面"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDataParse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="数据格式化页面"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnMobileContacts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="获取手机联系人"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnMobileSms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="获取Sms"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnScanCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="图形码扫描"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRecycleViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="RecycleviewViewPager"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnShowPriceText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="金额文本显示"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnShowQuantityOfCommodity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="数量变化修改组件"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBanner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="Banner列表"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnViewPager2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="ViewPager2嵌套ViewPager2"
-            android:textAllCaps="false"
-            android:onClick="mainClick" />
+            style="@style/mainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDialogs"
+            android:text="弹窗相关"
+            style="@style/mainButtons" />
     </LinearLayout>
 
 
