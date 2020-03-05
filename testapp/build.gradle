@@ -37,6 +37,7 @@ dependencies {
     implementation project(':JavaDataParseFromLorenWang')
     implementation project(':AndroidGraphicCodeScanFromLorenWang')
     implementation project(':AndroidCommonBaseFrameLibraryFromLorenWang')
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
     // 图片加载库
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     // 高斯模糊工具类

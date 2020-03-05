@@ -10,6 +10,7 @@ import com.example.testapp.androidTools.MobileSmsActivity
 import com.example.testapp.textview.ShowPriceTextViewActivity
 import com.example.testapp.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.viewpager.BannerActivity
+import com.example.testapp.viewpager.ViewPager2Activity
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +77,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnBanner -> {
                     startActivity(Intent(this, BannerActivity::class.java))
+                }
+                R.id.btnViewPager2 -> {
+                    startActivity(Intent(this, ViewPager2Activity::class.java))
                 }
                 else -> {
 

@@ -156,6 +156,14 @@
             android:text="Banner列表"
             android:textAllCaps="false"
             android:onClick="mainClick" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnViewPager2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ViewPager2嵌套ViewPager2"
+            android:textAllCaps="false"
+            android:onClick="mainClick" />
     </LinearLayout>
 
 

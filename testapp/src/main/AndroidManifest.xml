@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".viewpager.BannerActivity"></activity>
+        <activity android:name=".viewpager.ViewPager2Activity"></activity>
+        <activity android:name=".viewpager.BannerActivity" />
         <activity android:name=".textview.ShowPriceTextViewActivity" />
         <activity android:name=".textview.ShowQuantityOfCommodityActivity" />
         <activity android:name=".RecycleViewPageActivity" />
@@ -41,7 +42,6 @@
         <activity android:name=".androidTools.MobileContactsActivity" />
         <activity android:name=".androidTools.MobileSmsActivity" />
     </application>
-    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -50,7 +50,8 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.READ_SMS" />
 
 </manifest>
