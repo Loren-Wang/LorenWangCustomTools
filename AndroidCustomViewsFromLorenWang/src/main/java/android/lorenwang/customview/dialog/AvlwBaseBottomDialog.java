@@ -17,7 +17,7 @@ import android.lorenwang.customview.R;
 
 public class AvlwBaseBottomDialog extends AvlwBaseDialog {
     public AvlwBaseBottomDialog(Context context, int dialogViewLayoutResId, boolean isOutSideCancel) {
-        super(context, dialogViewLayoutResId, R.style.avlw_dialog_bottom_list_options_type_1,
-                R.style.avlw_dialog_anim_for_bottom, isOutSideCancel, true, false);
+        super(context, dialogViewLayoutResId, R.style.avlw_layout_dialog_bottom,
+                R.style.avlw_anim_dialog_bottom, isOutSideCancel, true, false);
     }
 }

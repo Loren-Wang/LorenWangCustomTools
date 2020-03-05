@@ -11,7 +11,7 @@
         android:layout_margin="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:background="@drawable/avlw_solid_radio_8"
+        android:background="@drawable/avlw_solid_radius_8"
         android:backgroundTint="#22000000"
         android:textSize="@dimen/textSize12"
         android:textColor="#fff" />

@@ -231,7 +231,7 @@ public class AvlwCustomViewPager extends FrameLayout {
                 AtlwViewUtils.getInstance().setViewMarginParams(imageView,
                         new LinearLayout.LayoutParams(widthHeight, widthHeight),
                         6, 0, 6, 0);
-                imageView.setImageResource(R.drawable.avlw_solid_radio_8);
+                imageView.setImageResource(R.drawable.avlw_solid_radius_8);
                 if (i == current) {
                     AtlwViewUtils.getInstance().setImageSrcTint(imageView, selectIndicatorColor);
                 } else {

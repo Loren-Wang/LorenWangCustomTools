@@ -18,7 +18,7 @@
         <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:background="@drawable/avlw_solid_radio_8"
+            android:background="@drawable/avlw_solid_radius_8"
             android:backgroundTint="#dcdcdc"
             android:text="3333"
             app:avlwQOCEAddButtonDrawableAllow="@drawable/icon_empty_add"
@@ -36,7 +36,7 @@
         <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:background="@drawable/avlw_solid_radio_8"
+            android:background="@drawable/avlw_solid_radius_8"
             android:backgroundTint="#dcdcdc"
             android:text="1"
             app:avlwQOCEAddButtonDrawableAllow="@drawable/icon_empty_add"
@@ -52,7 +52,7 @@
         <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:background="@drawable/avlw_solid_radio_8"
+            android:background="@drawable/avlw_solid_radius_8"
             android:backgroundTint="#dcdcdc"
             android:text="9999"
             app:avlwQOCEAddButtonDrawableAllow="@drawable/icon_empty_add"
@@ -69,7 +69,7 @@
             android:id="@+id/testInput"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:background="@drawable/avlw_solid_radio_8"
+            android:background="@drawable/avlw_solid_radius_8"
             android:backgroundTint="#dcdcdc"
             android:text="6666"
             app:avlwQOCEAddButtonDrawableAllow="@drawable/icon_empty_add"

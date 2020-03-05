@@ -39,6 +39,20 @@
             android:text="@string/dialog_center_webview"
             android:onClick="dialogOnClick" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDialogConfirmCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_confirm_cancel"
+            android:onClick="dialogOnClick" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDialogOnlyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_only_button"
+            android:onClick="dialogOnClick" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </ScrollView>

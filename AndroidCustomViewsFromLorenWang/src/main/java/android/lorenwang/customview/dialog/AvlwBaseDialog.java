@@ -28,6 +28,10 @@ public class AvlwBaseDialog extends AlertDialog {
     protected View view;
     protected boolean isFullWidthShow = false;//是否宽度全屏显示
     protected boolean isFullHeightShow = false;//是否高度全屏显示
+    /**
+     * 窗口放置位置,默认底部
+     */
+    protected int windowGravity = Gravity.BOTTOM;
 
     protected AvlwBaseDialog(Context context) {
         super(context);
@@ -61,13 +65,25 @@ public class AvlwBaseDialog extends AlertDialog {
     public void show() {
         super.show();
         if (isFullWidthShow || isFullHeightShow) {
-            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-            layoutParams.gravity = Gravity.BOTTOM;
-            layoutParams.width = isFullWidthShow ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT;
-            layoutParams.height = isFullHeightShow ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT;
-            getWindow().getDecorView().setPadding(0, 0, 0, 0);
-            getWindow().setAttributes(layoutParams);
+            showWidthHeightChange(windowGravity, isFullWidthShow ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT,
+                    isFullHeightShow ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
         }
+    }
+
+    /**
+     * 显示时的宽高修改
+     *
+     * @param gravity 布局位置
+     * @param width   显示宽度
+     * @param height  显示高度
+     */
+    public void showWidthHeightChange(int gravity, int width, int height) {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.gravity = gravity;
+        layoutParams.width = width;
+        layoutParams.height = height;
+        getWindow().getDecorView().setPadding(0, 0, 0, 0);
+        getWindow().setAttributes(layoutParams);
     }
 
     @Override
@@ -77,6 +93,15 @@ public class AvlwBaseDialog extends AlertDialog {
         } else {
             super.onBackPressed();
         }
+    }
+
+    /**
+     * 设置窗口放置位置
+     *
+     * @param windowGravity 窗口放置位置
+     */
+    public void setWindowGravity(int windowGravity) {
+        this.windowGravity = windowGravity;
     }
 
     /**

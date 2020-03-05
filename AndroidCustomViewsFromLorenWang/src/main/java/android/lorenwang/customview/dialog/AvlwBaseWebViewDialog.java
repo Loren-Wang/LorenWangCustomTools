@@ -69,4 +69,9 @@ public class AvlwBaseWebViewDialog extends AvlwBaseDialog {
         }
     }
 
+    @Override
+    public void release() {
+        super.release();
+        webView = null;
+    }
 }

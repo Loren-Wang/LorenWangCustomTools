@@ -31,12 +31,14 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
     private AppCompatActivity activity;
 
     public AvlwLoadingDialogType1(AppCompatActivity activity) {
-        super(activity, R.layout.avlw_dialog_loading_type_1, R.style.avlw_loading_dialog_type1, R.style.avlw_dialog_anim_for_center, false, false, false);
+        super(activity, R.layout.avlw_dialog_loading_type_1,
+                R.style.avlw_layout_dialog_loading,
+                R.style.avlw_anim_dialog_center, false, false, false);
         this.activity = activity;
     }
 
     public AvlwLoadingDialogType1(AppCompatActivity activity, @StyleRes int styleRes) {
-        super(activity, R.layout.avlw_dialog_loading_type_1, styleRes, R.style.avlw_dialog_anim_for_center, false, false, false);
+        super(activity, R.layout.avlw_dialog_loading_type_1, styleRes, R.style.avlw_anim_dialog_center, false, false, false);
         this.activity = activity;
     }
 

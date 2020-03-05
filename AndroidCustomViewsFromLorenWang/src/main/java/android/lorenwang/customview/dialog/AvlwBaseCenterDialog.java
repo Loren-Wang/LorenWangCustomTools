@@ -18,7 +18,7 @@ import android.lorenwang.customview.R;
 
 public class AvlwBaseCenterDialog extends AvlwBaseDialog {
     public AvlwBaseCenterDialog(Context context, int dialogViewLayoutResId, boolean isOutSideCancel) {
-        super(context, dialogViewLayoutResId, R.style.avlw_dialog_confirm_cancel_1,
-                R.style.avlw_dialog_anim_for_center, isOutSideCancel, false, false);
+        super(context, dialogViewLayoutResId, R.style.avlw_layout_dialog_center,
+                R.style.avlw_anim_dialog_center, isOutSideCancel, false, false);
     }
 }

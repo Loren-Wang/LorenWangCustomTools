@@ -5,4 +5,6 @@
     <string name="dialog_center">中间弹窗</string>
     <string name="dialog_bottom_webview">底部网页弹窗</string>
     <string name="dialog_center_webview">中间网页弹窗</string>
+    <string name="dialog_confirm_cancel">确认取消弹窗</string>
+    <string name="dialog_only_button">单按钮中心弹窗</string>
 </resources>

@@ -1,7 +1,6 @@
 package android.lorenwang.customview.dialog;
 
 import android.content.Context;
-import android.lorenwang.customview.R;
 
 /**
  * 创建时间：2019-07-21 下午 22:08:43
@@ -16,9 +15,9 @@ import android.lorenwang.customview.R;
  */
 
 public class AvlwRecordDialog extends AvlwBaseDialog {
-    public AvlwRecordDialog(Context context) {
-        super(context, R.layout.avlw_dialog_confirm_cancel_1, R.style.avlw_dialog_confirm_cancel_1
-                , R.style.avlw_dialog_anim_for_center, false,false,false);
+
+    public AvlwRecordDialog(Context context, int dialogViewLayoutResId, int modelStyleResId, int dialogAnim, boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
+        super(context, dialogViewLayoutResId, modelStyleResId, dialogAnim, isOutSideCancel, isFullWidthShow, isFullHeightShow);
     }
 
     /**

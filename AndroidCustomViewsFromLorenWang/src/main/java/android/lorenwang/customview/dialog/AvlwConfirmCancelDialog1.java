@@ -2,12 +2,14 @@ package android.lorenwang.customview.dialog;
 
 import android.content.Context;
 import android.lorenwang.customview.R;
+import android.lorenwang.tools.app.AtlwScreenUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.Guideline;
 
 /**
  * 创建时间：2019-02-27 下午 16:04:33
@@ -23,20 +25,37 @@ import androidx.appcompat.widget.AppCompatTextView;
  */
 
 public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
-    private AppCompatTextView tvContent;
-    private AppCompatButton btnLeft;
-    private View viewLine;
-    private AppCompatButton btnRight;
-    private LinearLayout lnOptions;
+    /**
+     * 内容文本
+     */
+    protected AppCompatTextView tvContent;
+    /**
+     * 左侧按钮
+     */
+    protected AppCompatButton btnLeft;
+    /**
+     * 右侧按钮
+     */
+    protected AppCompatButton btnRight;
+    /**
+     * 分割线
+     */
+    protected Guideline glCenter;
+    /**
+     * 按钮之间的分割线
+     */
+    protected View viewBtnLine;
 
     public AvlwConfirmCancelDialog1(Context context) {
-        super(context, R.layout.avlw_dialog_confirm_cancel_1, R.style.avlw_dialog_confirm_cancel_1
-                , R.style.avlw_dialog_anim_for_center, false, false, false);
+        super(context, R.layout.avlw_dialog_confirm_cancel_1,
+                R.style.avlw_layout_dialog_center,
+                R.style.avlw_anim_dialog_center,
+                false, false, false);
         tvContent = view.findViewById(R.id.tvContent);
         btnLeft = view.findViewById(R.id.btnLeft);
-        viewLine = view.findViewById(R.id.viewLine);
         btnRight = view.findViewById(R.id.btnRight);
-        lnOptions = view.findViewById(R.id.lnOptions);
+        glCenter = view.findViewById(R.id.glCenter);
+        viewBtnLine = view.findViewById(R.id.viewBtnLine);
     }
 
     /**
@@ -109,9 +128,11 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
      */
     public AvlwConfirmCancelDialog1 setOptionsState(boolean isShowBtnLeft, boolean isShowBtnRight, Integer optionsHeight) {
         if (!isShowBtnLeft || !isShowBtnRight) {
-            viewLine.setVisibility(View.GONE);
+            glCenter.setGuidelinePercent(1);
+            viewBtnLine.setVisibility(View.GONE);
         } else {
-            viewLine.setVisibility(View.VISIBLE);
+            glCenter.setGuidelinePercent(0.5f);
+            viewBtnLine.setVisibility(View.VISIBLE);
         }
         if (isShowBtnLeft) {
             btnLeft.setVisibility(View.VISIBLE);
@@ -124,14 +145,20 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
             btnRight.setVisibility(View.GONE);
         }
         if (optionsHeight != null) {
-            ViewGroup.LayoutParams layoutParams = lnOptions.getLayoutParams();
-            if (layoutParams != null) {
-                layoutParams.height = optionsHeight;
-            } else {
-                layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, optionsHeight);
-            }
-            lnOptions.setLayoutParams(layoutParams);
+            //只要修改左高度就好，其他的数据以左高度为准
+            btnLeft.setHeight(optionsHeight);
         }
         return this;
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        showWidthHeightChange(Gravity.CENTER, (int) (AtlwScreenUtils.getInstance().getScreenWidth() * 0.6),
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }
