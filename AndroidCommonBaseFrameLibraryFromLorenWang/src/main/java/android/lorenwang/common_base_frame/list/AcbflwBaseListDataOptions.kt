@@ -46,7 +46,7 @@ class AcbflwBaseListDataOptions<T>(val activity: Activity?,
      */
     private var list: ArrayList<AcbflwBaseType<T>> = arrayListOf();
 
-    override fun getListViewHolder(viewType: Int, itemView: View?): AcbflwBaseRecyclerViewHolder<T>? {
+    override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>? {
         return decorator?.getListViewHolder(viewType, itemView)
     }
 
@@ -108,7 +108,7 @@ class AcbflwBaseListDataOptions<T>(val activity: Activity?,
             this.recyclerView.layoutManager = this.layoutManager
             this.recyclerView.layoutManager = layoutManager
             adapter = object : AcbflwBaseRecyclerAdapter<T>(activity!!) {
-                override fun getListViewHolder(viewType: Int, itemView: View?): AcbflwBaseRecyclerViewHolder<T>? {
+                override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>? {
                     return this@AcbflwBaseListDataOptions.getListViewHolder(viewType, itemView)
                 }
             }
