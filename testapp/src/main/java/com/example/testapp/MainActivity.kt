@@ -9,6 +9,7 @@ import com.example.testapp.androidTools.MobileContactsActivity
 import com.example.testapp.androidTools.MobileSmsActivity
 import com.example.testapp.textview.ShowPriceTextViewActivity
 import com.example.testapp.textview.ShowQuantityOfCommodityActivity
+import com.example.testapp.viewpager.BannerActivity
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +73,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnShowQuantityOfCommodity -> {
                     startActivity(Intent(this, ShowQuantityOfCommodityActivity::class.java))
+                }
+                R.id.btnBanner -> {
+                    startActivity(Intent(this, BannerActivity::class.java))
                 }
                 else -> {
 

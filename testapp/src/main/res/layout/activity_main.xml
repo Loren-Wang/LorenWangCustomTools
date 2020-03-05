@@ -148,6 +148,14 @@
             android:text="数量变化修改组件"
             android:textAllCaps="false"
             android:onClick="mainClick" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Banner列表"
+            android:textAllCaps="false"
+            android:onClick="mainClick" />
     </LinearLayout>
 
 

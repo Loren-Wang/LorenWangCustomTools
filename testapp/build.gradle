@@ -36,8 +36,9 @@ dependencies {
     implementation project(':JavaPcToolsFromLorenWang')
     implementation project(':JavaDataParseFromLorenWang')
     implementation project(':AndroidGraphicCodeScanFromLorenWang')
+    implementation project(':AndroidCommonBaseFrameLibraryFromLorenWang')
     // 图片加载库
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
     // 高斯模糊工具类
     implementation 'net.qiujuer.genius:graphics:2.1.1'
     //1.1.0 （1.0.5及以前版本的老用户升级需谨慎，API改动过大）

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvlwCustomViewPager">
+        <!--指示器类型-->
+        <attr name="avlwCVPIndicatorType" format="enum">
+            <enum name="none" value="0" />
+            <enum name="text" value="1" />
+            <enum name="point" value="2" />
+        </attr>
+        <!--自动播放时间-->
+        <attr name="avlwCVPAutoplayTime" format="integer" />
+    </declare-styleable>
+</resources>
