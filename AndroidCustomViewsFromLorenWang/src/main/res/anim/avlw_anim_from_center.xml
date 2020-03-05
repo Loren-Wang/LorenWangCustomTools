@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android" 
-	 android:interpolator="@android:anim/accelerate_decelerate_interpolator">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator">
     <scale
-        android:interpolator= "@android:anim/decelerate_interpolator"
+        android:interpolator="@android:anim/decelerate_interpolator"
         android:fromXScale="0"
         android:fromYScale="0"
         android:toXScale="1.0"
         android:toYScale="1.0"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:duration="300" />
-</set>
-    <!--
+        android:duration="@android:integer/config_shortAnimTime" />
+</set><!--
     fromXDelta,fromYDelta 起始时X，Y座标,屏幕右下角的座标是X:320,Y:480
     toXDelta， toYDelta 动画结束时X,Y的座标 --> <!--
 interpolator 指定动画插入器
