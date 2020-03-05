@@ -122,4 +122,5 @@ class AcbflwBaseListDataOptions<T>(val activity: Activity?,
 
     override val adapterDataList: ArrayList<AcbflwBaseType<T>>
         get() = adapter.dataList
+
 }
