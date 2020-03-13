@@ -39,20 +39,29 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
         private set
     var activity: Activity
 
-    constructor(activity: Activity, dataList: ArrayList<AcbflwBaseType<T>>?) {
+    /**
+     * 是否显示最大数量
+     */
+    var showWhetherTheCycle = false
+
+    constructor(activity: Activity) : this(activity, false)
+    constructor(activity: Activity, dataList: ArrayList<AcbflwBaseType<T>>?) : this(activity, dataList, false)
+    constructor(activity: Activity, dataList: ArrayList<AcbflwBaseType<T>>?, showWhetherTheCycle: Boolean) {
         dataList?.let {
             this.dataList = dataList;
         }
         this.activity = activity
+        this.showWhetherTheCycle = showWhetherTheCycle
     }
 
-    constructor(activity: Activity) {
+    constructor(activity: Activity, showWhetherTheCycle: Boolean) {
         this.activity = activity
+        this.showWhetherTheCycle = showWhetherTheCycle
     }
 
 
     override fun getItemViewType(position: Int): Int {
-        return dataList[position].layoutResId
+        return dataList[position % dataList.size].layoutResId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcbflwBaseRecyclerViewHolder<T> {
@@ -63,11 +72,16 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
 
     override fun onBindViewHolder(holder: AcbflwBaseRecyclerViewHolder<T>, position: Int) {
         holder.adapter = this
-        holder.setViewData(activity, dataList[position].bean, position)
+        holder.setViewData(activity, dataList[position % dataList.size].bean, position)
     }
 
     override fun getItemCount(): Int {
-        return dataList.size
+        //显示循环并且数据数量大于1时循环，否则只返回当前数量
+        return if (showWhetherTheCycle && dataList.size > 1) {
+            Int.MAX_VALUE
+        } else {
+            dataList.size
+        }
     }
 
     /**

@@ -27,23 +27,26 @@ android {
     }
 
 }
-
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-
     //自定义控件库
     implementation 'com.github.lorenwang:AndroidCustomViewsFromLorenWang:1.0.853'
     //自定义工具类
     implementation 'com.github.lorenwang:AndroidCustomToolsFromLorenWang:1.0.932'
     //java工具类库
-    implementation 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.6'
+    implementation 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.61'
     //java数据格式化类库
     implementation 'com.github.lorenwang:JavaDataParseFromLorenWang:1.0.11'
     //kotlin工具类
-    implementation 'com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.0.71'
+    implementation 'com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.1.0'
     // RxJava 引用
     implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -60,7 +63,12 @@ dependencies {
     implementation 'com.github.hss01248:Toasty:2.0.6'
     //列表数据加载
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
-//    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'  //没有使用特殊Header，可以不加这行
+    //微信开放平台
+    //noinspection GradleDynamicVersion
+    compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    // 支付宝支付
+    compileOnly(name: 'alipaySdk', ext: 'aar')
+
 }
 
 def moduleName = "AndroidCommonBaseFrameLibraryFromLorenWang"

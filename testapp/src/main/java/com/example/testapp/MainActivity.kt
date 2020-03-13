@@ -7,6 +7,11 @@ import android.view.View
 import android.widget.Button
 import com.example.testapp.androidTools.MobileContactsActivity
 import com.example.testapp.androidTools.MobileSmsActivity
+import com.example.testapp.dialog.DialogsActivity
+import com.example.testapp.textview.ShowPriceTextViewActivity
+import com.example.testapp.textview.ShowQuantityOfCommodityActivity
+import com.example.testapp.viewpager.BannerActivity
+import com.example.testapp.viewpager.ViewPager2Activity
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +69,21 @@ class MainActivity : Activity() {
                 }
                 R.id.btnRecycleViewPager -> {
                     startActivity(Intent(this, RecycleViewPageActivity::class.java))
+                }
+                R.id.btnShowPriceText -> {
+                    startActivity(Intent(this, ShowPriceTextViewActivity::class.java))
+                }
+                R.id.btnShowQuantityOfCommodity -> {
+                    startActivity(Intent(this, ShowQuantityOfCommodityActivity::class.java))
+                }
+                R.id.btnBanner -> {
+                    startActivity(Intent(this, BannerActivity::class.java))
+                }
+                R.id.btnViewPager2 -> {
+                    startActivity(Intent(this, ViewPager2Activity::class.java))
+                }
+                R.id.btnDialogs -> {
+                    startActivity(Intent(this, DialogsActivity::class.java))
                 }
                 else -> {
 

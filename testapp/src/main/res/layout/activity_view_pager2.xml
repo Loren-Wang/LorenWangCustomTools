@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.lorenwang.customview.viewpager.AvlwViewPagerConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vpgConstraint"
+    android:layout_width="match_parent"
+    android:layout_height="500dp">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpgList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0f0" />
+
+</android.lorenwang.customview.viewpager.AvlwViewPagerConstraintLayout>
