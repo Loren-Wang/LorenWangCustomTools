@@ -17,7 +17,7 @@ const RcblwUrlDisposeUtil = {
      * @returns {string} 参数值
      */
     getUrlParams(key) {
-        if (RcblwVariableDisposeUtil.paramsIsString(key)) {
+        if (RcblwVariableDisposeUtil.isParamsTypeString(key)) {
             //地址转码
             let url = decodeURI(document.URL);
             let reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");

@@ -12,23 +12,28 @@ import RcblwVariableDisposeUtil from "./RcblwVariableDisposeUtil";
  */
 const RcblwNetworkDisposeUtil = {
     /**
-     * 文件下载响应处理
+     * 文件下载响应处理,针对于response成功状态
+     * @param responseBlob 响应的数据体，blob类型
+     * @param fileName 文件下载名称（全名称，包括后缀）
+     * @returns {boolean} 执行流程是否成功，但是成功并不代表下载成功，true为成功
      */
-    downLoadFileResponseDispose(responseBlob:Blob,){
-        let r = new FileReader();
-        r.onload = function () {
-            const filename = response.headers["content-disposition"];
-            const index = filename.search(/filename=/);
-            const filenames = filename.substring(index + 9, filename.length);
-            const link = document.createElement('a');
-            link.style.display = 'none';
-            link.href = URL.createObjectURL(response.data);
-            link.setAttribute('download', filenames);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        };
-        r.readAsText(response.data)
+    downLoadFileResponseDispose(responseBlob, fileName) {
+        if (RcblwVariableDisposeUtil.isParamsTypeBlob(responseBlob)
+            && !RcblwVariableDisposeUtil.isParamsEmptyStr(fileName)) {
+            let r = new FileReader();
+            r.onload = function () {
+                const link = document.createElement('a');
+                link.style.display = 'none';
+                link.href = URL.createObjectURL(responseBlob);
+                link.setAttribute('download', fileName);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+            r.readAsText(responseBlob);
+            return true;
+        }
+        return false;
     }
 };
 export default RcblwNetworkDisposeUtil;
