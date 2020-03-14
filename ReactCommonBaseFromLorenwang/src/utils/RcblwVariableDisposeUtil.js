@@ -10,36 +10,45 @@
  */
 const RcblwVariableDisposeUtil = {
     /**
+     *
      * 获取参数类型
      * @param params 参数
-     * @returns  参数类型
+     * @returns {any} 参数不为空返回参数类型，否则
      */
     getParamsType(params) {
-        return Object.prototype.toString.call(params).constructor
+        return params != null ? Object.prototype.toString.call(params).constructor : null
     },
     /**
      * 判断参数是否是字符串
      * @param params 参数
      * @returns {boolean} 是否是字符串，true为是
      */
-    paramsIsString(params) {
-        return jstlwGetParamsType(params) === String
+    isParamsTypeString(params) {
+        return params != null && this.getParamsType(params) === String
+    },
+    /**
+     * 判断参数是否是blob
+     * @param params 参数
+     * @returns {boolean} true为是
+     */
+    isParamsTypeBlob(params) {
+        return params != null &&  this.getParamsType(params) === Blob
     },
     /**
      * 判断参数是否为空
      * @param params 参数
      * @return boolean|boolean 空为true
      */
-    paramsIsEmpty(params) {
-        return params == null || this.getParamsType(params) === undefined || (this.paramsIsString(params) && params === "")
+    isParamsEmpty(params) {
+        return params == null || this.getParamsType(params) === undefined
     },
     /**
      * 判断参数是否为空字符串或者空
      * @param params 参数
      * @return boolean|boolean 空为true
      */
-    paramsIsEmptyStr(params) {
-        return this.paramsIsEmpty(params) || (this.paramsIsString(params) && params.length === 0)
+    isParamsEmptyStr(params) {
+        return this.isParamsEmpty(params) || (this.isParamsTypeString(params) && params.length === 0)
     }
 };
 export default RcblwVariableDisposeUtil
