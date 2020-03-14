@@ -1,0 +1,50 @@
+/*父级水平垂直居中样式*/
+.rcb-lw-horizontal-and-vertical-center-for-parent{
+    /* flex布局 */
+    display: flex;
+    /* 使子项目水平居中 */
+    justify-content: center;
+    /* 使子项目垂直居中 */
+    align-items: center;
+}
+/*水平居中样式*/
+.rcb-lw-horizontal-center-have-width{
+    margin: 0 auto;
+}
+/*水平居中样式（子集没有宽度的父级样式）*/
+.rcb-lw-horizontal-center-child-have-not-width-for-parent{
+    text-align: center;
+}
+/*水平居中样式（子集没有宽度的子集样式）*/
+.rcb-lw-horizontal-center-child-have-not-width{
+    display: inline-block;
+}
+/*垂直居中样式（子集没有宽度的父级样式）*/
+.rcb-lw-vertical-center-child-have-not-width-for-parent{
+    position: relative;
+}
+/*垂直居中样式（子集没有宽度的子级样式）*/
+.rcb-lw-vertical-center-child-have-not-width{
+    position: relative;
+}
+/*垂直居中样式（子集没有宽度的父级样式，flex模式）*/
+.rcb-lw-vertical-center-child-have-not-width-for-parent-flex{
+    display: flex;
+    /* 垂直居中 */
+    align-items: center;
+}
+/*所有的子元素居中显示*/
+.rcb-lw-children-center{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    padding: auto 0;
+}
+/*悬浮固定位置显示*/
+.rcb-lw-suspension-fixed{
+    position: fixed;
+    right: 0;
+    top: 40%;
+    z-index: 2000;
+}
