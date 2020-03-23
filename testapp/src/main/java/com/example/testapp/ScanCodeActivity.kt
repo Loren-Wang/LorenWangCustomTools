@@ -25,6 +25,9 @@ class ScanCodeActivity : BaseActivity() {
         AtlwActivityUtils.getInstance().goToRequestPermissions(this,
                 arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0,
                 object : AtlwPermissionRequestCallback {
+                    override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                    }
+
                     @SuppressLint("MissingPermission")
                     override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
                         //设置裁剪扫描区域
@@ -35,11 +38,6 @@ class ScanCodeActivity : BaseActivity() {
                         //扫描结果回调
                         scan.setScanResultCallback(object : AgcslwScanResultCallback {
                             private var toast: Toast? = null
-                            /**
-                             * 扫描视图裁剪矩阵变化
-                             *
-                             * @param cropRect 裁剪矩阵位置,仅相对于扫描控件scanview的坐标
-                             */
                             override fun scanViewCropRectChange(cropRect: Rect) {
                                 findViewById<TextView>(R.id.tvTest).setPadding(0, cropRect.bottom, 0, 0)
                             }
@@ -63,7 +61,6 @@ class ScanCodeActivity : BaseActivity() {
                             override fun scanDecodeError() {
                             }
 
-
                             override fun permissionRequestFail(vararg permissions: String?) {
                             }
 
@@ -75,11 +72,7 @@ class ScanCodeActivity : BaseActivity() {
                         })
                     }
 
-                    override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
-                    }
-
                 })
-
         viewScan.setOnClickListener {
             //            AgcslwScanUtils.getInstance().manualFocus()
             val intent = Intent(Intent.ACTION_PICK)
