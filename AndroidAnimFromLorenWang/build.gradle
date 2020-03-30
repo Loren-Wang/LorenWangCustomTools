@@ -33,118 +33,115 @@ dependencies {
 def moduleName = "AndroidAnimFromLorenWang"
 def moduleDescription = "Android自定义动画资源库"
 version '1.0.2'
-Properties properties = new Properties();
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def bintrayUser = properties.getProperty("bintray.user")
-def bintrayKey = properties.getProperty("bintray.apikey")
-def bintrayGpgPwd = properties.getProperty("bintray.gpg.password")
-def userId = properties.getProperty("userinfo.userId")
-def userName = properties.getProperty("userinfo.userName")
-def userEmail = properties.getProperty("userinfo.userEmail")
-def projectGitUrl = properties.getProperty("project.gitUrl")
-def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
-def projectGroupId = properties.getProperty("project.groupId")
-def moduleVersion = version
-
-install{
-    repositories.mavenInstaller {
-        // 生成pom.xml和参数
-        pom {
-            project {
-                packaging 'jar'
-                // 项目描述，复制我的话，这里需要修改。
-                name moduleName// 可选，项目名称。
-                description moduleDescription// 可选，项目描述。
-                url projectWebsiteUrl // 项目主页，这里是引用上面定义好。
-
-                // 软件开源协议，现在一般都是Apache License2.0吧，复制我的，这里不需要修改。
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                //填写开发者基本信息，复制我的，这里需要修改。
-                developers {
-                    developer {
-                        id userId// 开发者的id。
-                        name userName // 开发者名字。
-                        email userEmail // 开发者邮箱。
-                    }
-                }
-
-                // SCM，复制我的，这里不需要修改。
-                scm {
-                    connection projectGitUrl // Git仓库地址。
-                    developerConnection projectGitUrl // Git仓库地址。
-                    url projectWebsiteUrl // 项目主页。
-                }
-                dependencies{
-                    dependency{
-                        groupId projectGroupId
-                        version moduleVersion
-                        artifactId moduleName
-                    }
-                }
-            }
-        }
-    }
-}
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task javadoc(type: Javadoc) {
-//    source = android.sourceSets.main.java.srcDirs
-    classpath += configurations.compile
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-javadoc {
-    options {
-        encoding "UTF-8"
-        charSet 'UTF-8'
-        author true
-        version true
-        links "http://docs.oracle.com/javase/7/docs/api"
-        title moduleName
-    }
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-
-bintray {
-    user = bintrayUser
-    key = bintrayKey
-    configurations = ['archives']
-    group = projectGroupId
-    version = moduleVersion
-
-    pkg {
-        repo = "maven"
-        name = moduleName
-        websiteUrl = projectWebsiteUrl
-        vcsUrl = projectGitUrl
-        licenses = ["Apache-2.0"]
-        publish true
-        version{
-            gpg{
-                sign = true
-                passphrase = bintrayGpgPwd
-            }
-        }
-    }
-}
-repositories {
-    mavenCentral()
-}
+//Properties properties = new Properties();
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//def bintrayUser = properties.getProperty("bintray.user")
+//def bintrayKey = properties.getProperty("bintray.apikey")
+//def bintrayGpgPwd = properties.getProperty("bintray.gpg.password")
+//def userId = properties.getProperty("userinfo.userId")
+//def userName = properties.getProperty("userinfo.userName")
+//def userEmail = properties.getProperty("userinfo.userEmail")
+//def projectGitUrl = properties.getProperty("project.gitUrl")
+//def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
+//def projectGroupId = properties.getProperty("project.groupId")
+//def moduleVersion = version
+//
+//install{
+//    repositories.mavenInstaller {
+//        // 生成pom.xml和参数
+//        pom {
+//            project {
+//                packaging 'jar'
+//                // 项目描述，复制我的话，这里需要修改。
+//                name moduleName// 可选，项目名称。
+//                description moduleDescription// 可选，项目描述。
+//                url projectWebsiteUrl // 项目主页，这里是引用上面定义好。
+//
+//                // 软件开源协议，现在一般都是Apache License2.0吧，复制我的，这里不需要修改。
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//
+//                //填写开发者基本信息，复制我的，这里需要修改。
+//                developers {
+//                    developer {
+//                        id userId// 开发者的id。
+//                        name userName // 开发者名字。
+//                        email userEmail // 开发者邮箱。
+//                    }
+//                }
+//
+//                // SCM，复制我的，这里不需要修改。
+//                scm {
+//                    connection projectGitUrl // Git仓库地址。
+//                    developerConnection projectGitUrl // Git仓库地址。
+//                    url projectWebsiteUrl // 项目主页。
+//                }
+//                dependencies{
+//                    dependency{
+//                        groupId projectGroupId
+//                        version moduleVersion
+//                        artifactId moduleName
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//task javadoc(type: Javadoc) {
+////    source = android.sourceSets.main.java.srcDirs
+//    classpath += configurations.compile
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//javadoc {
+//    options {
+//        encoding "UTF-8"
+//        charSet 'UTF-8'
+//        author true
+//        version true
+//        links "http://docs.oracle.com/javase/7/docs/api"
+//        title moduleName
+//    }
+//}
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
+//bintray {
+//    user = bintrayUser
+//    key = bintrayKey
+//    configurations = ['archives']
+//    group = projectGroupId
+//    version = moduleVersion
+//
+//    pkg {
+//        repo = "maven"
+//        name = moduleName
+//        websiteUrl = projectWebsiteUrl
+//        vcsUrl = projectGitUrl
+//        licenses = ["Apache-2.0"]
+//        publish true
+//        version{
+//            gpg{
+//                sign = true
+//                passphrase = bintrayGpgPwd
+//            }
+//        }
+//    }
+//}
+//repositories {
+//    mavenCentral()
+//}
 
 

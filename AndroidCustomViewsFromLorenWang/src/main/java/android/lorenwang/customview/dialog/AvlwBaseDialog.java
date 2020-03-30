@@ -1,7 +1,10 @@
 package android.lorenwang.customview.dialog;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.lorenwang.tools.app.AtlwScreenUtils;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +44,7 @@ public class AvlwBaseDialog extends AlertDialog {
         super(context, style);
     }
 
-    public AvlwBaseDialog(Context context, @LayoutRes int dialogViewLayoutResId
+    public AvlwBaseDialog(final Context context, @LayoutRes int dialogViewLayoutResId
             , @StyleRes int modelStyleResId, @StyleRes int dialogAnim
             , boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
         super(context, modelStyleResId);
@@ -49,7 +52,9 @@ public class AvlwBaseDialog extends AlertDialog {
         new Builder(context, modelStyleResId).create();
         setView(view);
         setCanceledOnTouchOutside(isOutSideCancel);
-        getWindow().setWindowAnimations(dialogAnim);
+        if (getWindow() != null) {
+            getWindow().setWindowAnimations(dialogAnim);
+        }
         this.isFullWidthShow = isFullWidthShow;
         this.isFullHeightShow = isFullHeightShow;
         if (isFullHeightShow) {
@@ -57,6 +62,46 @@ public class AvlwBaseDialog extends AlertDialog {
         }
         if (isFullWidthShow) {
             view.setMinimumWidth(AtlwScreenUtils.getInstance().getScreenWidth());
+        }
+        if (context.getApplicationContext() != null && context.getApplicationContext() instanceof Application) {
+            ((Application) context.getApplicationContext()).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityResumed(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+                }
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    dismiss();
+                    view = null;
+                    ((Application) context.getApplicationContext()).unregisterActivityLifecycleCallbacks(this);
+                }
+            });
         }
     }
 
