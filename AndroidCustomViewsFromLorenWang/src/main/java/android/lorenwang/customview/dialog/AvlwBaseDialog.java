@@ -123,12 +123,14 @@ public class AvlwBaseDialog extends AlertDialog {
      * @param height  显示高度
      */
     public void showWidthHeightChange(int gravity, int width, int height) {
-        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.gravity = gravity;
-        layoutParams.width = width;
-        layoutParams.height = height;
-        getWindow().getDecorView().setPadding(0, 0, 0, 0);
-        getWindow().setAttributes(layoutParams);
+        if (getWindow() != null) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.gravity = gravity;
+            layoutParams.width = width;
+            layoutParams.height = height;
+            getWindow().getDecorView().setPadding(0, 0, 0, 0);
+            getWindow().setAttributes(layoutParams);
+        }
     }
 
     @Override
