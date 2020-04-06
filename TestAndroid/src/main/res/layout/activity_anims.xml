@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.anim.AnimActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTranslateY"
+            style="@style/AnimButton"
+            android:text="@string/anim_translate_y" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTranslateX"
+            style="@style/AnimButton"
+            android:text="@string/anim_translate_x" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTranslateXY"
+            style="@style/AnimButton"
+            android:text="@string/anim_translate_xy" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScaleY"
+            style="@style/AnimButton"
+            android:text="@string/anim_scale_y" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScaleX"
+            style="@style/AnimButton"
+            android:text="@string/anim_scale_x" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScaleXY"
+            style="@style/AnimButton"
+            android:text="@string/anim_scale_xy" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRotateFrom"
+            style="@style/AnimButton"
+            android:text="@string/anim_rotate_from" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRotate"
+            style="@style/AnimButton"
+            android:text="@string/anim_rotate" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAlpha"
+            style="@style/AnimButton"
+            android:text="@string/anim_alpha" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTranslateYObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_translate_y_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTranslateXObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_translate_x_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTranslateXYObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_translate_xy_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScaleYObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_scale_y_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScaleXObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_scale_x_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScaleXYObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_scale_xy_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRotateXObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_rotate_x_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRotateYObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_rotate_y_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRotateXYObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_rotate_obj" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAlphaObj"
+            style="@style/AnimButton"
+            android:text="@string/anim_alpha_obj" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>
