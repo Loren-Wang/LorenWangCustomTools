@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
@@ -23,7 +24,6 @@ import android.view.animation.TranslateAnimation;
  */
 
 public class AalwAnimUtils {
-    private final String TAG = getClass().getName();
     private static volatile AalwAnimUtils optionsInstance;
     /**
      * 平移动画
@@ -105,7 +105,7 @@ public class AalwAnimUtils {
      * @return 动画
      */
     public Animation startScaleYAnim(View view, float from, float to, long duration) {
-        return startScaleAnimation(view, 0, from, 0, to, duration, null);
+        return startScaleAnimation(view, 1, from, 1, to, duration, null);
     }
 
     /**
@@ -117,7 +117,7 @@ public class AalwAnimUtils {
      * @return 动画
      */
     public Animation startScaleXAnim(View view, float from, float to, long duration) {
-        return startScaleAnimation(view, from, 0, to, 0, duration, null);
+        return startScaleAnimation(view, from, 1, to, 1, duration, null);
     }
 
     /**
@@ -246,13 +246,7 @@ public class AalwAnimUtils {
      * @return 动画
      */
     public ValueAnimator getTranslateYAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
-        return getValueAnimator(from, to, duration, interpolator, new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float distance = (float) animation.getAnimatedValue();
-                view.setTranslationY(distance);
-            }
-        });
+        return getValueAnimator(view, "TranslationY", from, to, duration, interpolator, null);
     }
 
     /**
@@ -266,34 +260,34 @@ public class AalwAnimUtils {
      * @return 动画
      */
     public ValueAnimator getTranslateXAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
-        return getValueAnimator(from, to, duration, interpolator, new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float distance = (float) animation.getAnimatedValue();
-                view.setTranslationX(distance);
-            }
-        });
+        return getValueAnimator(view, "TranslationX", from, to, duration, interpolator, null);
     }
 
     /**
-     * 获取缩放动画
+     * 获取xy轴平移动画
      *
-     * @param view         视图控件
-     * @param from         起始位置
-     * @param to           结束位置
-     * @param duration     时间
-     * @param interpolator 拦截器
+     * @param fromX        动画起点X
+     * @param fromY        动画起点Y
+     * @param toX          动画结束点X
+     * @param toY          动画结束点Y
+     * @param duration     动画执行时间
+     * @param interpolator 动画拦截器
      * @return 动画
      */
-    public ValueAnimator getScaleAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
-        return getValueAnimator(from, to, duration, interpolator, new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float scale = (float) animation.getAnimatedValue();
-                view.setScaleX(scale);
-                view.setScaleY(scale);
-            }
-        });
+    public AnimationSet getTranslateAnimator(float fromX, float toX, float fromY, float toY, long duration, Interpolator interpolator) {
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.setInterpolator(interpolator);
+        //添加动画
+        animationSet.addAnimation(new TranslateAnimation(fromX, toX, fromY, toY));
+        //设置插值器
+        animationSet.setInterpolator(interpolator);
+        //设置动画持续时长
+        animationSet.setDuration(duration);
+        //设置动画结束之后是否保持动画的目标状态
+        animationSet.setFillAfter(true);
+        //设置动画结束之后是否保持动画开始时的状态
+        animationSet.setFillBefore(false);
+        return animationSet;
     }
 
     /**
@@ -307,13 +301,7 @@ public class AalwAnimUtils {
      * @return 动画
      */
     public ValueAnimator getScaleXAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
-        return getValueAnimator(from, to, duration, interpolator, new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float scale = (float) animation.getAnimatedValue();
-                view.setScaleX(scale);
-            }
-        });
+        return getValueAnimator(view, "ScaleX", from, to, duration, interpolator, null);
     }
 
     /**
@@ -327,17 +315,41 @@ public class AalwAnimUtils {
      * @return 动画
      */
     public ValueAnimator getScaleYAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
-        return getValueAnimator(from, to, duration, interpolator, new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float scale = (float) animation.getAnimatedValue();
-                view.setScaleY(scale);
-            }
-        });
+        return getValueAnimator(view, "ScaleY", from, to, duration, interpolator, null);
     }
 
     /**
-     * 获取旋转动画
+     * 获取缩放动画
+     *
+     * @param fromX        动画起点X
+     * @param fromY        动画起点Y
+     * @param toX          动画结束点X
+     * @param toY          动画结束点Y
+     * @param pivotX       动画中心点X
+     * @param pivotY       动画中心点Y
+     * @param duration     动画执行时间
+     * @param interpolator 动画拦截器
+     * @return 动画
+     */
+    public AnimationSet getScaleAnimator(float fromX, float toX, float fromY, float toY,
+                                         float pivotX, float pivotY, long duration, Interpolator interpolator) {
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.setInterpolator(interpolator);
+        //添加动画
+        animationSet.addAnimation(new ScaleAnimation(fromX, toX, fromY, toY,pivotX,pivotY));
+        //设置插值器
+        animationSet.setInterpolator(interpolator);
+        //设置动画持续时长
+        animationSet.setDuration(duration);
+        //设置动画结束之后是否保持动画的目标状态
+        animationSet.setFillAfter(true);
+        //设置动画结束之后是否保持动画开始时的状态
+        animationSet.setFillBefore(false);
+        return animationSet;
+    }
+
+    /**
+     * 获取X轴旋转动画
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -346,14 +358,35 @@ public class AalwAnimUtils {
      * @param interpolator 拦截器
      * @return 动画
      */
-    public ValueAnimator getRotateAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
-        return getValueAnimator(from, to, duration, interpolator, new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float rotate = (float) animation.getAnimatedValue();
-                view.setRotation(rotate);
-            }
-        });
+    public ValueAnimator getRotateXAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
+        return getValueAnimator(view, "RotationX", from, to, duration, interpolator, null);
+    }
+
+    /**
+     * 获取Y轴旋转动画
+     *
+     * @param view         视图控件
+     * @param from         起始位置
+     * @param to           结束位置
+     * @param duration     时间
+     * @param interpolator 拦截器
+     * @return 动画
+     */
+    public ValueAnimator getRotateYAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
+        return getValueAnimator(view, "RotationY", from, to, duration, interpolator, null);
+    }
+
+    /**
+     * 获取旋转动画
+     *
+     * @param fromDegrees  动画起点角度
+     * @param toDegrees    动画结束角度
+     * @param duration     动画执行时间
+     * @param interpolator 动画拦截器
+     * @return 动画
+     */
+    public ValueAnimator getRotateAnimator(final View view, float fromDegrees, float toDegrees, long duration, Interpolator interpolator) {
+        return getValueAnimator(view, "rotation", fromDegrees, toDegrees, duration, interpolator, null);
     }
 
     /**
@@ -367,25 +400,19 @@ public class AalwAnimUtils {
      * @return 动画
      */
     public ValueAnimator getAlphaAnimator(final View view, float from, float to, long duration, Interpolator interpolator) {
-        return getValueAnimator(from, to, duration, interpolator, new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (float) animation.getAnimatedValue();
-                view.setAlpha(alpha);
-            }
-        });
+        return getValueAnimator(view, "alpha", from, to, duration, interpolator, null);
     }
 
     /**
      * 获取动画
      *
-     * @param from         起始
-     * @param to           结束
-     * @param duration     动画时间
+     * @param from     起始
+     * @param to       结束
+     * @param duration 动画时间
      * @return 动画实体
      */
     public ValueAnimator getValueAnimator(float from, float to, long duration) {
-        return getValueAnimator(from, to, duration,null,null);
+        return getValueAnimator(null, null, from, to, duration, null, null);
     }
 
 
@@ -399,14 +426,15 @@ public class AalwAnimUtils {
      * @param listener     监听
      * @return 动画实体
      */
-    private ValueAnimator getValueAnimator(float from, float to, long duration, Interpolator interpolator, ValueAnimator.AnimatorUpdateListener listener) {
-        ValueAnimator animator = ObjectAnimator.ofFloat(from, to).setDuration(duration);
+    private ValueAnimator getValueAnimator(View view, String property, float from, float to, long duration, Interpolator interpolator, ValueAnimator.AnimatorUpdateListener listener) {
+        ValueAnimator animator = ObjectAnimator.ofFloat(view, property, from, to);
         if (interpolator != null) {
             animator.setInterpolator(interpolator);
         }
         if (listener != null) {
             animator.addUpdateListener(listener);
         }
+        animator.setDuration(duration);
         return animator;
     }
 

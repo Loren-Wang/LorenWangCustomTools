@@ -7,6 +7,6 @@
         android:fromYScale="0.0"
         android:toYScale="1.0"
         android:pivotX="0%"
-        android:pivotY="100%"
-        android:duration="200" />
+        android:pivotY="0%"
+        android:duration="@android:integer/config_shortAnimTime" />
 </set>
