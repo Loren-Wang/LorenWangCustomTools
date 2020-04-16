@@ -1,5 +1,5 @@
 rootProject.name = 'LorenWangCustomTools'
-include ':AndroidCustomToolsFromLorenWang'
+include ':AndroidCustomToolsFromLorenWang', ':TestAndroid'
 include ':AndroidGraphicCodeScanFromLorenWang'
 include ':AndroidKotlinCustomToolsFromLorenWang'
 include ':AndroidCommonBaseFrameLibraryFromLorenWang'

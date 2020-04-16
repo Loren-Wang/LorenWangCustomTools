@@ -1,5 +1,6 @@
 package android.lorenwang.common_base_frame
 
+import android.lorenwang.tools.app.AtlwScreenUtils
 import androidx.annotation.DrawableRes
 import androidx.customview.R
 
@@ -26,7 +27,7 @@ object AcbflwBaseConfig {
     /**
      * 基础debugzhuangt
      */
-    var baseDebugStatus = BuildConfig.DEBUG
+    var baseDebugStatus = true
     /**
      * 图片加载失败图片
      */

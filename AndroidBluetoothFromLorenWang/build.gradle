@@ -1,19 +1,17 @@
 apply plugin: 'com.android.library'
 //必须引入这2个插件
-apply plugin : 'com.github.dcendents.android-maven'
-apply plugin : 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion compile_sdk_version
 
 
     defaultConfig {
-        minSdkVersion 18
-        targetSdkVersion 28
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
         versionCode 1
-        versionName "1.0"
-
-
+        versionName "1.0.0"
     }
 
     buildTypes {
@@ -30,11 +28,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
 }
 
-
-
-def moduleName = "AndroidBlueToothFromLorenWang"
+def moduleName = "AndroidBluetoothFromLorenWang"
 def moduleDescription = "Android蓝牙工具库"
-version '1.0.0'
+def moduleVersion = android.defaultConfig.versionName
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -46,9 +42,8 @@ def userEmail = properties.getProperty("userinfo.userEmail")
 def projectGitUrl = properties.getProperty("project.gitUrl")
 def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
 def projectGroupId = properties.getProperty("project.groupId")
-def moduleVersion = version
 
-install{
+install {
     repositories.mavenInstaller {
         // 生成pom.xml和参数
         pom {
@@ -59,7 +54,7 @@ install{
                 description moduleDescription// 可选，项目描述。
                 url projectWebsiteUrl // 项目主页，这里是引用上面定义好。
 
-                // 软件开源协议，现在一般都是Apache License2.0吧，复制我的，这里不需要修改。
+               // 软件开源协议，现在一般都是Apache License2.0吧，复制我的，这里不需要修改。
                 licenses {
                     license {
                         name 'The Apache Software License, Version 2.0'
@@ -82,8 +77,8 @@ install{
                     developerConnection projectGitUrl // Git仓库地址。
                     url projectWebsiteUrl // 项目主页。
                 }
-                dependencies{
-                    dependency{
+                dependencies {
+                    dependency {
                         groupId projectGroupId
                         version moduleVersion
                         artifactId moduleName
@@ -130,8 +125,8 @@ bintray {
         vcsUrl = projectGitUrl
         licenses = ["Apache-2.0"]
         publish true
-        version{
-            gpg{
+        version {
+            gpg {
                 sign = true
                 passphrase = bintrayGpgPwd
             }

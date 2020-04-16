@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
 public class ChangeJavaInstanceUtilsContent {
-    private static final String FILE_PATH_DIR = "D:\\DevelopProject\\Custom\\LorenWangCustomTools";
+    private static final String FILE_PATH_DIR = "/Volumes/AllDevelop/Project/Common/LorenWangCustomTools/AndroidAnimFromLorenWang/src/main/res/anim";
 
     public static void main(String[] args) {
-        changeKtFile();
+        addFileNamePrefix("aalw_");
     }
 
     /**
@@ -65,6 +65,23 @@ public class ChangeJavaInstanceUtilsContent {
                     }
                 }
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void addFileNamePrefix(String prefixName){
+        List<File> fileList = JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(FILE_PATH_DIR,
+                "\\S+.xml");
+        String fileName;
+        for (File file : fileList) {
+            try {
+                fileName = file.getName();
+                if(fileName.indexOf(prefixName) == 0){
+                    continue;
+                }
+                file.renameTo(new File(file.getParent() + "/"+ prefixName + fileName));
             } catch (Exception e) {
                 e.printStackTrace();
             }

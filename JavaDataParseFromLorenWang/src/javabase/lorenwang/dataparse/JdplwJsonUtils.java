@@ -157,6 +157,7 @@ public class JdplwJsonUtils {
      * @param json        给定的JSON字符串
      * @param cls         要转换的目标类
      * @param datePattern 日期格式
+     * @param <T>         泛型
      * @return 给定的JSON字符串表示的指定的类型对象
      */
     public static <T> T fromJson(String json, Class<T> cls, String datePattern) {
@@ -181,6 +182,7 @@ public class JdplwJsonUtils {
      * @param json        给定的JSON字符串
      * @param token       类型
      * @param datePattern 日期格式
+     * @param <T> 泛型
      * @return 给定的JSON字符串表示的指定的类型对象
      */
     public static <T> T fromJson(String json, TypeToken<T> token, String datePattern) {
@@ -202,8 +204,10 @@ public class JdplwJsonUtils {
     /**
      * 将Map转化为Json
      *
-     * @param map map集合
-     * @return String
+     * @param map 将Map转化为Json
+     * @param cls 要转换的实体类class
+     * @param <T> 实体类泛型
+     * @return 实体类
      */
     public static <T> T fromJson(Map<String, Object> map, Class<T> cls) {
         String toJson = toJson(map);
@@ -224,13 +228,15 @@ public class JdplwJsonUtils {
             if (json != null) {
                 List<T> dataList = new Gson().fromJson(json, new TypeToken<T>() {
                 }.getType());
-                for (T t : dataList) {
-                    if (t != null) {
-                        list.add(fromJson(toJson(t), cls));
+                if (dataList != null) {
+                    for (T t : dataList) {
+                        if (t != null) {
+                            list.add(fromJson(toJson(t), cls));
+                        }
                     }
                 }
             }
-        } catch (JsonIOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;

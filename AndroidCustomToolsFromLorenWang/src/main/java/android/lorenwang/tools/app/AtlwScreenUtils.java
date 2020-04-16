@@ -167,7 +167,10 @@ public class AtlwScreenUtils {
         return (int) (getScreenHeight() * (layoutShowValue * 1.0 / AtlwSetting.SCREEN_LAYOUT_BASE_HEIGHT));
     }
 
-
+    /**
+     * 获取手机的屏幕管理
+     * @return 手机的屏幕管理
+     */
     private DisplayMetrics getDisplayMetrics() {
         WindowManager wm = (WindowManager) AtlwSetting.nowApplication.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();

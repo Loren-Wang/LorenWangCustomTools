@@ -16,6 +16,11 @@
     <string name="connect_bt_device_start">开始蓝牙设备</string>
     <string name="connect_bt_device_recon">重连蓝牙设备</string>
 
+    <string name="ready_open_bluetooth">准备开启蓝牙</string>
+    <string name="ready_open_bluetooth_error">直接开启蓝牙失败，需要跳转到设置中开启蓝牙</string>
+    <string name="ready_close_bluetooth">准备关闭蓝牙</string>
+    <string name="ready_close_bluetooth_error">蓝牙关闭失败，跳转到设置中关闭蓝牙</string>
+
     <string name="send_order_search_service">查找到对应的服务：</string>
     <string name="send_order_search_characteristic">查找到对应的特征：cc,特征属性：vv</string>
     <string name="send_order_characteristic_read_ready">准备向蓝牙设备发送特征读命令</string>

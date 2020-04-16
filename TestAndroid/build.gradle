@@ -49,4 +49,6 @@ dependencies {
     implementation project(':AndroidCustomViewsFromLorenWang')
     //安卓自定义工具框架库
     implementation project(':AndroidCustomToolsFromLorenWang')
+    //安卓蓝牙工具框架库
+    implementation project(':AndroidBluetoothFromLorenWang')
 }

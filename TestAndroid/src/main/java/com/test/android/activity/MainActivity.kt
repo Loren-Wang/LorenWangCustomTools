@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.test.android.R
 import com.test.android.activity.anim.AnimActivity
+import com.test.android.activity.bluetooth.BluetoothActivity
 import com.test.android.base.BaseActivity
 
 class MainActivity : BaseActivity() {
@@ -23,7 +24,11 @@ class MainActivity : BaseActivity() {
         when (v.id) {
             R.id.btnAnim -> {
                 //动画界面
-                AtlwActivityJumpUtils.getInstance().jump(this,AnimActivity::class.java)
+                AtlwActivityJumpUtils.getInstance().jump(this, AnimActivity::class.java)
+            }
+            R.id.btnBlue -> {
+                //蓝牙
+                AtlwActivityJumpUtils.getInstance().jump(this, BluetoothActivity::class.java)
             }
             else -> {
 

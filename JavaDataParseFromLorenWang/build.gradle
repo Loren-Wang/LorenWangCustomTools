@@ -20,7 +20,7 @@ dependencies {
 }
 def moduleName = "JavaDataParseFromLorenWang"
 def moduleDescription = "java数据格式化工具库"
-version '1.1.4'
+version '1.1.5'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

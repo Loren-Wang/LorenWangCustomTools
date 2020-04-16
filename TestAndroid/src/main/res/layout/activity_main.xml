@@ -15,6 +15,11 @@
             android:text="@string/page_type_anims" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBlue"
+            style="@style/MainButtons"
+            android:text="@string/page_type_bluetooth" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnImageView"
             style="@style/MainButtons"
             android:text="@string/page_type_custom_image_view" />

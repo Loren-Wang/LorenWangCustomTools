@@ -9,7 +9,6 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.testapp.adapter.BaseRecyclerAdapter
-import com.example.testapp.adapter.holder.SmartViewHolder
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
