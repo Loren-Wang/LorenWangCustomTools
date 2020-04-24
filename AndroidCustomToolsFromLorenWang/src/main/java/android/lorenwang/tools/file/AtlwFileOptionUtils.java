@@ -70,7 +70,7 @@ public class AtlwFileOptionUtils {
         return optionsInstance;
     }
 
-    /******************************************读取部分*********************************************/
+    /*------------------------------------读取部分------------------------------------*/
 
     /**
      * 读取图片文件并获取字节
@@ -130,7 +130,7 @@ public class AtlwFileOptionUtils {
     }
 
 
-    /******************************************写入部分*********************************************/
+    /*------------------------------------写入部分------------------------------------*/
 
     /**
      * 将InputStream写入File
@@ -192,9 +192,7 @@ public class AtlwFileOptionUtils {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, bitmap)) {
             return false;
         }
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
-        }
+        createDirectory(isCheckPermisstion,file.getPath(),file.isDirectory());
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -228,7 +226,7 @@ public class AtlwFileOptionUtils {
     }
 
 
-    /******************************************其他文件操作部分**************************************/
+    /*------------------------------------其他文件操作部分------------------------------------*/
 
     /**
      * 复制单个文件

@@ -205,8 +205,7 @@ public class AtlwRecordUtils {
             if (!JtlwCheckVariateUtils.getInstance().isEmpty(nowRecordSavePath)) {
                 try {
                     //取消录音后删除对应文件
-                    File file = new File(nowRecordSavePath);
-                    file.delete();
+                    AtlwFileOptionUtils.getInstance().deleteFile(true,nowRecordSavePath);
                     //回传状态
                     recordCancel(true, nowRecordSavePath);
                     nowRecordSavePath = null;
@@ -325,7 +324,7 @@ public class AtlwRecordUtils {
      * 录音取消状态
      *
      * @param isSuccess         是否取消成功
-     * @param nowRecordSavePath
+     * @param nowRecordSavePath 当前录音地址
      */
     private void recordCancel(boolean isSuccess, String nowRecordSavePath) {
         if (atlwRecordCallback != null) {

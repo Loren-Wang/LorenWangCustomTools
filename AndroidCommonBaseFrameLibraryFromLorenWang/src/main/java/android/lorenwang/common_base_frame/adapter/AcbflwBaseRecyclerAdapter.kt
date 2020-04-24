@@ -42,17 +42,9 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
     /**
      * 是否显示最大数量
      */
-    var showWhetherTheCycle = false
+    private var showWhetherTheCycle = false
 
     constructor(activity: Activity) : this(activity, false)
-    constructor(activity: Activity, dataList: ArrayList<AcbflwBaseType<T>>?) : this(activity, dataList, false)
-    constructor(activity: Activity, dataList: ArrayList<AcbflwBaseType<T>>?, showWhetherTheCycle: Boolean) {
-        dataList?.let {
-            this.dataList = dataList;
-        }
-        this.activity = activity
-        this.showWhetherTheCycle = showWhetherTheCycle
-    }
 
     constructor(activity: Activity, showWhetherTheCycle: Boolean) {
         this.activity = activity
@@ -125,7 +117,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      */
     override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
         list?.let {
-            this.dataList.addAll(list);
+            this.dataList.addAll(list)
             notifyDataSetChanged()
         }
     }
@@ -152,7 +144,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param list basetype数据列表
      */
     override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
-        if (list != null && list.size > 0) {
+        if (list != null && list.isNotEmpty()) {
             dataList.clear()
             dataList.addAll(list)
             notifyDataSetChanged()

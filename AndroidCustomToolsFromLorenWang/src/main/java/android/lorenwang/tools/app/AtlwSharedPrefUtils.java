@@ -22,7 +22,7 @@ import java.util.Set;
 public class AtlwSharedPrefUtils {
     private final String TAG = getClass().getName();
     private static volatile AtlwSharedPrefUtils optionsInstance;
-    private SharedPreferences mPref;
+    private final SharedPreferences mPref;
 
     private AtlwSharedPrefUtils() {
         mPref = PreferenceManager

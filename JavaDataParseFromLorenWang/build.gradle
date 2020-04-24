@@ -103,7 +103,6 @@ artifacts {
     archives sourcesJar
 }
 
-
 bintray {
     user = bintrayUser
     key = bintrayKey

@@ -51,7 +51,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
-    private ExecutorService executeBackgroundTask = Executors.newSingleThreadExecutor();
+    private final ExecutorService executeBackgroundTask = Executors.newSingleThreadExecutor();
 
     @Override
     public void loadingNetImage(String path, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
@@ -271,7 +271,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
      *
      * @param loadingResId 加载中资源id
      * @param failResId    失败资源id
-     * @param config
+     * @param config 配置
      * @return 占位图控制器
      */
     private GenericDraweeHierarchy getDraweeHierarchy(SimpleDraweeView simpleDraweeView, @DrawableRes Integer loadingResId, @DrawableRes Integer failResId, AtlwImageLoadConfig config) {

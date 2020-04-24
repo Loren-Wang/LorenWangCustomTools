@@ -87,7 +87,7 @@ public final class AtlwMobileOptionsUtils {
         return optionsInstance;
     }
 
-    /*******************************************软件部分********************************************/
+    /*---------------------------------------软件部分---------------------------------------*/
 
     /**
      * 安装应用
@@ -113,13 +113,14 @@ public final class AtlwMobileOptionsUtils {
      */
     public synchronized Intent getInstallAppIntent(String authority, String installAppFilePath) {
         try {
+            Intent intent;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(new File(installAppFilePath)), "application/vnd.android.package-archive");
-                return intent;
+                intent.setDataAndType(Uri.fromFile(new File(installAppFilePath)),
+                        "application/vnd.android.package-archive");
             } else {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent = new Intent(Intent.ACTION_VIEW);
                 File file = (new File(installAppFilePath));
                 // 由于没有在Activity环境下启动Activity,设置下面的标签
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -128,8 +129,8 @@ public final class AtlwMobileOptionsUtils {
                 //添加这一句表示对目标应用临时授权该Uri所代表的文件
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-                return intent;
             }
+            return intent;
         } catch (Exception e) {
             AtlwLogUtils.logD(TAG, "安装异常：" + e.getMessage());
             return null;
@@ -264,7 +265,7 @@ public final class AtlwMobileOptionsUtils {
     }
 
 
-    /*******************************************硬件部分********************************************/
+    /*---------------------------------------硬件部分---------------------------------------*/
 
     /**
      * 使设备震动
@@ -360,7 +361,7 @@ public final class AtlwMobileOptionsUtils {
     }
 
 
-    /********************************************电源部分*******************************************/
+    /*---------------------------------------电源部分---------------------------------------*/
 
     /**
      * 电源设备锁
@@ -378,7 +379,7 @@ public final class AtlwMobileOptionsUtils {
             try {
                 //获取系统服务POWER_SERVICE，返回一个PowerManager对象
                 powerLocalWakeLock = ((PowerManager) AtlwSetting.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
 
         }
@@ -423,7 +424,7 @@ public final class AtlwMobileOptionsUtils {
     }
 
 
-    /****************************************传感器部分*********************************************/
+    /*---------------------------------------传感器部分---------------------------------------*/
 
     /**
      * 系统级别的传感器管理器
@@ -476,7 +477,7 @@ public final class AtlwMobileOptionsUtils {
     }
 
 
-    /*****************************************音频管理器********************************************/
+    /*---------------------------------------音频管理器---------------------------------------*/
 
     /**
      * 音频管理器

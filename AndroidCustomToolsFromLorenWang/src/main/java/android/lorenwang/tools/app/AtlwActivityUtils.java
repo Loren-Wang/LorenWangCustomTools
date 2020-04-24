@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class AtlwActivityUtils {
     private final String TAG = getClass().getName();
     private static volatile AtlwActivityUtils optionsInstance;
     //权限请求键值对
-    private Map<Integer, AtlwPermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
+    private final Map<Integer, AtlwPermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
 
     private AtlwActivityUtils() {
     }
@@ -127,9 +128,7 @@ public class AtlwActivityUtils {
                     }
                 }
             } else {
-                for (int i = 0; i < permissions.length; i++) {
-                    failPermissionList.add(permissions[i]);
-                }
+                Collections.addAll(failPermissionList, permissions);
             }
             try {//只要有一个权限不通过则都失败
                 if (failPermissionList.size() > 0) {
@@ -142,8 +141,6 @@ public class AtlwActivityUtils {
             } finally {
                 successPermissionList.clear();
                 failPermissionList.clear();
-                successPermissionList = null;
-                failPermissionList = null;
             }
 
             //移除回调
@@ -169,8 +166,10 @@ public class AtlwActivityUtils {
         switch (visibility) {
             case View.VISIBLE:
                 //显示软键盘 //
-                view.setFocusableInTouchMode(true);
-                view.requestFocus();
+                if (view != null) {
+                    view.setFocusableInTouchMode(true);
+                    view.requestFocus();
+                }
                 imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
                 break;
             case View.GONE:
@@ -181,7 +180,6 @@ public class AtlwActivityUtils {
             default:
                 break;
         }
-        imm = null;
     }
 
     /**
@@ -195,7 +193,7 @@ public class AtlwActivityUtils {
         if (data == null || saveFile == null || "".equals(saveFile)) {
             return null;
         }
-        if (data != null && data.getData() != null) {
+        if (data.getData() != null) {
             //目标文件夹
             InputStream inputStream = null;//文件图片输入流
             try {
@@ -215,8 +213,6 @@ public class AtlwActivityUtils {
                         inputStream.close();
                     } catch (IOException e) {
                         e.printStackTrace();
-                    } finally {
-                        inputStream = null;
                     }
                 }
             }
@@ -280,8 +276,8 @@ public class AtlwActivityUtils {
         if (oldVersion == null || newVersion == null) {
             return false;
         }
-        String[] oldVersionSplit = oldVersion.split(".");
-        String[] newVersionSplit = newVersion.split(".");
+        String[] oldVersionSplit = oldVersion.split("\\.");
+        String[] newVersionSplit = newVersion.split("\\.");
         int maxLength = Math.max(newVersion.length(), oldVersion.length());
         List<Integer> oldList = new ArrayList<>();
         for (String item : oldVersionSplit) {

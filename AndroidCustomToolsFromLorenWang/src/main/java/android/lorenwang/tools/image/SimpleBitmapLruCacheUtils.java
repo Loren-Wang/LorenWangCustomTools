@@ -16,7 +16,7 @@ import android.util.LruCache;
  * 备注：
  */
 public class SimpleBitmapLruCacheUtils {
-    private LruCache<String, Bitmap> bitmapLruCache;
+    private final LruCache<String, Bitmap> bitmapLruCache;
     private final String TAG = getClass().getName();
     private static volatile SimpleBitmapLruCacheUtils optionsInstance;
 

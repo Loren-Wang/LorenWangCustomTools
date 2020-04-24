@@ -18,9 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import androidx.annotation.ColorInt;
 
 /**
+ * 功能作用：安卓端亮度调节工具类
  * 创建时间：2019-04-05 下午 21:38:10
  * 创建人：王亮（Loren wang）
- * 功能作用：安卓端亮度调节工具类
  * 思路：
  * 方法：1、获取当前屏幕亮度
  * 2、获取当前屏幕亮度
@@ -58,34 +58,38 @@ public class AtlwBrightnessChangeUtils {
         AtlwFlyMessageUtils.FlyMessgeCallback flyMessgeCallback = new AtlwFlyMessageUtils.FlyMessgeCallback() {
             @Override
             public void msg(int msgType, Object... msgs) {
-                switch (msgType) {
-                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE:
-                        break;
-                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
-                        break;
-                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
-                        optionsActivity = (Activity) msgs[0];
-                        AtlwBrightnessChangeContentObserver observer = observerMap.get(optionsActivity);
-                        if (observer != null) {
-                            registerBrightObserver(optionsActivity, observer);
-                        }
-                        break;
-                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
-//                        unregisterBrightObserver(optionsActivity);
-                        break;
-                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
-                        break;
-                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
-                        break;
-                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
-                        break;
-                    default:
-                        break;
+                if (msgType == AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED) {
+                    optionsActivity = (Activity) msgs[0];
+                    AtlwBrightnessChangeContentObserver observer = observerMap.get(optionsActivity);
+                    if (observer != null) {
+                        registerBrightObserver(optionsActivity, observer);
+                    }
                 }
+//                switch (msgType) {
+//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE:
+//                        break;
+//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
+//                        break;
+//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
+//                        optionsActivity = (Activity) msgs[0];
+//                        AtlwBrightnessChangeContentObserver observer = observerMap.get(optionsActivity);
+//                        if (observer != null) {
+//                            registerBrightObserver(optionsActivity, observer);
+//                        }
+//                        break;
+//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
+//                        break;
+//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
+//                        break;
+//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
+//                        break;
+//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
+//                        break;
+//                    default:
+//                        break;
+//                }
             }
         };
-//        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE, flyMessgeCallback, false, false);
-//        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, flyMessgeCallback, false, false);
         AtlwFlyMessageUtils.getInstance().
 
                 registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
@@ -376,7 +380,7 @@ public class AtlwBrightnessChangeUtils {
     /**
      * 亮度观察者集合
      */
-    private Map<Activity, AtlwBrightnessChangeContentObserver> observerMap = new ConcurrentHashMap<>();
+    private final Map<Activity, AtlwBrightnessChangeContentObserver> observerMap = new ConcurrentHashMap<>();
 
     /**
      * 注册亮度观察者

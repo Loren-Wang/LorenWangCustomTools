@@ -94,8 +94,8 @@ public class AtlwFlyMessageUtils {
 
     }
 
-    private Map<Integer, List<CallbackRecodeDto>> recodeMsgCallbackMap = new ConcurrentHashMap<>();
-    private Map<String, List<Integer>> recodeMsgTypeMap = new ConcurrentHashMap<>();
+    private final Map<Integer, List<CallbackRecodeDto>> recodeMsgCallbackMap = new ConcurrentHashMap<>();
+    private final Map<String, List<Integer>> recodeMsgTypeMap = new ConcurrentHashMap<>();
 //
 //    //需要回调的集合记录,key:className+hashcode结合，value：回调记录集合
 //    private Map<String, List<CallbackRecodeDto>> recodeMap = new HashMap<>();
@@ -166,7 +166,6 @@ public class AtlwFlyMessageUtils {
                 callbackRecodeDtos = recodeMsgCallbackMap.get(msgType);
                 if (callbackRecodeDtos != null) {
                     callbackRecodeDtos.clear();
-                    callbackRecodeDtos = null;
                 }
                 iterator.remove();
             }
@@ -223,10 +222,9 @@ public class AtlwFlyMessageUtils {
     private synchronized void callbackMsg(List<CallbackRecodeDto> list, MessageQueueDto messageQueueDto) {
         if (list != null && list.size() > 0 && messageQueueDto != null) {
             CallbackRecodeDto callbackRecodeDto;
-            Iterator<CallbackRecodeDto> iterator = list.iterator();
-            while (iterator.hasNext()) {
-                callbackRecodeDto = iterator.next();
-                if (Integer.valueOf(callbackRecodeDto.msgType).compareTo(messageQueueDto.msgType) == 0) {
+            for (CallbackRecodeDto recodeDto : list) {
+                callbackRecodeDto = recodeDto;
+                if (callbackRecodeDto.msgType == messageQueueDto.msgType) {
                     callbackMsg(callbackRecodeDto.flyMessgeCallback, messageQueueDto);
                 }
             }
@@ -331,7 +329,7 @@ public class AtlwFlyMessageUtils {
     /**
      * 回调实体类
      */
-    private class CallbackRecodeDto {
+    private static class CallbackRecodeDto {
         int msgType;//消息类型
         FlyMessgeCallback flyMessgeCallback;//消息回调
 
@@ -344,7 +342,7 @@ public class AtlwFlyMessageUtils {
     /**
      * 消息队列实体类
      */
-    private class MessageQueueDto {
+    private static class MessageQueueDto {
         int msgType;
         Object[] msgs;
         boolean isFinishRemove;//是否结束移除

@@ -137,10 +137,8 @@ public abstract class AtlwBaseImageLoading {
                 } else {
                     File file = new File((String) pathOrRes);
                     if (file.exists()) {
-                        file = null;
                         return LOADING_TYPE_FOR_LOCAL;
                     } else {
-                        file = null;
                         return LOADING_TYPE_FOR_UN_KNOW;
                     }
                 }

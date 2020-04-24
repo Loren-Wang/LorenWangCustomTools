@@ -48,7 +48,7 @@ public class AtlwMobileContentUtils {
         return optionsInstance;
     }
 
-    /******************************************手机通讯录相关***************************************/
+    /*---------------------------------------手机通讯录相关---------------------------------------*/
 
     /**
      * 获取库Phon表字段
@@ -77,19 +77,19 @@ public class AtlwMobileContentUtils {
     /**
      * 联系人名称
      **/
-    private ArrayList<String> mContactsName = new ArrayList<String>();
+    private final ArrayList<String> mContactsName = new ArrayList<>();
     /**
      * 联系人音序
      **/
-    private ArrayList<Character> mContactsYinxu = new ArrayList<Character>();
+    private final ArrayList<Character> mContactsYinxu = new ArrayList<>();
     /**
      * 联系人全拼
      **/
-    private ArrayList<String> mContactsQuanPin = new ArrayList<String>();
+    private final ArrayList<String> mContactsQuanPin = new ArrayList<>();
     /**
      * 联系人头像
      **/
-    private ArrayList<String> mContactsNumber = new ArrayList<String>();
+    private final ArrayList<String> mContactsNumber = new ArrayList<>();
 
     /**
      * 获取系统本机通讯录列表
@@ -214,7 +214,7 @@ public class AtlwMobileContentUtils {
             contactDto = new AtlwMobileContactInfoBean();
             contactDto.setContactName(mContactsName.get(i));
             contactDto.setPhoneNumber(mContactsNumber.get(i));
-            if (mContactsYinxu.get(i).charValue() >= 'a' && mContactsYinxu.get(i).charValue() <= 'z') {//字母需要转成大写
+            if (mContactsYinxu.get(i) >= 'a' && mContactsYinxu.get(i) <= 'z') {//字母需要转成大写
                 contactDto.setPhoneticSequence((char) (mContactsYinxu.get(i) - ('a' - 'A')));
             } else {
                 contactDto.setPhoneticSequence(mContactsYinxu.get(i));
@@ -226,7 +226,7 @@ public class AtlwMobileContentUtils {
         return contactDtoList;
     }
 
-    /**************************************短信相关*************************************************/
+    /*---------------------------------------短信相关---------------------------------------*/
 
     /**
      * 获取库短消息表字段

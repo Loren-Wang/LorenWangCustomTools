@@ -369,14 +369,10 @@ public class AtlwViewUtils {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(text)) {
             return 0f;
         }
-        Paint paint = null;
-        try {
-            paint = new Paint(textSize);
-            paint.setTextSize(textSize);
-            return getStrTextWidth(paint, text, start, end);
-        } finally {
-            paint = null;
-        }
+        Paint paint;
+        paint = new Paint(textSize);
+        paint.setTextSize(textSize);
+        return getStrTextWidth(paint, text, start, end);
     }
 
     /**
@@ -390,14 +386,10 @@ public class AtlwViewUtils {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(text)) {
             return 0f;
         }
-        Paint paint = null;
-        try {
-            paint = new Paint(textSize);
-            paint.setTextSize(textSize);
-            return getStrTextWidth(paint, text, 0, text.length() - 1);
-        } finally {
-            paint = null;
-        }
+        Paint paint;
+        paint = new Paint(textSize);
+        paint.setTextSize(textSize);
+        return getStrTextWidth(paint, text, 0, text.length() - 1);
     }
 
     /**
@@ -407,16 +399,12 @@ public class AtlwViewUtils {
      * @return 文本高度
      */
     public float getStrTextHeight(Paint paint) {
-        Paint.FontMetrics fontMetrics = null;
-        try {
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(paint)) {
-                return 0f;
-            }
-            fontMetrics = paint.getFontMetrics();
-            return fontMetrics.bottom - fontMetrics.top + paint.getStrokeWidth();
-        } finally {
-            fontMetrics = null;
+        Paint.FontMetrics fontMetrics;
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(paint)) {
+            return 0f;
         }
+        fontMetrics = paint.getFontMetrics();
+        return fontMetrics.bottom - fontMetrics.top + paint.getStrokeWidth();
 
     }
 
@@ -427,13 +415,9 @@ public class AtlwViewUtils {
      * @return 文本高度
      */
     public float getStrTextHeight(int textSize) {
-        Paint paint = null;
-        try {
-            paint = new Paint();
-            paint.setTextSize(textSize);
-            return getStrTextHeight(paint);
-        } finally {
-            paint = null;
-        }
+        Paint paint;
+        paint = new Paint();
+        paint.setTextSize(textSize);
+        return getStrTextHeight(paint);
     }
 }

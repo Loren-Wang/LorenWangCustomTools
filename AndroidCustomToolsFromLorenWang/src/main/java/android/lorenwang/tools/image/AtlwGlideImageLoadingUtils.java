@@ -56,7 +56,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
     /**
      * 存储RequestOptions的键值对，为线程安全键值对，key为所有请求参数字符串集合
      */
-    private Map<String, RequestOptions> requestOptionsMap = new ConcurrentHashMap<>();
+    private final Map<String, RequestOptions> requestOptionsMap = new ConcurrentHashMap<>();
 
     /**
      * 加载网址图片
@@ -66,9 +66,11 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
      * @param requestOptions 请求操作配置类
      * @param imageView      图片控件
      */
-    public void loadNetImage(Context context, String path, RequestOptions requestOptions, ImageView imageView) {
+    public void loadNetImage(Context context, String path, RequestOptions requestOptions,
+                             ImageView imageView) {
         //空判定
-        if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
+        if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions,
+                imageView)
                 && !path.matches(JtlwMatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
@@ -83,7 +85,9 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
      * @param requestOptions 请求操作配置类
      * @param callback       图片加载回调
      */
-    public void loadNetImageGetBitmap(final Context context, final String path, final RequestOptions requestOptions, final OnImageLoadCallback callback) {
+    public void loadNetImageGetBitmap(final Context context, final String path,
+                                      final RequestOptions requestOptions,
+                                      final OnImageLoadCallback callback) {
         //空判定
         if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, callback)
                 && !path.matches(JtlwMatchesRegularCommon.EXP_URL_STR)) {
@@ -95,9 +99,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
                 Bitmap bmp = null;
                 try {
                     bmp = Glide.with(context).asBitmap().load(path).apply(requestOptions).submit().get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
                 callback.onBitmap(bmp);
@@ -115,9 +117,12 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
      * @param radius           模糊精度0--25,值越大，模糊度越高
      * @param canReuseInBitmap 是否在原始位图中重用
      */
-    public void loadNetImageBlur(final Context context, final String path, final RequestOptions requestOptions, final ImageView imageView, final int radius, final boolean canReuseInBitmap) {
+    public void loadNetImageBlur(final Context context, final String path,
+                                 final RequestOptions requestOptions, final ImageView imageView,
+                                 final int radius, final boolean canReuseInBitmap) {
         //空判定
-        if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions, imageView)
+        if (JtlwCheckVariateUtils.getInstance().isHaveEmpty(context, path, requestOptions,
+                imageView)
                 && !path.matches(JtlwMatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
@@ -140,9 +145,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
                             });
                         }
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
             }
@@ -160,7 +163,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
      */
     public RequestOptions getRequestOptions(@DrawableRes int errorResId
             , @DrawableRes int placeholderId, ImageView.ScaleType... imageScaleTypes) {
-        StringBuffer key = new StringBuffer(String.valueOf(errorResId)).append(String.valueOf(placeholderId));
+        StringBuilder key = new StringBuilder(String.valueOf(errorResId)).append(placeholderId);
         int length = 0;
         if (imageScaleTypes != null && (length = imageScaleTypes.length) > 0) {
             for (int i = 0; i < length; i++) {
@@ -191,7 +194,6 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
             requestOptionsMap.put(key.toString(), requestOptions);
         }
         key.setLength(0);
-        key = null;
         return requestOptions;
     }
 
@@ -205,7 +207,13 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
      */
     public RequestOptions getRequestOptions(@Nullable Drawable errorDrawable
             , @Nullable Drawable placeholderDrawable, ImageView.ScaleType... imageScaleTypes) {
-        StringBuffer key = new StringBuffer().append(errorDrawable.hashCode()).append(placeholderDrawable.hashCode());
+        StringBuilder key = new StringBuilder();
+        if (errorDrawable != null) {
+            key.append(errorDrawable.hashCode());
+        }
+        if (placeholderDrawable != null) {
+            key.append(placeholderDrawable.hashCode());
+        }
         int length = 0;
         if (imageScaleTypes != null && (length = imageScaleTypes.length) > 0) {
             for (int i = 0; i < length; i++) {
@@ -236,7 +244,6 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
             requestOptionsMap.put(key.toString(), requestOptions);
         }
         key.setLength(0);
-        key = null;
         return requestOptions;
     }
 }

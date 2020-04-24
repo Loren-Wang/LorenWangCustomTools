@@ -93,7 +93,7 @@ public class AtlwSetting {
     /**
      * activity实例存储
      */
-    public static Vector<Activity> activityCollection = new Vector<Activity>();
+    public static Vector<Activity> activityCollection = new Vector<>();
     /**
      * 当前APP实例
      */
@@ -102,31 +102,37 @@ public class AtlwSetting {
     /**
      * activity生命周期监听
      */
-    private static final Application.ActivityLifecycleCallbacks ACTIVITY_LIFECYCLE_CALLBACKS = new Application.ActivityLifecycleCallbacks() {
+    private static final Application.ActivityLifecycleCallbacks ACTIVITY_LIFECYCLE_CALLBACKS =
+            new Application.ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle bundle) {
             activityCollection.add(activity);
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE, true, activity, bundle);
+            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE,
+                    true, activity, bundle);
         }
 
         @Override
         public void onActivityStarted(Activity activity) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, true, activity);
+            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, true
+                    , activity);
         }
 
         @Override
         public void onActivityResumed(Activity activity) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, true, activity);
+            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED,
+                    true, activity);
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, true, activity);
+            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED,
+                    true, activity);
         }
 
         @Override
         public void onActivityStopped(Activity activity) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED, true, activity);
+            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED,
+                    true, activity);
         }
 
         @Override
@@ -137,7 +143,8 @@ public class AtlwSetting {
         @Override
         public void onActivityDestroyed(Activity activity) {
             activityCollection.remove(activity);
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, true, activity);
+            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED,
+                    true, activity);
         }
     };
 

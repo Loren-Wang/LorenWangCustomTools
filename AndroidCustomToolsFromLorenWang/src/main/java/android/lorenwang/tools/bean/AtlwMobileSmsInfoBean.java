@@ -19,7 +19,7 @@ import android.provider.Telephony;
  * * {@link Telephony.TextBasedSmsColumns.STATUS},
  * * {@link Telephony.TextBasedSmsColumns.SUBJECT},
  * * {@link Telephony.TextBasedSmsColumns.BODY},
- * * {@link Telephony.TextBasedSmsColumns.PERSON},
+ * * {@link Telephony.TextBasedSmsColumns.Per≥},
  */
 
 public class AtlwMobileSmsInfoBean {

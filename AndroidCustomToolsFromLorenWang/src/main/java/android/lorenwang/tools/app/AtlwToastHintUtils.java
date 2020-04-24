@@ -53,7 +53,7 @@ public class AtlwToastHintUtils {
     /**
      * 隐藏吐司的runnable
      */
-    private Runnable hindToastRunnable = new Runnable() {
+    private final Runnable hindToastRunnable = new Runnable() {
         @Override
         public void run() {
             if (allToast != null) {
@@ -167,7 +167,7 @@ public class AtlwToastHintUtils {
     /**
      * 检测msg消息是否为空
      *
-     * @param msg
+     * @param msg 文本消息
      * @return 不为空则返回true
      */
     private Boolean checkMsg(String msg) {

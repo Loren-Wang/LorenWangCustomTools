@@ -69,7 +69,7 @@ class ThreadUtil {
         if (runningOnUiThread()) {
             r.run();
         } else {
-            FutureTask<Void> task = new FutureTask<Void>(r, null);
+            FutureTask<Void> task = new FutureTask<>(r, null);
             postOnUiThread(task);
             try {
                 task.get();
@@ -104,7 +104,7 @@ class ThreadUtil {
      * @throws ExecutionException c's exception
      */
     public static <T> T runOnUiThreadBlocking(Callable<T> c) throws ExecutionException {
-        FutureTask<T> task = new FutureTask<T>(c);
+        FutureTask<T> task = new FutureTask<>(c);
         runOnUiThread(task);
         try {
             return task.get();
@@ -137,7 +137,7 @@ class ThreadUtil {
      * @return A FutureTask wrapping the callable to retrieve results
      */
     public static <T> FutureTask<T> runOnUiThread(Callable<T> c) {
-        return runOnUiThread(new FutureTask<T>(c));
+        return runOnUiThread(new FutureTask<>(c));
     }
 
     /**

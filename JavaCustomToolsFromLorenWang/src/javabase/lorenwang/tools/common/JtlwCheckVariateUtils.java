@@ -294,43 +294,8 @@ public class JtlwCheckVariateUtils {
      */
     public boolean checkFileIsImage(String filePath) {
         if (!isEmpty(filePath)) {
-            if (filePath.length() > 4 &&
-                    (filePath.toLowerCase().substring(filePath.length() - 4).contains(".jpg")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".png")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".bmp")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".gif")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".psd")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".swf")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".svg")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".pcx")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".dxf")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".wmf")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".emf")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".lic")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".eps")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
-                            ".tga"))) {
-                JtlwLogUtils.logI(TAG,
-                        "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 4));
-                return true;
-            } else if (filePath.length() > 5 &&
-                    (filePath.toLowerCase().substring(filePath.length() - 5).contains(".jpeg")
-                            || filePath.toLowerCase().substring(filePath.length() - 5).contains(
-                            ".tiff"))) {
-                JtlwLogUtils.logI(TAG,
-                        "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 5));
+            if (checkIsImage(filePath.toLowerCase())) {
+                JtlwLogUtils.logI(TAG, "被检测地址为图片地址：");
                 return true;
             } else {
                 JtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");

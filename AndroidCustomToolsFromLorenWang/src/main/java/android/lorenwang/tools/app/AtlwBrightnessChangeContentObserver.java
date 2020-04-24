@@ -18,8 +18,8 @@ import android.os.Handler;
  */
 
 public abstract class AtlwBrightnessChangeContentObserver extends ContentObserver {
-    private boolean isRegist = false;
-    private Activity activity;
+    private boolean regist = false;
+    private final Activity activity;
 
     /**
      * Creates a content observer.
@@ -57,10 +57,10 @@ public abstract class AtlwBrightnessChangeContentObserver extends ContentObserve
     public abstract void onBrightnessChange(Float brightness);
 
     public boolean isRegist() {
-        return isRegist;
+        return regist;
     }
 
     public void setRegist(boolean regist) {
-        isRegist = regist;
+        this.regist = regist;
     }
 }

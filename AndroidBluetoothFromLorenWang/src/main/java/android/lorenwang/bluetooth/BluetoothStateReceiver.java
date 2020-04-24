@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.lorenwang.bluetooth.callback.BluetoothReceiverCallback;
-import androidx.annotation.NonNull;
 import android.util.Log;
 
 import java.util.Objects;
@@ -55,7 +54,7 @@ import static android.bluetooth.BluetoothDevice.ACTION_PAIRING_REQUEST;
 public class BluetoothStateReceiver extends BroadcastReceiver {
     private BluetoothReceiverCallback blueToothReceiverCallback;
 
-    public BluetoothStateReceiver(Context context, @NonNull BluetoothReceiverCallback blueToothReceiverCallback) {
+    public BluetoothStateReceiver(Context context,  BluetoothReceiverCallback blueToothReceiverCallback) {
         this.blueToothReceiverCallback = blueToothReceiverCallback;
     }
 

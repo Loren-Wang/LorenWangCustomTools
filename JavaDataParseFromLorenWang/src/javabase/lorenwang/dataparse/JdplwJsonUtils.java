@@ -89,7 +89,7 @@ public class JdplwJsonUtils {
         if (isSerializeNulls)
             builder.serializeNulls();
         if (version != null)
-            builder.setVersion(version.doubleValue());
+            builder.setVersion(version);
         if (datePattern == null || "".equals(datePattern))
             datePattern = DEFAULT_DATE_PATTERN;
         builder.setDateFormat(datePattern);
@@ -110,7 +110,7 @@ public class JdplwJsonUtils {
     public static String toJson(Object target, Type targetType, GsonBuilder builder) {
         if (target == null)
             return EMPTY_JSON;
-        Gson gson = null;
+        Gson gson;
         if (builder == null) {
             gson = new Gson();
         } else {
@@ -165,9 +165,6 @@ public class JdplwJsonUtils {
             return null;
         }
         GsonBuilder builder = new GsonBuilder();
-        if (datePattern == null || "".equals(datePattern)) {
-            datePattern = DEFAULT_DATE_PATTERN;
-        }
         Gson gson = builder.create();
         try {
             return gson.fromJson(json, cls);
@@ -190,9 +187,6 @@ public class JdplwJsonUtils {
             return null;
         }
         GsonBuilder builder = new GsonBuilder();
-        if (datePattern == null || "".equals(datePattern)) {
-            datePattern = DEFAULT_DATE_PATTERN;
-        }
         Gson gson = builder.create();
         try {
             return gson.fromJson(json, token.getType());

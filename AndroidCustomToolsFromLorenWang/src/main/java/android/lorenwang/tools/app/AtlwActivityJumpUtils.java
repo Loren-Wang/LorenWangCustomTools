@@ -72,10 +72,10 @@ public class AtlwActivityJumpUtils {
     }
 
     // 以Activity的名称为键，存储Activity的代码
-    private final HashMap<String, Integer> mActivityCodeMap = new HashMap<String, Integer>();
+    private final HashMap<String, Integer> mActivityCodeMap = new HashMap<>();
     private final String BUNDLE_LAST_ACTIVITY = "BUNDLE_LAST_ACTIVITY";
 
-    /******************************************普通页面跳转*****************************************/
+    /*--------------------------------------普通页面跳转---------------------------------------*/
 
     /**
      * 普通页面跳转
@@ -113,7 +113,7 @@ public class AtlwActivityJumpUtils {
                 AtlwSetting.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
     }
 
-    /*******************************************无动画跳转******************************************/
+    /*--------------------------------------*无动画跳转******************************************/
 
     /**
      * 无动画跳转页面
@@ -138,7 +138,7 @@ public class AtlwActivityJumpUtils {
     }
 
 
-    /******************************************后退页面跳转*****************************************/
+    /*--------------------------------------后退页面跳转*****************************************/
 
     /**
      * 后退跳转页面
@@ -176,7 +176,7 @@ public class AtlwActivityJumpUtils {
                 AtlwSetting.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM);
     }
 
-    /*****************************************带参数返回跳转****************************************/
+    /*--------------------------------------带参数返回跳转---------------------------------------*/
 
     /**
      * 需要进行返回的跳转
@@ -239,7 +239,7 @@ public class AtlwActivityJumpUtils {
                 AtlwSetting.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
     }
 
-    /***************************************无动画需要返回跳转**************************************/
+    /*--------------------------------------无动画需要返回跳转--------------------------------------*/
 
     /**
      * 无动画需要返回跳转页面
@@ -276,7 +276,7 @@ public class AtlwActivityJumpUtils {
     }
 
 
-    /*****************************************跳转到网页方法****************************************/
+    /*--------------------------------------跳转到网页方法****************************************/
 
     /**
      * 通过地址跳转到网页
@@ -298,7 +298,7 @@ public class AtlwActivityJumpUtils {
     }
 
 
-    /********************************************通用方法*******************************************/
+    /*--------------------------------------**通用方法*******************************************/
 
     /**
      * 通用方法-带参数跳转页面并是否清空栈并设置进入退出动画
@@ -372,7 +372,7 @@ public class AtlwActivityJumpUtils {
     }
 
 
-    /********************************************其他方法*******************************************/
+    /*--------------------------------------**其他方法*******************************************/
 
     /**
      * 初始化所有Activity的唯一代码
@@ -430,7 +430,7 @@ public class AtlwActivityJumpUtils {
      * @param marketPkg 应用市场包名
      * @param appPkg    要查找的App包名
      */
-    public void jumpApplicationMarket(Activity activity, String marketPkg, String appPkg) throws Exception {
+    public void jumpApplicationMarket(Activity activity, String marketPkg, String appPkg) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(appPkg)) {
             return;
         }

@@ -21,7 +21,7 @@ import static android.lorenwang.tools.AtlwSetting.IMAGE_LOAD_LIBRARY_TYPE_GLIDE;
  * 备注：
  */
 public class AtlwImageLoadingFactory {
-    private String TAG = getClass().getName();
+    private final String TAG = getClass().getName();
     private static AtlwFrescoImageLoading qtFrescoImageLoading;
     private static AtlwGlideImageLoading qtGlideImageLoading;
     private static AtlwImageLoadingFactory optionsFactory;

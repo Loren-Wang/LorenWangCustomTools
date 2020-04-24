@@ -373,7 +373,7 @@ public class AtlwImageCommonUtils {
      */
     public String toHexEncoding(int color) {
         String R, G, B;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         R = Integer.toHexString(Color.red(color));
         G = Integer.toHexString(Color.green(color));
         B = Integer.toHexString(Color.blue(color));
@@ -441,8 +441,6 @@ public class AtlwImageCommonUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            exifInterface = null;
         }
         return degree;
     }
@@ -462,7 +460,6 @@ public class AtlwImageCommonUtils {
             int width = img.getWidth();
             int height = img.getHeight();
             img = Bitmap.createBitmap(img, 0, 0, width, height, matrix, true);
-            matrix = null;
         }
         return img;
     }
@@ -627,7 +624,6 @@ public class AtlwImageCommonUtils {
             if (!bitmap.isRecycled()) {
                 bitmap.recycle();
             }
-            bitmap = null;
         }
     }
 
