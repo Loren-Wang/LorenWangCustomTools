@@ -1,16 +1,13 @@
 package javabase.lorenwang.tools.safe;
 
-import javax.crypto.Cipher;
-
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
  * 功能作用：加密解密工具类

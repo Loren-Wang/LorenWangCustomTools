@@ -21,11 +21,12 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 public class JtlwLogUtils {
     //日志控制器记录
-    private static final ConcurrentHashMap<Class, Logger> logControllerMap = new ConcurrentHashMap();
+    private static final ConcurrentHashMap<Class, Logger> logControllerMap =
+            new ConcurrentHashMap<>();
     /**
      * 是否打印日志
      */
-    private static boolean showLog = false;
+    public static boolean showLog = false;
 
     public static void logD(String tag, String msg) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(tag)

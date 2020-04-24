@@ -8,9 +8,9 @@ import javabase.lorenwang.tools.JtlwLogUtils;
 
 
 /**
+ * 功能作用：变量检测工具类
  * 创建时间：2019-01-28 下午 14:02:18
  * 创建人：王亮（Loren wang）
- * 功能作用：变量检测工具类
  * 思路：
  * 方法：1、判断字符串是否为空
  * 2、判断是否符合指定的正则表达式
@@ -55,7 +55,6 @@ public class JtlwCheckVariateUtils {
         return optionUtils;
     }
 
-
     /**
      * 判断变量是否为空
      *
@@ -64,17 +63,17 @@ public class JtlwCheckVariateUtils {
      */
     public <T> boolean isEmpty(T str) {
         if (str instanceof String) {
-            return (str == null || "".equals(str)) ? true : false;
+            return "".equals(str);
         } else {
-            return (str == null) ? true : false;
+            return str == null;
         }
     }
 
     /**
      * 判断变量集合当中是否存在空
      *
-     * @param objects
-     * @return
+     * @param objects 集合数据
+     * @return 存在空返回true
      */
     public boolean isHaveEmpty(Object... objects) {
         for (Object object : objects) {
@@ -164,7 +163,7 @@ public class JtlwCheckVariateUtils {
         if (isEmpty(str)) {
             return false;
         }
-        return str.length() > len ? true : false;
+        return str.length() > len;
     }
 
     /**
@@ -182,18 +181,15 @@ public class JtlwCheckVariateUtils {
         formatter.setGroupingUsed(false); // 是否对结果分组（即使用","分组）
         formatter.setMaximumFractionDigits(0); // 小数位数最大值
         formatter.setMinimumFractionDigits(0); // 小数位数最小值
-        if (formatter.format(d.doubleValue()).length() > len) {
-            return true;
-        }
-        return false;
+        return formatter.format(d.doubleValue()).length() > len;
     }
 
     /**
      * 判断字符串是否在列表中
      *
-     * @param item
-     * @param list
-     * @return
+     * @param item item数据
+     * @param list 列表
+     * @return 存在返回true
      */
     public <T> boolean isInList(T item, List<T> list) {
         for (T listItem : list) {
@@ -207,10 +203,10 @@ public class JtlwCheckVariateUtils {
     /**
      * 判断对象是否在数组中
      *
-     * @param <T>
-     * @param item
-     * @param list
-     * @return
+     * @param <T>  泛型
+     * @param item 对象数据
+     * @param list 集合数据
+     * @return 存在返回true
      */
     public <T> boolean isInArray(T item, T[] list) {
         for (T listItem : list) {
@@ -224,32 +220,24 @@ public class JtlwCheckVariateUtils {
     /**
      * 检查传入的路径是否是图片
      *
-     * @param path
-     * @return
+     * @param path 传入路径
+     * @return 是图片返回true
      */
     public boolean checkIsImage(String path) {
         if (path != null) {
             if (path.length() > 4) {
-                if (path.toLowerCase().substring(path.length() - 4).contains(".jpg")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".png")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".bmp")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".gif")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".psd")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".swf")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".svg")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".pcx")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".dxf")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".wmf")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".emf")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".lic")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".eps")
-                        || path.toLowerCase().substring(path.length() - 4).contains(".tga")) {
+                String start = path.toLowerCase().substring(path.length() - 4);
+                if (start.contains(".jpg") || start.contains(".png")
+                        || start.contains(".bmp") || start.contains(".gif")
+                        || start.contains(".psd") || start.contains(".swf")
+                        || start.contains(".svg") || start.contains(".pcx")
+                        || start.contains(".dxf") || start.contains(".wmf")
+                        || start.contains(".emf") || start.contains(".lic")
+                        || start.contains(".eps") || start.contains(".tga")) {
                     return true;
                 } else if (path.length() > 5) {
-                    if (path.toLowerCase().substring(path.length() - 5).contains(".jpeg")
-                            || path.toLowerCase().substring(path.length() - 5).contains(".tiff")) {
-                        return true;
-                    }
+                    start = path.toLowerCase().substring(path.length() - 5);
+                    return start.contains(".jpeg") || start.contains(".tiff");
                 }
             }
         }
@@ -260,15 +248,13 @@ public class JtlwCheckVariateUtils {
     /**
      * 检查传入的路径是否是视频
      *
-     * @param path
-     * @return
+     * @param path 传入路径
+     * @return 是视频返回true
      */
     public boolean checkIsVideo(String path) {
         if (path != null) {
             if (path.length() > 4) {
-                if (path.toLowerCase().substring(path.length() - 4).contains(".mp4")) {
-                    return true;
-                }
+                return path.toLowerCase().substring(path.length() - 4).contains(".mp4");
             }
         }
         return false;
@@ -277,8 +263,8 @@ public class JtlwCheckVariateUtils {
     /**
      * 检查文件是否存在
      *
-     * @param filePath
-     * @return
+     * @param filePath 文件地址
+     * @return 存在返回true
      */
     public boolean checkFileIsExit(String filePath) {
         if (isEmpty(filePath)) {
@@ -287,7 +273,7 @@ public class JtlwCheckVariateUtils {
         }
         File file = new File(filePath);
         boolean isExit = false;//文件是否存在记录
-        if (file == null || file.isDirectory()) {
+        if (file.isDirectory()) {
             JtlwLogUtils.logI(TAG, "被检查文件为空或被检测的地址为文件夹，不通过检测");
             return false;
         }
@@ -297,39 +283,54 @@ public class JtlwCheckVariateUtils {
         } else {
             JtlwLogUtils.logI(TAG, "被检查文件不存在");
         }
-        file = null;
         return isExit;
     }
 
     /**
      * 检测文件是否是图片
      *
-     * @param filePath
-     * @return
+     * @param filePath 文件地址
+     * @return 是图片返回true
      */
     public boolean checkFileIsImage(String filePath) {
         if (!isEmpty(filePath)) {
             if (filePath.length() > 4 &&
                     (filePath.toLowerCase().substring(filePath.length() - 4).contains(".jpg")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".png")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".bmp")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".gif")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".psd")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".swf")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".svg")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".pcx")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".dxf")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".wmf")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".emf")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".lic")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".eps")
-                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(".tga"))) {
-                JtlwLogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 4));
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".png")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".bmp")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".gif")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".psd")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".swf")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".svg")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".pcx")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".dxf")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".wmf")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".emf")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".lic")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".eps")
+                            || filePath.toLowerCase().substring(filePath.length() - 4).contains(
+                            ".tga"))) {
+                JtlwLogUtils.logI(TAG,
+                        "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 4));
                 return true;
             } else if (filePath.length() > 5 &&
                     (filePath.toLowerCase().substring(filePath.length() - 5).contains(".jpeg")
-                            || filePath.toLowerCase().substring(filePath.length() - 5).contains(".tiff"))) {
-                JtlwLogUtils.logI(TAG, "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 5));
+                            || filePath.toLowerCase().substring(filePath.length() - 5).contains(
+                            ".tiff"))) {
+                JtlwLogUtils.logI(TAG,
+                        "被检测地址为图片地址，图片地址后缀：" + filePath.toLowerCase().substring(filePath.length() - 5));
                 return true;
             } else {
                 JtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");

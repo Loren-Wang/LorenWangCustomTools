@@ -48,7 +48,7 @@ public class JtlwDateTimeUtils {
     /**
      * 获取当前时间的毫秒值
      *
-     * @return
+     * @return 毫秒数
      */
     public Long getMillisecond() {
         return new Date().getTime();
@@ -57,7 +57,7 @@ public class JtlwDateTimeUtils {
     /**
      * 获取当前时间的秒值
      *
-     * @return
+     * @return 秒值
      */
     public Long getSecond() {
         return new Date().getTime() / 1000;
@@ -71,37 +71,38 @@ public class JtlwDateTimeUtils {
      * yy-MM-dd HH:mm:ss am 如 '2002-1-1 17:55:00 am'
      * 格式化指定时间到指定格式
      *
-     * @param pattern
-     * @param dateTime
-     * @return
+     * @param pattern  时间格式正则
+     * @param dateTime 时间戳
+     * @return 转换后字符串
      */
-    public String getFormatedDateTime(String pattern, long dateTime) {
+    public String getFormatDateTime(String pattern, long dateTime) {
         if (pattern == null || "".equals(pattern)) {
             return null;
+        } else {
+            SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
+            return sDateFormat.format(new Date(dateTime));
         }
-        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
-        return sDateFormat.format(new Date(dateTime));
     }
 
     /**
      * 格式化当前时间到指定格式
      *
-     * @param pattern
-     * @return
+     * @param pattern 时间格式正则
+     * @return 转换后字符串
      */
-    public String getFormatedDateNowTime(String pattern) {
+    public String getFormatDateNowTime(String pattern) {
         if (pattern == null || "".equals(pattern)) {
             return null;
         }
         SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
-        return sDateFormat.format(new Date(getMillisecond() + 0));
+        return sDateFormat.format(new Date(getMillisecond()));
     }
 
     /**
      * 格式化当前时间到指定格式，并返回该格式的相应毫秒值
      *
-     * @param pattern
-     * @return
+     * @param pattern 时间格式正则
+     * @return 转换后字符串
      */
     public Long getFormatedNowTimeToMillisecond(String pattern) {
         if (pattern == null || "".equals(pattern)) {
@@ -110,7 +111,7 @@ public class JtlwDateTimeUtils {
         SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
         Long time = null;
         try {
-            time = sDateFormat.parse(sDateFormat.format(new Date(getMillisecond() + 0))).getTime();
+            time = sDateFormat.parse(sDateFormat.format(new Date(getMillisecond()))).getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -126,10 +127,10 @@ public class JtlwDateTimeUtils {
      */
     public long getMillisecond(String dateAndTime, String dateAndTimeFormat) {
         if (dateAndTime == null || "".equals(dateAndTime) || dateAndTimeFormat == null || "".equals(dateAndTimeFormat)) {
-            return 0l;
+            return 0L;
         }
         SimpleDateFormat sdf = new SimpleDateFormat(dateAndTimeFormat);
-        Long millionSeconds = 0l;
+        long millionSeconds = 0L;
         try {
             millionSeconds = sdf.parse(dateAndTime).getTime();//毫秒
         } catch (ParseException e) {
@@ -154,9 +155,7 @@ public class JtlwDateTimeUtils {
      */
     public boolean isLeapYear(Integer year) {
         if (year != null) {
-            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-                return true;
-            }
+            return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
         }
         return false;
     }
@@ -164,23 +163,19 @@ public class JtlwDateTimeUtils {
     /**
      * 根据月日判断星座
      *
-     * @param m
-     * @param d
-     * @return int
+     * @param m 月
+     * @param d 日
+     * @return 星座字符串
      */
     public String getConstellation(int m, int d) {
-        final String[] constellationArr = {"魔羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "魔羯座"};
+        final String[] constellationArr = {"魔羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座"
+                , "处女座", "天秤座", "天蝎座", "射手座", "魔羯座"};
         final int[] constellationEdgeDay = {20, 18, 20, 20, 20, 21, 22, 22, 22, 22, 21, 21};
         int month = m;
-        int day = d;
-        if (day <= constellationEdgeDay[month - 1]) {
+        if (d <= constellationEdgeDay[month - 1]) {
             month = month - 1;
         }
-        if (month >= 0) {
-            return constellationArr[month];
-        }
-        //default to return 魔羯
-        return constellationArr[11];
+        return constellationArr[month];
     }
 
 }

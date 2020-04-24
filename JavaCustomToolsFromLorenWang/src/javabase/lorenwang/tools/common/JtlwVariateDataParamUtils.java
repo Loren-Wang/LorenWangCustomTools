@@ -4,18 +4,18 @@ import java.text.Collator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 功能作用：变量数据格式化
  * 创建时间：2019-01-28 下午 20:02:56
  * 创建人：王亮（Loren wang）
- * 功能作用：变量数据格式化
  * 思路：
  * 方法：1、格式化double变量的小数部分为指定数量  paramsDoubleToNum
  * 2、除去末尾的0字符操作  clearEndZeroAndParamsForDouble
@@ -62,7 +62,7 @@ public class JtlwVariateDataParamUtils {
      * @return 返回格式化后字符串，小数点部分为指定数量
      */
     public String paramsDoubleToNum(Double data, int num) {
-        StringBuffer decimalsPattern = new StringBuffer(".");
+        StringBuilder decimalsPattern = new StringBuilder(".");
         for (int i = 0; i < num; i++) {
             decimalsPattern.append("0");
         }
@@ -80,9 +80,9 @@ public class JtlwVariateDataParamUtils {
     /**
      * 格式化长整形到指定位数
      *
-     * @param time
-     * @param num
-     * @return
+     * @param time 时间
+     * @param num  位数
+     * @return 格式化后数据
      */
     public Long paramsLongToNum(Long time, Integer num) {
         if (time != null && num != null) {
@@ -96,7 +96,7 @@ public class JtlwVariateDataParamUtils {
                 return Double.valueOf(time * Math.pow(10, (length - num))).longValue();
             }
         }
-        return 0l;
+        return 0L;
     }
 
     /**
@@ -104,7 +104,7 @@ public class JtlwVariateDataParamUtils {
      *
      * @param doubleNum     传入所要格式化的值
      * @param maxDecimalNum 所保留的最大的非0的小数点后的位数
-     * @return
+     * @return 去除后操作
      */
     public String clearEndZeroAndParamsForDouble(Double doubleNum, Integer maxDecimalNum) {
         String str = paramsDoubleToNum(doubleNum, maxDecimalNum);//先进行格式化
@@ -118,19 +118,14 @@ public class JtlwVariateDataParamUtils {
     /**
      * 去掉回车换行符
      *
-     * @param str
-     * @return
+     * @param str 原始字符串
+     * @return 去掉后字符串
      */
     public String clearStringBlank(String str) {
         if (str != null && !"".equals(str)) {
-            if (str != null && !"".equals(str)) {
-                Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-                Matcher m = p.matcher(str);
-                String strNoBlank = m.replaceAll("");
-                return strNoBlank;
-            } else {
-                return str;
-            }
+            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+            Matcher m = p.matcher(str);
+            return m.replaceAll("");
         } else {
             return str;
         }
@@ -139,9 +134,9 @@ public class JtlwVariateDataParamUtils {
     /**
      * 数组转集合
      *
-     * @param arrays
-     * @param <T>
-     * @return
+     * @param arrays 数组
+     * @param <T>    泛型
+     * @return 集合数据
      */
     public <T> List<T> paramesArrayToList(T[] arrays) {
         List<T> list = new ArrayList<>();
@@ -154,18 +149,17 @@ public class JtlwVariateDataParamUtils {
     /**
      * 将map的所有key值转成集合
      *
-     * @param map
-     * @param <T>
-     * @return
+     * @param map map数据集合
+     * @param <T> 泛型
+     * @return 集合
      */
     public <K, T> List<K> paramsHashMapKeyToArrayList(Map<K, List<T>> map) {
         List<K> list = new ArrayList<>();
         if (map == null) {
             return list;
         }
-        Iterator<Map.Entry<K, List<T>>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            list.add(iterator.next().getKey());
+        for (Map.Entry<K, List<T>> kListEntry : map.entrySet()) {
+            list.add(kListEntry.getKey());
         }
         return list;
     }
@@ -174,9 +168,9 @@ public class JtlwVariateDataParamUtils {
     /**
      * 生成一个范围随机数
      *
-     * @param min
-     * @param max
-     * @return
+     * @param min 最小数据
+     * @param max 最大数值
+     * @return 生成后数据
      */
     public long generateRandom(long min, long max) {
         return min + (((long) (new Random().nextDouble() * (max - min))));
@@ -186,8 +180,8 @@ public class JtlwVariateDataParamUtils {
     /**
      * 获取首字母的拼音
      *
-     * @param source
-     * @return
+     * @param source 文本字符串
+     * @return 首字母拼音
      */
     public char getFirstPinYin(String source) {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(source)) {
@@ -197,18 +191,16 @@ public class JtlwVariateDataParamUtils {
         if (!(Arrays.asList(Collator.getAvailableLocales()).contains(Locale.CHINA)
                 || Arrays.asList(Collator.getAvailableLocales()).contains(Locale.CHINESE)
                 || Arrays.asList(Collator.getAvailableLocales()).contains(newChina))
-                || (source != null && !"".equals(source) && (source.charAt(0) <= 'Z' && source.charAt(0) >= 'A') || (source.charAt(0) <= 'z' && source.charAt(0) >= 'a'))) {
+                || (source != null && !"".equals(source) && (source.charAt(0) <= 'Z' && source.charAt(0) >= 'A') || (Objects.requireNonNull(source).charAt(0) <= 'z' && source.charAt(0) >= 'a'))) {
             return source.length() > 0 ? source.toLowerCase().charAt(0) : '#';
         }
         ArrayList<HanziToPinyinUtils.Token> tokens = HanziToPinyinUtils.getInstance().get(source);
         if (tokens == null || tokens.size() == 0) {
-            return source.length() > 0 ? source.toLowerCase().charAt(0) : '#';
+            return source.toLowerCase().charAt(0) ;
         }
-        if (tokens.size() > 0) {
-            HanziToPinyinUtils.Token token = tokens.get(0);
-            if (token.type == HanziToPinyinUtils.Token.PINYIN) {
-                return token.target.toLowerCase().charAt(0);
-            }
+        HanziToPinyinUtils.Token token = tokens.get(0);
+        if (token.type == HanziToPinyinUtils.Token.PINYIN) {
+            return token.target.toLowerCase().charAt(0);
         }
         return '#';
     }
@@ -240,9 +232,6 @@ public class JtlwVariateDataParamUtils {
     public int booleanToInt(Boolean value) {
         return (value == null || !value) ? 0 : 1;
     }
-
-
-    /******************************************私有方法部分*****************************************/
 
 
 }

@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,9 +28,9 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
 
 /**
+ * 功能作用：文件操作工具类
  * 创建时间：2019-01-28 下午 20:19:47
  * 创建人：王亮（Loren wang）
- * 功能作用：文件操作工具类
  * 思路：
  * 方法：1、读取图片文件并获取字节
  * 2、从指定路径的文件中读取Bytes
@@ -68,17 +67,21 @@ public class JtlwFileOptionUtils {
      */
     private final int BUFFER_SIZE = 1024;
 
+    public JtlwFileOptionUtils() {
+        allDocFileTypeEnum = new ArrayList<>();
+    }
+
     public static JtlwFileOptionUtils getInstance() {
         synchronized (JtlwFileOptionUtils.class) {
             if (baseUtils == null) {
                 baseUtils = new JtlwFileOptionUtils();
             }
         }
-        return (JtlwFileOptionUtils) baseUtils;
+        return baseUtils;
     }
 
 
-    /******************************************读取部分*********************************************/
+    /*----------------------------------------读取部分--------------------------------------------*/
 
     /**
      * 读取图片文件并获取字节
@@ -192,7 +195,7 @@ public class JtlwFileOptionUtils {
     }
 
 
-    /******************************************写入部分*********************************************/
+    /*----------------------------------------写入部分----------------------------------------****/
 
     /**
      * 将InputStream写入File
@@ -290,7 +293,7 @@ public class JtlwFileOptionUtils {
     }
 
 
-    /******************************************其他文件操作部分**************************************/
+    /*----------------------------------------其他文件操作部分--------------------------------------*/
 
     /**
      * 格式化文件大小
@@ -397,7 +400,7 @@ public class JtlwFileOptionUtils {
      * @return 目录删除成功返回true，否则返回false
      */
     public Boolean deleteDirectory(String filePath) {
-        boolean flag = false;
+        boolean flag;
         //如果filePath不以文件分隔符结尾，自动添加文件分隔符
         if (!filePath.endsWith(File.separator)) {
             filePath = filePath + File.separator;
@@ -528,12 +531,9 @@ public class JtlwFileOptionUtils {
             File file = new File(scanPath);
             if (file.exists() && !file.isFile()) {
                 //获取到根目录下的文件和文件夹
-                final File[] files = file.listFiles(new FilenameFilter() {
-                    @Override
-                    public boolean accept(File file, String s) {
-                        //过滤掉隐藏文件
-                        return !file.getName().trim().startsWith(".");
-                    }
+                final File[] files = file.listFiles((file1, s) -> {
+                    //过滤掉隐藏文件
+                    return !file1.getName().trim().startsWith(".");
                 });
                 //临时存储任务,便于后面全部投递到线程池
                 List<Runnable> runnableList = new ArrayList<>();
@@ -545,12 +545,9 @@ public class JtlwFileOptionUtils {
                             //把目录添加进队列
                             fileOptionsLinkedQueue.offer(f);
                             //创建的线程的数目是根目录下文件夹的数目
-                            Runnable runnable = new Runnable() {
-                                @Override
-                                public void run() {
-                                    //开启文件夹扫描，使用多线程异步扫描进行处理，只有当全部处理完成是返回
-                                    list.addAll(startFileScan(matchRegular));
-                                }
+                            Runnable runnable = () -> {
+                                //开启文件夹扫描，使用多线程异步扫描进行处理，只有当全部处理完成是返回
+                                list.addAll(startFileScan(matchRegular));
                             };
                             runnableList.add(runnable);
                         } else if (f.isFile()) {
@@ -596,12 +593,9 @@ public class JtlwFileOptionUtils {
         while (!fileOptionsLinkedQueue.isEmpty()) {
             //队头出队列
             final File tmpFile = fileOptionsLinkedQueue.poll();
-            final File[] fileArray = tmpFile.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File file, String s) {
-                    //过滤掉隐藏文件
-                    return !file.getName().trim().startsWith(".");
-                }
+            final File[] fileArray = tmpFile.listFiles((file, s) -> {
+                //过滤掉隐藏文件
+                return !file.getName().trim().startsWith(".");
             });
             assert fileArray != null;
             for (File f : fileArray) {
@@ -672,7 +666,7 @@ public class JtlwFileOptionUtils {
                 inputStream.read(bytes, 0, bytes.length);
                 String fileHeader = JtlwCommonUtils.getInstance().bytesToHexString(bytes);
                 for (JtlwFileTypeEnum type : JtlwFileTypeEnum.values()) {
-                    if (fileHeader.startsWith(type.getStart(), 0)) {
+                    if (fileHeader.startsWith(type.getStart())) {
                         return type;
                     }
                 }
@@ -763,7 +757,6 @@ public class JtlwFileOptionUtils {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                outputStream = null;
             }
             if (outWrite != null) {
                 try {
@@ -771,7 +764,6 @@ public class JtlwFileOptionUtils {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                outWrite = null;
             }
         }
     }
@@ -779,11 +771,11 @@ public class JtlwFileOptionUtils {
     /**
      * 所有文档类型枚举
      */
-    private final List<JtlwFileTypeEnum> allDocFileTypeEnum = new ArrayList<JtlwFileTypeEnum>();
+    private final List<JtlwFileTypeEnum> allDocFileTypeEnum;
     /**
      * 所有图片类型枚举
      */
-    private final List<JtlwFileTypeEnum> allImageFileTypeEnum = new ArrayList<JtlwFileTypeEnum>();
+    private final List<JtlwFileTypeEnum> allImageFileTypeEnum = new ArrayList<>();
 
     /**
      * 获取所有文档相关类型

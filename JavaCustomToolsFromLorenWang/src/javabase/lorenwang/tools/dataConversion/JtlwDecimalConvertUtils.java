@@ -3,9 +3,9 @@ package javabase.lorenwang.tools.dataConversion;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
+ * 功能作用：进制转换工具类
  * 创建时间：2019-01-28 下午 14:21:38
  * 创建人：王亮（Loren wang）
- * 功能作用：进制转换工具类
  * 思路：
  * 方法：1、十进制转二进制
  * 2、十进制转八进制
@@ -32,10 +32,12 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 public class JtlwDecimalConvertUtils {
     //小写字母表
-    private final char[] ALPHABET_LOWER_CASE = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+    private final char[] ALPHABET_LOWER_CASE = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+            'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     //大写字母表
-    private final char[] ALPHABET_UPPER_CASE = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+    private final char[] ALPHABET_UPPER_CASE = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+            'I',
             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
     private final String TAG = getClass().getName();
@@ -59,17 +61,17 @@ public class JtlwDecimalConvertUtils {
     }
 
 
-    /***********************************十进制转其他进制*********************************************/
+    /*--------------------------------十进制转其他进制--------------------------------*/
 
     /**
      * 十进制转二进制
      *
-     * @param num
-     * @return
+     * @param num 十进制数据
+     * @return 二进制数据
      */
     public Integer decimal10To2(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
-            String result = decimalToAssign(num, 2, null, null);
+            String result = decimalToAssign(num, 2, null);
             if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             } else {
@@ -82,12 +84,12 @@ public class JtlwDecimalConvertUtils {
     /**
      * 十进制转八进制
      *
-     * @param num
-     * @return
+     * @param num 十进制数据
+     * @return 八进制数据
      */
     public Integer decimal10To8(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
-            String result = decimalToAssign(num, 8, null, null);
+            String result = decimalToAssign(num, 8, null);
             if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             } else {
@@ -100,12 +102,12 @@ public class JtlwDecimalConvertUtils {
     /**
      * 十进制转十六进制
      *
-     * @param num
-     * @return
+     * @param num 十进制数据
+     * @return 十六进制数据
      */
     public String decimal10To16(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
-            return decimalToAssign(num, 16, null, null);
+            return decimalToAssign(num, 16, null);
         }
         return null;
     }
@@ -113,12 +115,12 @@ public class JtlwDecimalConvertUtils {
     /**
      * 十进制转三十二进制
      *
-     * @param num
-     * @return
+     * @param num 十进制数据
+     * @return 三十二进制数据
      */
     public String decimal10To32(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
-            return decimalToAssign(num, 32, null, null);
+            return decimalToAssign(num, 32, null);
         }
         return null;
     }
@@ -126,31 +128,31 @@ public class JtlwDecimalConvertUtils {
     /**
      * 十进制转六十二进制
      *
-     * @param num
-     * @return
+     * @param num 十进制数据
+     * @return 六十二进制数据
      */
     public String decimal10To62(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
-            return decimalToAssign(num, 62, null, null);
+            return decimalToAssign(num, 62, null);
         }
         return null;
     }
 
 
-    /****************************************八进制转其他进制****************************************/
+    /*----------------------------------------八进制转其他进制---------------------------------------*/
 
     /**
      * 八进制转二进制
      *
-     * @param num
-     * @return
+     * @param num 八进制数据
+     * @return 二进制数据
      */
     public Integer decimal8To2(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             char[] chars = String.valueOf(num).toCharArray();
-            StringBuffer result = new StringBuffer();
+            StringBuilder result = new StringBuilder();
             for (char item : chars) {
-                result.append(decimalToAssign(item - 48, 2, 3, null));
+                result.append(decimalToAssign(item - 48, 2, 3));
             }
             if (JtlwCheckVariateUtils.getInstance().isInteger(result.toString())) {
                 return Integer.valueOf(result.toString());
@@ -164,8 +166,8 @@ public class JtlwDecimalConvertUtils {
     /**
      * 八进制转十进制
      *
-     * @param num
-     * @return
+     * @param num 八进制数据
+     * @return 十进制数据
      */
     public Integer decimal8To10(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -186,8 +188,8 @@ public class JtlwDecimalConvertUtils {
     /**
      * 八进制转16进制
      *
-     * @param num
-     * @return
+     * @param num 八进制数据
+     * @return 十六进制数据
      */
     public String decimal8To16(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -200,8 +202,8 @@ public class JtlwDecimalConvertUtils {
     /**
      * 八进制转三十二进制
      *
-     * @param num
-     * @return
+     * @param num 八进制数据
+     * @return 三十二进制数据
      */
     public String decimal8To32(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -214,8 +216,8 @@ public class JtlwDecimalConvertUtils {
     /**
      * 八进制转六十二进制
      *
-     * @param num
-     * @return
+     * @param num 八进制数据
+     * @return 六十二进制数据
      */
     public String decimal8To62(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -226,18 +228,18 @@ public class JtlwDecimalConvertUtils {
     }
 
 
-    /****************************************二进制转其他进制****************************************/
+    /*----------------------------------------*****二进制转其他进制****************************************/
 
     /**
      * 二进制转八进制
      *
-     * @param num
-     * @return
+     * @param num 二进制数据
+     * @return 八进制数据
      */
     public Integer decimal2To8(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             String result = decimal2ToOther(num, 8, 3);
-            if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
+            if (result != null && JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             } else {
                 return null;
@@ -249,13 +251,13 @@ public class JtlwDecimalConvertUtils {
     /**
      * 二进制转十进制
      *
-     * @param num
-     * @return
+     * @param num 二进制数据
+     * @return 十进制数据
      */
     public Integer decimal2To10(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             String result = decimal2ToOther(num, 10, null);
-            if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
+            if (result != null && JtlwCheckVariateUtils.getInstance().isInteger(result)) {
                 return Integer.valueOf(result);
             } else {
                 return null;
@@ -265,10 +267,10 @@ public class JtlwDecimalConvertUtils {
     }
 
     /**
-     * '二进制转16进制
+     * 二进制转16进制
      *
-     * @param num
-     * @return
+     * @param num 二进制数据
+     * @return 十六进制数据
      */
     public String decimal2To16(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -278,10 +280,10 @@ public class JtlwDecimalConvertUtils {
     }
 
     /**
-     * '二进制转三十二进制
+     * 二进制转三十二进制
      *
-     * @param num
-     * @return
+     * @param num 二进制数据
+     * @return 三十二进制数据
      */
     public String decimal2To32(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -291,13 +293,13 @@ public class JtlwDecimalConvertUtils {
     }
 
 
-    /**********************************十六进制转其他进制********************************************/
+    /*--------------------------------十六进制转其他进制--------------------------------*/
 
     /**
      * 十六进制转二进制
      *
-     * @param num
-     * @return
+     * @param num 十六进制数据
+     * @return 二进制数据
      */
     public Integer decimal16To2(String num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -307,18 +309,18 @@ public class JtlwDecimalConvertUtils {
             if (length == 0) {
                 return null;
             }
-            String result = "";
+            StringBuilder result = new StringBuilder();
             Character character;
-            for (int i = 0; i < length; i++) {
-                character = chars[i];
+            for (char aChar : chars) {
+                character = aChar;
                 if (character.compareTo('0') >= 0 && character.compareTo('9') <= 0) {
-                    result = decimalToAssign(character - 48, 2, 4, null) + result;
+                    result.insert(0, decimalToAssign(character - 48, 2, 4));
                 } else if (character.compareTo('a') >= 0 && character.compareTo('f') <= 0) {
-                    result = decimalToAssign(character - 87, 2, 4, null) + result;
+                    result.insert(0, decimalToAssign(character - 87, 2, 4));
                 }
             }
-            if (JtlwCheckVariateUtils.getInstance().isInteger(result)) {
-                return Integer.valueOf(result);
+            if (JtlwCheckVariateUtils.getInstance().isInteger(result.toString())) {
+                return Integer.valueOf(result.toString());
             }
         }
         return null;
@@ -327,8 +329,8 @@ public class JtlwDecimalConvertUtils {
     /**
      * 十六进制转八进制
      *
-     * @param num
-     * @return
+     * @param num 十六进制数据
+     * @return 八进制数据
      */
     public Integer decimal16To8(String num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -341,8 +343,8 @@ public class JtlwDecimalConvertUtils {
     /**
      * 十六进制转二进制
      *
-     * @param num
-     * @return
+     * @param num 十六进制数据
+     * @return 二进制数据
      */
     public Integer decimal16To10(String num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
@@ -368,7 +370,7 @@ public class JtlwDecimalConvertUtils {
     }
 
 
-    /********************************************私有转换方法***************************************/
+    /*----------------------------------------私有转换方法----------------------------------------*/
 
     /**
      * 指定目标进制转换
@@ -376,67 +378,81 @@ public class JtlwDecimalConvertUtils {
      * @param num       要转换的数
      * @param assign    指定的其他进制数，转换的目标进制数
      * @param minLength 要返回的最小数据长度
-     * @return
+     * @return 转换后的进制数据
      */
-    private String decimalToAssign(int num, int assign, Integer minLength, Integer maxLength) {
-        String result = "";
+    private String decimalToAssign(int num, int assign, Integer minLength) {
+        StringBuilder result = new StringBuilder();
         int remainder;
         while (num >= assign) {
             remainder = num % assign;
             if (remainder >= 10) {
-                result = getAssignDecimalStr(assign, remainder - 10) + result;
+                result.insert(0, getAssignDecimalStr(assign, remainder - 10));
             } else {
-                result = remainder + result;
+                result.insert(0, remainder);
             }
             num /= assign;
         }
         //拼接最后一个
         if (num >= 10) {
-            result = getAssignDecimalStr(assign, num - 10) + result;
+            result.insert(0, getAssignDecimalStr(assign, num - 10));
         } else {
-            result = num + result;
+            result.insert(0, num);
         }
         int diff;
         //判断位数是否为空
-        if (minLength == null && maxLength == null) {
-            return result;
-        } else if (minLength != null && maxLength == null) {
+        if (minLength == null) {
+            return result.toString();
+        } else {
             //获取和要返回的位数相差的位数，大于0则代表着位于大于要返回的，不用管
             diff = result.length() - minLength;
             if (diff < 0) {
                 diff = Math.abs(diff);
                 for (int i = 0; i < diff; i++) {
-                    result = "0" + result;
+                    result.insert(0, "0");
                 }
-            }
-        } else if (minLength == null && maxLength != null) {
-            //获取和要返回的位数相差的位数，大于0则代表着位于大于要返回的，要截取掉
-            diff = result.length() - maxLength;
-            if (diff > 0) {
-                result = result.substring(diff);
-            }
-        } else {
-            //判断最小是否小于最大,最小大于最大的话做交换
-            if (minLength > maxLength) {
-                int length = minLength;
-                minLength = maxLength;
-                maxLength = length;
-            }
-
-            //最大和最小都不为空那么只要返回这个区间的就行
-            diff = result.length() - minLength;
-            if (diff < 0) {
-                diff = Math.abs(diff);
-                for (int i = 0; i < diff; i++) {
-                    result = "0" + result;
-                }
-            }
-            diff = result.length() - maxLength;
-            if (diff > 0) {
-                result = result.substring(diff);
             }
         }
-        return result;
+//
+//        //判断位数是否为空
+//        if (minLength == null && maxLength == null) {
+//            return result.toString();
+//        } else if (minLength != null && maxLength == null) {
+//            //获取和要返回的位数相差的位数，大于0则代表着位于大于要返回的，不用管
+//            diff = result.length() - minLength;
+//            if (diff < 0) {
+//                diff = Math.abs(diff);
+//                for (int i = 0; i < diff; i++) {
+//                    result.insert(0, "0");
+//                }
+//            }
+//        } else if (minLength == null && maxLength != null) {
+//            //获取和要返回的位数相差的位数，大于0则代表着位于大于要返回的，要截取掉
+//            diff = result.length() - maxLength;
+//            if (diff > 0) {
+//                result = new StringBuilder(result.substring(diff));
+//            }
+//        } else {
+//            //判断最小是否小于最大,最小大于最大的话做交换
+//            if (minLength > maxLength) {
+//                int length = minLength;
+//                minLength = maxLength;
+//                maxLength = length;
+//            }
+//
+//            //最大和最小都不为空那么只要返回这个区间的就行
+//            diff = result.length() - minLength;
+//            if (diff < 0) {
+//                diff = Math.abs(diff);
+//                for (int i = 0; i < diff; i++) {
+//                    result.insert(0, "0");
+//                }
+//            }
+//            diff = result.length() - maxLength;
+//            if (diff > 0) {
+//                result = new StringBuilder(result.substring(diff));
+//            }
+//        }
+        return result.toString();
     }
 
     /**
@@ -445,7 +461,7 @@ public class JtlwDecimalConvertUtils {
      * @param num      二进制数
      * @param assign   其他进制
      * @param splitNum 拆分每段数量
-     * @return
+     * @return 其他进制数据
      */
     private String decimal2ToOther(int num, int assign, Integer splitNum) {
         char[] chars = String.valueOf(num).toCharArray();
@@ -456,45 +472,45 @@ public class JtlwDecimalConvertUtils {
         if (splitNum == null) {
             splitNum = length;
         }
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int value = 0;
-        int posi = 0;
+        int posi;
         for (int i = length - 1; i >= 0; i--) {
             posi = (length - i - 1) % splitNum;
             value += (chars[i] - 48) * (int) Math.pow(2, posi);
             if (posi == splitNum - 1) {
                 if (value >= 10) {
-                    result = getAssignDecimalStr(assign, value - 10) + result;
+                    result.insert(0, getAssignDecimalStr(assign, value - 10));
                 } else {
-                    result = value + result;
+                    result.insert(0, value);
                 }
                 value = 0;
             } else if (i == 0) {
                 if (value >= 10) {
-                    result = getAssignDecimalStr(assign, value - 10) + result;
+                    result.insert(0, getAssignDecimalStr(assign, value - 10));
                 } else {
-                    result = value + result;
+                    result.insert(0, value);
                 }
                 value = 0;
             }
         }
-        return result;
+        return result.toString();
     }
 
     /**
      * 获取目标进制所对应的字符串
      *
-     * @param assign  目标进制
-     * @param strPosi 目标进制在字符串当中的位置
-     * @return
+     * @param assign      目标进制
+     * @param strPosition 目标进制在字符串当中的位置
+     * @return 进制字符串
      */
-    private String getAssignDecimalStr(int assign, int strPosi) {
-        Character result = null;
+    private String getAssignDecimalStr(int assign, int strPosition) {
+        Character result;
         switch (assign) {
             case 10://目标是十进制就不单独处理了
-                return String.valueOf(strPosi + 10);
+                return String.valueOf(strPosition + 10);
             case 32://32进制不含ILOU字符，同时为大写
-                result = ALPHABET_UPPER_CASE[strPosi];
+                result = ALPHABET_UPPER_CASE[strPosition];
                 //判断是否是不含的字符串
                 if (result.compareTo('I') <= 0) {
                     return result.toString();
@@ -514,13 +530,13 @@ public class JtlwDecimalConvertUtils {
                 result++;
                 return result.toString();
             case 62://数字 + 小写字母 + 大写字母
-                if (strPosi > 26) {
-                    return String.valueOf(ALPHABET_UPPER_CASE[strPosi - 26]);
+                if (strPosition > 26) {
+                    return String.valueOf(ALPHABET_UPPER_CASE[strPosition - 26]);
                 } else {
-                    return String.valueOf(ALPHABET_LOWER_CASE[strPosi]);
+                    return String.valueOf(ALPHABET_LOWER_CASE[strPosition]);
                 }
             default:
-                return String.valueOf(ALPHABET_LOWER_CASE[strPosi]);
+                return String.valueOf(ALPHABET_LOWER_CASE[strPosition]);
         }
     }
 

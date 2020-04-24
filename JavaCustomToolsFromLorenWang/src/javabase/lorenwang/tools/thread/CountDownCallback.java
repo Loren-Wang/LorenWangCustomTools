@@ -1,9 +1,9 @@
 package javabase.lorenwang.tools.thread;
 
 /**
+ * 功能作用：倒计时回调
  * 创建时间：2019-02-22 下午 19:46:34
  * 创建人：王亮（Loren wang）
- * 功能作用：倒计时回调
  * 思路：
  * 方法：
  * 注意：

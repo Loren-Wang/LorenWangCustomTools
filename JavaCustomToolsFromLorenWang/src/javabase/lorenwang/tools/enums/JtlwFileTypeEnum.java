@@ -75,9 +75,7 @@ public enum JtlwFileTypeEnum {
      */
     TXT(28, "0000000000000000000000000000"),
 
-    /**
-     * 开发文件
-     */
+    /*----------------------------------------开发文件---------------------------------------------*/
     /**
      * JSP Archive.
      */
@@ -111,9 +109,7 @@ public enum JtlwFileTypeEnum {
     CSS(38, "48544D4C207B0D0A0942"),
     JS(39, "696B2E71623D696B2E71"),
 
-    /**
-     * 音视频文件
-     */
+    /*------------------------------------ 音视频文件 -----------------------------------*/
     /**
      * Wave.
      */
@@ -184,9 +180,14 @@ public enum JtlwFileTypeEnum {
      * RAR Archive.
      */
     RAR(56, "52617221");
-
-    private int type;
-    private String start;
+    /**
+     * 类型之
+     */
+    private final int type;
+    /**
+     * 起始字节码
+     */
+    private final String start;
 
     JtlwFileTypeEnum(int type, String start) {
         this.type = type;
@@ -205,7 +206,8 @@ public enum JtlwFileTypeEnum {
 //     * 获取所有文档相关类型
 //     */
 //    fun getDocType(): Array<JtlwFileTypeEnum> {
-//        return arrayOf(DOC, XLS, PDF, DOCX, XLSX, MDB, PST, DBX, XLSX_DOCX, XLS_DOC, VSD, WPS, WPD, EPS, TXT)
+//        return arrayOf(DOC, XLS, PDF, DOCX, XLSX, MDB, PST, DBX, XLSX_DOCX, XLS_DOC, VSD, WPS,
+//        WPD, EPS, TXT)
 //    }
 //
 //    /**

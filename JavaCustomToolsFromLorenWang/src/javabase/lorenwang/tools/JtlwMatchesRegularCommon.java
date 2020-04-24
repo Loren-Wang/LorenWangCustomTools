@@ -2,9 +2,10 @@ package javabase.lorenwang.tools;
 
 
 /**
+ *
+ * 功能作用：常用正则表达式
  * 创建时间：2019-01-28 下午 20:41:16
  * 创建人：王亮（Loren wang）
- * 功能作用：常用正则表达式
  * 思路：
  * 方法：1、匹配所有的小写字母
  * 2、匹配所有的大写字母
@@ -39,9 +40,6 @@ package javabase.lorenwang.tools;
  * 备注：
  */
 
-/**
- * url的http或者https正则
- */
 public class JtlwMatchesRegularCommon {
     private static final String EXP_URL_SCHEME_HTTP_S = "(((H|h)(t|T)(T|t)(P|p)(S|s){0,1}):\\/\\/)";
     /**

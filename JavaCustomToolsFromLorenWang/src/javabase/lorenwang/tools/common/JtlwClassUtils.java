@@ -1,9 +1,9 @@
 package javabase.lorenwang.tools.common;
 
 /**
+ * 功能作用：class 工具类
  * 创建时间：2019-03-21 下午 13:44:29
  * 创建人：王亮（Loren wang）
- * 功能作用：class 工具类
  * 思路：
  * 方法：
  * 注意：
@@ -41,9 +41,7 @@ public class JtlwClassUtils {
         // 判断class对象是不是BaseModel的实例
         try {
             model = clazz.newInstance();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
 

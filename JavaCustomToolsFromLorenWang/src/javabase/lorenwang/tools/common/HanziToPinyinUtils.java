@@ -14,7 +14,7 @@ import javabase.lorenwang.tools.JtlwLogUtils;
  * performance and minimum runtime resources with tolerable sacrifice of accuracy. This
  * implementation highly depends on zh_CN ICU collation data and must be always synchronized with
  * ICU.
- *
+ * <p>
  * Currently this file is aligned to zh.txt in ICU 4.6
  */
 public class HanziToPinyinUtils {
@@ -79,153 +79,157 @@ public class HanziToPinyinUtils {
             '\u635a', '\u6cbe', '\u5f20', '\u948a', '\u8707', '\u8d1e', '\u4e89', '\u4e4b',
             '\u4e2d', '\u5dde', '\u6731', '\u6293', '\u8de9', '\u4e13', '\u5986', '\u96b9',
             '\u5b92', '\u5353', '\u5b5c', '\u5b97', '\u90b9', '\u79df', '\u94bb', '\u539c',
-            '\u5c0a', '\u6628', };
+            '\u5c0a', '\u6628',};
 
     /**
      * Pinyin array. Each pinyin is corresponding to unihans of same offset in the unihans array.
      */
     protected static final byte[][] PINYINS = {
-            { 65, 0, 0, 0, 0, 0 }, { 65, 73, 0, 0, 0, 0 }, { 65, 78, 0, 0, 0, 0 },
-            { 65, 78, 71, 0, 0, 0 }, { 65, 79, 0, 0, 0, 0 }, { 66, 65, 0, 0, 0, 0 },
-            { 66, 65, 73, 0, 0, 0 }, { 66, 65, 78, 0, 0, 0 }, { 66, 65, 78, 71, 0, 0 },
-            { 66, 65, 79, 0, 0, 0 }, { 66, 69, 73, 0, 0, 0 }, { 66, 69, 78, 0, 0, 0 },
-            { 66, 69, 78, 71, 0, 0 }, { 66, 73, 0, 0, 0, 0 }, { 66, 73, 65, 78, 0, 0 },
-            { 66, 73, 65, 79, 0, 0 }, { 66, 73, 69, 0, 0, 0 }, { 66, 73, 78, 0, 0, 0 },
-            { 66, 73, 78, 71, 0, 0 }, { 66, 79, 0, 0, 0, 0 }, { 66, 85, 0, 0, 0, 0 },
-            { 67, 65, 0, 0, 0, 0 }, { 67, 65, 73, 0, 0, 0 },
-            { 67, 65, 78, 0, 0, 0 }, { 67, 65, 78, 71, 0, 0 }, { 67, 65, 79, 0, 0, 0 },
-            { 67, 69, 0, 0, 0, 0 }, { 67, 69, 78, 0, 0, 0 }, { 67, 69, 78, 71, 0, 0 },
-            { 67, 72, 65, 0, 0, 0 }, { 67, 72, 65, 73, 0, 0 }, { 67, 72, 65, 78, 0, 0 },
-            { 67, 72, 65, 78, 71, 0 }, { 67, 72, 65, 79, 0, 0 }, { 67, 72, 69, 0, 0, 0 },
-            { 67, 72, 69, 78, 0, 0 }, { 67, 72, 69, 78, 71, 0 }, { 67, 72, 73, 0, 0, 0 },
-            { 67, 72, 79, 78, 71, 0 }, { 67, 72, 79, 85, 0, 0 }, { 67, 72, 85, 0, 0, 0 },
-            { 67, 72, 85, 65, 0, 0 }, { 67, 72, 85, 65, 73, 0 }, { 67, 72, 85, 65, 78, 0 },
-            { 67, 72, 85, 65, 78, 71 }, { 67, 72, 85, 73, 0, 0 }, { 67, 72, 85, 78, 0, 0 },
-            { 67, 72, 85, 79, 0, 0 }, { 67, 73, 0, 0, 0, 0 }, { 67, 79, 78, 71, 0, 0 },
-            { 67, 79, 85, 0, 0, 0 }, { 67, 85, 0, 0, 0, 0 }, { 67, 85, 65, 78, 0, 0 },
-            { 67, 85, 73, 0, 0, 0 }, { 67, 85, 78, 0, 0, 0 }, { 67, 85, 79, 0, 0, 0 },
-            { 68, 65, 0, 0, 0, 0 }, { 68, 65, 73, 0, 0, 0 }, { 68, 65, 78, 0, 0, 0 },
-            { 68, 65, 78, 71, 0, 0 }, { 68, 65, 79, 0, 0, 0 }, { 68, 69, 0, 0, 0, 0 },
-            { 68, 69, 73, 0, 0, 0 }, { 68, 69, 78, 0, 0, 0 }, { 68, 69, 78, 71, 0, 0 },
-            { 68, 73, 0, 0, 0, 0 }, { 68, 73, 65, 0, 0, 0 }, { 68, 73, 65, 78, 0, 0 },
-            { 68, 73, 65, 79, 0, 0 }, { 68, 73, 69, 0, 0, 0 }, { 68, 73, 78, 71, 0, 0 },
-            { 68, 73, 85, 0, 0, 0 }, { 68, 79, 78, 71, 0, 0 }, { 68, 79, 85, 0, 0, 0 },
-            { 68, 85, 0, 0, 0, 0 }, { 68, 85, 65, 78, 0, 0 }, { 68, 85, 73, 0, 0, 0 },
-            { 68, 85, 78, 0, 0, 0 }, { 68, 85, 79, 0, 0, 0 }, { 69, 0, 0, 0, 0, 0 },
-            { 69, 73, 0, 0, 0, 0 }, { 69, 78, 0, 0, 0, 0 }, { 69, 78, 71, 0, 0, 0 },
-            { 69, 82, 0, 0, 0, 0 }, { 70, 65, 0, 0, 0, 0 }, { 70, 65, 78, 0, 0, 0 },
-            { 70, 65, 78, 71, 0, 0 }, { 70, 69, 73, 0, 0, 0 }, { 70, 69, 78, 0, 0, 0 },
-            { 70, 69, 78, 71, 0, 0 }, { 70, 73, 65, 79, 0, 0 }, { 70, 79, 0, 0, 0, 0 },
-            { 70, 79, 85, 0, 0, 0 }, { 70, 85, 0, 0, 0, 0 }, { 71, 65, 0, 0, 0, 0 },
-            { 71, 65, 73, 0, 0, 0 }, { 71, 65, 78, 0, 0, 0 }, { 71, 65, 78, 71, 0, 0 },
-            { 71, 65, 79, 0, 0, 0 }, { 71, 69, 0, 0, 0, 0 }, { 71, 69, 73, 0, 0, 0 },
-            { 71, 69, 78, 0, 0, 0 }, { 71, 69, 78, 71, 0, 0 }, { 71, 79, 78, 71, 0, 0 },
-            { 71, 79, 85, 0, 0, 0 }, { 71, 85, 0, 0, 0, 0 }, { 71, 85, 65, 0, 0, 0 },
-            { 71, 85, 65, 73, 0, 0 }, { 71, 85, 65, 78, 0, 0 }, { 71, 85, 65, 78, 71, 0 },
-            { 71, 85, 73, 0, 0, 0 }, { 71, 85, 78, 0, 0, 0 }, { 71, 85, 79, 0, 0, 0 },
-            { 72, 65, 0, 0, 0, 0 }, { 72, 65, 73, 0, 0, 0 }, { 72, 65, 78, 0, 0, 0 },
-            { 72, 65, 78, 71, 0, 0 }, { 72, 65, 79, 0, 0, 0 }, { 72, 69, 0, 0, 0, 0 },
-            { 72, 69, 73, 0, 0, 0 }, { 72, 69, 78, 0, 0, 0 }, { 72, 69, 78, 71, 0, 0 },
-            { 72, 77, 0, 0, 0, 0 }, { 72, 79, 78, 71, 0, 0 }, { 72, 79, 85, 0, 0, 0 },
-            { 72, 85, 0, 0, 0, 0 }, { 72, 85, 65, 0, 0, 0 }, { 72, 85, 65, 73, 0, 0 },
-            { 72, 85, 65, 78, 0, 0 }, { 72, 85, 65, 78, 71, 0 }, { 72, 85, 73, 0, 0, 0 },
-            { 72, 85, 78, 0, 0, 0 }, { 72, 85, 79, 0, 0, 0 }, { 74, 73, 0, 0, 0, 0 },
-            { 74, 73, 65, 0, 0, 0 }, { 74, 73, 65, 78, 0, 0 }, { 74, 73, 65, 78, 71, 0 },
-            { 74, 73, 65, 79, 0, 0 }, { 74, 73, 69, 0, 0, 0 }, { 74, 73, 78, 0, 0, 0 },
-            { 74, 73, 78, 71, 0, 0 }, { 74, 73, 79, 78, 71, 0 }, { 74, 73, 85, 0, 0, 0 },
-            { 74, 85, 0, 0, 0, 0 }, { 74, 85, 65, 78, 0, 0 }, { 74, 85, 69, 0, 0, 0 },
-            { 74, 85, 78, 0, 0, 0 }, { 75, 65, 0, 0, 0, 0 }, { 75, 65, 73, 0, 0, 0 },
-            { 75, 65, 78, 0, 0, 0 }, { 75, 65, 78, 71, 0, 0 }, { 75, 65, 79, 0, 0, 0 },
-            { 75, 69, 0, 0, 0, 0 }, { 75, 69, 73, 0, 0, 0 }, { 75, 69, 78, 0, 0, 0 },
-            { 75, 69, 78, 71, 0, 0 }, { 75, 79, 78, 71, 0, 0 }, { 75, 79, 85, 0, 0, 0 },
-            { 75, 85, 0, 0, 0, 0 }, { 75, 85, 65, 0, 0, 0 }, { 75, 85, 65, 73, 0, 0 },
-            { 75, 85, 65, 78, 0, 0 }, { 75, 85, 65, 78, 71, 0 }, { 75, 85, 73, 0, 0, 0 },
-            { 75, 85, 78, 0, 0, 0 }, { 75, 85, 79, 0, 0, 0 }, { 76, 65, 0, 0, 0, 0 },
-            { 76, 65, 73, 0, 0, 0 }, { 76, 65, 78, 0, 0, 0 }, { 76, 65, 78, 71, 0, 0 },
-            { 76, 65, 79, 0, 0, 0 }, { 76, 69, 0, 0, 0, 0 }, { 76, 69, 73, 0, 0, 0 },
-            { 76, 69, 78, 71, 0, 0 }, { 76, 73, 0, 0, 0, 0 }, { 76, 73, 65, 0, 0, 0 },
-            { 76, 73, 65, 78, 0, 0 }, { 76, 73, 65, 78, 71, 0 }, { 76, 73, 65, 79, 0, 0 },
-            { 76, 73, 69, 0, 0, 0 }, { 76, 73, 78, 0, 0, 0 }, { 76, 73, 78, 71, 0, 0 },
-            { 76, 73, 85, 0, 0, 0 }, { 76, 79, 78, 71, 0, 0 }, { 76, 79, 85, 0, 0, 0 },
-            { 76, 85, 0, 0, 0, 0 }, { 76, 85, 65, 78, 0, 0 }, { 76, 85, 69, 0, 0, 0 },
-            { 76, 85, 78, 0, 0, 0 }, { 76, 85, 79, 0, 0, 0 }, { 77, 0, 0, 0, 0, 0 },
-            { 77, 65, 0, 0, 0, 0 }, { 77, 65, 73, 0, 0, 0 }, { 77, 65, 78, 0, 0, 0 },
-            { 77, 65, 78, 71, 0, 0 }, { 77, 65, 79, 0, 0, 0 }, { 77, 69, 0, 0, 0, 0 },
-            { 77, 69, 73, 0, 0, 0 }, { 77, 69, 78, 0, 0, 0 }, { 77, 69, 78, 71, 0, 0 },
-            { 77, 73, 0, 0, 0, 0 }, { 77, 73, 65, 78, 0, 0 }, { 77, 73, 65, 79, 0, 0 },
-            { 77, 73, 69, 0, 0, 0 }, { 77, 73, 78, 0, 0, 0 }, { 77, 73, 78, 71, 0, 0 },
-            { 77, 73, 85, 0, 0, 0 }, { 77, 79, 0, 0, 0, 0 }, { 77, 79, 85, 0, 0, 0 },
-            { 77, 85, 0, 0, 0, 0 }, { 78, 65, 0, 0, 0, 0 }, { 78, 65, 73, 0, 0, 0 },
-            { 78, 65, 78, 0, 0, 0 }, { 78, 65, 78, 71, 0, 0 }, { 78, 65, 79, 0, 0, 0 },
-            { 78, 69, 0, 0, 0, 0 }, { 78, 69, 73, 0, 0, 0 }, { 78, 69, 78, 0, 0, 0 },
-            { 78, 69, 78, 71, 0, 0 }, { 78, 73, 0, 0, 0, 0 }, { 78, 73, 65, 78, 0, 0 },
-            { 78, 73, 65, 78, 71, 0 }, { 78, 73, 65, 79, 0, 0 }, { 78, 73, 69, 0, 0, 0 },
-            { 78, 73, 78, 0, 0, 0 }, { 78, 73, 78, 71, 0, 0 }, { 78, 73, 85, 0, 0, 0 },
-            { 78, 79, 78, 71, 0, 0 }, { 78, 79, 85, 0, 0, 0 }, { 78, 85, 0, 0, 0, 0 },
-            { 78, 85, 65, 78, 0, 0 }, { 78, 85, 69, 0, 0, 0 }, { 78, 85, 79, 0, 0, 0 },
-            { 79, 0, 0, 0, 0, 0 }, { 79, 85, 0, 0, 0, 0 }, { 80, 65, 0, 0, 0, 0 },
-            { 80, 65, 73, 0, 0, 0 }, { 80, 65, 78, 0, 0, 0 }, { 80, 65, 78, 71, 0, 0 },
-            { 80, 65, 79, 0, 0, 0 }, { 80, 69, 73, 0, 0, 0 }, { 80, 69, 78, 0, 0, 0 },
-            { 80, 69, 78, 71, 0, 0 }, { 80, 73, 0, 0, 0, 0 }, { 80, 73, 65, 78, 0, 0 },
-            { 80, 73, 65, 79, 0, 0 }, { 80, 73, 69, 0, 0, 0 }, { 80, 73, 78, 0, 0, 0 },
-            { 80, 73, 78, 71, 0, 0 }, { 80, 79, 0, 0, 0, 0 }, { 80, 79, 85, 0, 0, 0 },
-            { 80, 85, 0, 0, 0, 0 }, { 81, 73, 0, 0, 0, 0 }, { 81, 73, 65, 0, 0, 0 },
-            { 81, 73, 65, 78, 0, 0 }, { 81, 73, 65, 78, 71, 0 }, { 81, 73, 65, 79, 0, 0 },
-            { 81, 73, 69, 0, 0, 0 }, { 81, 73, 78, 0, 0, 0 }, { 81, 73, 78, 71, 0, 0 },
-            { 81, 73, 79, 78, 71, 0 }, { 81, 73, 85, 0, 0, 0 }, { 81, 85, 0, 0, 0, 0 },
-            { 81, 85, 65, 78, 0, 0 }, { 81, 85, 69, 0, 0, 0 }, { 81, 85, 78, 0, 0, 0 },
-            { 82, 65, 78, 0, 0, 0 }, { 82, 65, 78, 71, 0, 0 }, { 82, 65, 79, 0, 0, 0 },
-            { 82, 69, 0, 0, 0, 0 }, { 82, 69, 78, 0, 0, 0 }, { 82, 69, 78, 71, 0, 0 },
-            { 82, 73, 0, 0, 0, 0 }, { 82, 79, 78, 71, 0, 0 }, { 82, 79, 85, 0, 0, 0 },
-            { 82, 85, 0, 0, 0, 0 }, { 82, 85, 65, 78, 0, 0 }, { 82, 85, 73, 0, 0, 0 },
-            { 82, 85, 78, 0, 0, 0 }, { 82, 85, 79, 0, 0, 0 }, { 83, 65, 0, 0, 0, 0 },
-            { 83, 65, 73, 0, 0, 0 }, { 83, 65, 78, 0, 0, 0 }, { 83, 65, 78, 71, 0, 0 },
-            { 83, 65, 79, 0, 0, 0 }, { 83, 69, 0, 0, 0, 0 }, { 83, 69, 78, 0, 0, 0 },
-            { 83, 69, 78, 71, 0, 0 }, { 83, 72, 65, 0, 0, 0 }, { 83, 72, 65, 73, 0, 0 },
-            { 83, 72, 65, 78, 0, 0 }, { 83, 72, 65, 78, 71, 0 }, { 83, 72, 65, 79, 0, 0 },
-            { 83, 72, 69, 0, 0, 0 }, { 83, 72, 69, 78, 0, 0 }, { 83, 72, 69, 78, 71, 0 },
-            { 83, 72, 73, 0, 0, 0 }, { 83, 72, 79, 85, 0, 0 }, { 83, 72, 85, 0, 0, 0 },
-            { 83, 72, 85, 65, 0, 0 }, { 83, 72, 85, 65, 73, 0 }, { 83, 72, 85, 65, 78, 0 },
-            { 83, 72, 85, 65, 78, 71 }, { 83, 72, 85, 73, 0, 0 }, { 83, 72, 85, 78, 0, 0 },
-            { 83, 72, 85, 79, 0, 0 }, { 83, 73, 0, 0, 0, 0 }, { 83, 79, 78, 71, 0, 0 },
-            { 83, 79, 85, 0, 0, 0 }, { 83, 85, 0, 0, 0, 0 }, { 83, 85, 65, 78, 0, 0 },
-            { 83, 85, 73, 0, 0, 0 }, { 83, 85, 78, 0, 0, 0 }, { 83, 85, 79, 0, 0, 0 },
-            { 84, 65, 0, 0, 0, 0 }, { 84, 65, 73, 0, 0, 0 }, { 84, 65, 78, 0, 0, 0 },
-            { 84, 65, 78, 71, 0, 0 }, { 84, 65, 79, 0, 0, 0 }, { 84, 69, 0, 0, 0, 0 },
-            { 84, 69, 78, 71, 0, 0 }, { 84, 73, 0, 0, 0, 0 }, { 84, 73, 65, 78, 0, 0 },
-            { 84, 73, 65, 79, 0, 0 }, { 84, 73, 69, 0, 0, 0 }, { 84, 73, 78, 71, 0, 0 },
-            { 84, 79, 78, 71, 0, 0 }, { 84, 79, 85, 0, 0, 0 }, { 84, 85, 0, 0, 0, 0 },
-            { 84, 85, 65, 78, 0, 0 }, { 84, 85, 73, 0, 0, 0 }, { 84, 85, 78, 0, 0, 0 },
-            { 84, 85, 79, 0, 0, 0 }, { 87, 65, 0, 0, 0, 0 }, { 87, 65, 73, 0, 0, 0 },
-            { 87, 65, 78, 0, 0, 0 }, { 87, 65, 78, 71, 0, 0 }, { 87, 69, 73, 0, 0, 0 },
-            { 87, 69, 78, 0, 0, 0 }, { 87, 69, 78, 71, 0, 0 }, { 87, 79, 0, 0, 0, 0 },
-            { 87, 85, 0, 0, 0, 0 }, { 88, 73, 0, 0, 0, 0 }, { 88, 73, 65, 0, 0, 0 },
-            { 88, 73, 65, 78, 0, 0 }, { 88, 73, 65, 78, 71, 0 }, { 88, 73, 65, 79, 0, 0 },
-            { 88, 73, 69, 0, 0, 0 }, { 88, 73, 78, 0, 0, 0 }, { 88, 73, 78, 71, 0, 0 },
-            { 88, 73, 79, 78, 71, 0 }, { 88, 73, 85, 0, 0, 0 }, { 88, 85, 0, 0, 0, 0 },
-            { 88, 85, 65, 78, 0, 0 }, { 88, 85, 69, 0, 0, 0 }, { 88, 85, 78, 0, 0, 0 },
-            { 89, 65, 0, 0, 0, 0 }, { 89, 65, 78, 0, 0, 0 }, { 89, 65, 78, 71, 0, 0 },
-            { 89, 65, 79, 0, 0, 0 }, { 89, 69, 0, 0, 0, 0 }, { 89, 73, 0, 0, 0, 0 },
-            { 89, 73, 78, 0, 0, 0 }, { 89, 73, 78, 71, 0, 0 }, { 89, 79, 0, 0, 0, 0 },
-            { 89, 79, 78, 71, 0, 0 }, { 89, 79, 85, 0, 0, 0 }, { 89, 85, 0, 0, 0, 0 },
-            { 89, 85, 65, 78, 0, 0 }, { 89, 85, 69, 0, 0, 0 }, { 89, 85, 78, 0, 0, 0 },
-            { 90, 65, 0, 0, 0, 0 }, { 90, 65, 73, 0, 0, 0 }, { 90, 65, 78, 0, 0, 0 },
-            { 90, 65, 78, 71, 0, 0 }, { 90, 65, 79, 0, 0, 0 }, { 90, 69, 0, 0, 0, 0 },
-            { 90, 69, 73, 0, 0, 0 }, { 90, 69, 78, 0, 0, 0 }, { 90, 69, 78, 71, 0, 0 },
-            { 90, 72, 65, 0, 0, 0 }, { 90, 72, 65, 73, 0, 0 }, { 90, 72, 65, 78, 0, 0 },
-            { 90, 72, 65, 78, 71, 0 }, { 90, 72, 65, 79, 0, 0 }, { 90, 72, 69, 0, 0, 0 },
-            { 90, 72, 69, 78, 0, 0 }, { 90, 72, 69, 78, 71, 0 }, { 90, 72, 73, 0, 0, 0 },
-            { 90, 72, 79, 78, 71, 0 }, { 90, 72, 79, 85, 0, 0 }, { 90, 72, 85, 0, 0, 0 },
-            { 90, 72, 85, 65, 0, 0 }, { 90, 72, 85, 65, 73, 0 }, { 90, 72, 85, 65, 78, 0 },
-            { 90, 72, 85, 65, 78, 71 }, { 90, 72, 85, 73, 0, 0 }, { 90, 72, 85, 78, 0, 0 },
-            { 90, 72, 85, 79, 0, 0 }, { 90, 73, 0, 0, 0, 0 }, { 90, 79, 78, 71, 0, 0 },
-            { 90, 79, 85, 0, 0, 0 }, { 90, 85, 0, 0, 0, 0 }, { 90, 85, 65, 78, 0, 0 },
-            { 90, 85, 73, 0, 0, 0 }, { 90, 85, 78, 0, 0, 0 }, { 90, 85, 79, 0, 0, 0 }, };
+            {65, 0, 0, 0, 0, 0}, {65, 73, 0, 0, 0, 0}, {65, 78, 0, 0, 0, 0},
+            {65, 78, 71, 0, 0, 0}, {65, 79, 0, 0, 0, 0}, {66, 65, 0, 0, 0, 0},
+            {66, 65, 73, 0, 0, 0}, {66, 65, 78, 0, 0, 0}, {66, 65, 78, 71, 0, 0},
+            {66, 65, 79, 0, 0, 0}, {66, 69, 73, 0, 0, 0}, {66, 69, 78, 0, 0, 0},
+            {66, 69, 78, 71, 0, 0}, {66, 73, 0, 0, 0, 0}, {66, 73, 65, 78, 0, 0},
+            {66, 73, 65, 79, 0, 0}, {66, 73, 69, 0, 0, 0}, {66, 73, 78, 0, 0, 0},
+            {66, 73, 78, 71, 0, 0}, {66, 79, 0, 0, 0, 0}, {66, 85, 0, 0, 0, 0},
+            {67, 65, 0, 0, 0, 0}, {67, 65, 73, 0, 0, 0},
+            {67, 65, 78, 0, 0, 0}, {67, 65, 78, 71, 0, 0}, {67, 65, 79, 0, 0, 0},
+            {67, 69, 0, 0, 0, 0}, {67, 69, 78, 0, 0, 0}, {67, 69, 78, 71, 0, 0},
+            {67, 72, 65, 0, 0, 0}, {67, 72, 65, 73, 0, 0}, {67, 72, 65, 78, 0, 0},
+            {67, 72, 65, 78, 71, 0}, {67, 72, 65, 79, 0, 0}, {67, 72, 69, 0, 0, 0},
+            {67, 72, 69, 78, 0, 0}, {67, 72, 69, 78, 71, 0}, {67, 72, 73, 0, 0, 0},
+            {67, 72, 79, 78, 71, 0}, {67, 72, 79, 85, 0, 0}, {67, 72, 85, 0, 0, 0},
+            {67, 72, 85, 65, 0, 0}, {67, 72, 85, 65, 73, 0}, {67, 72, 85, 65, 78, 0},
+            {67, 72, 85, 65, 78, 71}, {67, 72, 85, 73, 0, 0}, {67, 72, 85, 78, 0, 0},
+            {67, 72, 85, 79, 0, 0}, {67, 73, 0, 0, 0, 0}, {67, 79, 78, 71, 0, 0},
+            {67, 79, 85, 0, 0, 0}, {67, 85, 0, 0, 0, 0}, {67, 85, 65, 78, 0, 0},
+            {67, 85, 73, 0, 0, 0}, {67, 85, 78, 0, 0, 0}, {67, 85, 79, 0, 0, 0},
+            {68, 65, 0, 0, 0, 0}, {68, 65, 73, 0, 0, 0}, {68, 65, 78, 0, 0, 0},
+            {68, 65, 78, 71, 0, 0}, {68, 65, 79, 0, 0, 0}, {68, 69, 0, 0, 0, 0},
+            {68, 69, 73, 0, 0, 0}, {68, 69, 78, 0, 0, 0}, {68, 69, 78, 71, 0, 0},
+            {68, 73, 0, 0, 0, 0}, {68, 73, 65, 0, 0, 0}, {68, 73, 65, 78, 0, 0},
+            {68, 73, 65, 79, 0, 0}, {68, 73, 69, 0, 0, 0}, {68, 73, 78, 71, 0, 0},
+            {68, 73, 85, 0, 0, 0}, {68, 79, 78, 71, 0, 0}, {68, 79, 85, 0, 0, 0},
+            {68, 85, 0, 0, 0, 0}, {68, 85, 65, 78, 0, 0}, {68, 85, 73, 0, 0, 0},
+            {68, 85, 78, 0, 0, 0}, {68, 85, 79, 0, 0, 0}, {69, 0, 0, 0, 0, 0},
+            {69, 73, 0, 0, 0, 0}, {69, 78, 0, 0, 0, 0}, {69, 78, 71, 0, 0, 0},
+            {69, 82, 0, 0, 0, 0}, {70, 65, 0, 0, 0, 0}, {70, 65, 78, 0, 0, 0},
+            {70, 65, 78, 71, 0, 0}, {70, 69, 73, 0, 0, 0}, {70, 69, 78, 0, 0, 0},
+            {70, 69, 78, 71, 0, 0}, {70, 73, 65, 79, 0, 0}, {70, 79, 0, 0, 0, 0},
+            {70, 79, 85, 0, 0, 0}, {70, 85, 0, 0, 0, 0}, {71, 65, 0, 0, 0, 0},
+            {71, 65, 73, 0, 0, 0}, {71, 65, 78, 0, 0, 0}, {71, 65, 78, 71, 0, 0},
+            {71, 65, 79, 0, 0, 0}, {71, 69, 0, 0, 0, 0}, {71, 69, 73, 0, 0, 0},
+            {71, 69, 78, 0, 0, 0}, {71, 69, 78, 71, 0, 0}, {71, 79, 78, 71, 0, 0},
+            {71, 79, 85, 0, 0, 0}, {71, 85, 0, 0, 0, 0}, {71, 85, 65, 0, 0, 0},
+            {71, 85, 65, 73, 0, 0}, {71, 85, 65, 78, 0, 0}, {71, 85, 65, 78, 71, 0},
+            {71, 85, 73, 0, 0, 0}, {71, 85, 78, 0, 0, 0}, {71, 85, 79, 0, 0, 0},
+            {72, 65, 0, 0, 0, 0}, {72, 65, 73, 0, 0, 0}, {72, 65, 78, 0, 0, 0},
+            {72, 65, 78, 71, 0, 0}, {72, 65, 79, 0, 0, 0}, {72, 69, 0, 0, 0, 0},
+            {72, 69, 73, 0, 0, 0}, {72, 69, 78, 0, 0, 0}, {72, 69, 78, 71, 0, 0},
+            {72, 77, 0, 0, 0, 0}, {72, 79, 78, 71, 0, 0}, {72, 79, 85, 0, 0, 0},
+            {72, 85, 0, 0, 0, 0}, {72, 85, 65, 0, 0, 0}, {72, 85, 65, 73, 0, 0},
+            {72, 85, 65, 78, 0, 0}, {72, 85, 65, 78, 71, 0}, {72, 85, 73, 0, 0, 0},
+            {72, 85, 78, 0, 0, 0}, {72, 85, 79, 0, 0, 0}, {74, 73, 0, 0, 0, 0},
+            {74, 73, 65, 0, 0, 0}, {74, 73, 65, 78, 0, 0}, {74, 73, 65, 78, 71, 0},
+            {74, 73, 65, 79, 0, 0}, {74, 73, 69, 0, 0, 0}, {74, 73, 78, 0, 0, 0},
+            {74, 73, 78, 71, 0, 0}, {74, 73, 79, 78, 71, 0}, {74, 73, 85, 0, 0, 0},
+            {74, 85, 0, 0, 0, 0}, {74, 85, 65, 78, 0, 0}, {74, 85, 69, 0, 0, 0},
+            {74, 85, 78, 0, 0, 0}, {75, 65, 0, 0, 0, 0}, {75, 65, 73, 0, 0, 0},
+            {75, 65, 78, 0, 0, 0}, {75, 65, 78, 71, 0, 0}, {75, 65, 79, 0, 0, 0},
+            {75, 69, 0, 0, 0, 0}, {75, 69, 73, 0, 0, 0}, {75, 69, 78, 0, 0, 0},
+            {75, 69, 78, 71, 0, 0}, {75, 79, 78, 71, 0, 0}, {75, 79, 85, 0, 0, 0},
+            {75, 85, 0, 0, 0, 0}, {75, 85, 65, 0, 0, 0}, {75, 85, 65, 73, 0, 0},
+            {75, 85, 65, 78, 0, 0}, {75, 85, 65, 78, 71, 0}, {75, 85, 73, 0, 0, 0},
+            {75, 85, 78, 0, 0, 0}, {75, 85, 79, 0, 0, 0}, {76, 65, 0, 0, 0, 0},
+            {76, 65, 73, 0, 0, 0}, {76, 65, 78, 0, 0, 0}, {76, 65, 78, 71, 0, 0},
+            {76, 65, 79, 0, 0, 0}, {76, 69, 0, 0, 0, 0}, {76, 69, 73, 0, 0, 0},
+            {76, 69, 78, 71, 0, 0}, {76, 73, 0, 0, 0, 0}, {76, 73, 65, 0, 0, 0},
+            {76, 73, 65, 78, 0, 0}, {76, 73, 65, 78, 71, 0}, {76, 73, 65, 79, 0, 0},
+            {76, 73, 69, 0, 0, 0}, {76, 73, 78, 0, 0, 0}, {76, 73, 78, 71, 0, 0},
+            {76, 73, 85, 0, 0, 0}, {76, 79, 78, 71, 0, 0}, {76, 79, 85, 0, 0, 0},
+            {76, 85, 0, 0, 0, 0}, {76, 85, 65, 78, 0, 0}, {76, 85, 69, 0, 0, 0},
+            {76, 85, 78, 0, 0, 0}, {76, 85, 79, 0, 0, 0}, {77, 0, 0, 0, 0, 0},
+            {77, 65, 0, 0, 0, 0}, {77, 65, 73, 0, 0, 0}, {77, 65, 78, 0, 0, 0},
+            {77, 65, 78, 71, 0, 0}, {77, 65, 79, 0, 0, 0}, {77, 69, 0, 0, 0, 0},
+            {77, 69, 73, 0, 0, 0}, {77, 69, 78, 0, 0, 0}, {77, 69, 78, 71, 0, 0},
+            {77, 73, 0, 0, 0, 0}, {77, 73, 65, 78, 0, 0}, {77, 73, 65, 79, 0, 0},
+            {77, 73, 69, 0, 0, 0}, {77, 73, 78, 0, 0, 0}, {77, 73, 78, 71, 0, 0},
+            {77, 73, 85, 0, 0, 0}, {77, 79, 0, 0, 0, 0}, {77, 79, 85, 0, 0, 0},
+            {77, 85, 0, 0, 0, 0}, {78, 65, 0, 0, 0, 0}, {78, 65, 73, 0, 0, 0},
+            {78, 65, 78, 0, 0, 0}, {78, 65, 78, 71, 0, 0}, {78, 65, 79, 0, 0, 0},
+            {78, 69, 0, 0, 0, 0}, {78, 69, 73, 0, 0, 0}, {78, 69, 78, 0, 0, 0},
+            {78, 69, 78, 71, 0, 0}, {78, 73, 0, 0, 0, 0}, {78, 73, 65, 78, 0, 0},
+            {78, 73, 65, 78, 71, 0}, {78, 73, 65, 79, 0, 0}, {78, 73, 69, 0, 0, 0},
+            {78, 73, 78, 0, 0, 0}, {78, 73, 78, 71, 0, 0}, {78, 73, 85, 0, 0, 0},
+            {78, 79, 78, 71, 0, 0}, {78, 79, 85, 0, 0, 0}, {78, 85, 0, 0, 0, 0},
+            {78, 85, 65, 78, 0, 0}, {78, 85, 69, 0, 0, 0}, {78, 85, 79, 0, 0, 0},
+            {79, 0, 0, 0, 0, 0}, {79, 85, 0, 0, 0, 0}, {80, 65, 0, 0, 0, 0},
+            {80, 65, 73, 0, 0, 0}, {80, 65, 78, 0, 0, 0}, {80, 65, 78, 71, 0, 0},
+            {80, 65, 79, 0, 0, 0}, {80, 69, 73, 0, 0, 0}, {80, 69, 78, 0, 0, 0},
+            {80, 69, 78, 71, 0, 0}, {80, 73, 0, 0, 0, 0}, {80, 73, 65, 78, 0, 0},
+            {80, 73, 65, 79, 0, 0}, {80, 73, 69, 0, 0, 0}, {80, 73, 78, 0, 0, 0},
+            {80, 73, 78, 71, 0, 0}, {80, 79, 0, 0, 0, 0}, {80, 79, 85, 0, 0, 0},
+            {80, 85, 0, 0, 0, 0}, {81, 73, 0, 0, 0, 0}, {81, 73, 65, 0, 0, 0},
+            {81, 73, 65, 78, 0, 0}, {81, 73, 65, 78, 71, 0}, {81, 73, 65, 79, 0, 0},
+            {81, 73, 69, 0, 0, 0}, {81, 73, 78, 0, 0, 0}, {81, 73, 78, 71, 0, 0},
+            {81, 73, 79, 78, 71, 0}, {81, 73, 85, 0, 0, 0}, {81, 85, 0, 0, 0, 0},
+            {81, 85, 65, 78, 0, 0}, {81, 85, 69, 0, 0, 0}, {81, 85, 78, 0, 0, 0},
+            {82, 65, 78, 0, 0, 0}, {82, 65, 78, 71, 0, 0}, {82, 65, 79, 0, 0, 0},
+            {82, 69, 0, 0, 0, 0}, {82, 69, 78, 0, 0, 0}, {82, 69, 78, 71, 0, 0},
+            {82, 73, 0, 0, 0, 0}, {82, 79, 78, 71, 0, 0}, {82, 79, 85, 0, 0, 0},
+            {82, 85, 0, 0, 0, 0}, {82, 85, 65, 78, 0, 0}, {82, 85, 73, 0, 0, 0},
+            {82, 85, 78, 0, 0, 0}, {82, 85, 79, 0, 0, 0}, {83, 65, 0, 0, 0, 0},
+            {83, 65, 73, 0, 0, 0}, {83, 65, 78, 0, 0, 0}, {83, 65, 78, 71, 0, 0},
+            {83, 65, 79, 0, 0, 0}, {83, 69, 0, 0, 0, 0}, {83, 69, 78, 0, 0, 0},
+            {83, 69, 78, 71, 0, 0}, {83, 72, 65, 0, 0, 0}, {83, 72, 65, 73, 0, 0},
+            {83, 72, 65, 78, 0, 0}, {83, 72, 65, 78, 71, 0}, {83, 72, 65, 79, 0, 0},
+            {83, 72, 69, 0, 0, 0}, {83, 72, 69, 78, 0, 0}, {83, 72, 69, 78, 71, 0},
+            {83, 72, 73, 0, 0, 0}, {83, 72, 79, 85, 0, 0}, {83, 72, 85, 0, 0, 0},
+            {83, 72, 85, 65, 0, 0}, {83, 72, 85, 65, 73, 0}, {83, 72, 85, 65, 78, 0},
+            {83, 72, 85, 65, 78, 71}, {83, 72, 85, 73, 0, 0}, {83, 72, 85, 78, 0, 0},
+            {83, 72, 85, 79, 0, 0}, {83, 73, 0, 0, 0, 0}, {83, 79, 78, 71, 0, 0},
+            {83, 79, 85, 0, 0, 0}, {83, 85, 0, 0, 0, 0}, {83, 85, 65, 78, 0, 0},
+            {83, 85, 73, 0, 0, 0}, {83, 85, 78, 0, 0, 0}, {83, 85, 79, 0, 0, 0},
+            {84, 65, 0, 0, 0, 0}, {84, 65, 73, 0, 0, 0}, {84, 65, 78, 0, 0, 0},
+            {84, 65, 78, 71, 0, 0}, {84, 65, 79, 0, 0, 0}, {84, 69, 0, 0, 0, 0},
+            {84, 69, 78, 71, 0, 0}, {84, 73, 0, 0, 0, 0}, {84, 73, 65, 78, 0, 0},
+            {84, 73, 65, 79, 0, 0}, {84, 73, 69, 0, 0, 0}, {84, 73, 78, 71, 0, 0},
+            {84, 79, 78, 71, 0, 0}, {84, 79, 85, 0, 0, 0}, {84, 85, 0, 0, 0, 0},
+            {84, 85, 65, 78, 0, 0}, {84, 85, 73, 0, 0, 0}, {84, 85, 78, 0, 0, 0},
+            {84, 85, 79, 0, 0, 0}, {87, 65, 0, 0, 0, 0}, {87, 65, 73, 0, 0, 0},
+            {87, 65, 78, 0, 0, 0}, {87, 65, 78, 71, 0, 0}, {87, 69, 73, 0, 0, 0},
+            {87, 69, 78, 0, 0, 0}, {87, 69, 78, 71, 0, 0}, {87, 79, 0, 0, 0, 0},
+            {87, 85, 0, 0, 0, 0}, {88, 73, 0, 0, 0, 0}, {88, 73, 65, 0, 0, 0},
+            {88, 73, 65, 78, 0, 0}, {88, 73, 65, 78, 71, 0}, {88, 73, 65, 79, 0, 0},
+            {88, 73, 69, 0, 0, 0}, {88, 73, 78, 0, 0, 0}, {88, 73, 78, 71, 0, 0},
+            {88, 73, 79, 78, 71, 0}, {88, 73, 85, 0, 0, 0}, {88, 85, 0, 0, 0, 0},
+            {88, 85, 65, 78, 0, 0}, {88, 85, 69, 0, 0, 0}, {88, 85, 78, 0, 0, 0},
+            {89, 65, 0, 0, 0, 0}, {89, 65, 78, 0, 0, 0}, {89, 65, 78, 71, 0, 0},
+            {89, 65, 79, 0, 0, 0}, {89, 69, 0, 0, 0, 0}, {89, 73, 0, 0, 0, 0},
+            {89, 73, 78, 0, 0, 0}, {89, 73, 78, 71, 0, 0}, {89, 79, 0, 0, 0, 0},
+            {89, 79, 78, 71, 0, 0}, {89, 79, 85, 0, 0, 0}, {89, 85, 0, 0, 0, 0},
+            {89, 85, 65, 78, 0, 0}, {89, 85, 69, 0, 0, 0}, {89, 85, 78, 0, 0, 0},
+            {90, 65, 0, 0, 0, 0}, {90, 65, 73, 0, 0, 0}, {90, 65, 78, 0, 0, 0},
+            {90, 65, 78, 71, 0, 0}, {90, 65, 79, 0, 0, 0}, {90, 69, 0, 0, 0, 0},
+            {90, 69, 73, 0, 0, 0}, {90, 69, 78, 0, 0, 0}, {90, 69, 78, 71, 0, 0},
+            {90, 72, 65, 0, 0, 0}, {90, 72, 65, 73, 0, 0}, {90, 72, 65, 78, 0, 0},
+            {90, 72, 65, 78, 71, 0}, {90, 72, 65, 79, 0, 0}, {90, 72, 69, 0, 0, 0},
+            {90, 72, 69, 78, 0, 0}, {90, 72, 69, 78, 71, 0}, {90, 72, 73, 0, 0, 0},
+            {90, 72, 79, 78, 71, 0}, {90, 72, 79, 85, 0, 0}, {90, 72, 85, 0, 0, 0},
+            {90, 72, 85, 65, 0, 0}, {90, 72, 85, 65, 73, 0}, {90, 72, 85, 65, 78, 0},
+            {90, 72, 85, 65, 78, 71}, {90, 72, 85, 73, 0, 0}, {90, 72, 85, 78, 0, 0},
+            {90, 72, 85, 79, 0, 0}, {90, 73, 0, 0, 0, 0}, {90, 79, 78, 71, 0, 0},
+            {90, 79, 85, 0, 0, 0}, {90, 85, 0, 0, 0, 0}, {90, 85, 65, 78, 0, 0},
+            {90, 85, 73, 0, 0, 0}, {90, 85, 78, 0, 0, 0}, {90, 85, 79, 0, 0, 0},};
 
-    /** First and last Chinese character with known Pinyin according to zh collation */
+    /**
+     * First and last Chinese character with known Pinyin according to zh collation
+     */
     private static final String FIRST_PINYIN_UNIHAN = "\u963F";
     private static final String LAST_PINYIN_UNIHAN = "\u84D9";
-    /** The first Chinese character in Unicode block */
+    /**
+     * The first Chinese character in Unicode block
+     */
     private static final char FIRST_UNIHAN = '\u3400';
     private static Collator COLLATOR;
 
@@ -272,24 +276,26 @@ public class HanziToPinyinUtils {
 
     public static HanziToPinyinUtils getInstance() {
         synchronized (HanziToPinyinUtils.class) {
-            if(sInstance == null) {
+            if (sInstance == null) {
                 Locale newChina = new Locale("zh", "HANS", "CN");//这部分是我做的修复，解决HTC兼容性问题
                 COLLATOR = Collator.getInstance();
 
                 // Check if zh_CN collation data is available
-                final Locale locale[] = Collator.getAvailableLocales();
-                for (int i = 0; i < locale.length; i++) {
-                    if (locale[i].equals(Locale.CHINA) || locale[i].equals(Locale.CHINESE) || locale[i].equals(newChina)) {
+                final Locale[] locale = Collator.getAvailableLocales();
+                for (Locale value : locale) {
+                    if (value.equals(Locale.CHINA) || value.equals(Locale.CHINESE) || value.equals(newChina)) {
                         // Do self validation just once.
                         if (DEBUG) {
-                            JtlwLogUtils.logD(TAG, "Self validation. Result: " + doSelfValidation());
+                            JtlwLogUtils.logD(TAG,
+                                    "Self validation. Result: " + doSelfValidation());
                         }
                         sInstance = new HanziToPinyinUtils(true);
                         return sInstance;
                     }
                 }
-                if(sInstance == null) {
-                    JtlwLogUtils.logI(TAG, "There is no Chinese collator, HanziToPinyinUtils is disabled");
+                if (sInstance == null) {
+                    JtlwLogUtils.logI(TAG, "There is no Chinese collator, HanziToPinyinUtils is " +
+                            "disabled");
                     sInstance = new HanziToPinyinUtils(false);
                 }
             }
@@ -312,7 +318,8 @@ public class HanziToPinyinUtils {
             final String curString = Character.toString(c);
             int cmp = COLLATOR.compare(lastString, curString);
             if (cmp >= 0) {
-                JtlwLogUtils.logE(TAG, "Internal error in Unihan table. " + "The last string \"" + lastString
+                JtlwLogUtils.logE(TAG,
+                        "Internal error in Unihan table. " + "The last string \"" + lastString
                         + "\" is greater than current string \"" + curString + "\".");
                 return false;
             }
@@ -325,7 +332,7 @@ public class HanziToPinyinUtils {
         Token token = new Token();
         final String letter = Character.toString(character);
         token.source = letter;
-        Long offset = -1l;
+        long offset = -1L;
         int cmp;
         if (character < 256) {
             token.type = Token.LATIN;
@@ -343,7 +350,7 @@ public class HanziToPinyinUtils {
                 return token;
             } else if (cmp == 0) {
                 token.type = Token.PINYIN;
-                offset = 0l;
+                offset = 0L;
             } else {
                 cmp = COLLATOR.compare(letter, LAST_PINYIN_UNIHAN);
                 if (cmp > 0) {
@@ -352,18 +359,18 @@ public class HanziToPinyinUtils {
                     return token;
                 } else if (cmp == 0) {
                     token.type = Token.PINYIN;
-                    offset = Long.valueOf(UNIHANS.length - 1);
+                    offset = UNIHANS.length - 1;
                 }
             }
         }
 
         token.type = Token.PINYIN;
         if (offset < 0) {
-            Long begin = 0l;
-            Long end = Long.valueOf(UNIHANS.length - 1);
+            long begin = 0L;
+            long end = UNIHANS.length - 1;
             while (begin <= end) {
                 offset = (begin + end) / 2;
-                final String unihan = Character.toString(UNIHANS[offset.intValue()]);
+                final String unihan = Character.toString(UNIHANS[(int) offset]);
                 cmp = COLLATOR.compare(letter, unihan);
                 if (cmp == 0) {
                     break;
@@ -378,8 +385,8 @@ public class HanziToPinyinUtils {
             offset--;
         }
         StringBuilder pinyin = new StringBuilder();
-        for (int j = 0; j < PINYINS[offset.intValue()].length && PINYINS[offset.intValue()][j] != 0; j++) {
-            pinyin.append((char) PINYINS[offset.intValue()][j]);
+        for (int j = 0; j < PINYINS[(int) offset].length && PINYINS[(int) offset][j] != 0; j++) {
+            pinyin.append((char) PINYINS[(int) offset][j]);
         }
         token.target = pinyin.toString();
         return token;
@@ -391,7 +398,7 @@ public class HanziToPinyinUtils {
      * Token. If these is no China collator, the empty token array is returned.
      */
     public ArrayList<Token> get(final String input) {
-        ArrayList<Token> tokens = new ArrayList<Token>();
+        ArrayList<Token> tokens = new ArrayList<>();
         if (!mHasChinaCollator || JtlwCheckVariateUtils.getInstance().isEmpty(input)) {
             // return empty tokens.
             return tokens;
@@ -453,28 +460,28 @@ public class HanziToPinyinUtils {
 
 
     //The fillowing lines are provided and maintained by Mediatek inc.
-    private class DialerSearchToken extends Token {
+    private static class DialerSearchToken extends Token {
         static final int FIRSTCASE = 0;
         static final int UPPERCASE = 1;
         static final int LOWERCASE = 2;
     }
 
-    public String getTokensForDialerSearch(final String input, StringBuilder offsets){
+    public String getTokensForDialerSearch(final String input, StringBuilder offsets) {
 
-        if(offsets == null || input == null || JtlwCheckVariateUtils.getInstance().isEmpty(input)){
+        if (offsets == null || input == null || JtlwCheckVariateUtils.getInstance().isEmpty(input)) {
             // return empty tokens
             return null;
         }
 
         StringBuilder subStrSet = new StringBuilder();
-        ArrayList<Token> tokens = new ArrayList<Token>();
-        ArrayList<String> shortSubStrOffset = new ArrayList<String>();
+        ArrayList<Token> tokens = new ArrayList<>();
+        ArrayList<String> shortSubStrOffset = new ArrayList<>();
         final int inputLength = input.length();
         final StringBuilder subString = new StringBuilder();
         final StringBuilder subStrOffset = new StringBuilder();
         int tokenType = Token.LATIN;
         int caseTypePre = DialerSearchToken.FIRSTCASE;
-        int caseTypeCurr = DialerSearchToken.UPPERCASE;
+        int caseTypeCurr;
         int mPos = 0;
 
         // Go through the input, create a new token when
@@ -483,17 +490,18 @@ public class HanziToPinyinUtils {
         // c. current character is space.
         // d. Token case changed from lower case to upper case,
         // e. the first character is always a separated one
-        // f character == '+' || character == '#' || character == '*' || character == ',' || character == ';'
+        // f character == '+' || character == '#' || character == '*' || character == ',' ||
+        // character == ';'
         for (int i = 0; i < inputLength; i++) {
             final char character = input.charAt(i);
-            if (character == '-' || character == ',' ){
+            if (character == '-' || character == ',') {
                 mPos++;
             } else if (character == ' ') {
                 if (subString.length() > 0) {
                     addToken(subString, tokens, tokenType);
                     addOffsets(subStrOffset, shortSubStrOffset);
                 }
-                addSubString(tokens,shortSubStrOffset,subStrSet,offsets);
+                addSubString(tokens, shortSubStrOffset, subStrSet, offsets);
                 mPos++;
                 caseTypePre = DialerSearchToken.FIRSTCASE;
             } else if (character < 256) {
@@ -501,18 +509,17 @@ public class HanziToPinyinUtils {
                     addToken(subString, tokens, tokenType);
                     addOffsets(subStrOffset, shortSubStrOffset);
                 }
-                caseTypeCurr = (character>='A' && character<='Z')? DialerSearchToken.UPPERCASE: DialerSearchToken.LOWERCASE;
-                if(caseTypePre == DialerSearchToken.LOWERCASE && caseTypeCurr == DialerSearchToken.UPPERCASE){
+                caseTypeCurr = (character >= 'A' && character <= 'Z') ?
+                        DialerSearchToken.UPPERCASE : DialerSearchToken.LOWERCASE;
+                if (caseTypePre == DialerSearchToken.LOWERCASE && caseTypeCurr == DialerSearchToken.UPPERCASE) {
                     addToken(subString, tokens, tokenType);
                     addOffsets(subStrOffset, shortSubStrOffset);
                 }
                 caseTypePre = caseTypeCurr;
                 tokenType = Token.LATIN;
                 Character c = Character.toUpperCase(character);
-                if(c != null){
-                    subString.append(c);
-                    subStrOffset.append((char)mPos);
-                }
+                subString.append(c);
+                subStrOffset.append((char) mPos);
                 mPos++;
             } else if (character < FIRST_UNIHAN) {
                 //Comment out. Do not cover unknown characters SINCE they can not be input.
@@ -538,56 +545,38 @@ public class HanziToPinyinUtils {
                         addOffsets(subStrOffset, shortSubStrOffset);
                     }
                     tokens.add(t);
-                    for(int j=0; j < tokenSize;j++)
-                        subStrOffset.append((char)mPos);
-                    addOffsets(subStrOffset,shortSubStrOffset);
+                    for (int j = 0; j < tokenSize; j++)
+                        subStrOffset.append((char) mPos);
+                    addOffsets(subStrOffset, shortSubStrOffset);
                     tokenType = Token.PINYIN;
                     caseTypePre = DialerSearchToken.FIRSTCASE;
-                    mPos++;
-                } else {
-                    //Comment out. Do not cover special characters SINCE they can not be input.
-//                    if (tokenType != t.type && subString.length() > 0) {
-//                        addToken(subString, tokens, tokenType);
-//                        addOffsets(subStrOffset, shortSubStrOffset);
-//                        caseTypePre = Token.FIRSTCASE;
-//                    }else{
-//                     caseTypeCurr = (character>='A' && character<='Z')?Token.UPPERCASE:Token.LOWERCASE;
-//                     if(caseTypePre == Token.LOWERCASE && caseTypeCurr == Token.UPPERCASE){
-//                      addToken(subString, tokens, tokenType);
-//                      addOffsets(subStrOffset, shortSubStrOffset);
-//                     }
-//                     caseTypePre = caseTypeCurr;
-//                    }
-//                    tokenType = t.type;
-//                    Character c = Character.toUpperCase(character);
-//                    if(c != null){
-//                     subString.append(c);
-//                     subStrOffset.append(mPos);
-//                    }
-                    mPos++;
                 }
+
+                mPos++;
             }
-            //IF the name string is too long, cut it off to meet the storage request of dialer search.
-            if(mPos > 127)
+            //IF the name string is too long, cut it off to meet the storage request of dialer
+            // search.
+            if (mPos > 127)
                 break;
         }
         if (subString.length() > 0) {
             addToken(subString, tokens, tokenType);
             addOffsets(subStrOffset, shortSubStrOffset);
         }
-        addSubString(tokens,shortSubStrOffset,subStrSet,offsets);
+        addSubString(tokens, shortSubStrOffset, subStrSet, offsets);
         return subStrSet.toString();
     }
 
-    private void addOffsets(final StringBuilder sb, final ArrayList<String> shortSubStrOffset){
+    private void addOffsets(final StringBuilder sb, final ArrayList<String> shortSubStrOffset) {
         String str = sb.toString();
         shortSubStrOffset.add(str);
         sb.setLength(0);
     }
 
-    private void addSubString(final ArrayList<Token> tokens, final ArrayList<String> shortSubStrOffset,
-                              StringBuilder subStrSet, StringBuilder offsets){
-        if(tokens == null || tokens.isEmpty())
+    private void addSubString(final ArrayList<Token> tokens,
+                              final ArrayList<String> shortSubStrOffset,
+                              StringBuilder subStrSet, StringBuilder offsets) {
+        if (tokens == null || tokens.isEmpty())
             return;
 
         int size = tokens.size();
@@ -597,19 +586,19 @@ public class HanziToPinyinUtils {
         StringBuilder mShortSubStrSet = new StringBuilder();
         StringBuilder mShortSubStrOffsetsSet = new StringBuilder();
 
-        for(int i=size-1; i>=0 ; i--){
+        for (int i = size - 1; i >= 0; i--) {
             String mTempStr = tokens.get(i).target;
             len += mTempStr.length();
             String mTempOffset = shortSubStrOffset.get(i);
-            if(mShortSubStr.length()>0){
+            if (mShortSubStr.length() > 0) {
                 mShortSubStr.deleteCharAt(0);
                 mShortSubStrOffsets.deleteCharAt(0);
             }
             mShortSubStr.insert(0, mTempStr);
-            mShortSubStr.insert(0,(char)len);
-            mShortSubStrOffsets.insert(0,mTempOffset);
-            mShortSubStrOffsets.insert(0,(char)len);
-            mShortSubStrSet.insert(0,mShortSubStr);
+            mShortSubStr.insert(0, (char) len);
+            mShortSubStrOffsets.insert(0, mTempOffset);
+            mShortSubStrOffsets.insert(0, (char) len);
+            mShortSubStrSet.insert(0, mShortSubStr);
             mShortSubStrOffsetsSet.insert(0, mShortSubStrOffsets);
         }
 
