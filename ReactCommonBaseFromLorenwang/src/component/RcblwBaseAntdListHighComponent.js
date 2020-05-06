@@ -11,14 +11,14 @@ import RcblwBaseComponent from "./RcblwBaseComponent";
  * 备注：
  *
  *@author LorenWang（王亮）
+ * @param ChildComponent 子组件
+ * @param config {#RcblwBaseListHighComponentConfig}
  */
-function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHighComponentConfig) {
+function RcblwBaseAntdListHighComponent(ChildComponent, config) {
     return class extends RcblwBaseComponent {
 
-        /**
-         * 第一次渲染之后调用数据
-         */
-        componentDidMount = () => {
+        constructor() {
+            super();
             this.state = {
                 /**
                  * 数据列表
@@ -65,6 +65,12 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHig
                  */
                 ...config && config.childStateParams,
             };
+        }
+
+        /**
+         * 第一次渲染之后调用数据
+         */
+        componentDidMount() {
             if (config && config.isComponentDidMountRequestData) {
                 this.searchDataList();
             }
@@ -77,7 +83,7 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHig
          * @param currentPage 当前页码，默认不传
          * @param everyPage 每页请求数量，默认不传
          */
-        searchDataList = (values, isUseRecord = true, currentPage = this.state.currentPage, everyPage = this.state.everyPage) => {
+        searchDataList(values, isUseRecord = true, currentPage = this.state.currentPage, everyPage = this.state.everyPage) {
             this.showLoading();
             //先合并记录数据
             let params = isUseRecord
@@ -131,7 +137,7 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHig
          * @param selectedRowKeys
          * @param selectedRows
          */
-        rowSelectChange = (selectedRowKeys, selectedRows) => {
+        rowSelectChange(selectedRowKeys, selectedRows) {
             this.setState({
                 selectedRowKeys,
                 selectedRows,
@@ -143,7 +149,7 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHig
          * @param currentPage 目标页面
          * @param everyPage 每页数量
          */
-        changePage = (currentPage, everyPage) => {
+        changePage(currentPage, everyPage) {
             this.searchDataList(
                 this.state.searchCriteriaList,
                 false,
@@ -170,7 +176,7 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHig
         /**
          * 刷新数据列表，同时隐藏各个弹窗
          */
-        refreshDataList = () => {
+        refreshDataList() {
             //隐藏弹窗同时隐藏加载中
             config && config.onModalCancelClickFun != null
                 ? config.onModalCancelClickFun(this)
@@ -190,7 +196,7 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHig
          * @param values 改变值
          * @param isDefaultInitFinish 默认值初始化完成
          */
-        selectTimeChange = (values, isDefaultInitFinish) => {
+        selectTimeChange(values, isDefaultInitFinish) {
             const params = {...this.state.searchCriteriaList, ...values};
             this.setState({recordSearchCriteriaList: params});
             if (isDefaultInitFinish) {
@@ -203,6 +209,7 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHig
         }
     }
 }
+
 /**
  * 功能作用：基础列表高阶组件配置类
  * 初始注释时间： 2020/5/6 3:25 下午
@@ -220,34 +227,34 @@ export class RcblwBaseListHighComponentConfig {
     /**
      * 请求体
      */
-    apiRequest = null;
+    apiRequest: null;
 
     /**
      * 是否在第一次渲染结束后发起请求，默认不发起
      */
-    isComponentDidMountRequestData = false;
+    isComponentDidMountRequestData: false;
 
     /**
      * 数据列表操作时要读取的key值，为空时取index值
      */
-    dataListOptionsKey = null;
+    dataListOptionsKey: null;
     /**
      * 调用方传递参数，子类使用到的特殊参数
      */
-    childStateParams = null;
+    childStateParams: null;
     /**
      * 请求参数格式化，在发起请求时必调用方法，同时要接收格式化后的数据返回值
      */
-    formatSearchCriteriaListFun: Function = null;
+    formatSearchCriteriaListFun: null;
     /**
      *  modal取消弹窗点击
      */
-    onModalCancelClickFun: Function = null;
+    onModalCancelClickFun: null;
     /**
      *  操作相应数据函数，当不为空时响应数据交由该函数处理
      *  也就是说在基类处理完数据之后再将实际的返回结果丢给子类处理
      */
-    optionsResponseDataFun: Function = null;
+    optionsResponseDataFun: null;
 }
 
 export default RcblwBaseAntdListHighComponent
