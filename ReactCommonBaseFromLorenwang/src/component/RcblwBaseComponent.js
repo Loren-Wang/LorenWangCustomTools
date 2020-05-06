@@ -17,13 +17,16 @@ let allowMaxLoadingCount = 1;
  * 备注：当前为为了语言初始化使用的
  */
 export default class RcblwBaseComponent extends React.Component {
-    componentDidMount() {
+    constructor() {
+        super();
         this.state = {
             /**
              * 加载中是否显示
              */
             showLoadingStatus: false,
         }
+    }
+    componentDidMount() {
         //初始化加载中配置
         if (this.props.showLoading != null) {
             if (this.props.showLoading !== this.state.showLoadingStatus) {
