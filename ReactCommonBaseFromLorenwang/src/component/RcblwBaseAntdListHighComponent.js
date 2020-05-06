@@ -12,7 +12,7 @@ import RcblwBaseComponent from "./RcblwBaseComponent";
  *
  *@author LorenWang（王亮）
  * @param ChildComponent 子组件
- * @param config {#RcblwBaseListHighComponentConfig}
+ // * @param config {#RcblwBaseListHighComponentConfig}
  */
 function RcblwBaseAntdListHighComponent(ChildComponent, config) {
     return class extends RcblwBaseComponent {
@@ -210,52 +210,52 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config) {
     }
 }
 
-/**
- * 功能作用：基础列表高阶组件配置类
- * 初始注释时间： 2020/5/6 3:25 下午
- * 注释创建人：LorenWang（王亮）
- * 方法介绍：
- * 思路：
- * 修改人：
- * 修改时间：
- * 备注：
- *
- *@author LorenWang（王亮）
- */
-export class RcblwBaseListHighComponentConfig {
-
-    /**
-     * 请求体
-     */
-    apiRequest: null;
-
-    /**
-     * 是否在第一次渲染结束后发起请求，默认不发起
-     */
-    isComponentDidMountRequestData: false;
-
-    /**
-     * 数据列表操作时要读取的key值，为空时取index值
-     */
-    dataListOptionsKey: null;
-    /**
-     * 调用方传递参数，子类使用到的特殊参数
-     */
-    childStateParams: null;
-    /**
-     * 请求参数格式化，在发起请求时必调用方法，同时要接收格式化后的数据返回值
-     */
-    formatSearchCriteriaListFun: null;
-    /**
-     *  modal取消弹窗点击
-     */
-    onModalCancelClickFun: null;
-    /**
-     *  操作相应数据函数，当不为空时响应数据交由该函数处理
-     *  也就是说在基类处理完数据之后再将实际的返回结果丢给子类处理
-     */
-    optionsResponseDataFun: null;
-}
+// /**
+//  * 功能作用：基础列表高阶组件配置类
+//  * 初始注释时间： 2020/5/6 3:25 下午
+//  * 注释创建人：LorenWang（王亮）
+//  * 方法介绍：
+//  * 思路：
+//  * 修改人：
+//  * 修改时间：
+//  * 备注：
+//  *
+//  *@author LorenWang（王亮）
+//  */
+// export class RcblwBaseListHighComponentConfig {
+//
+//     /**
+//      * 请求体
+//      */
+//     apiRequest = null;
+//
+//     /**
+//      * 是否在第一次渲染结束后发起请求，默认不发起
+//      */
+//     isComponentDidMountRequestData = false;
+//
+//     /**
+//      * 数据列表操作时要读取的key值，为空时取index值
+//      */
+//     dataListOptionsKey = null;
+//     /**
+//      * 调用方传递参数，子类使用到的特殊参数
+//      */
+//     childStateParams = null;
+//     /**
+//      * 请求参数格式化，在发起请求时必调用方法，同时要接收格式化后的数据返回值
+//      */
+//     formatSearchCriteriaListFun: Function = null;
+//     /**
+//      *  modal取消弹窗点击
+//      */
+//     onModalCancelClickFun: Function = null;
+//     /**
+//      *  操作相应数据函数，当不为空时响应数据交由该函数处理
+//      *  也就是说在基类处理完数据之后再将实际的返回结果丢给子类处理
+//      */
+//     optionsResponseDataFun: Function = null;
+// }
 
 export default RcblwBaseAntdListHighComponent
 
