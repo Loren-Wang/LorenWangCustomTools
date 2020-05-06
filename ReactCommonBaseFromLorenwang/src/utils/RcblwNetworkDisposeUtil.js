@@ -1,7 +1,7 @@
 import RcblwVariableDisposeUtil from "./RcblwVariableDisposeUtil";
 
 /**
- * 功能作用：url相关处理
+ * 功能作用：网络相关处理
  * 初始注释时间： 2020/3/13 15:28
  * 注释创建人：LorenWang（王亮）
  * 方法介绍：
