@@ -3,6 +3,11 @@ import {Spin} from "antd";
 import './RcblwBaseComponent.css'
 
 /**
+ * 最大加载中数量
+ */
+const maxLoadingCount = 1;
+
+/**
  * 功能作用：所有页面必有的基础页面
  * 初始注释时间： 2019/8/29 0029 下午 17:15:30
  * 注释创建人：LorenWang（王亮）
@@ -13,19 +18,13 @@ import './RcblwBaseComponent.css'
  * 备注：当前为为了语言初始化使用的
  */
 export default class RcblwBaseComponent extends React.Component {
-    /**
-     * 最大加载中数量
-     * @type {number}
-     */
-    maxLoadingCount = 1;
-    state = {
-        /**
-         * 加载中是否显示
-         */
-        showLoadingStatus: false,
-    };
-
     componentDidMount() {
+        this.state = {
+            /**
+             * 加载中是否显示
+             */
+            showLoadingStatus: false,
+        }
         //初始化加载中配置
         if (this.props.showLoading != null) {
             if (this.props.showLoading !== this.state.showLoadingStatus) {

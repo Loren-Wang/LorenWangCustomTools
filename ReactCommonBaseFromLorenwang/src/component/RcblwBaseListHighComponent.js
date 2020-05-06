@@ -14,61 +14,61 @@ import RcblwBaseComponent from "./RcblwBaseComponent";
  */
 function RcblwBaseListHighComponent(ChildComponent, config: RcblwBaseListHighComponentConfig) {
     return class extends RcblwBaseComponent {
-        state = {
-            /**
-             * 数据列表
-             */
-            dataList: [],
-            /**
-             * 每页展示数量
-             */
-            everyPage: 10,
-            /**
-             * 当前页码
-             */
-            currentPage: 1,
-            /**
-             * 总数
-             */
-            total: 0,
-            /**
-             * 搜索条件列表
-             */
-            searchCriteriaList: {},
-            /**
-             * 仅记录的搜索条件列表,仅记录使用，在搜索时候做合并使用，但是在其他接口中不做任何处理
-             */
-            recordSearchCriteriaList: {},
-            /**
-             * 选中的数据key列表
-             */
-            selectedRowKeys: [],
-            /**
-             * 选中的数据实体列表
-             */
-            selectedRows: [],
-            /**
-             * 是否显示Modal弹窗
-             */
-            showModal: false,
-            /**
-             * 显示modal弹窗key
-             */
-            showModalKey: "",
-            /**
-             * 是否显示加载中
-             */
-            showLoadingStatus: false,
-            /**
-             * 子类变量数据参数
-             */
-            ...config && config.childStateParams,
-        };
 
         /**
          * 第一次渲染之后调用数据
          */
         componentDidMount = () => {
+            this.state = {
+                /**
+                 * 数据列表
+                 */
+                dataList: [],
+                /**
+                 * 每页展示数量
+                 */
+                everyPage: 10,
+                /**
+                 * 当前页码
+                 */
+                currentPage: 1,
+                /**
+                 * 总数
+                 */
+                total: 0,
+                /**
+                 * 搜索条件列表
+                 */
+                searchCriteriaList: {},
+                /**
+                 * 仅记录的搜索条件列表,仅记录使用，在搜索时候做合并使用，但是在其他接口中不做任何处理
+                 */
+                recordSearchCriteriaList: {},
+                /**
+                 * 选中的数据key列表
+                 */
+                selectedRowKeys: [],
+                /**
+                 * 选中的数据实体列表
+                 */
+                selectedRows: [],
+                /**
+                 * 是否显示Modal弹窗
+                 */
+                showModal: false,
+                /**
+                 * 显示modal弹窗key
+                 */
+                showModalKey: "",
+                /**
+                 * 是否显示加载中
+                 */
+                showLoadingStatus: false,
+                /**
+                 * 子类变量数据参数
+                 */
+                ...config && config.childStateParams,
+            };
             if (config && config.isComponentDidMountRequestData) {
                 this.searchDataList();
             }
