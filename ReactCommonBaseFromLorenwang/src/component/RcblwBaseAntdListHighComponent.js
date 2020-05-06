@@ -12,7 +12,7 @@ import RcblwBaseComponent from "./RcblwBaseComponent";
  *
  *@author LorenWang（王亮）
  */
-function RcblwBaseListHighComponent(ChildComponent, config: RcblwBaseListHighComponentConfig) {
+function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHighComponentConfig) {
     return class extends RcblwBaseComponent {
 
         /**
@@ -207,7 +207,6 @@ function RcblwBaseListHighComponent(ChildComponent, config: RcblwBaseListHighCom
         }
     }
 }
-
 /**
  * 功能作用：基础列表高阶组件配置类
  * 初始注释时间： 2020/5/6 3:25 下午
@@ -220,7 +219,7 @@ function RcblwBaseListHighComponent(ChildComponent, config: RcblwBaseListHighCom
  *
  *@author LorenWang（王亮）
  */
-class RcblwBaseListHighComponentConfig {
+export class RcblwBaseListHighComponentConfig {
 
     /**
      * 请求体
@@ -254,3 +253,6 @@ class RcblwBaseListHighComponentConfig {
      */
     optionsResponseDataFun: Function = null;
 }
+
+export default RcblwBaseAntdListHighComponent
+

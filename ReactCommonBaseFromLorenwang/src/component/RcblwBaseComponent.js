@@ -1,11 +1,10 @@
 import React from 'react'
-import {Spin} from "antd";
 import './RcblwBaseComponent.css'
 
 /**
  * 最大加载中数量
  */
-const maxLoadingCount = 1;
+let allowMaxLoadingCount = 1;
 
 /**
  * 功能作用：所有页面必有的基础页面
@@ -52,9 +51,9 @@ export default class RcblwBaseComponent extends React.Component {
      * @param isAddOneLoading 是否添加一个加载中，默认调用一次增加一个加载中
      */
     showLoading(maxLoadingCount = 0, isAddOneLoading = true) {
-        this.maxLoadingCount = maxLoadingCount
+        allowMaxLoadingCount = maxLoadingCount
         if (isAddOneLoading) {
-            this.maxLoadingCount += 1;
+            allowMaxLoadingCount += 1;
         }
         this.setState({
             showLoadingStatus: true
@@ -66,16 +65,20 @@ export default class RcblwBaseComponent extends React.Component {
      */
     hideLoading() {
         //调用一次隐藏一个加载中
-        this.maxLoadingCount -= 1;
-        if (this.maxLoadingCount <= 0) {
+        allowMaxLoadingCount -= 1;
+        if (allowMaxLoadingCount <= 0) {
             this.setState({
                 showLoadingStatus: false
             })
         }
     }
 
-    render() {
-        return <Spin spinning={this.state.showLoadingStatus}> {this.props.children} </Spin>
+    /**
+     * 获取基础类实例
+     */
+    getRcblwBaseContext() {
+        return this
     }
+
 
 }
