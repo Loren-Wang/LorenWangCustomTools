@@ -80,5 +80,12 @@ export default class RcblwBaseComponent extends React.Component {
         return this
     }
 
+    /**
+     * 获取基础类数据state
+     * @returns {Readonly<S>}
+     */
+    getRcblwBaseState() {
+        return this.state
+    }
 
 }

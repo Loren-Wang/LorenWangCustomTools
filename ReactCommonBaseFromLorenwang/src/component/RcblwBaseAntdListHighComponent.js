@@ -61,10 +61,6 @@ function RcblwBaseAntdListHighComponent(ChildComponent, config: RcblwBaseListHig
                  */
                 showModalKey: "",
                 /**
-                 * 是否显示加载中
-                 */
-                showLoadingStatus: false,
-                /**
                  * 子类变量数据参数
                  */
                 ...config && config.childStateParams,
