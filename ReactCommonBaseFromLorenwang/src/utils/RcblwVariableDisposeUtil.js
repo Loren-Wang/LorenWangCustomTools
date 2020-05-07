@@ -32,7 +32,7 @@ const RcblwVariableDisposeUtil = {
      * @returns {boolean} true为是
      */
     isParamsTypeBlob(params) {
-        return params != null &&  this.getParamsType(params) === Blob
+        return params != null && this.getParamsType(params) === Blob
     },
     /**
      * 判断参数是否为空
@@ -49,6 +49,19 @@ const RcblwVariableDisposeUtil = {
      */
     isParamsEmptyStr(params) {
         return this.isParamsEmpty(params) || (this.isParamsTypeString(params) && params.length === 0)
+    },
+    /**
+     * 字符串转字符流
+     * @param s 字符串
+     * @returns {ArrayBuffer} 字节流
+     */
+    str2Ab(s) {
+        const buf = new ArrayBuffer(s.length);
+        const view = new Uint8Array(buf);
+        for (let i = 0; i !== s.length; ++i) {
+            view[i] = s.charCodeAt(i) & 0xFF
+        }
+        return buf
     }
 };
 export default RcblwVariableDisposeUtil
