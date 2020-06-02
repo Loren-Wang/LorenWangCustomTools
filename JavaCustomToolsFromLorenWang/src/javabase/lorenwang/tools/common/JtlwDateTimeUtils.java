@@ -152,6 +152,8 @@ public class JtlwDateTimeUtils {
 
     /**
      * 根据输入的年份判断该年份是否是闰年，是则返回true
+     * @param year 要输入的年份
+     * @return 是闰年返回true，否则返回false
      */
     public boolean isLeapYear(Integer year) {
         if (year != null) {

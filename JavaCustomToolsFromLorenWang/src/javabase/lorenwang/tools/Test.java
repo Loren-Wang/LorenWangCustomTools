@@ -1,7 +1,7 @@
 package javabase.lorenwang.tools;
 
-import javabase.lorenwang.tools.thread.JtlwTimerUtils;
 import javabase.lorenwang.tools.thread.CountDownCallback;
+import javabase.lorenwang.tools.thread.JtlwTimingTaskUtils;
 
 /**
  * 创建时间：2019-01-28 下午 15:15:21
@@ -17,7 +17,7 @@ import javabase.lorenwang.tools.thread.CountDownCallback;
 
 public class Test {
     public static void main(String[] args) {
-        JtlwTimerUtils.getInstance().countDownTask(1, new CountDownCallback() {
+        JtlwTimingTaskUtils.getInstance().countDownTask(1, new CountDownCallback() {
             @Override
             public void countDownTime(long sumTime, long nowTime) {
                 System.out.print(nowTime);

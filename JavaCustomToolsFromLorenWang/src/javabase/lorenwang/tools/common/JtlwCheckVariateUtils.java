@@ -57,7 +57,7 @@ public class JtlwCheckVariateUtils {
 
     /**
      * 判断变量是否为空
-     *
+     * @param <T> 变量泛型
      * @param str String
      * @return boolean
      */
@@ -187,6 +187,7 @@ public class JtlwCheckVariateUtils {
     /**
      * 判断字符串是否在列表中
      *
+     * @param <T> 变量泛型
      * @param item item数据
      * @param list 列表
      * @return 存在返回true

@@ -2,7 +2,6 @@ package javabase.lorenwang.tools;
 
 
 /**
- *
  * 功能作用：常用正则表达式
  * 创建时间：2019-01-28 下午 20:41:16
  * 创建人：王亮（Loren wang）
@@ -41,19 +40,46 @@ package javabase.lorenwang.tools;
  */
 
 public class JtlwMatchesRegularCommon {
-    private static final String EXP_URL_SCHEME_HTTP_S = "(((H|h)(t|T)(T|t)(P|p)(S|s){0,1}):\\/\\/)";
+    private static final String EXP_URL_SCHEME_HTTP_S = "[hH][tT]{2}[pP][sS]?://";
+
     /**
      * url的用户名密码正则
      */
-    private  static final String EXP_URL_USER_PWD = "(\\S+:\\S+@)";
+    private static final String EXP_URL_USER_PWD = "(\\S+:\\S+@)";
+
+    /**
+     * 匹配IP地址
+     */
+    public static final String EXP_IP =
+            "((25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d).){3}(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)";
+
     /**
      * url的ip域名
      */
-    private static final String EXP_URL_DOMAIN_NAME_IP = "(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)(:[1-9][0-9]*)?";
+    private static final String EXP_URL_DOMAIN_NAME_IP = EXP_IP + "(:[1-9][0-9]{0,4}})";
+
     /**
      * url的字符串域名
      */
-    private static final String EXP_URL_DOMAIN_NAME_STR = "([0-9a-zA-z]+.{1}){1,}.[a-zA-z]+(:[1-9][0-9]*)?";
+    private static final String EXP_URL_DOMAIN_NAME_STR =
+            "([0-9a-zA-Z]+.)+[a-zA-Z]+(:[1-9][0-9]{0,4}})";
+
+    /**
+     * 纯ip的url正则,其中拼接字符串问号为存在0次或1次的含义
+     */
+    public static final String EXP_URL_IP =
+            "^" + EXP_URL_SCHEME_HTTP_S + EXP_URL_USER_PWD + "?" + EXP_URL_DOMAIN_NAME_IP;
+
+    /**
+     * 纯字符串的url正则
+     */
+    public static final String EXP_URL_STR =
+            "^" + EXP_URL_SCHEME_HTTP_S + EXP_URL_USER_PWD + "?" + EXP_URL_DOMAIN_NAME_STR;
+
+    /**
+     * 匹配网址
+     */
+    public static final String EXP_URL = "(" + EXP_URL_IP + "|" + EXP_URL_STR + ")";
 
     /**
      * 匹配所有的小写字母
@@ -74,7 +100,7 @@ public class JtlwMatchesRegularCommon {
     /**
      * 匹配所有的数字(不包含0)
      */
-    public static final String EXP_ALL_INTEGET_NOT_AND_ZERO = "[1-9]{1}[0-9]*";
+    public static final String EXP_ALL_INTEGET_NOT_AND_ZERO = "[1-9][0-9]*";
     /**
      * 数字和小写字母
      */
@@ -90,7 +116,9 @@ public class JtlwMatchesRegularCommon {
     /**
      * EMAIL
      */
-    public static final String EXP_EMAIL = "^([a-z0-9A-Z_]+[_|\\-|\\.]?)+[a-z0-9A-Z_]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+    public static final String EXP_EMAIL =
+            "^([a-z0-9A-Z_]+[_|\\-|\\.]?)+[a-z0-9A-Z_]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+
     /**
      * 金额，2位小数
      */
@@ -107,10 +135,6 @@ public class JtlwMatchesRegularCommon {
      * 电话号码：( 如021-12345678 or 0516-12345678 )
      */
     public static final String EXP_TEL = "[0-9]{3,4}[-]{1}[0-9]{7,8}";
-    /**
-     * 匹配IP地址
-     */
-    public static final String EXP_IP = "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
     /**
      * 匹配中文
      */
@@ -132,13 +156,11 @@ public class JtlwMatchesRegularCommon {
      */
     public static final String EXP_CAR_LICENSE_NUM = "[a-zA-Z]{1}[0-9a-zA-Z]{5,6}";
     /**
-     * 匹配网址
-     */
-    public static final String EXP_URL = "^[a-zA-z]+://[^><\"' ]+";
-    /**
      * mac地址
      */
-    public static final String EXP_MAC = "[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}";
+    public static final String EXP_MAC =
+            "[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}";
+
     /**
      * 2012-12-21格式日期验证
      */
@@ -146,17 +168,12 @@ public class JtlwMatchesRegularCommon {
     /**
      * 2012-12-21 12:12格式日期验证
      */
-    public static final String EXP_DATETIME = "[0-9]{4}[-]{1}[0-9]{1,2}[-]{1}[0-9]{1,2}[ ]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}";
+    public static final String EXP_DATETIME =
+            "[0-9]{4}[-]{1}[0-9]{1,2}[-]{1}[0-9]{1,2}[]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}";
+
     /**
      * 2012-12-21 12:12:12格式日期验证
      */
-    public static final String EXP_DATETIMESECOND = "[0-9]{4}[-]{1}[0-9]{1,2}[-]{1}[0-9]{1,2}[ ]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}";
-    /**
-     * 纯ip的url正则
-     */
-    public static final String EXP_URL_IP = "^" + EXP_URL_SCHEME_HTTP_S + EXP_URL_USER_PWD + "?" + EXP_URL_DOMAIN_NAME_IP;
-    /**
-     * 纯字符串的url正则
-     */
-    public static final String EXP_URL_STR = "^" + EXP_URL_SCHEME_HTTP_S + EXP_URL_USER_PWD + "?" + EXP_URL_DOMAIN_NAME_STR;
+    public static final String EXP_DATETIMESECOND = "[0-9]{4}[-]{1}[0-9]{1,2}[-]{1}[0-9]{1,2}[ " +
+            "]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}";
 }

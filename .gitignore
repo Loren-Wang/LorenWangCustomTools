@@ -86,7 +86,6 @@ app/build/
 build/
 
 *.hprof
-*/src/test/
 */src/androidTest/
 
 

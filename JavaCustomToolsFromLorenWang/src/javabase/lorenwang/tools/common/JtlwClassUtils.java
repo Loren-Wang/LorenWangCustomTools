@@ -34,6 +34,9 @@ public class JtlwClassUtils {
 
     /**
      * 获取指定类的实体
+     * @param <T> 变量泛型
+     * @param clazz  指定类
+     * @return 指定类实体
      */
     public <T> T getClassEntity(Class<T> clazz) {
         // 声明一个空的BaseModel

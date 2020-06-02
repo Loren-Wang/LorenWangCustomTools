@@ -38,8 +38,10 @@ public class JtlwCommonUtils {
 
     /**
      * uuid产生器
-     *
+     * uuid带中划线长度-------36
+     * uuid不带中划线长度-----32
      * @param isRemoveSpecialChar 是否移除特殊字符，中划线
+     * @return 返回根据条件处理的uuid字符串
      */
     public String generateUuid(boolean isRemoveSpecialChar) {
         String uuid = UUID.randomUUID().toString();

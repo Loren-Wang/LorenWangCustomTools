@@ -151,6 +151,7 @@ public class JtlwVariateDataParamUtils {
      *
      * @param map map数据集合
      * @param <T> 泛型
+     * @param <K> 泛型
      * @return 集合
      */
     public <K, T> List<K> paramsHashMapKeyToArrayList(Map<K, List<T>> map) {
@@ -196,7 +197,7 @@ public class JtlwVariateDataParamUtils {
         }
         ArrayList<HanziToPinyinUtils.Token> tokens = HanziToPinyinUtils.getInstance().get(source);
         if (tokens == null || tokens.size() == 0) {
-            return source.toLowerCase().charAt(0) ;
+            return source.toLowerCase().charAt(0);
         }
         HanziToPinyinUtils.Token token = tokens.get(0);
         if (token.type == HanziToPinyinUtils.Token.PINYIN) {
@@ -207,6 +208,9 @@ public class JtlwVariateDataParamUtils {
 
     /**
      * 汉字转为拼音
+     *
+     * @param input 要转成拼音的汉字
+     * @return 返回拼音字符串
      */
     public String getPinYin(String input) {
         ArrayList<HanziToPinyinUtils.Token> tokens = HanziToPinyinUtils.getInstance().get(input);

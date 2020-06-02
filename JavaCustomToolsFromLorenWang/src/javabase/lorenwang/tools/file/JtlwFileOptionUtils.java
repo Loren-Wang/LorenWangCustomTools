@@ -129,19 +129,26 @@ public class JtlwFileOptionUtils {
 
     /**
      * 从指定路径的文件中读取Bytes
+     *
+     * @param path 要读物的文件路径
+     * @return 读取后的文件字节数组，不会为空
      */
     public byte[] readBytes(String path) {
         try {
             File file = new File(path);
             return readBytes(file);
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                    e.getMessage());
             return new byte[]{};
         }
     }
 
     /**
      * 从File中读取Bytes
+     *
+     * @param file 要读物的文件
+     * @return 读取后的文件字节数组，不会为空
      */
     public byte[] readBytes(File file) {
         FileInputStream fis = null;
@@ -152,14 +159,16 @@ public class JtlwFileOptionUtils {
             fis = new FileInputStream(file);
             return readBytes(fis);
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                    e.getMessage());
             return new byte[]{};
         } finally {
             try {
                 assert fis != null;
                 fis.close();
             } catch (Exception e) {
-                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                        e.getMessage());
             }
 
         }
@@ -167,6 +176,9 @@ public class JtlwFileOptionUtils {
 
     /**
      * 从InputStream中读取Bytes
+     *
+     * @param inputStream 文件读取数据流
+     * @return 读取后的文件字节数组，不会为空
      */
     public byte[] readBytes(InputStream inputStream) {
         ByteArrayOutputStream baos = null;
@@ -181,14 +193,16 @@ public class JtlwFileOptionUtils {
             }
             return baos.toByteArray();
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                    e.getMessage());
             return new byte[]{};
         } finally {
             try {
                 assert baos != null;
                 baos.close();
             } catch (Exception e) {
-                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                        e.getMessage());
             }
 
         }
@@ -199,8 +213,13 @@ public class JtlwFileOptionUtils {
 
     /**
      * 将InputStream写入File
+     *
+     * @param file        要写入的文件
+     * @param inputStream 写入文件流
+     * @param append      是否将数据内容拼接到最后
+     * @return 读取后的文件字节数组，不会为空
      */
-    public Boolean writeToFile(File file, InputStream inputStream, Boolean append) {
+    public Boolean writeToFile(File file, InputStream inputStream, boolean append) {
         //删除文件
         deleteFile(file.getAbsolutePath());
         //创建父级文件夹
@@ -217,33 +236,46 @@ public class JtlwFileOptionUtils {
             }
             return true;
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                    e.getMessage());
             return false;
         } finally {
             try {
                 assert fos != null;
                 fos.close();
             } catch (Exception e) {
-                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                        e.getMessage());
             }
         }
     }
 
     /**
      * 将文本写入文件
+     *
+     * @param file 要写入的目标文件
+     * @param text 要写入的内容文本
+     * @return 返回写入是否成功，成功为true
      */
-    public Boolean writeToFile(File file, String text) {
+    public boolean writeToFile(File file, String text) {
         return writeToFile(file, text, "UTF-8", false);
     }
 
     /**
      * 将文本写入文件，同时决定是否为追加写入
+     *
+     * @param file     要写入的目标文件
+     * @param text     要写入的内容文本
+     * @param encoding 写入内容编码
+     * @param append   是否追加写入
+     * @return 返回写入是否成功，成功为true
      */
-    public Boolean writeToFile(File file, String text, String encoding, Boolean append) {
+    public Boolean writeToFile(File file, String text, String encoding, boolean append) {
         try {
             return writeToFile(file, new ByteArrayInputStream(text.getBytes(encoding)), append);
         } catch (UnsupportedEncodingException e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                    e.getMessage());
             return false;
         }
 
@@ -279,7 +311,8 @@ public class JtlwFileOptionUtils {
             fos.write(buffer);
             return true;
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                    e.getMessage());
             return false;
         } finally {
             try {
@@ -287,7 +320,8 @@ public class JtlwFileOptionUtils {
                     fos.close();
                 }
             } catch (Exception e) {
-                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
+                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                        e.getMessage());
             }
         }
     }
@@ -358,10 +392,13 @@ public class JtlwFileOptionUtils {
 
     /**
      * 删除文件
+     *
+     * @param path 要删除的文件路径、
+     * @return 删除结果
      */
-    public Boolean deleteFile(String url) {
+    public boolean deleteFile(String path) {
         boolean result = false;
-        File file = new File(url);
+        File file = new File(path);
         if (file.exists()) {
             result = file.delete();
         }
@@ -421,7 +458,9 @@ public class JtlwFileOptionUtils {
                     //删除子目录
                     flag = deleteDirectory(childFile.getAbsolutePath());
                 }
-                if (!flag) break;
+                if (!flag) {
+                    break;
+                }
             }
         }
         if (!flag) {
@@ -452,7 +491,7 @@ public class JtlwFileOptionUtils {
 
         if (path.contains("/")) {
             //循环移除末尾的“/”，防止一个路径下有多个“/”
-            while (path.substring(path.lastIndexOf("/")).intern().equals("/")) {
+            while ("/".equals(path.substring(path.lastIndexOf("/")).intern())) {
                 path = path.substring(0, path.length() - 1);
             }
             path = path.substring(path.lastIndexOf("/") + 1);
@@ -522,7 +561,8 @@ public class JtlwFileOptionUtils {
      * @param matchRegular 要返回的文件的正则格式
      * @return 扫描到的文件列表
      */
-    public synchronized List<File> getFileListForMatchLinkedQueueScan(String scanPath, final String matchRegular) {
+    public synchronized List<File> getFileListForMatchLinkedQueueScan(String scanPath,
+                                                                      final String matchRegular) {
         final List<File> list = new ArrayList<>();
         if (!JtlwCheckVariateUtils.getInstance().isHaveEmpty(scanPath, matchRegular)) {
             if (fileOptionsLinkedQueue == null) {
@@ -559,7 +599,8 @@ public class JtlwFileOptionUtils {
                 }
 
                 //固定数目线程池(最大线程数目为cpu核心数,多余线程放在等待队列中)
-                final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+                final ExecutorService executorService =
+                        Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
                 for (Runnable runnable : runnableList) {
                     executorService.submit(runnable);
                 }
@@ -699,14 +740,17 @@ public class JtlwFileOptionUtils {
      * 修改文件编码格式
      *
      * @param filePath       文件地址
-     * @param oldCodedFormat 文件编码格式
+     * @param oldCodedFormat 旧文件编码格式
+     * @param newCodedFormat 新文件的编码格式
      * @return 是否成功，成功返回true
      */
-    public boolean changeFileCodedFormat(String filePath, Charset oldCodedFormat, Charset newCodedFormat) {
+    public boolean changeFileCodedFormat(String filePath, Charset oldCodedFormat,
+                                         Charset newCodedFormat) {
         //读取文件原内容
         String content = readFileContent(filePath, oldCodedFormat);
         //写入新内容
-        return writeFilContent(filePath, newCodedFormat, new String(content.getBytes(newCodedFormat), newCodedFormat));
+        return writeFilContent(filePath, newCodedFormat,
+                new String(content.getBytes(newCodedFormat), newCodedFormat));
     }
 
     /**
@@ -779,6 +823,8 @@ public class JtlwFileOptionUtils {
 
     /**
      * 获取所有文档相关类型
+     *
+     * @return 返回相应的文档类型集合
      */
     public List<JtlwFileTypeEnum> getDocType() {
         if (allDocFileTypeEnum.isEmpty()) {
@@ -805,6 +851,11 @@ public class JtlwFileOptionUtils {
         return allDocFileTypeEnum;
     }
 
+    /**
+     * 获取所有图片的相关类型
+     *
+     * @return 所有图片相关类型
+     */
     public List<JtlwFileTypeEnum> getImageType() {
         if (allImageFileTypeEnum.isEmpty()) {
             synchronized (allImageFileTypeEnum) {
@@ -819,5 +870,20 @@ public class JtlwFileOptionUtils {
             }
         }
         return allImageFileTypeEnum;
+    }
+
+    /**
+     * 重命名文件
+     *
+     * @param oldFile     旧文件
+     * @param newFileName 新文件名称
+     * @return 重命名结果
+     */
+    public boolean renameFile(File oldFile, String newFileName) {
+        if (oldFile != null && oldFile.exists()) {
+            File newFile = new File(oldFile.getParentFile().getAbsolutePath() + "/" + newFileName);
+            return oldFile.renameTo(newFile);
+        }
+        return false;
     }
 }
