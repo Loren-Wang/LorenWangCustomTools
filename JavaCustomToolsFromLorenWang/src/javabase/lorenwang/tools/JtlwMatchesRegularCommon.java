@@ -1,6 +1,10 @@
 package javabase.lorenwang.tools;
 
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 功能作用：常用正则表达式
  * 创建时间：2019-01-28 下午 20:41:16
@@ -51,18 +55,19 @@ public class JtlwMatchesRegularCommon {
      * 匹配IP地址
      */
     public static final String EXP_IP =
-            "((25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d).){3}(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)";
+            "((25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.){3}" +
+                    "(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)";
 
     /**
      * url的ip域名
      */
-    private static final String EXP_URL_DOMAIN_NAME_IP = EXP_IP + "(:[1-9][0-9]{0,4}})";
+    private static final String EXP_URL_DOMAIN_NAME_IP = EXP_IP + "(:[1-9][0-9]{0,4})?";
 
     /**
      * url的字符串域名
      */
     private static final String EXP_URL_DOMAIN_NAME_STR =
-            "([0-9a-zA-Z]+.)+[a-zA-Z]+(:[1-9][0-9]{0,4}})";
+            "([0-9a-zA-Z]+\\.)+[a-zA-Z]+(:[1-9][0-9]{0,4})?";
 
     /**
      * 纯ip的url正则,其中拼接字符串问号为存在0次或1次的含义
@@ -117,7 +122,8 @@ public class JtlwMatchesRegularCommon {
      * EMAIL
      */
     public static final String EXP_EMAIL =
-            "^([a-z0-9A-Z_]+[_|\\-|\\.]?)+[a-z0-9A-Z_]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+            "^([a-z0-9A-Z_]+[_|\\-|\\.]?)+[a-z0-9A-Z_]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)" +
+                    "+[a-zA-Z]{2,}$";
 
     /**
      * 金额，2位小数
@@ -159,7 +165,8 @@ public class JtlwMatchesRegularCommon {
      * mac地址
      */
     public static final String EXP_MAC =
-            "[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}";
+            "[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA" +
+                    "-F]{2}";
 
     /**
      * 2012-12-21格式日期验证
@@ -176,4 +183,22 @@ public class JtlwMatchesRegularCommon {
      */
     public static final String EXP_DATETIMESECOND = "[0-9]{4}[-]{1}[0-9]{1,2}[-]{1}[0-9]{1,2}[ " +
             "]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}";
+
+    /**
+     * 获取符合正则的内容的数组
+     *
+     * @param str   字符串
+     * @param regex 正则
+     * @return 符合正则内容的数组
+     */
+    public static ArrayList<String> getRegexResultList(String str, String regex) {
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(str);
+        ArrayList<String> list = new ArrayList<>();
+        while (m.find()) {
+            list.add(m.group(0));
+        }
+        return list;
+    }
+
 }
