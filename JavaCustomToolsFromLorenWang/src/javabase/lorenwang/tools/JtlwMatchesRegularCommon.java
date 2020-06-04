@@ -70,19 +70,34 @@ public class JtlwMatchesRegularCommon {
             "([0-9a-zA-Z]+\\.)+[a-zA-Z]+(:[1-9][0-9]{0,4})?";
 
     /**
-     * 纯ip的url正则,其中拼接字符串问号为存在0次或1次的含义
+     * 纯ip的url正则,其中拼接字符串问号为存在0次或1次的含义(仅为协议和ip)
      */
-    public static final String EXP_URL_IP =
+    public static final String EXP_URL_AGREEMENT_DOMAIN_IP =
             "^" + EXP_URL_SCHEME_HTTP_S + EXP_URL_USER_PWD + "?" + EXP_URL_DOMAIN_NAME_IP;
 
     /**
-     * 纯字符串的url正则
+     * 纯字符串的url正则(仅为协议和ip)
      */
-    public static final String EXP_URL_STR =
+    public static final String EXP_URL_AGREEMENT_DOMAIN_STR =
             "^" + EXP_URL_SCHEME_HTTP_S + EXP_URL_USER_PWD + "?" + EXP_URL_DOMAIN_NAME_STR;
 
     /**
-     * 匹配网址
+     * 纯ip的url正则,其中拼接字符串问号为存在0次或1次的含义(匹配网址全部)
+     */
+    public static final String EXP_URL_IP = EXP_URL_AGREEMENT_DOMAIN_IP + ".*";
+
+    /**
+     * 纯字符串的url正则(匹配网址全部)
+     */
+    public static final String EXP_URL_STR = EXP_URL_AGREEMENT_DOMAIN_STR + ".*";
+
+    /**
+     * 匹配网址(仅为协议和ip)
+     */
+    public static final String EXP_URL_AGREEMENT_DOMAIN = "(" + EXP_URL_AGREEMENT_DOMAIN_IP + "|" + EXP_URL_AGREEMENT_DOMAIN_STR + ")";
+
+    /**
+     * 匹配网址(仅为协议和ip)
      */
     public static final String EXP_URL = "(" + EXP_URL_IP + "|" + EXP_URL_STR + ")";
 
