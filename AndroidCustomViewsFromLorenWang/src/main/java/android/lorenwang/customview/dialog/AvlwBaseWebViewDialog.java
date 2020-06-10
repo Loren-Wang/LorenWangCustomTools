@@ -1,6 +1,7 @@
 package android.lorenwang.customview.dialog;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -25,7 +26,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 public class AvlwBaseWebViewDialog extends AvlwBaseDialog {
     private View webView;
 
-    public AvlwBaseWebViewDialog(Context context, int dialogViewLayoutResId, int modelStyleResId, int dialogAnim, boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
+    public AvlwBaseWebViewDialog(Activity context, int dialogViewLayoutResId, int modelStyleResId, int dialogAnim, boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
         super(context, dialogViewLayoutResId, modelStyleResId, dialogAnim, isOutSideCancel, isFullWidthShow, isFullHeightShow);
     }
 

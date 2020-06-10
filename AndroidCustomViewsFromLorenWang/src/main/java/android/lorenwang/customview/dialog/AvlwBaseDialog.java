@@ -28,6 +28,13 @@ import androidx.appcompat.app.AlertDialog;
  */
 public class AvlwBaseDialog extends AlertDialog {
     protected final String TAG = getClass().getName();
+    /**
+     * 当前页面实例
+     */
+    protected Activity activity;
+    /**
+     * 当前页面view
+     */
     protected View view;
     protected boolean isFullWidthShow = false;//是否宽度全屏显示
     protected boolean isFullHeightShow = false;//是否高度全屏显示
@@ -36,18 +43,21 @@ public class AvlwBaseDialog extends AlertDialog {
      */
     protected int windowGravity = Gravity.BOTTOM;
 
-    protected AvlwBaseDialog(Context context) {
+    protected AvlwBaseDialog(Activity context) {
         super(context);
+        this.activity = context;
     }
 
-    protected AvlwBaseDialog(Context context, int style) {
+    protected AvlwBaseDialog(Activity context, int style) {
         super(context, style);
+        this.activity = context;
     }
 
-    public AvlwBaseDialog(final Context context, @LayoutRes int dialogViewLayoutResId
+    public AvlwBaseDialog(final Activity context, @LayoutRes int dialogViewLayoutResId
             , @StyleRes int modelStyleResId, @StyleRes int dialogAnim
             , boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
         super(context, modelStyleResId);
+        this.activity = context;
         view = LayoutInflater.from(context).inflate(dialogViewLayoutResId, null);
         new Builder(context, modelStyleResId).create();
         setView(view);
@@ -97,9 +107,11 @@ public class AvlwBaseDialog extends AlertDialog {
 
                 @Override
                 public void onActivityDestroyed(Activity activity) {
-                    dismiss();
-                    view = null;
-                    ((Application) context.getApplicationContext()).unregisterActivityLifecycleCallbacks(this);
+                    if (activity == AvlwBaseDialog.this.activity) {
+                        dismiss();
+                        view = null;
+                        ((Application) context.getApplicationContext()).unregisterActivityLifecycleCallbacks(this);
+                    }
                 }
             });
         }
@@ -110,8 +122,11 @@ public class AvlwBaseDialog extends AlertDialog {
     public void show() {
         super.show();
         if (isFullWidthShow || isFullHeightShow) {
-            showWidthHeightChange(windowGravity, isFullWidthShow ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT,
-                    isFullHeightShow ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+            showWidthHeightChange(windowGravity, isFullWidthShow ?
+                            ViewGroup.LayoutParams.MATCH_PARENT :
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                    isFullHeightShow ? ViewGroup.LayoutParams.MATCH_PARENT :
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
         }
     }
 

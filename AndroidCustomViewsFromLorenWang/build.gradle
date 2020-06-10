@@ -11,7 +11,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.93"
     }
 
     buildTypes {
@@ -39,7 +39,6 @@ dependencies {
 
 def moduleName = "AndroidCustomViewsFromLorenWang"
 def moduleDescription = "Android自定义控件库"
-version '1.0.92'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -51,7 +50,6 @@ def userEmail = properties.getProperty("userinfo.userEmail")
 def projectGitUrl = properties.getProperty("project.gitUrl")
 def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
 def projectGroupId = properties.getProperty("project.groupId")
-def moduleVersion = version
 
 install {
     repositories.mavenInstaller {
@@ -90,7 +88,7 @@ install {
                 dependencies {
                     dependency {
                         groupId projectGroupId
-                        version moduleVersion
+                        version android.defaultConfig.versionName
                         artifactId moduleName
                     }
                 }
@@ -130,7 +128,7 @@ bintray {
     key = bintrayKey
     configurations = ['archives']
     group = projectGroupId
-    version = moduleVersion
+    version = android.defaultConfig.versionName
 
     pkg {
         repo = "maven"

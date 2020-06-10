@@ -1,5 +1,6 @@
 package android.lorenwang.customview.dialog;
 
+import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -16,7 +17,8 @@ import android.content.Context;
 
 public class AvlwRecordDialog extends AvlwBaseDialog {
 
-    public AvlwRecordDialog(Context context, int dialogViewLayoutResId, int modelStyleResId, int dialogAnim, boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
+    public AvlwRecordDialog(Activity context, int dialogViewLayoutResId, int modelStyleResId,
+                            int dialogAnim, boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
         super(context, dialogViewLayoutResId, modelStyleResId, dialogAnim, isOutSideCancel, isFullWidthShow, isFullHeightShow);
     }
 

@@ -1,5 +1,6 @@
 package android.lorenwang.customview.dialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwScreenUtils;
@@ -46,7 +47,7 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
      */
     protected View viewBtnLine;
 
-    public AvlwConfirmCancelDialog1(Context context) {
+    public AvlwConfirmCancelDialog1(Activity context) {
         super(context, R.layout.avlw_dialog_confirm_cancel_1,
                 R.style.avlw_layout_dialog_center,
                 R.style.avlw_anim_dialog_center,
