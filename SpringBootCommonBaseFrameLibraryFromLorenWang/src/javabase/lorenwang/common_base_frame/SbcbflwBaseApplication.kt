@@ -2,7 +2,6 @@ package javabase.lorenwang.common_base_frame
 
 import javabase.lorenwang.common_base_frame.utils.SbcbflwLogUtils
 import javabase.lorenwang.dataparse.JdplwJsonUtils
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.Banner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
