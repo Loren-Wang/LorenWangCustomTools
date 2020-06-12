@@ -221,7 +221,9 @@ public class JtlwFileOptionUtils {
      */
     public Boolean writeToFile(File file, InputStream inputStream, boolean append) {
         //删除文件
-        deleteFile(file.getAbsolutePath());
+        if(!append) {
+            deleteFile(file.getAbsolutePath());
+        }
         //创建父级文件夹
         createDirectory(file.getAbsolutePath(), true);
         FileOutputStream fos = null;
