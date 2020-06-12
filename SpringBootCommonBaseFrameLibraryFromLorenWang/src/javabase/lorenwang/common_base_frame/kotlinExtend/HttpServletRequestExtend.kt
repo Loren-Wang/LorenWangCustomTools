@@ -61,7 +61,7 @@ inline fun <USER : SbcbflwBaseUserInfoTb<*, *>, P : SbcbflwBaseUserPermissionTyp
         true
     }, {
         //不为空则代表着检测开始
-        this.haveEmptyCheck(it, { false }, { true })
+        this.haveEmptyCheck({ false }, { true },it)
     }).let { emptyCheckStatus ->
         if (!emptyCheckStatus) {
             //空检测没有通过，有异常参数

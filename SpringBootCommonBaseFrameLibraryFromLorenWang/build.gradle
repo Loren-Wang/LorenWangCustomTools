@@ -38,7 +38,7 @@ dependencies {
     //java数据格式化类库
     compileOnly 'com.github.lorenwang:JavaDataParseFromLorenWang:1.1.6'
     //kotlin工具类
-    compileOnly 'com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.1.1'
+    compileOnly 'com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.1.2'
     //swagger注释
     compileOnly 'io.springfox:springfox-swagger2:2.6.0'
     compileOnly 'io.springfox:springfox-swagger-ui:2.6.0'
@@ -62,7 +62,7 @@ dependencies {
 
 def moduleName = "SpringBootCommonBaseFrameLibraryFromLorenWang"
 def moduleDescription = "SpringBoot通用基础框架包"
-version '1.2.3'
+version '1.2.31'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
