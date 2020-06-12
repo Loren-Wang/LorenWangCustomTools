@@ -56,7 +56,7 @@ inline fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
 /**
  * 待检测参数中是否包含空数据，包括空字符串检测
  */
-inline fun <T, P, R> T.haveEmptyCheck(vararg params: P, emptyFun: () -> R, notEmptyFun: () -> R): R {
+inline fun <T, P, R> T.haveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R,vararg params: P): R {
     params.forEach {
         if (it.isEmpty()) {
             return emptyFun()

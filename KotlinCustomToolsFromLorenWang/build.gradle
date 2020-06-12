@@ -19,9 +19,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     //java工具类库
-    compileOnly 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.6'
+    compileOnly 'com.github.lorenwang:JavaCustomToolsFromLorenWang:1.0.64'
     //java数据格式化类库
-    compileOnly 'com.github.lorenwang:JavaDataParseFromLorenWang:1.0.11'
+    compileOnly 'com.github.lorenwang:JavaDataParseFromLorenWang:1.1.6'
     //swagger注释
     implementation 'io.springfox:springfox-swagger2:2.6.0'
     implementation 'io.springfox:springfox-swagger-ui:2.6.0'
@@ -29,7 +29,7 @@ dependencies {
 
 def moduleName = "KotlinCustomToolsFromLorenWang"
 def moduleDescription = "Kotlin自定义工具类"
-version '1.1.1'
+version '1.1.2'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
