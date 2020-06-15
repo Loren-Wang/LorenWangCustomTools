@@ -1,0 +1,21 @@
+package com.qtoolsbaby.servicemmxs.config
+
+import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwPropertiesConfig
+import org.springframework.stereotype.Service
+
+/**
+ * 功能作用：配置文件,继承实现，为了能够获取bean
+ * 创建时间：2020-06-12 2:14 下午
+ * 创建人：王亮（Loren wang）
+ * 思路：
+ * 方法：
+ * 注意：
+ * 修改人：
+ * 修改时间：
+ * 备注：
+ *
+ * @author 王亮（Loren wang）
+ */
+@Service
+class PropertiesConfig :SbcbflwPropertiesConfig() {
+}
