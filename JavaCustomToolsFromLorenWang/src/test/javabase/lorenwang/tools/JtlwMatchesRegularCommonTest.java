@@ -6,6 +6,7 @@ import org.junit.After;
 
 import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
 
+import static javabase.lorenwang.tools.JtlwMatchesRegularCommon.EXP_EMAIL;
 import static javabase.lorenwang.tools.JtlwMatchesRegularCommon.EXP_URL;
 import static javabase.lorenwang.tools.JtlwMatchesRegularCommon.EXP_URL_IP;
 import static javabase.lorenwang.tools.JtlwMatchesRegularCommon.EXP_URL_STR;
@@ -37,6 +38,11 @@ public class JtlwMatchesRegularCommonTest {
         System.out.println(JtlwMatchesRegularCommon.getRegexResultList(strUrl, EXP_URL_STR).get(0));
         System.out.println(JtlwMatchesRegularCommon.getRegexResultList(ipUrl, EXP_URL).get(0));
         System.out.println(JtlwMatchesRegularCommon.getRegexResultList(strUrl, EXP_URL).get(0));
+        System.out.println("邮箱验证(aaa@gmail.com)：" + "aaa@gmail.com".matches(EXP_EMAIL));
+        System.out.println("邮箱验证(ewrqwer@gmail.com)：" + "ewrqwer@gmail.com".matches(EXP_EMAIL));
+        System.out.println("邮箱验证(aaa@a.com)：" + "aaa@gmail.com".matches(EXP_EMAIL));
+        System.out.println("邮箱验证(aaa@163.com)：" + "aaa@163.com".matches(EXP_EMAIL));
+        System.out.println("邮箱验证(1@.com)：" + "1@.com".matches(EXP_EMAIL));
     }
 
 

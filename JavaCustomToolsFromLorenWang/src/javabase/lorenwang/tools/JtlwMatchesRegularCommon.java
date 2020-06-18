@@ -136,9 +136,7 @@ public class JtlwMatchesRegularCommon {
     /**
      * EMAIL
      */
-    public static final String EXP_EMAIL =
-            "^([a-z0-9A-Z_]+[_|\\-|\\.]?)+[a-z0-9A-Z_]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)" +
-                    "+[a-zA-Z]{2,}$";
+    public static final String EXP_EMAIL = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
 
     /**
      * 金额，2位小数
