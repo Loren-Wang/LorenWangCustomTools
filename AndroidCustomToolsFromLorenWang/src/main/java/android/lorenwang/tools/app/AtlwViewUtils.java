@@ -111,7 +111,7 @@ public class AtlwViewUtils {
                     return getViewLayoutParams(RelativeLayout.LayoutParams.class, width, height);
                 } else if (view instanceof ConstraintLayout) {
                     return getViewLayoutParams(ConstraintLayout.LayoutParams.class, width, height);
-                } else {
+                } else if (view instanceof ViewGroup) {
                     return getViewLayoutParams(ViewGroup.LayoutParams.class, width, height);
                 }
             }
@@ -127,7 +127,8 @@ public class AtlwViewUtils {
      * @param height      控件显示的高度
      * @return 控件的LayoutParams
      */
-    public <T extends ViewGroup.LayoutParams> T getViewLayoutParams(Class<?> paramsClass, Integer width, Integer height) {
+    public <T extends ViewGroup.LayoutParams> T getViewLayoutParams(Class<?> paramsClass,
+                                                                    Integer width, Integer height) {
         if (paramsClass != null) {
             try {
                 if (width == null) {
@@ -136,7 +137,8 @@ public class AtlwViewUtils {
                 if (height == null) {
                     height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 }
-                T params = (T) paramsClass.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
+                T params =
+                        (T) paramsClass.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
                 params.width = width;
                 params.height = height;
                 return params;
@@ -180,7 +182,8 @@ public class AtlwViewUtils {
      * @param right  右外边距
      * @param bottom 下外边距
      */
-    public void setViewWidthHeightMargin(View view, int width, int height, Integer left, Integer top, Integer right, Integer bottom) {
+    public void setViewWidthHeightMargin(View view, int width, int height, Integer left,
+                                         Integer top, Integer right, Integer bottom) {
         if (view != null) {
             ViewGroup.LayoutParams layoutParams = getViewLayoutParams(view, width, height);
             setViewMarginParams(view, layoutParams, left, top, right, bottom);
@@ -198,7 +201,8 @@ public class AtlwViewUtils {
      * @param right  右外边距
      * @param bottom 下外边距
      */
-    public void setViewWidthHeightMargin(View view, Class<?> paramsClass, int width, int height, Integer left, Integer top, Integer right, Integer bottom) {
+    public void setViewWidthHeightMargin(View view, Class<?> paramsClass, int width, int height,
+                                         Integer left, Integer top, Integer right, Integer bottom) {
         if (view != null) {
             ViewGroup.LayoutParams layoutParams = getViewLayoutParams(paramsClass, width, height);
             setViewMarginParams(view, layoutParams, left, top, right, bottom);
@@ -215,7 +219,8 @@ public class AtlwViewUtils {
      * @param right        右外边距
      * @param bottom       下外边距
      */
-    public void setViewMarginParams(View view, ViewGroup.LayoutParams layoutParams, Integer left, Integer top, Integer right, Integer bottom) {
+    public void setViewMarginParams(View view, ViewGroup.LayoutParams layoutParams, Integer left,
+                                    Integer top, Integer right, Integer bottom) {
         if (layoutParams != null) {
             if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams params = (LinearLayout.LayoutParams) layoutParams;
@@ -303,7 +308,8 @@ public class AtlwViewUtils {
                         compoundDrawables[i] = tintDrawable(compoundDrawables[i], colorStateList);
                 }
                 //设置Drawable
-                textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+                textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1],
+                        compoundDrawables[2], compoundDrawables[3]);
             }
         }
     }
