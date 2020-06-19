@@ -111,7 +111,7 @@ public class AtlwViewUtils {
                     return getViewLayoutParams(RelativeLayout.LayoutParams.class, width, height);
                 } else if (view instanceof ConstraintLayout) {
                     return getViewLayoutParams(ConstraintLayout.LayoutParams.class, width, height);
-                } else if (view instanceof ViewGroup) {
+                } else {
                     return getViewLayoutParams(ViewGroup.LayoutParams.class, width, height);
                 }
             }

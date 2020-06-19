@@ -11,7 +11,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.95"
         multiDexEnabled true
 
     }
@@ -42,7 +42,7 @@ dependencies {
 }
 def moduleName = "AndroidCustomToolsFromLorenWang"
 def moduleDescription = "Android自定义工具库"
-version = '1.0.932'
+def moduleVersion = android.defaultConfig.versionName
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -54,7 +54,6 @@ def userEmail = properties.getProperty("userinfo.userEmail")
 def projectGitUrl = properties.getProperty("project.gitUrl")
 def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
 def projectGroupId = properties.getProperty("project.groupId")
-def moduleVersion = version
 
 install {
     repositories.mavenInstaller {

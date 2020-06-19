@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 
 /**
@@ -97,7 +99,11 @@ public class AtlwActivityUtils {
             } else {//请求权限
                 //存储键值对
                 permissionRequestCallbackMap.put(permissionsRequestCode, permissionRequestCallback);
-                activity.requestPermissions(permisstions, permissionsRequestCode);
+                if(activity instanceof AppCompatActivity){
+                    ActivityCompat.requestPermissions(activity,permisstions,permissionsRequestCode);
+                }else {
+                    activity.requestPermissions(permisstions, permissionsRequestCode);
+                }
             }
         }
     }
