@@ -15,13 +15,6 @@ import javabase.lorenwang.dataparse.JdplwJsonUtils
  */
 
 /**
- * 检测字符串数据是否为空
- */
-fun String?.isEmpty(): Boolean {
-    return this == null || "" == this
-}
-
-/**
  * 格式化json数据
  */
 fun <T> String.parseJsonData(cls: Class<T>): T? {
@@ -30,5 +23,15 @@ fun <T> String.parseJsonData(cls: Class<T>): T? {
     } catch (e: Exception) {
         null
     }
+}
 
+/**
+ * 获取非空数据
+ */
+fun String?.getNotEmptyData(defaultStr: String = ""): String {
+    return if (this.isNullOrEmpty()) {
+        defaultStr
+    } else {
+        this
+    }
 }

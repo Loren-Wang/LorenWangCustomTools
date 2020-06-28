@@ -25,3 +25,14 @@ fun <R> Map<String, Any?>.parseJsonData(cls: Class<R>): R? {
         null
     }
 }
+
+/**
+ * 获取非空数据
+ */
+fun <K, V> Map<K, V>?.getNotEmptyData(defaultData: Map<K, V> = mapOf()): Map<K, V> {
+    return if (this.isNullOrEmpty()) {
+        defaultData
+    } else {
+        this
+    }
+}
