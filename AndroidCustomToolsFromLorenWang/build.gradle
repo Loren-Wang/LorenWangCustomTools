@@ -11,15 +11,26 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 2
-        versionName "1.0.97"
+        versionName "1.1.0"
         multiDexEnabled true
 
     }
 
     buildTypes {
-        release {
+        debug {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "0")
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        appTest {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "1")
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "2")
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 

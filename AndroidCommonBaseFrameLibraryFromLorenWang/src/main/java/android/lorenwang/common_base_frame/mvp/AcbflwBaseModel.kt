@@ -14,6 +14,7 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.net.ssl.SSLException
 
 /**
  * 创建时间：2019-07-15 上午 11:11:5
@@ -111,6 +112,18 @@ open class AcbflwBaseModel {
                             }
                         } catch (e: Exception) {
                             AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                        }
+                    }
+                    is SSLException -> {
+                        //判断是无网络还是其他问题
+                        try {
+                            if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
+                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                            } else {
+                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                            }
+                        } catch (e: Exception) {
+                            AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                         }
                     }
                     else -> {

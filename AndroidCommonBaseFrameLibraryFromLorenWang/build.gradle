@@ -6,22 +6,33 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.3"
 
 
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
-        release {
+        debug {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "0")
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        appTest {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "1")
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "2")
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -73,7 +84,7 @@ dependencies {
 
 def moduleName = "AndroidCommonBaseFrameLibraryFromLorenWang"
 def moduleDescription = "安卓通用基础框架包"
-version '1.1.02'
+def moduleVersion = android.defaultConfig.versionName
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
@@ -85,7 +96,6 @@ def userEmail = properties.getProperty("userinfo.userEmail")
 def projectGitUrl = properties.getProperty("project.gitUrl")
 def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
 def projectGroupId = properties.getProperty("project.groupId")
-def moduleVersion = version
 
 install {
     repositories.mavenInstaller {

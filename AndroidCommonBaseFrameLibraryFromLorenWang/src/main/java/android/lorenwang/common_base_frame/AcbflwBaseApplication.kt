@@ -21,23 +21,13 @@ open class AcbflwBaseApplication : Application() {
         application = this
         appContext = applicationContext
         //初始化第三方配置
-        AtlwSetting.isDebug = AcbflwBaseConfig.baseDebugStatus
+        AtlwSetting.isDebug = AcbflwBaseConfig.appCompileTypeIsDebug()
         AtlwSetting.nowApplication = this
         AtlwSetting.registActivityLifecycleCallbacks(this)
 
         //基础包初始化配置
         AcbflwBaseConfig.titleBarHeadViewHeight = resources.getDimensionPixelOffset(R.dimen.base_title_bar_head_view_height)
         AcbflwBaseConfig.baseBottomViewHeight = resources.getDimensionPixelOffset(R.dimen.base_bottm_view_height)
-    }
-
-    /**
-     * 设置状态
-     * @param pro 是否是正式环境
-     */
-    fun setStatus(pro: Boolean) {
-        //初始化第三方配置
-        AtlwSetting.isDebug = !pro
-        AcbflwBaseConfig.baseDebugStatus = !pro
     }
 
     companion object {

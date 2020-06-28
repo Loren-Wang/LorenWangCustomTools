@@ -1,5 +1,6 @@
 package android.lorenwang.common_base_frame.network
 
+import android.lorenwang.common_base_frame.network.manage.AcbflwInterceptor
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import android.lorenwang.common_base_frame.network.manage.AcbflwResponseGsonConverterFactory
 import okhttp3.ConnectionSpec
@@ -46,14 +47,17 @@ open class AcbflwNetworkManager private constructor() {
      * @param baseUrl 基础url链接
      * @param interceptor 网络拦截器
      */
-    fun initRetrofit(baseUrl: String, interceptor: Interceptor?, converterFactory: Converter.Factory?) {
+    fun initRetrofit(baseUrl: String, interceptor: Array<Interceptor>?, converterFactory: Converter
+    .Factory?) {
         var builder = OkHttpClient.Builder()
         //防止无法进行http请求
         builder = builder.connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))
         //设置超时时间
         builder = builder.readTimeout(30, TimeUnit.SECONDS)
+        //添加默认日志拦截器
+        builder = builder.addInterceptor(AcbflwInterceptor())
         //添加拦截器
-        interceptor?.let {
+        interceptor?.forEach {
             builder = builder.addInterceptor(it)
         }
         lwRetrofit = Retrofit.Builder()

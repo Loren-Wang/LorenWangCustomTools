@@ -1,6 +1,5 @@
 package android.lorenwang.common_base_frame
 
-import android.lorenwang.tools.app.AtlwScreenUtils
 import androidx.annotation.DrawableRes
 import androidx.customview.R
 
@@ -25,10 +24,6 @@ object AcbflwBaseConfig {
      */
     var baseBottomViewHeight = 0
     /**
-     * 基础debugzhuangt
-     */
-    var baseDebugStatus = true
-    /**
      * 图片加载失败图片
      */
     @DrawableRes
@@ -40,4 +35,47 @@ object AcbflwBaseConfig {
     @DrawableRes
     @kotlin.jvm.JvmField
     var imageLoadingLoadResId = R.drawable.notification_bg_low
+
+
+    /**
+     * app编译类型之debug模式
+     */
+    private const val APP_COMPILE_TYPE_DEBUG = 0
+
+    /**
+     * app编译类型之test模式
+     */
+    private const val APP_COMPILE_TYPE_TEST = 1
+
+    /**
+     * app编译类型之release模式
+     */
+    private const val APP_COMPILE_TYPE_RELEASE = 2
+
+    /**
+     * 当前编译类型是否是正式环境
+     *
+     * @return true为是正式环境编译
+     */
+    fun appCompileTypeIsRelease(): Boolean {
+        return APP_COMPILE_TYPE_RELEASE.compareTo(BuildConfig.APP_COMPILE_TYPE) == 0
+    }
+
+    /**
+     * 当前编译类型是否是开发环境
+     *
+     * @return true为是开发环境编译
+     */
+    fun appCompileTypeIsDebug(): Boolean {
+        return APP_COMPILE_TYPE_DEBUG.compareTo(BuildConfig.APP_COMPILE_TYPE) == 0
+    }
+
+    /**
+     * 当前编译类型是否是测试环境
+     *
+     * @return true为是测试环境编译
+     */
+    fun appCompileTypeIsTest(): Boolean {
+        return APP_COMPILE_TYPE_TEST.compareTo(BuildConfig.APP_COMPILE_TYPE) == 0
+    }
 }

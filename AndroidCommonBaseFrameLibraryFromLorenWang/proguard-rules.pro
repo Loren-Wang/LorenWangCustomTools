@@ -52,7 +52,6 @@
 # Retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
--keepattributes Signature-keepattributes Exceptions
 -dontnote retrofit2.Platform
 -dontnote retrofit2.Platform$IOS$MainThreadExecutor
 -dontwarn retrofit2.Platform$Java8
@@ -75,7 +74,6 @@
 # Gson
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
--keep com.qtools.base.network.bean.**{*;}
 
 ##Glide
 -dontwarn com.bumptech.glide.**
