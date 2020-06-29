@@ -4,10 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
 
-
     defaultConfig {
         applicationId "com.example.testapp"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -16,12 +15,35 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "0")
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        appTest {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "1")
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "2")
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/*'
+    }
 }
 
 dependencies {
@@ -52,7 +74,12 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     //viewpager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    //列表数据加载
+    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+    //1.0.5及以前版本的老用户升级需谨慎，API改动过大
+    compileOnly 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
 }
 repositories {
     mavenCentral()
 }
+

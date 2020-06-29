@@ -83,7 +83,7 @@ public class AtlwViewUtils {
                     Class<?>[] classes = view.getClass().getClasses();
                     for (Class<?> item : classes) {
                         if (ViewGroup.LayoutParams.class.isAssignableFrom(item)) {
-                            return getViewLayoutParams(item, width, height);
+                            return getViewLayoutParams(item,view, width, height);
                         }
                     }
                 } catch (Exception e) {
@@ -96,7 +96,7 @@ public class AtlwViewUtils {
                         Class<?>[] classes = view.getParent().getClass().getClasses();
                         for (Class<?> item : classes) {
                             if (ViewGroup.LayoutParams.class.isAssignableFrom(item)) {
-                                return getViewLayoutParams(item, width, height);
+                                return getViewLayoutParams(item,view, width, height);
                             }
                         }
                     } catch (Exception e) {
@@ -104,15 +104,15 @@ public class AtlwViewUtils {
                     }
                 }
                 if (view instanceof LinearLayout) {
-                    return getViewLayoutParams(LinearLayout.LayoutParams.class, width, height);
+                    return getViewLayoutParams(LinearLayout.LayoutParams.class,view, width, height);
                 } else if (view instanceof FrameLayout) {
-                    return getViewLayoutParams(FrameLayout.LayoutParams.class, width, height);
+                    return getViewLayoutParams(FrameLayout.LayoutParams.class,view, width, height);
                 } else if (view instanceof RelativeLayout) {
-                    return getViewLayoutParams(RelativeLayout.LayoutParams.class, width, height);
+                    return getViewLayoutParams(RelativeLayout.LayoutParams.class,view, width, height);
                 } else if (view instanceof ConstraintLayout) {
-                    return getViewLayoutParams(ConstraintLayout.LayoutParams.class, width, height);
+                    return getViewLayoutParams(ConstraintLayout.LayoutParams.class,view, width, height);
                 } else if (view instanceof ViewGroup) {
-                    return getViewLayoutParams(ViewGroup.LayoutParams.class, width, height);
+                    return getViewLayoutParams(ViewGroup.LayoutParams.class,view, width, height);
                 }
             }
         }
@@ -127,7 +127,7 @@ public class AtlwViewUtils {
      * @param height      控件显示的高度
      * @return 控件的LayoutParams
      */
-    public <T extends ViewGroup.LayoutParams> T getViewLayoutParams(Class<?> paramsClass,
+    public <T extends ViewGroup.LayoutParams> T getViewLayoutParams(Class<?> paramsClass,View view,
                                                                     Integer width, Integer height) {
         if (paramsClass != null) {
             try {
@@ -137,8 +137,10 @@ public class AtlwViewUtils {
                 if (height == null) {
                     height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 }
-                T params =
-                        (T) paramsClass.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
+                T params = (T) view.getLayoutParams();
+                if(params == null){
+                    params = (T) paramsClass.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
+                }
                 params.width = width;
                 params.height = height;
                 return params;
@@ -204,7 +206,7 @@ public class AtlwViewUtils {
     public void setViewWidthHeightMargin(View view, Class<?> paramsClass, int width, int height,
                                          Integer left, Integer top, Integer right, Integer bottom) {
         if (view != null) {
-            ViewGroup.LayoutParams layoutParams = getViewLayoutParams(paramsClass, width, height);
+            ViewGroup.LayoutParams layoutParams = getViewLayoutParams(paramsClass,view, width, height);
             setViewMarginParams(view, layoutParams, left, top, right, bottom);
         }
     }
@@ -304,8 +306,9 @@ public class AtlwViewUtils {
                 //获取图片进行着色
                 Drawable[] compoundDrawables = textView.getCompoundDrawables();
                 for (int i = 0; i < compoundDrawables.length; i++) {
-                    if (compoundDrawables[i] != null)
+                    if (compoundDrawables[i] != null){
                         compoundDrawables[i] = tintDrawable(compoundDrawables[i], colorStateList);
+                        }
                 }
                 //设置Drawable
                 textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1],

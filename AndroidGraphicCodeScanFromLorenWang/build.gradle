@@ -20,8 +20,19 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "0")
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        appTest {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "1")
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            buildConfigField("Integer", "APP_COMPILE_TYPE", "2")
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

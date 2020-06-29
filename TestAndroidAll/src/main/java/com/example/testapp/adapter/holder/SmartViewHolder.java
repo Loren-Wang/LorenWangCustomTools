@@ -1,4 +1,4 @@
-package com.android.testapp.adapter.holder;
+package com.example.testapp.adapter.holder;
 
 import android.content.res.Resources;
 import android.util.TypedValue;

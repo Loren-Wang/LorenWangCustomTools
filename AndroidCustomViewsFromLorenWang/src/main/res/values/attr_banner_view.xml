@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvlwBannerView">
+        <!--指示器类型-->
+        <attr name="avlwBvIndicatorType" format="enum">
+            <enum name="none" value="0" />
+            <enum name="text" value="1" />
+            <enum name="point" value="2" />
+        </attr>
+        <!--自动播放时间-->
+        <attr name="avlwBvAutoplayTime" format="integer" />
+        <!--dot点的图片资源-->
+        <attr name="avlwBvIndicatorDotItemViewRes" format="reference" />
+        <!--dot点的宽度-->
+        <attr name="avlwBvIndicatorDotItemWidth" format="dimension" />
+        <!--dot点的高度-->
+        <attr name="avlwBvIndicatorDotItemHeight" format="dimension" />
+        <!--dot点的左右外边距-->
+        <attr name="avlwBvIndicatorDotItemMarginLeftRight" format="dimension" />
+        <!--dot选中颜色-->
+        <attr name="avlwBvIndicatorDotSelectColor" format="color" />
+        <!--dot未选中颜色-->
+        <attr name="avlwBvIndicatorDotUnSelectColor" format="color" />
+        <!--指示器文本颜色-->
+        <attr name="avlwBvIndicatorTextColor" format="color" />
+        <!--指示器位置-->
+        <attr name="avlwBvIndicatorGravity">
+            <!-- Push object to the top of its container, not changing its size. -->
+            <flag name="top" value="0x30" />
+            <!-- Push object to the bottom of its container, not changing its size. -->
+            <flag name="bottom" value="0x50" />
+            <!-- Push object to the left of its container, not changing its size. -->
+            <flag name="left" value="0x03" />
+            <!-- Push object to the right of its container, not changing its size. -->
+            <flag name="right" value="0x05" />
+            <!-- Place object in the vertical center of its container, not changing its size. -->
+            <flag name="center_vertical" value="0x10" />
+            <!-- Grow the vertical size of the object if needed so it completely fills its container. -->
+            <flag name="fill_vertical" value="0x70" />
+            <!-- Place object in the horizontal center of its container, not changing its size. -->
+            <flag name="center_horizontal" value="0x01" />
+            <!-- Grow the horizontal size of the object if needed so it completely fills its container. -->
+            <flag name="fill_horizontal" value="0x07" />
+            <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+            <flag name="center" value="0x11" />
+            <!-- Grow the horizontal and vertical size of the object if needed so it completely fills its container. -->
+            <flag name="fill" value="0x77" />
+            <!-- Additional option that can be set to have the top and/or bottom edges of
+                 the child clipped to its container's bounds.
+                 The clip will be based on the vertical gravity: a top gravity will clip the bottom
+                 edge, a bottom gravity will clip the top edge, and neither will clip both edges. -->
+            <flag name="clip_vertical" value="0x80" />
+            <!-- Additional option that can be set to have the left and/or right edges of
+                 the child clipped to its container's bounds.
+                 The clip will be based on the horizontal gravity: a left gravity will clip the right
+                 edge, a right gravity will clip the left edge, and neither will clip both edges. -->
+            <flag name="clip_horizontal" value="0x08" />
+            <!-- Push object to the beginning of its container, not changing its size. -->
+            <flag name="start" value="0x00800003" />
+            <!-- Push object to the end of its container, not changing its size. -->
+            <flag name="end" value="0x00800005" />
+        </attr>
+        <!--指示器左边距-->
+        <attr name="avlwBvIndicatorMarginLeft" format="dimension" />
+        <!--指示器右边距-->
+        <attr name="avlwBvIndicatorMarginRight" format="dimension" />
+        <!--指示器上边距-->
+        <attr name="avlwBvIndicatorMarginTop" format="dimension" />
+        <!--指示器下边距-->
+        <attr name="avlwBvIndicatorMarginBottom" format="dimension" />
+        <!--指示器左内边距-->
+        <attr name="avlwBvIndicatorPaddingLeft" format="dimension" />
+        <!--指示器右内边距-->
+        <attr name="avlwBvIndicatorPaddingRight" format="dimension" />
+        <!--指示器上内边距-->
+        <attr name="avlwBvIndicatorPaddingTop" format="dimension" />
+        <!--指示器下内边距-->
+        <attr name="avlwBvIndicatorPaddingBottom" format="dimension" />
+        <!--指示器背景-->
+        <attr name="avlwBvIndicatorBackground" format="reference" />
+        <!--指示器背景tint颜色-->
+        <attr name="avlwBvIndicatorBackgroundTintColor" format="color" />
+    </declare-styleable>
+</resources>

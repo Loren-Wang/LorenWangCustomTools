@@ -9,6 +9,7 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.testapp.adapter.BaseRecyclerAdapter
+import com.example.testapp.adapter.holder.SmartViewHolder
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
@@ -57,44 +58,25 @@ class SmartRefreshLayoutActivity : BaseActivity() {
 
         val refreshLayout = findViewById<SmartRefreshLayout>(R.id.refreshLayout)
         refreshLayout.setEnableAutoLoadMore(true)//开启自动加载功能（非必须）
-        refreshLayout.setOnRefreshListener(OnRefreshListener { refreshLayout ->
-            //                refreshLayout.getLayout().postDelayed(new Runnable() {
-            //                    @Override
-            //                    public void run() {
+        refreshLayout.setOnRefreshListener { rf ->
             mAdapter?.refresh(initData())
-            refreshLayout.finishRefresh()
-            refreshLayout.resetNoMoreData()//setNoMoreData(false);
-            //                    }
-            //                }, 2000);
-        })
-        refreshLayout.setOnLoadMoreListener(OnLoadMoreListener { refreshLayout ->
+            rf.finishRefresh()
+            rf.resetNoMoreData()
+        }
+        refreshLayout.setOnLoadMoreListener({ rf ->
             refreshLayout.layout.postDelayed({
                 if (mAdapter!!.getItemCount() > 30) {
                     Toast.makeText(application, "数据全部加载完毕", Toast.LENGTH_SHORT).show()
-                    refreshLayout.finishLoadMoreWithNoMoreData()//将不会再次触发加载更多事件
+                    rf.finishLoadMoreWithNoMoreData()//将不会再次触发加载更多事件
                 } else {
                     mAdapter?.loadMore(initData())
-                    refreshLayout.finishLoadMore()
+                    rf.finishLoadMore()
                 }
             }, 2000)
         })
 
         //触发自动刷新
         refreshLayout.autoRefresh()
-        //item 点击测试
-        mAdapter?.setOnItemClickListener(AdapterView.OnItemClickListener { parent, view, position, id ->
-//            val dialog = BottomSheetDialog(this@SmartRefreshLayoutActivity)
-//            val dialogView = View.inflate(baseContext, R.layout.activity_smart_refresh_layout, null)
-//            val refreshLayout = dialogView.findViewById<SmartRefreshLayout>(R.id.refreshLayout)
-//            val recyclerView = RecyclerView(baseContext)
-//            recyclerView.layoutManager = LinearLayoutManager(baseContext)
-//            recyclerView.adapter = mAdapter
-//            refreshLayout.setEnableRefresh(false)
-//            refreshLayout.setEnableNestedScroll(false)
-//            refreshLayout.setRefreshContent(recyclerView)
-//            dialog.setContentView(dialogView)
-//            dialog.show()
-        })
 
         //点击测试
         val footer = refreshLayout.getRefreshFooter()
