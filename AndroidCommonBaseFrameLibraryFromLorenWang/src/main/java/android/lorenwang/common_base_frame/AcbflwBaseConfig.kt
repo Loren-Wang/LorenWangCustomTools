@@ -57,8 +57,8 @@ object AcbflwBaseConfig {
      *
      * @return true为是正式环境编译
      */
-    fun appCompileTypeIsRelease(): Boolean {
-        return APP_COMPILE_TYPE_RELEASE.compareTo(BuildConfig.APP_COMPILE_TYPE) == 0
+    fun appCompileTypeIsRelease(appCompileType:Int): Boolean {
+        return APP_COMPILE_TYPE_RELEASE.compareTo(appCompileType) == 0
     }
 
     /**
@@ -66,8 +66,8 @@ object AcbflwBaseConfig {
      *
      * @return true为是开发环境编译
      */
-    fun appCompileTypeIsDebug(): Boolean {
-        return APP_COMPILE_TYPE_DEBUG.compareTo(BuildConfig.APP_COMPILE_TYPE) == 0
+    fun appCompileTypeIsDebug(appCompileType:Int): Boolean {
+        return APP_COMPILE_TYPE_DEBUG.compareTo(appCompileType) == 0
     }
 
     /**
@@ -75,7 +75,7 @@ object AcbflwBaseConfig {
      *
      * @return true为是测试环境编译
      */
-    fun appCompileTypeIsTest(): Boolean {
-        return APP_COMPILE_TYPE_TEST.compareTo(BuildConfig.APP_COMPILE_TYPE) == 0
+    fun appCompileTypeIsTest(appCompileType:Int): Boolean {
+        return APP_COMPILE_TYPE_TEST.compareTo(appCompileType) == 0
     }
 }

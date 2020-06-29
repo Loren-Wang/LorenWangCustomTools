@@ -1,6 +1,7 @@
 package android.lorenwang.common_base_frame.network.manage;
 
 import android.lorenwang.common_base_frame.AcbflwBaseConfig;
+import android.lorenwang.common_base_frame.BuildConfig;
 import android.lorenwang.tools.base.AtlwLogUtils;
 
 
@@ -40,7 +41,7 @@ public class AcbflwInterceptor implements Interceptor {
         Request.Builder requestBuilder = original.newBuilder()
                 .header("Accept-Encoding", "UTF-8");
         Request request = requestBuilder.build();
-        if (!AcbflwBaseConfig.INSTANCE.appCompileTypeIsRelease()) {
+        if (!AcbflwBaseConfig.INSTANCE.appCompileTypeIsRelease(BuildConfig.APP_COMPILE_TYPE)) {
             Response response = chain.proceed(request);
             String body = response.body() != null ? response.body().string() : "";
 

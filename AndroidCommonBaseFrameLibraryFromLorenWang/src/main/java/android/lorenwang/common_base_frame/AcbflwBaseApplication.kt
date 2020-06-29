@@ -21,7 +21,7 @@ open class AcbflwBaseApplication : Application() {
         application = this
         appContext = applicationContext
         //初始化第三方配置
-        AtlwSetting.isDebug = AcbflwBaseConfig.appCompileTypeIsDebug()
+        AtlwSetting.isDebug = AcbflwBaseConfig.appCompileTypeIsDebug(BuildConfig.APP_COMPILE_TYPE)
         AtlwSetting.nowApplication = this
         AtlwSetting.registActivityLifecycleCallbacks(this)
 
