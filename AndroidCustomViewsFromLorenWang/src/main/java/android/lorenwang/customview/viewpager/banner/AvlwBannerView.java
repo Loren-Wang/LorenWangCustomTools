@@ -221,7 +221,7 @@ public class AvlwBannerView extends FrameLayout {
                 //获取总倍数
                 int sum = adapter.getItemCount() / dataListSize;
                 if (sum > 1) {
-                    vpgBaseList.setCurrentItem(dataListSize * sum / 2, false);
+                    vpgBaseList.setCurrentItem(dataListSize * (sum / 2), false);
                 }
                 //初始化指示器
                 if (bannerIndicator != null) {
@@ -241,6 +241,14 @@ public class AvlwBannerView extends FrameLayout {
         if (autoplayTime != null && autoplayTime > 0) {
             AtlwThreadUtils.getInstance().postOnUiThreadDelayed(autoplayRunnable, autoplayTime);
         }
+    }
+
+    public ViewPager2 getVpgBaseList() {
+        return vpgBaseList;
+    }
+
+    public View getIndicatorView() {
+        return indicatorView;
     }
 
 }
