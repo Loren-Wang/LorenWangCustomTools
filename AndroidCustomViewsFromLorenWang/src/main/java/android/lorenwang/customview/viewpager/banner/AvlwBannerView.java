@@ -18,6 +18,8 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -35,7 +37,7 @@ import androidx.viewpager2.widget.ViewPager2;
  * @author wangliang
  */
 
-public class AvlwBannerView extends FrameLayout {
+public class AvlwBannerView extends ConstraintLayout {
     private Context context;
     /**
      * 无指示器
@@ -88,7 +90,7 @@ public class AvlwBannerView extends FrameLayout {
             //切换位置
             if (vpgBaseList != null && vpgBaseList.getAdapter() != null) {
                 int next = vpgBaseList.getCurrentItem() + 1;
-                if(next >= vpgBaseList.getAdapter().getItemCount()){
+                if (next >= vpgBaseList.getAdapter().getItemCount()) {
                     next = 0;
                 }
                 vpgBaseList.setCurrentItem(next, true);
@@ -135,29 +137,25 @@ public class AvlwBannerView extends FrameLayout {
             default:
                 break;
         }
-        if(indicatorView != null) {
-            FrameLayout.LayoutParams viewLayoutParams =
-                    AtlwViewUtils.getInstance().getViewLayoutParams(FrameLayout.LayoutParams.class,indicatorView,
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            //设置指示器位置
-            int gravity = attributes.getInt(R.styleable.AvlwBannerView_avlwBvIndicatorGravity, -1);
-            if (gravity > 0) {
-                viewLayoutParams.gravity = gravity;
-            }
+        if (indicatorView != null) {
+            ConstraintLayout.LayoutParams viewLayoutParams =
+                    AtlwViewUtils.getInstance().getViewLayoutParams(ConstraintLayout.LayoutParams.class, indicatorView,
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
             //设置边距
             int distance = (int) AtlwScreenUtils.getInstance().dip2px(10F);
             viewLayoutParams.setMargins(
                     attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginLeft, distance),
                     attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginTop, distance),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginRight,distance),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginBottom,distance));
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginRight, distance),
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginBottom, distance));
             indicatorView.setLayoutParams(viewLayoutParams);
             //设置内边距
             indicatorView.setPadding(
                     attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingLeft, distance),
                     attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingTop, 0),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingRight,distance),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingBottom,0));
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingRight, distance),
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingBottom, 0));
             //设置背景
             indicatorView.setBackgroundResource(attributes.getResourceId(R.styleable.AvlwBannerView_avlwBvIndicatorBackground,
                     R.drawable.avlw_solid_radius_8));
@@ -165,6 +163,31 @@ public class AvlwBannerView extends FrameLayout {
             AtlwViewUtils.getInstance().setBackgroundTint(indicatorView,
                     ColorStateList.valueOf(attributes.getColor(R.styleable.AvlwBannerView_avlwBvIndicatorBackgroundTintColor,
                             Color.TRANSPARENT)));
+
+            //设置指示器位置
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(this);
+            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvIndicatorTheLeft,
+                    bannerIndicator.getDefaultTheLeft())) {
+                constraintSet.connect(indicatorView.getId(), ConstraintSet.LEFT,
+                        R.id.vpgBaseList, ConstraintSet.LEFT);
+            }
+            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvIndicatorTheTop,
+                    bannerIndicator.getDefaultTheTop())) {
+                constraintSet.connect(indicatorView.getId(), ConstraintSet.TOP,
+                        R.id.vpgBaseList, ConstraintSet.TOP);
+            }
+            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvIndicatorTheRight,
+                    bannerIndicator.getDefaultTheRight())) {
+                constraintSet.connect(indicatorView.getId(), ConstraintSet.RIGHT,
+                        R.id.vpgBaseList, ConstraintSet.RIGHT);
+            }
+            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvIndicatorTheBottom,
+                    bannerIndicator.getDefaultTheBottom())) {
+                constraintSet.connect(indicatorView.getId(), ConstraintSet.BOTTOM,
+                        R.id.vpgBaseList, ConstraintSet.BOTTOM);
+            }
+            constraintSet.applyTo(this);
         }
         //设置指示器时间
         setAutoplayTime((long) attributes.getInt(R.styleable.AvlwBannerView_avlwBvAutoplayTime,
@@ -238,7 +261,7 @@ public class AvlwBannerView extends FrameLayout {
         //关闭自动切换线程
         AtlwThreadUtils.getInstance().removeRunnable(autoplayRunnable);
         //开启新的线程
-        if (autoplayTime != null && autoplayTime > 0) {
+        if (autoplayTime != null && autoplayTime > 0 && dataListSize > 0) {
             AtlwThreadUtils.getInstance().postOnUiThreadDelayed(autoplayRunnable, autoplayTime);
         }
     }

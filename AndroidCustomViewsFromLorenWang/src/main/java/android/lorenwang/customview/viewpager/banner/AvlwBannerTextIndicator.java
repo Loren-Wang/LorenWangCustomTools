@@ -57,4 +57,14 @@ class AvlwBannerTextIndicator extends AvlwBaseBannerIndicator {
         text = text.replaceFirst("^\\d/", (showPosition + 1) + "/");
         tvIndicator.setText(text);
     }
+
+    @Override
+    boolean getDefaultTheBottom() {
+        return true;
+    }
+
+    @Override
+    boolean getDefaultTheRight() {
+        return true;
+    }
 }

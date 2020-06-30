@@ -42,4 +42,33 @@ abstract class AvlwBaseBannerIndicator {
      * @param showPosition 切换后的指示器位置
      */
     abstract void changeShowIndicator(int showPosition);
+
+    /**
+     * 是否左对齐
+     * @return 默认不对齐
+     */
+     boolean getDefaultTheLeft(){
+         return false;
+     }
+    /**
+     * 是否上对齐
+     * @return 默认不对齐
+     */
+     boolean getDefaultTheTop(){
+         return false;
+     }
+    /**
+     * 是否右对齐
+     * @return 默认不对齐
+     */
+     boolean getDefaultTheRight(){
+         return false;
+     }
+    /**
+     * 是否下对齐
+     * @return 默认不对齐
+     */
+     boolean getDefaultTheBottom(){
+         return false;
+     }
 }

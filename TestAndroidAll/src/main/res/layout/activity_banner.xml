@@ -43,7 +43,10 @@
             android:layout_height="250dp"
             app:avlwBvIndicatorType="text"
             app:avlwBvAutoplayTime="5000"
-            app:avlwBvIndicatorGravity="left|top"
+            app:avlwBvIndicatorTheLeft="true"
+            app:avlwBvIndicatorTheTop="true"
+            app:avlwBvIndicatorTheRight="false"
+            app:avlwBvIndicatorTheBottom="false"
             android:layout_marginTop="10dp"
             tools:ignore="MissingPrefix" />
 
@@ -60,6 +63,16 @@
 
         <android.lorenwang.customview.viewpager.banner.AvlwBannerView
             android:id="@+id/vpgList5"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:avlwBvIndicatorType="text"
+            app:avlwBvAutoplayTime="5000"
+            app:avlwBvIndicatorTextColor="#0f0"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.viewpager.banner.AvlwBannerView
+            android:id="@+id/vpgList6"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             app:avlwBvIndicatorType="text"

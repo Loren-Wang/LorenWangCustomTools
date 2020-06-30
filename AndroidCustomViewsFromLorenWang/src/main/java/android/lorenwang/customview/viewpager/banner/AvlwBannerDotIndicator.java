@@ -131,4 +131,19 @@ class AvlwBannerDotIndicator extends AvlwBaseBannerIndicator {
             }
         }
     }
+
+    @Override
+    boolean getDefaultTheLeft() {
+        return true;
+    }
+
+    @Override
+    boolean getDefaultTheRight() {
+        return true;
+    }
+
+    @Override
+    boolean getDefaultTheBottom() {
+        return true;
+    }
 }

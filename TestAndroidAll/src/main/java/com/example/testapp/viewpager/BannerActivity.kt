@@ -30,6 +30,7 @@ class BannerActivity : BaseActivity() {
         showBanner(findViewById(R.id.vpgList3), list, list.size)
         showBanner(findViewById(R.id.vpgList4), list, Int.MAX_VALUE)
         showBanner(findViewById(R.id.vpgList5), list, Int.MAX_VALUE)
+        showBanner(findViewById(R.id.vpgList6), list.subList(0,1), Int.MAX_VALUE)
     }
 
     /**
