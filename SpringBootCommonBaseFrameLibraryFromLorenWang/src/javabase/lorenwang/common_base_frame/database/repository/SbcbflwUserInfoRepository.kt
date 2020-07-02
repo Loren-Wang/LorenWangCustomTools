@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.database.repository
 
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.data.repository.PagingAndSortingRepository
 import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
 
@@ -16,6 +17,5 @@ import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
  * 修改时间：
  * 备注：
  */
-public interface SbcbflwUserInfoRepository<P, ROLE_TB : SbcbflwBaseUserRoleTb<P>, T : SbcbflwBaseUserInfoTb<P, ROLE_TB>> : SbcbflwBaseRepository<T> {
-
-}
+@NoRepositoryBean
+interface SbcbflwUserInfoRepository<P, ROLE_TB : SbcbflwBaseUserRoleTb<P>, T : SbcbflwBaseUserInfoTb<P, ROLE_TB>> : SbcbflwBaseRepository<T>

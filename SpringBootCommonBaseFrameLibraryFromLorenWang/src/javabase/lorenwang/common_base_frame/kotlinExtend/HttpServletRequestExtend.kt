@@ -7,7 +7,7 @@ import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.Comm
 import javabase.lorenwang.common_base_frame.database.SbcbflwDatabaseParams.FIRST_RANK_LIST
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionTypeEnum
+import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserRolePermissionService
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserService
 import javabase.lorenwang.tools.JtlwLogUtils
@@ -45,7 +45,7 @@ import javax.persistence.EntityManager
  * @param unKnownOptionsErrorFun 未知操作异常操作
  * @return 处理结果字符串
  */
-inline fun <USER : SbcbflwBaseUserInfoTb<*, *>, P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <USER : SbcbflwBaseUserInfoTb<*, *>, P : SbcbflwBaseUserPermissionType> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         userService: SbcbflwUserService?,
         userRolePermissionService: SbcbflwUserRolePermissionService?,
         emptyCheckArray: Array<*>?,
@@ -183,7 +183,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         noinline unKnownOptionsFun: () -> Any,
         noinline unKnownOptionsErrorFun: () -> Any): String {
-    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(
+    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionType>(
             null, null, emptyCheckArray, null, false,
             baseController, null, null, null,
             null, unKnownOptionsFun, unKnownOptionsErrorFun)
@@ -192,7 +192,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
 /**
  * 接口检测并操作扩展
  */
-inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <P : SbcbflwBaseUserPermissionType, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         userService: SbcbflwUserService,
         userRolePermissionService: SbcbflwUserRolePermissionService?,
         emptyCheckArray: Array<*>?,
@@ -210,7 +210,7 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<
 /**
  * 接口检测并操作扩展
  */
-inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <P : SbcbflwBaseUserPermissionType, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         userService: SbcbflwUserService,
         userRolePermissionService: SbcbflwUserRolePermissionService?,
         emptyCheckArray: Array<*>?,
@@ -227,7 +227,7 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<
 /**
  * 接口检测并操作扩展
  */
-inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <P : SbcbflwBaseUserPermissionType, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         userService: SbcbflwUserService,
         userRolePermissionService: SbcbflwUserRolePermissionService?,
         emptyCheckArray: Array<*>?,
@@ -248,7 +248,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         baseController: SbcbflwBaseController,
         noinline unKnownOptionsFun: (() -> Any?)): String {
-    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(
+    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionType>(
             null, null, emptyCheckArray, null, false,
             baseController, null, null, null,
             null, unKnownOptionsFun, null)
@@ -257,7 +257,7 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
 /**
  * 接口检测并操作扩展
  */
-inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+inline fun <P : SbcbflwBaseUserPermissionType, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         noinline unKnownRepositoryOptionsFun: ((userInfoTb: USER) -> Any)?,
         noinline unKnownRepositoryOptionsErrorFun: ((data: USER?) -> Any)?): String {
@@ -273,7 +273,7 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<
 inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         noinline unKnownOptionsFun: () -> Any): String {
-    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(
+    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionType>(
             null, null, null, null, false,
             baseController, null, null, null,
             null, unKnownOptionsFun, null)
@@ -290,7 +290,7 @@ fun <TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>>
         curd: CURD, deleteId: ID?,
         entityManager: EntityManager,
         tableName: String, primaryKeyColumn: String): String {
-    return this.deleteTbInfo<SbcbflwBaseUserPermissionTypeEnum, TB, ID, CURD,
+    return this.deleteTbInfo<SbcbflwBaseUserPermissionType, TB, ID, CURD,
             SbcbflwBaseUserInfoTb<*, *>>(
             userService,userRolePermissionService, baseController, curd, deleteId, null,
             entityManager,
@@ -300,7 +300,7 @@ fun <TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>>
 /**
  * 删除表信息中的某一条数据
  */
-fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.deleteTbInfo(
+fun <P : SbcbflwBaseUserPermissionType, TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.deleteTbInfo(
         userService: SbcbflwUserService,
         userRolePermissionService: SbcbflwUserRolePermissionService?,
         baseController: SbcbflwBaseController,
@@ -341,7 +341,7 @@ fun <TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>> SbcbflwBaseHttpServl
 /**
  * 更新一个表中所有排行信息
  */
-fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.upDataTbAllRank(
+fun <P : SbcbflwBaseUserPermissionType, TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.upDataTbAllRank(
         userService: SbcbflwUserService,
         userRolePermissionService: SbcbflwUserRolePermissionService?,
         baseController: SbcbflwBaseController,
@@ -421,7 +421,7 @@ private fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb> upDateAllRan
  * @param unKnownRepositoryOptionsFun 未知数据库操作
  * @param unKnownRepositoryOptionsErrorFun 未知数据库异常操作
  */
-fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.checkPermissions(
+fun <P : SbcbflwBaseUserPermissionType, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.checkPermissions(
         userRolePermissionService: SbcbflwUserRolePermissionService?,
         userInfo: USER,
         checkPermissionArray: Array<P>?,

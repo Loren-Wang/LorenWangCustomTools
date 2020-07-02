@@ -2,8 +2,7 @@ package javabase.lorenwang.common_base_frame.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
-import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatusEnum
+import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatus
 import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
 import javax.persistence.*
 import java.io.Serializable
@@ -81,6 +80,6 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
      * 用户状态
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.STATUS, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.STATUS} comment '用户状态'")
-    var status = SbcbflwBaseUserStatusEnum.ENABLE.status
+    var status = SbcbflwBaseUserStatus.ENABLE
 
 }

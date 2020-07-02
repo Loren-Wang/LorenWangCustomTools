@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame.database.repository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseDatabaseTableVersionTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseTb
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.NoRepositoryBean
 
 /**
  * 功能作用：数据库表版本表操作
@@ -15,6 +16,7 @@ import org.springframework.data.repository.CrudRepository
  * 修改时间：
  * 备注：
  */
-public interface SbcbflwDatabaseTableVersionRepository<T : SbcbflwBaseDatabaseTableVersionTb> : SbcbflwBaseRepository<T> {
+@NoRepositoryBean
+interface SbcbflwDatabaseTableVersionRepository<T : SbcbflwBaseDatabaseTableVersionTb> : SbcbflwBaseRepository<T> {
     fun findDatabaseTableVersionTbByVersionCodeAndVersionName(versionCode: Long, versionName: String): T?
 }

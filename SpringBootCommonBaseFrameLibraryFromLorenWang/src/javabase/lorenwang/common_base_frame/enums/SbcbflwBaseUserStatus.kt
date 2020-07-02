@@ -11,18 +11,21 @@ package javabase.lorenwang.common_base_frame.enums
  * 修改时间：
  * 备注：
  */
-public enum class SbcbflwBaseUserStatusEnum constructor(var status: Int) {
-    /**
-     * 启用
-     */
-    ENABLE(0),
-    /**
-     * 禁用
-     */
-    DISABLE(1),
-    /**
-     * 删除
-     */
-    DELETE(2)
+open class SbcbflwBaseUserStatus {
+    companion object {
+        /**
+         * 启用
+         */
+        val ENABLE = 0
 
+        /**
+         * 禁用
+         */
+        val DISABLE = 1
+
+        /**
+         * 删除
+         */
+        val DELETE = 2
+    }
 }

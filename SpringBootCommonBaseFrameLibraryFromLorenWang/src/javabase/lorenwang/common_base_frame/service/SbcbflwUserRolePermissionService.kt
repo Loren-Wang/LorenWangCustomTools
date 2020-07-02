@@ -3,7 +3,7 @@ package javabase.lorenwang.common_base_frame.service
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionTypeEnum
+import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
 
 /**
  * 功能作用：用户角色权限service
@@ -24,5 +24,5 @@ interface SbcbflwUserRolePermissionService :SbcbflwBaseService{
     */
     fun checkUserHavePermission(request: SbcbflwBaseHttpServletRequestWrapper,
                                 userInfo: SbcbflwBaseUserInfoTb<*, *>,
-                                permission: SbcbflwBaseUserPermissionTypeEnum): SbcbflwBaseDataDisposeStatusBean
+                                permission: SbcbflwBaseUserPermissionType): SbcbflwBaseDataDisposeStatusBean
 }
