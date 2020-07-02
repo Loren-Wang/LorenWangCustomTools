@@ -105,6 +105,11 @@
             style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBannerAndViewPager"
+            android:text="Banner和ViewPager嵌套页面"
+            style="@style/mainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnViewPager2"
             android:text="ViewPager2嵌套ViewPager2"
             style="@style/mainButtons" />

@@ -7,6 +7,8 @@
             <enum name="text" value="1" />
             <enum name="point" value="2" />
         </attr>
+        <!--是否自动循环-->
+        <attr name="avlwBvAutoCycle" format="boolean" />
         <!--自动播放时间-->
         <attr name="avlwBvAutoplayTime" format="integer" />
         <!--dot点的图片资源-->

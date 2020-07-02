@@ -11,6 +11,7 @@ import com.example.testapp.dialog.DialogsActivity
 import com.example.testapp.textview.ShowPriceTextViewActivity
 import com.example.testapp.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.viewpager.BannerActivity
+import com.example.testapp.viewpager.FragmentAndBannerActivity
 import com.example.testapp.viewpager.ViewPager2Activity
 
 class MainActivity : Activity() {
@@ -78,6 +79,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnBanner -> {
                     startActivity(Intent(this, BannerActivity::class.java))
+                }
+                R.id.btnBannerAndViewPager -> {
+                    startActivity(Intent(this, FragmentAndBannerActivity::class.java))
                 }
                 R.id.btnViewPager2 -> {
                     startActivity(Intent(this, ViewPager2Activity::class.java))

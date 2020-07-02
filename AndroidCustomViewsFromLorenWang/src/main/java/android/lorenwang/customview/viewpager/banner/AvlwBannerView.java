@@ -32,7 +32,8 @@ import androidx.viewpager2.widget.ViewPager2;
  * 注意：
  * 修改人：
  * 修改时间：
- * 备注：
+ * 备注：1、自动循环时最大适配器数量为：AUTO_CYCLE_MAX_COUNT：60000
+ *      2、适配器的itemCount要使用该view的getAdapterItemCount方法
  *
  * @author wangliang
  */
@@ -76,6 +77,14 @@ public class AvlwBannerView extends ConstraintLayout {
      * 自定播放时间,默认不进行轮播
      */
     private Long autoplayTime = 0L;
+    /**
+     * 是否是自动循环
+     */
+    private boolean autoCycle = false;
+    /**
+     * 自动循环时最大item数量，因为Int.MAX_VALUE的值回导致和外部的viewpager产生冲突导致无法滑动，所以要设置一个尽量大的值
+     */
+    private final Integer AUTO_CYCLE_MAX_COUNT = 60000;
     /**
      * 自动播放线程
      */
@@ -192,6 +201,8 @@ public class AvlwBannerView extends ConstraintLayout {
         //设置指示器时间
         setAutoplayTime((long) attributes.getInt(R.styleable.AvlwBannerView_avlwBvAutoplayTime,
                 autoplayTime.intValue()));
+        //获取循环状态，是否是自动循环
+        autoCycle = attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvAutoCycle, autoCycle);
         attributes.recycle();
     }
 
@@ -207,15 +218,8 @@ public class AvlwBannerView extends ConstraintLayout {
         resetChangePageTask();
     }
 
-    /**
-     * 设置数据视图适配
-     *
-     * @param dataListSize 数据实际大小
-     * @param adapter      适配器
-     * @param <T>          itemHolder适配器
-     */
     public <T extends RecyclerView.ViewHolder> void setViewData(
-            final int dataListSize, RecyclerView.Adapter<T> adapter) {
+            final int dataListSize, final RecyclerView.Adapter<T> adapter) {
         if (adapter != null) {
             this.dataListSize = dataListSize;
             if (this.dataListSize > 0) {
@@ -264,6 +268,29 @@ public class AvlwBannerView extends ConstraintLayout {
         if (autoplayTime != null && autoplayTime > 0 && dataListSize > 0) {
             AtlwThreadUtils.getInstance().postOnUiThreadDelayed(autoplayRunnable, autoplayTime);
         }
+    }
+
+    /**
+     * 设置自动循环状态
+     *
+     * @param autoCycle 自动循环
+     */
+    public void setAutoCycle(boolean autoCycle) {
+        this.autoCycle = autoCycle;
+    }
+
+    /**
+     * 获取适配器的itemCount显示大小
+     * @return 适配器itemCount显示大小
+     */
+    public int getAdapterItemCount(){
+        if (autoCycle) {
+            //判断数量是否大于最大值，大于且要循环则为最大值，否则为其自己的itemCount
+            if (AUTO_CYCLE_MAX_COUNT.compareTo(dataListSize) > 0) {
+                return AUTO_CYCLE_MAX_COUNT;
+            }
+        }
+        return dataListSize;
     }
 
     public ViewPager2 getVpgBaseList() {
