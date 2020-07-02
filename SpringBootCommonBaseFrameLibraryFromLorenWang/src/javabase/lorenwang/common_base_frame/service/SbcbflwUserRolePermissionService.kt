@@ -4,6 +4,8 @@ import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBea
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
+import service.qtoolsbaby.official.database.table.SbcbflwBaseUserPermissionTb
+import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
 
 /**
  * 功能作用：用户角色权限service
@@ -18,11 +20,12 @@ import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
  *
  * @author 王亮（Loren wang）
  */
-interface SbcbflwUserRolePermissionService :SbcbflwBaseService{
+interface SbcbflwUserRolePermissionService<R : SbcbflwBaseHttpServletRequestWrapper,
+        P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>,
+        U : SbcbflwBaseUserInfoTb<P, ROLE>, PT : SbcbflwBaseUserPermissionType> : SbcbflwBaseService {
     /*
     * 检测是否有权限
     */
-    fun checkUserHavePermission(request: SbcbflwBaseHttpServletRequestWrapper,
-                                userInfo: SbcbflwBaseUserInfoTb<*, *>,
-                                permission: SbcbflwBaseUserPermissionType): SbcbflwBaseDataDisposeStatusBean
+    fun checkUserHavePermission(request: R, userInfo: U, permission: PT):
+            SbcbflwBaseDataDisposeStatusBean
 }

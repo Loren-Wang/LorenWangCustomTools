@@ -1,5 +1,10 @@
 package com.test.springboot.service
 
+import com.test.springboot.database.table.UserInfoTb
+import com.test.springboot.database.table.UserPermissionTb
+import com.test.springboot.database.table.UserRoleTb
+import com.test.springboot.enums.UserPermissionType
+import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserRolePermissionService
 
 /**
@@ -15,4 +20,6 @@ import javabase.lorenwang.common_base_frame.service.SbcbflwUserRolePermissionSer
  *
  * @author 王亮（Loren wang）
  */
-interface UserRolePermissionService : SbcbflwUserRolePermissionService
+interface UserRolePermissionService :
+        SbcbflwUserRolePermissionService<SbcbflwBaseHttpServletRequestWrapper, UserPermissionTb,
+                UserRoleTb, UserInfoTb, UserPermissionType>

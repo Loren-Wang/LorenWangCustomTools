@@ -1,10 +1,11 @@
 package com.test.springboot.service.impl
 
+import com.test.springboot.database.table.UserInfoTb
+import com.test.springboot.enums.UserPermissionType
 import com.test.springboot.service.UserRolePermissionService
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionTypeEnum
 import org.springframework.stereotype.Service
 
 /**
@@ -22,7 +23,8 @@ import org.springframework.stereotype.Service
  */
 @Service
 class UserRolePermissionServiceImpl : UserRolePermissionService {
-    override fun checkUserHavePermission(request: SbcbflwBaseHttpServletRequestWrapper, userInfo: SbcbflwBaseUserInfoTb<*, *>, permission: SbcbflwBaseUserPermissionTypeEnum): SbcbflwBaseDataDisposeStatusBean {
+
+    override fun checkUserHavePermission(request: SbcbflwBaseHttpServletRequestWrapper, userInfo: UserInfoTb, permission: UserPermissionType): SbcbflwBaseDataDisposeStatusBean {
         TODO("Not yet implemented")
     }
 }
