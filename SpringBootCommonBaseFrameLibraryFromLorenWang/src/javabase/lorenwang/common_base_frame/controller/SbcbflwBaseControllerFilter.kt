@@ -2,8 +2,8 @@ package javabase.lorenwang.common_base_frame.controller
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
-import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserHelper
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
+import javabase.lorenwang.common_base_frame.service.SbcbflwUserService
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import org.springframework.transaction.annotation.Transactional
@@ -86,19 +86,19 @@ abstract class SbcbflwBaseControllerFilter : Filter {
 
         //token检测
         JtlwLogUtils.logD(javaClass, "接收到接口请求，开始检测用户登录状态，如果有token的话")
-        SbcbflwUserHelper.baseInstance?.getAccessTokenByReqHeader(req).emptyCheck({
+        getUserService().getAccessTokenByReqHeader(req).emptyCheck({
             //正常发起请求
             chain.doFilter(req, response)
         }, {
-            val userStatus = SbcbflwUserHelper.baseInstance?.checkUserLogin(req)
-            if (userStatus != null && userStatus.statusResult && userStatus.body != null && userStatus.body is SbcbflwBaseUserInfoTb<*, *>) {
+            val userStatus = getUserService().checkUserLogin(req)
+            if (userStatus.statusResult && userStatus.body != null && userStatus.body is SbcbflwBaseUserInfoTb<*, *>) {
                 val accessToken = (userStatus.body as SbcbflwBaseUserInfoTb<*, *>).accessToken
                 JtlwLogUtils.logD(javaClass, "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息")
-                SbcbflwUserHelper.baseInstance?.refreshAccessToken(accessToken!!).let { newToken ->
-                    if (!accessToken.equals(newToken)) {
+                getUserService().refreshAccessToken(accessToken!!).let { newToken ->
+                    if (accessToken != newToken) {
                         (userStatus.body as SbcbflwBaseUserInfoTb<*, *>).accessToken = newToken
                         response.setHeader(SbcbflwCommonUtils.instance.headerKeyUserAccessToken, newToken)
-                        req.addHeader(SbcbflwCommonUtils.instance.headerKeyUserAccessToken, newToken!!)
+                        req.addHeader(SbcbflwCommonUtils.instance.headerKeyUserAccessToken, newToken)
                         JtlwLogUtils.logI(javaClass, "token已更新")
                     }
                     req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, userStatus.body)
@@ -126,4 +126,9 @@ abstract class SbcbflwBaseControllerFilter : Filter {
      * 登录验证失败,用户未登录或者token失效
      */
     abstract fun responseErrorUser(errorInfo: SbcbflwBaseDataDisposeStatusBean?): String
+
+    /**
+     * 获取用户服务
+     */
+    abstract fun getUserService():SbcbflwUserService
 }

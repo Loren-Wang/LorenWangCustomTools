@@ -1,7 +1,10 @@
 package com.qtoolsbaby.servicemmxs.base
 
+import com.test.springboot.service.UserService
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseControllerFilter
+import javabase.lorenwang.common_base_frame.service.SbcbflwUserService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 /**
@@ -19,6 +22,15 @@ import org.springframework.stereotype.Service
  */
 @Service
 internal class BaseControllerFilter : SbcbflwBaseControllerFilter() {
+//    @Autowired
+    private lateinit var userService:UserService
+    /**
+     * 获取用户服务
+     */
+    override fun getUserService(): SbcbflwUserService {
+        return userService
+    }
+
     override fun responseErrorUser(errorInfo: SbcbflwBaseDataDisposeStatusBean?): String {
         return ""
     }

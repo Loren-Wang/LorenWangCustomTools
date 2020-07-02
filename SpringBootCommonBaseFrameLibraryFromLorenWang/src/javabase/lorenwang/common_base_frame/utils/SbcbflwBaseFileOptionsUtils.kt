@@ -2,7 +2,6 @@ package javabase.lorenwang.common_base_frame.utils
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
-import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserHelper
 import javabase.lorenwang.tools.common.JtlwCommonUtils
 import javabase.lorenwang.tools.enums.JtlwFileTypeEnum
 import org.springframework.web.multipart.MultipartFile

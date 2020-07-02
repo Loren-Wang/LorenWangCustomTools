@@ -1,4 +1,4 @@
-package javabase.lorenwang.common_base_frame.database.helper
+package javabase.lorenwang.common_base_frame.service
 
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
@@ -6,8 +6,8 @@ import javabase.lorenwang.common_base_frame.safe.SbcbflwEncryptDecryptUtils
 import javabase.lorenwang.common_base_frame.utils.SbcbflwRandomStringUtils
 
 /**
- * 功能作用：用户帮助类
- * 创建时间：2020-01-06 17:08
+ * 功能作用：用户相关服务
+ * 创建时间：2020-07-01 5:51 下午
  * 创建人：王亮（Loren wang）
  * 思路：
  * 方法：
@@ -15,20 +15,19 @@ import javabase.lorenwang.common_base_frame.utils.SbcbflwRandomStringUtils
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren wang）
  */
-abstract class SbcbflwUserHelper {
+abstract class SbcbflwUserService : SbcbflwBaseService {
     /**
      * 密码长度，默认10位
      */
     protected var passwordLength: Int = 10
+
     /**
      * 是否加密了token，自动调用，当执行过加密方法之后会被自动设置为true
      */
     var encryptAccessToken = false
-
-    companion object {
-        var baseInstance: SbcbflwUserHelper? = null
-    }
 
     /**
      * 通过请求头获取用户token
@@ -69,7 +68,7 @@ abstract class SbcbflwUserHelper {
     /**
      * 加密token
      */
-    open fun encryptAccessToken(token: String): String? {
+    fun encryptAccessToken(token: String): String? {
         encryptAccessToken = true
         return SbcbflwEncryptDecryptUtils.instance.encrypt(token)
     }
@@ -77,7 +76,7 @@ abstract class SbcbflwUserHelper {
     /**
      * 解密token
      */
-    open fun decryptAccessToken(token: String): String? {
+    fun decryptAccessToken(token: String): String? {
         return if (encryptAccessToken) {
             SbcbflwEncryptDecryptUtils.instance.decrypt(token)
         } else {

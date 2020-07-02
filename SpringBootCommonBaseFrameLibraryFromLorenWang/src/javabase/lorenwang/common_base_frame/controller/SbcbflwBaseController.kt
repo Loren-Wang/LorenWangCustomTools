@@ -83,7 +83,7 @@ abstract class SbcbflwBaseController {
     /**
      * 接口处理之后的响应返回
      * @param stateCode 响应状态吗
-     * @param stateMessage 响应状态消息
+     * @param stateMessageCode 响应状态消息
      * @param obj 响应数据
      * @param <T> 泛型
      * @return 格式化后字符串
@@ -111,7 +111,6 @@ abstract class SbcbflwBaseController {
      * 接口处理之后的数据列表响应返回
      * @param stateCode 响应状态吗
      * @param stateMessage 响应状态消息
-     * @param obj 响应数据
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
@@ -127,8 +126,7 @@ abstract class SbcbflwBaseController {
     /**
      * 接口处理之后的数据列表响应返回
      * @param stateCode 响应状态吗
-     * @param stateMessage 响应状态消息
-     * @param obj 响应数据
+     * @param stateMessageCode 响应状态消息
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */

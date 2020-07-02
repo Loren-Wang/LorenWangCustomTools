@@ -5,11 +5,11 @@ import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseController
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
 import javabase.lorenwang.common_base_frame.database.SbcbflwDatabaseParams.FIRST_RANK_LIST
-import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserHelper
-import javabase.lorenwang.common_base_frame.database.helper.SbcbflwUserRolePermissionHelper
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionTypeEnum
+import javabase.lorenwang.common_base_frame.service.SbcbflwUserRolePermissionService
+import javabase.lorenwang.common_base_frame.service.SbcbflwUserService
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetUpDateRankReqBean
 import kotlinbase.lorenwang.tools.extend.emptyCheck
@@ -32,6 +32,7 @@ import javax.persistence.EntityManager
  */
 /**
  * 接口检测和操作
+ * @param userService 用户服务
  * @param emptyCheckArray 要检测空的数组
  * @param checkPermissionArray 要检测的权限列表
  * @param checkPermission 是否检测权限
@@ -45,6 +46,8 @@ import javax.persistence.EntityManager
  * @return 处理结果字符串
  */
 inline fun <USER : SbcbflwBaseUserInfoTb<*, *>, P : SbcbflwBaseUserPermissionTypeEnum> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+        userService: SbcbflwUserService?,
+        userRolePermissionService: SbcbflwUserRolePermissionService?,
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<P>?,
         checkPermission: Boolean,
@@ -61,7 +64,7 @@ inline fun <USER : SbcbflwBaseUserInfoTb<*, *>, P : SbcbflwBaseUserPermissionTyp
         true
     }, {
         //不为空则代表着检测开始
-        this.haveEmptyCheck({ false }, { true },it)
+        this.haveEmptyCheck({ false }, { true }, it)
     }).let { emptyCheckStatus ->
         if (!emptyCheckStatus) {
             //空检测没有通过，有异常参数
@@ -71,7 +74,7 @@ inline fun <USER : SbcbflwBaseUserInfoTb<*, *>, P : SbcbflwBaseUserPermissionTyp
             if (checkPermission || !checkPermissionArray.isNullOrEmpty()) {
                 JtlwLogUtils.logD(this::class.java, "开始权限检测，首先检测登录信息")
                 //检测权限先获取token信息
-                val tokenByReqHeader = SbcbflwUserHelper.baseInstance?.getAccessTokenByReqHeader(this)
+                val tokenByReqHeader = userService?.getAccessTokenByReqHeader(this)
                 //获取用户信息
                 val userInfo = this.getAttribute(REQUEST_SET_USER_INFO_KEY).emptyCheck({
                     null
@@ -85,15 +88,15 @@ inline fun <USER : SbcbflwBaseUserInfoTb<*, *>, P : SbcbflwBaseUserPermissionTyp
                 } else {
                     tokenByReqHeader.let {
                         //解密token信息
-                        val decryptToken = SbcbflwUserHelper.baseInstance?.decryptAccessToken(it)
+                        val decryptToken = userService.decryptAccessToken(it)
                         decryptToken.emptyCheck({
                             false
                         }, { deToken ->
                             //判断token是否是正常的
-                            val tokenEffective = SbcbflwUserHelper.baseInstance?.checkAccessTokenEffective(deToken)
-                            if (tokenEffective != null && tokenEffective.statusResult) {
+                            val tokenEffective = userService.checkAccessTokenEffective(deToken)
+                            if (tokenEffective.statusResult) {
                                 //token是正常的，开始验证用户信息，首先获取用户id
-                                SbcbflwUserHelper.baseInstance?.getUserIdByAccessToken(deToken)!!.let { tokenUserId ->
+                                userService.getUserIdByAccessToken(deToken)!!.let { tokenUserId ->
                                     //因为token已经验证过了，所以id是可以正常取值的
                                     //接下来进行和用户信息的比较
                                     userInfo.userId?.compareTo(tokenUserId) == 0
@@ -107,7 +110,9 @@ inline fun <USER : SbcbflwBaseUserInfoTb<*, *>, P : SbcbflwBaseUserPermissionTyp
                 //开始处理登录状态
                 if (loginStatus) {
                     //权限检测并返回数据
-                    checkPermissions(userInfo, checkPermissionArray, notPermissionFun, baseController, unKnownRepositoryOptionsErrorFun, unKnownRepositoryOptionsFun)
+                    checkPermissions(userRolePermissionService,
+                            userInfo!!, checkPermissionArray, notPermissionFun,
+                            baseController, unKnownRepositoryOptionsErrorFun, unKnownRepositoryOptionsFun)
                 } else {
                     JtlwLogUtils.logI(this::class.java, "用户${userInfo?.account}登录检测未通过")
                     //当前是非登录状态
@@ -178,7 +183,8 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         noinline unKnownOptionsFun: () -> Any,
         noinline unKnownOptionsErrorFun: () -> Any): String {
-    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(emptyCheckArray, null, false,
+    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(
+            null, null, emptyCheckArray, null, false,
             baseController, null, null, null,
             null, unKnownOptionsFun, unKnownOptionsErrorFun)
 }
@@ -187,13 +193,16 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
  * 接口检测并操作扩展
  */
 inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+        userService: SbcbflwUserService,
+        userRolePermissionService: SbcbflwUserRolePermissionService?,
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<P>,
         baseController: SbcbflwBaseController,
         noinline notLoginFun: (() -> Any)?,
         noinline notPermissionFun: ((userInfoTb: USER) -> Any)?,
         noinline unKnownRepositoryOptionsFun: (userInfoTb: USER) -> Any): String {
-    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, true,
+    return this.controllerCheckAndOptions(
+            userService, userRolePermissionService, emptyCheckArray, checkPermissionArray, true,
             baseController, notLoginFun, notPermissionFun, unKnownRepositoryOptionsFun,
             null, null, null)
 }
@@ -202,12 +211,15 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<
  * 接口检测并操作扩展
  */
 inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+        userService: SbcbflwUserService,
+        userRolePermissionService: SbcbflwUserRolePermissionService?,
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<P>,
         baseController: SbcbflwBaseController,
         noinline notLoginAndPermissionFun: () -> Any,
         noinline unKnownRepositoryOptionsFun: (userInfoTb: USER) -> Any): String {
-    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, true,
+    return this.controllerCheckAndOptions(
+            userService, userRolePermissionService, emptyCheckArray, checkPermissionArray, true,
             baseController, notLoginAndPermissionFun, { notLoginAndPermissionFun() }, unKnownRepositoryOptionsFun,
             null, null, null)
 }
@@ -216,11 +228,14 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<
  * 接口检测并操作扩展
  */
 inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
+        userService: SbcbflwUserService,
+        userRolePermissionService: SbcbflwUserRolePermissionService?,
         emptyCheckArray: Array<*>?,
         checkPermissionArray: Array<P>,
         baseController: SbcbflwBaseController,
         noinline unKnownRepositoryOptionsFun: (userInfoTb: USER) -> Any): String {
-    return this.controllerCheckAndOptions(emptyCheckArray, checkPermissionArray, true,
+    return this.controllerCheckAndOptions(
+            userService, userRolePermissionService, emptyCheckArray, checkPermissionArray, true,
             baseController, null, null, unKnownRepositoryOptionsFun,
             null, null, null)
 }
@@ -233,7 +248,8 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         emptyCheckArray: Array<*>?,
         baseController: SbcbflwBaseController,
         noinline unKnownOptionsFun: (() -> Any?)): String {
-    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(emptyCheckArray, null, false,
+    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(
+            null, null, emptyCheckArray, null, false,
             baseController, null, null, null,
             null, unKnownOptionsFun, null)
 }
@@ -245,7 +261,8 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<
         baseController: SbcbflwBaseController,
         noinline unKnownRepositoryOptionsFun: ((userInfoTb: USER) -> Any)?,
         noinline unKnownRepositoryOptionsErrorFun: ((data: USER?) -> Any)?): String {
-    return this.controllerCheckAndOptions<USER, P>(null, null, false,
+    return this.controllerCheckAndOptions<USER, P>(
+            null, null, null, null, false,
             baseController, null, null, unKnownRepositoryOptionsFun,
             unKnownRepositoryOptionsErrorFun, null, null)
 }
@@ -256,7 +273,8 @@ inline fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<
 inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
         baseController: SbcbflwBaseController,
         noinline unKnownOptionsFun: () -> Any): String {
-    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(null, null, false,
+    return this.controllerCheckAndOptions<SbcbflwBaseUserInfoTb<*, *>, SbcbflwBaseUserPermissionTypeEnum>(
+            null, null, null, null, false,
             baseController, null, null, null,
             null, unKnownOptionsFun, null)
 }
@@ -266,17 +284,25 @@ inline fun SbcbflwBaseHttpServletRequestWrapper.controllerCheckAndOptions(
  */
 fun <TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>>
         SbcbflwBaseHttpServletRequestWrapper.deleteTbInfo(
+        userService: SbcbflwUserService,
+        userRolePermissionService: SbcbflwUserRolePermissionService?,
         baseController: SbcbflwBaseController,
         curd: CURD, deleteId: ID?,
         entityManager: EntityManager,
         tableName: String, primaryKeyColumn: String): String {
-    return this.deleteTbInfo<SbcbflwBaseUserPermissionTypeEnum, TB, ID, CURD, SbcbflwBaseUserInfoTb<*, *>>(baseController, curd, deleteId, null, entityManager, tableName, primaryKeyColumn)
+    return this.deleteTbInfo<SbcbflwBaseUserPermissionTypeEnum, TB, ID, CURD,
+            SbcbflwBaseUserInfoTb<*, *>>(
+            userService,userRolePermissionService, baseController, curd, deleteId, null,
+            entityManager,
+            tableName, primaryKeyColumn)
 }
 
 /**
  * 删除表信息中的某一条数据
  */
 fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.deleteTbInfo(
+        userService: SbcbflwUserService,
+        userRolePermissionService: SbcbflwUserRolePermissionService?,
         baseController: SbcbflwBaseController,
         curd: CURD, deleteId: ID?,
         checkPermissionArray: Array<P>?,
@@ -287,7 +313,9 @@ fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, ID, CURD : CrudR
     }
     return checkPermissionArray.isNullOrEmpty().let {
         if (it) {
-            this.controllerCheckAndOptions<USER, P>(null, checkPermissionArray, true, baseController, null, null,
+            this.controllerCheckAndOptions<USER, P>(
+                    userService, userRolePermissionService, null, checkPermissionArray, true,
+                    baseController, null, null,
                     {
                         deleteTableInfo(entityManager, tableName, primaryKeyColumn, deleteId, curd, baseController)
                     }, null, null, null)
@@ -314,6 +342,8 @@ fun <TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>> SbcbflwBaseHttpServl
  * 更新一个表中所有排行信息
  */
 fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, ID, CURD : CrudRepository<TB, ID>, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.upDataTbAllRank(
+        userService: SbcbflwUserService,
+        userRolePermissionService: SbcbflwUserRolePermissionService?,
         baseController: SbcbflwBaseController,
         curd: CURD, rankBean: KttlwBaseNetUpDateRankReqBean<ID>,
         checkPermissionArray: Array<P>?,
@@ -321,7 +351,9 @@ fun <P : SbcbflwBaseUserPermissionTypeEnum, TB : SbcbflwBaseTb, ID, CURD : CrudR
         getNewSaveTbFun: (oldTbInfo: TB, firstRank: Long, newIds: Array<ID>) -> TB): String {
     return checkPermissionArray.isNullOrEmpty().let {
         if (it) {
-            this.controllerCheckAndOptions<USER, P>(null, checkPermissionArray, true, baseController, null, null,
+            this.controllerCheckAndOptions<USER, P>(
+                    userService,userRolePermissionService, null, checkPermissionArray, true,
+                    baseController, null, null,
                     {
                         upDateAllRank(checkOldCount, rankBean, curd, baseController, getNewSaveTbFun)
                     }, null, null, null)
@@ -390,33 +422,39 @@ private fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb> upDateAllRan
  * @param unKnownRepositoryOptionsErrorFun 未知数据库异常操作
  */
 fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> SbcbflwBaseHttpServletRequestWrapper.checkPermissions(
-        userInfo: USER?, checkPermissionArray: Array<P>?, notPermissionFun: ((userInfoTb: USER) -> Any)?,
-        baseController: SbcbflwBaseController, unKnownRepositoryOptionsErrorFun: ((data: USER?) -> Any)?,
+        userRolePermissionService: SbcbflwUserRolePermissionService?,
+        userInfo: USER,
+        checkPermissionArray: Array<P>?,
+        notPermissionFun: ((userInfoTb: USER) -> Any)?,
+        baseController: SbcbflwBaseController,
+        unKnownRepositoryOptionsErrorFun: ((data: USER?) -> Any)?,
         unKnownRepositoryOptionsFun: ((userInfoTb: USER) -> Any)?): Any {
-    JtlwLogUtils.logI(this::class.java, "用户${userInfo?.account}权限检测，登录信息状态处理成功")
+    JtlwLogUtils.logI(this::class.java, "用户${userInfo.account}权限检测，登录信息状态处理成功")
     //开始检测权限
     //权限检测状态，默认为通过
     var permissionCheckStatus = true
 
     //当前是登录状态，判断用户权限
-    JtlwLogUtils.logD(this::class.java, "用户${userInfo?.account}权限检测，开始权限检测")
+    JtlwLogUtils.logD(this::class.java, "用户${userInfo.account}权限检测，开始权限检测")
     for (permission in checkPermissionArray!!) {
-        if (SbcbflwUserRolePermissionHelper.baseInstance == null ||
-                !SbcbflwUserRolePermissionHelper.baseInstance?.checkUserHavePermission(this, userInfo!!, permission)?.statusResult!!) {
-            JtlwLogUtils.logI(this::class.java, "权限检测，用户${userInfo?.account}没有相关权限")
+        if (userRolePermissionService == null ||
+                userRolePermissionService.checkUserHavePermission(this,
+                        userInfo, permission)
+                        .statusResult) {
+            JtlwLogUtils.logI(this::class.java, "权限检测，用户${userInfo.account}没有相关权限")
             permissionCheckStatus = false
             break;
         }
     }
     //权限检测结果处理
     return if (!permissionCheckStatus) {
-        JtlwLogUtils.logI(this::class.java, "权限检测，用户${userInfo?.account}权限检测未通过")
+        JtlwLogUtils.logI(this::class.java, "权限检测，用户${userInfo.account}权限检测未通过")
         //有些权限该用户没有，判断是否要返回无权限结束
         try {
             notPermissionFun.emptyCheck({
                 baseController.responseErrorNotPermission()
             }, {
-                it(userInfo!!)
+                it(userInfo)
             })
         } catch (e: Exception) {
             //异常拦截，防止出现异常情况单独处理
@@ -427,14 +465,14 @@ fun <P : SbcbflwBaseUserPermissionTypeEnum, USER : SbcbflwBaseUserInfoTb<*, *>> 
             })
         }
     } else {
-        JtlwLogUtils.logI(this::class.java, "权限检测，用户${userInfo?.account}权限检测通过")
+        JtlwLogUtils.logI(this::class.java, "权限检测，用户${userInfo.account}权限检测通过")
 
         //权限检测也通过了，开始进行其他操作
         try {
             unKnownRepositoryOptionsFun.emptyCheck({
                 baseController.responseFailForUnKnow()
             }, {
-                it(userInfo!!)
+                it(userInfo)
             })
         } catch (e: Exception) {
             if (unKnownRepositoryOptionsErrorFun == null) {
