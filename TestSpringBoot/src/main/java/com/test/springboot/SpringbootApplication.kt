@@ -1,6 +1,8 @@
 package com.test.springboot
 
+import com.qtoolsbaby.servicemmxs.config.PropertiesConfig
 import javabase.lorenwang.common_base_frame.SbcbflwBaseApplication
+import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.web.servlet.ServletComponentScan
@@ -33,7 +35,9 @@ class SpringbootApplication : SbcbflwBaseApplication() {
         fun main(args: Array<String>) {
             val springApplication = SpringApplication(SpringbootApplication::class.java)
             initBase(springApplication, arrayOf("application.properties"))
-            springApplication.run(*args)
+            val applicationContext = springApplication.run(*args)
+            SbcbflwCommonUtils.instance.initBase(applicationContext,
+                    applicationContext.getBean(PropertiesConfig::class.java))
         }
     }
 }
