@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
 import android.os.Build;
+import android.view.Gravity;
 import android.widget.ProgressBar;
 
 import androidx.annotation.ColorInt;
@@ -13,32 +14,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 /**
- * 创建时间：2018-11-16 下午 15:10:8
- * 创建人：王亮（Loren wang）
  * 功能作用：加载中弹窗
+ * 创建时间：2018-11-16 下午 15:10:8
+ * 注释创建人：LorenWang（王亮）
+ * 方法介绍：
  * 思路：
- * 方法：
- * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author LorenWang（王亮）
  */
 public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
     /**
      * 是否允许加载中后退退出当前页面
      */
     private boolean allowLoadingBackFinishPage = false;
-    private AppCompatActivity activity;
+    private final AppCompatActivity activity;
 
     public AvlwLoadingDialogType1(AppCompatActivity activity) {
         super(activity, R.layout.avlw_dialog_loading_type_1,
                 R.style.avlw_layout_dialog_loading,
-                R.style.avlw_anim_dialog_center, false, false, false);
+                R.style.avlw_anim_dialog_center, false, null, null, Gravity.CENTER);
         this.activity = activity;
     }
 
     public AvlwLoadingDialogType1(AppCompatActivity activity, @StyleRes int styleRes) {
-        super(activity, R.layout.avlw_dialog_loading_type_1, styleRes, R.style.avlw_anim_dialog_center, false, false, false);
+        super(activity, R.layout.avlw_dialog_loading_type_1, styleRes,
+                R.style.avlw_anim_dialog_center, false, null, null, Gravity.CENTER);
         this.activity = activity;
     }
 

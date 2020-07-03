@@ -1,8 +1,11 @@
 package com.example.testapp.dialog
 
 import android.lorenwang.customview.dialog.*
+import android.lorenwang.tools.app.AtlwScreenUtils
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import com.example.testapp.BaseActivity
 import com.example.testapp.R
 
@@ -28,18 +31,31 @@ class DialogsActivity : BaseActivity() {
     override fun onChildCreate(savedInstanceState: Bundle?) {
         addChildView(R.layout.activity_dialogs)
         bottomDialog = AvlwBaseBottomDialog(this, R.layout.dialog_content, true)
-        centerDialog = AvlwBaseCenterDialog(this, R.layout.dialog_content, true)
+
+        centerDialog = AvlwBaseCenterDialog(this, R.layout.dialog_content, true,
+                (AtlwScreenUtils.getInstance().screenWidth * 0.6).toInt(), null)
+
+
+
         bottomWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.avlw_layout_dialog_bottom,
-                R.style.avlw_anim_dialog_bottom, true, true, false)
-        centerWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.avlw_layout_dialog_center,
-                R.style.avlw_anim_dialog_center, true, false, false)
+                R.style.avlw_anim_dialog_bottom, true, ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.BOTTOM)
         bottomWebViewDialog.initWebView(R.id.webView, "https://www.jianshu.com/p/56e2b0bf9ab2")
+
+
+
+        centerWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.avlw_layout_dialog_center,
+                R.style.avlw_anim_dialog_center, true, ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.CENTER)
         centerWebViewDialog.initWebView(R.id.webView, "https://www.jianshu.com/p/56e2b0bf9ab2")
+
+
 
         confirmCancelDialog = AvlwConfirmCancelDialog1(this)
         confirmCancelDialog.setBtnLeft("取消", null, null) { confirmCancelDialog.dismiss() }
         confirmCancelDialog.setBtnRight("确定", null, null) { confirmCancelDialog.dismiss() }
         confirmCancelDialog.setContent("确定||取消 确定||取消 确定||取消 确定||取消", null, null)
+
+
+
         onlyButtonDialog = AvlwConfirmCancelDialog1(this)
         onlyButtonDialog.setOptionsState(true, false, 100)
         onlyButtonDialog.setBtnLeft("确定", null, null) { onlyButtonDialog.dismiss() }

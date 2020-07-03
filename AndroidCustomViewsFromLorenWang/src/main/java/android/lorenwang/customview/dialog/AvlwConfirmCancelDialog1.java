@@ -1,7 +1,6 @@
 package android.lorenwang.customview.dialog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.view.Gravity;
@@ -13,18 +12,19 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.Guideline;
 
 /**
- * 创建时间：2019-02-27 下午 16:04:33
- * 创建人：王亮（Loren wang）
  * 功能作用：确定取消弹窗
- * 思路：
- * 方法：1、设置显示文本
+ * 创建时间：2019-02-27 下午 16:04:33
+ * 注释创建人：LorenWang（王亮）
+ * 方法介绍：
+ * 1、设置显示文本
  * 2、设置确定取消显示状态
- * 注意：
+ * 思路：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author LorenWang（王亮）
  */
-
 public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
     /**
      * 内容文本
@@ -51,7 +51,7 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
         super(context, R.layout.avlw_dialog_confirm_cancel_1,
                 R.style.avlw_layout_dialog_center,
                 R.style.avlw_anim_dialog_center,
-                false, false, false);
+                false, null, null,Gravity.CENTER);
         tvContent = view.findViewById(R.id.tvContent);
         btnLeft = view.findViewById(R.id.btnLeft);
         btnRight = view.findViewById(R.id.btnRight);

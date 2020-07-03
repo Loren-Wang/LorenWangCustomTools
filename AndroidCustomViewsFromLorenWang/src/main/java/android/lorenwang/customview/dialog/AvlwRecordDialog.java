@@ -1,25 +1,26 @@
 package android.lorenwang.customview.dialog;
 
 import android.app.Activity;
-import android.content.Context;
 
 /**
- * 创建时间：2019-07-21 下午 22:08:43
- * 创建人：王亮（Loren wang）
  * 功能作用：录音弹窗
+ * 初始注释时间： 2020/7/3 11:01 上午
+ * 注释创建人：LorenWang（王亮）
+ * 方法介绍：
  * 思路：
- * 方法：
- * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author LorenWang（王亮）
  */
-
 public class AvlwRecordDialog extends AvlwBaseDialog {
 
     public AvlwRecordDialog(Activity context, int dialogViewLayoutResId, int modelStyleResId,
-                            int dialogAnim, boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
-        super(context, dialogViewLayoutResId, modelStyleResId, dialogAnim, isOutSideCancel, isFullWidthShow, isFullHeightShow);
+                            int dialogAnim, boolean isOutSideCancel,
+                            Integer showDialogWidth, Integer showDialogHeight,Integer windowGravity) {
+        super(context, dialogViewLayoutResId, modelStyleResId, dialogAnim,
+                isOutSideCancel, showDialogWidth, showDialogHeight,windowGravity);
     }
 
     /**

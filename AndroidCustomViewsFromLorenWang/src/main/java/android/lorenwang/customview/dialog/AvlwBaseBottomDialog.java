@@ -3,6 +3,8 @@ package android.lorenwang.customview.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.lorenwang.customview.R;
+import android.view.Gravity;
+import android.view.ViewGroup;
 
 /**
  * 功能作用：基础底部弹窗dialog
@@ -17,8 +19,18 @@ import android.lorenwang.customview.R;
  */
 
 public class AvlwBaseBottomDialog extends AvlwBaseDialog {
-    public AvlwBaseBottomDialog(Activity context, int dialogViewLayoutResId, boolean isOutSideCancel) {
+    public AvlwBaseBottomDialog(Activity context, int dialogViewLayoutResId,
+                                boolean isOutSideCancel) {
         super(context, dialogViewLayoutResId, R.style.avlw_layout_dialog_bottom,
-                R.style.avlw_anim_dialog_bottom, isOutSideCancel, true, false);
+                R.style.avlw_anim_dialog_bottom, isOutSideCancel,
+                ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.BOTTOM);
+    }
+
+    public AvlwBaseBottomDialog(Activity context, int dialogViewLayoutResId,
+                                boolean isOutSideCancel, Integer showDialogWidth,
+                                Integer showDialogHeight) {
+        super(context, dialogViewLayoutResId, R.style.avlw_layout_dialog_bottom,
+                R.style.avlw_anim_dialog_bottom, isOutSideCancel,
+                showDialogWidth, showDialogHeight, Gravity.BOTTOM);
     }
 }

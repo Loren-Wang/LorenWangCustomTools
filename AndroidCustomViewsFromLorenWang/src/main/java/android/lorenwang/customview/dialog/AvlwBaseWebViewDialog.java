@@ -23,11 +23,26 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 备注：
  */
 
+/**
+ * 功能作用：webview弹窗
+ * 初始注释时间： 2020/7/3 10:56 上午
+ * 注释创建人：LorenWang（王亮）
+ * 方法介绍：
+ * 思路：
+ * 修改人：
+ * 修改时间：
+ * 备注：
+ *
+ * @author LorenWang（王亮）
+ */
 public class AvlwBaseWebViewDialog extends AvlwBaseDialog {
     private View webView;
 
-    public AvlwBaseWebViewDialog(Activity context, int dialogViewLayoutResId, int modelStyleResId, int dialogAnim, boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
-        super(context, dialogViewLayoutResId, modelStyleResId, dialogAnim, isOutSideCancel, isFullWidthShow, isFullHeightShow);
+    public AvlwBaseWebViewDialog(Activity context, int dialogViewLayoutResId,
+                                 int modelStyleResId, int dialogAnim, boolean isOutSideCancel,
+                                 Integer showDialogWidth, Integer showDialogHeight,Integer windowGravity) {
+        super(context, dialogViewLayoutResId, modelStyleResId, dialogAnim, isOutSideCancel,
+                showDialogWidth, showDialogHeight,windowGravity);
     }
 
     /**
@@ -47,8 +62,10 @@ public class AvlwBaseWebViewDialog extends AvlwBaseDialog {
             webSettings.setUseWideViewPort(true);
             webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
             webSettings.setLoadWithOverviewMode(true);
-            webSettings.setJavaScriptEnabled(true);//允许使用js
-            webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);//不使用缓存，只从网络获取数据.
+            //允许使用js
+            webSettings.setJavaScriptEnabled(true);
+            //不使用缓存，只从网络获取数据.
+            webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
             //支持屏幕缩放
             webSettings.setSupportZoom(true);
             webSettings.setBuiltInZoomControls(true);

@@ -2,7 +2,6 @@ package android.lorenwang.customview.dialog;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -16,15 +15,16 @@ import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AlertDialog;
 
 /**
+ * 功能作用：基础弹窗
  * 创建时间：2018-11-16 下午 15:11:28
- * 创建人：王亮（Loren wang）
- * 功能作用：${DESCRIPTION}
+ * 注释创建人：LorenWang（王亮）
+ * 方法介绍：
  * 思路：
- * 方法：
- * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author LorenWang（王亮）
  */
 public class AvlwBaseDialog extends AlertDialog {
     protected final String TAG = getClass().getName();
@@ -36,8 +36,14 @@ public class AvlwBaseDialog extends AlertDialog {
      * 当前页面view
      */
     protected View view;
-    protected boolean isFullWidthShow = false;//是否宽度全屏显示
-    protected boolean isFullHeightShow = false;//是否高度全屏显示
+    /**
+     * 显示的弹窗宽度
+     */
+    protected int showDialogWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+    /**
+     * 显示的弹窗高度
+     */
+    protected int showDialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
     /**
      * 窗口放置位置,默认底部
      */
@@ -53,11 +59,13 @@ public class AvlwBaseDialog extends AlertDialog {
         this.activity = context;
     }
 
-    public AvlwBaseDialog(final Activity context, @LayoutRes int dialogViewLayoutResId
-            , @StyleRes int modelStyleResId, @StyleRes int dialogAnim
-            , boolean isOutSideCancel, boolean isFullWidthShow, boolean isFullHeightShow) {
+    public AvlwBaseDialog(final Activity context, @LayoutRes int dialogViewLayoutResId,
+                          @StyleRes int modelStyleResId, @StyleRes int dialogAnim,
+                          boolean isOutSideCancel, Integer showDialogWidth,
+                          Integer showDialogHeight,Integer windowGravity) {
         super(context, modelStyleResId);
         this.activity = context;
+        this.windowGravity = windowGravity != null ? windowGravity : this.windowGravity;
         view = LayoutInflater.from(context).inflate(dialogViewLayoutResId, null);
         new Builder(context, modelStyleResId).create();
         setView(view);
@@ -65,13 +73,18 @@ public class AvlwBaseDialog extends AlertDialog {
         if (getWindow() != null) {
             getWindow().setWindowAnimations(dialogAnim);
         }
-        this.isFullWidthShow = isFullWidthShow;
-        this.isFullHeightShow = isFullHeightShow;
-        if (isFullHeightShow) {
+        view.measure(0, 0);
+        this.showDialogWidth = showDialogWidth != null ? showDialogWidth : this.showDialogWidth;
+        this.showDialogHeight = showDialogHeight != null ? showDialogHeight : this.showDialogHeight;
+        if (ViewGroup.LayoutParams.MATCH_PARENT == this.showDialogHeight) {
             view.setMinimumHeight(AtlwScreenUtils.getInstance().getScreenHeight());
+        } else if (ViewGroup.LayoutParams.WRAP_CONTENT == this.showDialogHeight) {
+            this.showDialogHeight = view.getMeasuredHeight();
         }
-        if (isFullWidthShow) {
+        if (ViewGroup.LayoutParams.MATCH_PARENT == this.showDialogWidth) {
             view.setMinimumWidth(AtlwScreenUtils.getInstance().getScreenWidth());
+        } else if (ViewGroup.LayoutParams.WRAP_CONTENT == this.showDialogWidth) {
+            this.showDialogWidth = view.getMeasuredWidth();
         }
         if (context.getApplicationContext() != null && context.getApplicationContext() instanceof Application) {
             ((Application) context.getApplicationContext()).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
@@ -121,13 +134,7 @@ public class AvlwBaseDialog extends AlertDialog {
     @Override
     public void show() {
         super.show();
-        if (isFullWidthShow || isFullHeightShow) {
-            showWidthHeightChange(windowGravity, isFullWidthShow ?
-                            ViewGroup.LayoutParams.MATCH_PARENT :
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                    isFullHeightShow ? ViewGroup.LayoutParams.MATCH_PARENT :
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-        }
+        showWidthHeightChange(windowGravity, showDialogWidth, showDialogHeight);
     }
 
     /**
