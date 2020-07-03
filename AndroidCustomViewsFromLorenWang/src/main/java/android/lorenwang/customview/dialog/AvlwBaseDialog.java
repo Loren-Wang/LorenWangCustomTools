@@ -73,18 +73,13 @@ public class AvlwBaseDialog extends AlertDialog {
         if (getWindow() != null) {
             getWindow().setWindowAnimations(dialogAnim);
         }
-        view.measure(0, 0);
         this.showDialogWidth = showDialogWidth != null ? showDialogWidth : this.showDialogWidth;
         this.showDialogHeight = showDialogHeight != null ? showDialogHeight : this.showDialogHeight;
         if (ViewGroup.LayoutParams.MATCH_PARENT == this.showDialogHeight) {
             view.setMinimumHeight(AtlwScreenUtils.getInstance().getScreenHeight());
-        } else if (ViewGroup.LayoutParams.WRAP_CONTENT == this.showDialogHeight) {
-            this.showDialogHeight = view.getMeasuredHeight();
         }
         if (ViewGroup.LayoutParams.MATCH_PARENT == this.showDialogWidth) {
             view.setMinimumWidth(AtlwScreenUtils.getInstance().getScreenWidth());
-        } else if (ViewGroup.LayoutParams.WRAP_CONTENT == this.showDialogWidth) {
-            this.showDialogWidth = view.getMeasuredWidth();
         }
         if (context.getApplicationContext() != null && context.getApplicationContext() instanceof Application) {
             ((Application) context.getApplicationContext()).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {

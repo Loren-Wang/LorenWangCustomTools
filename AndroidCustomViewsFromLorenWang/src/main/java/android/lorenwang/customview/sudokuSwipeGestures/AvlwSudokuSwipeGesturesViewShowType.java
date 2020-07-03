@@ -10,6 +10,7 @@ import androidx.annotation.IntDef;
  * 修改人：
  * 修改时间：
  * 备注：
+ * @author wangliang
  */
 @IntDef({1,2})
 public @interface AvlwSudokuSwipeGesturesViewShowType {
