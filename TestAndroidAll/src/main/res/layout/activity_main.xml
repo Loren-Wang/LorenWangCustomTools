@@ -85,6 +85,11 @@
             style="@style/mainButtons" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCodeGenerate"
+            android:text="图形码生成"
+            style="@style/mainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRecycleViewPager"
             android:text="RecycleviewViewPager"
             style="@style/mainButtons" />

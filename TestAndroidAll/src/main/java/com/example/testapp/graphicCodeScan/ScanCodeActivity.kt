@@ -1,4 +1,4 @@
-package com.example.testapp
+package com.example.testapp.graphicCodeScan
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -15,6 +15,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.TextView
 import android.widget.Toast
+import com.example.testapp.BaseActivity
+import com.example.testapp.R
 import kotlinx.android.synthetic.main.activity_scan_code.*
 
 class ScanCodeActivity : BaseActivity() {
