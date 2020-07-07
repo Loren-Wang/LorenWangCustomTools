@@ -569,16 +569,21 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         }
 
         //获取相机像素属性
-        int cameraWidth = AtlwScreenUtils.getInstance().getScreenWidth();
-        int cameraHeight = AtlwScreenUtils.getInstance().getScreenHeight();
+        int cameraWidth;
+        int cameraHeight;
         try {
-            cameraWidth = cameraManager.getCameraResolution().y;
+            cameraWidth = cameraManager.getCameraResolution() != null ?
+                    cameraManager.getCameraResolution().y :
+                    AtlwScreenUtils.getInstance().getScreenWidth();
         } catch (Exception ignored) {
             cameraWidth = AtlwScreenUtils.getInstance().getScreenWidth();
         }
         try {
-            cameraHeight = cameraManager.getCameraResolution().x;
+            cameraHeight = cameraManager.getCameraResolution() != null ?
+                    cameraManager.getCameraResolution().x :
+                    AtlwScreenUtils.getInstance().getScreenHeight();
         } catch (Exception ignored) {
+            cameraHeight = AtlwScreenUtils.getInstance().getScreenHeight();
         }
         //裁剪区域的属性
         if (scanView != null) {
