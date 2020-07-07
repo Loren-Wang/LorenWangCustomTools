@@ -27,6 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
     /**
+     * 显示的弹窗数量
+     */
+    private int loadingCount = 0;
+    /**
      * 是否允许加载中后退退出当前页面
      */
     private boolean allowLoadingBackFinishPage = false;
@@ -75,6 +79,12 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
      */
     public void show(boolean allowLoadingBackFinishPage) {
         this.allowLoadingBackFinishPage = allowLoadingBackFinishPage;
+        //显示计数
+        loadingCount++;
+        //如果已经有显示的则不再执行show
+        if(isShowing()){
+            return;
+        }
         super.show();
     }
 
@@ -86,10 +96,28 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
     }
 
     @Override
+    public void dismiss() {
+        //如果是最后一次调用隐藏则真正的隐藏
+        if(--loadingCount == 0){
+            super.dismiss();
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (allowLoadingBackFinishPage && activity != null) {
+            //后退的话直接隐藏，不用计数
+            loadingCount = 0;
+            super.dismiss();
             activity.finish();
         }
     }
 
+    public void setLoadingCount(int loadingCount) {
+        this.loadingCount = loadingCount;
+    }
+
+    public int getLoadingCount() {
+        return loadingCount;
+    }
 }

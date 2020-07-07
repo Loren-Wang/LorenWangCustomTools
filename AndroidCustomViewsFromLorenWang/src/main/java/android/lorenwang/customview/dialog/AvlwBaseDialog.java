@@ -128,6 +128,9 @@ public class AvlwBaseDialog extends AlertDialog {
 
     @Override
     public void show() {
+        if(isShowing()){
+            return;
+        }
         super.show();
         showWidthHeightChange(windowGravity, showDialogWidth, showDialogHeight);
     }
