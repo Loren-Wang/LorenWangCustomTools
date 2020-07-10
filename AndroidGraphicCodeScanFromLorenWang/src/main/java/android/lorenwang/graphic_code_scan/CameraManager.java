@@ -83,7 +83,7 @@ class CameraManager {
         }
         theCamera.setPreviewDisplay(holder);
 
-        if (!initialized) {
+        if (!initialized && configManager != null ) {
             initialized = true;
             configManager.initFromCameraParameters(theCamera);
         }
@@ -92,26 +92,27 @@ class CameraManager {
         String parametersFlattened = parameters == null ? null : parameters.flatten(); // Save
         // these,
         // temporarily
-        try {
-            configManager.setDesiredCameraParameters(theCamera, false);
-        } catch (RuntimeException re) {
-            // Driver failed
-            Log.w(TAG, "Camera rejected parameters. Setting only minimal safe-mode parameters");
-            Log.i(TAG, "Resetting to saved camera params: " + parametersFlattened);
-            // Reset:
-            if (parametersFlattened != null) {
-                parameters = theCamera.getParameters();
-                parameters.unflatten(parametersFlattened);
-                try {
-                    theCamera.setParameters(parameters);
-                    configManager.setDesiredCameraParameters(theCamera, true);
-                } catch (RuntimeException re2) {
-                    // Well, darn. Give up
-                    Log.w(TAG, "Camera rejected even safe-mode parameters! No configuration");
+        if(configManager != null) {
+            try {
+                configManager.setDesiredCameraParameters(theCamera, false);
+            } catch (RuntimeException re) {
+                // Driver failed
+                Log.w(TAG, "Camera rejected parameters. Setting only minimal safe-mode parameters");
+                Log.i(TAG, "Resetting to saved camera params: " + parametersFlattened);
+                // Reset:
+                if (parametersFlattened != null) {
+                    parameters = theCamera.getParameters();
+                    parameters.unflatten(parametersFlattened);
+                    try {
+                        theCamera.setParameters(parameters);
+                        configManager.setDesiredCameraParameters(theCamera, true);
+                    } catch (RuntimeException re2) {
+                        // Well, darn. Give up
+                        Log.w(TAG, "Camera rejected even safe-mode parameters! No configuration");
+                    }
                 }
             }
         }
-
     }
 
     public synchronized boolean isOpen() {
@@ -153,7 +154,9 @@ class CameraManager {
         }
         if (camera != null && previewing) {
             camera.stopPreview();
-            previewCallback.setHandler(null, 0);
+            if(previewCallback != null) {
+                previewCallback.setHandler(null, 0);
+            }
             previewing = false;
         }
     }
@@ -168,7 +171,7 @@ class CameraManager {
      */
     public synchronized void requestPreviewFrame(Handler handler, int message) {
         Camera theCamera = camera;
-        if (theCamera != null && previewing) {
+        if (theCamera != null && previewing && previewCallback != null) {
             previewCallback.setHandler(handler, message);
             theCamera.setOneShotPreviewCallback(previewCallback);
         }
@@ -205,7 +208,7 @@ class CameraManager {
      * 手动对焦
      */
     public void manualFocus() {
-        if (camera != null) {
+        if (camera != null && autoFocusManager != null) {
             try {
                 camera.autoFocus(autoFocusManager);
             } catch (Exception e) {

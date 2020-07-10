@@ -80,7 +80,7 @@ class AutoFocusManager implements Camera.AutoFocusCallback {
     public synchronized void start() {
         if (useAutoFocus) {
             outstandingTask = null;
-            if (!stopped && !focusing) {
+            if (!stopped && !focusing && camera != null) {
                 try {
                     camera.autoFocus(this);
                     focusing = true;
@@ -106,7 +106,7 @@ class AutoFocusManager implements Camera.AutoFocusCallback {
 
     public synchronized void stop() {
         stopped = true;
-        if (useAutoFocus) {
+        if (useAutoFocus && camera != null) {
             cancelOutstandingTask();
             // Doesn't hurt to call this even if not focusing
             try {

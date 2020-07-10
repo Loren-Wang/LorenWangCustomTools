@@ -72,7 +72,7 @@ class BeepManager implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErr
     }
 
     private synchronized void updatePrefs() {
-        if (playBeep && mediaPlayer == null) {
+        if (playBeep && mediaPlayer == null && activity != null) {
             // The volume on STREAM_SYSTEM is not adjustable, and users found it
             // too loud,
             // so we now play on the music stream.
@@ -88,7 +88,7 @@ class BeepManager implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErr
         if (playBeep && mediaPlayer != null) {
             mediaPlayer.start();
         }
-        if (vibrate) {
+        if (vibrate && activity != null) {
             Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
@@ -96,7 +96,7 @@ class BeepManager implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErr
 
     private static boolean shouldBeep(SharedPreferences prefs, Context activity) {
         boolean shouldPlayBeep = true;
-        if (shouldPlayBeep) {
+        if (shouldPlayBeep && activity != null) {
             // See if sound settings overrides this
             AudioManager audioService = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
             if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
@@ -139,7 +139,9 @@ class BeepManager implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErr
         if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
             // we are finished, so put up an appropriate error toast if required
             // and finish
-            activity.finish();
+            if(activity != null) {
+                activity.finish();
+            }
         } else {
             // possibly media player error, so release and recreate
             mp.release();

@@ -39,7 +39,8 @@ class CaptureActivityHandler extends Handler {
         PREVIEW, SUCCESS, DONE
     }
 
-    public CaptureActivityHandler(CameraManager cameraManager, int decodeMode, AgcslwScan agcslwScan) {
+    public CaptureActivityHandler(CameraManager cameraManager, int decodeMode,
+                                  AgcslwScan agcslwScan) {
         this.agcslwScan = agcslwScan;
         decodeThread = new DecodeThread(decodeMode, agcslwScan);
         decodeThread.start();
@@ -47,7 +48,9 @@ class CaptureActivityHandler extends Handler {
 
         // Start ourselves capturing previews and decoding.
         this.cameraManager = cameraManager;
-        cameraManager.startPreview();
+        if(cameraManager != null) {
+            cameraManager.startPreview();
+        }
         restartPreviewAndDecode();
     }
 
@@ -66,7 +69,10 @@ class CaptureActivityHandler extends Handler {
                 // We're decoding as fast as possible, so when one decode fails,
                 // start another.
                 state = State.PREVIEW;
-                cameraManager.requestPreviewFrame(decodeThread.getHandler(), SacnCameraCommon.decode);
+                if (decodeThread != null && cameraManager != null) {
+                    cameraManager.requestPreviewFrame(decodeThread.getHandler(),
+                            SacnCameraCommon.decode);
+                }
                 break;
             default:
                 break;
@@ -75,7 +81,9 @@ class CaptureActivityHandler extends Handler {
 
     public void quitSynchronously() {
         state = State.DONE;
-        cameraManager.stopPreview();
+        if (cameraManager != null) {
+            cameraManager.stopPreview();
+        }
         if (decodeThread != null && decodeThread.getHandler() != null) {
             Message quit = Message.obtain(decodeThread.getHandler(), SacnCameraCommon.quit);
             quit.sendToTarget();
@@ -93,7 +101,8 @@ class CaptureActivityHandler extends Handler {
     }
 
     private void restartPreviewAndDecode() {
-        if (state == State.SUCCESS && decodeThread != null && decodeThread.getHandler() != null) {
+        if (state == State.SUCCESS && decodeThread != null && decodeThread.getHandler() != null
+                && cameraManager != null) {
             state = State.PREVIEW;
             cameraManager.requestPreviewFrame(decodeThread.getHandler(), SacnCameraCommon.decode);
         }

@@ -80,7 +80,9 @@ class DecodeThread extends Thread {
 
     public Handler getHandler() {
         try {
-            handlerInitLatch.await();
+            if(handlerInitLatch != null) {
+                handlerInitLatch.await();
+            }
         } catch (InterruptedException ie) {
             // continue?
         }
@@ -90,7 +92,7 @@ class DecodeThread extends Thread {
     @Override
     public void run() {
         Looper.prepare();
-        if (hints != null) {
+        if (hints != null && handlerInitLatch != null) {
             handler = new DecodeHandler(hints,agcslwScan);
             handlerInitLatch.countDown();
         }

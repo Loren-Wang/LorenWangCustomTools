@@ -33,103 +33,110 @@ import android.util.Log;
  */
 class InactivityTimer {
 
-	private static final String TAG = InactivityTimer.class.getSimpleName();
+    private static final String TAG = InactivityTimer.class.getSimpleName();
 
-	private static final long INACTIVITY_DELAY_MS = 5 * 60 * 1000L;
+    private static final long INACTIVITY_DELAY_MS = 5 * 60 * 1000L;
 
-	private Activity activity;
-	private BroadcastReceiver powerStatusReceiver;
-	private boolean registered;
-	private AsyncTask<Object, Object, Object> inactivityTask;
+    private Activity activity;
+    private BroadcastReceiver powerStatusReceiver;
+    private boolean registered;
+    private AsyncTask<Object, Object, Object> inactivityTask;
 
-	public InactivityTimer(Activity activity) {
-		this.activity = activity;
-		powerStatusReceiver = new PowerStatusReceiver();
-		registered = false;
-		onActivity();
-	}
+    public InactivityTimer(Activity activity) {
+        this.activity = activity;
+        powerStatusReceiver = new PowerStatusReceiver();
+        registered = false;
+        onActivity();
+    }
 
-	@SuppressLint("NewApi")
-	public synchronized void onActivity() {
-		cancel();
-		inactivityTask = new InactivityAsyncTask();
-		if (Build.VERSION.SDK_INT >= 11) {
-			inactivityTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		} else {
-			inactivityTask.execute();
-		}
-	}
+    @SuppressLint("NewApi")
+    public synchronized void onActivity() {
+        cancel();
+        inactivityTask = new InactivityAsyncTask();
+        if (Build.VERSION.SDK_INT >= 11) {
+            inactivityTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            inactivityTask.execute();
+        }
+    }
 
-	public synchronized void onPause() {
-		cancel();
-		if (registered) {
-			activity.unregisterReceiver(powerStatusReceiver);
-			registered = false;
-		} else {
-			Log.w(TAG, "PowerStatusReceiver was never registered?");
-		}
-	}
+    public synchronized void onPause() {
+        cancel();
+        if (registered) {
+            if (activity != null && powerStatusReceiver != null) {
+                activity.unregisterReceiver(powerStatusReceiver);
+            }
+            registered = false;
+        } else {
+            Log.w(TAG, "PowerStatusReceiver was never registered?");
+        }
+    }
 
-	public synchronized void onResume() {
-		if (registered) {
-			Log.w(TAG, "PowerStatusReceiver was already registered?");
-		} else {
-			activity.registerReceiver(powerStatusReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-			registered = true;
-		}
-		onActivity();
-	}
+    public synchronized void onResume() {
+        if (registered) {
+            Log.w(TAG, "PowerStatusReceiver was already registered?");
+        } else {
+            if (activity != null && powerStatusReceiver != null) {
+                activity.registerReceiver(powerStatusReceiver,
+                        new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            }
+            registered = true;
+        }
+        onActivity();
+    }
 
-	private synchronized void cancel() {
-		AsyncTask<?, ?, ?> task = inactivityTask;
-		if (task != null) {
-			task.cancel(true);
-			inactivityTask = null;
-		}
-	}
+    private synchronized void cancel() {
+        AsyncTask<?, ?, ?> task = inactivityTask;
+        if (task != null) {
+            task.cancel(true);
+            inactivityTask = null;
+        }
+    }
 
-	public void shutdown() {
-		cancel();
-	}
+    public void shutdown() {
+        cancel();
+    }
 
-	private class PowerStatusReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
-				// 0 indicates that we're on battery
-				boolean onBatteryNow = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) <= 0;
-				if (onBatteryNow) {
-					InactivityTimer.this.onActivity();
-				} else {
-					InactivityTimer.this.cancel();
-				}
-			}
-		}
-	}
+    private class PowerStatusReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
+                // 0 indicates that we're on battery
+                boolean onBatteryNow = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) <= 0;
+                if (onBatteryNow) {
+                    InactivityTimer.this.onActivity();
+                } else {
+                    InactivityTimer.this.cancel();
+                }
+            }
+        }
+    }
 
-	private class InactivityAsyncTask extends AsyncTask<Object, Object, Object> {
-		@Override
-		protected Object doInBackground(Object... objects) {
-			try {
-				Thread.sleep(INACTIVITY_DELAY_MS);
-				Log.i(TAG, "Finishing activity due to inactivity");
-				activity.finish();
-			} catch (InterruptedException e) {
-				// continue without killing
-			}
-			return null;
-		}
-	}
+    private class InactivityAsyncTask extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected Object doInBackground(Object... objects) {
+            try {
+                Thread.sleep(INACTIVITY_DELAY_MS);
+                Log.i(TAG, "Finishing activity due to inactivity");
+                if (activity != null) {
+                    activity.finish();
+                }
+            } catch (InterruptedException e) {
+                // continue without killing
+            }
+            return null;
+        }
+    }
 
-	/**
-	 * 释放内存
-	 */
-	public void release(){
-		onPause();
-		shutdown();
-		activity = null;
-		powerStatusReceiver = null;
-		inactivityTask = null;
-	}
+    /**
+     * 释放内存
+     */
+    public void release() {
+        onPause();
+        shutdown();
+        activity = null;
+        powerStatusReceiver = null;
+        inactivityTask = null;
+    }
 
 }
