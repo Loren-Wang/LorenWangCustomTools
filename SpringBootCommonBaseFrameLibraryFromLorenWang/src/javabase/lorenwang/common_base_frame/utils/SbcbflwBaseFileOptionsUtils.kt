@@ -16,12 +16,14 @@ import java.io.InputStream
  * 注意：
  * 修改人：
  * 修改时间：
- * 备注：
+ * 备注：子类必须将构造函数私有化
  */
 abstract class SbcbflwBaseFileOptionsUtils {
     companion object {
-        var baseInstance: SbcbflwBaseFileOptionsUtils? = null
+        lateinit var baseInstance: SbcbflwBaseFileOptionsUtils
     }
+
+
 
     /**
      * 检测文件状态
@@ -34,22 +36,23 @@ abstract class SbcbflwBaseFileOptionsUtils {
         val fileHeader = getFileHeader(file.inputStream)
         //上传文件空判断
         if (fileHeader.isNullOrEmpty()) {
-            SbcbflwLogUtils.logE(this.javaClass, "文件${file.originalFilename}---无法解析文件类型，无法执行上传流程！")
+            SbcbflwLogUtils.baseInstance.logE(this.javaClass, "文件${file
+                    .originalFilename}---无法解析文件类型，无法执行上传流程！",true)
             return getUnKnowFileTypeStatusBean()
         }
         //上传文件空判断
         if (file.isEmpty) {
-            SbcbflwLogUtils.logE(this.javaClass, "文件${file.originalFilename}---上传文件为空，无法执行上传流程！")
+            SbcbflwLogUtils.baseInstance.logE(this.javaClass, "文件${file.originalFilename}---上传文件为空，无法执行上传流程！",true)
             return getFileEmptyStatusBean()
         }
         //判断文件上传大小
         if (file.size > SbcbflwCommonUtils.instance.propertiesConfig.ossTypeFileMaxSize) {
-            SbcbflwLogUtils.logE(this.javaClass, "文件${file.originalFilename}---上传文件过大，大于${SbcbflwCommonUtils.instance.propertiesConfig.ossTypeFileMaxSize}！")
+            SbcbflwLogUtils.baseInstance.logE(this.javaClass, "文件${file.originalFilename}---上传文件过大，大于${SbcbflwCommonUtils.instance.propertiesConfig.ossTypeFileMaxSize}！",true)
             return getFileTooLargeStatusBean()
         }
         //文件接收类型判断
         if (receiveFileTypes.isNotEmpty() && !receiveFileTypes.contains(getFileType(fileHeader))) {
-            SbcbflwLogUtils.logE(this.javaClass, "文件${file.originalFilename}---不是接收类型数据！")
+            SbcbflwLogUtils.baseInstance.logE(this.javaClass, "文件${file.originalFilename}---不是接收类型数据！",true)
             return getNotReceiveFileTypeStatusBean()
         }
         return try {

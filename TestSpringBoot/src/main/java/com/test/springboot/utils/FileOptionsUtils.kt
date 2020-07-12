@@ -16,9 +16,12 @@ import javabase.lorenwang.common_base_frame.utils.SbcbflwBaseFileOptionsUtils
  *
  * @author 王亮（Loren wang）
  */
-class FileOptionsUtils private constructor() : SbcbflwBaseFileOptionsUtils() {
+class FileOptionsUtils private constructor(): SbcbflwBaseFileOptionsUtils() {
 
     companion object {
+        init {
+            baseInstance = FileOptionsUtils()
+        }
         private var optionsInstance: FileOptionsUtils? = null
         val instance: FileOptionsUtils
             get() {

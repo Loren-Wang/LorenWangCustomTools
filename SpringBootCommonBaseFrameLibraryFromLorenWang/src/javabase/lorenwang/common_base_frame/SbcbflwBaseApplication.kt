@@ -28,10 +28,10 @@ abstract class  SbcbflwBaseApplication : SpringBootServletInitializer() {
          * @param properties 配置文件列表,按照优先级从上到下进行数据配置
          */
         fun initBase(application: SpringApplication, properties: Array<String>) {
-            SbcbflwLogUtils.logI(this::class.java, "系统基础初始化获取到实例，开始初始化上下文")
+            SbcbflwLogUtils.baseInstance.logI(this::class.java, "系统基础初始化获取到实例，开始初始化上下文",true)
             //设置application配置
             setApplicationConfig(application, properties)
-            SbcbflwLogUtils.logI(this::class.java, "系统基础初始化完成")
+            SbcbflwLogUtils.baseInstance.logI(this::class.java, "系统基础初始化完成",true)
         }
 
         /**
@@ -39,9 +39,9 @@ abstract class  SbcbflwBaseApplication : SpringBootServletInitializer() {
          * @param properties 配置文件列表,按照优先级从上到下进行数据配置
          */
         private fun setApplicationConfig(application: SpringApplication, properties: Array<String>) {
-            SbcbflwLogUtils.logI(this::class.java, "开始初始化application配置")
+            SbcbflwLogUtils.baseInstance.logI(this::class.java, "开始初始化application配置",true)
             val environment = getStandardEnvironment(properties)
-            SbcbflwLogUtils.logI(this::class.java, "设置环境配置")
+            SbcbflwLogUtils.baseInstance.logI(this::class.java, "设置环境配置",true)
             application.setEnvironment(environment)
             application.setBannerMode(Banner.Mode.OFF);
         }
@@ -51,33 +51,33 @@ abstract class  SbcbflwBaseApplication : SpringBootServletInitializer() {
          * @param properties 配置文件列表,按照优先级从上到下进行数据配置
          */
         private fun getStandardEnvironment(properties: Array<String>): StandardEnvironment {
-            SbcbflwLogUtils.logI(this::class.java, "读取各个properties配置文件，按照先后顺序更新配置信息Map")
+            SbcbflwLogUtils.baseInstance.logI(this::class.java, "读取各个properties配置文件，按照先后顺序更新配置信息Map",true)
             var map = hashMapOf<String, Any>()
             map = SbcbflwCommonUtils.instance.getPropertiesDataMap("application-email.properties", map)
             map = SbcbflwCommonUtils.instance.getPropertiesDataMap("application-sbcbflw.properties", map)
             properties.forEach {
                 map = SbcbflwCommonUtils.instance.getPropertiesDataMap(it, map)
             }
-            SbcbflwLogUtils.logI(this::class.java, "各个properties配置文件配置读取覆盖完成：${JdplwJsonUtils.toJson(map)}")
+            SbcbflwLogUtils.baseInstance.logI(this::class.java, "各个properties配置文件配置读取覆盖完成：${JdplwJsonUtils.toJson(map)}",true)
 
-            SbcbflwLogUtils.logI(this::class.java, "初始化环境配置实体，并将配置设置更新到环境当中")
+            SbcbflwLogUtils.baseInstance.logI(this::class.java, "初始化环境配置实体，并将配置设置更新到环境当中",true)
             val environment = StandardEnvironment()
             val propertySources = environment.propertySources
             propertySources.addFirst(MapPropertySource("MY_MAP", map));
-            SbcbflwLogUtils.logI(this::class.java, "环境配置实体配置完成")
+            SbcbflwLogUtils.baseInstance.logI(this::class.java, "环境配置实体配置完成",true)
             return environment
         }
     }
 
     override fun configure(builder: SpringApplicationBuilder): SpringApplicationBuilder {
-        SbcbflwLogUtils.logI(this::class.java, "系统在外置tomcat中开始初始化上下文")
+        SbcbflwLogUtils.baseInstance.logI(this::class.java, "系统在外置tomcat中开始初始化上下文",true)
         val sources = builder.sources(this::class.java)
         val application = sources.application()
         //设置配置文件
         setApplicationConfig(application, getConfigProperties())
         //配置初始化完成处理
         outSideTomcatConfigureFinish(application)
-        SbcbflwLogUtils.logI(this::class.java, "系统在外置tomcat中配置完成")
+        SbcbflwLogUtils.baseInstance.logI(this::class.java, "系统在外置tomcat中配置完成",true)
         return sources
     }
 

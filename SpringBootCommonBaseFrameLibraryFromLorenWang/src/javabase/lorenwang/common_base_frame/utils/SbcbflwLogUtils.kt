@@ -14,9 +14,17 @@ import java.util.concurrent.ConcurrentHashMap
  * 注意：
  * 修改人：
  * 修改时间：
- * 备注：
+ * 备注：子类必须将构造函数私有化
  */
-object SbcbflwLogUtils {
+open class SbcbflwLogUtils{
+    /**
+     * 运行标签
+     */
+    protected val runTag = "runTag---"
+
+    companion object {
+        lateinit var baseInstance: SbcbflwLogUtils
+    }
 
     //日志控制器记录
     private val logControllerMap = ConcurrentHashMap<Class<*>, Logger>()
@@ -26,24 +34,26 @@ object SbcbflwLogUtils {
      *
      * @param cls 打印日志的class类
      * @param msg 日志内容
+     * @param logMust 必须显示log
      */
-    fun logD(cls: Class<*>, msg: String) {
-        val logger = getLogger(cls)
+    fun logD(cls: Class<*>, msg: String, logMust: Boolean = false) {
+        val logger = getLogger(cls, logMust)
         synchronized(logControllerMap) {
-            logger?.debug(msg)
+            logger?.debug("${runTag}${cls.simpleName}:::${msg}")
         }
     }
 
     /**
-     * 打印debug日志
+     * 打印info日志
      *
      * @param cls 打印日志的class类
      * @param msg 日志内容
+     * @param logMust 必须显示log
      */
-    fun logI(cls: Class<*>, msg: String) {
-        val logger = getLogger(cls)
+    fun logI(cls: Class<*>, msg: String, logMust: Boolean = false) {
+        val logger = getLogger(cls, logMust)
         synchronized(logControllerMap) {
-            logger?.info(msg)
+            logger?.info("${runTag}${cls.simpleName}:::${msg}")
         }
     }
 
@@ -52,11 +62,12 @@ object SbcbflwLogUtils {
      *
      * @param cls 打印日志的class类
      * @param msg 日志内容
+     * @param logMust 必须显示log
      */
-    fun logE(cls: Class<*>, msg: String) {
-        val logger = getLogger(cls)
+    fun logE(cls: Class<*>, msg: String, logMust: Boolean = false) {
+        val logger = getLogger(cls, logMust)
         synchronized(logControllerMap) {
-            logger?.error(msg)
+            logger?.error("${runTag}${cls.simpleName}:::${msg}")
         }
     }
 
@@ -66,11 +77,12 @@ object SbcbflwLogUtils {
      * @param cls class
      * @return cls相应的logger
      */
-    private fun getLogger(cls: Class<*>): Logger? {
+    private fun getLogger(cls: Class<*>, logMust: Boolean): Logger? {
         synchronized(logControllerMap) {
             var logger: Logger? = logControllerMap[cls]
             try {
-                if (logger == null && SbcbflwCommonUtils.instance.propertiesConfig.showLog) {
+                if (logger == null &&
+                        (SbcbflwCommonUtils.instance.propertiesConfig.showLog || logMust)) {
                     logger = LoggerFactory.getLogger(cls)
                     logControllerMap[cls] = logger
                 }
