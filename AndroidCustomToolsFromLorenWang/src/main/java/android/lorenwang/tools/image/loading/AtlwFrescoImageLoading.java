@@ -2,6 +2,7 @@ package android.lorenwang.tools.image.loading;
 
 import android.graphics.Bitmap;
 import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.app.AtlwThreadUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.net.Uri;
 import android.os.Handler;
@@ -30,12 +31,11 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.thread.JtlwTimingTaskUtils;
 
 
 /**
@@ -51,37 +51,40 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  */
 
 class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
-    private final ExecutorService executeBackgroundTask = Executors.newSingleThreadExecutor();
 
     @Override
-    public void loadingNetImage(String path, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
+    public void loadingNetImage(String path, ImageView imageView, Integer width, Integer height,
+                                AtlwImageLoadConfig config) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(path)
                 && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView)
                 && imageView instanceof SimpleDraweeView) {
-            ImageRequest imageRequest = getImageRequest(ImageRequestBuilder.newBuilderWithSource(Uri.parse(path)), width, height, true);
+            ImageRequest imageRequest =
+                    getImageRequest(imageView,
+                            ImageRequestBuilder.newBuilderWithSource(Uri.parse(path)),
+                            width, height, true);
             loadFrecoImage((SimpleDraweeView) imageView, imageRequest, config);
         }
     }
 
     @Override
-    public void loadingLocalImage(String path, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
+    public void loadingLocalImage(String path, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(path)
                 && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView)
                 && imageView instanceof SimpleDraweeView) {
-            ImageRequest imageRequest = getImageRequest(ImageRequestBuilder.newBuilderWithSource(new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME)
+            ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME)
                     .path(path).build()), width, height, true);
             loadFrecoImage((SimpleDraweeView) imageView, imageRequest, config);
         }
     }
 
     @Override
-    public void loadingResImage(int resId, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
-        ImageRequest imageRequest = getImageRequest(ImageRequestBuilder.newBuilderWithResourceId(resId), width, height, true);
+    public void loadingResImage(int resId, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
+        ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithResourceId(resId), width, height, true);
         loadFrecoImage((SimpleDraweeView) imageView, imageRequest, config);
     }
 
     @Override
-    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, int width, int height) {
+    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, Integer width, Integer height) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(bitmap)
                 && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView)
                 && imageView instanceof SimpleDraweeView) {
@@ -89,7 +92,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                 if (bitmap != null) {
                     Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwSetting.nowApplication.getApplicationContext().getContentResolver(), bitmap, null, null));
                     if (uri != null) {
-                        ImageRequest imageRequest = getImageRequest(ImageRequestBuilder.newBuilderWithSource(uri), width, height, true);
+                        ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), width, height, true);
                         loadFrecoImage((SimpleDraweeView) imageView, imageRequest, null);
                     }
                 }
@@ -128,21 +131,23 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                                              @Override
                                              public void onNewResultImpl(@Nullable final Bitmap bitmap) {
                                                  if (bitmap != null && !bitmap.isRecycled()) {
-                                                     executeBackgroundTask.submit(new Callable<Bitmap>() {
-                                                         @Override
-                                                         public Bitmap call() throws Exception {
-                                                             final Bitmap resultBitmap = bitmap.copy(bitmap.getConfig(), bitmap.isMutable());
-                                                             if (config.getCallback() != null && resultBitmap != null && !resultBitmap.isRecycled()) {
-                                                                 new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                                                     @Override
-                                                                     public void run() {
-                                                                         config.getCallback().onSuccess(imageView, resultBitmap);
+                                                     JtlwTimingTaskUtils.getInstance().schedule(
+                                                             imageView.getId(), new Runnable() {
+                                                                 @Override
+                                                                 public void run() {
+                                                                     final Bitmap resultBitmap =
+                                                                             bitmap.copy(bitmap.getConfig(),
+                                                                                     bitmap.isMutable());
+                                                                     if (config.getCallback() != null && resultBitmap != null && !resultBitmap.isRecycled()) {
+                                                                         AtlwThreadUtils.getInstance().postOnUiThread(new Runnable() {
+                                                                             @Override
+                                                                             public void run() {
+                                                                                 config.getCallback().onSuccess(imageView, resultBitmap);
+                                                                             }
+                                                                         });
                                                                      }
-                                                                 });
-                                                             }
-                                                             return resultBitmap;
-                                                         }
-                                                     });
+                                                                 }
+                                                             }, 0);
                                                  }
                                              }
 
@@ -213,28 +218,28 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
     /**
      * 获取图片请求的request
      *
+     *
+     * @param imageView
      * @param imageRequestBuilder         图片请求builder
      * @param width                       宽
      * @param height                      高
      * @param isAllowProgressiveRendering 是否允许使用渐进式加载
      * @return 图片请求request
      */
-    private ImageRequest getImageRequest(ImageRequestBuilder imageRequestBuilder, Integer width, Integer height, boolean isAllowProgressiveRendering) {
+    private ImageRequest getImageRequest(ImageView imageView, ImageRequestBuilder imageRequestBuilder, Integer width, Integer height, boolean isAllowProgressiveRendering) {
         //设置加载的宽高
         if (width != null && height != null) {
             try {
                 ResizeOptions resizeOptions = new ResizeOptions(width, height);
                 imageRequestBuilder.setResizeOptions(resizeOptions);
-                resizeOptions = null;
             } catch (Exception e) {
                 AtlwLogUtils.logE(TAG, "resize失败");
             }
+        }
 
-            //判断是否需要显示缩略图
-            if (isShowThumbnail(width, height)) {
-                imageRequestBuilder.setLocalThumbnailPreviewsEnabled(true);
-            }
-
+        //判断是否需要显示缩略图
+        if (isShowThumbnail(imageView,width, height)) {
+            imageRequestBuilder.setLocalThumbnailPreviewsEnabled(true);
         }
         //设置是否渐进式加载
         imageRequestBuilder.setProgressiveRenderingEnabled(isAllowProgressiveRendering);

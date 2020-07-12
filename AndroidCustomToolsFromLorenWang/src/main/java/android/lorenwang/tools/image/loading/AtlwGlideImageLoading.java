@@ -31,22 +31,22 @@ import androidx.annotation.Nullable;
 class AtlwGlideImageLoading extends AtlwBaseImageLoading {
 
     @Override
-    public void loadingNetImage(String path, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
+    public void loadingNetImage(String path, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
         loadGildeImage(path, imageView, width, height, config);
     }
 
     @Override
-    public void loadingLocalImage(String path, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
+    public void loadingLocalImage(String path, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
         loadGildeImage(path, imageView, width, height, config);
     }
 
     @Override
-    public void loadingResImage(int resId, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
+    public void loadingResImage(int resId, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
         loadGildeImage(resId, imageView, width, height, config);
     }
 
     @Override
-    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, int width, int height) {
+    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, Integer width, Integer height) {
 
     }
 
@@ -59,11 +59,11 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
      * @param height    高度
      * @param config    配置
      */
-    private void loadGildeImage(Object pathOrRes, final ImageView imageView, int width, int height, final AtlwImageLoadConfig config) {
+    private void loadGildeImage(Object pathOrRes, final ImageView imageView, Integer width, Integer height, final AtlwImageLoadConfig config) {
         RequestManager requestManager = Glide.with(AtlwSetting.nowApplication.getApplicationContext());
         if (config == null || config.getCallback() == null) {
             RequestBuilder<Drawable> builder = requestManager.load(pathOrRes);
-            getBuild(builder, width, height, config).into(imageView);
+            getBuild(imageView,builder, width, height, config).into(imageView);
 //            getBuild(builder, width, height, config).into(new CustomTarget<Drawable>(width, height) {
 //                @Override
 //                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -76,7 +76,7 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
 //                }
 //            });
         } else {
-            getBuild(requestManager.asBitmap().load(pathOrRes), width, height, config)
+            getBuild(imageView,requestManager.asBitmap().load(pathOrRes), width, height, config)
                     .into(new Target<Bitmap>() {
                         private Request request;
 
@@ -150,7 +150,9 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
      * @param config  配置文件
      * @return 构造器
      */
-    private <T> RequestBuilder<T> getBuild(RequestBuilder<T> builder, int width, int height, AtlwImageLoadConfig config) {
+    private <T> RequestBuilder<T> getBuild(ImageView imageView,RequestBuilder<T> builder,
+                                           Integer width, Integer height,
+                                           AtlwImageLoadConfig config) {
         if (config != null) {
             if (config.isScaleTypeFitCenter()) {
                 builder = builder.fitCenter();
@@ -167,11 +169,13 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
             }
         }
         //是否显示缩略图
-        if (isShowThumbnail(width, height)) {
+        if (isShowThumbnail(imageView,width, height)) {
             builder = builder.thumbnail(0.2f);
         }
         //宽高设置
-        builder = builder.override(width, height);
+        if(width != null && height != null) {
+            builder = builder.override(width, height);
+        }
         //占位图设置
         builder = builder.placeholder(AtlwSetting.imageLoadingLoadResId)
                 .error(AtlwSetting.imageLoadingFailResId);

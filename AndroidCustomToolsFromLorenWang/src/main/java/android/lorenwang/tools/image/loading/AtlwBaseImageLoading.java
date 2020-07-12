@@ -40,10 +40,22 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 public abstract class AtlwBaseImageLoading {
     protected final String TAG = getClass().getName();
-    private final int LOADING_TYPE_FOR_UN_KNOW = -1;//未知图片
-    private final int LOADING_TYPE_FOR_NET = 0;//网络图片加载
-    private final int LOADING_TYPE_FOR_LOCAL = 1;//本地图片加载
-    private final int LOADING_TYPE_FOR_RES = 2;//资源图片加载
+    /**
+     * 未知图片
+     */
+    private final int LOADING_TYPE_FOR_UN_KNOW = -1;
+    /**
+     * 网络图片加载
+     */
+    private final int LOADING_TYPE_FOR_NET = 0;
+    /**
+     * 本地图片加载
+     */
+    private final int LOADING_TYPE_FOR_LOCAL = 1;
+    /**
+     * 资源图片加载
+     */
+    private final int LOADING_TYPE_FOR_RES = 2;
     protected int showThumbnailMaxWidth;
     protected int showThumbnailMaxHeight;
 
@@ -60,8 +72,18 @@ public abstract class AtlwBaseImageLoading {
      * @param width     图片加载宽度
      * @param height    图片加载高度
      */
-    public void loadingImage(Object pathOrRes, ImageView imageView, int width, int height) {
+    public void loadingImage(Object pathOrRes, ImageView imageView, Integer width, Integer height) {
         this.loadingImage(pathOrRes, imageView, width, height, null);
+    }
+
+    /**
+     * 图片加载，对于的是不确定是网络图片还是本地图片的情况下使用
+     *
+     * @param pathOrRes 图片或资源地址
+     * @param imageView 图片控件
+     */
+    public void loadingImage(Object pathOrRes, ImageView imageView) {
+        this.loadingImage(pathOrRes, imageView, null, null, null);
     }
 
     /**
@@ -72,7 +94,8 @@ public abstract class AtlwBaseImageLoading {
      * @param width     图片加载宽度
      * @param height    图片加载高度
      */
-    public void loadingImage(Object pathOrRes, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
+    public void loadingImage(Object pathOrRes, ImageView imageView, Integer width, Integer height
+            , AtlwImageLoadConfig config) {
         switch (getPathOrResType(pathOrRes)) {
             case LOADING_TYPE_FOR_NET:
                 loadingNetImage((String) pathOrRes, imageView, width, height, config);
@@ -89,37 +112,24 @@ public abstract class AtlwBaseImageLoading {
     }
 
     /**
-     * 加载网络图片，为了适应预先不知道图片宽高的情况，当不知道图片宽高的时候使用该方法会设置控件的宽高属性
+     * 图片加载，对于的是不确定是网络图片还是本地图片的情况下使用
      *
      * @param pathOrRes 图片或资源地址
      * @param imageView 图片控件
-     * @param width     图片加载宽度
-     * @param height    图片加载高度
      */
-    public void loadingImageAndSetWidthHeight(Object pathOrRes, ImageView imageView, int width, int height) {
-        this.loadingImageAndSetWidthHeight(pathOrRes, imageView, width, height, null);
-    }
-
-    /**
-     * 加载网络图片，为了适应预先不知道图片宽高的情况，当不知道图片宽高的时候使用该方法会设置控件的宽高属性
-     *
-     * @param pathOrRes 图片或资源地址
-     * @param imageView 图片控件
-     * @param width     图片加载宽度
-     * @param height    图片加载高度
-     */
-    public void loadingImageAndSetWidthHeight(Object pathOrRes, ImageView imageView, int width, int height, AtlwImageLoadConfig config) {
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(pathOrRes) && imageView != null) {
-
-            ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
-            if (layoutParams == null) {
-                layoutParams = new ViewGroup.LayoutParams(width, height);
-            } else {
-                layoutParams.width = width;
-                layoutParams.height = height;
-            }
-            imageView.setLayoutParams(layoutParams);
-            loadingImage(pathOrRes, imageView, width, height, config);
+    public void loadingImage(Object pathOrRes, ImageView imageView, AtlwImageLoadConfig config) {
+        switch (getPathOrResType(pathOrRes)) {
+            case LOADING_TYPE_FOR_NET:
+                loadingNetImage((String) pathOrRes, imageView, null, null, config);
+                break;
+            case LOADING_TYPE_FOR_LOCAL:
+                loadingLocalImage((String) pathOrRes, imageView, null, null, config);
+                break;
+            case LOADING_TYPE_FOR_RES:
+                loadingResImage((Integer) pathOrRes, imageView, null, null, config);
+                break;
+            default:
+                break;
         }
     }
 
@@ -160,8 +170,18 @@ public abstract class AtlwBaseImageLoading {
      * @param width     图片宽度
      * @param height    图片高度
      */
-    public void loadingNetImage(String path, ImageView imageView, int width, int height) {
+    public void loadingNetImage(String path, ImageView imageView, Integer width, Integer height) {
         this.loadingNetImage(path, imageView, width, height, null);
+    }
+
+    /**
+     * 加载网络图片
+     *
+     * @param path      网络图片地址
+     * @param imageView 图片控件
+     */
+    public void loadingNetImage(String path, ImageView imageView) {
+        this.loadingNetImage(path, imageView, null, null, null);
     }
 
     /**
@@ -172,8 +192,18 @@ public abstract class AtlwBaseImageLoading {
      * @param width     图片宽度
      * @param height    图片高度
      */
-    public void loadingLocalImage(String path, ImageView imageView, int width, int height) {
+    public void loadingLocalImage(String path, ImageView imageView, Integer width, Integer height) {
         this.loadingLocalImage(path, imageView, width, height, null);
+    }
+
+    /**
+     * 加载本地图片
+     *
+     * @param path      本地图片地址
+     * @param imageView 图片控件
+     */
+    public void loadingLocalImage(String path, ImageView imageView) {
+        this.loadingLocalImage(path, imageView, null, null, null);
     }
 
     /**
@@ -184,8 +214,19 @@ public abstract class AtlwBaseImageLoading {
      * @param width     图片宽度
      * @param height    图片高度
      */
-    public void loadingResImage(@DrawableRes int resId, ImageView imageView, int width, int height) {
+    public void loadingResImage(@DrawableRes int resId, ImageView imageView, Integer width,
+                                Integer height) {
         this.loadingResImage(resId, imageView, width, height, null);
+    }
+
+    /**
+     * 加载资源图片
+     *
+     * @param resId     资源图片id
+     * @param imageView 图片控件
+     */
+    public void loadingResImage(@DrawableRes int resId, ImageView imageView) {
+        this.loadingResImage(resId, imageView, null, null, null);
     }
 
     /**
@@ -195,9 +236,22 @@ public abstract class AtlwBaseImageLoading {
      * @param imageView 图片控件
      * @param width     图片宽度
      * @param height    图片高度
-     * @param config  回调
+     * @param config    回调
      */
-    public abstract void loadingNetImage(String path, ImageView imageView, int width, int height, AtlwImageLoadConfig config);
+    public abstract void loadingNetImage(String path, ImageView imageView, Integer width,
+                                         Integer height, AtlwImageLoadConfig config);
+
+    /**
+     * 加载网络图片
+     *
+     * @param path      网络图片地址
+     * @param imageView 图片控件
+     * @param config    回调
+     */
+    public void loadingNetImage(String path, ImageView imageView,
+                                AtlwImageLoadConfig config) {
+        this.loadingNetImage(path, imageView, null, null, config);
+    }
 
     /**
      * 加载本地图片
@@ -206,9 +260,22 @@ public abstract class AtlwBaseImageLoading {
      * @param imageView 图片控件
      * @param width     图片宽度
      * @param height    图片高度
-     * @param config  回调
+     * @param config    回调
      */
-    public abstract void loadingLocalImage(String path, ImageView imageView, int width, int height, AtlwImageLoadConfig config);
+    public abstract void loadingLocalImage(String path, ImageView imageView, Integer width,
+                                           Integer height, AtlwImageLoadConfig config);
+
+    /**
+     * 加载本地图片
+     *
+     * @param path      本地图片地址
+     * @param imageView 图片控件
+     * @param config    回调
+     */
+    public void loadingLocalImage(String path, ImageView imageView,
+                                  AtlwImageLoadConfig config) {
+        this.loadingLocalImage(path, imageView, null, null, config);
+    }
 
     /**
      * 加载资源图片
@@ -217,9 +284,22 @@ public abstract class AtlwBaseImageLoading {
      * @param imageView 图片控件
      * @param width     图片宽度
      * @param height    图片高度
-     * @param config  回调
+     * @param config    回调
      */
-    public abstract void loadingResImage(@DrawableRes int resId, ImageView imageView, int width, int height, AtlwImageLoadConfig config);
+    public abstract void loadingResImage(@DrawableRes int resId, ImageView imageView,
+                                         Integer width, Integer height, AtlwImageLoadConfig config);
+
+    /**
+     * 加载资源图片
+     *
+     * @param resId     资源图片id
+     * @param imageView 图片控件
+     * @param config    回调
+     */
+    public void loadingResImage(@DrawableRes int resId, ImageView imageView,
+                                AtlwImageLoadConfig config) {
+        this.loadingResImage(resId, imageView, null, null, config);
+    }
 
     /**
      * 加载bitmap位图
@@ -229,7 +309,18 @@ public abstract class AtlwBaseImageLoading {
      * @param width     宽度
      * @param height    高度
      */
-    public abstract void loadingBitmapImage(Bitmap bitmap, ImageView imageView, int width, int height);
+    public abstract void loadingBitmapImage(Bitmap bitmap, ImageView imageView, Integer width,
+                                            Integer height);
+
+    /**
+     * 加载bitmap位图
+     *
+     * @param bitmap    位图
+     * @param imageView 图片控件
+     */
+    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView) {
+        this.loadingBitmapImage(bitmap, imageView, null, null);
+    }
 
     /**
      * 清除内存缓存
@@ -258,7 +349,16 @@ public abstract class AtlwBaseImageLoading {
      * @param height 显示图片高度
      * @return 显示缩略图true
      */
-    protected boolean isShowThumbnail(int width, int height) {
+    protected boolean isShowThumbnail(ImageView imageView, Integer width, Integer height) {
+        if (imageView == null) {
+            return false;
+        }
+        if (width == null) {
+            width = imageView.getWidth();
+        }
+        if (height == null) {
+            height = imageView.getHeight();
+        }
         //判断是否需要显示缩略图
         return width < showThumbnailMaxWidth && height < showThumbnailMaxHeight;
     }
