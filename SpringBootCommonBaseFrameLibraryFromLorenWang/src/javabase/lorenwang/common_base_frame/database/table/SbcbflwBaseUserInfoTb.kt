@@ -80,6 +80,6 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
      * 用户状态
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.STATUS, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.STATUS} comment '用户状态'")
-    var status = SbcbflwBaseUserStatus.ENABLE
+    var status = SbcbflwBaseUserStatus.ENABLE.status
 
 }

@@ -362,8 +362,10 @@ fun <US : SbcbflwUserService, R : SbcbflwBaseHttpServletRequestWrapper, P : Sbcb
         curd: CURD, rankBean: KttlwBaseNetUpDateRankReqBean<ID>,
         checkOldCount: Boolean,
         getNewSaveTbFun: (oldTbInfo: TB, firstRank: Long, newIds: Array<ID>) -> TB): String {
-    return this.upDataTbAllRank<US, R, P, ROLE, U, PT, U_RP_S, TB, ID, CURD>(baseController, curd, rankBean,
-            checkOldCount, getNewSaveTbFun)
+    return this.controllerCheckAndOptions<US, R, P, ROLE, U, PT, U_RP_S>(baseController) {
+        //需要进行数量判断，请求和数据库数量不一致则禁止更新
+        return@controllerCheckAndOptions upDateAllRank(checkOldCount, rankBean, curd, baseController, getNewSaveTbFun)
+    }
 }
 
 /**

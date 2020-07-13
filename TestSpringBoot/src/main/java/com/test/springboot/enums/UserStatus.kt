@@ -15,5 +15,5 @@ import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatus
  *
  * @author 王亮（Loren wang）
  */
-object UserStatus : SbcbflwBaseUserStatus() {
+class UserStatus(status:Int) : SbcbflwBaseUserStatus(status) {
 }

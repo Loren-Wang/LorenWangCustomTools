@@ -11,21 +11,21 @@ package javabase.lorenwang.common_base_frame.enums
  * 修改时间：
  * 备注：
  */
-open class SbcbflwBaseUserStatus {
+open class SbcbflwBaseUserStatus(var status: Int) {
     companion object {
         /**
          * 启用
          */
-        val ENABLE = 0
+        val ENABLE = SbcbflwBaseUserStatus(0)
 
         /**
          * 禁用
          */
-        val DISABLE = 1
+        val DISABLE = SbcbflwBaseUserStatus(1)
 
         /**
          * 删除
          */
-        val DELETE = 2
+        val DELETE = SbcbflwBaseUserStatus(2)
     }
 }

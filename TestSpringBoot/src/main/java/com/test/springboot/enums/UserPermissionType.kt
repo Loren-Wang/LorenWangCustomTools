@@ -15,4 +15,4 @@ import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
  *
  * @author 王亮（Loren wang）
  */
-object UserPermissionType : SbcbflwBaseUserPermissionType()
+class UserPermissionType(type: Int, des: String) : SbcbflwBaseUserPermissionType(type, des)

@@ -11,16 +11,16 @@ package javabase.lorenwang.common_base_frame.enums
  * 修改时间：
  * 备注：
  */
-open class SbcbflwBaseUserPermissionType {
+open class SbcbflwBaseUserPermissionType(var type: Int,var des: String) {
     companion object {
         /**
          * 超级管理员。该权限可以做任何操作，但是无法删除禁用同级的人，基本上是唯一的
          */
-        val SUPER_ADMIN = -1
+        val SUPER_ADMIN = SbcbflwBaseUserPermissionType(-1, "超级管理员权限")
 
         /**
-         * 全部权限，该权限可以做任何操作，但是无法删除禁用同级的人
+         * 管理员权限，该权限可以做任何操作，但是无法删除禁用同级的人
          */
-        val ALL = 0
+        val ADMIN = SbcbflwBaseUserPermissionType(0, "管理员权限")
     }
 }
