@@ -6,11 +6,14 @@ import android.lorenwang.customview.imageview.AvlwFrescoZoomableImageView;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import androidx.annotation.DrawableRes;
 
 /**
  * 功能作用：缩放预览弹窗
@@ -39,6 +42,8 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
         };
         view.setOnClickListener(onClickListener);
         getImageView().setOnClickListener(onClickListener);
+        //关闭硬件加速
+        view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
     /**
@@ -46,8 +51,9 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
      *
      * @param path 图片地址
      */
-    public void setImagePath(String path) {
-        Picasso.get().load(path).into(getImageView());
+    public void setImagePath(@DrawableRes int loadingResId,
+                             @DrawableRes int errorResId, String path) {
+        Picasso.get().load(path).placeholder(loadingResId).error(errorResId).into(getImageView());
     }
 
     /**
