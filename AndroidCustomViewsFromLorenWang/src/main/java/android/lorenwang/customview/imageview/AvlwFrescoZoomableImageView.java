@@ -5,15 +5,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 /**
  * 功能作用：fresco缩放图片
@@ -29,7 +28,7 @@ import androidx.annotation.Nullable;
  * @author 王亮（Loren wang）
  */
 
-public class AvlwFrescoZoomableImageView extends SimpleDraweeView {
+public class AvlwFrescoZoomableImageView extends AppCompatImageView {
     private ScaleGestureDetector mScaleDetector;
     private GestureDetector mGestureDetector;
 
@@ -70,10 +69,10 @@ public class AvlwFrescoZoomableImageView extends SimpleDraweeView {
                     float scaleFactor = detector.getScaleFactor();
 
                     mCurrentScale *= scaleFactor;
-                    if (mMidX == 0f) {
+                    if (Float.compare(mMidX, 0) == 0) {
                         mMidX = getWidth() / 2f;
                     }
-                    if (mMidY == 0f) {
+                    if (Float.compare(mMidY, 0) == 0) {
                         mMidY = getHeight() / 2f;
                     }
                     mCurrentMatrix.postScale(scaleFactor, scaleFactor, mMidX, mMidY);
@@ -127,9 +126,9 @@ public class AvlwFrescoZoomableImageView extends SimpleDraweeView {
     }
 
     @Override
-    public void setController(DraweeController draweeController) {
+    public void setImageDrawable(@Nullable Drawable drawable) {
         resetZoomable();
-        super.setController(draweeController);
+        super.setImageDrawable(drawable);
     }
 
     @Override

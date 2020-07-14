@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 /**
  * 功能作用：缩放预览弹窗
  * 创建时间：2020-07-14 2:05 下午
@@ -43,13 +47,13 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
      * @param path 图片地址
      */
     public void setImagePath(String path) {
-        getImageView().setImageURI(Uri.parse(path));
+        Picasso.get().load(path).into(getImageView());
     }
 
     /**
      * 获取图片组件
      */
-    public ImageView getImageView() {
+    public AvlwFrescoZoomableImageView getImageView() {
         return ((AvlwFrescoZoomableImageView) view.findViewById(R.id.imgZoom));
     }
 

@@ -43,7 +43,7 @@ class ZoomableImageViewActivity : BaseActivity() {
 
         btnDialog.setOnClickListener {
             val dialog = AvlwZoomablePreviewDialog(this)
-            dialog.setImagePath("http://l.paipaitxt.com/118851/10/06/30/104_10897237_4ee2ef93d633782.jpg")
+            dialog.setImagePath("https://qcampfile.oss-cn-shanghai.aliyuncs.com/qcamp/answerConfig/1905/30/1559185071597_1344x5331.jpg")
             dialog.show()
         }
     }
