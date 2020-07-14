@@ -27,12 +27,14 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
         super(context, R.layout.avlw_dialog_zoomable_preview, false,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         //点击隐藏弹窗
-        view.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
-        });
+        };
+        view.setOnClickListener(onClickListener);
+        getImageView().setOnClickListener(onClickListener);
     }
 
     /**
@@ -41,7 +43,7 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
      * @param path 图片地址
      */
     public void setImagePath(String path) {
-        ((AvlwFrescoZoomableImageView) view.findViewById(R.id.imgZoom)).setImageURI(Uri.parse(path));
+        getImageView().setImageURI(Uri.parse(path));
     }
 
     /**
