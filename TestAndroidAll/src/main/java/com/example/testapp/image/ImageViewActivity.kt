@@ -1,6 +1,8 @@
-package com.example.testapp
+package com.example.testapp.image
 
 import android.os.Bundle
+import com.example.testapp.BaseActivity
+import com.example.testapp.R
 
 /**
  * 创建时间：2019-05-13 下午 14:54:49

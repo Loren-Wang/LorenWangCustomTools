@@ -9,16 +9,20 @@ import com.example.testapp.androidTools.MobileSmsActivity
 import com.example.testapp.dialog.DialogsActivity
 import com.example.testapp.graphicCodeScan.CodeGenerateActivity
 import com.example.testapp.graphicCodeScan.ScanCodeActivity
+import com.example.testapp.image.ImageViewActivity
+import com.example.testapp.image.ZoomableImageViewActivity
 import com.example.testapp.textview.ShowPriceTextViewActivity
 import com.example.testapp.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.viewpager.BannerActivity
 import com.example.testapp.viewpager.FragmentAndBannerActivity
 import com.example.testapp.viewpager.ViewPager2Activity
+import com.facebook.drawee.backends.pipeline.Fresco
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Fresco.initialize(applicationContext)
     }
 
     fun mainClick(view: View?) {
@@ -92,6 +96,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnDialogs -> {
                     startActivity(Intent(this, DialogsActivity::class.java))
+                }
+                R.id.btnZoomableImageView -> {
+                    startActivity(Intent(this, ZoomableImageViewActivity::class.java))
                 }
                 else -> {
 

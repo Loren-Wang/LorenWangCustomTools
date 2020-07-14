@@ -123,6 +123,11 @@
             android:id="@+id/btnDialogs"
             android:text="弹窗相关"
             style="@style/mainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnZoomableImageView"
+            android:text="缩放图片相关"
+            style="@style/mainButtons" />
     </LinearLayout>
 
 
