@@ -42,8 +42,6 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
         };
         view.setOnClickListener(onClickListener);
         getImageView().setOnClickListener(onClickListener);
-        //关闭硬件加速
-        view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
     /**
@@ -53,7 +51,7 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
      */
     public void setImagePath(@DrawableRes int loadingResId,
                              @DrawableRes int errorResId, String path) {
-        Picasso.get().load(path).placeholder(loadingResId).error(errorResId).into(getImageView());
+      getImageView().setLoadOriginImagePath(loadingResId, errorResId, path);
     }
 
     /**
