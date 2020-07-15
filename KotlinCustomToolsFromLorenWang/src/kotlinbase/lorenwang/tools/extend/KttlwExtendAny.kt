@@ -186,10 +186,10 @@ fun <T> T?.getNotEmptyData(defaultData: T): T {
 /**
  * 数据转换成指定的数据格式类型
  */
-inline fun <reified T> Any.formatConversion(): T? {
-    return if(this is T){
+inline fun <T, reified P> T.formatConversion(): P? {
+    return if (this is P) {
         this
-    }else{
+    } else {
         null
     }
 }
