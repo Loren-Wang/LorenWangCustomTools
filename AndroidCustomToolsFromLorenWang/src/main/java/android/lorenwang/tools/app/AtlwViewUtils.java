@@ -76,6 +76,7 @@ public class AtlwViewUtils {
                 }
                 layoutParams.width = width;
                 layoutParams.height = height;
+                return layoutParams;
             } else {
                 //params为空，获取view的params类型进行更新
                 try {
