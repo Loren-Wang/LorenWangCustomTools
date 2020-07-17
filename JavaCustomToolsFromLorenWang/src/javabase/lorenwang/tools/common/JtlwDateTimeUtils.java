@@ -76,11 +76,21 @@ public class JtlwDateTimeUtils {
      * @return 转换后字符串
      */
     public String getFormatDateTime(String pattern, long dateTime) {
-        if (pattern == null || "".equals(pattern)) {
+        return getFormatDateTime(pattern,dateTime);
+    }
+
+    /**
+     * 格式化时间
+     * @param pattern 格式
+     * @param date 时间
+     * @return 成功返回时间字符串，否则返回null
+     */
+    public String getFormatDateTime(String pattern, Date date) {
+        if (pattern == null || "".equals(pattern) || date == null) {
             return null;
         } else {
             SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
-            return sDateFormat.format(new Date(dateTime));
+            return sDateFormat.format(date);
         }
     }
 
