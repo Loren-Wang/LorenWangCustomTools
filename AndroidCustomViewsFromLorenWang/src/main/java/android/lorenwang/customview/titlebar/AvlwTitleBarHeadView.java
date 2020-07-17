@@ -312,8 +312,8 @@ public class AvlwTitleBarHeadView extends FrameLayout {
         }
         //设置图片
         if (view instanceof ImageView) {
+            view.setTag(OPTION_VIEW_DRAWABLE_TYPE_SRC);
             if (bgDrawable != null) {
-                view.setTag(OPTION_VIEW_DRAWABLE_TYPE_SRC);
                 view.setBackground(null);
                 if (bgColor >= 0) {
                     ((ImageView) view).setImageDrawable(AtlwViewUtils.getInstance().tintDrawable(bgDrawable, ColorStateList.valueOf(bgColor)));
@@ -321,7 +321,6 @@ public class AvlwTitleBarHeadView extends FrameLayout {
                     ((ImageView) view).setImageDrawable(bgDrawable);
                 }
             } else {
-                view.setTag(OPTION_VIEW_DRAWABLE_TYPE_BG);
                 if (bgColor >= 0) {
                     ((ImageView) view).setImageDrawable(null);
                     view.setBackgroundColor(bgColor);
