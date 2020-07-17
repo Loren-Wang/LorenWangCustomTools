@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -57,10 +59,6 @@ public class AvlwTitleBarHeadView extends FrameLayout {
     private final int LAYOUT_TYPE_7 = 7;//（7）后退按钮图片、标题、右侧图标
     private final int LAYOUT_TYPE_8 = 8;//（8）标题、右侧图标
     private final int LAYOUT_TYPE_9 = 9;//（9）后退按钮图片、右侧图标
-    private int backColor;//后退按钮颜色
-    private int backImgRes;//后退资源图片
-    private int backImgWidth;//后退按钮宽高
-    private int backImgheight;//后退按钮高
     private int layoutType = LAYOUT_TYPE_1;//布局类型
 
     /**
@@ -79,6 +77,16 @@ public class AvlwTitleBarHeadView extends FrameLayout {
      * 默认操作按钮高度
      */
     private final int DEFAULT_OPTIONS_HEIGHT = ViewGroup.LayoutParams.MATCH_PARENT;
+
+    /**
+     * 操作控件drawable设置类型为src（使用view的tag做记录）
+     */
+    private final int OPTION_VIEW_DRAWABLE_TYPE_SRC = 0;
+
+    /**
+     * 操作控件drawable设置类型为bg（使用view的tag做记录）
+     */
+    private final int OPTION_VIEW_DRAWABLE_TYPE_BG = 1;
 
     public AvlwTitleBarHeadView(Context context) {
         super(context);
@@ -105,7 +113,8 @@ public class AvlwTitleBarHeadView extends FrameLayout {
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray attributes = context.obtainStyledAttributes(attrs,
                 R.styleable.AvlwTitleBarHeadView);
-        layoutType = attributes.getInt(R.styleable.AvlwTitleBarHeadView_avlwLayoutType, LAYOUT_TYPE_1);
+        layoutType = attributes.getInt(R.styleable.AvlwTitleBarHeadView_avlwLayoutType,
+                LAYOUT_TYPE_1);
         int customLayout = attributes.getResourceId(R.styleable.AvlwTitleBarHeadView_customLayout
                 , -1);
 
@@ -302,17 +311,31 @@ public class AvlwTitleBarHeadView extends FrameLayout {
             return;
         }
         //设置图片
-        if (view instanceof ImageButton) {
+        if (view instanceof ImageView) {
             if (bgDrawable != null) {
+                view.setTag(OPTION_VIEW_DRAWABLE_TYPE_SRC);
                 view.setBackground(null);
                 if (bgColor >= 0) {
-                    ((ImageButton) view).setImageDrawable(AtlwViewUtils.getInstance().tintDrawable(bgDrawable, ColorStateList.valueOf(bgColor)));
+                    ((ImageView) view).setImageDrawable(AtlwViewUtils.getInstance().tintDrawable(bgDrawable, ColorStateList.valueOf(bgColor)));
                 } else {
-                    ((ImageButton) view).setImageDrawable(bgDrawable);
+                    ((ImageView) view).setImageDrawable(bgDrawable);
+                }
+            } else {
+                view.setTag(OPTION_VIEW_DRAWABLE_TYPE_BG);
+                if (bgColor >= 0) {
+                    ((ImageView) view).setImageDrawable(null);
+                    view.setBackgroundColor(bgColor);
+                }
+            }
+        } else {
+            view.setTag(OPTION_VIEW_DRAWABLE_TYPE_BG);
+            if (bgDrawable != null) {
+                view.setBackground(bgDrawable);
+                if (bgColor >= 0) {
+                    view.setBackgroundTintList(ColorStateList.valueOf(bgColor));
                 }
             } else {
                 if (bgColor >= 0) {
-                    ((ImageButton) view).setImageDrawable(null);
                     view.setBackgroundColor(bgColor);
                 }
             }
@@ -333,7 +356,7 @@ public class AvlwTitleBarHeadView extends FrameLayout {
         if (view instanceof TextView) {
             ((TextView) view).setTextColor(textColor);
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-            if(text != null) {
+            if (text != null) {
                 ((TextView) view).setText(text);
             }
         }
@@ -347,7 +370,7 @@ public class AvlwTitleBarHeadView extends FrameLayout {
      */
     private void setTitleTextView(TypedArray attributes) {
         View view = findViewById(R.id.tvTitle);
-        if(view instanceof TextView) {
+        if (view instanceof TextView) {
             ((TextView) view).setTextColor(attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlwTitleTextColor, DEFAULT_TEXT_COLOR));
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_avlwTitleTextSize,
@@ -359,6 +382,16 @@ public class AvlwTitleBarHeadView extends FrameLayout {
         }
     }
 
+    /**
+     * 设置左侧按钮点击事件，默认为后退按钮
+     *
+     * @param onClickListener 点击事件
+     */
+    public void setOptionsLeftOnClick(OnClickListener onClickListener) {
+        if (findViewById(R.id.optionsLeft) != null && onClickListener != null) {
+            findViewById(R.id.optionsLeft).setOnClickListener(onClickListener);
+        }
+    }
 
     /**
      * 设置右侧按钮点击事件
@@ -379,17 +412,6 @@ public class AvlwTitleBarHeadView extends FrameLayout {
     public void setTitleViewClick(OnClickListener onClickListener) {
         if (findViewById(R.id.tvTitle) != null && onClickListener != null) {
             findViewById(R.id.tvTitle).setOnClickListener(onClickListener);
-        }
-    }
-
-    /**
-     * 设置左侧按钮点击事件，默认为后退按钮
-     *
-     * @param onClickListener 点击事件
-     */
-    public void setOptionsLeftOnClick(OnClickListener onClickListener) {
-        if (findViewById(R.id.optionsLeft) != null && onClickListener != null) {
-            findViewById(R.id.optionsLeft).setOnClickListener(onClickListener);
         }
     }
 
@@ -462,6 +484,98 @@ public class AvlwTitleBarHeadView extends FrameLayout {
         View view = findViewById(R.id.optionsLeft);
         if (view instanceof TextView) {
             ((TextView) view).setText(textResId);
+        }
+    }
+
+    /**
+     * 设置左侧控件图片
+     *
+     * @param resId 图片资源
+     */
+    public void setOptionsLeftImage(@DrawableRes int resId) {
+        View view = findViewById(R.id.optionsLeft);
+        Object tag = view.getTag();
+        if (tag instanceof Integer) {
+            switch ((Integer) tag) {
+                case OPTION_VIEW_DRAWABLE_TYPE_SRC:
+                    ((ImageView) view).setImageResource(resId);
+                    break;
+                case OPTION_VIEW_DRAWABLE_TYPE_BG:
+                    view.setBackgroundResource(resId);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 设置左侧控件图片
+     *
+     * @param drawable 图片资源
+     */
+    public void setOptionsLeftImage(Drawable drawable) {
+        if (drawable != null) {
+            View view = findViewById(R.id.optionsLeft);
+            Object tag = view.getTag();
+            if (tag instanceof Integer) {
+                switch ((Integer) tag) {
+                    case OPTION_VIEW_DRAWABLE_TYPE_SRC:
+                        ((ImageView) view).setImageDrawable(drawable);
+                        break;
+                    case OPTION_VIEW_DRAWABLE_TYPE_BG:
+                        view.setBackground(drawable);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 设置右侧控件图片
+     *
+     * @param resId 图片资源
+     */
+    public void setOptionsRightImage(@DrawableRes int resId) {
+        View view = findViewById(R.id.optionsRight);
+        Object tag = view.getTag();
+        if (tag instanceof Integer) {
+            switch ((Integer) tag) {
+                case OPTION_VIEW_DRAWABLE_TYPE_SRC:
+                    ((ImageView) view).setImageResource(resId);
+                    break;
+                case OPTION_VIEW_DRAWABLE_TYPE_BG:
+                    view.setBackgroundResource(resId);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 设置右侧控件图片
+     *
+     * @param drawable 图片资源
+     */
+    public void setOptionsRightImage(Drawable drawable) {
+        if (drawable != null) {
+            View view = findViewById(R.id.optionsRight);
+            Object tag = view.getTag();
+            if (tag instanceof Integer) {
+                switch ((Integer) tag) {
+                    case OPTION_VIEW_DRAWABLE_TYPE_SRC:
+                        ((ImageView) view).setImageDrawable(drawable);
+                        break;
+                    case OPTION_VIEW_DRAWABLE_TYPE_BG:
+                        view.setBackground(drawable);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

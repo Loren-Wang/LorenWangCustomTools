@@ -21,7 +21,8 @@
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/optionsRight"
         style="@style/AvlwTitleBarHeadViewRight"
-        tools:ignore="MissingConstraints"/>
+        tools:ignore="MissingConstraints"
+        tools:src="@mipmap/avlw_icon_arrow_left"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
