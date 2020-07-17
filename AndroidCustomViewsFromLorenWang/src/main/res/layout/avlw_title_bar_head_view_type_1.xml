@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"/>
+        style="@style/AvlwTitleBarHeadViewTitle"
+        tools:text="标题"
+        tools:ignore="MissingConstraints" />
 
-    <FrameLayout
-        android:id="@+id/fmBack"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/optionsLeft"
+        style="@style/AvlwTitleBarHeadViewLeft"
+        tools:ignore="MissingConstraints" />
 
-        <ImageButton
-            android:id="@+id/imgBtnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/avlw_icon_arrow_left"
-            android:layout_gravity="center_vertical"
-            />
-
-    </FrameLayout>
-
-
-
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

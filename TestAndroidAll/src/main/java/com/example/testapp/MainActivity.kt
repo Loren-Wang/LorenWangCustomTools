@@ -13,6 +13,7 @@ import com.example.testapp.image.ImageViewActivity
 import com.example.testapp.image.ZoomableImageViewActivity
 import com.example.testapp.textview.ShowPriceTextViewActivity
 import com.example.testapp.textview.ShowQuantityOfCommodityActivity
+import com.example.testapp.titlebar.TitleBarHeadViewActivity
 import com.example.testapp.viewpager.BannerActivity
 import com.example.testapp.viewpager.FragmentAndBannerActivity
 import com.example.testapp.viewpager.ViewPager2Activity
@@ -99,6 +100,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnZoomableImageView -> {
                     startActivity(Intent(this, ZoomableImageViewActivity::class.java))
+                }
+                R.id.btnTitleBarHeadView -> {
+                    startActivity(Intent(this, TitleBarHeadViewActivity::class.java))
                 }
                 else -> {
 

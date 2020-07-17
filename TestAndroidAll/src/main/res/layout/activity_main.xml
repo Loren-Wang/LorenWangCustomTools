@@ -128,6 +128,11 @@
             android:id="@+id/btnZoomableImageView"
             android:text="缩放图片相关"
             style="@style/mainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTitleBarHeadView"
+            android:text="标题栏类型"
+            style="@style/mainButtons" />
     </LinearLayout>
 
 
