@@ -110,6 +110,10 @@ public class JtlwMatchesRegularCommon {
      */
     public static final String EXP_A_Z = "[A-Z]*";
     /**
+     * 匹配所有的BigDecimal
+     */
+    public static final String EXP_BIGDECIMAL = "[0-9]+.?[0-9]*";
+    /**
      * 匹配所有的字母
      */
     public static final String EXP_a_z_A_Z = "[a-zA-Z]*";
