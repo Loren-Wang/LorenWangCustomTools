@@ -18,12 +18,14 @@ import com.example.testapp.viewpager.BannerActivity
 import com.example.testapp.viewpager.FragmentAndBannerActivity
 import com.example.testapp.viewpager.ViewPager2Activity
 import com.facebook.drawee.backends.pipeline.Fresco
+import kotlinbase.lorenwang.tools.extend.formatConversion
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Fresco.initialize(applicationContext)
+
     }
 
     fun mainClick(view: View?) {

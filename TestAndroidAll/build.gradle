@@ -70,6 +70,7 @@ dependencies {
     implementation project(':JavaCustomToolsFromLorenWang')
     implementation project(':JavaPcToolsFromLorenWang')
     implementation project(':JavaDataParseFromLorenWang')
+    implementation project(':KotlinCustomToolsFromLorenWang')
     implementation project(':AndroidGraphicCodeScanFromLorenWang')
     implementation project(':AndroidCommonBaseFrameLibraryFromLorenWang')
     //自定义控件库
