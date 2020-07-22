@@ -15,4 +15,4 @@ include ':JavaDataParseFromLorenWang'
 include ':KotlinCustomToolsFromLorenWang'
 include ':SpringBootCommonBaseFrameLibraryFromLorenWang'
 include ':ReactCommonBaseFromLorenwang'
-
+include ':TestAndroidCommonFrame'

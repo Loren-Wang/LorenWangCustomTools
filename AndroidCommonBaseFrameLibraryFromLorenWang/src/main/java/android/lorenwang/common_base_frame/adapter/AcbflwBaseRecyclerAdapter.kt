@@ -44,6 +44,16 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      */
     private var showWhetherTheCycle = false
 
+    /**
+     * 单图显示的时候是否进行轮播,默认不进行轮播了
+     */
+    private var onlyShowCycle = false
+
+    /**
+     * 自动循环时最大item数量，因为Int.MAX_VALUE的值回导致和外部的viewpager产生冲突导致无法滑动，所以要设置一个尽量大的值
+     */
+    private val autoCycleMaxCount = 60000
+
     constructor(activity: Activity) : this(activity, false)
 
     constructor(activity: Activity, showWhetherTheCycle: Boolean) {
@@ -51,6 +61,11 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
         this.showWhetherTheCycle = showWhetherTheCycle
     }
 
+    constructor(activity: Activity, showWhetherTheCycle: Boolean, onlyShowCycle: Boolean) {
+        this.activity = activity
+        this.showWhetherTheCycle = showWhetherTheCycle
+        this.onlyShowCycle = onlyShowCycle
+    }
 
     override fun getItemViewType(position: Int): Int {
         return dataList[position % dataList.size].layoutResId
@@ -64,14 +79,14 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
 
     override fun onBindViewHolder(holder: AcbflwBaseRecyclerViewHolder<T>, position: Int) {
         holder.adapter = this
-        holder.setViewData(activity, dataList[position % dataList.size].bean, position)
+        holder.setViewData(activity, dataList[position % if (dataList.size > 0) dataList.size else 1].bean, position)
     }
 
     override fun getItemCount(): Int {
-        //显示循环并且数据数量大于1时循环，否则只返回当前数量
-        return if (showWhetherTheCycle && dataList.size > 1) {
-            Int.MAX_VALUE
-        } else {
+        //如果是单张显示也要轮播或者本身也是要轮播情况下会进行轮播
+        return if(showWhetherTheCycle || onlyShowCycle){
+            autoCycleMaxCount.coerceAtLeast(dataList.size)
+        }else{
             dataList.size
         }
     }
@@ -157,7 +172,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param layoutId 布局资源id
      * @param desc     空视图实例
      */
-    override fun showEmptyView(layoutId: Int, desc: T, haveMoreData: Boolean) {
+    override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean) {
         dataList.clear()
         dataList.add(AcbflwBaseType(layoutId, desc))
         notifyDataSetChanged()

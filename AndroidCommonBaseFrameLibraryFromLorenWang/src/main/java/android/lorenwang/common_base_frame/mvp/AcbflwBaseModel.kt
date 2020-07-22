@@ -143,44 +143,4 @@ open class AcbflwBaseModel {
             }
         }
     }
-
-    /**
-     * 获取请求数据
-     * @param keyArray 请求参数key数组
-     * @param dataArray 请求数据数组
-     * @return 返回格式化后字符串
-     */
-    open fun getDataStr(keyArray: Array<String>?, dataArray: Array<Any?>?): String? {
-        return getDataStr(null, null, null, keyArray, dataArray)
-    }
-
-    /**
-     * 获取请求数据
-     * @param currentPage 当前页码
-     * @param limit
-     * @param total 总数
-     * @param keyArray 请求参数key数组
-     * @param dataArray 请求数据数组
-     * @return 返回格式化后字符串
-     */
-    open fun getDataStr(currentPage: Int?, limit: Int?, total: Int?, keyArray: Array<String>?, dataArray: Array<Any?>?): String? {
-        //map存储请求数据
-        val map = hashMapOf<String, Any?>()
-        currentPage?.let {
-            map.put("currentPage", it)
-        }
-        limit?.let {
-            map.put("limit", it)
-        }
-        total?.let {
-            map.put("total", it)
-        }
-        //存储传递的数据列表数据，数据参数数量不同则不进行数据的添加
-        if (!(keyArray.isNullOrEmpty() || dataArray.isNullOrEmpty()) && keyArray.size == dataArray.size) {
-            keyArray.forEachIndexed { index: Int, key: String ->
-                map[key] = dataArray[index]
-            }
-        }
-        return JdplwJsonUtils.toJson(map)
-    }
 }

@@ -25,6 +25,10 @@ public class AcbflwWeChatConfigInfoBean {
      * 微信开放平台审核通过的应用APPID
      */
     private String appid;
+    /**
+     * 小程序原始id
+     */
+    private String weChatApplyId;
     private boolean checkSignature;
 
     public String getWeChatId() {
@@ -37,6 +41,10 @@ public class AcbflwWeChatConfigInfoBean {
 
     public String getAppid() {
         return appid;
+    }
+
+    public String getWeChatApplyId() {
+        return weChatApplyId;
     }
 
     public boolean isCheckSignature() {
@@ -56,6 +64,10 @@ public class AcbflwWeChatConfigInfoBean {
          * 微信开放平台审核通过的应用APPID
          */
         private String appid;
+        /**
+         * 小程序原始id
+         */
+        private String weChatApplyId;
         private boolean checkSignature;
 
         public Build setWeChatId(String weChatId) {
@@ -73,6 +85,10 @@ public class AcbflwWeChatConfigInfoBean {
             return this;
         }
 
+        public Build setWeChatApplyId(String weChatApplyId) {
+            this.weChatApplyId = weChatApplyId;
+            return this;
+        }
 
         public Build setCheckSignature(boolean checkSignature) {
             this.checkSignature = checkSignature;
@@ -84,6 +100,7 @@ public class AcbflwWeChatConfigInfoBean {
             bean.weChatId = this.weChatId;
             bean.weiChatSecret = this.weiChatSecret;
             bean.appid = this.appid;
+            bean.weChatApplyId = this.weChatApplyId;
             bean.checkSignature = this.checkSignature;
             return bean;
         }

@@ -25,6 +25,11 @@ interface AcbflwBaseView {
     fun hideBaseLoading()
 
     /**
+     * 用户登陆状态异常
+     */
+    fun userLoginStatusError(code: Any?, message: String?)
+
+    /**
      * 网络请求成功
      * @param data 响应数据
      * @param netOptionReqCode 网络操作请求code

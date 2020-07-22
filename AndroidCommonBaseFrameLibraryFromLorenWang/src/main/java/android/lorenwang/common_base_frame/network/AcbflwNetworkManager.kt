@@ -48,8 +48,8 @@ open class AcbflwNetworkManager private constructor() {
      * @param baseUrl 基础url链接
      * @param interceptor 网络拦截器
      */
-    fun initRetrofit(baseUrl: String, interceptor: Array<Interceptor>?, converterFactory: Converter
-    .Factory?) {
+    fun initRetrofit(baseUrl: String, interceptor: Array<Interceptor>?,
+                     converterFactory: Converter.Factory?) {
         var builder = OkHttpClient.Builder()
         //防止无法进行http请求
         builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))

@@ -49,9 +49,11 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
 
     public AvlwConfirmCancelDialog1(Activity context) {
         super(context, R.layout.avlw_dialog_confirm_cancel_1,
-                R.style.avlw_layout_dialog_center,
-                R.style.avlw_anim_dialog_center,
-                false, null, null,Gravity.CENTER);
+                R.style.AvlwLayoutDialogCenter,
+                R.style.AvlwAnimDialogCenter,
+                false, null,
+                context.getApplicationContext().getResources().getDimensionPixelOffset(R.dimen.avlw_dialog_common_width),
+                Gravity.CENTER);
         tvContent = view.findViewById(R.id.tvContent);
         btnLeft = view.findViewById(R.id.btnLeft);
         btnRight = view.findViewById(R.id.btnRight);
@@ -85,7 +87,8 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
      * @param onClickListener 点击监听
      * @return 当前实例
      */
-    public AvlwConfirmCancelDialog1 setBtnLeft(String text, Integer size, Integer color, View.OnClickListener onClickListener) {
+    public AvlwConfirmCancelDialog1 setBtnLeft(String text, Integer size, Integer color,
+                                               View.OnClickListener onClickListener) {
         if (text != null) {
             btnLeft.setText(text);
         }
@@ -106,7 +109,8 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
      * @param onClickListener 点击监听
      * @return 当前实例
      */
-    public AvlwConfirmCancelDialog1 setBtnRight(String text, Integer size, Integer color, View.OnClickListener onClickListener) {
+    public AvlwConfirmCancelDialog1 setBtnRight(String text, Integer size, Integer color,
+                                                View.OnClickListener onClickListener) {
         if (text != null) {
             btnRight.setText(text);
         }
@@ -127,7 +131,8 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
      * @param isShowBtnRight 是否显示右侧按钮
      * @return 当前实例
      */
-    public AvlwConfirmCancelDialog1 setOptionsState(boolean isShowBtnLeft, boolean isShowBtnRight, Integer optionsHeight) {
+    public AvlwConfirmCancelDialog1 setOptionsState(boolean isShowBtnLeft, boolean isShowBtnRight
+            , Integer optionsHeight) {
         if (!isShowBtnLeft || !isShowBtnRight) {
             glCenter.setGuidelinePercent(1);
             viewBtnLine.setVisibility(View.GONE);
@@ -150,13 +155,6 @@ public class AvlwConfirmCancelDialog1 extends AvlwBaseDialog {
             btnLeft.setHeight(optionsHeight);
         }
         return this;
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        showWidthHeightChange(Gravity.CENTER, (int) (AtlwScreenUtils.getInstance().getScreenWidth() * 0.6),
-                ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     @Override

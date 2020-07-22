@@ -18,7 +18,7 @@
 <!--<item name="android:windowCloseOnTouchOutside">true</item>-->
 <resources>
     <!--布局加载中弹窗-->
-    <style name="avlw_layout_dialog_loading">
+    <style name="AvlwLayoutDialogLoading">
         <item name="android:windowFrame">@null</item>
         <!--//Dialog的windowFrame框为无-->
         <item name="android:windowIsFloating">true</item>
@@ -40,7 +40,7 @@
     </style>
 
     <!--布局中心弹窗-->
-    <style name="avlw_layout_dialog_center">
+    <style name="AvlwLayoutDialogCenter">
         <item name="android:windowFrame">@null</item>
         <!--//Dialog的windowFrame框为无-->
         <item name="android:windowIsFloating">true</item>
@@ -54,7 +54,7 @@
     </style>
 
     <!--布局底部弹窗-->
-    <style name="avlw_layout_dialog_bottom">
+    <style name="AvlwLayoutDialogBottom">
         <item name="android:windowFrame">@null</item>
         <!--//Dialog的windowFrame框为无-->
         <item name="android:windowIsFloating">true</item>
@@ -68,13 +68,13 @@
     </style>
 
     <!--充满屏幕的弹出框动画-->
-    <style name="avlw_anim_dialog_center">
+    <style name="AvlwAnimDialogCenter">
         <item name="android:windowEnterAnimation">@anim/avlw_anim_from_center</item>
         <item name="android:windowExitAnimation">@anim/avlw_anim_to_center</item>
     </style>
 
     <!--充满屏幕的弹出框动画-->
-    <style name="avlw_anim_dialog_bottom">
+    <style name="AvlwAnimDialogBottom">
         <item name="android:windowEnterAnimation">@anim/avlw_frame_anim_from_bottom</item>
         <item name="android:windowExitAnimation">@anim/avlw_frame_anim_to_bottom</item>
     </style>

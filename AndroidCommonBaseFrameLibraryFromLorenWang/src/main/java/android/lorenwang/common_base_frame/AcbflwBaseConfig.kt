@@ -19,16 +19,19 @@ object AcbflwBaseConfig {
      * 标题栏高度
      */
     var titleBarHeadViewHeight = 0
+
     /**
      * 基础底部栏高度高度
      */
     var baseBottomViewHeight = 0
+
     /**
      * 图片加载失败图片
      */
     @DrawableRes
     @kotlin.jvm.JvmField
     var imageLoadingFailResId = R.drawable.notification_bg_low
+
     /**
      * 图片加载加载中图片
      */
@@ -36,6 +39,15 @@ object AcbflwBaseConfig {
     @kotlin.jvm.JvmField
     var imageLoadingLoadResId = R.drawable.notification_bg_low
 
+    /**
+     * 发起图片裁剪key
+     */
+    const val KEY_PICTURE_CROP_IMAGE_PATH = "key_picture_crop_image_path"
+
+    /**
+     * 发起图片裁剪返回key
+     */
+    const val KEY_PICTURE_CROP_RESULT = "key_picture_crop_result"
 
     /**
      * app编译类型之debug模式
@@ -57,7 +69,8 @@ object AcbflwBaseConfig {
      *
      * @return true为是正式环境编译
      */
-    fun appCompileTypeIsRelease(appCompileType:Int): Boolean {
+    @JvmStatic
+    fun appCompileTypeIsRelease(appCompileType: Int): Boolean {
         return APP_COMPILE_TYPE_RELEASE.compareTo(appCompileType) == 0
     }
 
@@ -66,7 +79,8 @@ object AcbflwBaseConfig {
      *
      * @return true为是开发环境编译
      */
-    fun appCompileTypeIsDebug(appCompileType:Int): Boolean {
+    @JvmStatic
+    fun appCompileTypeIsDebug(appCompileType: Int): Boolean {
         return APP_COMPILE_TYPE_DEBUG.compareTo(appCompileType) == 0
     }
 
@@ -75,7 +89,8 @@ object AcbflwBaseConfig {
      *
      * @return true为是测试环境编译
      */
-    fun appCompileTypeIsTest(appCompileType:Int): Boolean {
+    @JvmStatic
+    fun appCompileTypeIsTest(appCompileType: Int): Boolean {
         return APP_COMPILE_TYPE_TEST.compareTo(appCompileType) == 0
     }
 }

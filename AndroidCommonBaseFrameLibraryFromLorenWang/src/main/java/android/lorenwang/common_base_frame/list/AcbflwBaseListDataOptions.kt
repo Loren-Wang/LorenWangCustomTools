@@ -88,7 +88,7 @@ class AcbflwBaseListDataOptions<T>(val activity: Activity?,
         }
     }
 
-    override fun showEmptyView(layoutId: Int, desc: T, haveMoreData: Boolean) {
+    override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean) {
         adapter.showEmptyView(layoutId, desc, haveMoreData)
         list = adapter.adapterDataList
         refreshDataOptions?.setAllowLoadMore(haveMoreData)

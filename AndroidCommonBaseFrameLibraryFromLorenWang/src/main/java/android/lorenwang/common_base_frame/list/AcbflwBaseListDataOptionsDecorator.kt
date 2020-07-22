@@ -64,7 +64,7 @@ interface AcbflwBaseListDataOptionsDecorator<T> {
      * @param layoutId 布局资源id
      * @param desc     空视图实例
      */
-    fun showEmptyView(layoutId: Int, desc: T, haveMoreData: Boolean)
+    fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean)
 
     /**
      * 获取适配器数据

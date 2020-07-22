@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="finish">Finish</string>
+    <string name="submit">Submit</string>
+    <string name="delete">Delete</string>
+    <string name="close">Close</string>
+    <string name="title">Title</string>
+</resources>

@@ -1,11 +1,14 @@
 package android.lorenwang.common_base_frame.mvp
 
+import android.app.Activity
 import android.lorenwang.common_base_frame.adapter.AcbflwBaseType
 import androidx.annotation.LayoutRes
 import android.lorenwang.common_base_frame.AcbflwBaseActivity
+import android.lorenwang.common_base_frame.AcbflwBaseApplication
 import android.lorenwang.common_base_frame.AcbflwBaseConfig
 import android.lorenwang.common_base_frame.network.callback.AcbflwNetOptionsByModelCallback
 import android.lorenwang.common_base_frame.network.callback.AcbflwRepOptionsByPresenterCallback
+import javabase.lorenwang.tools.common.JtlwClassUtils
 import kotlinbase.lorenwang.tools.KttlwConfig
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 
@@ -21,12 +24,22 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
  * 备注：
  */
 
-abstract class AcbflwBasePresenter(var activity: AcbflwBaseActivity) {
+abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
     protected var TAG: String? = javaClass.name;
+
+    protected var activity: Activity? = null
+
+    init {
+        if (baseView is Activity) {
+            activity = baseView as Activity
+        }
+    }
+
     /**
      * 默认首页页码
      */
     protected val defaultFirstPageIndex = KttlwConfig.DEFAULT_NET_PAGE_INDEX
+
     /**
      * 默认每页数量
      */
@@ -67,7 +80,7 @@ abstract class AcbflwBasePresenter(var activity: AcbflwBaseActivity) {
     /**
      * 获取响应数据回调
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
             repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         return getNetOptionsCallback(showLoading = true, successHideLoading = true, errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
@@ -76,7 +89,7 @@ abstract class AcbflwBasePresenter(var activity: AcbflwBaseActivity) {
      * 获取响应数据回调
      * @param successHideLoading 成功是否隐藏加载中
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
             successHideLoading: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         return getNetOptionsCallback(showLoading = true, successHideLoading = successHideLoading, errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
@@ -90,27 +103,30 @@ abstract class AcbflwBasePresenter(var activity: AcbflwBaseActivity) {
      * @param repOptionsCallback 数据操作后的回调
      * @return 网络请求回调
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
             showLoading: Boolean, successHideLoading: Boolean, errorHideLoading: Boolean,
             allowLoadingBackFinishPage: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+        //新增presenter记录
+        AcbflwBaseApplication.application?.addPresenter(activity, this)
+        //回传callback
         return object : AcbflwNetOptionsByModelCallback<D, T>() {
             override fun success(dto: T) {
-                if (activity.isFinishing) {
+                if (activity == null || activity!!.isFinishing) {
                     return
                 }
                 if (successHideLoading) {
-                    activity.hideBaseLoading()
+                    baseView.hideBaseLoading()
                 }
                 //执行了成功回调，代表着和自定义的成功码一致，就是接口请求必须成功才会执行该方法
                 repOptionsCallback.viewOptionsData(dto)
             }
 
             override fun error(e: Throwable) {
-                if (activity.isFinishing) {
+                if (activity == null || activity!!.isFinishing) {
                     return
                 }
                 if (errorHideLoading) {
-                    activity.hideBaseLoading()
+                    baseView.hideBaseLoading()
                 }
                 if (e.message.isNullOrEmpty()) {
                     repOptionsCallback.repDataError(null, "")
@@ -129,15 +145,25 @@ abstract class AcbflwBasePresenter(var activity: AcbflwBaseActivity) {
 
             override fun onSubscribeStart() {
                 if (showLoading) {
-                    activity.showBaseLoading(allowLoadingBackFinishPage)
+                    baseView.showBaseLoading(allowLoadingBackFinishPage)
                 }
             }
 
             override fun userLoginStatusError(code: Any?, message: String?) {
-                activity.userLoginStatusError(code, message)
+                baseView.userLoginStatusError(code, message)
             }
 
         }
+    }
+
+    /**
+     * 获取请求model记录
+     */
+    fun <T> getModel(cls: Class<T>): T {
+        val model = JtlwClassUtils.getInstance().getClassEntity(cls)
+        //新增model初始化记录
+        AcbflwBaseApplication.application?.addPresenter(activity, this)
+        return model
     }
 
 }

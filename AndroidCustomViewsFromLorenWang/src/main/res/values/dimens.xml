@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--文本大小-->
+    <dimen name="textSize28">28sp</dimen>
+    <dimen name="textSize20">20sp</dimen>
+    <dimen name="textSize19">19sp</dimen>
+    <dimen name="textSize18">18sp</dimen>
     <dimen name="textSize17">17sp</dimen>
     <dimen name="textSize16">16sp</dimen>
     <dimen name="textSize15">15sp</dimen>
@@ -7,4 +12,15 @@
     <dimen name="textSize13">13sp</dimen>
     <dimen name="textSize12">12sp</dimen>
     <dimen name="textSize11">11sp</dimen>
+    <dimen name="textSize10">10sp</dimen>
+    <dimen name="textSize9">9sp</dimen>
+
+    <!--标题栏高度-->
+    <dimen name="avlw_base_title_bar_head_view_height">45dp</dimen>
+    <!--底部操作栏高度-->
+    <dimen name="avlw_base_bottom_view_height">45dp</dimen>
+    <!--默认内容间距-->
+    <dimen name="avlw_default_content_distance">10dp</dimen>
+    <!--通用弹窗宽度-->
+    <dimen name="avlw_dialog_common_width">300dp</dimen>
 </resources>

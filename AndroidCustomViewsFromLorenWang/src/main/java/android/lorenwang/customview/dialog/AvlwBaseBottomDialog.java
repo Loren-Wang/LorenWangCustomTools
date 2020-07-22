@@ -21,16 +21,16 @@ import android.view.ViewGroup;
 public class AvlwBaseBottomDialog extends AvlwBaseDialog {
     public AvlwBaseBottomDialog(Activity context, int dialogViewLayoutResId,
                                 boolean isOutSideCancel) {
-        super(context, dialogViewLayoutResId, R.style.avlw_layout_dialog_bottom,
-                R.style.avlw_anim_dialog_bottom, isOutSideCancel,
+        super(context, dialogViewLayoutResId, R.style.AvlwLayoutDialogBottom,
+                R.style.AvlwAnimDialogBottom, isOutSideCancel,
                 ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.BOTTOM);
     }
 
     public AvlwBaseBottomDialog(Activity context, int dialogViewLayoutResId,
                                 boolean isOutSideCancel, Integer showDialogWidth,
                                 Integer showDialogHeight) {
-        super(context, dialogViewLayoutResId, R.style.avlw_layout_dialog_bottom,
-                R.style.avlw_anim_dialog_bottom, isOutSideCancel,
+        super(context, dialogViewLayoutResId, R.style.AvlwLayoutDialogBottom,
+                R.style.AvlwAnimDialogBottom, isOutSideCancel,
                 showDialogWidth, showDialogHeight, Gravity.BOTTOM);
     }
 }
