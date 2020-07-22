@@ -38,14 +38,14 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
 
     public AvlwLoadingDialogType1(Activity activity) {
         super(activity, R.layout.avlw_dialog_loading_type_1,
-                R.style.avlw_layout_dialog_loading,
-                R.style.avlw_anim_dialog_center, false, null, null, Gravity.CENTER);
+                R.style.AvlwLayoutDialogLoading,
+                R.style.AvlwAnimDialogCenter, false, null, null, Gravity.CENTER);
         this.activity = activity;
     }
 
     public AvlwLoadingDialogType1(Activity activity, @StyleRes int styleRes) {
         super(activity, R.layout.avlw_dialog_loading_type_1, styleRes,
-                R.style.avlw_anim_dialog_center, false, null, null, Gravity.CENTER);
+                R.style.AvlwAnimDialogCenter, false, null, null, Gravity.CENTER);
         this.activity = activity;
     }
 

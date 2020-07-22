@@ -1,7 +1,7 @@
 package com.test.android;
 
 
-import android.lorenwang.common_base_frame.AcbflwBaseApplication;
+import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
 
 /**
  * 创建时间：2019-04-13 下午 14:30:36

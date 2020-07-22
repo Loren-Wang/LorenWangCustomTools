@@ -1,8 +1,8 @@
 package com.example.testapp.viewpager
 
 import android.app.Activity
-import android.lorenwang.common_base_frame.adapter.AcbflwBaseRecyclerAdapter
-import android.lorenwang.common_base_frame.adapter.AcbflwBaseRecyclerViewHolder
+import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerAdapter
+import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.customview.viewpager.banner.AvlwBannerView
 import android.lorenwang.tools.AtlwSetting
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import com.example.testapp.R
-import kotlinx.android.synthetic.main.fragment_banner.*
 import java.util.ArrayList
 
 /**

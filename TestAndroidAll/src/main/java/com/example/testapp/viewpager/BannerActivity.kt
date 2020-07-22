@@ -1,8 +1,8 @@
 package com.example.testapp.viewpager
 
 import android.app.Activity
-import android.lorenwang.common_base_frame.adapter.AcbflwBaseRecyclerAdapter
-import android.lorenwang.common_base_frame.adapter.AcbflwBaseRecyclerViewHolder
+import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerAdapter
+import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.customview.viewpager.banner.AvlwBannerView
 import android.lorenwang.tools.AtlwSetting.IMAGE_LOAD_LIBRARY_TYPE_GLIDE
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory

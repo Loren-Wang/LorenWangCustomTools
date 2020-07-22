@@ -20,15 +20,15 @@ import android.view.Gravity;
 public class AvlwBaseCenterDialog extends AvlwBaseDialog {
     public AvlwBaseCenterDialog(Activity context, int dialogViewLayoutResId,
                                 boolean isOutSideCancel) {
-        super(context, dialogViewLayoutResId, R.style.avlw_layout_dialog_center,
-                R.style.avlw_anim_dialog_center, isOutSideCancel, null, null, Gravity.CENTER);
+        super(context, dialogViewLayoutResId, R.style.AvlwLayoutDialogCenter,
+                R.style.AvlwAnimDialogCenter, isOutSideCancel, null, null, Gravity.CENTER);
     }
 
     public AvlwBaseCenterDialog(Activity context, int dialogViewLayoutResId,
                                 boolean isOutSideCancel, Integer showDialogWidth,
                                 Integer showDialogHeight) {
-        super(context, dialogViewLayoutResId, R.style.avlw_layout_dialog_center,
-                R.style.avlw_anim_dialog_center, isOutSideCancel, showDialogWidth,
+        super(context, dialogViewLayoutResId, R.style.AvlwLayoutDialogCenter,
+                R.style.AvlwLayoutDialogCenter, isOutSideCancel, showDialogWidth,
                 showDialogHeight, Gravity.CENTER);
     }
 }

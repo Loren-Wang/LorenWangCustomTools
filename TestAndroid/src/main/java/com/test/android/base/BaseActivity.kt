@@ -1,12 +1,9 @@
 package com.test.android.base
 
 import android.graphics.Color
-import android.lorenwang.common_base_frame.AcbflwBaseActivity
+import android.lorenwang.commonbaseframe.AcbflwBaseActivity
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
-import android.os.Bundle
 import android.view.ViewStub
-import androidx.annotation.LayoutRes
-import com.test.android.R
 
 /**
  * 功能作用：基础Activity

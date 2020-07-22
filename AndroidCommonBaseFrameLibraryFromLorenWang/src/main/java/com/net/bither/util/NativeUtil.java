@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.lorenwang.common_base_frame.AcbflwBaseApplication;
+import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
