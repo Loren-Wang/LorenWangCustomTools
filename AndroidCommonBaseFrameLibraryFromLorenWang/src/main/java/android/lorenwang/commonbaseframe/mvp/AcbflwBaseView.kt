@@ -34,7 +34,7 @@ interface AcbflwBaseView {
      * @param data 响应数据
      * @param netOptionReqCode 网络操作请求code
      */
-    fun <T> netReqSuccess(netOptionReqCode: Int, data: T?)
+    fun <T> netReqSuccess(netOptionReqCode: Int, data: T)
 
     /**
      * 网络请求失败
