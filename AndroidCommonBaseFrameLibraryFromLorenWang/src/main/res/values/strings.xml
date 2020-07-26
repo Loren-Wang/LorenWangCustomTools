@@ -1,31 +1,32 @@
 <resources>
-    <string name="net_error_net">网络异常，请检查网络后重试</string>
-    <string name="net_error_server">服务器异常，请稍后重试</string>
-    <string name="net_error_timeout">请求超时，请稍后重试</string>
-    <string name="net_error_sll">证书异常，请检查证书</string>
-    <string name="share_title_is_too_long">分享标题过长</string>
-    <string name="share_description_is_too_long">描述内容过长</string>
-    <string name="share_text_is_too_long">文本内容过长</string>
-    <string name="share_music_url_empty_or_is_too_long">音频链接为空或长度过长</string>
-    <string name="share_video_url_empty_or_is_too_long">视频链接为空或长度过长</string>
-    <string name="share_web_page_url_empty_or_is_too_long">网页链接为空或长度过长</string>
-    <string name="share_applet_of_wechat_user_name_empty">小程序id为空</string>
-    <string name="share_applet_of_wechat_path_empty">小程序路径为空</string>
-    <string name="share_image_empty">图片为空</string>
-    <string name="share_image_error">图片异常</string>
-    <string name="share_file_is_too_long">文件过大</string>
-    <string name="share_file_empty">文件为空</string>
-    <string name="wechat_not_init">微信未初始化</string>
-    <string name="wechat_not_install">微信未安装</string>
-    <string name="wechat_login_auth_denied">微信用户拒绝授权认证</string>
-    <string name="wechat_login_auth_cancel">微信用户取消授权认证</string>
-    <string name="wechat_login_auth_unknow_error">微信用户授权认证未知错误</string>
-    <string name="wechat_share_unknow_error">微信分享未知错误</string>
-    <string name="wechat_pay_unknow_error">微信支付未知错误</string>
-    <string name="wechat_pay_cancel">微信支付用户取消</string>
-    <string name="ali_pay_fail">支付宝支付失败</string>
-    <string name="ali_pay_cancel">支付宝用户取消支付</string>
-    <string name="ali_pay_error_repetition">支付宝重复请求</string>
-    <string name="ali_pay_error_connect">支付宝网络连接出错</string>
-    <string name="ali_pay_error_other">支付宝其他错误</string>
+    <string name="net_error_net" translatable="false">网络异常，请检查网络后重试</string>
+    <string name="net_error_server" translatable="false">服务器异常，请稍后重试</string>
+    <string name="net_error_timeout" translatable="false">请求超时，请稍后重试</string>
+    <string name="net_error_sll" translatable="false">证书异常，请检查证书</string>
+    <string name="share_title_is_too_long" translatable="false">分享标题过长</string>
+    <string name="share_description_is_too_long" translatable="false">描述内容过长</string>
+    <string name="share_text_is_too_long" translatable="false">文本内容过长</string>
+    <string name="share_music_url_empty_or_is_too_long" translatable="false">音频链接为空或长度过长</string>
+    <string name="share_video_url_empty_or_is_too_long" translatable="false">视频链接为空或长度过长</string>
+    <string name="share_web_page_url_empty_or_is_too_long" translatable="false">网页链接为空或长度过长</string>
+    <string name="share_applet_of_wechat_user_name_empty" translatable="false">小程序id为空</string>
+    <string name="share_applet_of_wechat_path_empty" translatable="false">小程序路径为空</string>
+    <string name="share_image_empty" translatable="false">图片为空</string>
+    <string name="share_image_error" translatable="false">图片异常</string>
+    <string name="share_file_is_too_long" translatable="false">文件过大</string>
+    <string name="share_file_empty" translatable="false">文件为空</string>
+    <string name="wechat_not_init" translatable="false">微信未初始化</string>
+    <string name="wechat_not_install" translatable="false">微信未安装</string>
+    <string name="wechat_login_auth_denied" translatable="false">微信用户拒绝授权认证</string>
+    <string name="wechat_login_auth_cancel" translatable="false">微信用户取消授权认证</string>
+    <string name="wechat_login_auth_unknow_error" translatable="false">微信用户授权认证未知错误</string>
+    <string name="wechat_share_unknow_error" translatable="false">微信分享未知错误</string>
+    <string name="wechat_pay_unknow_error" translatable="false">微信支付未知错误</string>
+    <string name="wechat_pay_cancel" translatable="false">微信支付用户取消</string>
+    <string name="ali_pay_fail" translatable="false">支付宝支付失败</string>
+    <string name="ali_pay_cancel" translatable="false">支付宝用户取消支付</string>
+    <string name="ali_pay_error_repetition" translatable="false">支付宝重复请求</string>
+    <string name="ali_pay_error_connect" translatable="false">支付宝网络连接出错</string>
+    <string name="ali_pay_error_other" translatable="false">支付宝其他错误</string>
+    <string name="empty_data_default" translatable="false">暂无数据</string>
 </resources>

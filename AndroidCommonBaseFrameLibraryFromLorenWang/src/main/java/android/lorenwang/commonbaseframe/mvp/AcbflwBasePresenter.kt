@@ -1,13 +1,14 @@
 package android.lorenwang.commonbaseframe.mvp
 
 import android.app.Activity
-import android.lorenwang.commonbaseframe.adapter.AcbflwBaseType
-import androidx.annotation.LayoutRes
-import android.lorenwang.commonbaseframe.AcbflwBaseActivity
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication
-import android.lorenwang.commonbaseframe.AcbflwBaseConfig
+import android.lorenwang.commonbaseframe.R
+import android.lorenwang.commonbaseframe.adapter.AcbflwBaseType
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
 import android.lorenwang.commonbaseframe.network.callback.AcbflwRepOptionsByPresenterCallback
+import android.lorenwang.commonbaseframe.network.file.AcbflwFileUpLoadBean
+import android.lorenwang.tools.AtlwConfig
+import androidx.annotation.LayoutRes
 import javabase.lorenwang.tools.common.JtlwClassUtils
 import kotlinbase.lorenwang.tools.KttlwConfig
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
@@ -81,8 +82,12 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
      * 获取响应数据回调
      */
     fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+            requestCode: Int, dataIsNull: Boolean?,
             repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
-        return getNetOptionsCallback(showLoading = true, successHideLoading = true, errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
+        return getNetOptionsCallback(
+                requestCode = requestCode,dataIsNull = dataIsNull,
+                showLoading = true, successHideLoading = true, errorHideLoading = true,
+                allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
 
     /**
@@ -90,8 +95,24 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
      * @param successHideLoading 成功是否隐藏加载中
      */
     fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+            requestCode: Int, dataIsNull: Boolean?,
             successHideLoading: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
-        return getNetOptionsCallback(showLoading = true, successHideLoading = successHideLoading, errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
+        return getNetOptionsCallback(
+                requestCode = requestCode,dataIsNull = dataIsNull,
+                showLoading = true, successHideLoading = successHideLoading, errorHideLoading = true,
+                allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
+    }
+
+    /**
+     * 获取响应数据回调
+     * @param successHideLoading 成功是否隐藏加载中
+     */
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+            requestCode: Int, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+        return getNetOptionsCallback(
+                requestCode = requestCode,dataIsNull = false,
+                showLoading = true, successHideLoading = true, errorHideLoading = true,
+                allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
 
     /**
@@ -104,12 +125,19 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
      * @return 网络请求回调
      */
     fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
+            requestCode: Int, dataIsNull: Boolean?,
             showLoading: Boolean, successHideLoading: Boolean, errorHideLoading: Boolean,
             allowLoadingBackFinishPage: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         //新增presenter记录
         AcbflwBaseApplication.application?.addPresenter(activity, this)
         //回传callback
         return object : AcbflwNetOptionsByModelCallback<D, T>() {
+            override fun fileUpLoadProcess(bean: AcbflwFileUpLoadBean, total: Long, nowUpload: Long,
+                                           process: Double) {
+                super.fileUpLoadProcess(bean, total, nowUpload, process)
+                repOptionsCallback.fileUpLoadProcess(bean, total, nowUpload, process)
+            }
+
             override fun success(dto: T) {
                 if (activity == null || activity!!.isFinishing) {
                     return
@@ -117,8 +145,18 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
                 if (successHideLoading) {
                     baseView.hideBaseLoading()
                 }
-                //执行了成功回调，代表着和自定义的成功码一致，就是接口请求必须成功才会执行该方法
-                repOptionsCallback.viewOptionsData(dto)
+                if (dataIsNull == null || !dataIsNull) {
+                    if (dto.data != null) {
+                        repOptionsCallback.viewOptionsData(dto)
+                    } else {
+                        baseView.netReqFail(requestCode, null,
+                                AtlwConfig.nowApplication.getString(R.string.empty_data_default))
+                        repOptionsCallback.repDataError(null,
+                                AtlwConfig.nowApplication.getString(R.string.empty_data_default))
+                    }
+                } else {
+                    repOptionsCallback.viewOptionsData(dto)
+                }
             }
 
             override fun error(e: Throwable) {
@@ -128,16 +166,8 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
                 if (errorHideLoading) {
                     baseView.hideBaseLoading()
                 }
-                if (e.message.isNullOrEmpty()) {
-                    repOptionsCallback.repDataError(null, "")
-                } else {
-                    e.message!!.split("-")
-                            .also { list ->
-                                if (list.size == 2) {
-                                    repOptionsCallback.repDataError(list[0], list[1])
-                                }
-                            }
-                }
+                baseView.netReqFail(requestCode, null, e.message)
+                repOptionsCallback.repDataError(null, e.message)
             }
 
             override fun onCompleteFinish() {

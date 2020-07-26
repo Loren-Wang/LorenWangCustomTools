@@ -1,5 +1,6 @@
 package android.lorenwang.commonbaseframe.network.callback
 
+import android.lorenwang.commonbaseframe.network.file.AcbflwFileUpLoadBean
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 
 /**
@@ -47,4 +48,14 @@ abstract class AcbflwNetOptionsByModelCallback<D, T : KttlwBaseNetResponseBean<D
      * 用户登陆状态异常
      */
     abstract fun userLoginStatusError(code: Any?, message: String?)
+
+    /**
+     * 文件上传进度
+     *
+     * @param bean      文件实例
+     * @param total     文件上传总容量
+     * @param nowUpload 当前已上传数据
+     * @param process   上传进度，0-1之间
+     */
+    open fun fileUpLoadProcess(bean: AcbflwFileUpLoadBean, total: Long, nowUpload: Long, process: Double) {}
 }

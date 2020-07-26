@@ -1,5 +1,7 @@
 package android.lorenwang.commonbaseframe.network.callback
 
+import android.lorenwang.commonbaseframe.network.file.AcbflwFileUpLoadBean
+
 /**
  * 功能作用：响应数据操作回调,主要针对于在presenter基类处理后的回调，下一步就是扩展处理数据后给到view层
  * 创建时间：2019-12-11 10:14
@@ -23,4 +25,14 @@ interface AcbflwRepOptionsByPresenterCallback<T> {
      * @param code 错误码
      */
     fun repDataError(code: Any?, message: String?)
+
+    /**
+     * 文件上传进度
+     *
+     * @param bean      文件实例
+     * @param total     文件上传总容量
+     * @param nowUpload 当前已上传数据
+     * @param process   上传进度，0-1之间
+     */
+    fun fileUpLoadProcess(bean: AcbflwFileUpLoadBean, total: Long, nowUpload: Long, process: Double) {}
 }
