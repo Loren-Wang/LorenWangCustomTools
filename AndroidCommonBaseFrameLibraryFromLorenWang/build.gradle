@@ -13,7 +13,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "2.0.0"
+        versionName "2.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -81,6 +81,8 @@ dependencies {
     compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     // 支付宝支付
     compileOnly(name: 'alipaySdk', ext: 'aar')
+    //安卓下拉刷新库
+    compileOnly 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
 }
 

@@ -11,34 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <FrameLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <!--内容数据-->
-        <ViewStub
-            android:id="@+id/vsbContent"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-        <!--空数据-->
-        <ViewStub
-            android:id="@+id/vsbEmpty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <!--内容数据-->
+            <ViewStub
+                android:id="@+id/vsbContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <!--阴影-->
-        <View
-            android:id="@+id/viewHeadViewShadow"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@drawable/avlw_shape_shadow_down"
-            android:visibility="gone"/>
+            <!--空数据-->
+            <ViewStub
+                android:id="@+id/vsbEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    </FrameLayout>
+            <!--阴影-->
+            <View
+                android:id="@+id/viewHeadViewShadow"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/avlw_shape_shadow_down"
+                android:visibility="gone" />
 
-
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!--底部操作栏-->
     <ViewStub

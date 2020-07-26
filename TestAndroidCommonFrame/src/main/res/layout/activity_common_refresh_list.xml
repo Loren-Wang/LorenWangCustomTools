@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeRefresh"
+<android.lorenwang.commonbaseframe.refresh.AcbflwRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rfRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff">
 
-    <com.qtools.base.refresh.QtRefreshView
-        android:id="@+id/rfRefresh"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.qtools.base.refresh.QtRefreshView>
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</android.lorenwang.commonbaseframe.refresh.AcbflwRefreshView>

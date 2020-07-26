@@ -55,15 +55,6 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
     protected Integer currentPageIndex;
 
     /**
-     * swipeRefresh刷新组件，可能为空，因为在某些自定义布局中不存在该组件
-     */
-    private SwipeRefreshLayout swipeRefresh;
-
-    public SwipeRefreshLayout getSwipeRefresh() {
-        return findViewById(R.id.swipeRefresh);
-    }
-
-    /**
      * 添加默认视图控件
      *
      * @param headViewLayout 头部布局id
@@ -112,15 +103,14 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
         //如果使用swipe刷新，则禁用qtrefresh刷新，是否开启刷新使用enableRefresh 判断
         if (useSwipeRefresh) {
             refreshDataOptions.setAllowRefresh(false);
-            swipeRefresh.setEnabled(enableRefresh);
-            swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    refreshDataOptions.startRefreshing();
-                }
-            });
+            if (getSwipeRefresh() != null) {
+                getRecycleView().setEnabled(enableRefresh);
+                getSwipeRefresh().setOnRefreshListener(() -> refreshDataOptions.startRefreshing());
+            }
         } else {
-            swipeRefresh.setEnabled(false);
+            if (getSwipeRefresh() != null) {
+                getSwipeRefresh().setEnabled(false);
+            }
             refreshDataOptions.setAllowLoadMore(enableRefresh);
         }
         //设置是否加载更多
@@ -222,7 +212,6 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
     public <D> void netReqSuccess(int netOptionReqCode, D data) {
         super.netReqSuccess(netOptionReqCode, data);
         //结束刷新
-        swipeRefresh.setRefreshing(false);
         loadingAllFinish();
     }
 
@@ -230,7 +219,6 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
     public void netReqFail(int netOptionReqCode, @Nullable Object code, @Nullable String message) {
         super.netReqFail(netOptionReqCode, code, message);
         //结束刷新
-        swipeRefresh.setRefreshing(false);
         loadingAllFinish();
     }
 
@@ -239,7 +227,9 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
      */
     public void loadingAllFinish() {
         //结束刷新
-        swipeRefresh.setRefreshing(false);
+        if (getSwipeRefresh() != null) {
+            getSwipeRefresh().setRefreshing(false);
+        }
         refreshDataOptions.finishAll();
     }
 }

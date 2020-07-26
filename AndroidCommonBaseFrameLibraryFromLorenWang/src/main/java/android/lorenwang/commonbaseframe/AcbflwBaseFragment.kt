@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.ViewStub
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 /**
  * 功能作用：基础通用fragment
@@ -26,6 +27,7 @@ import androidx.fragment.app.Fragment
 abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     protected var titleBarHeadViewHeight = AcbflwBaseConfig.titleBarHeadViewHeight
     protected var baseBottomViewHeight = AcbflwBaseConfig.baseBottomViewHeight
+
     /**
      * 默认的网络请求code，多个不同请求是子类需要新增请求吗
      */
@@ -45,6 +47,11 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      * 空视图
      */
     protected var emptyView: View? = null
+
+    /**
+     * 基类刷新控件
+     */
+    protected var swipeRefresh: SwipeRefreshLayout? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -89,10 +96,16 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     protected open fun addContentView(@LayoutRes resId: Int,
                                       @LayoutRes titleBarHeadViewLayoutResId: Int?,
                                       @LayoutRes bottomViewResId: Int?) {
+        //初始化刷新控件
+        swipeRefresh = fragmentView!!.findViewById(R.id.swipeRefresh)
+        //初始化刷新控件监听
+        swipeRefresh?.setOnRefreshListener { onRefreshData() }
+
         //内容视图
         val vsbContent = fragmentView!!.findViewById<ViewStub>(R.id.vsbContent)
         vsbContent.layoutResource = resId
         contentView = vsbContent.inflate()
+
         //标题栏视图
         if (titleBarHeadViewLayoutResId != null) {
             val vsbTitleBarHeadView = fragmentView!!.findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
@@ -102,6 +115,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
             vsbTitleBarHeadView.inflate()
             fragmentView!!.findViewById<View>(R.id.viewHeadViewShadow).visibility = View.VISIBLE
         }
+
         //底部栏视图
         if (bottomViewResId != null) {
             val vsbBottomView = fragmentView!!.findViewById<ViewStub>(R.id.vsbBottomView)
@@ -168,6 +182,11 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      * 初始化空数据视图
      */
     protected open fun initEmptyView(view: View?, emptyResId: Int) {}
+
+    /**
+     * 执行刷新数据
+     */
+    open fun onRefreshData() {}
 
     override fun onPause() {
         super.onPause()

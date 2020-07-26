@@ -64,11 +64,11 @@ dependencies {
     implementation project(':KotlinCustomToolsFromLorenWang')
     implementation project(':JavaDataParseFromLorenWang')
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation project(':AndroidCommonBaseFrameLibraryFromLorenWang')
 
     //扩展库
     implementation project(':AndroidGraphicCodeScanFromLorenWang')
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha04'
 
