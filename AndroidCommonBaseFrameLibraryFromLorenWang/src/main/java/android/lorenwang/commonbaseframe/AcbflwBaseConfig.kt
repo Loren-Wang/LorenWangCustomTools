@@ -45,6 +45,7 @@ object AcbflwBaseConfig {
      *
      * @return true为是正式环境编译
      */
+
     @JvmStatic
     fun appCompileTypeIsRelease(appCompileType: Int): Boolean {
         return APP_COMPILE_TYPE_RELEASE.compareTo(appCompileType) == 0
