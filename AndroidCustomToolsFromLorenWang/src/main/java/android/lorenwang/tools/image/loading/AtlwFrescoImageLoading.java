@@ -1,12 +1,10 @@
 package android.lorenwang.tools.image.loading;
 
 import android.graphics.Bitmap;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.app.AtlwThreadUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 
@@ -29,8 +27,6 @@ import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-
-import java.util.concurrent.Callable;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -90,7 +86,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                 && imageView instanceof SimpleDraweeView) {
             try {
                 if (bitmap != null) {
-                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwSetting.nowApplication.getApplicationContext().getContentResolver(), bitmap, null, null));
+                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwConfig.nowApplication.getApplicationContext().getContentResolver(), bitmap, null, null));
                     if (uri != null) {
                         ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), width, height, true);
                         loadFrecoImage((SimpleDraweeView) imageView, imageRequest, null);
@@ -115,7 +111,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                 DraweeController draweeController = getDraweeController(imageRequest, imageView, true, null);
                 if (draweeController != null) {
 
-                    GenericDraweeHierarchy draweeHierarchy = getDraweeHierarchy(imageView, AtlwSetting.imageLoadingLoadResId, AtlwSetting.imageLoadingFailResId, config);
+                    GenericDraweeHierarchy draweeHierarchy = getDraweeHierarchy(imageView, AtlwConfig.imageLoadingLoadResId, AtlwConfig.imageLoadingFailResId, config);
                     //设置占位图
                     if (draweeHierarchy != null) {
                         imageView.setHierarchy(draweeHierarchy);
@@ -315,7 +311,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
             }
 
             if (hierarchy == null) {
-                GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(AtlwSetting.nowApplication.getApplicationContext().getResources());
+                GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(AtlwConfig.nowApplication.getApplicationContext().getResources());
                 if (loadingResId != null) {
                     builder = builder.setPlaceholderImage(loadingResId);
                 }

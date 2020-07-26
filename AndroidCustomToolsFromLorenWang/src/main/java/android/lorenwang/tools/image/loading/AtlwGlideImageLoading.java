@@ -2,7 +2,7 @@ package android.lorenwang.tools.image.loading;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -60,7 +60,7 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
      * @param config    配置
      */
     private void loadGildeImage(Object pathOrRes, final ImageView imageView, Integer width, Integer height, final AtlwImageLoadConfig config) {
-        RequestManager requestManager = Glide.with(AtlwSetting.nowApplication.getApplicationContext());
+        RequestManager requestManager = Glide.with(AtlwConfig.nowApplication.getApplicationContext());
         if (config == null || config.getCallback() == null) {
             RequestBuilder<Drawable> builder = requestManager.load(pathOrRes);
             getBuild(imageView,builder, width, height, config).into(imageView);
@@ -177,28 +177,28 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
             builder = builder.override(width, height);
         }
         //占位图设置
-        builder = builder.placeholder(AtlwSetting.imageLoadingLoadResId)
-                .error(AtlwSetting.imageLoadingFailResId);
+        builder = builder.placeholder(AtlwConfig.imageLoadingLoadResId)
+                .error(AtlwConfig.imageLoadingFailResId);
         return builder;
     }
 
     @Override
     public void clearMemoryCache() {
-        Glide.get(AtlwSetting.nowApplication.getApplicationContext()).clearMemory();
+        Glide.get(AtlwConfig.nowApplication.getApplicationContext()).clearMemory();
     }
 
     @Override
     public void clearDiskCache() {
-        Glide.get(AtlwSetting.nowApplication.getApplicationContext()).clearDiskCache();
+        Glide.get(AtlwConfig.nowApplication.getApplicationContext()).clearDiskCache();
     }
 
     @Override
     public void pauseLoading() {
-        Glide.with(AtlwSetting.nowApplication.getApplicationContext()).pauseRequests();
+        Glide.with(AtlwConfig.nowApplication.getApplicationContext()).pauseRequests();
     }
 
     @Override
     public void resumeLoading() {
-        Glide.with(AtlwSetting.nowApplication.getApplicationContext()).resumeRequests();
+        Glide.with(AtlwConfig.nowApplication.getApplicationContext()).resumeRequests();
     }
 }

@@ -1,5 +1,6 @@
 package android.lorenwang.commonbaseframe.mvp
 
+import android.app.Activity
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication
 import android.lorenwang.commonbaseframe.R
 import android.lorenwang.commonbaseframe.network.AcbflwBaseRetrofitObserver
@@ -46,12 +47,15 @@ open class AcbflwBaseModel {
 
     /**
      * 获取响应处理Observer
+     * @param activity 页面实例
      * @param pageIndex 页码
      * @param pageCount 页面数量
      * @param netOptionsCallback 请求结果回调
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>> getBaseObserver(
+    open fun <D, T : KttlwBaseNetResponseBean<D>> getBaseObserver(activity: Activity?,
             pageIndex: Int?, pageCount: Int?, netOptionsCallback: AcbflwNetOptionsByModelCallback<D, T>): AcbflwBaseRetrofitObserver<D, T> {
+        //添加model实例
+        AcbflwBaseApplication.application?.addModel(activity,this)
         return object : AcbflwBaseRetrofitObserver<D, T> {
             override fun onComplete() {
                 setPageInfo()
@@ -80,11 +84,11 @@ open class AcbflwBaseModel {
                             }
                         }
                         AtlwLogUtils.logE(TAG, t.code().toString())
-                        netOptionsCallback.error(Exception("${repCode}-${t.body().stateMessage}"))
+                        netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                     }
                 } else {
                     AtlwLogUtils.logE(TAG, t.code().toString())
-                    netOptionsCallback.error(Exception("${t.code()}-${t.message()}"))
+                    netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                 }
             }
 

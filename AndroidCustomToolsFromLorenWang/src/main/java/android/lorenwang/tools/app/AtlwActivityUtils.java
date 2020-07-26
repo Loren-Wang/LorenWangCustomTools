@@ -5,7 +5,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
@@ -203,7 +203,7 @@ public class AtlwActivityUtils {
             //目标文件夹
             InputStream inputStream = null;//文件图片输入流
             try {
-                inputStream = AtlwSetting.nowApplication.getContentResolver().openInputStream(data.getData());
+                inputStream = AtlwConfig.nowApplication.getContentResolver().openInputStream(data.getData());
                 boolean state = AtlwFileOptionUtils.getInstance().writeToFile(true, new File(saveFile), inputStream, false);
                 if (state) {
                     return saveFile;
@@ -330,7 +330,7 @@ public class AtlwActivityUtils {
     public void exitApp(Activity activity) {
         try {
             activity.finish();
-            for (Activity value : AtlwSetting.activityCollection) {
+            for (Activity value : AtlwConfig.activityCollection) {
                 value.finish();
             }
             System.exit(0);
@@ -342,12 +342,12 @@ public class AtlwActivityUtils {
      * 获得应用是否在前台
      */
     public boolean isOnForeground() {
-        ActivityManager activityManager = (ActivityManager) AtlwSetting.nowApplication
+        ActivityManager activityManager = (ActivityManager) AtlwConfig.nowApplication
                 .getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> tasksInfo = activityManager.getRunningTasks(1);
         if (tasksInfo.size() > 0) {
             // 应用程序位于堆栈的顶层
-            return AtlwSetting.nowApplication.getPackageName().equals(
+            return AtlwConfig.nowApplication.getPackageName().equals(
                     tasksInfo.get(0).topActivity.getPackageName());
         }
         return false;

@@ -5,7 +5,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -14,7 +14,6 @@ import java.util.List;
 
 import androidx.core.app.ActivityCompat;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
@@ -147,7 +146,7 @@ public class AtlwCheckUtils {
      * @return 有权限返回true，无权限返回false
      */
     public boolean checkAppPermission(String... permissions) {
-        if (AtlwSetting.nowApplication == null) {
+        if (AtlwConfig.nowApplication == null) {
             return false;
         }
         int length = permissions.length;
@@ -157,7 +156,7 @@ public class AtlwCheckUtils {
         if (Build.VERSION.SDK_INT >= 23) {
             for (String permission : permissions) {
                 //只要一个没权限则全部返回false
-                if (ActivityCompat.checkSelfPermission(AtlwSetting.nowApplication, permission) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(AtlwConfig.nowApplication, permission) != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
@@ -179,9 +178,9 @@ public class AtlwCheckUtils {
         }
 
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(AtlwSetting.nowApplication
+            if (ActivityCompat.checkSelfPermission(AtlwConfig.nowApplication
                     , Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ActivityCompat.checkSelfPermission(AtlwSetting.nowApplication
+                    || ActivityCompat.checkSelfPermission(AtlwConfig.nowApplication
                     , Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             } else {
@@ -201,7 +200,7 @@ public class AtlwCheckUtils {
     public boolean checkGpsIsOpen() {
         LocationManager locationManager
                 =
-                (LocationManager) AtlwSetting.nowApplication.getSystemService(Context.LOCATION_SERVICE);
+                (LocationManager) AtlwConfig.nowApplication.getSystemService(Context.LOCATION_SERVICE);
         // 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         // 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
@@ -220,7 +219,7 @@ public class AtlwCheckUtils {
      */
     public boolean checkAppIsInstall(String pkgName) {
         try {
-            AtlwSetting.nowApplication.getPackageManager().getApplicationInfo(pkgName,
+            AtlwConfig.nowApplication.getPackageManager().getApplicationInfo(pkgName,
                     PackageManager.GET_META_DATA);
             return true;
         } catch (Exception e) {
@@ -236,7 +235,7 @@ public class AtlwCheckUtils {
      */
     public boolean checkAppIsRunning(String packName) {
         ActivityManager am =
-                (ActivityManager) AtlwSetting.nowApplication.getSystemService(Context.ACTIVITY_SERVICE);
+                (ActivityManager) AtlwConfig.nowApplication.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
         boolean isAppRunning = false;
         for (ActivityManager.RunningTaskInfo info : list) {
@@ -257,7 +256,7 @@ public class AtlwCheckUtils {
      */
     public <T> boolean checkServiceIsRunning(Class<T> judgeService) {
         ActivityManager manager =
-                (ActivityManager) AtlwSetting.nowApplication.getSystemService(ACTIVITY_SERVICE);
+                (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service :
                 manager.getRunningServices(Integer.MAX_VALUE)) {
             if (judgeService.getName().equals(service.service.getClassName())) {

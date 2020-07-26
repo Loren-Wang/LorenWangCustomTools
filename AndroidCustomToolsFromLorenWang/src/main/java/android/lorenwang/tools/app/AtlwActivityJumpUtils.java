@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwAPKPackageNameList;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.mobile.AtlwMobilePhoneBrandUtils;
@@ -109,8 +109,8 @@ public class AtlwActivityJumpUtils {
     public void jump(Context old, Class<?> cls, Bundle bundle,
                      boolean clearTop) {
         jump(old, cls, bundle, clearTop,
-                AtlwSetting.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
-                AtlwSetting.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
+                AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
+                AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
     }
 
     /*--------------------------------------*无动画跳转******************************************/
@@ -172,8 +172,8 @@ public class AtlwActivityJumpUtils {
     public void jumpBack(Context old, Class<?> cls, Bundle bundle,
                          boolean clearTop) {
         jump(old, cls, bundle, clearTop,
-                AtlwSetting.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM,
-                AtlwSetting.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM);
+                AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM,
+                AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM);
     }
 
     /*--------------------------------------带参数返回跳转---------------------------------------*/
@@ -235,8 +235,8 @@ public class AtlwActivityJumpUtils {
     public void jumpForResult(Context old, Class<?> cls,
                               Integer requestCode, Bundle bundle, boolean clearTop) {
         jump(old, cls, bundle, clearTop ? Intent.FLAG_ACTIVITY_CLEAR_TOP : null, requestCode,
-                AtlwSetting.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
-                AtlwSetting.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
+                AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
+                AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
     }
 
     /*--------------------------------------无动画需要返回跳转--------------------------------------*/
@@ -290,8 +290,8 @@ public class AtlwActivityJumpUtils {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             activity.startActivity(intent);
             overridePendingTransition(activity,
-                    AtlwSetting.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
-                    AtlwSetting.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
+                    AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
+                    AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -307,8 +307,8 @@ public class AtlwActivityJumpUtils {
      * @param cls       要跳转的页面
      * @param bundle    跳转携带的参数
      * @param clearTop  是否在跳转的时候清空栈
-     * @param enterAnim 进入新页面动画
-     * @param exitAnim  从新页面退回动画
+     * @param enterAnim 进入新Activity页面动画
+     * @param exitAnim  旧的Activity退回动画
      */
     public void jump(Context old, Class<?> cls, Bundle bundle,
                      boolean clearTop, @AnimRes Integer enterAnim, @AnimRes Integer exitAnim) {
@@ -322,8 +322,8 @@ public class AtlwActivityJumpUtils {
      * @param cls       要跳转的页面
      * @param bundle    跳转携带的参数
      * @param flag      页面跳转flag
-     * @param enterAnim 进入新页面动画
-     * @param exitAnim  从新页面退回动画
+     * @param enterAnim 进入新Activity页面动画
+     * @param exitAnim  旧的Activity退回动画
      */
     public void jump(Context old, Class<?> cls, Bundle bundle, Integer flag,
                      Integer enterAnim, Integer exitAnim) {
@@ -337,8 +337,8 @@ public class AtlwActivityJumpUtils {
      * @param cls       要跳转的页面
      * @param bundle    跳转携带的参数
      * @param flag      页面跳转flag
-     * @param enterAnim 进入新页面动画
-     * @param exitAnim  从新页面退回动画
+     * @param enterAnim 进入新Activity页面动画
+     * @param exitAnim  旧的Activity退回动画
      */
     public void jump(Context old, Class<?> cls, Bundle bundle, Integer flag, Integer requestCode,
                      Integer enterAnim, Integer exitAnim) {
@@ -379,8 +379,8 @@ public class AtlwActivityJumpUtils {
      */
     public void initActivityCode() {
         try {
-            PackageManager manager = AtlwSetting.nowApplication.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(AtlwSetting.nowApplication.getPackageName(),
+            PackageManager manager = AtlwConfig.nowApplication.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(AtlwConfig.nowApplication.getPackageName(),
                     PackageManager.GET_ACTIVITIES);
             if (info.activities != null && info.activities.length > 0) {
                 for (ActivityInfo actInfo : info.activities) {
@@ -412,8 +412,8 @@ public class AtlwActivityJumpUtils {
      * 调用Activity的overridePendingTransition方法
      *
      * @param activity  activity实例
-     * @param enterAnim 进入动画
-     * @param exitAnim  退出动画
+     * @param enterAnim 新的Activity进入动画
+     * @param exitAnim  旧的Activity退出动画
      */
     public void overridePendingTransition(Activity activity, Integer enterAnim, Integer exitAnim) {
         try {

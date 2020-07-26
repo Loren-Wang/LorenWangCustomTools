@@ -31,7 +31,7 @@ import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACT
  * 修改时间：
  * 备注：
  */
-public class AtlwSetting {
+public class AtlwConfig {
     /**
      * 是否是debug模式
      */
@@ -64,12 +64,12 @@ public class AtlwSetting {
      * 图片加载失败图片
      */
     @DrawableRes
-    public static int imageLoadingFailResId = androidx.customview.R.drawable.notification_bg_low;
+    public static int imageLoadingFailResId = android.R.drawable.stat_sys_warning;
     /**
      * 图片加载加载中图片
      */
     @DrawableRes
-    public static int imageLoadingLoadResId = androidx.customview.R.drawable.notification_bg_low;
+    public static int imageLoadingLoadResId = android.R.drawable.ic_popup_sync;
     /**
      * 页面跳转默认进入动画
      */
@@ -155,7 +155,7 @@ public class AtlwSetting {
      */
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public static void registActivityLifecycleCallbacks(Application application) {
-        synchronized (AtlwSetting.class) {
+        synchronized (AtlwConfig.class) {
             if (application != null && !isRegistActivityLifecycleCallback) {
                 isRegistActivityLifecycleCallback = true;
                 application.registerActivityLifecycleCallbacks(ACTIVITY_LIFECYCLE_CALLBACKS);

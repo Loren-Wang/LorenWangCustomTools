@@ -1,7 +1,7 @@
 package android.lorenwang.tools.app;
 
 import android.content.Context;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -139,9 +139,9 @@ public class AtlwScreenUtils {
      * @return 获取到返回指定值，无法获取返回0
      */
     public int getStatusBarHeight() {
-        int resourceId = AtlwSetting.nowApplication.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resourceId = AtlwConfig.nowApplication.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            return AtlwSetting.nowApplication.getResources().getDimensionPixelSize(resourceId);
+            return AtlwConfig.nowApplication.getResources().getDimensionPixelSize(resourceId);
         } else {
             return 0;
         }
@@ -154,7 +154,7 @@ public class AtlwScreenUtils {
      * @return 要显示的像素值
      */
     public int getShowPixelValueForWidth(int layoutShowValue) {
-        return (int) (getScreenWidth() * (layoutShowValue * 1.0 / AtlwSetting.SCREEN_LAYOUT_BASE_WIDTH));
+        return (int) (getScreenWidth() * (layoutShowValue * 1.0 / AtlwConfig.SCREEN_LAYOUT_BASE_WIDTH));
     }
 
     /**
@@ -164,7 +164,7 @@ public class AtlwScreenUtils {
      * @return 要显示的像素值
      */
     public int getShowPixelValueForHeight(int layoutShowValue) {
-        return (int) (getScreenHeight() * (layoutShowValue * 1.0 / AtlwSetting.SCREEN_LAYOUT_BASE_HEIGHT));
+        return (int) (getScreenHeight() * (layoutShowValue * 1.0 / AtlwConfig.SCREEN_LAYOUT_BASE_HEIGHT));
     }
 
     /**
@@ -172,7 +172,7 @@ public class AtlwScreenUtils {
      * @return 手机的屏幕管理
      */
     private DisplayMetrics getDisplayMetrics() {
-        WindowManager wm = (WindowManager) AtlwSetting.nowApplication.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) AtlwConfig.nowApplication.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         return dm;

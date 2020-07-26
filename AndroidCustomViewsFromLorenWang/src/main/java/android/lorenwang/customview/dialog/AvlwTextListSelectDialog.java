@@ -28,7 +28,7 @@ import androidx.appcompat.widget.AppCompatTextView;
  * @author 王亮（Loren wang）
  */
 
-class AvlwTextListSelectDialog<T extends AvlwTextListSelectRadioGroup.SelectItemBean> extends AvlwBaseBottomDialog {
+public class AvlwTextListSelectDialog<T extends AvlwTextListSelectRadioGroup.SelectItemBean> extends AvlwBaseBottomDialog {
     /**
      * 标题
      */

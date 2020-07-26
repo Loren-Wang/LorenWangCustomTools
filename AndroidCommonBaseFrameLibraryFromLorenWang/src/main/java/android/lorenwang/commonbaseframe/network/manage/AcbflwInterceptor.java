@@ -1,7 +1,6 @@
 package android.lorenwang.commonbaseframe.network.manage;
 
 import android.lorenwang.commonbaseframe.AcbflwBaseConfig;
-import android.lorenwang.commonbaseframe.BuildConfig;
 import android.lorenwang.tools.base.AtlwLogUtils;
 
 
@@ -33,6 +32,14 @@ import okhttp3.ResponseBody;
  */
 
 public class AcbflwInterceptor implements Interceptor {
+    /**
+     * app编译类型
+     */
+    private final int appCompileType;
+
+    public AcbflwInterceptor(int appCompileType) {
+        this.appCompileType = appCompileType;
+    }
 
     @NotNull
     @Override
@@ -41,7 +48,7 @@ public class AcbflwInterceptor implements Interceptor {
         Request.Builder requestBuilder = original.newBuilder()
                 .header("Accept-Encoding", "UTF-8");
         Request request = requestBuilder.build();
-        if (!AcbflwBaseConfig.INSTANCE.appCompileTypeIsRelease(BuildConfig.APP_COMPILE_TYPE)) {
+        if (!AcbflwBaseConfig.appCompileTypeIsRelease(appCompileType)) {
             Response response = chain.proceed(request);
             String body = response.body() != null ? response.body().string() : "";
 
@@ -74,7 +81,9 @@ public class AcbflwInterceptor implements Interceptor {
                     .append(JdplwJsonUtils.toJson(response.headers().toMultimap())).append(
                             "\n\n");
             //存储响应体
-            logBuilder.append("**************  response_body:\n").append(body).append("\n\n");
+            logBuilder.append("**************  response_body:\n")
+                    .append(body.replaceAll(",\"",",\n\""))
+                    .append("\n\n");
 
             logBuilder.append("****  Network_options_end  ****");
             AtlwLogUtils.logI("Network_options", logBuilder.toString());

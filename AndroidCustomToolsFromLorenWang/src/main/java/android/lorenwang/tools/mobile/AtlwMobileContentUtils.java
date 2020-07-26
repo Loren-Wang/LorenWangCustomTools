@@ -3,7 +3,7 @@ package android.lorenwang.tools.mobile;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.bean.AtlwMobileContactInfoBean;
 import android.lorenwang.tools.bean.AtlwMobileSmsInfoBean;
 import android.net.Uri;
@@ -95,7 +95,7 @@ public class AtlwMobileContentUtils {
      * 获取系统本机通讯录列表
      */
     private void getSystemContacts() {
-        ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
+        ContentResolver resolver = AtlwConfig.nowApplication.getContentResolver();
         // 获取手机联系人
         Cursor phoneCursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, null, null, null);
         if (phoneCursor != null) {
@@ -143,7 +143,7 @@ public class AtlwMobileContentUtils {
      * 得到手机SIM卡联系人人信息
      **/
     private void getSIMContacts() {
-        ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
+        ContentResolver resolver = AtlwConfig.nowApplication.getContentResolver();
         // 获取Sims卡联系人
         Uri uri = Uri.parse("content://icc/adn");
         Cursor phoneCursor = resolver.query(uri, null, null, null,
@@ -264,7 +264,7 @@ public class AtlwMobileContentUtils {
      */
     public List<AtlwMobileSmsInfoBean> getSystemSms() {
         List<AtlwMobileSmsInfoBean> list = new ArrayList<>();
-        ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
+        ContentResolver resolver = AtlwConfig.nowApplication.getContentResolver();
         // 获取手机系统短信
         Cursor smsCursor;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
@@ -282,7 +282,7 @@ public class AtlwMobileContentUtils {
      */
     private List<AtlwMobileSmsInfoBean> getSIMSms() {
         List<AtlwMobileSmsInfoBean> list = new ArrayList<>();
-        ContentResolver resolver = AtlwSetting.nowApplication.getContentResolver();
+        ContentResolver resolver = AtlwConfig.nowApplication.getContentResolver();
         // 获取Sims卡联系人
         Cursor phoneCursor = resolver.query(Uri.parse("content://icc/adn"), null, null, null,
                 null);

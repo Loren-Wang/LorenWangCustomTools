@@ -1,7 +1,7 @@
 package android.lorenwang.tools.image.loading;
 
-import static android.lorenwang.tools.AtlwSetting.IMAGE_LOAD_LIBRARY_TYPE_FRESCO;
-import static android.lorenwang.tools.AtlwSetting.IMAGE_LOAD_LIBRARY_TYPE_GLIDE;
+import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_FRESCO;
+import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE;
 
 
 /**

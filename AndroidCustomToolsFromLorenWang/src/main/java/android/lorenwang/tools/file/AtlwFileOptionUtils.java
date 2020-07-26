@@ -3,7 +3,7 @@ package android.lorenwang.tools.file;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.net.Uri;
@@ -81,7 +81,7 @@ public class AtlwFileOptionUtils {
      * @return 读取到的字节
      */
     public byte[] readImageFileGetBytes(Boolean isCheckPermisstion, Boolean isCheckFile, String filePath) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(AtlwSetting.nowApplication)) {
+        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(AtlwConfig.nowApplication)) {
             return null;
         }
         return JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath);
@@ -365,7 +365,7 @@ public class AtlwFileOptionUtils {
             else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
                 path = uri.getPath();
             } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-                Cursor cursor = AtlwSetting.nowApplication.getContentResolver().query(uri, new String[]{dbKey}, null, null, null);
+                Cursor cursor = AtlwConfig.nowApplication.getContentResolver().query(uri, new String[]{dbKey}, null, null, null);
                 if (null != cursor) {
                     if (cursor.moveToFirst()) {
                         int index = cursor.getColumnIndex(dbKey);

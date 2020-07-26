@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
@@ -19,7 +19,6 @@ import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
-import com.google.zxing.WriterException;
 import com.google.zxing.common.HybridBinarizer;
 
 import java.io.File;
@@ -116,7 +115,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         // first launch. That led to bugs where the scanning rectangle was the
         // wrong size and partially
         // off screen.
-        cameraManager = new CameraManager(AtlwSetting.nowApplication);
+        cameraManager = new CameraManager(AtlwConfig.nowApplication);
         handler = null;
         if (isHasSurface) {
             // The activity was paused but not stopped, so the surface still

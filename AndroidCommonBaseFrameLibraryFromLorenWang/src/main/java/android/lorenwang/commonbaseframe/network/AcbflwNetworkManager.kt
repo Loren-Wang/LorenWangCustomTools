@@ -1,14 +1,22 @@
 package android.lorenwang.commonbaseframe.network
 
+import android.lorenwang.commonbaseframe.AcbflwBaseCommonKey.KEY_BASE_API_URL
+import android.lorenwang.commonbaseframe.AcbflwBaseCommonKey.KEY_BASE_H5_URL
+import android.lorenwang.commonbaseframe.AcbflwBaseCommonKey.KEY_BASE_SHARE_URL
+import android.lorenwang.commonbaseframe.AcbflwBaseCommonKey.KEY_BASE_URL_RECORDS
+import android.lorenwang.commonbaseframe.AcbflwBaseConfig
 import android.lorenwang.commonbaseframe.network.manage.AcbflwInterceptor
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import android.lorenwang.commonbaseframe.network.manage.AcbflwResponseGsonConverterFactory
+import android.lorenwang.tools.app.AtlwSharedPrefUtils
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import javabase.lorenwang.dataparse.JdplwJsonUtils
+import kotlinbase.lorenwang.tools.extend.getNotEmptyData
+import kotlinbase.lorenwang.tools.extend.isEmpty
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -23,8 +31,43 @@ import java.util.concurrent.TimeUnit
  * 备注：
  */
 open class AcbflwNetworkManager private constructor() {
+    /**
+     * 正常网络请求retrofit
+     */
     private var lwRetrofit: Retrofit? = null
+
+    /**
+     * 下载请求实例不使用Gson解析器
+     */
     private var lwDownloadRetrofit: Retrofit? = null
+
+    /**
+     * 记录的拦截器列表
+     */
+    private var interceptors: Array<Interceptor>? = null
+
+    /**
+     * 记录的json数据解析器
+     */
+    private var converterFactory: Converter.Factory? = null
+
+    /**
+     * 分享基础Url
+     */
+    var shareBaseUrl = ""
+        private set
+
+    /**
+     * h5基础url
+     */
+    var h5BaseUrl = ""
+        private set
+
+    /**
+     * api基础Url
+     */
+    var apiBaseUrl = ""
+        private set
 
     companion object {
         private var optionsInstance: AcbflwNetworkManager? = null
@@ -44,19 +87,44 @@ open class AcbflwNetworkManager private constructor() {
     }
 
     /**
-     * 初始化网络请求器
-     * @param baseUrl 基础url链接
-     * @param interceptor 网络拦截器
+     * 初始化网络请求
+     * @param appCompileType 当前编译类型
+     * @param baseUrl 基础网络请求地址
+     * @param shareBaseUrl 基础的分享地址
+     * @param h5BaseUrl 基础的网页数据加载地址
+     * @param timeout 网络请求超时时间，毫秒值，默认为30秒,即30000毫秒
+     * @param converterFactory json数据解析器
+     * @param interceptor 拦截器列表
      */
-    fun initRetrofit(baseUrl: String, interceptor: Array<Interceptor>?,
-                     converterFactory: Converter.Factory?) {
+    fun initRetrofit(appCompileType: Int, baseUrl: String?, shareBaseUrl: String?,
+                     h5BaseUrl: String?, timeout: Long?,
+                     converterFactory: Converter.Factory?,
+                     interceptor: Array<Interceptor>?) {
+        this.converterFactory = converterFactory
+        this.interceptors = interceptor
+        //正式情况下设置什么地址就是什么地址，不允许读取缓存数据
+        if (AcbflwBaseConfig.appCompileTypeIsRelease(appCompileType)) {
+            this.apiBaseUrl = baseUrl.getNotEmptyData()
+            this.shareBaseUrl = shareBaseUrl.getNotEmptyData()
+            this.h5BaseUrl = h5BaseUrl.getNotEmptyData()
+        } else {
+            //非正式环境读取缓存数据
+            this.apiBaseUrl = AtlwSharedPrefUtils.getInstance().getString(KEY_BASE_API_URL,
+                    baseUrl.getNotEmptyData())
+            this.shareBaseUrl = AtlwSharedPrefUtils.getInstance().getString(KEY_BASE_SHARE_URL,
+                    shareBaseUrl.getNotEmptyData())
+            this.h5BaseUrl = AtlwSharedPrefUtils.getInstance().getString(KEY_BASE_H5_URL,
+                    h5BaseUrl.getNotEmptyData())
+        }
+
+        //构造okhttp
         var builder = OkHttpClient.Builder()
         //防止无法进行http请求
         builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))
         //设置超时时间
-        builder = builder.readTimeout(30, TimeUnit.SECONDS)
+        builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS)
         //添加默认日志拦截器
-        builder = builder.addInterceptor(AcbflwInterceptor())
+        builder = builder.addInterceptor(AcbflwInterceptor(appCompileType))
         //添加拦截器
         interceptor?.forEach {
             builder = builder.addInterceptor(it)
@@ -74,6 +142,59 @@ open class AcbflwNetworkManager private constructor() {
                 .client(builder.build())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
+    }
+
+    /**
+     * 修改url配置信息
+     * @param appCompileType 当前编译类型
+     * @param baseUrl 基础网络请求地址
+     * @param shareBaseUrl 基础的分享地址
+     * @param h5BaseUrl 基础的网页数据加载地址
+     * @param timeout 网络请求超时时间，毫秒值，默认为30秒,即30000毫秒
+     */
+    fun changeUrlConfig(appCompileType: Int, baseUrl: String, shareBaseUrl: String?,
+                        h5BaseUrl: String?, timeout: Long?) {
+        if (!AcbflwBaseConfig.appCompileTypeIsRelease(appCompileType) && baseUrl.isNotEmpty()) {
+            var changeShareUrl = shareBaseUrl
+            var changeH5Url = h5BaseUrl
+            val recodeUrls: Array<Array<String>> = getRecordUrls()
+            //更新空数据处理
+            if (recodeUrls.isNotEmpty()) {
+                changeH5Url.isEmpty().let {
+                    if (recodeUrls[0].isNotEmpty()) {
+                        changeH5Url = recodeUrls[0][1]
+                    }
+                }
+                changeShareUrl.isEmpty().let {
+                    if (recodeUrls[0].isNotEmpty()) {
+                        changeShareUrl = recodeUrls[0][2]
+                    }
+                }
+            }
+            //重新初始化配置
+            initRetrofit(appCompileType, baseUrl, shareBaseUrl, h5BaseUrl, timeout, this
+                    .converterFactory, this.interceptors)
+            //记录数据
+            AtlwSharedPrefUtils.getInstance().putString(KEY_BASE_API_URL, baseUrl)
+            AtlwSharedPrefUtils.getInstance().putString(KEY_BASE_H5_URL, changeH5Url)
+            AtlwSharedPrefUtils.getInstance().putString(KEY_BASE_SHARE_URL, changeShareUrl)
+            //记录数据,首先判断列表中是否有该数据
+
+            //记录数据,首先判断列表中是否有该数据
+            var haveApiUrl = false
+            for (showUrl in recodeUrls) {
+                if (baseUrl == showUrl[0]) {
+                    haveApiUrl = true
+                    break
+                }
+            }
+            if (!haveApiUrl) {
+                val urls = arrayOfNulls<Array<String>>(recodeUrls.size + 1)
+                urls[recodeUrls.size] = arrayOf(this.apiBaseUrl, this.h5BaseUrl, this.shareBaseUrl)
+                System.arraycopy(recodeUrls, 0, urls, 0, recodeUrls.size)
+                AtlwSharedPrefUtils.getInstance().putString(KEY_BASE_URL_RECORDS, JdplwJsonUtils.toJson(urls))
+            }
+        }
     }
 
     /**
@@ -95,5 +216,16 @@ open class AcbflwNetworkManager private constructor() {
      */
     fun <T> createDownload(cls: Class<T>?): T? {
         return lwDownloadRetrofit?.create(cls)
+    }
+
+    /**
+     * 获取显示的url数组
+     *
+     * @return 二维数组，一级数组中的每一个元素内的数据从头至尾分别代表着基础URl，h5基础Url，分享基础Url
+     */
+    fun getRecordUrls(): Array<Array<String>> {
+        return JdplwJsonUtils.fromJson(AtlwSharedPrefUtils.getInstance()
+                .getString(KEY_BASE_URL_RECORDS, ""), Array<Array<String>>::class.java)
+                ?: arrayOf()
     }
 }

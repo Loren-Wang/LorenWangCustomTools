@@ -5,7 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseModel
 import android.lorenwang.commonbaseframe.mvp.AcbflwBasePresenter
-import android.lorenwang.tools.AtlwSetting
+import android.lorenwang.tools.AtlwConfig
 import android.os.Bundle
 
 /**
@@ -33,11 +33,6 @@ open class AcbflwBaseApplication : Application() {
         super.onCreate()
         application = this
         appContext = applicationContext
-        //初始化第三方配置
-        AtlwSetting.isDebug = AcbflwBaseConfig.appCompileTypeIsDebug(BuildConfig.APP_COMPILE_TYPE)
-        AtlwSetting.nowApplication = this
-        //注册监听供工具库使用
-        AtlwSetting.registActivityLifecycleCallbacks(this)
 
         //注册监听供当前库使用
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
@@ -58,7 +53,38 @@ open class AcbflwBaseApplication : Application() {
         //基础包初始化配置
         AcbflwBaseConfig.titleBarHeadViewHeight = resources.getDimensionPixelOffset(R.dimen.avlw_base_title_bar_head_view_height)
         AcbflwBaseConfig.baseBottomViewHeight = resources.getDimensionPixelOffset(R.dimen.avlw_base_bottom_view_height)
+
+        //初始化安卓自定义工具类相关
+        initAndroidCustomTools()
     }
+
+    /**
+     * 设置app编译状态
+     * @param appCompileType app编译状态，在子类中继承设置，因为在框架以及其他基础库中是会用到一些和编译类型相关的配置
+     */
+    fun setCompileType(appCompileType: Int) {
+        //非正式环境都打印日志
+        AtlwConfig.isDebug = !AcbflwBaseConfig.appCompileTypeIsRelease(appCompileType)
+    }
+
+    /**
+     * 初始化安卓自定义工具类相关
+     */
+    private fun initAndroidCustomTools() {
+        //设置项目application实例
+        AtlwConfig.nowApplication = this
+        //注册监听供工具库使用
+        AtlwConfig.registActivityLifecycleCallbacks(this)
+        //设置新页面进入动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM = R.anim.aalw_anim_from_right
+        //设置旧业面退出动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM = R.anim.aalw_anim_to_left
+        //设置后退时新页面进入动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM = R.anim.aalw_anim_from_left;
+        //设置后退时就业面退出动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM = R.anim.aalw_anim_to_right
+    }
+
 
     /**
      * 添加model记录

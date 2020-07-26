@@ -1,6 +1,6 @@
 package android.lorenwang.tools.app;
 
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.view.View;
 import android.widget.Toast;
 
@@ -108,8 +108,8 @@ public class AtlwToastHintUtils {
      * @param msgResId 提示文字资源id
      */
     public void toastMsg(@StringRes int msgResId) {
-        if (checkMsg(AtlwSetting.nowApplication.getApplicationContext().getString(msgResId))) {
-            toastMsg(AtlwSetting.nowApplication.getApplicationContext().getString(msgResId));
+        if (checkMsg(AtlwConfig.nowApplication.getApplicationContext().getString(msgResId))) {
+            toastMsg(AtlwConfig.nowApplication.getApplicationContext().getString(msgResId));
         }
     }
 
@@ -135,8 +135,8 @@ public class AtlwToastHintUtils {
      * @param showTime 提示时间，为空则使用默认短时间
      */
     public void toastMsg(@StringRes int msgResId, Long showTime) {
-        if (checkMsg(AtlwSetting.nowApplication.getApplicationContext().getString(msgResId))) {
-            toastMsg(AtlwSetting.nowApplication.getString(msgResId), showTime);
+        if (checkMsg(AtlwConfig.nowApplication.getApplicationContext().getString(msgResId))) {
+            toastMsg(AtlwConfig.nowApplication.getString(msgResId), showTime);
         }
     }
 
@@ -205,12 +205,12 @@ public class AtlwToastHintUtils {
     private void initToast(String showText, boolean isCustomView) {
         if (!isCustomView) {
             if (showText != null) {
-                allToast = Toast.makeText(AtlwSetting.nowApplication, showText, Toast.LENGTH_LONG);
+                allToast = Toast.makeText(AtlwConfig.nowApplication, showText, Toast.LENGTH_LONG);
             } else {
-                allToast = Toast.makeText(AtlwSetting.nowApplication, "", Toast.LENGTH_LONG);
+                allToast = Toast.makeText(AtlwConfig.nowApplication, "", Toast.LENGTH_LONG);
             }
         } else {
-            allToast = new Toast(AtlwSetting.nowApplication);
+            allToast = new Toast(AtlwConfig.nowApplication);
             allToast.setDuration(Toast.LENGTH_LONG);
         }
         //设置gravity

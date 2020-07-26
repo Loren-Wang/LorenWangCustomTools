@@ -4,7 +4,7 @@ import android.app.Activity
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerAdapter
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.customview.viewpager.banner.AvlwBannerView
-import android.lorenwang.tools.AtlwSetting
+import android.lorenwang.tools.AtlwConfig
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -44,7 +44,7 @@ class BannerFragment : Fragment() {
             override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?>? {
                 return object : AcbflwBaseRecyclerViewHolder<String?>(itemView) {
                     override fun setViewData(activity: Activity?, model: String?, position: Int) {
-                        AtlwImageLoadingFactory.getImageLoading(AtlwSetting.IMAGE_LOAD_LIBRARY_TYPE_GLIDE)
+                        AtlwImageLoadingFactory.getImageLoading(AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE)
                                 .loadingNetImage(model, itemView as AppCompatImageView, itemView.getWidth(), itemView.getHeight())
                     }
                 }

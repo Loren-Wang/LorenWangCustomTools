@@ -11,7 +11,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -125,7 +125,7 @@ public final class AtlwMobileOptionsUtils {
                 // 由于没有在Activity环境下启动Activity,设置下面的标签
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
-                Uri apkUri = FileProvider.getUriForFile(AtlwSetting.nowApplication, authority, file);
+                Uri apkUri = FileProvider.getUriForFile(AtlwConfig.nowApplication, authority, file);
                 //添加这一句表示对目标应用临时授权该Uri所代表的文件
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
@@ -275,7 +275,7 @@ public final class AtlwMobileOptionsUtils {
     @RequiresPermission(Manifest.permission.VIBRATE)
     public void vibrate(long milliseconds) {
         try {
-            Vibrator vibrator = (Vibrator) AtlwSetting.nowApplication
+            Vibrator vibrator = (Vibrator) AtlwConfig.nowApplication
                     .getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(milliseconds);
         } catch (Exception e) {
@@ -378,7 +378,7 @@ public final class AtlwMobileOptionsUtils {
         if (powerLocalWakeLock == null) {
             try {
                 //获取系统服务POWER_SERVICE，返回一个PowerManager对象
-                powerLocalWakeLock = ((PowerManager) AtlwSetting.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
+                powerLocalWakeLock = ((PowerManager) AtlwConfig.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
             } catch (Exception ignored) {
             }
 
@@ -442,7 +442,7 @@ public final class AtlwMobileOptionsUtils {
      */
     public SensorManager getSensorManager() {
         if (sensorManager == null) {
-            sensorManager = (SensorManager) AtlwSetting.nowApplication.getSystemService(Context.SENSOR_SERVICE);
+            sensorManager = (SensorManager) AtlwConfig.nowApplication.getSystemService(Context.SENSOR_SERVICE);
         }
         return sensorManager;
     }
@@ -491,7 +491,7 @@ public final class AtlwMobileOptionsUtils {
      */
     public AudioManager getAudioManager() {
         if (audioManager == null) {
-            audioManager = (AudioManager) AtlwSetting.nowApplication.getSystemService(Context.AUDIO_SERVICE);
+            audioManager = (AudioManager) AtlwConfig.nowApplication.getSystemService(Context.AUDIO_SERVICE);
         }
         return audioManager;
     }

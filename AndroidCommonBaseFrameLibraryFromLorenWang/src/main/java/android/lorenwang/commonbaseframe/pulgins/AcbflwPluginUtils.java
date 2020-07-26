@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -61,7 +61,7 @@ public class AcbflwPluginUtils {
     /**
      * 微信启动广播监听
      */
-    private BroadcastReceiver weChatReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver weChatReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             assert weChatConfigInfoBean != null;
@@ -75,7 +75,7 @@ public class AcbflwPluginUtils {
     /**
      * 微信启动广播的intentFilter
      */
-    private IntentFilter weChatFilter = new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP);
+    private final IntentFilter weChatFilter = new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP);
 
     /**
      * 初始化微信
@@ -85,7 +85,7 @@ public class AcbflwPluginUtils {
     public void initWeChatConfigInfo(AcbflwWeChatConfigInfoBean weChatConfigInfoBean) {
         this.weChatConfigInfoBean = weChatConfigInfoBean;
         String weChatId = getWeChatId();
-        api = WXAPIFactory.createWXAPI(AtlwSetting.nowApplication, weChatId, weChatConfigInfoBean.isCheckSignature());
+        api = WXAPIFactory.createWXAPI(AtlwConfig.nowApplication, weChatId, weChatConfigInfoBean.isCheckSignature());
         api.registerApp(weChatId);
         //建议动态监听微信启动广播进行注册到微信
         registerReceiver();
@@ -97,7 +97,7 @@ public class AcbflwPluginUtils {
     public void registerReceiver() {
         if (!registerWeChatReceiver) {
             //建议动态监听微信启动广播进行注册到微信
-            AtlwSetting.nowApplication.registerReceiver(weChatReceiver, weChatFilter);
+            AtlwConfig.nowApplication.registerReceiver(weChatReceiver, weChatFilter);
             registerWeChatReceiver = true;
         }
     }
@@ -108,7 +108,7 @@ public class AcbflwPluginUtils {
     public void unRegisterReceiver() {
         if (registerWeChatReceiver) {
             //建议动态监听微信启动广播进行注册到微信
-            AtlwSetting.nowApplication.unregisterReceiver(weChatReceiver);
+            AtlwConfig.nowApplication.unregisterReceiver(weChatReceiver);
             registerWeChatReceiver = false;
         }
     }
@@ -152,7 +152,7 @@ public class AcbflwPluginUtils {
     /**
      * 回调集合,使用线程安全的集合
      */
-    private Map<String, AcbflwPluginCallBack> callBackMap = new ConcurrentHashMap<>();
+    private final Map<String, AcbflwPluginCallBack> callBackMap = new ConcurrentHashMap<>();
 
     /**
      * 添加回调

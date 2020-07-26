@@ -5,7 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.os.Build;
@@ -73,7 +73,7 @@ public class AtlwDesktopShortcutUtils {
             Context context, Class openClass, String openUrlKey
             , String title, String url, Bitmap bitmap) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-            Intent intent = new Intent(AtlwSetting.nowApplication, openClass);
+            Intent intent = new Intent(AtlwConfig.nowApplication, openClass);
             intent.setAction(Intent.ACTION_VIEW); //action必须设置，不然报错
             intent.putExtra(openUrlKey, url);
             Bundle bundle = new Bundle();

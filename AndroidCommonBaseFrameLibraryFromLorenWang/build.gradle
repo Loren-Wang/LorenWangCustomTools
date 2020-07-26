@@ -52,6 +52,8 @@ dependencies {
     compileOnly project(':AndroidCustomViewsFromLorenWang')
     //安卓自定义工具框架库
     compileOnly project(':AndroidCustomToolsFromLorenWang')
+    //安卓自定义动画框架库
+    compileOnly project(':AndroidAnimFromLorenWang')
     //java自定义工具框架库
     compileOnly project(':JavaCustomToolsFromLorenWang')
     //java数据格式化工具框架库

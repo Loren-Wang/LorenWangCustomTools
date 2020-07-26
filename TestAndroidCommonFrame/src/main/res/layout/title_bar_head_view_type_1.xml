@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.lorenwang.customview.titlebar.AvlwTitleBarHeadView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tbhvView"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/avlw_base_title_bar_head_view_height"
+    app:avlwLayoutType="LAYOUT_TYPE_1"
+    style="@style/DefaultTitleBarHeadView"
+    tools:ignore="MissingPrefix" />

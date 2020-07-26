@@ -4,7 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -123,7 +123,7 @@ public class AtlwMobileSystemInfoUtils {
     @SuppressLint({"MissingPermission"})
     @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     public String getIMEIInfo() {
-        TelephonyManager tm = (TelephonyManager)  AtlwSetting.nowApplication.getSystemService(Activity.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager)  AtlwConfig.nowApplication.getSystemService(Activity.TELEPHONY_SERVICE);
         if (tm != null) {
             return tm.getDeviceId();
         }
@@ -139,7 +139,7 @@ public class AtlwMobileSystemInfoUtils {
     public static int getNetworkType() {
         int netType = 0;
         String netTypeName = null;
-        ConnectivityManager connectivityManager = (ConnectivityManager) AtlwSetting.nowApplication.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) AtlwConfig.nowApplication.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
             return netType;

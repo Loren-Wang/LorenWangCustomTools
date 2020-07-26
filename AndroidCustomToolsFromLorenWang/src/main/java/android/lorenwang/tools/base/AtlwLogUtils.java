@@ -1,6 +1,6 @@
 package android.lorenwang.tools.base;
 
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.util.Log;
 
@@ -33,7 +33,7 @@ public final class AtlwLogUtils {
     private static final String LOG_FILE_NAME = "ct.log";
     // ------------------------------------------------------ Fields
     //private static boolean isDebuggable = Settings.isDebuggable;
-    public static boolean isDebuggable = AtlwSetting.isDebug;
+    public static boolean isDebuggable = AtlwConfig.isDebug;
     /**
      * 日志保存的File
      */
@@ -236,21 +236,21 @@ public final class AtlwLogUtils {
         if (logSaveFile != null) {
             return logSaveFile;
         }
-        if (AtlwSetting.debugLogFileSavePath == null) {
+        if (AtlwConfig.debugLogFileSavePath == null) {
             return null;
         }
-        File file = new File(AtlwSetting.debugLogFileSavePath);
+        File file = new File(AtlwConfig.debugLogFileSavePath);
         //创建文件夹
         AtlwFileOptionUtils.getInstance().createDirectory(true,
-                AtlwSetting.debugLogFileSavePath, file.isDirectory());
+                AtlwConfig.debugLogFileSavePath, file.isDirectory());
         //返回文件夹判断
         if (!file.isFile()) {
             String fileName = JtlwDateTimeUtils.getInstance().getFormatDateNowTime(
                     "yyyy_mm_dd_hh_MM_ss.log");
-            if (AtlwSetting.debugLogFileSavePath.lastIndexOf("/") == AtlwSetting.debugLogFileSavePath.length() - 1) {
-                file = new File(AtlwSetting.debugLogFileSavePath + fileName);
+            if (AtlwConfig.debugLogFileSavePath.lastIndexOf("/") == AtlwConfig.debugLogFileSavePath.length() - 1) {
+                file = new File(AtlwConfig.debugLogFileSavePath + fileName);
             } else {
-                file = new File(AtlwSetting.debugLogFileSavePath + "/" + fileName);
+                file = new File(AtlwConfig.debugLogFileSavePath + "/" + fileName);
             }
         }
         logSaveFile = file;

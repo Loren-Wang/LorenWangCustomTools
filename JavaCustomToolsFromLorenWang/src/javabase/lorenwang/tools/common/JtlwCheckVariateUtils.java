@@ -68,6 +68,15 @@ public class JtlwCheckVariateUtils {
             return str == null;
         }
     }
+    /**
+     * 判断变量是否为不为空
+     * @param <T> 变量泛型
+     * @param str String
+     * @return boolean
+     */
+    public <T> boolean isNotEmpty(T str) {
+        return !isEmpty(str);
+    }
 
     /**
      * 判断变量集合当中是否存在空

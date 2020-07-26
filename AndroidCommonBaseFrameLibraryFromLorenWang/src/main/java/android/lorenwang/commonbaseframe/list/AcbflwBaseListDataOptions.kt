@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
  * 修改时间：
  * 备注：
  */
-class AcbflwBaseListDataOptions<T>(val activity: Activity?,
+open class AcbflwBaseListDataOptions<T>(val activity: Activity?,
                                    /**
                                     * 装饰器接口
                                     */

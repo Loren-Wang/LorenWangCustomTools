@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">安卓通用框架测试样例</string>
+    <string name="app_name" translatable="false">安卓通用框架测试样例</string>
+
+    <string name="empty_data_default" translatable="false">暂无数据</string>
 </resources>

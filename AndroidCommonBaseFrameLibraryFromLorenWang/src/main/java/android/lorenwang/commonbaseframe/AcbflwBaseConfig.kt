@@ -26,30 +26,6 @@ object AcbflwBaseConfig {
     var baseBottomViewHeight = 0
 
     /**
-     * 图片加载失败图片
-     */
-    @DrawableRes
-    @kotlin.jvm.JvmField
-    var imageLoadingFailResId = R.drawable.notification_bg_low
-
-    /**
-     * 图片加载加载中图片
-     */
-    @DrawableRes
-    @kotlin.jvm.JvmField
-    var imageLoadingLoadResId = R.drawable.notification_bg_low
-
-    /**
-     * 发起图片裁剪key
-     */
-    const val KEY_PICTURE_CROP_IMAGE_PATH = "key_picture_crop_image_path"
-
-    /**
-     * 发起图片裁剪返回key
-     */
-    const val KEY_PICTURE_CROP_RESULT = "key_picture_crop_result"
-
-    /**
      * app编译类型之debug模式
      */
     private const val APP_COMPILE_TYPE_DEBUG = 0

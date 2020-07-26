@@ -9,8 +9,8 @@ import com.luck.picture.lib.config.PictureMimeType;
 
 import androidx.annotation.Nullable;
 
-import static android.lorenwang.commonbaseframe.AcbflwBaseConfig.KEY_PICTURE_CROP_IMAGE_PATH;
-import static android.lorenwang.commonbaseframe.AcbflwBaseConfig.KEY_PICTURE_CROP_RESULT;
+import static android.lorenwang.commonbaseframe.AcbflwBaseCommonKey.KEY_PICTURE_CROP_IMAGE_PATH;
+import static android.lorenwang.commonbaseframe.AcbflwBaseCommonKey.KEY_PICTURE_CROP_RESULT;
 
 
 /**

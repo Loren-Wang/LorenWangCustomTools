@@ -2,7 +2,7 @@ package android.lorenwang.tools.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 import android.preference.PreferenceManager;
 
 import java.util.Set;
@@ -26,7 +26,7 @@ public class AtlwSharedPrefUtils {
 
     private AtlwSharedPrefUtils() {
         mPref = PreferenceManager
-                .getDefaultSharedPreferences(AtlwSetting.nowApplication);
+                .getDefaultSharedPreferences(AtlwConfig.nowApplication);
     }
 
     public static AtlwSharedPrefUtils getInstance() {
@@ -44,11 +44,11 @@ public class AtlwSharedPrefUtils {
 
 
     public SharedPreferences getSharedPreferences(String name) {
-        return AtlwSetting.nowApplication.getSharedPreferences(name, Context.MODE_PRIVATE);
+        return AtlwConfig.nowApplication.getSharedPreferences(name, Context.MODE_PRIVATE);
     }
 
     public SharedPreferences getSharedPreferences(String name, int mode) {
-        return AtlwSetting.nowApplication.getSharedPreferences(name, mode);
+        return AtlwConfig.nowApplication.getSharedPreferences(name, mode);
     }
 
     public Boolean clear() {

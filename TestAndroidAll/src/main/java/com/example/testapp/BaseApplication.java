@@ -1,7 +1,7 @@
 package com.example.testapp;
 
 import android.app.Application;
-import android.lorenwang.tools.AtlwSetting;
+import android.lorenwang.tools.AtlwConfig;
 
 /**
  * 创建时间：2019-04-13 下午 14:30:36
@@ -19,8 +19,8 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AtlwSetting.isDebug = true;
-        AtlwSetting.nowApplication = this;
-        AtlwSetting.registActivityLifecycleCallbacks(this);
+        AtlwConfig.isDebug = true;
+        AtlwConfig.nowApplication = this;
+        AtlwConfig.registActivityLifecycleCallbacks(this);
     }
 }
