@@ -59,6 +59,8 @@ dependencies {
     //从上至下依赖关系
     implementation project(':JavaCustomToolsFromLorenWang')
     implementation project(':AndroidCustomToolsFromLorenWang')
+    //AppBarLayout等库，不能使用compileOnly，否则会编译不通过
+    implementation 'com.google.android.material:material:1.1.0'
     implementation project(':AndroidCustomViewsFromLorenWang')
     implementation project(':AndroidAnimFromLorenWang')
     implementation project(':KotlinCustomToolsFromLorenWang')

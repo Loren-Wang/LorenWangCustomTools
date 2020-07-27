@@ -104,7 +104,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
         if (useSwipeRefresh) {
             refreshDataOptions.setAllowRefresh(false);
             if (getSwipeRefresh() != null) {
-                getRecycleView().setEnabled(enableRefresh);
+                getSwipeRefresh().setEnabled(enableRefresh);
                 getSwipeRefresh().setOnRefreshListener(() -> refreshDataOptions.startRefreshing());
             }
         } else {

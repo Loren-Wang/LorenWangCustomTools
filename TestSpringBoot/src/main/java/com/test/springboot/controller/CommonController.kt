@@ -36,7 +36,6 @@ class CommonController : BaseController() {
     fun submit(request: SbcbflwBaseHttpServletRequestWrapper, @RequestBody reqBean: Object):
             String {
         super.base(request, reqBean)
-        UserPermissionType.s
         return request.controllerCheckAndOptions(arrayOf(reqBean), this) {
             return@controllerCheckAndOptions responseSuccess(null)
         }
