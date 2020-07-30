@@ -184,7 +184,7 @@ public final class AtlwMobileOptionsUtils {
      *
      * @return 小米miui版本号
      */
-    private static String getMiuiVersion() {
+    private String getMiuiVersion() {
         String propName = "ro.miui.ui.version.name";
         String line;
         BufferedReader input = null;
@@ -219,11 +219,13 @@ public final class AtlwMobileOptionsUtils {
         Intent intent = new Intent();
         if ("V6".equals(rom) || "V7".equals(rom)) {
             intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions" +
+                    ".AppPermissionsEditorActivity");
             intent.putExtra("extra_pkgname", packageName);
         } else if ("V8".equals(rom) || "V9".equals(rom)) {
             intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions" +
+                    ".PermissionsEditorActivity");
             intent.putExtra("extra_pkgname", packageName);
         } else {
             jumpToDefaultAppPermissionSettingPage(activity, packageName);
@@ -290,12 +292,15 @@ public final class AtlwMobileOptionsUtils {
      * @param savePath    照片保存地址
      * @param requestCode 请求码
      */
-    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    @RequiresPermission(allOf = {Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void openCamera(Activity activity, String savePath, int requestCode) {
         //检查相机权限
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                && ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             //检测保存路径
             File imagePathFile = new File(savePath);
             if (imagePathFile.isDirectory()) {
@@ -309,7 +314,8 @@ public final class AtlwMobileOptionsUtils {
 
                 ContentValues contentValues = new ContentValues(1);
                 contentValues.put(MediaStore.Images.Media.DATA, savePath);
-                Uri uri = activity.getApplication().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                Uri uri =
+                        activity.getApplication().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             } else {
                 Uri imageUri = Uri.fromFile(imagePathFile);
@@ -326,7 +332,7 @@ public final class AtlwMobileOptionsUtils {
      *
      * @param phoneNo 要拨打的手机号
      */
-    public static void makeCall(Activity activity, String phoneNo) {
+    public void makeCall(Activity activity, String phoneNo) {
         if (phoneNo != null && !"".equals(phoneNo)) {
             String number = "tel:" + phoneNo;
             try {
@@ -346,12 +352,16 @@ public final class AtlwMobileOptionsUtils {
      * @param activity    上下文
      * @param requestCode 请求码
      */
-    @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void openImagePhotoAlbum(Activity activity, int requestCode) {
         //检查存储卡权限
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             activity.startActivityForResult(intent, requestCode);
@@ -378,7 +388,8 @@ public final class AtlwMobileOptionsUtils {
         if (powerLocalWakeLock == null) {
             try {
                 //获取系统服务POWER_SERVICE，返回一个PowerManager对象
-                powerLocalWakeLock = ((PowerManager) AtlwConfig.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
+                powerLocalWakeLock =
+                        ((PowerManager) AtlwConfig.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
             } catch (Exception ignored) {
             }
 
@@ -442,7 +453,8 @@ public final class AtlwMobileOptionsUtils {
      */
     public SensorManager getSensorManager() {
         if (sensorManager == null) {
-            sensorManager = (SensorManager) AtlwConfig.nowApplication.getSystemService(Context.SENSOR_SERVICE);
+            sensorManager =
+                    (SensorManager) AtlwConfig.nowApplication.getSystemService(Context.SENSOR_SERVICE);
         }
         return sensorManager;
     }
@@ -456,7 +468,8 @@ public final class AtlwMobileOptionsUtils {
         synchronized (proximityListenerList) {
             if (listener != null && !proximityListenerList.contains(listener)) {
                 getSensorManager().registerListener(listener, getSensorManager()
-                        .getDefaultSensor(Sensor.TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
+                        .getDefaultSensor(Sensor.TYPE_PROXIMITY),
+                        SensorManager.SENSOR_DELAY_NORMAL);
                 proximityListenerList.add(listener);
             }
         }
@@ -491,7 +504,8 @@ public final class AtlwMobileOptionsUtils {
      */
     public AudioManager getAudioManager() {
         if (audioManager == null) {
-            audioManager = (AudioManager) AtlwConfig.nowApplication.getSystemService(Context.AUDIO_SERVICE);
+            audioManager =
+                    (AudioManager) AtlwConfig.nowApplication.getSystemService(Context.AUDIO_SERVICE);
         }
         return audioManager;
     }
@@ -506,7 +520,8 @@ public final class AtlwMobileOptionsUtils {
             AtlwLogUtils.logD(TAG, "切换到手机听筒播放");
             activity.setVolumeControlStream(STREAM_VOICE_CALL);
             getAudioManager().setSpeakerphoneOn(false);//关闭扬声器
-            getAudioManager().setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE, AudioManager.ROUTE_ALL);
+            getAudioManager().setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE,
+                    AudioManager.ROUTE_ALL);
             //把声音设定成Earpiece（听筒）出来，设定为正在通话中
             getAudioManager().setMode(AudioManager.MODE_IN_CALL);
         }
