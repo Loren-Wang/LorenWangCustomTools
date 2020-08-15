@@ -76,7 +76,7 @@ public class JtlwDateTimeUtils {
      * @return 转换后字符串
      */
     public String getFormatDateTime(String pattern, long dateTime) {
-        return getFormatDateTime(pattern,dateTime);
+        return getFormatDateTime(pattern,new Date(dateTime));
     }
 
     /**
