@@ -36,6 +36,7 @@ public class JtlwTimingTaskUtils {
      * 任务map集合记录
      */
     private final Map<Integer, Runnable> TIMING_TASK_MAP = new ConcurrentHashMap<>();
+    private final Map<Integer, ScheduledFuture> TIMING_TASK_MAP_SCHEDULED = new ConcurrentHashMap<>();
 
     private JtlwTimingTaskUtils() {
         threadPoolExecutor = new ScheduledThreadPoolExecutor(1, (ThreadFactory) Thread::new);
@@ -66,9 +67,11 @@ public class JtlwTimingTaskUtils {
         //先取消旧任务
         cancelTimingTask(taskId);
         //启动新任务
-        threadPoolExecutor.schedule(runnable, delay, TimeUnit.MILLISECONDS);
+        ScheduledFuture<?> schedule = threadPoolExecutor.schedule(runnable, delay,
+                TimeUnit.MILLISECONDS);
         //存储记录
         TIMING_TASK_MAP.put(taskId, runnable);
+        TIMING_TASK_MAP_SCHEDULED.put(taskId, schedule);
     }
 
     /**
@@ -87,9 +90,11 @@ public class JtlwTimingTaskUtils {
         //先取消旧任务
         cancelTimingTask(taskId);
         //启动新任务
-        threadPoolExecutor.scheduleAtFixedRate(runnable, delay, period, TimeUnit.MILLISECONDS);
+        ScheduledFuture<?> schedule = threadPoolExecutor.scheduleAtFixedRate(runnable,
+                delay, period, TimeUnit.MILLISECONDS);
         //存储记录
         TIMING_TASK_MAP.put(taskId, runnable);
+        TIMING_TASK_MAP_SCHEDULED.put(taskId, schedule);
     }
 
     /**
@@ -136,7 +141,14 @@ public class JtlwTimingTaskUtils {
         Runnable task = TIMING_TASK_MAP.get(taskId);
         if (task != null) {
             threadPoolExecutor.remove(task);
+            threadPoolExecutor.purge();
             TIMING_TASK_MAP.remove(taskId);
+            task = null;
+        }
+        ScheduledFuture scheduledFuture = TIMING_TASK_MAP_SCHEDULED.get(taskId);
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(true);
+            TIMING_TASK_MAP_SCHEDULED.remove(taskId);
         }
     }
 }
