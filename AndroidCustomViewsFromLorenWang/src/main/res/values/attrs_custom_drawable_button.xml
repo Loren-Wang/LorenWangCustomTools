@@ -10,6 +10,7 @@
             <enum name="DRAWABLE_POSI_BOTTOM" value="4"/>
         </attr>
         <attr name="drawableWidth" format="dimension"/>
+        <attr name="drawableTint" format="color"/>
         <attr name="drawableHeight" format="dimension"/>
         <attr name="drawableTextDistance" format="dimension"/>
         <attr name="drawableResId" format="reference"/>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".textview.CustomDrawableButtonActivity"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".textview.CustomDrawableButtonActivity"
+        android:orientation="vertical">
+
+        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="还好"
+            android:textSize="30sp"
+            app:drawableWidth="15dp"
+            app:drawableHeight="15dp"
+            app:drawablePosi="DRAWABLE_POSI_LEFT"
+            app:drawableResId="@mipmap/ic_launcher"
+            tools:ignore="MissingPrefix"
+            android:paddingStart="10dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="还好"
+            app:drawableWidth="15dp"
+            app:drawableHeight="15dp"
+            android:textSize="30sp"
+            app:drawablePosi="DRAWABLE_POSI_TOP"
+            app:drawableResId="@mipmap/ic_launcher"
+            tools:ignore="MissingPrefix" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="还好"
+            app:drawableWidth="15dp"
+            app:drawableHeight="15dp"
+            android:textSize="30sp"
+            app:drawablePosi="DRAWABLE_POSI_RIGHT"
+            app:drawableResId="@mipmap/ic_launcher"
+            tools:ignore="MissingPrefix" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="还好"
+            app:drawableWidth="15dp"
+            app:drawableHeight="15dp"
+            android:textSize="30sp"
+            app:drawablePosi="DRAWABLE_POSI_BOTTOM"
+            app:drawableResId="@mipmap/ic_launcher"
+            tools:ignore="MissingPrefix" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="还好"
+            android:textSize="30sp"
+            app:drawableWidth="200dp"
+            app:drawableHeight="200dp"
+            app:drawablePosi="DRAWABLE_POSI_LEFT"
+            app:drawableResId="@mipmap/ic_launcher"
+            tools:ignore="MissingPrefix"
+            android:paddingStart="10dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="还好"
+            app:drawableWidth="200dp"
+            app:drawableHeight="200dp"
+            android:textSize="30sp"
+            app:drawablePosi="DRAWABLE_POSI_TOP"
+            app:drawableResId="@mipmap/ic_launcher"
+            tools:ignore="MissingPrefix" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="还好"
+            app:drawableWidth="200dp"
+            app:drawableHeight="200dp"
+            android:textSize="30sp"
+            app:drawablePosi="DRAWABLE_POSI_RIGHT"
+            app:drawableResId="@mipmap/ic_launcher"
+            tools:ignore="MissingPrefix" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="还好"
+            app:drawableWidth="200dp"
+            app:drawableHeight="200dp"
+            android:textSize="30sp"
+            app:drawablePosi="DRAWABLE_POSI_BOTTOM"
+            app:drawableResId="@mipmap/ic_launcher"
+            tools:ignore="MissingPrefix" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

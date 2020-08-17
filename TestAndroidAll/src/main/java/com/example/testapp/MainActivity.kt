@@ -11,6 +11,7 @@ import com.example.testapp.graphicCodeScan.CodeGenerateActivity
 import com.example.testapp.graphicCodeScan.ScanCodeActivity
 import com.example.testapp.image.ImageViewActivity
 import com.example.testapp.image.ZoomableImageViewActivity
+import com.example.testapp.textview.CustomDrawableButtonActivity
 import com.example.testapp.textview.ShowPriceTextViewActivity
 import com.example.testapp.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.titlebar.TitleBarHeadViewActivity
@@ -105,6 +106,9 @@ class MainActivity : Activity() {
                 }
                 R.id.btnTitleBarHeadView -> {
                     startActivity(Intent(this, TitleBarHeadViewActivity::class.java))
+                }
+                R.id.btnCustomDrawableButton -> {
+                    startActivity(Intent(this, CustomDrawableButtonActivity::class.java))
                 }
                 else -> {
 

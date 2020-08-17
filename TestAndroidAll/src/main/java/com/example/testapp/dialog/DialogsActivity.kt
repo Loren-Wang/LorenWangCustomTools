@@ -37,14 +37,14 @@ class DialogsActivity : BaseActivity() {
 
 
 
-        bottomWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.avlw_layout_dialog_bottom,
-                R.style.avlw_anim_dialog_bottom, true, ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.BOTTOM)
+        bottomWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.AvlwLayoutDialogBottom,
+                R.style.AvlwAnimDialogBottom, true, ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.BOTTOM)
         bottomWebViewDialog.initWebView(R.id.webView, "https://www.jianshu.com/p/56e2b0bf9ab2")
 
 
 
-        centerWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.avlw_layout_dialog_center,
-                R.style.avlw_anim_dialog_center, true, ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.CENTER)
+        centerWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.AvlwLayoutDialogCenter,
+                R.style.AvlwAnimDialogCenter, true, ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.CENTER)
         centerWebViewDialog.initWebView(R.id.webView, "https://www.jianshu.com/p/56e2b0bf9ab2")
 
 
