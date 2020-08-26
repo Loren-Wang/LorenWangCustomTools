@@ -1,12 +1,8 @@
 package javabase.lorenwang.common_base_frame.plugins
 
-import com.aliyun.oss.OSSClient
-import com.aliyun.oss.model.ObjectMetadata
 import javabase.lorenwang.common_base_frame.SbcbflwBASE64DecodedMultipartFile
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
-import javabase.lorenwang.common_base_frame.utils.SbcbflwBaseFileOptionsUtils
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
+import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.tools.enums.JtlwFileTypeEnum
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import org.springframework.web.multipart.MultipartFile
@@ -16,14 +12,16 @@ import java.net.URL
 
 /**
  * 功能作用：oss操作接口
- * 创建时间：2020-02-03 下午 17:04:43
- * 创建人：王亮（Loren wang）
+ * 初始注释时间： 2020-02-03 下午 17:04:43
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 abstract class OssOptions {
     /**
@@ -96,7 +94,7 @@ abstract class OssOptions {
      */
     open fun upLoadFile(file: MultipartFile, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
         //检测文件接收类型
-        return SbcbflwBaseFileOptionsUtils.baseInstance.emptyCheck({
+        return SbcbfBaseAllUtils.fileOptionsUtils.emptyCheck({
             SbcbflwBaseDataDisposeStatusBean(false)
         }, {
             it.checkFileStatus(file, receiveFileTypes) {
@@ -144,7 +142,7 @@ abstract class OssOptions {
      */
     open fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
         //检测文件接收类型
-        return SbcbflwBaseFileOptionsUtils.baseInstance.emptyCheck({
+        return SbcbfBaseAllUtils.fileOptionsUtils.emptyCheck({
             SbcbflwBaseDataDisposeStatusBean(false)
         }, {
             val file = SbcbflwBASE64DecodedMultipartFile(bytes, contentType)

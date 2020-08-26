@@ -4,7 +4,6 @@ import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwAlLiYunOssPr
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwPropertiesConfig
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwQiNiuOssPropertiesConfig
 import javabase.lorenwang.tools.JtlwLogUtils
-import javabase.lorenwang.tools.enums.JtlwFileTypeEnum
 import org.springframework.context.ConfigurableApplicationContext
 import java.io.IOException
 import java.io.InputStream
@@ -27,7 +26,8 @@ open class SbcbflwCommonUtils {
     /**
      * 用户headerKey的token
      */
-    var headerKeyUserAccessToken = "accessToken";
+    var headerKeyUserAccessToken = "accessToken"
+
     /**
      * 基础配置
      */
@@ -63,7 +63,7 @@ open class SbcbflwCommonUtils {
      * @param propertiesConfig 基础配置文件
      */
     fun initBase(applicationContext: ConfigurableApplicationContext, propertiesConfig: SbcbflwPropertiesConfig) {
-        this.propertiesConfig = propertiesConfig;
+        this.propertiesConfig = propertiesConfig
         if (propertiesConfig.ossTypeAliYun) {
             aliYunPropertiesConfig = SbcbflwAlLiYunOssPropertiesConfig(applicationContext)
         } else if (propertiesConfig.ossTypeQiNiu) {
@@ -77,11 +77,11 @@ open class SbcbflwCommonUtils {
      * @return 配置文件Properties
      */
     fun getProperties(propertiesName: String): Properties {
-        val props = Properties();
+        val props = Properties()
         var inputStream: InputStream? = null
         try {
-            inputStream = this::class.java.classLoader.getResourceAsStream(propertiesName);
-            props.load(inputStream);
+            inputStream = this::class.java.classLoader.getResourceAsStream(propertiesName)
+            props.load(inputStream)
         } catch (e: Exception) {
             JtlwLogUtils.logE(this::class.java, "${propertiesName}配置文件加载异常")
         } finally {

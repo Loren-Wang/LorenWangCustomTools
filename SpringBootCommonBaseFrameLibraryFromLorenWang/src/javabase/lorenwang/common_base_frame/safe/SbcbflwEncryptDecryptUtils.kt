@@ -55,7 +55,7 @@ open class SbcbflwEncryptDecryptUtils private constructor() {
 
     /**
      * 加密字符串
-     * @param sSrc 字符串
+     * @param encData 字符串
      * @param key 加密的key
      * @param ivs 加密解密的算法参数
      * @return 返回加密后字符串，失败返回空null

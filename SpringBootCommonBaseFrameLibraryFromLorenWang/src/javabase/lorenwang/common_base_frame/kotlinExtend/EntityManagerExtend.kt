@@ -2,7 +2,6 @@ package javabase.lorenwang.common_base_frame.kotlinExtend
 
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
 import javabase.lorenwang.tools.JtlwLogUtils
-import kotlinbase.lorenwang.tools.extend.isEmpty
 import org.springframework.jdbc.core.JdbcTemplate
 import java.math.BigInteger
 import javax.persistence.EntityManager
@@ -10,7 +9,7 @@ import javax.persistence.EntityManager
 /**
  * 功能作用：jdbc数据库操作扩展
  * 创建时间：2019-10-30 下午 12:18:30
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：

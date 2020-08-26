@@ -11,7 +11,7 @@ import java.io.InputStream
 /**
  * 功能作用：阿里云oss存储工具类
  * 创建时间：2019-09-12 下午 16:15:17
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 1、获取图片地址---getImageUrl(isFullPath,imgPath)
@@ -48,7 +48,7 @@ internal class SbcbflwALiYunOssUtils : OssOptions() {
     /**
      * 上传文件流
      * @param inputStream 文件流
-     * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
+     * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyPrefix/resume/fileName.jpg其中a是存储空间
      */
     override fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         // 创建OSSClient实例。

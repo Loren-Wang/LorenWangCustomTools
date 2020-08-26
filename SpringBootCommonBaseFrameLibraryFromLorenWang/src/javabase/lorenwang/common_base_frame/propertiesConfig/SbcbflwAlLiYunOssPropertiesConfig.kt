@@ -1,13 +1,11 @@
 package javabase.lorenwang.common_base_frame.propertiesConfig
 
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.stereotype.Component
 
 /**
  * 功能作用：属性配置文件
  * 创建时间：2019-12-16 11:13
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Component
  * 备注：
  * 配置参数1、阿里云oss系统域名---aLiYunOssDomain
  * 配置参数2、阿里云oss访问域名---aLiYunOssEndpoint
- * 配置参数3、阿里云oss系统keyid---aLiYunOssAccessKeyId
+ * 配置参数3、阿里云oss系统keyId---aLiYunOssAccessKeyId
  * 配置参数4、阿里云oss系统密钥---aLiYunOssAccessKeySecret
  * 配置参数5、阿里云存储空间名---aLiYunOssBucket
  * 配置参数6、加密用的Key---encryptDecryptKey(可以用26个字母和数字组成 使用AES-128-CBC加密模式，key需要为16位。)
@@ -40,7 +38,7 @@ internal class SbcbflwAlLiYunOssPropertiesConfig(applicationContext: Configurabl
      */
     var endpoint = ""
     /**
-     * 阿里云oss系统keyid
+     * 阿里云oss系统keyId
      */
     var accessKeyId = ""
     /**

@@ -2,7 +2,6 @@ package javabase.lorenwang.common_base_frame.propertiesConfig
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.stereotype.Component
 
 /**
  * 功能作用：属性配置文件

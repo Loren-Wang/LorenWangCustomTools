@@ -11,7 +11,6 @@ import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.OssOptions
 import javabase.lorenwang.dataparse.JdplwJsonUtils
-import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
 
@@ -19,7 +18,7 @@ import java.io.UnsupportedEncodingException
 /**
  * 功能作用：七牛云存储单例类
  * 创建时间：2020-02-03 下午 14:34:51
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
@@ -56,7 +55,7 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
     /**
      * 上传文件流
      * @param inputStream 文件流
-     * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
+     * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyPrefix/resume/fileName.jpg其中a是存储空间
      */
     override fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         //构造一个带指定 Region 对象的配置类
@@ -67,12 +66,12 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
             val auth = Auth.create(SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.accessKey,
                     SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.secretKey)
             val upToken = auth.uploadToken(SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.bucket)
-            try {
+            return try {
                 val response: Response = uploadManager.put(inputStream, savePath.replace(savePathFirstReplace,""), upToken, null, null)
                 //解析上传成功的结果 val putRet: DefaultPutRet =
                 JdplwJsonUtils.fromJson(response.bodyString(), DefaultPutRet::class.java)
                 //不要返回解析结果数据，使用传递数据，以便于统一处理
-                return SbcbflwBaseDataDisposeStatusBean(true, savePath)
+                SbcbflwBaseDataDisposeStatusBean(true, savePath)
             } catch (ex: QiniuException) {
                 val r: Response = ex.response
                 System.err.println(r.toString())
@@ -80,7 +79,7 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
                     System.err.println(r.bodyString())
                 } catch (ex2: QiniuException) { //ignore
                 }
-                return SbcbflwBaseDataDisposeStatusBean(false)
+                SbcbflwBaseDataDisposeStatusBean(false)
             }
         } catch (ex: UnsupportedEncodingException) { //ignore
             return SbcbflwBaseDataDisposeStatusBean(false)

@@ -19,12 +19,6 @@ import java.io.InputStream
  * 备注：子类必须将构造函数私有化
  */
 abstract class SbcbflwBaseFileOptionsUtils {
-    companion object {
-        lateinit var baseInstance: SbcbflwBaseFileOptionsUtils
-    }
-
-
-
     /**
      * 检测文件状态
      * @param file 要被检测的文件
@@ -36,23 +30,23 @@ abstract class SbcbflwBaseFileOptionsUtils {
         val fileHeader = getFileHeader(file.inputStream)
         //上传文件空判断
         if (fileHeader.isNullOrEmpty()) {
-            SbcbflwLogUtils.baseInstance.logE(this.javaClass, "文件${file
+            SbcbfBaseAllUtils.logUtils.logE(this.javaClass, "文件${file
                     .originalFilename}---无法解析文件类型，无法执行上传流程！",true)
             return getUnKnowFileTypeStatusBean()
         }
         //上传文件空判断
         if (file.isEmpty) {
-            SbcbflwLogUtils.baseInstance.logE(this.javaClass, "文件${file.originalFilename}---上传文件为空，无法执行上传流程！",true)
+            SbcbfBaseAllUtils.logUtils.logE(this.javaClass, "文件${file.originalFilename}---上传文件为空，无法执行上传流程！",true)
             return getFileEmptyStatusBean()
         }
         //判断文件上传大小
         if (file.size > SbcbflwCommonUtils.instance.propertiesConfig.ossTypeFileMaxSize) {
-            SbcbflwLogUtils.baseInstance.logE(this.javaClass, "文件${file.originalFilename}---上传文件过大，大于${SbcbflwCommonUtils.instance.propertiesConfig.ossTypeFileMaxSize}！",true)
+            SbcbfBaseAllUtils.logUtils.logE(this.javaClass, "文件${file.originalFilename}---上传文件过大，大于${SbcbflwCommonUtils.instance.propertiesConfig.ossTypeFileMaxSize}！",true)
             return getFileTooLargeStatusBean()
         }
         //文件接收类型判断
         if (receiveFileTypes.isNotEmpty() && !receiveFileTypes.contains(getFileType(fileHeader))) {
-            SbcbflwLogUtils.baseInstance.logE(this.javaClass, "文件${file.originalFilename}---不是接收类型数据！",true)
+            SbcbfBaseAllUtils.logUtils.logE(this.javaClass, "文件${file.originalFilename}---不是接收类型数据！",true)
             return getNotReceiveFileTypeStatusBean()
         }
         return try {
@@ -63,7 +57,7 @@ abstract class SbcbflwBaseFileOptionsUtils {
     }
 
     /**
-     * @param filePath 文件路径
+     * @param inputStream 文件流
      * @return 文件头信息
      * @author wlx
      * <p>
@@ -74,8 +68,8 @@ abstract class SbcbflwBaseFileOptionsUtils {
             if (inputStream == null) {
                 null
             } else {
-                val byte = ByteArray(28);
-                inputStream.read(byte, 0, byte.size);
+                val byte = ByteArray(28)
+                inputStream.read(byte, 0, byte.size)
                 JtlwCommonUtils.getInstance().bytesToHexString(byte)
             }
         } catch (e: Exception) {

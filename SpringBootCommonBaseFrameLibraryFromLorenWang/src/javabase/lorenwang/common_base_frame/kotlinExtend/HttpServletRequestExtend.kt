@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.kotlinExtend
 
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
+import javabase.lorenwang.common_base_frame.controller.REQUEST_SET_USER_INFO_KEY
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseController
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
@@ -16,8 +17,8 @@ import kotlinbase.lorenwang.tools.extend.emptyCheck
 import kotlinbase.lorenwang.tools.extend.haveEmptyCheck
 import kotlinbase.lorenwang.tools.extend.isEmpty
 import org.springframework.data.repository.CrudRepository
-import service.qtoolsbaby.official.database.table.SbcbflwBaseUserPermissionTb
-import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
+import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserPermissionTb
+import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
 import java.math.BigInteger
 import javax.persistence.EntityManager
 

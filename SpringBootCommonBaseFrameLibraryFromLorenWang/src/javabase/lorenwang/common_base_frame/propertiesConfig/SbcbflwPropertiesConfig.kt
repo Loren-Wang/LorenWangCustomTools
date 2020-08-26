@@ -83,11 +83,12 @@ open class SbcbflwPropertiesConfig {
      * 默认每页大小
      */
     @Value("\${Sbcbflw.default.page.size}")
-    open var defaultRequestPageSize = 10;
+    open var defaultRequestPageSize = 10
+
     /**
      * 默认第一页
      */
     @Value("\${Sbcbflw.default.page.index}")
-    open var defaultRequestPageIndex = 0;
+    open var defaultRequestPageIndex = 0
 
 }

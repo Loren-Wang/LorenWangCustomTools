@@ -3,14 +3,13 @@ package javabase.lorenwang.common_base_frame.database
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwDatabaseTableVersionRepository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseDatabaseTableVersionTb
 import javabase.lorenwang.tools.JtlwLogUtils
-import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.interceptor.TransactionAspectSupport
 
 /**
  * 功能作用：数据库表版本控制操作类
  * 创建时间：2019-10-10 下午 15:16:31
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
@@ -39,7 +38,7 @@ abstract class SbcbflwDataBaseTableVersionUpdateOptions<T : SbcbflwBaseDatabaseT
         } catch (e: Exception) {
             try {
                 JtlwLogUtils.logE(javaClass, "更新发生异常，手动执行异常回滚，异常信息：${e.message}")
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
             } catch (e: Exception) {
                 JtlwLogUtils.logE(javaClass, "更新发生异常，手动执行异常回滚，异常信息：${e.message}")
             }
@@ -67,5 +66,5 @@ abstract class SbcbflwDataBaseTableVersionUpdateOptions<T : SbcbflwBaseDatabaseT
     /**
      * 开始进行数据库数据修改
      */
-    abstract fun startChangeDataBase();
+    abstract fun startChangeDataBase()
 }

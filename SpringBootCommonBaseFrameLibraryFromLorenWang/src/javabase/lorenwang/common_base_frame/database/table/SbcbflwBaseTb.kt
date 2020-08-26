@@ -12,7 +12,7 @@ import javax.persistence.MappedSuperclass
 /**
  * 功能作用：基础表，所有表都要继承，所有表都要有的字段，部分表不用继承
  * 创建时间：2019-09-19 下午 14:53:59
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：

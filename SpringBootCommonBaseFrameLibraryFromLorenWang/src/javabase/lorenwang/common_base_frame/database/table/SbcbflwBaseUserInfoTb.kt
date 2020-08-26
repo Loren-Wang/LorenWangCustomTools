@@ -3,14 +3,13 @@ package javabase.lorenwang.common_base_frame.database.table
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatus
-import service.qtoolsbaby.official.database.table.SbcbflwBaseUserRoleTb
 import javax.persistence.*
 import java.io.Serializable
 
 /**
  * 功能作用：用户表
  * 创建时间：2019-09-19 下午 12:06:21
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：

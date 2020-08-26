@@ -1,15 +1,14 @@
-package service.qtoolsbaby.official.database.table
+package javabase.lorenwang.common_base_frame.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
-import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseTb
 import java.io.Serializable
 import javax.persistence.*
 
 /**
  * 功能作用：用户权限表
  * 创建时间：2019-10-18 下午 16:14:13
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：

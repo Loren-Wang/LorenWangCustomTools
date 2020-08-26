@@ -4,15 +4,13 @@ import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.aliyun.SbcbflwALiYunOssUtils
 import javabase.lorenwang.common_base_frame.plugins.qiniu.SbcbflwQiNiuOssUtils
-import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwAlLiYunOssPropertiesConfig
-import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwQiNiuOssPropertiesConfig
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import java.io.InputStream
 
 /**
  * 功能作用：oss单例工具类
  * 创建时间：2020-02-03 下午 17:30:12
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
@@ -78,7 +76,7 @@ open class SbcbflwOssUtils private constructor() : OssOptions() {
     /**
      * 上传文件流
      * @param inputStream 文件流
-     * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyprefix/resume/fileName.jpg其中a是存储空间
+     * @param savePath 存储文件地址，从存储空间后面的路径开始，例如：a/keyPrefix/resume/fileName.jpg其中a是存储空间
      * @return 返回结果
      */
     override fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean {

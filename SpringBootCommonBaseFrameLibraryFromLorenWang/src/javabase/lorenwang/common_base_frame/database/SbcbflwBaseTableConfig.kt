@@ -3,7 +3,7 @@ package javabase.lorenwang.common_base_frame.database
 /**
  * 功能作用：基础表配置类
  * 创建时间：2020-01-06 16:10
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
@@ -170,7 +170,7 @@ object SbcbflwBaseTableConfig {
         /**
          * 用户token
          */
-        const val ACCESSTOKEN = "accesstoken"
+        const val ACCESS_TOKEN = "access_token"
     }
 
     /*******************************用户角色部分*****************************/

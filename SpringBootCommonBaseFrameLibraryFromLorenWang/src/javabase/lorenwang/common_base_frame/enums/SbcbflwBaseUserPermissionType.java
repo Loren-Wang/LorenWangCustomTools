@@ -3,7 +3,7 @@ package javabase.lorenwang.common_base_frame.enums;
 /**
  * 功能作用：
  * 创建时间：2020-07-13 11:29 上午
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：

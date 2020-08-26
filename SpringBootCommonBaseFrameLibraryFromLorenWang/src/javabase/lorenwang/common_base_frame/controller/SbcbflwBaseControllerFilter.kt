@@ -6,16 +6,16 @@ import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserService
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
-import org.springframework.transaction.annotation.Transactional
 import java.io.IOException
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.transaction.Transactional
 
 /**
  * 功能作用：接口拦截工具
  * 创建时间：2019-09-12 上午 10:57:45
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
@@ -30,11 +30,16 @@ abstract class SbcbflwBaseControllerFilter : Filter {
 
     init {
         //初始化不用验证token的接口列表
-        swaggerPathList.add("/swagger-ui.html")//swaggerui
-        swaggerPathList.add("/swagger-resources")//swaggerui
-        swaggerPathList.add("/v2/api-docs")//swaggerui
-        swaggerPathList.add("/webjars/.+")//网站相关
-        swaggerPathList.add("/swagger-resources/.+")//网站相关
+        //SwaggerUi
+        swaggerPathList.add("/swagger-ui.html")
+        //SwaggerUi
+        swaggerPathList.add("/swagger-resources")
+        //SwaggerUi
+        swaggerPathList.add("/v2/api-docs")
+        //网站相关
+        swaggerPathList.add("/webjars/.+")
+        //网站相关
+        swaggerPathList.add("/swagger-resources/.+")
     }
 
     @Throws(ServletException::class)
@@ -82,7 +87,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
         response.setHeader("Access-Control-Expose-Headers", SbcbflwCommonUtils.instance.headerKeyUserAccessToken)
 
         //做该关键字拦截，因为后面要用到该关键字所有信息，所以此处要拦截，防止被攻击时传递该参数导致能够获取响应用户权限数据
-        req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, "")
+        req.setAttribute(REQUEST_SET_USER_INFO_KEY, "")
 
         //token检测
         JtlwLogUtils.logD(javaClass, "接收到接口请求，开始检测用户登录状态，如果有token的话")
@@ -101,7 +106,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
                         req.addHeader(SbcbflwCommonUtils.instance.headerKeyUserAccessToken, newToken)
                         JtlwLogUtils.logI(javaClass, "token已更新")
                     }
-                    req.setAttribute(req.REQUEST_SET_USER_INFO_KEY, userStatus.body)
+                    req.setAttribute(REQUEST_SET_USER_INFO_KEY, userStatus.body)
                 }
                 //正常发起请求
                 chain.doFilter(req, response)

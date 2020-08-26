@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap
 /**
  * 功能作用：日志打印工具
  * 创建时间：2019-09-12 上午 11:00:35
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
@@ -21,10 +21,6 @@ open class SbcbflwLogUtils{
      * 运行标签
      */
     protected val runTag = "runTag---"
-
-    companion object {
-        lateinit var baseInstance: SbcbflwLogUtils
-    }
 
     //日志控制器记录
     private val logControllerMap = ConcurrentHashMap<Class<*>, Logger>()

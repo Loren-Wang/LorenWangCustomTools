@@ -13,7 +13,7 @@ import javax.annotation.Resource
 /**
  * 功能作用：基础controller
  * 创建时间：2019-12-16 14:03
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 1、从资源文件中获取文本字符---getMessage(msgCode)

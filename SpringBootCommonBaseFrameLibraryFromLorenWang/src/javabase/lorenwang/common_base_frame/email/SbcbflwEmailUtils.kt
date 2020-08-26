@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper
 /**
  * 功能作用：email相关操作
  * 创建时间：2019-12-16 12:13
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 1、发送邮件---sendEmailMessage(title,content,tiEmail)

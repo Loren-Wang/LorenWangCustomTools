@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequestWrapper
 /**
  * 功能作用：请求数据拦截，用来对请求头做处理
  * 创建时间：2019-09-12 上午 10:59:46
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 1、添加header---addHeader(name,value)
@@ -20,10 +20,6 @@ import javax.servlet.http.HttpServletRequestWrapper
 open class SbcbflwBaseHttpServletRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
     private val headerMap = HashMap<String, String>()
-    /**
-     * 请求中设置用户信息key
-     */
-    val REQUEST_SET_USER_INFO_KEY = "userinfokey"
 
     /**
      * add a header with given name and value
@@ -61,5 +57,9 @@ open class SbcbflwBaseHttpServletRequestWrapper(request: HttpServletRequest) : H
         }
         return Collections.enumeration(values)
     }
-
 }
+
+/**
+ * 请求中设置用户信息key
+ */
+const val REQUEST_SET_USER_INFO_KEY = "userInfoKey"
