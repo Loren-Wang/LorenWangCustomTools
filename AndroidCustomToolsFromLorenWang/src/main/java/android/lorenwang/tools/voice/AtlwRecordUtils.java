@@ -134,7 +134,7 @@ public class AtlwRecordUtils {
         }
 
         //检测文件夹是否存在，没有存在则创建文件夹，如果创建失败则返回失败
-        if (!AtlwFileOptionUtils.getInstance().createDirectory(true, savePath, true)) {
+        if (!AtlwFileOptionUtils.getInstance().createDirectory(true, savePath,true)) {
             AtlwLogUtils.logUtils.logE(TAG, "Directory creation failed");
             //回传状态
             recordStart(false);

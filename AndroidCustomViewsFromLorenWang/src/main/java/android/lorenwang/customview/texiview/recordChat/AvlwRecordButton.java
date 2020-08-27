@@ -420,7 +420,7 @@ public class AvlwRecordButton extends AppCompatButton {
         }
         this.recordSavePathDir = recordSavePathDir;
         //不管文件夹是否存在，都创建个文件夹
-        AtlwFileOptionUtils.getInstance().createDirectory(true, recordSavePathDir, false);
+        AtlwFileOptionUtils.getInstance().createDirectory(true, recordSavePathDir,false);
     }
 
     /**

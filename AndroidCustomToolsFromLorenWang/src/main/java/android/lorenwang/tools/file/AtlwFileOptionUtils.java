@@ -202,7 +202,7 @@ public class AtlwFileOptionUtils {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, bitmap)) {
             return false;
         }
-        createDirectory(isCheckPermisstion, file.getPath(), file.isDirectory());
+        createDirectory(isCheckPermisstion, file.getAbsolutePath(),true);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -301,14 +301,14 @@ public class AtlwFileOptionUtils {
      *
      * @param isCheckPermisstion 是否检测权限
      * @param path               路径
-     * @param isParentDir        是否创建的是父级文件夹
+     * @param nowPathIsFile  当前路径是否是文件
      * @return 文件夹创建结果
      */
-    public boolean createDirectory(Boolean isCheckPermisstion, String path, boolean isParentDir) {
+    public boolean createDirectory(Boolean isCheckPermisstion, String path,boolean nowPathIsFile) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
-        return JtlwFileOptionUtils.getInstance().createDirectory(path, isParentDir);
+        return JtlwFileOptionUtils.getInstance().createDirectory(path,nowPathIsFile);
     }
 
     /**

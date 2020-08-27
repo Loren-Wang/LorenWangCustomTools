@@ -269,7 +269,7 @@ public final class AtlwLogUtils extends JtlwLogUtils {
         if (logSaveFileDirPath != null) {
             try {
                 //创建日志文件夹
-                AtlwFileOptionUtils.getInstance().createDirectory(true, logSaveFileDirPath, false);
+                AtlwFileOptionUtils.getInstance().createDirectory(true, logSaveFileDirPath,false);
                 //生成文件名称
                 String fileName = JtlwDateTimeUtils.getInstance().getFormatDateNowTime(
                         "yyyy_mm_dd_hh_MM_ss.log");

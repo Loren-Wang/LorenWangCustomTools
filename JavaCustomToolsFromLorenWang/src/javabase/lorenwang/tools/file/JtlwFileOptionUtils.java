@@ -167,7 +167,8 @@ public class JtlwFileOptionUtils {
                 assert fis != null;
                 fis.close();
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ?
+                        "" :
                         e.getMessage());
             }
 
@@ -201,7 +202,8 @@ public class JtlwFileOptionUtils {
                 assert baos != null;
                 baos.close();
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ?
+                        "" :
                         e.getMessage());
             }
 
@@ -221,11 +223,11 @@ public class JtlwFileOptionUtils {
      */
     public Boolean writeToFile(File file, InputStream inputStream, boolean append) {
         //删除文件
-        if(!append) {
+        if (!append) {
             deleteFile(file.getAbsolutePath());
         }
         //创建父级文件夹
-        createDirectory(file.getAbsolutePath(), file.isFile());
+        createDirectory(file.getAbsolutePath(),true);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file, append);
@@ -246,7 +248,8 @@ public class JtlwFileOptionUtils {
                 assert fos != null;
                 fos.close();
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ?
+                        "" :
                         e.getMessage());
             }
         }
@@ -308,7 +311,7 @@ public class JtlwFileOptionUtils {
             //删除文件
             deleteFile(file.getAbsolutePath());
             //创建父级文件夹
-            createDirectory(file.getAbsolutePath(), file.isFile());
+            createDirectory(file.getAbsolutePath(),true);
             fos = new FileOutputStream(file, append);
             fos.write(buffer);
             return true;
@@ -322,7 +325,8 @@ public class JtlwFileOptionUtils {
                     fos.close();
                 }
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ?
+                        "" :
                         e.getMessage());
             }
         }
@@ -504,23 +508,23 @@ public class JtlwFileOptionUtils {
     /**
      * 创建文件夹
      *
-     * @param path        文件路径
-     * @param isParentDir 父级文件夹路径
+     * @param path          文件路径
+     * @param nowPathIsFile 当前地址代表的是否是文件
      * @return 创建结果
      */
-    public boolean createDirectory(String path, boolean isParentDir) {
+    public boolean createDirectory(String path, boolean nowPathIsFile) {
         //检测地址是否为空
         if (JtlwCheckVariateUtils.getInstance().isEmpty(path)) {
             return false;
         }
         File file = new File(path);
-        //判断当前是否是需要父级文件夹判断
-        if (isParentDir) {
-            file = file.getParentFile();
-        }
         //先判断文件夹是否存在
         if (file.exists()) {
             return true;
+        }
+        //判断当前地址是否是文件，是文件的话则要对父级文件夹做创建
+        if (nowPathIsFile) {
+            file = file.getParentFile();
         }
         return file.mkdirs();
     }
