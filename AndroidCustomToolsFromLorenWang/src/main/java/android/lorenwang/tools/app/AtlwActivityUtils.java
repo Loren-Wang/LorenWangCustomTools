@@ -2,8 +2,10 @@ package android.lorenwang.tools.app;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwCheckUtils;
@@ -52,7 +54,8 @@ public class AtlwActivityUtils {
     private final String TAG = getClass().getName();
     private static volatile AtlwActivityUtils optionsInstance;
     //权限请求键值对
-    private final Map<Integer, AtlwPermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
+    private final Map<Integer, AtlwPermissionRequestCallback> permissionRequestCallbackMap =
+            new HashMap<>();
 
     private AtlwActivityUtils() {
     }
@@ -80,7 +83,8 @@ public class AtlwActivityUtils {
      * @param permissionsRequestCode    权限请求码
      * @param permissionRequestCallback 权限请求回调
      */
-    public void goToRequestPermissions(Activity activity, @NonNull String[] permisstions, int permissionsRequestCode
+    public void goToRequestPermissions(Activity activity, @NonNull String[] permisstions,
+                                       int permissionsRequestCode
             , AtlwPermissionRequestCallback permissionRequestCallback) {
         //版本判断，小于23的不执行权限请求
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -99,9 +103,10 @@ public class AtlwActivityUtils {
             } else {//请求权限
                 //存储键值对
                 permissionRequestCallbackMap.put(permissionsRequestCode, permissionRequestCallback);
-                if(activity instanceof AppCompatActivity){
-                    ActivityCompat.requestPermissions(activity,permisstions,permissionsRequestCode);
-                }else {
+                if (activity instanceof AppCompatActivity) {
+                    ActivityCompat.requestPermissions(activity, permisstions,
+                            permissionsRequestCode);
+                } else {
                     activity.requestPermissions(permisstions, permissionsRequestCode);
                 }
             }
@@ -115,9 +120,11 @@ public class AtlwActivityUtils {
      * @param permissions  权限列表
      * @param grantResults 权限状态
      */
-    public void receivePermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void receivePermissionsResult(int requestCode, @NonNull String[] permissions,
+                                         @NonNull int[] grantResults) {
         //获取回调
-        AtlwPermissionRequestCallback permissionRequestCallback = permissionRequestCallbackMap.get(requestCode);
+        AtlwPermissionRequestCallback permissionRequestCallback =
+                permissionRequestCallbackMap.get(requestCode);
         if (permissionRequestCallback != null) {
             // If request is cancelled, the result arrays are empty.
             List<String> successPermissionList = new ArrayList<>();
@@ -127,9 +134,11 @@ public class AtlwActivityUtils {
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                         successPermissionList.add(permissions[i]);
-                        AtlwLogUtils.logUtils.logI(TAG, "用户同意权限-user granted the permission!" + permissions[i]);
+                        AtlwLogUtils.logUtils.logI(TAG,
+                                "用户同意权限-user granted the permission!" + permissions[i]);
                     } else {
-                        AtlwLogUtils.logUtils.logI(TAG, "用户不同意权限-user denied the permission!" + permissions[i]);
+                        AtlwLogUtils.logUtils.logI(TAG,
+                                "用户不同意权限-user denied the permission!" + permissions[i]);
                         failPermissionList.add(permissions[i]);
                     }
                 }
@@ -138,7 +147,8 @@ public class AtlwActivityUtils {
             }
             try {//只要有一个权限不通过则都失败
                 if (failPermissionList.size() > 0) {
-                    permissionRequestCallback.permissionRequestFailCallback(failPermissionList, requestCode);
+                    permissionRequestCallback.permissionRequestFailCallback(failPermissionList,
+                            requestCode);
                 } else {
                     permissionRequestCallback.permissionRequestSuccessCallback(successPermissionList, requestCode);
                 }
@@ -162,10 +172,12 @@ public class AtlwActivityUtils {
      * @param visibility 显示状态
      */
     public void setInputMethodVisibility(Activity activity, View view, int visibility) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+                (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (view == null && visibility == View.GONE) {
             if (activity.getCurrentFocus() != null) {
-                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
             }
             return;
         }
@@ -203,8 +215,10 @@ public class AtlwActivityUtils {
             //目标文件夹
             InputStream inputStream = null;//文件图片输入流
             try {
-                inputStream = AtlwConfig.nowApplication.getContentResolver().openInputStream(data.getData());
-                boolean state = AtlwFileOptionUtils.getInstance().writeToFile(true, new File(saveFile), inputStream, false);
+                inputStream =
+                        AtlwConfig.nowApplication.getContentResolver().openInputStream(data.getData());
+                boolean state = AtlwFileOptionUtils.getInstance().writeToFile(true,
+                        new File(saveFile), inputStream, false);
                 if (state) {
                     return saveFile;
                 } else {
@@ -352,5 +366,26 @@ public class AtlwActivityUtils {
         }
         return false;
     }
+
+    /**
+     * 获取应用程序名称
+     */
+
+    public synchronized String getAppName() {
+        try {
+            PackageManager packageManager = AtlwConfig.nowApplication.getPackageManager();
+            PackageInfo packageInfo =
+                    packageManager.getPackageInfo(AtlwConfig.nowApplication.getPackageName(), 0);
+            int labelRes = packageInfo.applicationInfo.labelRes;
+            String name = AtlwConfig.nowApplication.getString(labelRes);
+            AtlwLogUtils.logUtils.logE(TAG, "App名称获取成功:" + name);
+            return name;
+        } catch (Exception e) {
+            AtlwLogUtils.logUtils.logE(TAG, "App名称获取失败");
+        }
+        return null;
+
+    }
+
 
 }
