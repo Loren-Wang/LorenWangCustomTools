@@ -67,7 +67,7 @@ public class AtlwMobilePhoneBrandUtils {
                     isXiaoMi = false;
                 }
             }
-            AtlwLogUtils.logD(TAG, "is xiaomi mobile:" + isXiaoMi);
+            AtlwLogUtils.logUtils.logD(TAG, "is xiaomi mobile:" + isXiaoMi);
         }
         return isXiaoMi;
     }
@@ -91,7 +91,7 @@ public class AtlwMobilePhoneBrandUtils {
                     isMeiZu = false;
                 }
             }
-            AtlwLogUtils.logD(TAG, "is meizu mobile:" + isMeiZu);
+            AtlwLogUtils.logUtils.logD(TAG, "is meizu mobile:" + isMeiZu);
         }
         return isMeiZu;
     }
@@ -116,7 +116,7 @@ public class AtlwMobilePhoneBrandUtils {
                     isHuaWei = false;
                 }
             }
-            AtlwLogUtils.logD(TAG, "is huawei mobile:" + isHuaWei);
+            AtlwLogUtils.logUtils.logD(TAG, "is huawei mobile:" + isHuaWei);
         }
         return isHuaWei;
     }

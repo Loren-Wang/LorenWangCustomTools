@@ -101,7 +101,7 @@ public class AtlwDesktopShortcutUtils {
                             , new AtlwFlyMessageUtils.FlyMessgeCallback() {
                                 @Override
                                 public void msg(int msgType, Object... msgs) {
-                                    AtlwLogUtils.logI(TAG, "快捷方式添加主屏幕成功");
+                                    AtlwLogUtils.logUtils.logI(TAG, "快捷方式添加主屏幕成功");
                                     if (desktopShortcutOptionsCallback != null) {
                                         desktopShortcutOptionsCallback.addSuccess();
                                     }

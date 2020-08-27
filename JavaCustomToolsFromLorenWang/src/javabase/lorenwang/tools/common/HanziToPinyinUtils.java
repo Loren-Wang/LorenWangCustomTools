@@ -286,7 +286,7 @@ public class HanziToPinyinUtils {
                     if (value.equals(Locale.CHINA) || value.equals(Locale.CHINESE) || value.equals(newChina)) {
                         // Do self validation just once.
                         if (DEBUG) {
-                            JtlwLogUtils.logD(TAG,
+                            JtlwLogUtils.logUtils.logD(TAG,
                                     "Self validation. Result: " + doSelfValidation());
                         }
                         sInstance = new HanziToPinyinUtils(true);
@@ -294,7 +294,7 @@ public class HanziToPinyinUtils {
                     }
                 }
                 if (sInstance == null) {
-                    JtlwLogUtils.logI(TAG, "There is no Chinese collator, HanziToPinyinUtils is " +
+                    JtlwLogUtils.logUtils.logI(TAG, "There is no Chinese collator, HanziToPinyinUtils is " +
                             "disabled");
                     sInstance = new HanziToPinyinUtils(false);
                 }
@@ -318,7 +318,7 @@ public class HanziToPinyinUtils {
             final String curString = Character.toString(c);
             int cmp = COLLATOR.compare(lastString, curString);
             if (cmp >= 0) {
-                JtlwLogUtils.logE(TAG,
+                JtlwLogUtils.logUtils.logE(TAG,
                         "Internal error in Unihan table. " + "The last string \"" + lastString
                                 + "\" is greater than current string \"" + curString + "\".");
                 return false;

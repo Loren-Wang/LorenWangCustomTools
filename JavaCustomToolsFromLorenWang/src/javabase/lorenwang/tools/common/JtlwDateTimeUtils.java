@@ -3,11 +3,12 @@ package javabase.lorenwang.tools.common;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
- * 创建时间：2019-01-28 下午 18:30:6
- * 创建人：王亮（Loren wang）
  * 功能作用：时间工具类
+ * 初始注释时间： 2019-01-28 下午 18:30:6
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：1、获取当前时间的毫秒值
  * 2、获取当前时间的秒值
@@ -22,8 +23,9 @@ import java.util.Date;
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 public class JtlwDateTimeUtils {
     private final String TAG = getClass().getName();
     private static volatile JtlwDateTimeUtils optionUtils;
@@ -51,7 +53,7 @@ public class JtlwDateTimeUtils {
      * @return 毫秒数
      */
     public Long getMillisecond() {
-        return new Date().getTime();
+        return System.currentTimeMillis();
     }
 
     /**
@@ -60,36 +62,39 @@ public class JtlwDateTimeUtils {
      * @return 秒值
      */
     public Long getSecond() {
-        return new Date().getTime() / 1000;
+        return System.currentTimeMillis() / 1000;
     }
 
     /**
+     * 格式化指定时间到指定格式
+     *
      * yyyy.MM.dd G 'at' hh:mm:ss z 如 '2002-1-1 AD at 22:10:59 PSD'
      * yy/MM/dd HH:mm:ss 如 '2002/1/1 17:55:00'
      * yy/MM/dd HH:mm:ss pm 如 '2002/1/1 17:55:00 pm'
      * yy-MM-dd HH:mm:ss 如 '2002-1-1 17:55:00'
      * yy-MM-dd HH:mm:ss am 如 '2002-1-1 17:55:00 am'
-     * 格式化指定时间到指定格式
+     *
      *
      * @param pattern  时间格式正则
      * @param dateTime 时间戳
      * @return 转换后字符串
      */
     public String getFormatDateTime(String pattern, long dateTime) {
-        return getFormatDateTime(pattern,new Date(dateTime));
+        return getFormatDateTime(pattern, new Date(dateTime));
     }
 
     /**
      * 格式化时间
+     *
      * @param pattern 格式
-     * @param date 时间
+     * @param date    时间
      * @return 成功返回时间字符串，否则返回null
      */
     public String getFormatDateTime(String pattern, Date date) {
         if (pattern == null || "".equals(pattern) || date == null) {
             return null;
         } else {
-            SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
+            SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.CHINA);
             return sDateFormat.format(date);
         }
     }
@@ -104,7 +109,7 @@ public class JtlwDateTimeUtils {
         if (pattern == null || "".equals(pattern)) {
             return null;
         }
-        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
+        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.CHINA);
         return sDateFormat.format(new Date(getMillisecond()));
     }
 
@@ -114,11 +119,11 @@ public class JtlwDateTimeUtils {
      * @param pattern 时间格式正则
      * @return 转换后字符串
      */
-    public Long getFormatedNowTimeToMillisecond(String pattern) {
+    public Long getFormatNowTimeToMillisecond(String pattern) {
         if (pattern == null || "".equals(pattern)) {
             return null;
         }
-        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
+        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.CHINA);
         Long time = null;
         try {
             time = sDateFormat.parse(sDateFormat.format(new Date(getMillisecond()))).getTime();
@@ -132,17 +137,18 @@ public class JtlwDateTimeUtils {
      * 根据日期时间获得毫秒数
      *
      * @param dateAndTime       日期时间："201104141302"
-     * @param dateAndTimeFormat 日期时间的格式："yyyyMMddhhmm"
+     * @param dateAndTimeFormat 日期时间的格式："yyyy MM dd hh mm"
      * @return 返回毫秒数
      */
     public long getMillisecond(String dateAndTime, String dateAndTimeFormat) {
         if (dateAndTime == null || "".equals(dateAndTime) || dateAndTimeFormat == null || "".equals(dateAndTimeFormat)) {
             return 0L;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(dateAndTimeFormat);
+        SimpleDateFormat sdf = new SimpleDateFormat(dateAndTimeFormat, Locale.CHINA);
         long millionSeconds = 0L;
         try {
-            millionSeconds = sdf.parse(dateAndTime).getTime();//毫秒
+            //毫秒
+            millionSeconds = sdf.parse(dateAndTime).getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -153,7 +159,7 @@ public class JtlwDateTimeUtils {
      * 根据日期时间获得秒数
      *
      * @param dateAndTime       日期时间："201104141302"
-     * @param dateAndTimeFormat 日期时间的格式："yyyyMMddhhmm"
+     * @param dateAndTimeFormat 日期时间的格式："yyyy  MM dd hh mm"
      * @return 返回秒数
      */
     public long getSecond(String dateAndTime, String dateAndTimeFormat) {
@@ -162,6 +168,7 @@ public class JtlwDateTimeUtils {
 
     /**
      * 根据输入的年份判断该年份是否是闰年，是则返回true
+     *
      * @param year 要输入的年份
      * @return 是闰年返回true，否则返回false
      */

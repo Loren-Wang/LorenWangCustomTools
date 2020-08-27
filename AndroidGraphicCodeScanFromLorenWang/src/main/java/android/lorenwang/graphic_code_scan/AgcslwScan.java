@@ -270,8 +270,9 @@ public class AgcslwScan implements SurfaceHolder.Callback {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = false; // 获取新的大小
                 int sampleSize = (int) (options.outHeight / (float) 200);
-                if (sampleSize <= 0)
+                if (sampleSize <= 0) {
                     sampleSize = 1;
+                }
                 options.inSampleSize = sampleSize;
                 Bitmap scanBitmap = BitmapFactory.decodeFile(path, options);
                 int[] intArray = new int[scanBitmap.getWidth() * scanBitmap.getHeight()];
@@ -506,7 +507,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         }
         if (rawResult != null && rawResult.getText() != null) {
             String resultText = rawResult.getText();
-            AtlwLogUtils.logD(TAG, "扫描结果:::" + resultText);
+            AtlwLogUtils.logUtils.logD(TAG, "扫描结果:::" + resultText);
             if (scanResultCallback != null) {
                 scanResultCallback.scanResult(resultText);
                 if (returnScanBitmap) {
@@ -515,7 +516,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
                         assert barcodeBitmaps != null;
                         scanResultCallback.scanResultBitmap(BitmapFactory.decodeByteArray(barcodeBitmaps, 0, barcodeBitmaps.length));
                     } catch (Exception e) {
-                        AtlwLogUtils.logD("处理返回的扫描结果位图数据异常：" + (e.getMessage() != null ?
+                        AtlwLogUtils.logUtils.logD("处理返回的扫描结果位图数据异常：" + (e.getMessage() != null ?
                                 e.getMessage() : ""));
                     }
                 }
@@ -628,7 +629,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
             throw new IllegalStateException("No SurfaceHolder provided");
         }
         if (cameraManager.isOpen()) {
-            AtlwLogUtils.logD(TAG, "initCamera() while already open -- late SurfaceView callback?");
+            AtlwLogUtils.logUtils.logD(TAG, "initCamera() while already open -- late SurfaceView callback?");
             return;
         }
         try {
@@ -641,14 +642,14 @@ public class AgcslwScan implements SurfaceHolder.Callback {
 
             initCrop();
         } catch (IOException ioe) {
-            AtlwLogUtils.logD(TAG, ioe.getMessage());
+            AtlwLogUtils.logUtils.logD(TAG, ioe.getMessage());
             if (scanResultCallback != null) {
                 scanResultCallback.cameraInitError();
             }
         } catch (RuntimeException e) {
             // Barcode Scanner has seen crashes in the wild of this variety:
             // java.?lang.?RuntimeException: Fail to connect to camera service
-            AtlwLogUtils.logD(TAG, "Unexpected error initializing camera", e);
+            AtlwLogUtils.logUtils.logD(TAG, "Unexpected error initializing camera", e);
             if (scanResultCallback != null) {
                 scanResultCallback.cameraInitError();
             }

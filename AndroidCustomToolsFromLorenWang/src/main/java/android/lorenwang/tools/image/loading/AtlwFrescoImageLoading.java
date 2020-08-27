@@ -93,7 +93,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                     }
                 }
             } catch (Exception e) {
-                AtlwLogUtils.logE(TAG, "加载bitmap失败");
+                AtlwLogUtils.logUtils.logE(TAG, "加载bitmap失败");
             }
         }
     }
@@ -229,7 +229,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                 ResizeOptions resizeOptions = new ResizeOptions(width, height);
                 imageRequestBuilder.setResizeOptions(resizeOptions);
             } catch (Exception e) {
-                AtlwLogUtils.logE(TAG, "resize失败");
+                AtlwLogUtils.logUtils.logE(TAG, "resize失败");
             }
         }
 
@@ -262,7 +262,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
         try {
             builder.setOldController(simpleDraweeView.getController());
         } catch (Exception e) {
-            AtlwLogUtils.logD(TAG, "图片加载异常");
+            AtlwLogUtils.logUtils.logD(TAG, "图片加载异常");
         }
         return builder.build();
     }

@@ -278,20 +278,20 @@ public class JtlwCheckVariateUtils {
      */
     public boolean checkFileIsExit(String filePath) {
         if (isEmpty(filePath)) {
-            JtlwLogUtils.logI(TAG, "被检查文件地址为空，不通过检测");
+            JtlwLogUtils.logUtils.logI(TAG, "被检查文件地址为空，不通过检测");
             return false;
         }
         File file = new File(filePath);
         boolean isExit = false;//文件是否存在记录
         if (file.isDirectory()) {
-            JtlwLogUtils.logI(TAG, "被检查文件为空或被检测的地址为文件夹，不通过检测");
+            JtlwLogUtils.logUtils.logI(TAG, "被检查文件为空或被检测的地址为文件夹，不通过检测");
             return false;
         }
         if (file.exists()) {
             isExit = true;
-            JtlwLogUtils.logI(TAG, "被检查文件存在");
+            JtlwLogUtils.logUtils.logI(TAG, "被检查文件存在");
         } else {
-            JtlwLogUtils.logI(TAG, "被检查文件不存在");
+            JtlwLogUtils.logUtils.logI(TAG, "被检查文件不存在");
         }
         return isExit;
     }
@@ -305,14 +305,14 @@ public class JtlwCheckVariateUtils {
     public boolean checkFileIsImage(String filePath) {
         if (!isEmpty(filePath)) {
             if (checkIsImage(filePath.toLowerCase())) {
-                JtlwLogUtils.logI(TAG, "被检测地址为图片地址：");
+                JtlwLogUtils.logUtils.logI(TAG, "被检测地址为图片地址：");
                 return true;
             } else {
-                JtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
+                JtlwLogUtils.logUtils.logI(TAG, "被检测地址为空或文件为非图片");
                 return false;
             }
         } else {
-            JtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
+            JtlwLogUtils.logUtils.logI(TAG, "被检测地址为空或文件为非图片");
             return false;
         }
     }

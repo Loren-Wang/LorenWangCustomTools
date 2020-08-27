@@ -86,19 +86,19 @@ public class AtlwImageCommonUtils {
     public String imageFileToBase64String(String filePath) {
         if (AtlwCheckUtils.getInstance().checkFileIsExit(filePath)
                 && AtlwCheckUtils.getInstance().checkFileIsImage(filePath)) {
-            AtlwLogUtils.logI(TAG, "图片文件地址有效性检测成功，开始获取文件字节");
+            AtlwLogUtils.logUtils.logI(TAG, "图片文件地址有效性检测成功，开始获取文件字节");
             byte[] bytes = AtlwFileOptionUtils.getInstance()
                     .readImageFileGetBytes(false, false, filePath);
             String base64Str = null;
             if (bytes != null) {
                 base64Str = Base64.encodeToString(bytes, Base64.DEFAULT);
-                AtlwLogUtils.logI(TAG, "图片转换成功，转换后数据：" + base64Str);
+                AtlwLogUtils.logUtils.logI(TAG, "图片转换成功，转换后数据：" + base64Str);
             } else {
-                AtlwLogUtils.logI(TAG, "图片转换失败,失败原因：文件读取异常");
+                AtlwLogUtils.logUtils.logI(TAG, "图片转换失败,失败原因：文件读取异常");
             }
             return base64Str;
         } else {
-            AtlwLogUtils.logI(TAG, "图片文件转换失败，失败原因可能是以下几点：1、未拥有文件权限；2、文件不存在；3、传输的地址非图片地址");
+            AtlwLogUtils.logUtils.logI(TAG, "图片文件转换失败，失败原因可能是以下几点：1、未拥有文件权限；2、文件不存在；3、传输的地址非图片地址");
             return null;
         }
     }
@@ -498,7 +498,7 @@ public class AtlwImageCommonUtils {
      * @return 旋转后的位图
      */
     public Bitmap toTurnPicture(Bitmap img, int degree) {
-        AtlwLogUtils.logD(TAG, "toTurnPicture degree" + degree);
+        AtlwLogUtils.logUtils.logD(TAG, "toTurnPicture degree" + degree);
         if (degree != 0) {
             Matrix matrix = new Matrix();
             matrix.postRotate(degree); /*翻转90度*/
@@ -613,7 +613,7 @@ public class AtlwImageCommonUtils {
             return Bitmap.createBitmap(argbs, 0, portraitWidth, portraitWidth, portraitHeight,
                     bitmap.getConfig());
         } catch (Exception e) {
-            AtlwLogUtils.logE(TAG, "是位图背景透明处理异常" + (e.getMessage() == null ? "" : e.getMessage()));
+            AtlwLogUtils.logUtils.logE(TAG, "是位图背景透明处理异常" + (e.getMessage() == null ? "" : e.getMessage()));
             return bitmap;
         }
     }
@@ -661,7 +661,7 @@ public class AtlwImageCommonUtils {
                     topShowRect, paint);
             return bitmapBg;
         } catch (Exception e) {
-            AtlwLogUtils.logE(TAG, "合并位图异常" + (e.getMessage() == null ? "" : e.getMessage()));
+            AtlwLogUtils.logUtils.logE(TAG, "合并位图异常" + (e.getMessage() == null ? "" : e.getMessage()));
             return bitmapBg;
         }
     }

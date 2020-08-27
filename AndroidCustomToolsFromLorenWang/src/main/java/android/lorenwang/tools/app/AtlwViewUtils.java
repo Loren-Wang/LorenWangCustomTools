@@ -88,7 +88,7 @@ public class AtlwViewUtils {
                         }
                     }
                 } catch (Exception e) {
-                    AtlwLogUtils.logE(TAG, "当前ViewParams获取异常");
+                    AtlwLogUtils.logUtils.logE(TAG, "当前ViewParams获取异常");
                 }
                 //当前的params获取失败，获取父级的
                 if (view.getParent() != null) {
@@ -101,7 +101,7 @@ public class AtlwViewUtils {
                             }
                         }
                     } catch (Exception e) {
-                        AtlwLogUtils.logE(TAG, "当前View父级Params获取异常");
+                        AtlwLogUtils.logUtils.logE(TAG, "当前View父级Params获取异常");
                     }
                 }
                 if (view instanceof LinearLayout) {
@@ -146,7 +146,7 @@ public class AtlwViewUtils {
                 params.height = height;
                 return params;
             } catch (Exception e) {
-                AtlwLogUtils.logE(TAG, "Params获取异常");
+                AtlwLogUtils.logUtils.logE(TAG, "Params获取异常");
             }
         }
         return null;

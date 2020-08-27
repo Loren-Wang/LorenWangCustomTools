@@ -37,6 +37,7 @@ import java.util.List;
  * 修改人：
  * 修改时间：
  * 备注：
+ * @author wangliang
  */
 
 public class AvlwSideBar1 extends View {
@@ -79,19 +80,19 @@ public class AvlwSideBar1 extends View {
     private int textBgHeight = 0;
 
 
-    /******************************************绘制参数*********************************************/
+    /*----------------------------------------*绘制参数----------------------------------------*/
 
     /**
      * 文本选中画笔
      */
-    private Paint textPaintY = new Paint();
+    private final Paint textPaintY = new Paint();
     /**
      * 文本未选中画笔
      */
-    private Paint textPaintN = new Paint();
+    private final Paint textPaintN = new Paint();
 
 
-    /*********************************************操作的参数****************************************/
+    /*----------------------------------------操作的参数----------------------------------------*/
 
     /**
      * 当前位置
@@ -284,11 +285,11 @@ public class AvlwSideBar1 extends View {
         postInvalidate();
 
         if (isDown) {
-            AtlwLogUtils.logI(TAG, "按下数组位置：" + posi);
+            AtlwLogUtils.logUtils.logI(TAG, "按下数组位置：" + posi);
         } else if (isMove) {
-            AtlwLogUtils.logI(TAG, "滑动数组位置：" + posi);
+            AtlwLogUtils.logUtils.logI(TAG, "滑动数组位置：" + posi);
         } else if (isUp) {
-            AtlwLogUtils.logI(TAG, "抬起数组位置：" + posi);
+            AtlwLogUtils.logUtils.logI(TAG, "抬起数组位置：" + posi);
         }
 
         if (avlwOnSideBarTounchListener != null) {

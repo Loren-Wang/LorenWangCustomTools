@@ -186,9 +186,9 @@ public class AtlwStatusBarUtils {
         try {
             Method mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon", boolean.class);
             mSetStatusBarDarkIcon.invoke(activity, dark);
-            AtlwLogUtils.logD(TAG, "Set StatusBar success for MeiZu");
+            AtlwLogUtils.logUtils.logD(TAG, "Set StatusBar success for MeiZu");
         } catch (Exception e) {
-            AtlwLogUtils.logD(TAG, "Set StatusBar fail for MeiZu");
+            AtlwLogUtils.logUtils.logD(TAG, "Set StatusBar fail for MeiZu");
             if (flag) {
                 setStatusBarDarkIcon(activity.getWindow(), dark);
             }

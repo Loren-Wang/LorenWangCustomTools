@@ -107,7 +107,7 @@ public class JtlwFileOptionUtils {
             }
             return outputStream.toByteArray();
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, "图片读取异常");
+            JtlwLogUtils.logUtils.logE(TAG, "图片读取异常");
             return null;
         } finally {
             if (fileInputStream != null) {
@@ -138,7 +138,7 @@ public class JtlwFileOptionUtils {
             File file = new File(path);
             return readBytes(file);
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                     e.getMessage());
             return new byte[]{};
         }
@@ -159,7 +159,7 @@ public class JtlwFileOptionUtils {
             fis = new FileInputStream(file);
             return readBytes(fis);
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                     e.getMessage());
             return new byte[]{};
         } finally {
@@ -167,7 +167,7 @@ public class JtlwFileOptionUtils {
                 assert fis != null;
                 fis.close();
             } catch (Exception e) {
-                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                         e.getMessage());
             }
 
@@ -193,7 +193,7 @@ public class JtlwFileOptionUtils {
             }
             return baos.toByteArray();
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                     e.getMessage());
             return new byte[]{};
         } finally {
@@ -201,7 +201,7 @@ public class JtlwFileOptionUtils {
                 assert baos != null;
                 baos.close();
             } catch (Exception e) {
-                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                         e.getMessage());
             }
 
@@ -225,7 +225,7 @@ public class JtlwFileOptionUtils {
             deleteFile(file.getAbsolutePath());
         }
         //创建父级文件夹
-        createDirectory(file.getAbsolutePath(), true);
+        createDirectory(file.getAbsolutePath(), file.isFile());
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file, append);
@@ -238,7 +238,7 @@ public class JtlwFileOptionUtils {
             }
             return true;
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                     e.getMessage());
             return false;
         } finally {
@@ -246,7 +246,7 @@ public class JtlwFileOptionUtils {
                 assert fos != null;
                 fos.close();
             } catch (Exception e) {
-                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                         e.getMessage());
             }
         }
@@ -276,7 +276,7 @@ public class JtlwFileOptionUtils {
         try {
             return writeToFile(file, new ByteArrayInputStream(text.getBytes(encoding)), append);
         } catch (UnsupportedEncodingException e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                     e.getMessage());
             return false;
         }
@@ -308,12 +308,12 @@ public class JtlwFileOptionUtils {
             //删除文件
             deleteFile(file.getAbsolutePath());
             //创建父级文件夹
-            createDirectory(file.getAbsolutePath(), true);
+            createDirectory(file.getAbsolutePath(), file.isFile());
             fos = new FileOutputStream(file, append);
             fos.write(buffer);
             return true;
         } catch (Exception e) {
-            JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                     e.getMessage());
             return false;
         } finally {
@@ -322,7 +322,7 @@ public class JtlwFileOptionUtils {
                     fos.close();
                 }
             } catch (Exception e) {
-                JtlwLogUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
                         e.getMessage());
             }
         }
@@ -514,12 +514,13 @@ public class JtlwFileOptionUtils {
             return false;
         }
         File file = new File(path);
+        //判断当前是否是需要父级文件夹判断
+        if (isParentDir) {
+            file = file.getParentFile();
+        }
         //先判断文件夹是否存在
         if (file.exists()) {
             return true;
-        }
-        if (isParentDir) {
-            file = file.getParentFile();
         }
         return file.mkdirs();
     }

@@ -74,20 +74,20 @@ public class AtlwCheckUtils {
      */
     public boolean checkFileIsExit(String filePath) {
         if (TextUtils.isEmpty(filePath)) {
-            AtlwLogUtils.logI(TAG, "被检查文件地址为空，不通过检测");
+            AtlwLogUtils.logUtils.logI(TAG, "被检查文件地址为空，不通过检测");
             return false;
         }
         File file = new File(filePath);
         boolean isExit = false;//文件是否存在记录
         if (file.isDirectory()) {
-            AtlwLogUtils.logI(TAG, "被检查文件为空或被检测的地址为文件夹，不通过检测");
+            AtlwLogUtils.logUtils.logI(TAG, "被检查文件为空或被检测的地址为文件夹，不通过检测");
             return false;
         }
         if (file.exists()) {
             isExit = true;
-            AtlwLogUtils.logI(TAG, "被检查文件存在");
+            AtlwLogUtils.logUtils.logI(TAG, "被检查文件存在");
         } else {
-            AtlwLogUtils.logI(TAG, "被检查文件不存在");
+            AtlwLogUtils.logUtils.logI(TAG, "被检查文件不存在");
         }
         return isExit;
     }
@@ -100,20 +100,20 @@ public class AtlwCheckUtils {
      */
     public boolean checkDirectoryIsExit(String filePath) {
         if (TextUtils.isEmpty(filePath)) {
-            AtlwLogUtils.logI(TAG, "被检查文件地址为空，不通过检测");
+            AtlwLogUtils.logUtils.logI(TAG, "被检查文件地址为空，不通过检测");
             return false;
         }
         File file = new File(filePath);
         boolean isExit = false;//文件是否存在记录
         if (file.isFile()) {
-            AtlwLogUtils.logI(TAG, "被检查文件为空或被检测的地址为文件，不通过检测");
+            AtlwLogUtils.logUtils.logI(TAG, "被检查文件为空或被检测的地址为文件，不通过检测");
             return false;
         }
         if (file.exists()) {
             isExit = true;
-            AtlwLogUtils.logI(TAG, "被检查文件夹存在");
+            AtlwLogUtils.logUtils.logI(TAG, "被检查文件夹存在");
         } else {
-            AtlwLogUtils.logI(TAG, "被检查文件夹不存在");
+            AtlwLogUtils.logUtils.logI(TAG, "被检查文件夹不存在");
         }
         return isExit;
     }
@@ -127,14 +127,14 @@ public class AtlwCheckUtils {
     public boolean checkFileIsImage(String filePath) {
         if (!TextUtils.isEmpty(filePath)) {
             if (JtlwCheckVariateUtils.getInstance().checkFileIsImage(filePath)) {
-                AtlwLogUtils.logI(TAG, "被检测地址为图片地址：");
+                AtlwLogUtils.logUtils.logI(TAG, "被检测地址为图片地址：");
                 return true;
             } else {
-                AtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
+                AtlwLogUtils.logUtils.logI(TAG, "被检测地址为空或文件为非图片");
                 return false;
             }
         } else {
-            AtlwLogUtils.logI(TAG, "被检测地址为空或文件为非图片");
+            AtlwLogUtils.logUtils.logI(TAG, "被检测地址为空或文件为非图片");
             return false;
         }
     }

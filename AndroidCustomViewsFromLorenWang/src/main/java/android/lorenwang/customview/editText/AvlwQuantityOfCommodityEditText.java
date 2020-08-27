@@ -181,7 +181,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
             reduceButtonAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableAllow));
             reduceButtonNotAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableNotAllow));
         } catch (Exception e) {
-            AtlwLogUtils.logE(TAG, "数量控件初始化异常");
+            AtlwLogUtils.logUtils.logE(TAG, "数量控件初始化异常");
         }
         if (addButtonAllowBitmap != null) {
             addButtonAllowBitmapRect = new Rect(0, 0, addButtonAllowBitmap.getWidth(), addButtonAllowBitmap.getHeight());
@@ -229,7 +229,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
                 try {
                     quantity = Long.parseLong(s.toString());
                 } catch (NumberFormatException e) {
-                    AtlwLogUtils.logE(TAG, "传递的参数非整数参数");
+                    AtlwLogUtils.logUtils.logE(TAG, "传递的参数非整数参数");
                 }
                 //判断修改后是否超范围
                 if (quantity.compareTo(maxQuantity) > 0) {
@@ -505,7 +505,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
             try {
                 this.quantity = Long.parseLong(String.valueOf(text));
             } catch (NumberFormatException e) {
-                AtlwLogUtils.logE(this.TAG, "传递的参数非整数参数");
+                AtlwLogUtils.logUtils.logE(this.TAG, "传递的参数非整数参数");
             }
         }
         text = String.valueOf(this.quantity);

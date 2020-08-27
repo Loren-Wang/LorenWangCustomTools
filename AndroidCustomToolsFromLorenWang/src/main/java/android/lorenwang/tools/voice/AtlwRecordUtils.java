@@ -76,7 +76,7 @@ public class AtlwRecordUtils {
     public boolean start(Activity activity, String savePath, boolean isCancelLastRecord, boolean isEndPlaying) {
         //检测传入的存储地址是否为空
         if (JtlwCheckVariateUtils.getInstance().isEmpty(savePath)) {
-            AtlwLogUtils.logE(TAG, "The savePath is never empty");
+            AtlwLogUtils.logUtils.logE(TAG, "The savePath is never empty");
             //回传状态
             recordStart(false);
             return false;
@@ -85,7 +85,7 @@ public class AtlwRecordUtils {
         //开启录音前首先要检测录音权限
         if (!AtlwCheckUtils.getInstance().checkAppPermission(Manifest.permission.RECORD_AUDIO
                 , Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            AtlwLogUtils.logE(TAG, "Not record and storage permisstions!");
+            AtlwLogUtils.logUtils.logE(TAG, "Not record and storage permisstions!");
             //回传状态
             recordStart(false);
             return false;
@@ -93,15 +93,15 @@ public class AtlwRecordUtils {
 
         //判断当前是否在录音
         if (recording) {
-            AtlwLogUtils.logE(TAG, "Now Recording");
+            AtlwLogUtils.logUtils.logE(TAG, "Now Recording");
             //判断是否要取消上一次播放
             if (isCancelLastRecord) {
-                AtlwLogUtils.logE(TAG, "Ready to cancel the last record");
+                AtlwLogUtils.logUtils.logE(TAG, "Ready to cancel the last record");
                 //停止成功继续
                 if (cancel()) {
-                    AtlwLogUtils.logE(TAG, "The last record cancel successful.");
+                    AtlwLogUtils.logUtils.logE(TAG, "The last record cancel successful.");
                 } else {
-                    AtlwLogUtils.logE(TAG, "The last record cancel failed.");
+                    AtlwLogUtils.logUtils.logE(TAG, "The last record cancel failed.");
                     //回传状态
                     recordStart(false);
                     return false;
@@ -115,13 +115,13 @@ public class AtlwRecordUtils {
 
         //判断当前是否在播放录音
         if (AtlwMediaPlayUtils.getInstance().isPlaying()) {
-            AtlwLogUtils.logI(TAG, "The recording is currently playing");
+            AtlwLogUtils.logUtils.logI(TAG, "The recording is currently playing");
             //判断是否要结束，只有结束成功了才会向下走，不结束或者结束失败都会返回失败，不会继续向下走
             if (isEndPlaying) {
                 if (AtlwMediaPlayUtils.getInstance().stop(activity)) {
-                    AtlwLogUtils.logI(TAG, "Play ended successfully");
+                    AtlwLogUtils.logUtils.logI(TAG, "Play ended successfully");
                 } else {
-                    AtlwLogUtils.logI(TAG, "Play end failed!");
+                    AtlwLogUtils.logUtils.logI(TAG, "Play end failed!");
                     //回传状态
                     recordStart(false);
                     return false;
@@ -135,7 +135,7 @@ public class AtlwRecordUtils {
 
         //检测文件夹是否存在，没有存在则创建文件夹，如果创建失败则返回失败
         if (!AtlwFileOptionUtils.getInstance().createDirectory(true, savePath, true)) {
-            AtlwLogUtils.logE(TAG, "Directory creation failed");
+            AtlwLogUtils.logUtils.logE(TAG, "Directory creation failed");
             //回传状态
             recordStart(false);
             return false;
@@ -143,7 +143,7 @@ public class AtlwRecordUtils {
 
         //检测录音的存储文件是否存在，文件存在则返回失败
         if (AtlwCheckUtils.getInstance().checkFileIsExit(savePath)) {
-            AtlwLogUtils.logE(TAG, "Record exists!");
+            AtlwLogUtils.logUtils.logE(TAG, "Record exists!");
             //回传状态
             recordStart(false);
             return false;
@@ -171,14 +171,14 @@ public class AtlwRecordUtils {
                 recording = true;
                 //记录当前启动的录音的存储路径
                 this.nowRecordSavePath = savePath;
-                AtlwLogUtils.logI(TAG, "Recording started successfully");
+                AtlwLogUtils.logUtils.logI(TAG, "Recording started successfully");
                 //回传状态
                 recordStart(true);
                 return true;
             } catch (Exception e) {
                 //记录状态
                 recording = false;
-                AtlwLogUtils.logI(TAG, "Recording started failed");
+                AtlwLogUtils.logUtils.logI(TAG, "Recording started failed");
                 //回传状态
                 recordStart(false);
                 return false;
@@ -273,14 +273,14 @@ public class AtlwRecordUtils {
                     mediaRecorder.stop();
                     mediaRecorder.reset();
                     recording = false;
-                    AtlwLogUtils.logI(TAG, "Record stop Successful!");
+                    AtlwLogUtils.logUtils.logI(TAG, "Record stop Successful!");
                     //回传状态
                     if (!isCancel) {
                         recordStop(true);
                     }
                     return true;
                 } catch (Exception e) {
-                    AtlwLogUtils.logI(TAG, "Record stop failed!");
+                    AtlwLogUtils.logUtils.logI(TAG, "Record stop failed!");
                     //回传状态
                     if (!isCancel) {
                         recordStop(false);
@@ -288,7 +288,7 @@ public class AtlwRecordUtils {
                     return false;
                 }
             } else {
-                AtlwLogUtils.logI(TAG, "Record stop Successful!");
+                AtlwLogUtils.logUtils.logI(TAG, "Record stop Successful!");
                 //回传状态
                 if (!isCancel) {
                     recordStop(true);

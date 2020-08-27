@@ -260,12 +260,12 @@ public class AtlwFlyMessageUtils {
 //                             msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
 //                         }
                         } catch (Exception e) {
-                            AtlwLogUtils.logE(TAG, "callback msg fail");
+                            AtlwLogUtils.logUtils.logE(TAG, "callback msg fail");
                         }
                     }
                 });
             } else {
-                AtlwLogUtils.logE(TAG, "callback msg fail");
+                AtlwLogUtils.logUtils.logE(TAG, "callback msg fail");
             }
         }
     }

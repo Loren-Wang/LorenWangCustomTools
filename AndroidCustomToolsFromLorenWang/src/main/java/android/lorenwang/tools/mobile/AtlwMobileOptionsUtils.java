@@ -132,7 +132,7 @@ public final class AtlwMobileOptionsUtils {
             }
             return intent;
         } catch (Exception e) {
-            AtlwLogUtils.logD(TAG, "安装异常：" + e.getMessage());
+            AtlwLogUtils.logUtils.logD(TAG, "安装异常：" + e.getMessage());
             return null;
         }
     }
@@ -143,7 +143,7 @@ public final class AtlwMobileOptionsUtils {
      * @param packageName 包名
      */
     public void jumpToAppPermissionSettingPage(Activity activity, String packageName) {
-        AtlwLogUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
+        AtlwLogUtils.logUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
         if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
             jumpToMeizuAppPermissionSettingPage(activity, packageName);
         } else if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
@@ -215,7 +215,7 @@ public final class AtlwMobileOptionsUtils {
      */
     private void jumpToXiaoMiAppPermissionSettingPage(Activity activity, String packageName) {
         String rom = getMiuiVersion();
-        AtlwLogUtils.logI(TAG, "jumpToMiaoMiAppPermissionSettingPage --- rom : " + rom);
+        AtlwLogUtils.logUtils.logI(TAG, "jumpToMiaoMiAppPermissionSettingPage --- rom : " + rom);
         Intent intent = new Intent();
         if ("V6".equals(rom) || "V7".equals(rom)) {
             intent.setAction("miui.intent.action.APP_PERM_EDITOR");
@@ -281,7 +281,7 @@ public final class AtlwMobileOptionsUtils {
                     .getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(milliseconds);
         } catch (Exception e) {
-            AtlwLogUtils.logE(e);
+            AtlwLogUtils.logUtils.logE(e);
         }
     }
 
@@ -323,7 +323,7 @@ public final class AtlwMobileOptionsUtils {
             }
             activity.startActivityForResult(intent, requestCode);
         } else {
-            AtlwLogUtils.logD(TAG, "don't get camera permisstion");
+            AtlwLogUtils.logUtils.logD(TAG, "don't get camera permisstion");
         }
     }
 
@@ -366,7 +366,7 @@ public final class AtlwMobileOptionsUtils {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             activity.startActivityForResult(intent, requestCode);
         } else {
-            AtlwLogUtils.logD(TAG, "don't get camera permisstion");
+            AtlwLogUtils.logUtils.logD(TAG, "don't get camera permisstion");
         }
     }
 
@@ -412,9 +412,9 @@ public final class AtlwMobileOptionsUtils {
      * 申请电源设备锁，关闭屏幕
      */
     public void applyForPowerLocalWakeLock() {
-        AtlwLogUtils.logI(TAG, "申请电源设备锁");
+        AtlwLogUtils.logUtils.logI(TAG, "申请电源设备锁");
         if (getPowerLocalWakeLock() != null) {
-            AtlwLogUtils.logI(TAG, "电源设备锁获取成功，准备申请锁住屏幕。");
+            AtlwLogUtils.logUtils.logI(TAG, "电源设备锁获取成功，准备申请锁住屏幕。");
             //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
             getPowerLocalWakeLock().acquire(100);// 申请设备电源锁
         }
@@ -424,9 +424,9 @@ public final class AtlwMobileOptionsUtils {
      * 释放电源设备锁，唤起屏幕
      */
     public void releasePowerLocalWakeLock() {
-        AtlwLogUtils.logD(TAG, "释放设备电源锁");
+        AtlwLogUtils.logUtils.logD(TAG, "释放设备电源锁");
         if (getPowerLocalWakeLock() != null) {
-            AtlwLogUtils.logI(TAG, "电源设备锁获取成功，准备申请释放屏幕并唤醒。");
+            AtlwLogUtils.logUtils.logI(TAG, "电源设备锁获取成功，准备申请释放屏幕并唤醒。");
             //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
             getPowerLocalWakeLock().setReferenceCounted(false);
             getPowerLocalWakeLock().release(); // 释放设备电源锁
@@ -517,7 +517,7 @@ public final class AtlwMobileOptionsUtils {
      */
     public void useHandsetToPlay(Activity activity) {
         if (getAudioManager() != null) {
-            AtlwLogUtils.logD(TAG, "切换到手机听筒播放");
+            AtlwLogUtils.logUtils.logD(TAG, "切换到手机听筒播放");
             activity.setVolumeControlStream(STREAM_VOICE_CALL);
             getAudioManager().setSpeakerphoneOn(false);//关闭扬声器
             getAudioManager().setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE,
@@ -532,7 +532,7 @@ public final class AtlwMobileOptionsUtils {
      */
     public void useSpeakersToPlay() {
         if (getAudioManager() != null) {
-            AtlwLogUtils.logD(TAG, "切换到扬声器播放");
+            AtlwLogUtils.logUtils.logD(TAG, "切换到扬声器播放");
             getAudioManager().setSpeakerphoneOn(true);
             getAudioManager().setMode(AudioManager.MODE_NORMAL);
         }

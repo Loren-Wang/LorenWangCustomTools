@@ -136,12 +136,12 @@ public class AtlwBrightnessChangeUtils {
             try {
                 screenBrightness = Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS);
             } catch (Exception e) {
-                AtlwLogUtils.logI(TAG, "获取手机系统当前亮度失败");
+                AtlwLogUtils.logUtils.logI(TAG, "获取手机系统当前亮度失败");
             }
 
-            AtlwLogUtils.logI(TAG, "获取手机系统当前亮度:" + screenBrightness);
+            AtlwLogUtils.logUtils.logI(TAG, "获取手机系统当前亮度:" + screenBrightness);
         } else {
-            AtlwLogUtils.logI(TAG, "获取手机系统当前亮度失败");
+            AtlwLogUtils.logUtils.logI(TAG, "获取手机系统当前亮度失败");
         }
 
         return screenBrightness;
@@ -177,7 +177,7 @@ public class AtlwBrightnessChangeUtils {
                     Settings.System.putInt(activity.getContentResolver(),
                             Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
                 }
-                AtlwLogUtils.logI(TAG, "修改手机系统亮度为系统自动亮度" + (isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
+                AtlwLogUtils.logUtils.logI(TAG, "修改手机系统亮度为系统自动亮度" + (isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
             } else {
                 //动态申请权限
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.System.canWrite(activity)) {
@@ -190,7 +190,7 @@ public class AtlwBrightnessChangeUtils {
                             Settings.System.SCREEN_BRIGHTNESS_MODE,
                             Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
                 }
-                AtlwLogUtils.logI(TAG, "修改手机系统亮度为系统手动调节亮度" + (!isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
+                AtlwLogUtils.logUtils.logI(TAG, "修改手机系统亮度为系统手动调节亮度" + (!isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
             }
         }
     }
@@ -227,7 +227,7 @@ public class AtlwBrightnessChangeUtils {
                         lp.screenBrightness = 1;
                     }
                     activity.getWindow().setAttributes(lp);
-                    AtlwLogUtils.logI(TAG, "更新屏幕亮度成功：" + lp.screenBrightness);
+                    AtlwLogUtils.logUtils.logI(TAG, "更新屏幕亮度成功：" + lp.screenBrightness);
 
                     if (isCallback) {
                         //回传亮度改变
@@ -239,10 +239,10 @@ public class AtlwBrightnessChangeUtils {
                 } else {
                     lp.screenBrightness = brightness;
                     activity.getWindow().setAttributes(lp);
-                    AtlwLogUtils.logI(TAG, "更新屏幕亮度成功：使用系统定义的模式，模式值为：" + brightness);
+                    AtlwLogUtils.logUtils.logI(TAG, "更新屏幕亮度成功：使用系统定义的模式，模式值为：" + brightness);
                 }
             } catch (Exception ex) {
-                AtlwLogUtils.logI(TAG, "更新屏幕亮度失败");
+                AtlwLogUtils.logUtils.logI(TAG, "更新屏幕亮度失败");
             }
         }
     }
@@ -267,9 +267,9 @@ public class AtlwBrightnessChangeUtils {
         if (activity != null) {
             //判断系统是否是自动的
             isAuto = activity.getWindow().getAttributes().screenBrightness < 0;
-            AtlwLogUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
+            AtlwLogUtils.logUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
         } else {
-            AtlwLogUtils.logI(TAG, "当前系统的亮度模式获取失败");
+            AtlwLogUtils.logUtils.logI(TAG, "当前系统的亮度模式获取失败");
         }
         return isAuto;
     }
@@ -297,12 +297,12 @@ public class AtlwBrightnessChangeUtils {
             try {
                 isAuto = Settings.System.getInt(activity.getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
-                AtlwLogUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
+                AtlwLogUtils.logUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
             } catch (Settings.SettingNotFoundException e) {
-                AtlwLogUtils.logI(TAG, "当前系统的亮度模式获取失败");
+                AtlwLogUtils.logUtils.logI(TAG, "当前系统的亮度模式获取失败");
             }
         } else {
-            AtlwLogUtils.logI(TAG, "当前系统的亮度模式获取失败");
+            AtlwLogUtils.logUtils.logI(TAG, "当前系统的亮度模式获取失败");
         }
         return isAuto;
     }
@@ -331,20 +331,20 @@ public class AtlwBrightnessChangeUtils {
                 intent.setData(Uri.parse("package:" + activity.getPackageName()));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent);
-                AtlwLogUtils.logI(TAG, "保存亮度设置到手机系统成功");
+                AtlwLogUtils.logUtils.logI(TAG, "保存亮度设置到手机系统成功");
             } else {
                 try {
                     Uri uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS);
                     Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);
                     // resolver.registerContentObserver(uri, true, myContentObserver);
                     activity.getContentResolver().notifyChange(uri, null);
-                    AtlwLogUtils.logI(TAG, "保存亮度设置到手机系统成功");
+                    AtlwLogUtils.logUtils.logI(TAG, "保存亮度设置到手机系统成功");
                 } catch (Exception ex) {
-                    AtlwLogUtils.logI(TAG, "保存亮度设置到手机系统失败");
+                    AtlwLogUtils.logUtils.logI(TAG, "保存亮度设置到手机系统失败");
                 }
             }
         } else {
-            AtlwLogUtils.logI(TAG, "保存亮度设置到手机系统失败");
+            AtlwLogUtils.logUtils.logI(TAG, "保存亮度设置到手机系统失败");
         }
     }
 
@@ -402,7 +402,7 @@ public class AtlwBrightnessChangeUtils {
                 observerMap.put(activity, mBrightObserver);
             }
         } catch (Throwable throwable) {
-            AtlwLogUtils.logE(TAG, "注册亮度观察者异常! " + throwable);
+            AtlwLogUtils.logUtils.logE(TAG, "注册亮度观察者异常! " + throwable);
         }
     }
 
@@ -422,7 +422,7 @@ public class AtlwBrightnessChangeUtils {
                 }
             }
         } catch (Throwable throwable) {
-            AtlwLogUtils.logE(TAG, "解注册亮度观察者异常! " + throwable);
+            AtlwLogUtils.logUtils.logE(TAG, "解注册亮度观察者异常! " + throwable);
         }
     }
 

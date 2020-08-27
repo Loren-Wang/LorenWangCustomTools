@@ -35,7 +35,7 @@ public class AvlwViewPagerConstraintLayout extends ConstraintLayout {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-            AtlwLogUtils.logI(TAG, String.valueOf(positionOffset));
+            AtlwLogUtils.logUtils.logI(TAG, String.valueOf(positionOffset));
             if (positionOffset > 0 && positionOffset < 1) {
                 isScroll = true;
             } else if (position == 1 || positionOffset == 0) {
@@ -116,17 +116,17 @@ public class AvlwViewPagerConstraintLayout extends ConstraintLayout {
                             downViewPage = secondPage;
                             secondPage.setUserInputEnabled(true);
                             firstViewPage.setUserInputEnabled(false);
-                            AtlwLogUtils.logI(this.TAG, "点击的是二级ViewPager");
+                            AtlwLogUtils.logUtils.logUtils.logI(this.TAG, "点击的是二级ViewPager");
                         } else {
                             downViewPage = firstViewPage;
                             secondPage.setUserInputEnabled(false);
                             firstViewPage.setUserInputEnabled(true);
-                            AtlwLogUtils.logI(this.TAG, "点击的是二级ViewPager");
+                            AtlwLogUtils.logUtils.logI(this.TAG, "点击的是二级ViewPager");
                         }
                     } else {
                         firstViewPage.setUserInputEnabled(true);
                         downViewPage = firstViewPage;
-                        AtlwLogUtils.logI(this.TAG, "点击的是一级ViewPager");
+                        AtlwLogUtils.logUtils.logI(this.TAG, "点击的是一级ViewPager");
                     }
                 }
                 break;
@@ -137,24 +137,24 @@ public class AvlwViewPagerConstraintLayout extends ConstraintLayout {
                         //判断是否到达左边界手势向左滑
                         firstViewPage.setUserInputEnabled(false);
                         downViewPage.setUserInputEnabled(true);
-                        AtlwLogUtils.logI(this.TAG, "左边界手势向左滑");
+                        AtlwLogUtils.logUtils.logI(this.TAG, "左边界手势向左滑");
                     } else if (downX < ev.getRawX() && downViewPage.getCurrentItem() == 0) {
                         //判断是否左边界手势向右滑
                         downViewPage.setUserInputEnabled(false);
                         firstViewPage.setUserInputEnabled(true);
-                        AtlwLogUtils.logI(this.TAG, "左边界手势向右滑");
+                        AtlwLogUtils.logUtils.logI(this.TAG, "左边界手势向右滑");
                     } else if (downX > ev.getRawX() && downViewPage.getAdapter() != null
                             && downViewPage.getCurrentItem() == downViewPage.getAdapter().getItemCount() - 1) {
                         //判断是否是右边界手势向左滑
                         downViewPage.setUserInputEnabled(false);
                         firstViewPage.setUserInputEnabled(true);
-                        AtlwLogUtils.logI(this.TAG, "右边界手势向左滑");
+                        AtlwLogUtils.logUtils.logI(this.TAG, "右边界手势向左滑");
                     } else if (downX < ev.getRawX() && downViewPage.getAdapter() != null
                             && downViewPage.getCurrentItem() == downViewPage.getAdapter().getItemCount() - 1) {
                         //判断是否是右边界手势向右滑
                         firstViewPage.setUserInputEnabled(false);
                         downViewPage.setUserInputEnabled(true);
-                        AtlwLogUtils.logI(this.TAG, "右边界手势向右滑");
+                        AtlwLogUtils.logUtils.logI(this.TAG, "右边界手势向右滑");
                     }
                 }
                 break;

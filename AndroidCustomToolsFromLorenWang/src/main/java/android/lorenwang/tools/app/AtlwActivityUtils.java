@@ -127,9 +127,9 @@ public class AtlwActivityUtils {
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                         successPermissionList.add(permissions[i]);
-                        AtlwLogUtils.logI(TAG, "用户同意权限-user granted the permission!" + permissions[i]);
+                        AtlwLogUtils.logUtils.logI(TAG, "用户同意权限-user granted the permission!" + permissions[i]);
                     } else {
-                        AtlwLogUtils.logI(TAG, "用户不同意权限-user denied the permission!" + permissions[i]);
+                        AtlwLogUtils.logUtils.logI(TAG, "用户不同意权限-user denied the permission!" + permissions[i]);
                         failPermissionList.add(permissions[i]);
                     }
                 }
@@ -143,7 +143,7 @@ public class AtlwActivityUtils {
                     permissionRequestCallback.permissionRequestSuccessCallback(successPermissionList, requestCode);
                 }
             } catch (Exception e) {
-                AtlwLogUtils.logE(TAG, e.getMessage());
+                AtlwLogUtils.logUtils.logE(TAG, e.getMessage());
             } finally {
                 successPermissionList.clear();
                 failPermissionList.clear();

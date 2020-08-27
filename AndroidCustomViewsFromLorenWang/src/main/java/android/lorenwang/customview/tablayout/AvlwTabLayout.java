@@ -151,7 +151,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                         Thread.sleep(30);
                     }
                 } catch (Exception e) {
-                    AtlwLogUtils.logE(TAG, "滑动异常");
+                    AtlwLogUtils.logUtils.logE(TAG, "滑动异常");
                 }
             }
         }
@@ -348,7 +348,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                     //绝对值大于差值则代表着已经到了右边界
                     layoutOffset = -Math.abs(getMeasureWidth(this, 0, tabTextListSize) - getWidth());
                 }
-                AtlwLogUtils.logD(TAG, String.valueOf(layoutOffset));
+                AtlwLogUtils.logUtils.logD(TAG, String.valueOf(layoutOffset));
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
@@ -553,6 +553,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param tabWidth tab宽度
      * @return 当前view实例
      */
+    @Override
     public AvlwTabLayout setTabWidth(float tabWidth) {
         this.tabWidth = tabWidth;
         drawTabLayout.setTabWidth(tabWidth);

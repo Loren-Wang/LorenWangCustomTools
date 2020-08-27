@@ -45,12 +45,17 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author wangliang
  */
 
 public class AtlwFileOptionUtils {
     private final String TAG = getClass().getName();
     private static volatile AtlwFileOptionUtils optionsInstance;
-    private final int BUFFER_SIZE = 1024; // 流转换的缓存大小
+    /**
+     * 流转换的缓存大小
+     */
+    private final int BUFFER_SIZE = 1024;
     /**
      * 线程安全的队列,用于文件操作
      */
@@ -80,7 +85,8 @@ public class AtlwFileOptionUtils {
      * @param filePath           文件地址
      * @return 读取到的字节
      */
-    public byte[] readImageFileGetBytes(Boolean isCheckPermisstion, Boolean isCheckFile, String filePath) {
+    public byte[] readImageFileGetBytes(Boolean isCheckPermisstion, Boolean isCheckFile,
+                                        String filePath) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(AtlwConfig.nowApplication)) {
             return null;
         }
@@ -141,7 +147,8 @@ public class AtlwFileOptionUtils {
      * @param append             是否拼接
      * @return 是否成功
      */
-    public Boolean writeToFile(Boolean isCheckPermisstion, File file, InputStream inputStream, Boolean append) {
+    public Boolean writeToFile(Boolean isCheckPermisstion, File file, InputStream inputStream,
+                               Boolean append) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, inputStream)) {
             return false;
         }
@@ -170,11 +177,13 @@ public class AtlwFileOptionUtils {
      * @param append             是否后续新增插入，不覆盖插入
      * @return 是否成功
      */
-    public Boolean writeToFile(Boolean isCheckPermisstion, File file, String text, String encoding, Boolean append) {
+    public Boolean writeToFile(Boolean isCheckPermisstion, File file, String text,
+                               String encoding, Boolean append) {
         try {
-            return writeToFile(isCheckPermisstion, file, new ByteArrayInputStream(text.getBytes(encoding)), append);
+            return writeToFile(isCheckPermisstion, file,
+                    new ByteArrayInputStream(text.getBytes(encoding)), append);
         } catch (UnsupportedEncodingException e) {
-            AtlwLogUtils.logE(e);
+            AtlwLogUtils.logUtils.logE(e);
             return false;
         }
 
@@ -188,11 +197,12 @@ public class AtlwFileOptionUtils {
      *                           将bitmap写入File
      * @return 返回处理结果
      */
-    public Boolean writeToFile(Boolean isCheckPermisstion, File file, Bitmap bitmap, Bitmap.CompressFormat format) {
+    public Boolean writeToFile(Boolean isCheckPermisstion, File file, Bitmap bitmap,
+                               Bitmap.CompressFormat format) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, bitmap)) {
             return false;
         }
-        createDirectory(isCheckPermisstion,file.getPath(),file.isDirectory());
+        createDirectory(isCheckPermisstion, file.getPath(), file.isDirectory());
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -201,14 +211,14 @@ public class AtlwFileOptionUtils {
             fos.close();
             return true;
         } catch (Exception e) {
-            AtlwLogUtils.logE(e);
+            AtlwLogUtils.logUtils.logE(e);
             return false;
         } finally {
             try {
                 assert fos != null;
                 fos.close();
             } catch (Exception e) {
-                AtlwLogUtils.logE(e);
+                AtlwLogUtils.logUtils.logE(e);
             }
 
         }
@@ -218,7 +228,8 @@ public class AtlwFileOptionUtils {
         return writeToFile(isCheckPermisstion, file, buffer, false);
     }
 
-    public boolean writeToFile(boolean isCheckPermisstion, File file, byte[] buffer, boolean append) {
+    public boolean writeToFile(boolean isCheckPermisstion, File file, byte[] buffer,
+                               boolean append) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, buffer, append)) {
             return false;
         }
@@ -308,11 +319,13 @@ public class AtlwFileOptionUtils {
      * @param matchRegular       文件正则
      * @return 文件列表
      */
-    public List<File> getFileListForMatchRecursionScan(Boolean isCheckPermisstion, String scanPath, String matchRegular) {
+    public List<File> getFileListForMatchRecursionScan(Boolean isCheckPermisstion,
+                                                       String scanPath, String matchRegular) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return new ArrayList<>();
         }
-        return JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(scanPath, matchRegular);
+        return JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(scanPath,
+                matchRegular);
     }
 
     /**
@@ -323,11 +336,14 @@ public class AtlwFileOptionUtils {
      * @param matchRegular       要返回的文件的正则格式
      * @return 扫描到的文件列表
      */
-    public synchronized List<File> getFileListForMatchLinkedQueueScan(Boolean isCheckPermisstion, String scanPath, final String matchRegular) {
+    public synchronized List<File> getFileListForMatchLinkedQueueScan(Boolean isCheckPermisstion,
+                                                                      String scanPath,
+                                                                      final String matchRegular) {
         if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return new ArrayList<>();
         }
-        return JtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(scanPath, matchRegular);
+        return JtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(scanPath,
+                matchRegular);
     }
 
     /**
@@ -360,12 +376,11 @@ public class AtlwFileOptionUtils {
         String path = "";
         if (uri != null && !JtlwCheckVariateUtils.getInstance().isEmpty(dbKey)) {
             final String scheme = uri.getScheme();
-            if (scheme == null)
-                path = uri.getPath();
-            else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+            if (scheme == null || ContentResolver.SCHEME_FILE.equals(scheme)) {
                 path = uri.getPath();
             } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-                Cursor cursor = AtlwConfig.nowApplication.getContentResolver().query(uri, new String[]{dbKey}, null, null, null);
+                Cursor cursor = AtlwConfig.nowApplication.getContentResolver().query(uri,
+                        new String[]{dbKey}, null, null, null);
                 if (null != cursor) {
                     if (cursor.moveToFirst()) {
                         int index = cursor.getColumnIndex(dbKey);

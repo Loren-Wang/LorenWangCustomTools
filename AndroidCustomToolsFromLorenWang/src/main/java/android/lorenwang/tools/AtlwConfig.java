@@ -2,15 +2,18 @@ package android.lorenwang.tools;
 
 import android.app.Activity;
 import android.app.Application;
+import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.os.Build;
 import android.os.Bundle;
 
+import java.io.File;
 import java.util.Vector;
 
 import androidx.annotation.AnimRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.RequiresApi;
+import javabase.lorenwang.tools.JtlwLogUtils;
 
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE;
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED;
@@ -36,10 +39,6 @@ public class AtlwConfig {
      * 是否是debug模式
      */
     public static boolean isDebug = false;
-    /**
-     * debug日志存储地址
-     */
-    public static String debugLogFileSavePath = null;
     /**
      * 是否注册了生命周期监听
      */
@@ -104,49 +103,49 @@ public class AtlwConfig {
      */
     private static final Application.ActivityLifecycleCallbacks ACTIVITY_LIFECYCLE_CALLBACKS =
             new Application.ActivityLifecycleCallbacks() {
-        @Override
-        public void onActivityCreated(Activity activity, Bundle bundle) {
-            activityCollection.add(activity);
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE,
-                    true, activity, bundle);
-        }
+                @Override
+                public void onActivityCreated(Activity activity, Bundle bundle) {
+                    activityCollection.add(activity);
+                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE,
+                            true, activity, bundle);
+                }
 
-        @Override
-        public void onActivityStarted(Activity activity) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, true
-                    , activity);
-        }
+                @Override
+                public void onActivityStarted(Activity activity) {
+                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, true
+                            , activity);
+                }
 
-        @Override
-        public void onActivityResumed(Activity activity) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED,
-                    true, activity);
-        }
+                @Override
+                public void onActivityResumed(Activity activity) {
+                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED,
+                            true, activity);
+                }
 
-        @Override
-        public void onActivityPaused(Activity activity) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED,
-                    true, activity);
-        }
+                @Override
+                public void onActivityPaused(Activity activity) {
+                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED,
+                            true, activity);
+                }
 
-        @Override
-        public void onActivityStopped(Activity activity) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED,
-                    true, activity);
-        }
+                @Override
+                public void onActivityStopped(Activity activity) {
+                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED,
+                            true, activity);
+                }
 
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, true, activity, bundle);
-        }
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, true, activity, bundle);
+                }
 
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-            activityCollection.remove(activity);
-            AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED,
-                    true, activity);
-        }
-    };
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    activityCollection.remove(activity);
+                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED,
+                            true, activity);
+                }
+            };
 
     /**
      * application注册生命周期监听
@@ -170,5 +169,23 @@ public class AtlwConfig {
      */
     public static boolean isRegistActivityLifecycleCallback() {
         return isRegistActivityLifecycleCallback;
+    }
+
+    /**
+     * 初始化安卓自定义工具类
+     *
+     * @param nowApplication          当前app的application
+     * @param isDebug                 是否是debug模式
+     * @param debugLogFileDirSavePath debug模式下日志存储地址文件夹
+     */
+    public static void initAndroidCustomTools(Application nowApplication, boolean isDebug,
+                                              String debugLogFileDirSavePath) {
+        AtlwConfig.nowApplication = nowApplication;
+        AtlwConfig.isDebug = isDebug;
+        JtlwLogUtils.logUtils = new AtlwLogUtils();
+        JtlwLogUtils.logUtils.setShowLog(isDebug);
+        if (debugLogFileDirSavePath != null) {
+            AtlwLogUtils.logUtils.setLogSaveFileDirPath(debugLogFileDirSavePath);
+        }
     }
 }
