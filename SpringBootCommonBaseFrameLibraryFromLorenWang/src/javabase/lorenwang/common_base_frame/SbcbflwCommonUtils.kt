@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwAlLiYunOssPropertiesConfig
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwPropertiesConfig
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwQiNiuOssPropertiesConfig
+import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.tools.JtlwLogUtils
 import org.springframework.context.ConfigurableApplicationContext
 import java.io.IOException
@@ -83,12 +84,12 @@ open class SbcbflwCommonUtils {
             inputStream = this::class.java.classLoader.getResourceAsStream(propertiesName)
             props.load(inputStream)
         } catch (e: Exception) {
-            JtlwLogUtils.logE(this::class.java, "${propertiesName}配置文件加载异常")
+             SbcbfBaseAllUtils.logUtils.logE(this::class.java, "${propertiesName}配置文件加载异常")
         } finally {
             try {
                 inputStream?.close()
             } catch (e: IOException) {
-                JtlwLogUtils.logE(this::class.java, "${propertiesName}文件流关闭出现异常")
+                 SbcbfBaseAllUtils.logUtils.logE(this::class.java, "${propertiesName}文件流关闭出现异常")
             }
         }
         return props

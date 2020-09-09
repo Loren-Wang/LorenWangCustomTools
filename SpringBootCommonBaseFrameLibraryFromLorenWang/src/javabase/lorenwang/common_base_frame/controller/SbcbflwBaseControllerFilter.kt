@@ -4,6 +4,7 @@ import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserService
+import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import java.io.IOException
@@ -44,7 +45,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
 
     @Throws(ServletException::class)
     override fun init(filterConfig: FilterConfig) {
-        JtlwLogUtils.logI(javaClass, "初始化筛选器")
+         SbcbfBaseAllUtils.logUtils.logI(javaClass, "初始化筛选器")
     }
 
     @Throws(IOException::class, ServletException::class)
@@ -77,7 +78,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
             val servletPath = req.servletPath
             for (item in swaggerPathList) {
                 if (servletPath.matches(Regex(item))) {
-                    JtlwLogUtils.logI(javaClass, "请求的是（$servletPath）接口,正式环境下禁止访问!")
+                     SbcbfBaseAllUtils.logUtils.logI(javaClass, "请求的是（$servletPath）接口,正式环境下禁止访问!")
                     return
                 }
             }
@@ -90,7 +91,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
         req.setAttribute(REQUEST_SET_USER_INFO_KEY, "")
 
         //token检测
-        JtlwLogUtils.logD(javaClass, "接收到接口请求，开始检测用户登录状态，如果有token的话")
+         SbcbfBaseAllUtils.logUtils.logD(javaClass, "接收到接口请求，开始检测用户登录状态，如果有token的话")
         getUserService().getAccessTokenByReqHeader(req).emptyCheck({
             //正常发起请求
             chain.doFilter(req, response)
@@ -98,20 +99,20 @@ abstract class SbcbflwBaseControllerFilter : Filter {
             val userStatus = getUserService().checkUserLogin(req)
             if (userStatus.statusResult && userStatus.body != null && userStatus.body is SbcbflwBaseUserInfoTb<*, *>) {
                 val accessToken = (userStatus.body as SbcbflwBaseUserInfoTb<*, *>).accessToken
-                JtlwLogUtils.logD(javaClass, "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息")
+                 SbcbfBaseAllUtils.logUtils.logD(javaClass, "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息")
                 getUserService().refreshAccessToken(accessToken!!).let { newToken ->
                     if (accessToken != newToken) {
                         (userStatus.body as SbcbflwBaseUserInfoTb<*, *>).accessToken = newToken
                         response.setHeader(SbcbflwCommonUtils.instance.headerKeyUserAccessToken, newToken)
                         req.addHeader(SbcbflwCommonUtils.instance.headerKeyUserAccessToken, newToken)
-                        JtlwLogUtils.logI(javaClass, "token已更新")
+                         SbcbfBaseAllUtils.logUtils.logI(javaClass, "token已更新")
                     }
                     req.setAttribute(REQUEST_SET_USER_INFO_KEY, userStatus.body)
                 }
                 //正常发起请求
                 chain.doFilter(req, response)
             } else {
-                JtlwLogUtils.logD(javaClass, "token无效或者不存在，生成提示信息")
+                 SbcbfBaseAllUtils.logUtils.logD(javaClass, "token无效或者不存在，生成提示信息")
                 val responseFailInfo = responseErrorUser(userStatus)
                 //通过设置响应头控制浏览器以UTF-8的编码显示数据
                 rep.setHeader("content-type", "text/html;charset=UTF-8")
@@ -124,7 +125,7 @@ abstract class SbcbflwBaseControllerFilter : Filter {
     }
 
     override fun destroy() {
-        JtlwLogUtils.logI(javaClass, "销毁筛选器")
+         SbcbfBaseAllUtils.logUtils.logI(javaClass, "销毁筛选器")
     }
 
     /**

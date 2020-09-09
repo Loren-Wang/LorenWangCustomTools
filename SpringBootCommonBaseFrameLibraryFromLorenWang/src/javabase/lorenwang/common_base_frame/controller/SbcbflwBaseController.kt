@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.controller
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
+import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
@@ -34,10 +35,10 @@ abstract class SbcbflwBaseController {
      * @param t
      */
     protected fun <T> base(request: SbcbflwBaseHttpServletRequestWrapper, t: T?) {
-        JtlwLogUtils.logI(javaClass, "当前编译器环境：${SbcbflwCommonUtils.instance.propertiesConfig.runCompilingEnvironment}")
-        JtlwLogUtils.logI(javaClass, "当前请求地址：${request.servletPath}")
+         SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前编译器环境：${SbcbflwCommonUtils.instance.propertiesConfig.runCompilingEnvironment}")
+         SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前请求地址：${request.servletPath}")
         t.let {
-            JtlwLogUtils.logI(javaClass, "当前请求数据：${JdplwJsonUtils.toJson(it)}")
+             SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前请求数据：${JdplwJsonUtils.toJson(it)}")
         }
     }
 

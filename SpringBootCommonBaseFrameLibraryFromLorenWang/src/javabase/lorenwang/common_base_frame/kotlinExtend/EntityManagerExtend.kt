@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.kotlinExtend
 
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
+import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.tools.JtlwLogUtils
 import org.springframework.jdbc.core.JdbcTemplate
 import java.math.BigInteger
@@ -27,7 +28,7 @@ import javax.persistence.EntityManager
  * @param newRank 新的排行
  */
 fun EntityManager.upDataAllRankMove(tableName: String, primaryKeyColumn: String, oldRank: Long, newRank: Long): Long? {
-    JtlwLogUtils.logI(JdbcTemplate::class.java, "开始更新排行相关数据")
+     SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "开始更新排行相关数据")
     var newRankOptions = newRank
 
     //判断是否大于最大的排行，是的话则返回当前变更后的排行,前提是旧数据是非0开始移动的
@@ -78,12 +79,12 @@ fun EntityManager.upDataAllRankMove(tableName: String, primaryKeyColumn: String,
         primaryKey = list[index]
         primaryKey?.let {
             if (this.createNativeQuery("update $tableName set $RANK=${startRank + index + changeRank}  where $primaryKeyColumn=$primaryKey").executeUpdate() <= 0) {
-                JtlwLogUtils.logI(JdbcTemplate::class.java, "中止更新排行相关数据")
+                 SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "中止更新排行相关数据")
                 return null
             }
         }
     }
-    JtlwLogUtils.logI(JdbcTemplate::class.java, "完成更新排行相关数据")
+     SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "完成更新排行相关数据")
     return newRankOptions
 }
 
@@ -95,7 +96,7 @@ fun EntityManager.upDataAllRankMove(tableName: String, primaryKeyColumn: String,
  * @param isAddLast 是否添加到最后
  */
 fun EntityManager.addNewRank(tableName: String, primaryKeyColumn: String, newRank: Long, isAddLast: Boolean): Long {
-    JtlwLogUtils.logI(JdbcTemplate::class.java, "开始更新排行相关数据")
+     SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "开始更新排行相关数据")
     var newRankOptions = newRank
     //判断是否大于最大的排行，是的话则返回当前变更后的排行
     //新排行为0且不添加到最后时不处理，添加到最后时处理，不为0的话则是否添加到最后无效
@@ -139,12 +140,12 @@ fun EntityManager.addNewRank(tableName: String, primaryKeyColumn: String, newRan
         primaryKey = list[index]
         primaryKey?.let {
             if (this.createNativeQuery("update $tableName set $RANK=${startRank + index + changeRank}  where $primaryKeyColumn=$primaryKey").executeUpdate() <= 0) {
-                JtlwLogUtils.logI(JdbcTemplate::class.java, "中止更新排行相关数据")
+                 SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "中止更新排行相关数据")
                 return 0L
             }
         }
     }
-    JtlwLogUtils.logI(JdbcTemplate::class.java, "完成更新排行相关数据")
+     SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "完成更新排行相关数据")
     return newRankOptions
 }
 

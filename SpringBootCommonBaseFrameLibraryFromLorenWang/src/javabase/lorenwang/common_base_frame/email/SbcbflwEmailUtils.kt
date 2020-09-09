@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.email
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import org.springframework.mail.javamail.JavaMailSenderImpl
@@ -46,10 +47,10 @@ open class SbcbflwEmailUtils {
             javaMailSender?.username = SbcbflwCommonUtils.instance.propertiesConfig.emailUserName
             javaMailSender?.password = SbcbflwCommonUtils.instance.propertiesConfig.emailUserPassword
             javaMailSender?.testConnection()
-            JtlwLogUtils.logI(this::class.java, "邮件发送工具初始化结束，测试连接状态")
+             SbcbfBaseAllUtils.logUtils.logI(this::class.java, "邮件发送工具初始化结束，测试连接状态")
         } catch (e: Exception) {
             javaMailSender = null
-            JtlwLogUtils.logE(this::class.java, "邮件发送工具初始化失败，失败原因：${e.message}")
+             SbcbfBaseAllUtils.logUtils.logE(this::class.java, "邮件发送工具初始化失败，失败原因：${e.message}")
         }
     }
 
@@ -62,11 +63,11 @@ open class SbcbflwEmailUtils {
      */
     fun sendEmailMessage(title: String, content: String, toEmail: String): Boolean {
         return javaMailSender.emptyCheck({
-            JtlwLogUtils.logI(this::class.java, "向${toEmail}发送邮件失败,邮件发送实例无法初始化")
+             SbcbfBaseAllUtils.logUtils.logI(this::class.java, "向${toEmail}发送邮件失败,邮件发送实例无法初始化")
             false
         }, {
             try {
-                JtlwLogUtils.logI(this::class.java, "开始向${toEmail}发送邮件")
+                 SbcbfBaseAllUtils.logUtils.logI(this::class.java, "开始向${toEmail}发送邮件")
                 val message = it.createMimeMessage()
                 val messageHelper = MimeMessageHelper(message, true, "utf-8")
                 messageHelper.setFrom(SbcbflwCommonUtils.instance.propertiesConfig.emailUserName)
@@ -74,10 +75,10 @@ open class SbcbflwEmailUtils {
                 messageHelper.setSubject(title)
                 messageHelper.setText(content)
                 it.send(message)
-                JtlwLogUtils.logI(this::class.java, "向${toEmail}发送邮件成功")
+                 SbcbfBaseAllUtils.logUtils.logI(this::class.java, "向${toEmail}发送邮件成功")
                 true
             } catch (e: Exception) {
-                JtlwLogUtils.logI(this::class.java, "向${toEmail}发送邮件失败：${e.message}")
+                 SbcbfBaseAllUtils.logUtils.logI(this::class.java, "向${toEmail}发送邮件失败：${e.message}")
                 false
             }
         })
