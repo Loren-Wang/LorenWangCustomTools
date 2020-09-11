@@ -77,7 +77,6 @@ public class AtlwStatusBarUtils {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
-//      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(color);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //使用SystemBarTint库使4.4版本状态栏变色，需要先将状态栏设置为透明
@@ -92,7 +91,7 @@ public class AtlwStatusBarUtils {
      * 当状态栏背景为亮色的时候需要把状态栏图标以及文字改成黑色
      *
      * @param activity     页面实例
-     * @param isFullscreen 是否全屏显示，仅针对于非小米和魅族手机
+     * @param isFullscreen 是否全屏显示
      */
     public void setStatusBarLightMode(Activity activity, boolean isFullscreen) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -102,27 +101,39 @@ public class AtlwStatusBarUtils {
                 setStatusBarLightModeForMeiZu(activity, true);
             }
         }
-        if (isFullscreen) {
-            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        } else {
-            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        try {
+            if (isFullscreen) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        } catch (Exception ignore) {
+
         }
     }
 
     /**
      * 当状态栏背景为亮色的时候需要把状态栏图标以及文字改成黑色
      *
-     * @param activity 页面实例
+     * @param activity     页面实例
+     * @param isFullscreen 是否全屏显示
      */
-    public void setStatusBarDarkMode(Activity activity) {
+    public void setStatusBarDarkMode(Activity activity, boolean isFullscreen) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
                 setStatusBarLightModeForXiaoMi(activity, false);
             } else if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
                 setStatusBarLightModeForMeiZu(activity, false);
+            }
+        }
+        try {
+            if (isFullscreen) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_VISIBLE);
             } else {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             }
+        } catch (Exception ignore) {
+
         }
     }
 
@@ -139,13 +150,14 @@ public class AtlwStatusBarUtils {
         if (window != null) {
             Class clazz = window.getClass();
             try {
-                int darkModeFlag = 0;
+                int darkModeFlag;
                 Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
                 Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
                 darkModeFlag = field.getInt(layoutParams);
                 Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
                 if (dark) {
-                    extraFlagField.invoke(window, darkModeFlag, darkModeFlag);//状态栏透明且黑色字体
+                    //状态栏透明且黑色字体
+                    extraFlagField.invoke(window, darkModeFlag, darkModeFlag);
                 } else {
                     extraFlagField.invoke(window, 0, darkModeFlag);//清除黑色字体
                 }
@@ -157,13 +169,13 @@ public class AtlwStatusBarUtils {
                         activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                     }
                 }
-            } catch (Exception e) {
+            } catch (Exception ignore) {
 
             }
         }
     }
 
-    /******************************************魅族设置*********************************************/
+    /*-----------------------------------------魅族设置-----------------------------------------*/
 
     /**
      * 设置状态栏字体图标颜色
@@ -184,7 +196,8 @@ public class AtlwStatusBarUtils {
      */
     private void setStatusBarLightModeForMeiZu(Activity activity, boolean dark, boolean flag) {
         try {
-            Method mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon", boolean.class);
+            Method mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon",
+                    boolean.class);
             mSetStatusBarDarkIcon.invoke(activity, dark);
             AtlwLogUtils.logUtils.logD(TAG, "Set StatusBar success for MeiZu");
         } catch (Exception e) {
@@ -221,7 +234,8 @@ public class AtlwStatusBarUtils {
      * @param on        内外
      * @return 是否成功
      */
-    private static boolean changeMeizuFlag(WindowManager.LayoutParams winParams, String flagName, boolean on) {
+    private static boolean changeMeizuFlag(WindowManager.LayoutParams winParams, String flagName,
+                                           boolean on) {
         try {
             Field f = winParams.getClass().getDeclaredField(flagName);
             f.setAccessible(true);
@@ -239,12 +253,6 @@ public class AtlwStatusBarUtils {
                 f2.setInt(winParams, meizuFlags);
                 return true;
             }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -260,7 +268,8 @@ public class AtlwStatusBarUtils {
     private static void setStatusBarColor(Window window, int color) {
         WindowManager.LayoutParams winParams = window.getAttributes();
         try {
-            Field mStatusBarColorFiled = WindowManager.LayoutParams.class.getField("statusBarColor");
+            Field mStatusBarColorFiled = WindowManager.LayoutParams.class.getField(
+                    "statusBarColor");
             if (mStatusBarColorFiled != null) {
                 int oldColor = mStatusBarColorFiled.getInt(winParams);
                 if (oldColor != color) {
@@ -268,7 +277,7 @@ public class AtlwStatusBarUtils {
                     window.setAttributes(winParams);
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignore) {
         }
     }
 
@@ -281,7 +290,7 @@ public class AtlwStatusBarUtils {
     private static void setStatusBarDarkIcon(View view, boolean dark) {
         int oldVis = view.getSystemUiVisibility();
         int newVis = oldVis;
-        Field field = null;
+        Field field;
         try {
             field = View.class.getField("SYSTEM_UI_FLAG_LIGHT_STATUS_BAR");
             int SYSTEM_UI_FLAG_LIGHT_STATUS_BAR = field.getInt(null);
