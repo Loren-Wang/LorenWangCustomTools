@@ -35,3 +35,10 @@ fun String?.getNotEmptyData(defaultStr: String = ""): String {
         this
     }
 }
+
+/**
+ * 判断这个字符串是否是长整型时间戳
+ */
+fun String?.isLongTime(): Boolean {
+    return !(this == null || !this.matches(Regex("[0-9]+")))
+}
