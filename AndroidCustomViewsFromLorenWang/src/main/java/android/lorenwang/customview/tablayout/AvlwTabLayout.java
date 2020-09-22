@@ -135,28 +135,28 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      */
     private final AvlwTabScrollToPositionRunnable scrollToPositionRunnable =
             new AvlwTabScrollToPositionRunnable() {
-        @Override
-        public void run() {
-            float percent = 0f;
-            while (true) {
-                percent += 0.05f;
-                //修改滑动进度
-                changeScrollPercent(percent, onTouchChange);
-                if ((int) percent == 1) {
-                    break;
-                }
-                try {
-                    if (percent < 0.75) {
-                        Thread.sleep(15);
-                    } else {
-                        Thread.sleep(30);
+                @Override
+                public void run() {
+                    float percent = 0f;
+                    while (true) {
+                        percent += 0.05f;
+                        //修改滑动进度
+                        changeScrollPercent(percent, onTouchChange);
+                        if ((int) percent == 1) {
+                            break;
+                        }
+                        try {
+                            if (percent < 0.75) {
+                                Thread.sleep(15);
+                            } else {
+                                Thread.sleep(30);
+                            }
+                        } catch (Exception e) {
+                            AtlwLogUtils.logUtils.logE(TAG, "滑动异常");
+                        }
                     }
-                } catch (Exception e) {
-                    AtlwLogUtils.logUtils.logE(TAG, "滑动异常");
                 }
-            }
-        }
-    };
+            };
 
     public AvlwTabLayout(Context context) {
         super(context);
@@ -389,7 +389,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
     private void checkChangePosition(float nowX, float nowY, boolean isOnTouchChange) {
         if (Math.abs(nowX - downX) < 25 && Math.abs(nowY - downY) < 25) {
             int clickPosition = (int) ((nowX - getPaddingLeft() - layoutOffset) / tabWidth);
-            setCurrentPosition(clickPosition, false);
+            setCurrentPosition(clickPosition, false, isOnTouchChange);
         }
     }
 
@@ -815,7 +815,9 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
             lastLayoutOffset = layoutOffset = -(currentX + tabWidth - getWidth());
         }
         if (changeListener != null) {
-            changeListener.onChangePosition(isOnTouchChange, currentPosition);
+            changeListener.onChangePosition(isOnTouchChange,
+                    tabTextList.size() > currentPosition ? tabTextList.get(currentPosition) : "",
+                    currentPosition);
         }
     }
 

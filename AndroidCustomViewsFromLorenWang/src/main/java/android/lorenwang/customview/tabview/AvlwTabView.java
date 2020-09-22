@@ -143,7 +143,7 @@ public class AvlwTabView extends FrameLayout {
                      */
                     @Override
                     public void onChangePosition(boolean isOnTouchChange, int position) {
-
+                        vpgList.setCurrentItem(position);
                     }
 
                     /**
