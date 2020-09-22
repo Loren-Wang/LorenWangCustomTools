@@ -226,7 +226,7 @@ public class AtlwViewUtils {
                                     Integer top, Integer right, Integer bottom) {
         if (layoutParams != null) {
             if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams params = (LinearLayout.LayoutParams) layoutParams;
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) layoutParams;
                 params.setMargins(left == null ? params.leftMargin : left
                         , top == null ? params.topMargin : top
                         , right == null ? params.rightMargin : right
