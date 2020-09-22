@@ -139,10 +139,12 @@ public class AvlwTabView extends FrameLayout {
                      * 位置切换
                      *
                      * @param isOnTouchChange 是否是触摸切换的位置
+                     * @param text            显示文本
                      * @param position        切换后的位置
                      */
                     @Override
-                    public void onChangePosition(boolean isOnTouchChange, int position) {
+                    public void onChangePosition(boolean isOnTouchChange, String text,
+                                                 int position) {
                         vpgList.setCurrentItem(position);
                     }
 
