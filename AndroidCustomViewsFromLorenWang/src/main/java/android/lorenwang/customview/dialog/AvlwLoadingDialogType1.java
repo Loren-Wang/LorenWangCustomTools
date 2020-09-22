@@ -79,10 +79,13 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
      */
     public void show(boolean allowLoadingBackFinishPage) {
         this.allowLoadingBackFinishPage = allowLoadingBackFinishPage;
+        if (loadingCount < 0) {
+            loadingCount = 0;
+        }
         //显示计数
         loadingCount++;
         //如果已经有显示的则不再执行show
-        if(isShowing()){
+        if (isShowing()) {
             return;
         }
         super.show();
@@ -98,7 +101,7 @@ public class AvlwLoadingDialogType1 extends AvlwBaseDialog {
     @Override
     public void dismiss() {
         //如果是最后一次调用隐藏则真正的隐藏
-        if(--loadingCount == 0){
+        if (--loadingCount <= 0) {
             super.dismiss();
         }
     }

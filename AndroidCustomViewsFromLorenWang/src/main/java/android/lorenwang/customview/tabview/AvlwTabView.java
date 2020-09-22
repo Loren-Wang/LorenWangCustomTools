@@ -29,6 +29,7 @@ import androidx.viewpager.widget.ViewPager;
  * 修改人：
  * 修改时间：
  * 备注：
+ * @author wangliang
  */
 
 public class AvlwTabView extends FrameLayout {
@@ -133,15 +134,29 @@ public class AvlwTabView extends FrameLayout {
                     }
                 });
                 hstlTabList.setChangeListener(new AvlwBaseTabLayoutChangeListener() {
+
+                    /**
+                     * 位置切换
+                     *
+                     * @param isOnTouchChange 是否是触摸切换的位置
+                     * @param position        切换后的位置
+                     */
                     @Override
-                    public void onChangePosition(int i) {
-                        vpgList.setCurrentItem(i);
+                    public void onChangePosition(boolean isOnTouchChange, int position) {
+
                     }
 
+                    /**
+                     * 切换进度
+                     *
+                     * @param isOnTouchChange 是否是触摸切换的位置
+                     * @param percent         进度
+                     */
                     @Override
-                    public void onChangePercent(float v) {
+                    public void onChangePercent(boolean isOnTouchChange, float percent) {
 
                     }
+
                 });
             }
         }
