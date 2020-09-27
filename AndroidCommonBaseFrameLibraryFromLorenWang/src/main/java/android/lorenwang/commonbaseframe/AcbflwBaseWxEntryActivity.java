@@ -19,6 +19,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
 import org.jetbrains.annotations.Nullable;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -26,6 +27,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean;
 
 /**
  * 功能作用：微信基础回调Activity
@@ -39,6 +41,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWXAPIEventHandler {
     private final String TAG = getClass().getName();
+
+    @Override
+    public void currentLimitingBaffleError(int netOptionReqCode, @NonNull KttlwBaseNetResponseBean<Object> repBean) {
+
+    }
 
     @Override
     public void hideBaseLoading() {
@@ -65,13 +72,15 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
 
     }
 
+
+
     @Override
     public <T> void netReqSuccess(int netOptionReqCode, T data) {
 
     }
 
     @Override
-    public void netReqFail(int netOptionReqCode, @Nullable Object code, @Nullable String message) {
+    public void netReqFail(int netOptionReqCode,  @Nullable String message) {
 
     }
 
@@ -97,20 +106,20 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
     //请求回调结果处理
     @Override
     public void onResp(BaseResp baseResp) {
-        AtlwLogUtils.logE(this.TAG, baseResp.getType() + "    " + baseResp.errCode + "    " + baseResp.errStr);
+        AtlwLogUtils.logUtils.logE(this.TAG, baseResp.getType() + "    " + baseResp.errCode + "    " + baseResp.errStr);
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (baseResp instanceof PayResp) {
                 switch (baseResp.errCode) {
                     case BaseResp.ErrCode.ERR_OK:
-                        AtlwLogUtils.logI(TAG, "微信支付成功");
+                        AtlwLogUtils.logUtils.logI(TAG, "微信支付成功");
                         AcbflwPluginUtils.getInstance().callBackInfo(((PayResp) baseResp).returnKey);
                         break;
                     case BaseResp.ErrCode.ERR_COMM:
-                        AtlwLogUtils.logI(TAG, "微信支付未知错误");
+                        AtlwLogUtils.logUtils.logI(TAG, "微信支付未知错误");
                         AcbflwPluginUtils.getInstance().callBackError(((PayResp) baseResp).returnKey, AcbflwPluginErrorTypeEnum.WECHAT_PAY_UNKNOW_ERROR);
                         break;
                     case BaseResp.ErrCode.ERR_USER_CANCEL:
-                        AtlwLogUtils.logI(TAG, "微信支付用户取消支付");
+                        AtlwLogUtils.logUtils.logI(TAG, "微信支付用户取消支付");
                         AcbflwPluginUtils.getInstance().callBackError(((PayResp) baseResp).returnKey, AcbflwPluginErrorTypeEnum.WECHAT_PAY_CANCEL);
                         break;
                     default:
@@ -124,27 +133,29 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
                 String state = ((SendAuth.Resp) baseResp).state;
                 switch (baseResp.errCode) {
                     case BaseResp.ErrCode.ERR_OK:
-                        AtlwLogUtils.logI(TAG, "微信登陆成功");
+                        AtlwLogUtils.logUtils.logI(TAG, "微信登陆成功");
                         String code = ((SendAuth.Resp) baseResp).code;
                         //获取用户信息
                         getAccessToken(state, code);
                         break;
-                    case BaseResp.ErrCode.ERR_AUTH_DENIED://用户拒绝授权
-                        AtlwLogUtils.logI(TAG, "微信登陆失败：用户拒绝授权");
+                    //用户拒绝授权
+                    case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                        AtlwLogUtils.logUtils.logI(TAG, "微信登陆失败：用户拒绝授权");
                         AcbflwPluginUtils.getInstance().callBackError(
                                 AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
                                 AcbflwPluginErrorTypeEnum.WECHAT_LOGIN_AUTH_DENIED);
                         finish();
                         break;
-                    case BaseResp.ErrCode.ERR_USER_CANCEL://用户取消
-                        AtlwLogUtils.logI(TAG, "微信登陆失败：用户取消");
+                    //用户取消
+                    case BaseResp.ErrCode.ERR_USER_CANCEL:
+                        AtlwLogUtils.logUtils.logI(TAG, "微信登陆失败：用户取消");
                         AcbflwPluginUtils.getInstance().callBackError(
                                 AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
                                 AcbflwPluginErrorTypeEnum.WECHAT_LOGIN_AUTH_CANCEL);
                         finish();
                         break;
                     default:
-                        AtlwLogUtils.logI(TAG, "微信登陆失败：未知错误");
+                        AtlwLogUtils.logUtils.logI(TAG, "微信登陆失败：未知错误");
                         AcbflwPluginUtils.getInstance().callBackError(
                                 AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
                                 AcbflwPluginErrorTypeEnum.WECHAT_LOGIN_AUTH_UNKNOW_ERROR);
@@ -155,10 +166,10 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
                 //微信分享数据返回
                 String transaction = baseResp.transaction;
                 if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
-                    AtlwLogUtils.logI(TAG, "微信分享成功");
+                    AtlwLogUtils.logUtils.logI(TAG, "微信分享成功");
                     AcbflwPluginUtils.getInstance().callBackInfo(transaction);
                 } else {
-                    AtlwLogUtils.logI(TAG, "微信分享失败：未知错误");
+                    AtlwLogUtils.logUtils.logI(TAG, "微信分享失败：未知错误");
                     AcbflwPluginUtils.getInstance().callBackError(transaction, AcbflwPluginErrorTypeEnum.WECHAT_SHARE_UNKNOW_ERROR);
                     finish();
                 }
@@ -200,7 +211,7 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
 
                     @Override
                     public void onNext(AcbflwWeChatResponse AcbflwWeChatResponse) {
-                        AtlwLogUtils.logI(TAG, "微信登陆获取用户部分参数成功");
+                        AtlwLogUtils.logUtils.logI(TAG, "微信登陆获取用户部分参数成功");
                         AcbflwPluginUtils.getInstance().callBackInfo(
                                 AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
                                 AcbflwWeChatResponse.getAccess_token(), AcbflwWeChatResponse.getOpenid());
@@ -208,7 +219,7 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
 
                     @Override
                     public void onError(Throwable e) {
-                        AtlwLogUtils.logI(TAG, "微信登陆获取用户部分参数失败");
+                        AtlwLogUtils.logUtils.logI(TAG, "微信登陆获取用户部分参数失败");
                         AcbflwPluginUtils.getInstance().callBackError(
                                 AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
                                 AcbflwPluginErrorTypeEnum.WECHAT_LOGIN_AUTH_UNKNOW_ERROR);

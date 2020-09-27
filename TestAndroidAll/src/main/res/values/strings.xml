@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestApp</string>
+    <string name="app_name">wl自定义框架demo</string>
     <string name="title_activity_smart_refresh_layout">SmartRefreshLayoutActivity</string>
     <string name="dialog_bottom">底部弹窗</string>
     <string name="dialog_center">中间弹窗</string>
@@ -7,4 +7,25 @@
     <string name="dialog_center_webview">中间网页弹窗</string>
     <string name="dialog_confirm_cancel">确认取消弹窗</string>
     <string name="dialog_only_button">单按钮中心弹窗</string>
+
+    <string name="anim_translate_y">Y轴平移动画</string>
+    <string name="anim_translate_x">X轴平移动画</string>
+    <string name="anim_translate_xy">XY轴同时平移动画</string>
+    <string name="anim_scale_y">Y轴缩放动画</string>
+    <string name="anim_scale_x">X轴缩放动画</string>
+    <string name="anim_scale_xy">XY轴同时缩放动画</string>
+    <string name="anim_rotate_from">From旋转动画</string>
+    <string name="anim_rotate">旋转动画</string>
+    <string name="anim_alpha">透明动画</string>
+    <string name="anim_translate_y_obj">Y轴平移属性动画</string>
+    <string name="anim_translate_x_obj">X轴平移属性动画</string>
+    <string name="anim_translate_xy_obj">XY轴同时平移属性动画</string>
+    <string name="anim_scale_y_obj">Y轴缩放属性动画</string>
+    <string name="anim_scale_x_obj">X轴缩放属性动画</string>
+    <string name="anim_scale_xy_obj">XY轴同时缩放属性动画</string>
+    <string name="anim_rotate_x_obj">X旋转属性动画</string>
+    <string name="anim_rotate_y_obj">Y旋转属性动画</string>
+    <string name="anim_rotate_obj">旋转属性动画</string>
+    <string name="anim_alpha_obj">透明属性动画</string>
+    <string name="page_type_bluetooth">蓝牙相关页面</string>
 </resources>

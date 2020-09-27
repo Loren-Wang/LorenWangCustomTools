@@ -56,13 +56,13 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         fragmentView = inflater.inflate(R.layout.acbflw_activity_base, null)
-        initView(savedInstanceState)
-        initListener(savedInstanceState)
         return fragmentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView(savedInstanceState)
+        initListener(savedInstanceState)
         initData(savedInstanceState)
     }
 

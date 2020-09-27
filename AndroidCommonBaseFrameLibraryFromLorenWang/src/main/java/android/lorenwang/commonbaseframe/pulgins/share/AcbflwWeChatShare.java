@@ -1,12 +1,10 @@
 package android.lorenwang.commonbaseframe.pulgins.share;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTargetTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
 
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -99,20 +97,16 @@ class AcbflwWeChatShare {
      */
     public void sendTextShare(AcbflwShareDataBean shareDataBean, int shareTargetType) {
         //判断分享文本是否为空，不为空继续处理
-        if (!JtlwCheckVariateUtils.getInstance().isHaveEmpty(shareDataBean.getText())) {
+        if (!JtlwCheckVariateUtils.getInstance().isHaveEmpty(shareDataBean.getWxText())) {
             //检查描述内容
-            if (!checkStrSize(shareDataBean.getText(), MAX_SIZE_TEXT)) {
+            if (!checkStrSize(shareDataBean.getWxText(), MAX_SIZE_TEXT)) {
                 //回调异常
                 callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_TEXT_IS_TOO_LONG);
                 return;
             }
-            //描述为空则使用文本内容
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getDescription())) {
-                shareDataBean.setDescription(shareDataBean.getText());
-            }
             //初始化一个 WXTextObject 对象，填写分享的文本内容
             WXTextObject textObj = new WXTextObject();
-            textObj.text = shareDataBean.getText();
+            textObj.text = shareDataBean.getWxText();
             sendMessage(shareDataBean, textObj, shareTargetType);
         }
     }
@@ -124,37 +118,19 @@ class AcbflwWeChatShare {
      * @param shareTargetType 分享目标
      */
     public void sendImageShare(AcbflwShareDataBean shareDataBean, int shareTargetType) {
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getImgBitmap())) {
-            //分享图片，开始压缩图片
-            shareDataBean.setImgBitmap(AtlwImageCommonUtils.getInstance().bitmapCompress(shareDataBean.getImgBitmap(), Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE));
-            sendMessage(shareDataBean, new WXImageObject(shareDataBean.getImgBitmap()), shareTargetType);
-        } else if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getImgPath())) {
-            byte[] bytes = AtlwFileOptionUtils.getInstance().readBytes(true, shareDataBean.getImgPath());
-            if (bytes != null) {
-                sendMessage(shareDataBean, new WXImageObject(AtlwImageCommonUtils.getInstance().bitmapCompress(BitmapFactory.decodeByteArray(bytes, 0, bytes.length),
-                        Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE)), shareTargetType);
-            } else {
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxImageViewBitmap())) {
+            //回调异常
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_EMPTY);
+        } else {
+            //压缩图片
+            try {
+                sendMessage(shareDataBean, new WXImageObject(AtlwImageCommonUtils.getInstance()
+                        .bitmapCompressToByte(shareDataBean.getWxImageViewBitmap(),
+                                Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE)), shareTargetType);
+            } catch (Exception e) {
                 //回调异常
                 callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
             }
-        } else {
-            //回调异常
-            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_EMPTY);
-        }
-
-
-        //判断分享文本是否为空，不为空继续处理
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getImgBitmap())
-                || !JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getImgPath())) {
-            WXImageObject imgObj = null;
-            //根据数据初始化图片实例
-            if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getImgBitmap())) {
-                imgObj = new WXImageObject(shareDataBean.getImgBitmap());
-            } else if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getImgPath())) {
-                imgObj = new WXImageObject();
-                imgObj.setImagePath(shareDataBean.getImgPath());
-            }
-            sendMessage(shareDataBean, imgObj, shareTargetType);
         }
     }
 
@@ -165,28 +141,28 @@ class AcbflwWeChatShare {
      * @param shareTargetType 分享目标
      */
     public void sendMusicShare(AcbflwShareDataBean shareDataBean, int shareTargetType) {
-        if (checkStrSize(shareDataBean.getMusicUrl(), MAX_SIZE_MUSIC_URL)) {
+        if (checkStrSize(shareDataBean.getWxMusicUrl(), MAX_SIZE_MUSIC_URL)) {
             //初始化一个WXMusicObject，填写url
             WXMusicObject music = new WXMusicObject();
-            music.musicUrl = shareDataBean.getMusicUrl();
+            music.musicUrl = shareDataBean.getWxMusicUrl();
             //发送分享
             sendMessage(shareDataBean, music, shareTargetType);
-        } else if (checkStrSize(shareDataBean.getMusicLowBandUrl(), MAX_SIZE_MUSIC_URL)) {
+        } else if (checkStrSize(shareDataBean.getWxMusicLowBandUrl(), MAX_SIZE_MUSIC_URL)) {
             //初始化一个WXMusicObject，填写url
             WXMusicObject music = new WXMusicObject();
-            music.musicLowBandUrl = shareDataBean.getMusicLowBandUrl();
+            music.musicLowBandUrl = shareDataBean.getWxMusicLowBandUrl();
             //发送分享
             sendMessage(shareDataBean, music, shareTargetType);
-        } else if (checkStrSize(shareDataBean.getMusicLowBandUrl(), MAX_SIZE_MUSIC_URL)) {
+        } else if (checkStrSize(shareDataBean.getWxMusicLowBandUrl(), MAX_SIZE_MUSIC_URL)) {
             //初始化一个WXMusicObject，填写url
             WXMusicObject music = new WXMusicObject();
-            music.musicLowBandUrl = shareDataBean.getMusicLowBandUrl();
+            music.musicLowBandUrl = shareDataBean.getWxMusicLowBandUrl();
             //发送分享
             sendMessage(shareDataBean, music, shareTargetType);
-        } else if (checkStrSize(shareDataBean.getMusicLowBandDataUrl(), MAX_SIZE_MUSIC_URL)) {
+        } else if (checkStrSize(shareDataBean.getWxMusicLowBandDataUrl(), MAX_SIZE_MUSIC_URL)) {
             //初始化一个WXMusicObject，填写url
             WXMusicObject music = new WXMusicObject();
-            music.musicLowBandDataUrl = shareDataBean.getMusicLowBandDataUrl();
+            music.musicLowBandDataUrl = shareDataBean.getWxMusicLowBandDataUrl();
             //发送分享
             sendMessage(shareDataBean, music, shareTargetType);
         } else {
@@ -201,16 +177,16 @@ class AcbflwWeChatShare {
      * @param shareTargetType 分享目标
      */
     public void sendVideoShare(AcbflwShareDataBean shareDataBean, int shareTargetType) {
-        if (checkStrSize(shareDataBean.getVideoUrl(), MAX_SIZE_VIDEO_URL)) {
+        if (checkStrSize(shareDataBean.getWxVideoUrl(), MAX_SIZE_VIDEO_URL)) {
             //初始化一个WXVideoObject，填写url
             WXVideoObject video = new WXVideoObject();
-            video.videoUrl = shareDataBean.getVideoUrl();
+            video.videoUrl = shareDataBean.getWxVideoUrl();
             //发送分享
             sendMessage(shareDataBean, video, shareTargetType);
-        } else if (checkStrSize(shareDataBean.getVideoLowBandUrl(), MAX_SIZE_VIDEO_URL)) {
+        } else if (checkStrSize(shareDataBean.getWxVideoLowBandUrl(), MAX_SIZE_VIDEO_URL)) {
             //初始化一个WXVideoObject，填写url
             WXVideoObject video = new WXVideoObject();
-            video.videoLowBandUrl = shareDataBean.getVideoLowBandUrl();
+            video.videoLowBandUrl = shareDataBean.getWxVideoLowBandUrl();
             //发送分享
             sendMessage(shareDataBean, video, shareTargetType);
         } else {
@@ -225,10 +201,10 @@ class AcbflwWeChatShare {
      * @param shareTargetType 分享目标
      */
     public void sendWebPageShare(AcbflwShareDataBean shareDataBean, int shareTargetType) {
-        if (checkStrSize(shareDataBean.getWebPageUrl(), MAX_SIZE_WEB_PAGE_URL)) {
+        if (checkStrSize(shareDataBean.getWxWebPageUrl(), MAX_SIZE_WEB_PAGE_URL)) {
             //初始化一个WXWebpageObject，填写url
             WXWebpageObject webPage = new WXWebpageObject();
-            webPage.webpageUrl = shareDataBean.getWebPageUrl();
+            webPage.webpageUrl = shareDataBean.getWxWebPageUrl();
             //发送分享
             sendMessage(shareDataBean, webPage, shareTargetType);
         } else {
@@ -244,24 +220,23 @@ class AcbflwWeChatShare {
      * @param shareTargetType 分享目标
      */
     public void sendFileShare(AcbflwShareDataBean shareDataBean, int shareTargetType) {
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getFileData())) {
-            if (MAX_SIZE_FILE.compareTo(shareDataBean.getFileData().length) > 0) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxFileData())) {
+            if (MAX_SIZE_FILE.compareTo(shareDataBean.getWxFileData().length) > 0) {
                 //发送分享
-                sendMessage(shareDataBean, new WXFileObject(shareDataBean.getFileData()), shareTargetType);
+                sendMessage(shareDataBean, new WXFileObject(shareDataBean.getWxFileData()), shareTargetType);
             } else {
                 //异常回调
                 callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_FILE_IS_TOO_LONG);
             }
-        } else if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getFilePath())) {
-            File file = new File(shareDataBean.getFilePath());
+        } else if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxFilePath())) {
+            File file = new File(shareDataBean.getWxFilePath());
             if (Long.valueOf(MAX_SIZE_FILE).compareTo(file.length()) > 0) {
                 //发送分享
-                sendMessage(shareDataBean, new WXFileObject(shareDataBean.getFilePath()), shareTargetType);
+                sendMessage(shareDataBean, new WXFileObject(shareDataBean.getWxFilePath()), shareTargetType);
             } else {
                 //异常回调
                 callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_FILE_IS_TOO_LONG);
             }
-            file = null;
         } else {
             //异常回调
             callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_FILE_EMPTY);
@@ -276,27 +251,42 @@ class AcbflwWeChatShare {
      */
     public void sendMiniProgramShare(AcbflwShareDataBean shareDataBean) {
         //判断分享链接
-        if (!checkStrSize(shareDataBean.getWebPageUrl(), MAX_SIZE_WEB_PAGE_URL)) {
-            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_WEB_PAGE_URL_EMPTY_OR_IS_TOO_LONG);
+        if (!checkStrSize(shareDataBean.getWxMiniProgramWebpageUrl(), MAX_SIZE_WEB_PAGE_URL)) {
+            callBackError(shareDataBean,
+                    AcbflwPluginErrorTypeEnum.SHARE_WEB_PAGE_URL_EMPTY_OR_IS_TOO_LONG);
+            return;
+        }
+        //判断缩略图
+        if (shareDataBean.getWxMiniProgramThumbBitmap() == null) {
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_EMPTY);
             return;
         }
         //小程序id检测
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getUserName())) {
-            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_USER_NAME_EMPTY);
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(AcbflwPluginUtils.getInstance().getWeChatId())) {
+            callBackError(shareDataBean,
+                    AcbflwPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_USER_NAME_EMPTY);
             return;
         }
         //小程序页面路径检测
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getPath())) {
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxMiniProgramPath())) {
             callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_PATH_EMPTY);
             return;
         }
+        //直接切换到会话，因为小程序分享只支持会话
+        shareDataBean.targetType = AcbflwPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION;
+        //构造体
         WXMiniProgramObject miniProgramObj = new WXMiniProgramObject();
-        miniProgramObj.webpageUrl = shareDataBean.getWebPageUrl(); // 兼容低版本的网页链接
-        miniProgramObj.miniprogramType = shareDataBean.getMiniProgramType();// 正式版:0，测试版:1，体验版:2
-        miniProgramObj.userName = shareDataBean.getUserName();     // 小程序原始id
-        miniProgramObj.path = shareDataBean.getPath();            //小程序页面路径；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "
+        // 兼容低版本的网页链接
+        miniProgramObj.webpageUrl = shareDataBean.getWxMiniProgramWebpageUrl();
+        // 正式版:0，测试版:1，体验版:2
+        miniProgramObj.miniprogramType = shareDataBean.getWxMiniProgramType();
+        // 小程序原始id
+        miniProgramObj.userName = AcbflwPluginUtils.getInstance().getWeChatApplyId();
+        //小程序页面路径；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "
+        miniProgramObj.path = shareDataBean.getWxMiniProgramPath();
         //发送分享
-        sendMessage(shareDataBean, miniProgramObj, AcbflwPluginTargetTypeEnum.getShareTargetType(AcbflwPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION));
+        sendMessage(shareDataBean, miniProgramObj,
+                AcbflwPluginTargetTypeEnum.getShareTargetType(AcbflwPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION));
     }
 
     /**
@@ -307,41 +297,48 @@ class AcbflwWeChatShare {
      * @param mTargetScene  分享目标
      */
     private void sendMessage(AcbflwShareDataBean shareDataBean, WXMediaMessage.IMediaObject mediaObject, int mTargetScene) {
-        AtlwLogUtils.logI(TAG, "微信分享已构造完分享请求类型实体");
+        AtlwLogUtils.logUtils.logI(TAG, "微信分享已构造完分享请求类型实体");
         //用 WXTextObject 对象初始化一个 WXMediaMessage 对象
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = mediaObject;
-        //检查描述标题
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getText())
-                && !checkStrSize(shareDataBean.getText(), MAX_SIZE_TITLE)) {
-            //回调异常
-            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_TITLE_IS_TOO_LONG);
-            return;
-        } else {
-            msg.title = shareDataBean.getTitle();
+        //检查描述
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxBaseDescription())) {
+            if (!checkStrSize(shareDataBean.getWxBaseDescription(), MAX_SIZE_DESCRIPTION)) {
+                //回调异常
+                callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_DESCRIPTION_IS_TOO_LONG);
+            } else {
+                msg.description = shareDataBean.getWxBaseDescription();
+            }
         }
-        //检查描述内容
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getDescription())
-                && !checkStrSize(shareDataBean.getText(), MAX_SIZE_DESCRIPTION)) {
-            //回调异常
-            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_DESCRIPTION_IS_TOO_LONG);
-            return;
-        } else {
-            msg.description = shareDataBean.getDescription();
+        //检查微信小程序标题
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxMiniProgramTitle())) {
+            if (!checkStrSize(shareDataBean.getWxMiniProgramTitle(), MAX_SIZE_TITLE)) {
+                //回调异常
+                callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_TITLE_IS_TOO_LONG);
+            } else {
+                msg.title = shareDataBean.getWxMiniProgramTitle();
+            }
         }
-        //设置缩略图
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getThumbBmp())) {
-            msg.thumbData = AtlwImageCommonUtils.getInstance().getBitmapBytes(
-                    AtlwImageCommonUtils.getInstance().bitmapCompress(shareDataBean.getThumbBmp(), Bitmap.CompressFormat.JPEG, MAX_SIZE_THUMB_DATA)
-            );
+        //检查微信小程序缩略图
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxMiniProgramThumbBitmap())) {
+            //压缩图片
+            try {
+                msg.thumbData = AtlwImageCommonUtils.getInstance()
+                        .bitmapCompressToByte(shareDataBean.getWxMiniProgramThumbBitmap(),
+                                Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE);
+            } catch (Exception e) {
+                //回调异常
+                callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
+            }
         }
-        AtlwLogUtils.logI(TAG, "微信分享msg已构造完成");
+        AtlwLogUtils.logUtils.logI(TAG, "微信分享msg已构造完成");
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         //classname，hashcode，时间戳
-        req.transaction = "wx_share_" + msg.getClass().getName() + msg.hashCode() + System.currentTimeMillis();  //transaction字段用与唯一标示一个请求
+        //transaction字段用与唯一标示一个请求
+        req.transaction = "wx_share_" + msg.getClass().getName() + msg.hashCode() + System.currentTimeMillis();
         req.message = msg;
         req.scene = mTargetScene;
-        AtlwLogUtils.logI(TAG, "微信分享准备向微信发送分享");
+        AtlwLogUtils.logUtils.logI(TAG, "微信分享准备向微信发送分享");
         AcbflwPluginUtils.getInstance().getApi().sendReq(req);
         //记录回调
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getShareCallBack())) {
@@ -360,10 +357,7 @@ class AcbflwWeChatShare {
         if (JtlwCheckVariateUtils.getInstance().isEmpty(str)) {
             return false;
         }
-        if (Integer.valueOf(size).compareTo(str.getBytes().length) < 0) {
-            return false;
-        }
-        return true;
+        return size >= str.getBytes().length;
     }
 
     /**

@@ -86,7 +86,7 @@ public class AcbflwInterceptor implements Interceptor {
                     .append("\n\n");
 
             logBuilder.append("****  Network_options_end  ****");
-            AtlwLogUtils.logI("Network_options", logBuilder.toString());
+            AtlwLogUtils.logUtils.logI("Network_options", logBuilder.toString());
             System.out.println(logBuilder.toString());
             logBuilder.setLength(0);
 

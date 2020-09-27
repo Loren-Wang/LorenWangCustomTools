@@ -42,7 +42,7 @@ open class AcbflwBaseModel {
      */
     fun releaseModel() {
         compositeDisposable.clear()
-        AtlwLogUtils.logI(TAG, "释放了当前model所有网络请求！")
+        AtlwLogUtils.logUtils.logI(TAG, "释放了当前model所有网络请求！")
     }
 
     /**
@@ -83,11 +83,11 @@ open class AcbflwBaseModel {
                                 return
                             }
                         }
-                        AtlwLogUtils.logE(TAG, t.code().toString())
+                        AtlwLogUtils.logUtils.logE(TAG, t.code().toString())
                         netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                     }
                 } else {
-                    AtlwLogUtils.logE(TAG, t.code().toString())
+                    AtlwLogUtils.logUtils.logE(TAG, t.code().toString())
                     netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                 }
             }
@@ -98,36 +98,36 @@ open class AcbflwBaseModel {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
+                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
                             }
                         } catch (e: Exception) {
-                            AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                            AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                         }
                     }
                     is SocketTimeoutException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                             }
                         } catch (e: Exception) {
-                            AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                            AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                         }
                     }
                     is SSLException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                             }
                         } catch (e: Exception) {
-                            AtlwLogUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                            AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                         }
                     }
                     else -> {

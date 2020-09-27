@@ -26,7 +26,7 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
  */
 
 abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
-    protected var TAG: String? = javaClass.name;
+    protected var TAG: String? = javaClass.name
 
     protected var activity: Activity? = null
 
@@ -44,20 +44,20 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
     /**
      * 默认每页数量
      */
-    protected val defaultPageCount = KttlwConfig.DEFAULT_NET_PAGE_SIZE;
+    protected val defaultPageCount = KttlwConfig.DEFAULT_NET_PAGE_SIZE
 
     /**
      * 释放所有
      */
     fun releasePresenter() {
         TAG = null
-        releasePresenterChild();
+        releasePresenterChild()
     }
 
     /**
      * 释放所有的继承该presenter的
      */
-    abstract fun releasePresenterChild();
+    abstract fun releasePresenterChild()
 
     /**
      * 获取页码
@@ -85,7 +85,7 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
             requestCode: Int, dataIsNull: Boolean?,
             repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         return getNetOptionsCallback(
-                requestCode = requestCode,dataIsNull = dataIsNull,
+                requestCode = requestCode, dataIsNull = dataIsNull,
                 showLoading = true, successHideLoading = true, errorHideLoading = true,
                 allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
@@ -98,19 +98,17 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
             requestCode: Int, dataIsNull: Boolean?,
             successHideLoading: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         return getNetOptionsCallback(
-                requestCode = requestCode,dataIsNull = dataIsNull,
+                requestCode = requestCode, dataIsNull = dataIsNull,
                 showLoading = true, successHideLoading = successHideLoading, errorHideLoading = true,
                 allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
 
     /**
      * 获取响应数据回调
-     * @param successHideLoading 成功是否隐藏加载中
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
-            requestCode: Int, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         return getNetOptionsCallback(
-                requestCode = requestCode,dataIsNull = false,
+                requestCode = requestCode, dataIsNull = false,
                 showLoading = true, successHideLoading = true, errorHideLoading = true,
                 allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
@@ -149,8 +147,7 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
                     if (dto.data != null) {
                         repOptionsCallback.viewOptionsData(dto)
                     } else {
-                        baseView.netReqFail(requestCode, null,
-                                AtlwConfig.nowApplication.getString(R.string.empty_data_default))
+                        baseView.netReqFail(requestCode, AtlwConfig.nowApplication.getString(R.string.empty_data_default))
                         repOptionsCallback.repDataError(null,
                                 AtlwConfig.nowApplication.getString(R.string.empty_data_default))
                     }
@@ -166,7 +163,7 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
                 if (errorHideLoading) {
                     baseView.hideBaseLoading()
                 }
-                baseView.netReqFail(requestCode, null, e.message)
+                baseView.netReqFail(requestCode, e.message)
                 repOptionsCallback.repDataError(null, e.message)
             }
 

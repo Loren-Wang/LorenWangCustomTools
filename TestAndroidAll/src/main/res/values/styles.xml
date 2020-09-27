@@ -32,11 +32,27 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="mainButtons">
+
+    <style name="DefaultButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="MainButtons" parent="DefaultButton">
         <item name="android:onClick">mainClick</item>
     </style>
 
+    <style name="AnimButton" parent="DefaultButton">
+        <item name="android:onClick">animClick</item>
+    </style>
+
+    <!--默认标题栏样式-->
+    <style name="DefaultTitleBarHeadView">
+        <item name="avlwLeftBgRes">@android:drawable/ic_notification_clear_all</item>
+        <item name="avlwLeftDistanceLeft">16dp</item>
+        <item name="bavlwLeftDistanceRight">16dp</item>
+        <item name="avlwTitleTextSize">@dimen/textSize16</item>
+        <item name="avlwTitleTextColor">#464646</item>
+    </style>
 </resources>

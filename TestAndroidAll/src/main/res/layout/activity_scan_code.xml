@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".graphicCodeScan.ScanCodeActivity">
+    tools:context=".activity.graphicCodeScan.ScanCodeActivity">
 
     <android.lorenwang.graphic_code_scan.AgcslwScanView
         android:id="@+id/surfaceView"

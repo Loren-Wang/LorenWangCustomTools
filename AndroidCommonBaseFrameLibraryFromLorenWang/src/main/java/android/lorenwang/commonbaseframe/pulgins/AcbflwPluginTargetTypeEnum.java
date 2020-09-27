@@ -31,13 +31,17 @@ public enum AcbflwPluginTargetTypeEnum {
      */
     SHARE_WE_CHAT_SESSION(3, "WeChat Session"),
     /**
+     * 分享图片，需要进行保存并通知操作
+     */
+    SHARE_SAVE_LOCAL_IMAGE(4, "Share Image"),
+    /**
      * 微信支付
      */
-    PAY_WE_CHAT(4, "WeChat Pay"),
+    PAY_WE_CHAT(5, "WeChat Pay"),
     /**
      * 支付宝支付
      */
-    PAY_ALI(5, "ALiPay");
+    PAY_ALI(6, "ALiPay");
 
     private int type;
     private String des;

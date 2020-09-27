@@ -69,11 +69,11 @@ public class AcbflwPayUtils {
      * 发送微信支付
      */
     private void sendPayWeChat(AcbflwPayDataBean payDataBean) {
-        AtlwLogUtils.logI(TAG, "开始调用微信支付");
+        AtlwLogUtils.logUtils.logI(TAG, "开始调用微信支付");
         if (AcbflwPluginUtils.getInstance().getApi().isWXAppInstalled()) {
             AcbflwWeChatConfigInfoBean configInfoBean = AcbflwPluginUtils.getInstance().getWeChatConfigInfoBean();
             assert configInfoBean != null;
-            AtlwLogUtils.logI(TAG, "微信配置信息验证通过，开始初始化支付请求实体");
+            AtlwLogUtils.logUtils.logI(TAG, "微信配置信息验证通过，开始初始化支付请求实体");
             PayReq request = new PayReq();
             request.appId = configInfoBean.getAppid();
             //商户id
@@ -89,7 +89,7 @@ public class AcbflwPayUtils {
             request.nonceStr = str.substring(0, Math.min(str.length(), 32));
             //签名
             request.sign = payDataBean.getSign();
-            AtlwLogUtils.logI(TAG, "微信支付请求实体初始化完成，向微信发送支付请求");
+            AtlwLogUtils.logUtils.logI(TAG, "微信支付请求实体初始化完成，向微信发送支付请求");
             //发起请求
             AcbflwPluginUtils.getInstance().getApi().sendReq(request);
             //记录回调
@@ -97,7 +97,7 @@ public class AcbflwPayUtils {
                 AcbflwPluginUtils.getInstance().addCallBack(request.nonceStr, payDataBean.getPayCallBack());
             }
         } else {
-            AtlwLogUtils.logI(TAG, "微信应用未安装");
+            AtlwLogUtils.logUtils.logI(TAG, "微信应用未安装");
             if (payDataBean.getPayCallBack() != null) {
                 payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.WECHAT_NOT_INSTALL);
             }
@@ -110,16 +110,16 @@ public class AcbflwPayUtils {
      * @param payDataBean 支付信息
      */
     private void sendPayAli(final AcbflwPayDataBean payDataBean) {
-        AtlwLogUtils.logI(TAG, "开始调用支付宝支付");
+        AtlwLogUtils.logUtils.logI(TAG, "开始调用支付宝支付");
         assert payDataBean.getaLiPayBody() != null;
         assert payDataBean.getActivity() != null;
-        AtlwLogUtils.logI(TAG, "支付宝支付数据验证通过，准备发起支付");
+        AtlwLogUtils.logUtils.logI(TAG, "支付宝支付数据验证通过，准备发起支付");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                AtlwLogUtils.logI(TAG, "支付宝开始初始化请求实体");
+                AtlwLogUtils.logUtils.logI(TAG, "支付宝开始初始化请求实体");
                 PayTask alipay = new PayTask(payDataBean.getActivity());
-                AtlwLogUtils.logI(TAG, "支付宝请求实体初始化完成，向支付宝发送支付请求");
+                AtlwLogUtils.logUtils.logI(TAG, "支付宝请求实体初始化完成，向支付宝发送支付请求");
                 Map<String, String> result = alipay.payV2(payDataBean.getaLiPayBody(), true);
                 String resultStatus = result.get("resultStatus");
                 if (JtlwCheckVariateUtils.getInstance().isEmpty(resultStatus)
@@ -134,33 +134,33 @@ public class AcbflwPayUtils {
 //                    其它	其它支付错误
                     switch (resultStatus) {
                         case "9000":
-                            AtlwLogUtils.logI(TAG, "支付宝支付成功");
+                            AtlwLogUtils.logUtils.logI(TAG, "支付宝支付成功");
                             payDataBean.getPayCallBack().info();
                             break;
                         case "4000":
-                            AtlwLogUtils.logI(TAG, "支付宝支付失败");
+                            AtlwLogUtils.logUtils.logI(TAG, "支付宝支付失败");
                             payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_FAIL);
                             break;
                         case "5000":
-                            AtlwLogUtils.logI(TAG, "支付宝支付错误：发起了重复请求");
+                            AtlwLogUtils.logUtils.logI(TAG, "支付宝支付错误：发起了重复请求");
                             payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_ERROR_REPETITION);
                             break;
                         case "6001":
-                            AtlwLogUtils.logI(TAG, "支付宝支付错误：用户中途取消");
+                            AtlwLogUtils.logUtils.logI(TAG, "支付宝支付错误：用户中途取消");
                             payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_CANCEL);
                             break;
                         case "6002":
-                            AtlwLogUtils.logI(TAG, "支付宝支付错误：网络连接出错");
+                            AtlwLogUtils.logUtils.logI(TAG, "支付宝支付错误：网络连接出错");
                             payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_ERROR_CONNECT);
                             break;
                         default:
-                            AtlwLogUtils.logI(TAG, "支付宝支付错误：其它支付错误");
+                            AtlwLogUtils.logUtils.logI(TAG, "支付宝支付错误：其它支付错误");
                             payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_ERROR_OTHER);
                             break;
                     }
                 } else {
                     if (payDataBean.getPayCallBack() != null) {
-                        AtlwLogUtils.logI(TAG, "支付宝支付错误：其它支付错误");
+                        AtlwLogUtils.logUtils.logI(TAG, "支付宝支付错误：其它支付错误");
                         payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_ERROR_OTHER);
                     }
                 }

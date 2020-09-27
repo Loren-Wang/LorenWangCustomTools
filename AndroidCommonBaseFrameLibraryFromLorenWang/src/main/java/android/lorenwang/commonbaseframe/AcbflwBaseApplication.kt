@@ -39,8 +39,14 @@ open class AcbflwBaseApplication : Application() {
             override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {}
 
             override fun onActivityStarted(activity: Activity) {}
-            override fun onActivityResumed(activity: Activity) {}
-            override fun onActivityPaused(activity: Activity) {}
+            override fun onActivityResumed(activity: Activity) {
+                currentShowActivity = activity
+            }
+
+            override fun onActivityPaused(activity: Activity) {
+                currentShowActivity = null
+            }
+
             override fun onActivityStopped(activity: Activity) {}
             override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {}
 
@@ -56,15 +62,6 @@ open class AcbflwBaseApplication : Application() {
 
         //初始化安卓自定义工具类相关
         initAndroidCustomTools()
-    }
-
-    /**
-     * 设置app编译状态
-     * @param appCompileType app编译状态，在子类中继承设置，因为在框架以及其他基础库中是会用到一些和编译类型相关的配置
-     */
-    fun setCompileType(appCompileType: Int) {
-        //非正式环境都打印日志
-        AtlwConfig.isDebug = !AcbflwBaseConfig.appCompileTypeIsRelease(appCompileType)
     }
 
     /**
@@ -150,5 +147,11 @@ open class AcbflwBaseApplication : Application() {
          */
         @JvmField
         var application: AcbflwBaseApplication? = null
+
+        /**
+         * 当前正在展示的Activity页面
+         */
+        @JvmField
+        var currentShowActivity: Activity? = null
     }
 }

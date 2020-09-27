@@ -1,5 +1,7 @@
 package android.lorenwang.commonbaseframe.mvp
 
+import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
+
 /**
  * 创建时间：2019-07-15 上午 11:09:20
  * 创建人：王亮（Loren wang）
@@ -30,6 +32,14 @@ interface AcbflwBaseView {
     fun userLoginStatusError(code: Any?, message: String?)
 
     /**
+     * 限流挡板异常数据返回
+     *
+     * @param netOptionReqCode 网络请求code
+     * @param repBean          限流挡板数据
+     */
+    fun currentLimitingBaffleError(netOptionReqCode: Int, repBean: KttlwBaseNetResponseBean<Any>)
+
+    /**
      * 网络请求成功
      * @param data 响应数据
      * @param netOptionReqCode 网络操作请求code
@@ -39,8 +49,7 @@ interface AcbflwBaseView {
     /**
      * 网络请求失败
      * @param netOptionReqCode 网络操作请求code
-     * @param code 错误码
      * @param message 错误信息
      */
-    fun netReqFail(netOptionReqCode: Int, code: Any?, message: String?)
+    fun netReqFail(netOptionReqCode: Int, message: String?)
 }

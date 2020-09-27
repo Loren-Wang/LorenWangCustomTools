@@ -25,6 +25,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 修改人：
  * 修改时间：
  * 备注：
+ * @author wangliang
  */
 
 public class AcbflwPluginUtils {
@@ -125,6 +126,15 @@ public class AcbflwPluginUtils {
     public String getWeiChatSecret() {
         assert weChatConfigInfoBean != null;
         return weChatConfigInfoBean.getWeiChatSecret();
+    }
+
+    /**
+     * 获取小程序原始id
+     * @return 小程序原始id
+     */
+    public String getWeChatApplyId() {
+        assert weChatConfigInfoBean != null;
+        return weChatConfigInfoBean.getWeChatApplyId();
     }
 
     /**

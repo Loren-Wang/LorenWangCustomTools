@@ -1,10 +1,7 @@
 package com.example.testapp.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.testapp.base.BaseFragment
 import com.example.testapp.R
 
 /**
@@ -18,9 +15,14 @@ import com.example.testapp.R
  * 修改时间：
  * 备注：
  */
-open class TestFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? { // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_test, container, false)
+class TestFragment : BaseFragment() {
+    /**
+     * 初始化视图
+     *
+     * @param savedInstanceState 页面切换等操作是手动存储的值
+     */
+    override fun initView(savedInstanceState: Bundle?) {
+      addContentView(R.layout.fragment_test)
     }
 
 }

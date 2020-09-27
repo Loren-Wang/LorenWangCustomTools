@@ -53,92 +53,89 @@ public class AcbflwShareDataBean {
     AcbflwShareContentTypeEnum contentType;
 
     /**
-     * 分享标题
+     * 微信分享描述
      */
-    private String title;
+    private String wxBaseDescription;
     /**
-     * 分享描述
+     * 微信文本分享文本
      */
-    private String description;
-
+    private String wxText;
     /**
-     * 分享文本
+     * 微信分享的图片
      */
-    private String text;
-
-
+    private Bitmap wxImageViewBitmap;
     /**
-     * 分享图片位图
+     * 微信小程序分享地址
      */
-    private Bitmap imgBitmap;
+    private String wxMiniProgramWebpageUrl;
     /**
-     * 分享图片缩略图位图
+     * 微信小程序分享小程序路径
      */
-    private Bitmap thumbBmp;
+    private String wxMiniProgramPath;
     /**
-     * 分享图片地址
+     * 微信小程序分享的小程序消息标题
      */
-    private String imgPath;
-
-
+    private String wxMiniProgramTitle;
     /**
-     * 音频网页的 URL 地址	限制长度不超过 10KB
+     * 微信小程序缩略图
      */
-    private String musicUrl;
-    /**
-     * 供低带宽环境下使用的音频网页 URL 地址	限制长度不超过 10KB
-     */
-    private String musicLowBandUrl;
-    /**
-     * 音频数据的 URL 地址	限制长度不超过 10KB
-     */
-    private String musicDataUrl;
-    /**
-     * 供低带宽环境下使用的音频数据 URL 地址	限制长度不超过 10KB
-     */
-    private String musicLowBandDataUrl;
-
-    /**
-     * 视频链接	限制长度不超过 10KB
-     */
-    private String videoUrl;
-    /**
-     * 供低带宽的环境下使用的视频链接	限制长度不超过 10KB
-     */
-    private String videoLowBandUrl;
-
-    /**
-     * 文件地址
-     */
-    private String filePath;
-    /**
-     * 文件数据
-     */
-    private byte[] fileData;
-
-    /**
-     * html 链接	限制长度不超过 10KB
-     */
-    private String webPageUrl;
-    /**
-     * 小程序的原始 id	小程序原始 ID 获取方法：登录小程序管理后台-设置-基本设置-帐号信息
-     */
-    private String userName;
-    /**
-     * 小程序的 path	小程序页面路径；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"
-     */
-    private String path;
-    /**
-     * 是否使用带 shareTicket 的分享	通常开发者希望分享出去的小程序被二次打开时可以获取到更多信息，例如群的标识。可以设置 withShareTicket 为 true，当分享卡片在群聊中被其他用户打开时，可以获取到 shareTicket，用于获取更多分享信息。详见小程序获取更多分享信息 ，最低客户端版本要求：6.5.13
-     */
-    private boolean withShareTicket = false;
+    private Bitmap wxMiniProgramThumbBitmap;
     /**
      * 小程序的类型，默认正式版
      * 正式版: WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
      * 测试版: WXMiniProgramObject.MINIPROGRAM_TYPE_TEST;
      * 预览版: WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW
      */
-    private int miniProgramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
+    private int wxMiniProgramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
+
+    /**
+     * 保存到本地的图片位图
+     */
+    private Bitmap saveLocalImageBitmap;
+    /**
+     * 保存到本地的图片名称
+     */
+    private String saveLocalImageName;
+
+    /**
+     * 音频网页的 URL 地址	限制长度不超过 10KB
+     */
+    private String wxMusicUrl;
+    /**
+     * 供低带宽环境下使用的音频网页 URL 地址	限制长度不超过 10KB
+     */
+    private String wxMusicLowBandUrl;
+    /**
+     * 音频数据的 URL 地址	限制长度不超过 10KB
+     */
+    private String wxMusicDataUrl;
+    /**
+     * 供低带宽环境下使用的音频数据 URL 地址	限制长度不超过 10KB
+     */
+    private String wxMusicLowBandDataUrl;
+
+    /**
+     * 视频链接	限制长度不超过 10KB
+     */
+    private String wxVideoUrl;
+    /**
+     * 供低带宽的环境下使用的视频链接	限制长度不超过 10KB
+     */
+    private String wxVideoLowBandUrl;
+
+    /**
+     * html 链接	限制长度不超过 10KB
+     */
+    private String wxWebPageUrl;
+
+    /**
+     * 文件地址
+     */
+    private String wxFilePath;
+    /**
+     * 文件数据
+     */
+    private byte[] wxFileData;
 
     public AcbflwPluginCallBack getShareCallBack() {
         return shareCallBack;
@@ -152,88 +149,80 @@ public class AcbflwShareDataBean {
         return contentType;
     }
 
-    public String getTitle() {
-        return title;
+    public String getWxBaseDescription() {
+        return wxBaseDescription;
     }
 
-    public String getDescription() {
-        return description;
+    public String getWxText() {
+        return wxText;
     }
 
-    public String getText() {
-        return text;
+    public Bitmap getWxImageViewBitmap() {
+        return wxImageViewBitmap;
     }
 
-    public Bitmap getImgBitmap() {
-        return imgBitmap;
+    public String getWxMiniProgramWebpageUrl() {
+        return wxMiniProgramWebpageUrl;
     }
 
-    public Bitmap getThumbBmp() {
-        return thumbBmp;
+    public String getWxMiniProgramPath() {
+        return wxMiniProgramPath;
     }
 
-    public String getImgPath() {
-        return imgPath;
+    public String getWxMiniProgramTitle() {
+        return wxMiniProgramTitle;
     }
 
-    public String getMusicUrl() {
-        return musicUrl;
+    public Bitmap getWxMiniProgramThumbBitmap() {
+        return wxMiniProgramThumbBitmap;
     }
 
-    public String getMusicLowBandUrl() {
-        return musicLowBandUrl;
+    public int getWxMiniProgramType() {
+        return wxMiniProgramType;
     }
 
-    public String getMusicDataUrl() {
-        return musicDataUrl;
+    public Bitmap getSaveLocalImageBitmap() {
+        return saveLocalImageBitmap;
     }
 
-    public String getMusicLowBandDataUrl() {
-        return musicLowBandDataUrl;
+    public String getSaveLocalImageName() {
+        return saveLocalImageName;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
+    public String getWxMusicUrl() {
+        return wxMusicUrl;
     }
 
-    public String getVideoLowBandUrl() {
-        return videoLowBandUrl;
+    public String getWxMusicLowBandUrl() {
+        return wxMusicLowBandUrl;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getWxMusicDataUrl() {
+        return wxMusicDataUrl;
     }
 
-    public byte[] getFileData() {
-        return fileData;
+    public String getWxMusicLowBandDataUrl() {
+        return wxMusicLowBandDataUrl;
     }
 
-    public String getWebPageUrl() {
-        return webPageUrl;
+    public String getWxVideoUrl() {
+        return wxVideoUrl;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getWxVideoLowBandUrl() {
+        return wxVideoLowBandUrl;
     }
 
-    public String getPath() {
-        return path;
+    public String getWxFilePath() {
+        return wxFilePath;
     }
 
-    public boolean isWithShareTicket() {
-        return withShareTicket;
+    public byte[] getWxFileData() {
+        return wxFileData;
     }
 
-    public int getMiniProgramType() {
-        return miniProgramType;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setImgBitmap(Bitmap imgBitmap) {
-        this.imgBitmap = imgBitmap;
+    public String getWxWebPageUrl() {
+        return wxWebPageUrl;
     }
 
     public static class Build {
@@ -251,92 +240,89 @@ public class AcbflwShareDataBean {
         AcbflwShareContentTypeEnum contentType;
 
         /**
-         * 分享标题
+         * 微信分享描述
          */
-        private String title;
+        private String wxBaseDescription;
         /**
-         * 分享描述
+         * 微信文本分享文本
          */
-        private String description;
-
+        private String wxText;
         /**
-         * 分享文本
+         * 微信分享的图片
          */
-        private String text;
-
-
+        private Bitmap wxImageViewBitmap;
         /**
-         * 分享图片位图
+         * 微信小程序分享地址
          */
-        private Bitmap imgBitmap;
+        private String wxMiniProgramWebpageUrl;
         /**
-         * 分享图片缩略图位图
+         * 微信小程序分享小程序路径
          */
-        private Bitmap thumbBmp;
+        private String wxMiniProgramPath;
         /**
-         * 分享图片地址
+         * 微信小程序分享的小程序消息标题
          */
-        private String imgPath;
-
-
+        private String wxMiniProgramTitle;
         /**
-         * 音频网页的 URL 地址	限制长度不超过 10KB
+         * 微信小程序缩略图
          */
-        private String musicUrl;
-        /**
-         * 供低带宽环境下使用的音频网页 URL 地址	限制长度不超过 10KB
-         */
-        private String musicLowBandUrl;
-        /**
-         * 音频数据的 URL 地址	限制长度不超过 10KB
-         */
-        private String musicDataUrl;
-        /**
-         * 供低带宽环境下使用的音频数据 URL 地址	限制长度不超过 10KB
-         */
-        private String musicLowBandDataUrl;
-
-        /**
-         * 视频链接	限制长度不超过 10KB
-         */
-        private String videoUrl;
-        /**
-         * 供低带宽的环境下使用的视频链接	限制长度不超过 10KB
-         */
-        private String videoLowBandUrl;
-
-        /**
-         * 文件地址
-         */
-        private String filePath;
-        /**
-         * 文件数据
-         */
-        private byte[] fileData;
-
-        /**
-         * html 链接	限制长度不超过 10KB
-         */
-        private String webPageUrl;
-        /**
-         * 小程序的原始 id	小程序原始 ID 获取方法：登录小程序管理后台-设置-基本设置-帐号信息
-         */
-        private String userName;
-        /**
-         * 小程序的 path	小程序页面路径；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"
-         */
-        private String path;
-        /**
-         * 是否使用带 shareTicket 的分享	通常开发者希望分享出去的小程序被二次打开时可以获取到更多信息，例如群的标识。可以设置 withShareTicket 为 true，当分享卡片在群聊中被其他用户打开时，可以获取到 shareTicket，用于获取更多分享信息。详见小程序获取更多分享信息 ，最低客户端版本要求：6.5.13
-         */
-        private boolean withShareTicket = false;
+        private Bitmap wxMiniProgramThumbBitmap;
         /**
          * 小程序的类型，默认正式版
          * 正式版: WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
          * 测试版: WXMiniProgramObject.MINIPROGRAM_TYPE_TEST;
          * 预览版: WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW
          */
-        private int miniProgramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
+        private int wxMiniProgramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
+
+        /**
+         * 保存到本地的图片位图
+         */
+        private Bitmap saveLocalImageBitmap;
+        /**
+         * 保存到本地的图片名称
+         */
+        private String saveLocalImageName;
+
+        /**
+         * 音频网页的 URL 地址	限制长度不超过 10KB
+         */
+        private String wxMusicUrl;
+        /**
+         * 供低带宽环境下使用的音频网页 URL 地址	限制长度不超过 10KB
+         */
+        private String wxMusicLowBandUrl;
+        /**
+         * 音频数据的 URL 地址	限制长度不超过 10KB
+         */
+        private String wxMusicDataUrl;
+        /**
+         * 供低带宽环境下使用的音频数据 URL 地址	限制长度不超过 10KB
+         */
+        private String wxMusicLowBandDataUrl;
+
+        /**
+         * 视频链接	限制长度不超过 10KB
+         */
+        private String wxVideoUrl;
+        /**
+         * 供低带宽的环境下使用的视频链接	限制长度不超过 10KB
+         */
+        private String wxVideoLowBandUrl;
+
+        /**
+         * html 链接	限制长度不超过 10KB
+         */
+        private String wxWebPageUrl;
+
+        /**
+         * 文件地址
+         */
+        private String wxFilePath;
+        /**
+         * 文件数据
+         */
+        private byte[] wxFileData;
 
         public Build setShareCallBack(AcbflwPluginCallBack shareCallBack) {
             this.shareCallBack = shareCallBack;
@@ -353,98 +339,98 @@ public class AcbflwShareDataBean {
             return this;
         }
 
-        public Build setTitle(String title) {
-            this.title = title;
+        public Build setWxBaseDescription(String wxBaseDescription) {
+            this.wxBaseDescription = wxBaseDescription;
             return this;
         }
 
-        public Build setDescription(String description) {
-            this.description = description;
+        public Build setWxText(String wxText) {
+            this.wxText = wxText;
             return this;
         }
 
-        public Build setText(String text) {
-            this.text = text;
+        public Build setWxImageViewBitmap(Bitmap wxImageViewBitmap) {
+            this.wxImageViewBitmap = wxImageViewBitmap;
             return this;
         }
 
-        public Build setImgBitmap(Bitmap imgBitmap) {
-            this.imgBitmap = imgBitmap;
+        public Build setWxMiniProgramWebpageUrl(String wxMiniProgramWebpageUrl) {
+            this.wxMiniProgramWebpageUrl = wxMiniProgramWebpageUrl;
             return this;
         }
 
-        public Build setThumbBmp(Bitmap thumbBmp) {
-            this.thumbBmp = thumbBmp;
+        public Build setWxMiniProgramPath(String wxMiniProgramPath) {
+            this.wxMiniProgramPath = wxMiniProgramPath;
             return this;
         }
 
-        public Build setImgPath(String imgPath) {
-            this.imgPath = imgPath;
+        public Build setWxMiniProgramTitle(String wxMiniProgramTitle) {
+            this.wxMiniProgramTitle = wxMiniProgramTitle;
             return this;
         }
 
-        public Build setMusicUrl(String musicUrl) {
-            this.musicUrl = musicUrl;
+        public Build setWxMiniProgramThumbBitmap(Bitmap wxMiniProgramThumbBitmap) {
+            this.wxMiniProgramThumbBitmap = wxMiniProgramThumbBitmap;
             return this;
         }
 
-        public Build setMusicLowBandUrl(String musicLowBandUrl) {
-            this.musicLowBandUrl = musicLowBandUrl;
+        public Build setWxMiniProgramType(int wxMiniProgramType) {
+            this.wxMiniProgramType = wxMiniProgramType;
             return this;
         }
 
-        public Build setMusicDataUrl(String musicDataUrl) {
-            this.musicDataUrl = musicDataUrl;
+        public Build setSaveLocalImageBitmap(Bitmap saveLocalImageBitmap) {
+            this.saveLocalImageBitmap = saveLocalImageBitmap;
             return this;
         }
 
-        public Build setMusicLowBandDataUrl(String musicLowBandDataUrl) {
-            this.musicLowBandDataUrl = musicLowBandDataUrl;
+        public Build setSaveLocalImageName(String saveLocalImageName) {
+            this.saveLocalImageName = saveLocalImageName;
             return this;
         }
 
-        public Build setVideoUrl(String videoUrl) {
-            this.videoUrl = videoUrl;
+        public Build setWxMusicUrl(String wxMusicUrl) {
+            this.wxMusicUrl = wxMusicUrl;
             return this;
         }
 
-        public Build setVideoLowBandUrl(String videoLowBandUrl) {
-            this.videoLowBandUrl = videoLowBandUrl;
+        public Build setWxMusicLowBandUrl(String wxMusicLowBandUrl) {
+            this.wxMusicLowBandUrl = wxMusicLowBandUrl;
             return this;
         }
 
-        public Build setFilePath(String filePath) {
-            this.filePath = filePath;
+        public Build setWxMusicDataUrl(String wxMusicDataUrl) {
+            this.wxMusicDataUrl = wxMusicDataUrl;
             return this;
         }
 
-        public Build setFileData(byte[] fileData) {
-            this.fileData = fileData;
+        public Build setWxMusicLowBandDataUrl(String wxMusicLowBandDataUrl) {
+            this.wxMusicLowBandDataUrl = wxMusicLowBandDataUrl;
             return this;
         }
 
-        public Build setWebPageUrl(String webPageUrl) {
-            this.webPageUrl = webPageUrl;
+        public Build setWxVideoUrl(String wxVideoUrl) {
+            this.wxVideoUrl = wxVideoUrl;
             return this;
         }
 
-        public Build setUserName(String userName) {
-            this.userName = userName;
+        public Build setWxVideoLowBandUrl(String wxVideoLowBandUrl) {
+            this.wxVideoLowBandUrl = wxVideoLowBandUrl;
             return this;
         }
 
-        public Build setPath(String path) {
-            this.path = path;
+        public Build setWxFilePath(String wxFilePath) {
+            this.wxFilePath = wxFilePath;
             return this;
         }
 
-        public Build setWithShareTicket(boolean withShareTicket) {
-            this.withShareTicket = withShareTicket;
+        public Build setWxFileData(byte[] wxFileData) {
+            this.wxFileData = wxFileData;
             return this;
         }
 
-        public Build setMiniProgramType(int miniProgramType) {
-            this.miniProgramType = miniProgramType;
+        public Build setWxWebPageUrl(String wxWebPageUrl) {
+            this.wxWebPageUrl = wxWebPageUrl;
             return this;
         }
 
@@ -453,25 +439,25 @@ public class AcbflwShareDataBean {
             bean.shareCallBack = this.shareCallBack;
             bean.targetType = this.targetType;
             bean.contentType = this.contentType;
-            bean.title = this.title;
-            bean.description = this.description;
-            bean.text = this.text;
-            bean.imgBitmap = this.imgBitmap;
-            bean.thumbBmp = this.thumbBmp;
-            bean.imgPath = this.imgPath;
-            bean.musicUrl = this.musicUrl;
-            bean.musicLowBandUrl = this.musicLowBandUrl;
-            bean.musicDataUrl = this.musicDataUrl;
-            bean.musicLowBandDataUrl = this.musicLowBandDataUrl;
-            bean.videoUrl = this.videoUrl;
-            bean.videoLowBandUrl = this.videoLowBandUrl;
-            bean.filePath = this.filePath;
-            bean.fileData = this.fileData;
-            bean.webPageUrl = this.webPageUrl;
-            bean.userName = this.userName;
-            bean.path = this.path;
-            bean.withShareTicket = this.withShareTicket;
-            bean.miniProgramType = this.miniProgramType;
+            bean.wxBaseDescription = this.wxBaseDescription;
+            bean.wxText = this.wxText;
+            bean.wxImageViewBitmap = this.wxImageViewBitmap;
+            bean.wxMiniProgramWebpageUrl = this.wxMiniProgramWebpageUrl;
+            bean.wxMiniProgramPath = this.wxMiniProgramPath;
+            bean.wxMiniProgramTitle = this.wxMiniProgramTitle;
+            bean.wxMiniProgramThumbBitmap = this.wxMiniProgramThumbBitmap;
+            bean.wxMiniProgramType =  this.wxMiniProgramType;
+            bean.saveLocalImageBitmap = this.saveLocalImageBitmap;
+            bean.saveLocalImageName = this.saveLocalImageName;
+            bean.wxMusicUrl = this.wxMusicUrl;
+            bean.wxMusicLowBandUrl = this.wxMusicLowBandUrl;
+            bean.wxMusicDataUrl = this.wxMusicDataUrl;
+            bean.wxMusicLowBandDataUrl = this.wxMusicLowBandDataUrl;
+            bean.wxVideoUrl = this.wxVideoUrl;
+            bean.wxVideoLowBandUrl = this.wxVideoLowBandUrl;
+            bean.wxFilePath = this.wxFilePath;
+            bean.wxFileData = this.wxFileData;
+            bean.wxWebPageUrl = this.wxWebPageUrl;
             return bean;
         }
 

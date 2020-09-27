@@ -40,7 +40,7 @@ public class AcbflwLoginUtils {
      * 微信登陆
      */
     public void loginToWeChat(AcbflwPluginCallBack callBack) {
-        AtlwLogUtils.logI(TAG, "准备发送微信登陆");
+        AtlwLogUtils.logUtils.logI(TAG, "准备发送微信登陆");
         // send oauth request
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";

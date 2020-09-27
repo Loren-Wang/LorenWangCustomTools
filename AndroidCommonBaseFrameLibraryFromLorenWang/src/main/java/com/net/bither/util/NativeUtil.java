@@ -170,18 +170,18 @@ public class NativeUtil {
                 if (degree != 0) {
                     bitmap = AtlwImageCommonUtils.getInstance().toTurnPicture(bitmap, degree);
                 }
-                AtlwLogUtils.logE(TAG, "====开始==压缩==saveFile==" + savePath);
+                AtlwLogUtils.logUtils.logE(TAG, "====开始==压缩==saveFile==" + savePath);
                 compressBitmap(bitmap, savePath, maxSize, format);
-                AtlwLogUtils.logE(TAG, "====完成==压缩==saveFile==" + savePath);
+                AtlwLogUtils.logUtils.logE(TAG, "====完成==压缩==saveFile==" + savePath);
                 return true;
             } else {
                 return false;
             }
         } catch (Exception e) {
-            AtlwLogUtils.logE(TAG, "压缩失败");
+            AtlwLogUtils.logUtils.logE(TAG, "压缩失败");
             return false;
         } catch (java.lang.OutOfMemoryError OutOfMemoryError) {
-            AtlwLogUtils.logE(TAG, "压缩失败");
+            AtlwLogUtils.logUtils.logE(TAG, "压缩失败");
             return false;
         }
 

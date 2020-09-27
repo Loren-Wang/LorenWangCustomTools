@@ -34,7 +34,7 @@ public class AcbflwResponseGsonConverter<T> implements Converter<ResponseBody, T
         try {
             String originalBody = value.string();
             String TAG = "AcbflwResponseGsonConverter";
-            AtlwLogUtils.logD(TAG, "接收到接口返回数据:" + originalBody);
+            AtlwLogUtils.logUtils.logD(TAG, "接收到接口返回数据:" + originalBody);
             return adapter.fromJson(originalBody);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

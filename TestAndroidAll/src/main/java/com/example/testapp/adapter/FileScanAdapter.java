@@ -14,8 +14,21 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * 功能作用：文件扫描适配器
+ * 初始注释时间： 2020/9/27 11:03 上午
+ * 创建人：王亮（Loren）
+ * 思路：
+ * 方法：
+ * 注意：
+ * 修改人：
+ * 修改时间：
+ * 备注：
+ *
+ * @author 王亮（Loren）
+ */
 public class FileScanAdapter extends RecyclerView.Adapter {
-    private Context context;
+    private final Context context;
     private List<File> list;
     private CheckListener listener;
 
