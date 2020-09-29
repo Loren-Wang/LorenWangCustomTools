@@ -72,7 +72,7 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
     /**
      * 用户token
      */
-    @Column(name = SbcbflwBaseTableConfig.UserInfoColumn.ACCESSTOKEN, columnDefinition = "varchar(200) comment '用户token'")
+    @Column(name = SbcbflwBaseTableConfig.UserInfoColumn.ACCESS_TOKEN, columnDefinition = "varchar(200) " + "comment '用户token'")
     var accessToken: String? = null
 
     /**

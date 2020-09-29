@@ -20,12 +20,18 @@ import javax.persistence.*
 @JsonAutoDetect
 open class SbcbflwBaseUserPermissionTb<T> : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
-     * id
+     * 主键id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.ID, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '权限id'")
-    var permissionId: Long? = null
+    var _ID: Long? = null
+
+    /**
+     * 权限id
+     */
+    @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.ID,  columnDefinition = "varchar(50) comment '权限id'")
+    var permissionId: String? = null
+
     /**
      * 权限名称
      */
@@ -42,6 +48,9 @@ open class SbcbflwBaseUserPermissionTb<T> : SbcbflwBaseTb(), Serializable, Clone
      * 角色名称
      */
     @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.PERMISSION_ROLE, nullable = false)
-    @ManyToMany(mappedBy = SbcbflwBaseTableConfig.UserRoleColumn.ROLE_PERMISSION)
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @JoinTable(name = SbcbflwBaseTableConfig.TableName.INTERMEDIATE_USER_ROLE_PERMISSION,
+            inverseJoinColumns = [JoinColumn(name = SbcbflwBaseTableConfig.IntermediateUserRolePermissionColumn.ROLE_ID, referencedColumnName = SbcbflwBaseTableConfig.UserRoleColumn.ID)],
+            joinColumns = [JoinColumn(name = SbcbflwBaseTableConfig.IntermediateUserRolePermissionColumn.PERMISSION_ID, referencedColumnName = SbcbflwBaseTableConfig.UserPermissionColumn.ID)])
     var permissionRole: MutableSet<T>? = null
 }

@@ -10,7 +10,6 @@ sourceSets {
     }
 }
 
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -68,8 +67,8 @@ dependencies {
 
 def moduleName = "SpringBootCommonBaseFrameLibraryFromLorenWang"
 def moduleDescription = "SpringBoot通用基础框架包"
-version '1.3.4'
-Properties properties = new Properties();
+version '1.3.93'
+Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")
 def bintrayKey = properties.getProperty("bintray.apikey")
