@@ -13,6 +13,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.lorenwang.tools.base.AtlwCheckUtils;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.lorenwang.tools.file.AtlwFileOptionUtils;
@@ -112,17 +113,23 @@ public class AtlwImageCommonUtils {
     public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable != null) {
             // 取 drawable 的长宽
-            int w = drawable.getIntrinsicWidth();
-            int h = drawable.getIntrinsicHeight();
+            int width = drawable.getBounds().width();
+            int height = drawable.getBounds().height();
+            if (width < 0) {
+                width = AtlwScreenUtils.getInstance().getScreenWidth();
+            }
+            if (height < 0) {
+                height = AtlwScreenUtils.getInstance().getScreenHeight();
+            }
 
             // 取 drawable 的颜色格式
             Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?
                     Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
             // 建立对应 bitmap
-            Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+            Bitmap bitmap = Bitmap.createBitmap(width, height, config);
             // 建立对应 bitmap 的画布
             Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, w, h);
+            drawable.setBounds(0, 0, width, height);
             // 把 drawable 内容画到画布中
             drawable.draw(canvas);
             return bitmap;
@@ -151,9 +158,9 @@ public class AtlwImageCommonUtils {
             Canvas canvas = new Canvas(bitmap);
 
             //做宽高转换
-            float drawableProportion =
-                    drawable.getIntrinsicWidth() * 1.0f / drawable.getIntrinsicHeight();
             float showProportion = width * 1.0f / height;
+            float drawableProportion =
+                    drawable.getBounds().width() * 1.0f / drawable.getBounds().height();
             int left = 0;
             int top = 0;
             int right = width;
@@ -334,6 +341,7 @@ public class AtlwImageCommonUtils {
     /**
      * 位图压缩，不压缩大小
      * 它是在保持像素的前提下改变图片的位深及透明度，来达到压缩图片的目的，图片的长，宽，像素都不会改变，那么bitmap所占内存大小是不会变的。
+     *
      * @param bitmap 要压缩的位图
      * @param format 压缩格式
      * @param size   大小，单位，字节
@@ -613,7 +621,8 @@ public class AtlwImageCommonUtils {
             return Bitmap.createBitmap(argbs, 0, portraitWidth, portraitWidth, portraitHeight,
                     bitmap.getConfig());
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(TAG, "是位图背景透明处理异常" + (e.getMessage() == null ? "" : e.getMessage()));
+            AtlwLogUtils.logUtils.logE(TAG, "是位图背景透明处理异常" + (e.getMessage() == null ? "" :
+                    e.getMessage()));
             return bitmap;
         }
     }
@@ -661,7 +670,8 @@ public class AtlwImageCommonUtils {
                     topShowRect, paint);
             return bitmapBg;
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(TAG, "合并位图异常" + (e.getMessage() == null ? "" : e.getMessage()));
+            AtlwLogUtils.logUtils.logE(TAG, "合并位图异常" + (e.getMessage() == null ? "" :
+                    e.getMessage()));
             return bitmapBg;
         }
     }

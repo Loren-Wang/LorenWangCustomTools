@@ -11,24 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.testapp.activity.textview.CustomDrawableButtonActivity" />
-        <activity android:name="com.example.testapp.activity.titlebar.TitleBarHeadViewActivity" />
-        <activity android:name="com.example.testapp.activity.image.ZoomableImageViewActivity" />
-        <activity android:name="com.example.testapp.activity.graphicCodeScan.CodeGenerateActivity" />
-        <activity android:name="com.example.testapp.activity.viewpager.FragmentAndBannerActivity" />
-        <activity android:name="com.example.testapp.activity.dialog.DialogsActivity" />
-        <activity android:name="com.example.testapp.activity.viewpager.ViewPager2Activity" />
-        <activity android:name="com.example.testapp.activity.viewpager.BannerActivity" />
-        <activity android:name="com.example.testapp.activity.textview.ShowPriceTextViewActivity" />
-        <activity android:name="com.example.testapp.activity.textview.ShowQuantityOfCommodityActivity" />
+        <activity android:name=".activity.ProgressActivity"></activity>
+        <activity android:name=".activity.textview.CustomDrawableButtonActivity" />
+        <activity android:name=".activity.titlebar.TitleBarHeadViewActivity" />
+        <activity android:name=".activity.image.ZoomableImageViewActivity" />
+        <activity android:name=".activity.graphicCodeScan.CodeGenerateActivity" />
+        <activity android:name=".activity.viewpager.FragmentAndBannerActivity" />
+        <activity android:name=".activity.dialog.DialogsActivity" />
+        <activity android:name=".activity.viewpager.ViewPager2Activity" />
+        <activity android:name=".activity.viewpager.BannerActivity" />
+        <activity android:name=".activity.textview.ShowPriceTextViewActivity" />
+        <activity android:name=".activity.textview.ShowQuantityOfCommodityActivity" />
         <activity android:name=".activity.RecycleViewPageActivity" />
         <activity android:name=".activity.TabLayoutActivity" />
-        <activity android:name="com.example.testapp.activity.graphicCodeScan.ScanCodeActivity" />
+        <activity android:name=".activity.graphicCodeScan.ScanCodeActivity" />
         <activity android:name=".activity.DataParseActivity" />
         <activity android:name=".activity.ToastActivity" />
         <activity android:name=".activity.FileOptionsActivity" />
-        <activity android:name="com.example.testapp.activity.bluetooth.BluetoothActivity" />
-        <activity android:name="com.example.testapp.activity.anim.AnimActivity" />
+        <activity android:name=".activity.bluetooth.BluetoothActivity" />
+        <activity android:name=".activity.anim.AnimActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,12 +43,10 @@
         <activity android:name=".activity.SideBarActivity" />
         <activity android:name=".activity.HorizontalSlipTabLayoutActivity" />
         <activity android:name=".activity.SwitchButtonActivity" />
-        <activity android:name="com.example.testapp.activity.image.ImageViewActivity" />
-        <activity android:name="com.example.testapp.activity.androidTools.MobileContactsActivity" />
-        <activity android:name="com.example.testapp.activity.androidTools.MobileSmsActivity" />
+        <activity android:name=".activity.image.ImageViewActivity" />
+        <activity android:name=".activity.androidTools.MobileContactsActivity" />
+        <activity android:name=".activity.androidTools.MobileSmsActivity" />
     </application>
-
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -56,7 +55,8 @@
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
 </manifest>

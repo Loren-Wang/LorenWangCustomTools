@@ -133,6 +133,10 @@ class MainActivity : BaseActivity() {
                     //蓝牙
                     AtlwActivityJumpUtils.getInstance().jump(this, BluetoothActivity::class.java)
                 }
+                R.id.btnProgress -> {
+                    //进度条
+                    AtlwActivityJumpUtils.getInstance().jump(this, ProgressActivity::class.java)
+                }
                 else -> {
 
                 }

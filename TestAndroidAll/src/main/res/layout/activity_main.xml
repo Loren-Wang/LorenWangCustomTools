@@ -145,6 +145,11 @@
             style="@style/MainButtons"
             android:text="蓝牙相关" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnProgress"
+            style="@style/MainButtons"
+            android:text="进度条" />
+
     </LinearLayout>
 
 
