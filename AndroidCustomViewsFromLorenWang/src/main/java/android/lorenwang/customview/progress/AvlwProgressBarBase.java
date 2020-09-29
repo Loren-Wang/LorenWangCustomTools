@@ -82,4 +82,8 @@ abstract class AvlwProgressBarBase implements AvlwProgressBarOptions {
      */
     abstract void onDrawRegion(Canvas canvas, float left, float top, float right, float bottom);
 
+    @Override
+    public void setProgress(@FloatRange(from = 0, to = 0) float progress) {
+        this.progress = progress;
+    }
 }

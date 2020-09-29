@@ -7,6 +7,7 @@ import android.lorenwang.customview.R;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.FloatRange;
 import androidx.annotation.Nullable;
 
 /**
@@ -50,7 +51,8 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
 
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwProgressBar);
-        switch (attributes.getInt(R.styleable.AvlwProgressBar_avlwShowProgressType, PROGRESS_TYPE_1)) {
+        switch (attributes.getInt(R.styleable.AvlwProgressBar_avlwShowProgressType,
+                PROGRESS_TYPE_1)) {
             case PROGRESS_TYPE_1:
             default:
                 avlwProgressBarBase = new AvlwProgressBarVideoPlay();
@@ -72,4 +74,26 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
                 getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
     }
 
+    /**
+     * 设置当前进度
+     *
+     * @param progress 进度
+     */
+    @Override
+    public void setProgress(@FloatRange(from = 0, to = 0) float progress) {
+        avlwProgressBarBase.setProgress(progress);
+        invalidate();
+    }
+
+    /**
+     * 设置缓存进度
+     *
+     * @param progressCache 缓存进度
+     */
+    public void setProgressCache(@FloatRange(from = 0, to = 0) float progressCache) {
+        if (avlwProgressBarBase instanceof AvlwProgressBarVideoPlay) {
+            ((AvlwProgressBarVideoPlay) avlwProgressBarBase).setProgressCache(progressCache);
+        }
+        invalidate();
+    }
 }
