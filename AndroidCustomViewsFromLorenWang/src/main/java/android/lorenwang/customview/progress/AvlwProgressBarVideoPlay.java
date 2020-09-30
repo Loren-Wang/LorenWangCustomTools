@@ -165,10 +165,13 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
      */
     @Override
     void onDrawRegion(Canvas canvas, float left, float top, float right, float bottom) {
-        //绘制的视图
-        Bitmap bitmap = null;
         //显示区域
         Rect showRect = new Rect((int) left, (int) top, (int) right, (int) bottom);
+        if (showRect.width() <= 0 || showRect.height() <= 0) {
+            return;
+        }
+        //绘制的视图
+        Bitmap bitmap = null;
         //进度条绘制顶部、底部坐标
         showRect.top = (int) ((showRect.height() - progressShowHeight) / 2 + top);
         showRect.bottom = (int) (showRect.top + progressShowHeight);
@@ -197,13 +200,15 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
             showRect.right = (int) (left + showProgressWidth * progressCache);
             //释放旧的位图
             AtlwImageCommonUtils.getInstance().releaseBitmap(bitmap);
-            //获取当前显示位图
-            bitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(progressCacheDrawable,
-                    showRect.width(), showRect.height());
-            //绘制当前位图
-            if (bitmap != null && !bitmap.isRecycled()) {
-                canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
-                        showRect, null);
+            if (showRect.width() > 0 && showRect.height() > 0) {
+                //获取当前显示位图
+                bitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(progressCacheDrawable,
+                        showRect.width(), showRect.height());
+                //绘制当前位图
+                if (bitmap != null && !bitmap.isRecycled()) {
+                    canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                            showRect, null);
+                }
             }
         }
 
@@ -213,13 +218,15 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
             showRect.right = (int) (left + showProgressWidth * progress);
             //释放旧的位图
             AtlwImageCommonUtils.getInstance().releaseBitmap(bitmap);
-            //获取当前显示位图
-            bitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(progressShowDrawable,
-                    showRect.width(), showRect.height());
-            //绘制当前位图
-            if (bitmap != null && !bitmap.isRecycled()) {
-                canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
-                        showRect, null);
+            if (showRect.width() > 0 && showRect.height() > 0) {
+                //获取当前显示位图
+                bitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(progressShowDrawable,
+                        showRect.width(), showRect.height());
+                //绘制当前位图
+                if (bitmap != null && !bitmap.isRecycled()) {
+                    canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                            showRect, null);
+                }
             }
         }
 
