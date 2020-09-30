@@ -112,6 +112,9 @@ public class AtlwImageCommonUtils {
      */
     public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable != null) {
+            //复制，防止影响原有视图
+            drawable = drawable.getConstantState().newDrawable();
+
             // 取 drawable 的长宽
             int width = drawable.getBounds().width();
             int height = drawable.getBounds().height();
@@ -148,6 +151,8 @@ public class AtlwImageCommonUtils {
      */
     public Bitmap drawableToBitmap(Drawable drawable, int width, int height) {
         if (drawable != null) {
+            //复制，防止影响原有视图
+            drawable = drawable.getConstantState().newDrawable();
 
             // 取 drawable 的颜色格式
             Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?

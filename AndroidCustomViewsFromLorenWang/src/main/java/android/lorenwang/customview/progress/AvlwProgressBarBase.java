@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.lorenwang.customview.R;
 import android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView;
+import android.view.MotionEvent;
 
 import androidx.annotation.FloatRange;
 
@@ -34,6 +35,11 @@ abstract class AvlwProgressBarBase implements AvlwProgressBarOptions {
      */
     @FloatRange(from = 0F, to = 1F)
     protected float progress = 0F;
+
+    /**
+     * 进度条监听
+     */
+    protected AvlwProgressBarListener progressBarListener;
 
     /**
      * 初始化
@@ -82,8 +88,57 @@ abstract class AvlwProgressBarBase implements AvlwProgressBarOptions {
      */
     abstract void onDrawRegion(Canvas canvas, float left, float top, float right, float bottom);
 
+    /**
+     * 触摸处理
+     *
+     * @param event 触摸事件
+     * @return 处理结果
+     */
+    abstract Boolean onTouchEvent(MotionEvent event);
+
+    /**
+     * 设置进度
+     *
+     * @param progress 当前进度
+     */
     @Override
     public void setProgress(@FloatRange(from = 0, to = 0) float progress) {
+        setProgress(progress, false);
+    }
+
+    /**
+     * 设置进度
+     *
+     * @param progress      当前进度
+     * @param onToucnChange 是否是触摸修改的进度
+     */
+    protected void setProgress(@FloatRange(from = 0, to = 0) float progress,
+                               boolean onToucnChange) {
         this.progress = progress;
+        if (progressBarListener != null) {
+            progressBarListener.progressChanage(progress, onToucnChange);
+        }
+        if (avlwProgressBar != null) {
+            avlwProgressBar.invalidate();
+        }
+    }
+
+    /**
+     * 获取当前进度
+     *
+     * @return 当前进度
+     */
+    @Override
+    public float getProgress() {
+        return progress;
+    }
+
+    /**
+     * 设置进度条监听
+     *
+     * @param progressBarListener 进度条监听
+     */
+    public void setProgressBarListener(AvlwProgressBarListener progressBarListener) {
+        this.progressBarListener = progressBarListener;
     }
 }

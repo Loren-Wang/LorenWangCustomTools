@@ -4,12 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.view.MotionEvent;
 
 import androidx.annotation.FloatRange;
 
@@ -155,24 +154,6 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
                         Math.max(progressSmallHeight, progressCurrentHeight)));
     }
 
-    public void setShowBig(boolean showBig) {
-        this.showBig = showBig;
-        if (showBig) {
-            progressShowHeight = progressBigHeight;
-        } else {
-            progressShowHeight = progressSmallHeight;
-        }
-    }
-
-    /**
-     * 设置缓存进度
-     *
-     * @param progressCache 缓存进度
-     */
-    public void setProgressCache(@FloatRange(from = 0, to = 0) float progressCache) {
-        this.progressCache = progressCache;
-    }
-
     /**
      * 指定区域绘制
      *
@@ -264,4 +245,48 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
             }
         }
     }
+
+    @Override
+    Boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP && avlwProgressBar != null) {
+            //手指抬起，判断位置，设置进度
+            int progressWidth =
+                    avlwProgressBar.getWidth() - avlwProgressBar.getPaddingStart() - avlwProgressBar.getPaddingEnd();
+            setProgress(event.getX() / progressWidth, true);
+        }
+        return true;
+    }
+
+    /**
+     * 设置是否显示大模式
+     *
+     * @param showBig 大模式
+     */
+    public void setShowBig(boolean showBig) {
+        this.showBig = showBig;
+        if (showBig) {
+            progressShowHeight = progressBigHeight;
+        } else {
+            progressShowHeight = progressSmallHeight;
+        }
+    }
+
+    /**
+     * 设置缓存进度
+     *
+     * @param progressCache 缓存进度
+     */
+    public void setProgressCache(@FloatRange(from = 0, to = 0) float progressCache) {
+        this.progressCache = progressCache;
+    }
+
+    /**
+     * 获取缓存进度
+     *
+     * @return 缓存进度
+     */
+    public float getProgressCache() {
+        return progressCache;
+    }
+
 }

@@ -22,4 +22,10 @@ interface AvlwProgressBarOptions {
      * @param progress 进度
      */
     void setProgress(@FloatRange(from = 0, to = 0) float progress);
+
+    /**
+     * 获取当前进度
+     * @return 当前进度
+     */
+    float getProgress();
 }
