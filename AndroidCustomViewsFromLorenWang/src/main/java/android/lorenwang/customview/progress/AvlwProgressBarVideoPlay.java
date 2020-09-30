@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 import androidx.annotation.FloatRange;
 
 /**
- * 功能作用：基础进度条
+ * 功能作用：视频播放进度条
  * 创建时间：2020-09-29 4:11 下午
  * 创建人：王亮（Loren）
  * 思路：

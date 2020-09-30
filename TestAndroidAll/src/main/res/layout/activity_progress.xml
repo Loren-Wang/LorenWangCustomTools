@@ -37,5 +37,18 @@
         app:avlwProgressCache="0.5"
         tools:ignore="MissingPrefix" />
 
+    <android.lorenwang.customview.progress.AvlwProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        app:avlwProgressShowHeight="10dp"
+        app:avlwProgressBgImage="@drawable/sidebar_select"
+        app:avlwProgressCurrentImage="@drawable/progressbar_current"
+        app:avlwProgressCurrentHeight="10dp"
+        app:avlwProgressCurrentWidth="15dp"
+        app:avlwShowProgressType="PROGRESS_TYPE_2"
+        android:layout_marginTop="10dp"
+        app:avlwProgress="1"
+        tools:ignore="MissingPrefix" />
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

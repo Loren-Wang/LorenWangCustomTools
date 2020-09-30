@@ -3,6 +3,7 @@
     <declare-styleable name="AvlwProgressBar">
         <attr name="avlwShowProgressType">
             <enum name="PROGRESS_TYPE_1" value="0" />
+            <enum name="PROGRESS_TYPE_2" value="1" />
         </attr>
 
         <!--基础参数-->
@@ -11,20 +12,26 @@
 
         <!--第一种类型为视频播放类型的-->
 
-        <!--基础参数-->
+        <!--当前缓存进度-->
         <attr name="avlwProgressCache" format="float" />
-        <!--背景-->
-        <attr name="avlwProgressBgImage" format="reference" />
         <!--进度条-->
         <attr name="avlwProgressImage" format="reference" />
         <!--缓存进度-->
         <attr name="avlwProgressCacheImage" format="reference" />
-        <!--进度条当前-->
-        <attr name="avlwProgressCurrentImage" format="reference" />
         <!--进度条进度大高度-->
         <attr name="avlwProgressBigHeight" format="dimension" />
         <!--进度条进度小高度-->
         <attr name="avlwProgressSmallHeight" format="dimension" />
+
+        <!--第二张滑动进度类型的-->
+        <!--进度条显示高度-->
+        <attr name="avlwProgressShowHeight" format="dimension" />
+
+        <!--第一种视频播放和第二张滑动进度共同使用的-->
+        <!--背景-->
+        <attr name="avlwProgressBgImage" format="reference" />
+        <!--进度条当前-->
+        <attr name="avlwProgressCurrentImage" format="reference" />
         <!--进度条当前进度高度-->
         <attr name="avlwProgressCurrentHeight" format="dimension" />
         <!--进度条当前进度宽度-->

@@ -30,6 +30,7 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
      * 视频播放器进度条
      */
     private final int PROGRESS_TYPE_1 = 0;
+    private final int PROGRESS_TYPE_2 = 1;
     /**
      * 进度条实现基类
      */
@@ -55,6 +56,9 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwProgressBar);
         switch (attributes.getInt(R.styleable.AvlwProgressBar_avlwShowProgressType,
                 PROGRESS_TYPE_1)) {
+            case PROGRESS_TYPE_2:
+                avlwProgressBarBase = new AvlwProgressBarScroll();
+                break;
             case PROGRESS_TYPE_1:
             default:
                 avlwProgressBarBase = new AvlwProgressBarVideoPlay();
