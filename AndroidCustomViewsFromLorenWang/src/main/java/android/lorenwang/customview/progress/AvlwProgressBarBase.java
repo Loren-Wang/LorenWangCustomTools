@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.lorenwang.customview.R;
-import android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView;
 import android.view.MotionEvent;
 
 import androidx.annotation.FloatRange;
@@ -102,7 +101,7 @@ abstract class AvlwProgressBarBase implements AvlwProgressBarOptions {
      * @param progress 当前进度
      */
     @Override
-    public void setProgress(@FloatRange(from = 0, to = 0) float progress) {
+    public void setProgress(@FloatRange(from = 0, to = 1) float progress) {
         setProgress(progress, false);
     }
 
@@ -112,7 +111,7 @@ abstract class AvlwProgressBarBase implements AvlwProgressBarOptions {
      * @param progress      当前进度
      * @param onToucnChange 是否是触摸修改的进度
      */
-    protected void setProgress(@FloatRange(from = 0, to = 0) float progress,
+    protected void setProgress(@FloatRange(from = 0, to = 1) float progress,
                                boolean onToucnChange) {
         this.progress = progress;
         if (progressBarListener != null) {

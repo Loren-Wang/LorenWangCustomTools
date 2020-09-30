@@ -21,7 +21,7 @@ interface AvlwProgressBarOptions {
      *
      * @param progress 进度
      */
-    void setProgress(@FloatRange(from = 0, to = 0) float progress);
+    void setProgress(@FloatRange(from = 0, to = 1) float progress);
 
     /**
      * 获取当前进度

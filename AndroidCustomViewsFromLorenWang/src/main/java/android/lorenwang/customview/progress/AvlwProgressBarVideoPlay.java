@@ -276,7 +276,7 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
      *
      * @param progressCache 缓存进度
      */
-    public void setProgressCache(@FloatRange(from = 0, to = 0) float progressCache) {
+    public void setProgressCache(@FloatRange(from = 0, to = 1) float progressCache) {
         this.progressCache = progressCache;
     }
 

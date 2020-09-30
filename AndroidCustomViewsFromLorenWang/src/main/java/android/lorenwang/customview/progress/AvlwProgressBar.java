@@ -89,7 +89,7 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
      * @param progress 进度
      */
     @Override
-    public void setProgress(@FloatRange(from = 0, to = 0) float progress) {
+    public void setProgress(@FloatRange(from = 0, to = 1) float progress) {
         avlwProgressBarBase.setProgress(progress);
     }
 
@@ -108,7 +108,7 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
      *
      * @param progressCache 缓存进度
      */
-    public void setProgressCache(@FloatRange(from = 0, to = 0) float progressCache) {
+    public void setProgressCache(@FloatRange(from = 0, to = 1) float progressCache) {
         if (avlwProgressBarBase instanceof AvlwProgressBarVideoPlay) {
             ((AvlwProgressBarVideoPlay) avlwProgressBarBase).setProgressCache(progressCache);
         }
