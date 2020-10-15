@@ -116,12 +116,12 @@ public class AtlwImageCommonUtils {
             drawable = drawable.getConstantState().newDrawable();
 
             // 取 drawable 的长宽
-            int width = drawable.getBounds().width();
-            int height = drawable.getBounds().height();
-            if (width < 0) {
+            int width = getDrawableWidth(drawable);
+            int height = getDrawableHeight(drawable);
+            if (width <= 0) {
                 width = AtlwScreenUtils.getInstance().getScreenWidth();
             }
-            if (height < 0) {
+            if (height <= 0) {
                 height = AtlwScreenUtils.getInstance().getScreenHeight();
             }
 
@@ -165,19 +165,21 @@ public class AtlwImageCommonUtils {
             //做宽高转换
             float showProportion = width * 1.0f / height;
             float drawableProportion =
-                    drawable.getBounds().width() * 1.0f / drawable.getBounds().height();
+                    getDrawableWidth(drawable) * 1.0f / (getDrawableHeight(drawable) == 0 ? 1 :
+                            getDrawableHeight(drawable));
             int left = 0;
             int top = 0;
             int right = width;
             int bottom = height;
-            if (drawableProportion > showProportion) {
-                left = -(int) ((drawableProportion - showProportion) / 2 * width);
-                right = (int) (width * drawableProportion + left);
-            } else {
-                top = -(int) ((showProportion - drawableProportion) / 2 * height);
-                bottom = height + left;
+            if (drawableProportion > 0) {
+                if (drawableProportion > showProportion) {
+                    left = -(int) ((drawableProportion - showProportion) / 2 * width);
+                    right = (int) (width * drawableProportion + left);
+                } else {
+                    top = -(int) ((showProportion - drawableProportion) / 2 * height);
+                    bottom = height + left;
+                }
             }
-
             if (left > 0) {
                 left = 0;
             }
@@ -190,6 +192,36 @@ public class AtlwImageCommonUtils {
             return bitmap;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * 获取drawable的宽度
+     *
+     * @param drawable 图片
+     * @return 宽度
+     */
+    public int getDrawableWidth(Drawable drawable) {
+        if (drawable == null) {
+            return -1;
+        } else {
+            return drawable.getIntrinsicWidth() > 0 ? drawable.getIntrinsicWidth() :
+                    drawable.getBounds().width();
+        }
+    }
+
+    /**
+     * 获取drawable的高度
+     *
+     * @param drawable 图片
+     * @return 宽度
+     */
+    public int getDrawableHeight(Drawable drawable) {
+        if (drawable == null) {
+            return -1;
+        } else {
+            return drawable.getIntrinsicHeight() > 0 ? drawable.getIntrinsicHeight() :
+                    drawable.getBounds().height();
         }
     }
 
@@ -314,10 +346,28 @@ public class AtlwImageCommonUtils {
      * 获取圆形bitmap
      *
      * @param bitmap 位图
+     * @return 圆形bitmap
+     */
+    public Bitmap getCircleBitmap(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+        return getCircleBitmap(bitmap, Math.max(bitmap.getWidth(), bitmap.getHeight()) / 2);
+
+    }
+
+
+    /**
+     * 获取圆形bitmap
+     *
+     * @param bitmap 位图
      * @param radius 圆角角度
-     * @return 圆角bitmap
+     * @return 圆形bitmap
      */
     public Bitmap getCircleBitmap(Bitmap bitmap, int radius) {
+        if (bitmap == null) {
+            return null;
+        }
         //获取输出的位图
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
                 Bitmap.Config.ARGB_8888);
@@ -334,7 +384,7 @@ public class AtlwImageCommonUtils {
         paint.setColor(Color.RED);
 
         //绘制圆角
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, radius, paint);
+        canvas.drawCircle(bitmap.getWidth() / 2.0f, bitmap.getHeight() / 2.0f, radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         //绘制位图
         canvas.drawBitmap(bitmap, rect, rect, paint);
@@ -607,7 +657,10 @@ public class AtlwImageCommonUtils {
      * @param bitmap 要透明的图片位图
      * @return 透明后的图片位图
      */
-    public Bitmap makeBgTransparent(@NonNull Bitmap bitmap) {
+    public Bitmap makeBgTransparent(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
         try {
             int portraitWidth = bitmap.getWidth();
             int portraitHeight = bitmap.getHeight();
@@ -644,11 +697,14 @@ public class AtlwImageCommonUtils {
      * @param bottomBgPercent 顶部图片低部侧距离百分百（相对于背景），为空时不做处理
      * @return 合并后的位图
      */
-    public Bitmap mergeBitmap(@NonNull Bitmap bitmapBg, @NonNull Bitmap bitmapTop,
+    public Bitmap mergeBitmap(Bitmap bitmapBg, @NonNull Bitmap bitmapTop,
                               int topShowWidth, int topShowHeight,
                               @FloatRange(from = 0, to = 1) float leftBgPercent,
                               @FloatRange(from = 0, to = 1) Float topBgPercent,
                               @FloatRange(from = 0, to = 1) Float bottomBgPercent) {
+        if (bitmapBg == null) {
+            return null;
+        }
         try {
             //定义顶部要合并显示的坐标矩阵，默认为相应位图宽高，后续要根据参数进行计算修改
             Rect topShowRect = new Rect(0, 0, topShowWidth, topShowHeight);
@@ -678,6 +734,54 @@ public class AtlwImageCommonUtils {
             AtlwLogUtils.logUtils.logE(TAG, "合并位图异常" + (e.getMessage() == null ? "" :
                     e.getMessage()));
             return bitmapBg;
+        }
+    }
+
+    /**
+     * 图片设置背景异常
+     *
+     * @param bitmap           要设置背景的图片位图
+     * @param bgColor          背景颜色
+     * @param bgContentPadding 内容和背景内边距
+     * @return 透明后的图片位图
+     */
+    public Bitmap setBitmapBg(Bitmap bitmap, int bgColor, Integer bgContentPadding) {
+        if (bitmap == null) {
+            return null;
+        }
+        try {
+            //先将原始图片背景做透明处理
+            bitmap = makeBgTransparent(bitmap);
+            //开始处理设置背景
+            int portraitWidth = bitmap.getWidth();
+            int portraitHeight = bitmap.getHeight();
+            //内容背景间距处理
+            bgContentPadding = bgContentPadding == null ? 0 : bgContentPadding;
+            //新建接收位图
+            Bitmap newBitmap = Bitmap.createBitmap(
+                    portraitWidth + bgContentPadding * 2,
+                    portraitHeight + bgContentPadding * 2,
+                    bitmap.getConfig());
+            //位图设置画板初始化
+            Canvas canvas = new Canvas(newBitmap);
+            //画笔初始化
+            Paint paint = new Paint();
+            paint.setColor(bgColor);
+            paint.setAntiAlias(true);
+            //绘制背景颜色
+            canvas.drawRect(0, 0, newBitmap.getWidth(), newBitmap.getHeight(), paint);
+            //绘制图片
+            canvas.drawBitmap(bitmap, null,
+                    new Rect(bgContentPadding, bgContentPadding,
+                            portraitWidth + bgContentPadding,
+                            portraitHeight + bgContentPadding),
+                    null);
+            paint = null;
+            return newBitmap;
+        } catch (Exception e) {
+            AtlwLogUtils.logUtils.logE(TAG, "图片设置背景异常：" + (e.getMessage() == null ? "" :
+                    e.getMessage()));
+            return bitmap;
         }
     }
 
