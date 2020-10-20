@@ -54,7 +54,7 @@ class AvlwBannerTextIndicator extends AvlwBaseBannerIndicator {
     @Override
     void changeShowIndicator(int showPosition) {
         String text = tvIndicator.getText().toString();
-        text = text.replaceFirst("^\\d/", (showPosition + 1) + "/");
+        text = text.replaceFirst("^\\d+/", (showPosition + 1) + "/");
         tvIndicator.setText(text);
     }
 
