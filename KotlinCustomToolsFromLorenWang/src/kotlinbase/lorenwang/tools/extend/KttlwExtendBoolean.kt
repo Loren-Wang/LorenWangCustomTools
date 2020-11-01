@@ -25,7 +25,7 @@ fun <R> Boolean?.ifFalse(exe: () -> R): R? {
 /**
  * 如果是true值的情况下处理
  */
-fun <R> Boolean?.ifYes(exe: () -> R): R? {
+fun <R> Boolean?.ifTrue(exe: () -> R): R? {
     return if (this != null && this) {
         exe()
     } else {
@@ -53,4 +53,11 @@ fun Boolean?.toInt(): Int {
     } else {
         1
     }
+}
+
+/**
+ * 获取非空数据
+ */
+fun Boolean?.getNotEmptyData(defaultData: Boolean = false): Boolean {
+    return this ?: defaultData
 }

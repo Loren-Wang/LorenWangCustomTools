@@ -56,7 +56,7 @@ inline fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
 /**
  * 待检测参数中是否包含空数据，包括空字符串检测
  */
-inline fun <T, P, R> T.haveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R, vararg params: P): R {
+inline fun <P, R> haveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R, vararg params: P): R {
     params.forEach {
         if (it.isEmpty()) {
             return emptyFun()
@@ -69,7 +69,7 @@ inline fun <T, P, R> T.haveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R, v
  * 待检测参数中是否包含空数据，包括空字符串检测
  * @return 有返回true，否则返回false
  */
-fun <T, P> T.haveEmptyCheck(vararg params: P): Boolean {
+fun <P> aahaveEmptyCheck(vararg params: P): Boolean {
     params.forEach {
         if (it.isEmpty()) {
             return true
@@ -82,7 +82,7 @@ fun <T, P> T.haveEmptyCheck(vararg params: P): Boolean {
  * 待检测参数中是否全部是空数据，包括空字符串检测
  * @return 有返回true，否则返回false
  */
-fun <T, P> T.allEmptyCheck(vararg params: P): Boolean {
+fun <P> allEmptyCheck(vararg params: P): Boolean {
     params.forEach {
         if (!it.isEmpty()) {
             return false
@@ -103,6 +103,22 @@ fun <T> T?.isNull(): Boolean {
  */
 fun <T> T?.isNotNull(): Boolean {
     return this != null
+}
+
+/**
+ * 是否为非null或者空
+ */
+fun <T> T?.isNotNullOrEmpty(): Boolean {
+    if (this == null) {
+        return false
+    }
+    if (this is String) {
+        return this.isNotEmpty()
+    }
+    if (this is Iterable<*>) {
+        return !this.none()
+    }
+    return true
 }
 
 /**
@@ -137,7 +153,7 @@ inline fun <T, R> T?.nullCheck(nullFun: () -> R, notNullFun: () -> R): R {
 /**
  * 待检测参数中是否有null数据
  */
-inline fun <T, P, R> T?.haveNullCheck(vararg params: P, nullFun: () -> R, notNullFun: () -> R): R {
+inline fun <P, R> haveNullCheck(vararg params: P, nullFun: () -> R, notNullFun: () -> R): R {
     params.forEach {
         if (it.isNull()) {
             return nullFun()
@@ -150,7 +166,7 @@ inline fun <T, P, R> T?.haveNullCheck(vararg params: P, nullFun: () -> R, notNul
  * 待检测参数中是否包含null
  * @return 有返回true，否则返回false
  */
-fun <T, P> T.haveNullCheck(vararg params: P): Boolean {
+fun <P> haveNullCheck(vararg params: P): Boolean {
     params.forEach {
         if (it.isNull()) {
             return true
@@ -163,7 +179,7 @@ fun <T, P> T.haveNullCheck(vararg params: P): Boolean {
  * 待检测参数中是否全部是null
  * @return 全是返回true，否则返回false
  */
-fun <T, P> T.allNullCheck(vararg params: P): Boolean {
+fun <P> allNullCheck(vararg params: P): Boolean {
     params.forEach {
         if (!it.isNull()) {
             return false
@@ -192,4 +208,24 @@ inline fun <reified T> Any?.formatConversion(): T? {
     } else {
         null
     }
+}
+
+/**
+ * 判断数据值是否是确定状态，默认返回非确定状态也就是默认认定数据为false
+ */
+fun Any?.ifTrue(): Boolean {
+    if (this != null && this.toString().matches(Regex("[0-9]+"))) {
+        return this.toString() != "0"
+    }
+    return false
+}
+
+/**
+ * 判断数据值是否是否定状态，默认返回非确定状态也就是默认认定数据为false
+ */
+fun Any?.ifFalse(): Boolean {
+    if (this != null && this.toString().matches(Regex("[0-9]+"))) {
+        return this.toString() == "0"
+    }
+    return true
 }
