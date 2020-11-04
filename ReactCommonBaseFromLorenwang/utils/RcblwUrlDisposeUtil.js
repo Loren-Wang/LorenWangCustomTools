@@ -20,14 +20,39 @@ const RcblwUrlDisposeUtil = {
         if (RcblwVariableDisposeUtil.isParamsTypeString(key)) {
             //地址转码
             const url = decodeURI(document.URL);
-            const reg = new RegExp("[?|&]" + key + "=[^&]+");
-            let arg = url.substr(1).match(reg);
+            let arg = url.substr(1).match(new RegExp("[?|&]" + key + "=[^&]+"));
             if (arg != null) {
                 arg = unescape(arg.toString())
                 return arg.substr(arg.indexOf("=") + 1);
             }
         }
         return key
+    },
+    /**
+     * 向url中添加参数，如果已有参数则直接替换
+     * @param url 当前url
+     * @param key 参数key
+     * @param value 参数值
+     */
+    addUrlParams(url, key, value) {
+        if (!RcblwVariableDisposeUtil.isParamsEmptyStr(url)
+            && !RcblwVariableDisposeUtil.isParamsEmptyStr(key)
+            && !RcblwVariableDisposeUtil.isParamsEmptyStr(value)) {
+            const oldValue = this.getUrlParams(key)
+            if (!RcblwVariableDisposeUtil.isParamsEmptyStr(oldValue)) {
+                //替换旧数据
+                return url.replace(key + "=" + oldValue, key + "=" + value)
+            } else {
+                //没有数据则新增
+                if (url.indexOf("?") >= 0) {
+                    return url + "&" + key + "=" + value
+                } else {
+                    return url + "?" + key + "=" + value
+                }
+            }
+        } else {
+            return url
+        }
     }
 };
 export default RcblwUrlDisposeUtil;
