@@ -20,7 +20,7 @@ const RcblwUrlDisposeUtil = {
         if (RcblwVariableDisposeUtil.isParamsTypeString(key)) {
             //地址转码
             const url = decodeURI(document.URL);
-            const reg = new RegExp("[?|&]" + "id" + "=[^&]+");
+            const reg = new RegExp("[?|&]" + key + "=[^&]+");
             let arg = url.substr(1).match(reg);
             if (arg != null) {
                 arg = unescape(arg.toString())
