@@ -26,7 +26,7 @@ const RcblwUrlDisposeUtil = {
                 return arg.substr(arg.indexOf("=") + 1);
             }
         }
-        return key
+        return null
     },
     /**
      * 向url中添加参数，如果已有参数则直接替换
