@@ -19,11 +19,12 @@ const RcblwUrlDisposeUtil = {
     getUrlParams(key) {
         if (RcblwVariableDisposeUtil.isParamsTypeString(key)) {
             //地址转码
-            let url = decodeURI(document.URL);
-            let reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-            let arg = window.location.search.substr(1).match(reg);
+            const url = decodeURI(document.URL);
+            const reg = new RegExp("[?|&]" + "id" + "=[^&]+");
+            let arg = url.substr(1).match(reg);
             if (arg != null) {
-                return unescape(arg[2]);
+                arg = unescape(arg.toString())
+                return arg.substr(arg.indexOf("=") + 1);
             }
         }
         return key
