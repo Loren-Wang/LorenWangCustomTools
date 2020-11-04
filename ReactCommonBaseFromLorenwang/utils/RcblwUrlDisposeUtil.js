@@ -14,12 +14,13 @@ const RcblwUrlDisposeUtil = {
     /**
      * 格式化url地址获取参数值
      * @param key 参数名称
+     * @param netUrl 要格式化的url
      * @returns {string} 参数值
      */
-    getUrlParams(key) {
+    getUrlParams(key, netUrl) {
         if (RcblwVariableDisposeUtil.isParamsTypeString(key)) {
             //地址转码
-            const url = decodeURI(document.URL);
+            const url = decodeURI(RcblwVariableDisposeUtil.isParamsEmptyStr(netUrl) ? document.URL : netUrl);
             let arg = url.substr(1).match(new RegExp("[?|&]" + key + "=[^&]+"));
             if (arg != null) {
                 arg = unescape(arg.toString())
@@ -38,7 +39,7 @@ const RcblwUrlDisposeUtil = {
         if (!RcblwVariableDisposeUtil.isParamsEmptyStr(url)
             && !RcblwVariableDisposeUtil.isParamsEmptyStr(key)
             && !RcblwVariableDisposeUtil.isParamsEmptyStr(value)) {
-            const oldValue = this.getUrlParams(key)
+            const oldValue = this.getUrlParams(key,url)
             if (!RcblwVariableDisposeUtil.isParamsEmptyStr(oldValue)) {
                 //替换旧数据
                 return url.replace(key + "=" + oldValue, key + "=" + value)
