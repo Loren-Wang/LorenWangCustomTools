@@ -94,7 +94,8 @@ public class JtlwMatchesRegularCommon {
     /**
      * 匹配网址(仅为协议和ip)
      */
-    public static final String EXP_URL_AGREEMENT_DOMAIN = "(" + EXP_URL_AGREEMENT_DOMAIN_IP + "|" + EXP_URL_AGREEMENT_DOMAIN_STR + ")";
+    public static final String EXP_URL_AGREEMENT_DOMAIN =
+            "(" + EXP_URL_AGREEMENT_DOMAIN_IP + "|" + EXP_URL_AGREEMENT_DOMAIN_STR + ")";
 
     /**
      * 匹配网址(仅为协议和ip)
@@ -140,7 +141,8 @@ public class JtlwMatchesRegularCommon {
     /**
      * EMAIL
      */
-    public static final String EXP_EMAIL = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
+    public static final String EXP_EMAIL = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)" +
+            "+[A-Za-z]{2,14}";
 
     /**
      * 金额，2位小数
@@ -200,6 +202,16 @@ public class JtlwMatchesRegularCommon {
      */
     public static final String EXP_DATETIMESECOND = "[0-9]{4}[-]{1}[0-9]{1,2}[-]{1}[0-9]{1,2}[ " +
             "]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}[:]{1}[0-9]{1,2}";
+
+    /**
+     * 颜色取值正则
+     */
+    public static final String EXP_COLOR = "^#[0-9a-zA-Z]{6}$";
+
+    /**
+     * 安卓颜色取值正则
+     */
+    public static final String EXP_COLOR_ANDROID = "^#[0-9a-zA-Z]{6}$|^#[0-9a-zA-Z]{8}$";
 
     /**
      * 获取符合正则的内容的数组
