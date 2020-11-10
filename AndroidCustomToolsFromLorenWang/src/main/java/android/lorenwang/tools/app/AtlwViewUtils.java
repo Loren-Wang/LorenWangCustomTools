@@ -2,7 +2,6 @@ package android.lorenwang.tools.app;
 
 import android.content.res.ColorStateList;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.os.Build;
@@ -436,6 +435,54 @@ public class AtlwViewUtils {
         paint = new Paint();
         paint.setTextSize(textSize);
         return getStrTextHeight(paint);
+    }
+
+    /**
+     * 获取RecyclerView显示宽度
+     *
+     * @param recyclerView 列表控件
+     * @return 宽度
+     */
+    public float getRecyclerViewShowWidth(RecyclerView recyclerView) {
+        if (recyclerView != null && recyclerView.getLayoutManager() != null) {
+            float left = 0f;
+            float right = 0f;
+            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+            View itemView;
+            for (int index = 0; index < layoutManager.getItemCount(); index++) {
+                itemView = recyclerView.getChildAt(index);
+                if (itemView != null) {
+                    left = Math.min(layoutManager.getDecoratedLeft(itemView), left);
+                    right = Math.max(layoutManager.getDecoratedRight(itemView), right);
+                }
+            }
+            return right - left;
+        }
+        return 0F;
+    }
+
+    /**
+     * 获取RecyclerView显示高度
+     *
+     * @param recyclerView 列表控件
+     * @return 高度
+     */
+    public float getRecyclerViewShowHeight(RecyclerView recyclerView) {
+        if (recyclerView != null && recyclerView.getLayoutManager() != null) {
+            float top = 0f;
+            float bottom = 0f;
+            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+            View itemView;
+            for (int index = 0; index < layoutManager.getItemCount(); index++) {
+                itemView = recyclerView.getChildAt(index);
+                if (itemView != null) {
+                    top = Math.min(layoutManager.getDecoratedTop(itemView), top);
+                    bottom = Math.max(layoutManager.getDecoratedBottom(itemView), bottom);
+                }
+            }
+            return bottom - top;
+        }
+        return 0F;
     }
 
 }
