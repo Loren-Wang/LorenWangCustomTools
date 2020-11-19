@@ -18,10 +18,10 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
 /**
  * 获取实例的json数据
  */
-fun <T> T.toJsonData(): String {
+fun <T> T.toJsonData() : String {
     return try {
         JdplwJsonUtils.toJson(this) ?: ""
-    } catch (e: Exception) {
+    } catch (e : Exception) {
         ""
     }
 }
@@ -29,17 +29,18 @@ fun <T> T.toJsonData(): String {
 /**
  * 检测基础数据是否为空，包括空字符串
  */
-fun <T> T?.isEmpty(): Boolean {
+fun <T> T?.isEmpty() : Boolean {
     return JtlwCheckVariateUtils.getInstance().isEmpty(this)
 }
 
 /**
  * 数据检测，根据检测结果调用不同方法，调用结束后返回数据，包括空字符串检测
  */
-inline fun <T, R> T?.emptyCheck(emptyFun: () -> R, notEmptyFun: (T) -> R): R {
+inline fun <T, R> T?.emptyCheck(emptyFun : () -> R, notEmptyFun : (T) -> R) : R {
     return if (this.isEmpty()) {
         emptyFun()
-    } else {
+    }
+    else {
         notEmptyFun(this!!)
     }
 }
@@ -47,68 +48,30 @@ inline fun <T, R> T?.emptyCheck(emptyFun: () -> R, notEmptyFun: (T) -> R): R {
 /**
  * 空检测，如果为空调用空方法，包括空字符串检测
  */
-inline fun <T, R> T?.emptyCheck(emptyFun: () -> R) {
+inline fun <T, R> T?.emptyCheck(emptyFun : () -> R) {
     if (this.isEmpty()) {
         emptyFun()
     }
 }
 
 /**
- * 待检测参数中是否包含空数据，包括空字符串检测
- */
-inline fun <P, R> haveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R, vararg params: P): R {
-    params.forEach {
-        if (it.isEmpty()) {
-            return emptyFun()
-        }
-    }
-    return notEmptyFun()
-}
-
-/**
- * 待检测参数中是否包含空数据，包括空字符串检测
- * @return 有返回true，否则返回false
- */
-fun <P> haveEmptyCheck(vararg params: P): Boolean {
-    params.forEach {
-        if (it.isEmpty()) {
-            return true
-        }
-    }
-    return false
-}
-
-/**
- * 待检测参数中是否全部是空数据，包括空字符串检测
- * @return 有返回true，否则返回false
- */
-fun <P> allEmptyCheck(vararg params: P): Boolean {
-    params.forEach {
-        if (!it.isEmpty()) {
-            return false
-        }
-    }
-    return true
-}
-
-/**
  * 检测数据是否为空，仅仅是空，仅仅是null判断
  */
-fun <T> T?.isNull(): Boolean {
+fun <T> T?.isNull() : Boolean {
     return this == null
 }
 
 /**
  * 检测数据是否不为空，仅仅是空，仅仅是null判断
  */
-fun <T> T?.isNotNull(): Boolean {
+fun <T> T?.isNotNull() : Boolean {
     return this != null
 }
 
 /**
  * 是否为非null或者空
  */
-fun <T> T?.isNotNullOrEmpty(): Boolean {
+fun <T> T?.isNotNullOrEmpty() : Boolean {
     if (this == null) {
         return false
     }
@@ -124,7 +87,7 @@ fun <T> T?.isNotNullOrEmpty(): Boolean {
 /**
  * 数据为null检测，为null时执行fun
  */
-inline fun <T> T?.nullCheck(exec: () -> Unit) {
+inline fun <T> T?.nullCheck(exec : () -> Unit) {
     if (this.isNull()) {
         exec()
     }
@@ -133,7 +96,7 @@ inline fun <T> T?.nullCheck(exec: () -> Unit) {
 /**
  * 数据不为null检测，不为null时执行fun
  */
-inline fun <T> T?.notNullCheck(exec: (T) -> Unit) {
+inline fun <T> T?.notNullCheck(exec : (T) -> Unit) {
     if (this.isNotNull()) {
         exec(this!!)
     }
@@ -142,18 +105,91 @@ inline fun <T> T?.notNullCheck(exec: (T) -> Unit) {
 /**
  * 数据null检测，分情况执行fun
  */
-inline fun <T, R> T?.nullCheck(nullFun: () -> R, notNullFun: () -> R): R {
+inline fun <T, R> T?.nullCheck(nullFun : () -> R, notNullFun : () -> R) : R {
     return if ((this.isNull())) {
         nullFun()
-    } else {
+    }
+    else {
         notNullFun()
     }
 }
 
 /**
+ * 数据转换成指定的数据格式类型
+ */
+inline fun <reified T> Any?.formatConversion() : T? {
+    return if (this != null && this is T) {
+        this
+    }
+    else {
+        null
+    }
+}
+
+/**
+ * 判断数据值是否是确定状态，默认返回非确定状态也就是默认认定数据为false
+ */
+fun Any?.ifTrue() : Boolean {
+    if (this != null && this.toString().matches(Regex("[0-9]+"))) {
+        return this.toString() != "0"
+    }
+    return false
+}
+
+/**
+ * 判断数据值是否是否定状态，默认返回非确定状态也就是默认认定数据为false
+ */
+fun Any?.ifFalse() : Boolean {
+    if (this != null && this.toString().matches(Regex("[0-9]+"))) {
+        return this.toString() == "0"
+    }
+    return true
+}
+
+
+
+/**
+ * 待检测参数中是否包含空数据，包括空字符串检测
+ */
+inline fun <P, R> kttlwHaveEmptyCheck(emptyFun : () -> R, notEmptyFun : () -> R, vararg params : P) : R {
+    params.forEach {
+        if (it.isEmpty()) {
+            return emptyFun()
+        }
+    }
+    return notEmptyFun()
+}
+
+/**
+ * 待检测参数中是否包含空数据，包括空字符串检测
+ * @return 有返回true，否则返回false
+ */
+fun <P> kttlwHaveEmptyCheck(vararg params : P) : Boolean {
+    params.forEach {
+        if (it.isEmpty()) {
+            return true
+        }
+    }
+    return false
+}
+
+/**
+ * 待检测参数中是否全部是空数据，包括空字符串检测
+ * @return 有返回true，否则返回false
+ */
+fun <P> kttlwAllEmptyCheck(vararg params : P) : Boolean {
+    params.forEach {
+        if (!it.isEmpty()) {
+            return false
+        }
+    }
+    return true
+}
+
+/**
  * 待检测参数中是否有null数据
  */
-inline fun <P, R> haveNullCheck(vararg params: P, nullFun: () -> R, notNullFun: () -> R): R {
+inline fun <P, R> kttlwHaveNullCheck(vararg params : P, nullFun : () -> R, notNullFun : () -> R) : R {
     params.forEach {
         if (it.isNull()) {
             return nullFun()
@@ -166,7 +202,7 @@ inline fun <P, R> haveNullCheck(vararg params: P, nullFun: () -> R, notNullFun: 
  * 待检测参数中是否包含null
  * @return 有返回true，否则返回false
  */
-fun <P> haveNullCheck(vararg params: P): Boolean {
+fun <P> kttlwHaveNullCheck(vararg params : P) : Boolean {
     params.forEach {
         if (it.isNull()) {
             return true
@@ -179,7 +215,7 @@ fun <P> haveNullCheck(vararg params: P): Boolean {
  * 待检测参数中是否全部是null
  * @return 全是返回true，否则返回false
  */
-fun <P> allNullCheck(vararg params: P): Boolean {
+fun <P> kttlwAllNullCheck(vararg params : P) : Boolean {
     params.forEach {
         if (!it.isNull()) {
             return false
@@ -191,41 +227,11 @@ fun <P> allNullCheck(vararg params: P): Boolean {
 /**
  * 获取非空数据
  */
-fun <T> T?.getNotEmptyData(defaultData: T): T {
+fun <T> T?.getNotEmptyData(defaultData : T) : T {
     return if (this.isEmpty()) {
         defaultData
-    } else {
+    }
+    else {
         this!!
     }
-}
-
-/**
- * 数据转换成指定的数据格式类型
- */
-inline fun <reified T> Any?.formatConversion(): T? {
-    return if (this != null && this is T) {
-        this
-    } else {
-        null
-    }
-}
-
-/**
- * 判断数据值是否是确定状态，默认返回非确定状态也就是默认认定数据为false
- */
-fun Any?.ifTrue(): Boolean {
-    if (this != null && this.toString().matches(Regex("[0-9]+"))) {
-        return this.toString() != "0"
-    }
-    return false
-}
-
-/**
- * 判断数据值是否是否定状态，默认返回非确定状态也就是默认认定数据为false
- */
-fun Any?.ifFalse(): Boolean {
-    if (this != null && this.toString().matches(Regex("[0-9]+"))) {
-        return this.toString() == "0"
-    }
-    return true
 }
