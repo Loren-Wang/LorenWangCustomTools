@@ -34,7 +34,9 @@ class AvlwPriceShowTypeCurrencySymbolAndDescribe extends AvlwPriceShowTypeCurren
      * 描述和文本之间的间距
      */
     private float describePriceDistance = 0;
-    /*********************************************绘制参数***************************************/
+
+    /*----------------------------------------绘制参数----------------------------------------*/
+
     /**
      * 描述显示宽度
      */
@@ -194,11 +196,11 @@ class AvlwPriceShowTypeCurrencySymbolAndDescribe extends AvlwPriceShowTypeCurren
         boolean isAllowDraw = false;
         do {
             //获取当前文本宽度
-            if (Float.valueOf(AtlwViewUtils.getInstance().getStrTextWidth(describePaint, drawText)).compareTo(drawWidth) < 0) {
+            if (Float.compare(AtlwViewUtils.getInstance().getStrTextWidth(describePaint, drawText), drawWidth) < 0) {
                 //当前小于可绘制，判断下一个是否大于可绘制
                 if (count == text.length()) {
                     isAllowDraw = true;
-                } else if (Float.valueOf(AtlwViewUtils.getInstance().getStrTextWidth(describePaint, text.substring(0, ++count))).compareTo(drawWidth) > 0) {
+                } else if (Float.compare(AtlwViewUtils.getInstance().getStrTextWidth(describePaint, text.substring(0, ++count)), drawWidth) > 0) {
                     drawText = text.substring(0, --count);
                     isAllowDraw = true;
                 }

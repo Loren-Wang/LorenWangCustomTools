@@ -3,6 +3,7 @@ package android.lorenwang.customview.texiview.priceShow;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.lorenwang.customview.R;
 import android.util.AttributeSet;
 import android.view.View;
@@ -32,6 +33,7 @@ import androidx.annotation.Nullable;
  * <!--货币符号和描述-->
  * <enum name="CURRENCY_SYMBOL_AND_DES" value="3" />
  * </attr>
+ * @author wangliang
  */
 
 public class AvlwPriceShowTextView extends View {
@@ -70,17 +72,18 @@ public class AvlwPriceShowTextView extends View {
         this.showType.init(context, this, attributes);
         attributes.recycle();
     }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(showType.getMeasureWidth(widthMeasureSpec), showType.getMeasureHeight(heightMeasureSpec));
+        setMeasuredDimension(showType.getMeasureWidth(widthMeasureSpec),
+                showType.getMeasureHeight(heightMeasureSpec));
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        showType.onDrawRegion(canvas, getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
+        showType.onDrawRegion(canvas, getPaddingLeft(), getPaddingTop(),
+                getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
     }
 
     /**
@@ -90,6 +93,53 @@ public class AvlwPriceShowTextView extends View {
      * @param color 文本颜色
      */
     public void setPrice(BigDecimal price, Integer color) {
+        setPrice(price, color,null);
+    }
+
+    /**
+     * 设置金额以及颜色
+     *
+     * @param price 金额
+     * @param color 文本颜色
+     */
+    public void setPrice(BigDecimal price, Integer color, Typeface typeface) {
         showType.setPrice(price, color);
+        setPriceTypeface(typeface);
+    }
+
+    /**
+     * 设置字体类型
+     *
+     * @param typeface 字体类型
+     */
+    public void setPriceTypeface(Typeface typeface) {
+        if(typeface != null){
+            showType.setTypeFace(typeface);
+        }
+        //必须重新绘制，否则会显示不全
+        requestLayout();
+    }
+
+    /**
+     * 设置划线金额以及颜色
+     *
+     * @param price 金额
+     * @param color 文本颜色
+     */
+    public void setLinePrice(BigDecimal price, Integer color) {
+        showType.setLinePrice(price, color);
+        setPriceTypeface(null);
+    }
+
+    /**
+     * 设置金额符号颜色
+     *
+     * @param color 颜色
+     */
+    public void setSymbolTextColor(int color) {
+        if (showType instanceof AvlwPriceShowTypeCurrencySymbol ||
+                showType instanceof AvlwPriceShowTypeCurrencySymbolAndDescribe) {
+            ((AvlwPriceShowTypeCurrencySymbol) showType).setSymbolTextColor(color);
+        }
     }
 }

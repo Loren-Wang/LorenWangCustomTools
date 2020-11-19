@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.lorenwang.customview.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -53,7 +55,6 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 abstract class AvlwPriceShowTypeBase {
     protected final String TAG = getClass().getName();
     protected Context context;
-    protected TypedArray attributes;
     /**
      * 显示的金额
      */
@@ -91,27 +92,47 @@ abstract class AvlwPriceShowTypeBase {
      */
     protected AvlwPriceShowTextView avlwPriceShowTextView;
 
-
     /**
      * 金额画笔
      */
     protected Paint pricePaint;
 
     /**
+     * 金额符号类型
+     */
+    protected int priceSymbolType;
+
+    /**
+     * 金额格式化精度
+     */
+    protected String priceFormatPattern;
+
+    /**
+     * 金额的处理模式
+     */
+    protected int priceRoundingModeType;
+
+
+    /**
      * 初始化
      *
-     * @param context             上下文
+     * @param context               上下文
      * @param avlwPriceShowTextView 文本显示控件
-     * @param attributes          配置参数
+     * @param attributes            配置参数
      */
     void init(Context context, AvlwPriceShowTextView avlwPriceShowTextView, TypedArray attributes) {
         this.context = context;
         this.avlwPriceShowTextView = avlwPriceShowTextView;
-        this.attributes = attributes;
+        priceSymbolType = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceSymbol, 0);
+        //金额格式化精度
+        priceFormatPattern = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceFormatPattern);
+        //金额的处理模式
+        priceRoundingModeType = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceRoundingMode, -1);
         //格式化金额显示大小
         this.priceSize = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceTextSize, this.priceSize);
         //金额符号和金额之间的间距
-        this.priceSymbolPriceDistance = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceSymbolPriceDistance, this.priceSymbolPriceDistance);
+        this.priceSymbolPriceDistance = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceSymbolPriceDistance,
+                this.priceSymbolPriceDistance);
         //格式化显示颜色
         this.priceColor = attributes.getColor(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceTextColor, this.priceColor);
         //获取货币符号
@@ -171,6 +192,27 @@ abstract class AvlwPriceShowTypeBase {
     }
 
     /**
+     * 设置中划线金额以及颜色
+     *
+     * @param price 金额
+     * @param color 文本颜色
+     */
+    public void setLinePrice(BigDecimal price, Integer color) {
+        setPrice(price, color);
+        //设置中划线
+        pricePaint.setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+    }
+
+    /**
+     * 设置字体类型
+     *
+     * @param typeface 字体类型
+     */
+    public void setTypeFace(@NotNull Typeface typeface) {
+        pricePaint.setTypeface(typeface);
+    }
+
+    /**
      * 格式化金额显示
      *
      * @param price 金额数据
@@ -183,36 +225,40 @@ abstract class AvlwPriceShowTypeBase {
             if (BigDecimal.ZERO.compareTo(price) == 0) {
                 priceSymbol = "";
             } else {
-                switch (attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceSymbol, 0)) {
-                    case 1://空，什么都不加，原有的符号也会被移除
+                switch (priceSymbolType) {
+                    //空，什么都不加，原有的符号也会被移除
+                    case 1:
                         priceSymbol = "";
                         break;
-                    case 2://正数，会在货币符号前加“+”,原有的符号也会被移除
+                    //正数，会在货币符号前加“+”,原有的符号也会被移除
+                    case 2:
                         priceSymbol = "+";
                         break;
-                    case 3://负数，会在货币符号前加“-”,原有的符号也会被移除
+                    //负数，会在货币符号前加“-”,原有的符号也会被移除
+                    case 3:
                         priceSymbol = "-";
                         break;
-                    case 4://相反的，也就是值为负的时候显示正，之为正则显示负
+                    //相反的，也就是值为负的时候显示正，之为正则显示负
+                    case 4:
                         priceSymbol = BigDecimal.ZERO.compareTo(price) > 0 ? "+" : "-";
                         break;
-                    case 5://相反的，也就是值为负的时候显示正，之为正则显示负,同时转换后是正值的情况下不显示符号
+                    //相反的，也就是值为负的时候显示正，之为正则显示负,同时转换后是正值的情况下不显示符号
+                    case 5:
                         priceSymbol = BigDecimal.ZERO.compareTo(price) > 0 ? "" : "-";
                         break;
-                    case 0://默认的，按照原有金额符号处理
+                    //默认的，按照原有金额符号处理
+                    case 0:
                         priceSymbol = BigDecimal.ZERO.compareTo(price) > 0 ? "-" : "+";
                     default:
                         break;
                 }
             }
             //获取格式化金额的精度
-            String formatPattern = JtlwCheckVariateUtils.getInstance().isEmpty(attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceFormatPattern))
-                    ? "0.00" : attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceFormatPattern);
+            String formatPattern = JtlwCheckVariateUtils.getInstance().isEmpty(priceFormatPattern) ? "0.00" : priceFormatPattern;
             //格式化金额处理模式
-            int mode = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwPriceShowPriceRoundingMode, -1);
-            if (mode != -1) {
+            if (priceRoundingModeType != -1) {
                 try {
-                    priceRoundingMode = RoundingMode.valueOf(mode);
+                    priceRoundingMode = RoundingMode.valueOf(priceRoundingModeType);
                     price = price.setScale(formatPattern.substring(formatPattern.indexOf(".") + 1).length(), priceRoundingMode);
                 } catch (Exception e) {
                     priceRoundingMode = null;

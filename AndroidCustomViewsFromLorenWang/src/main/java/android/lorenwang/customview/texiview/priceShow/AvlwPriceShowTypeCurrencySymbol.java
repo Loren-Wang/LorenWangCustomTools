@@ -104,7 +104,8 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
         super.init(context, avlwPriceShowTextView, attributes);
         currencySymbolText = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbol);
         currencySymbolLocation = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbolLocation, currencySymbolLocation);
-        currencySymbolPriceDistance = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbolPriceDistance, currencySymbolPriceDistance);
+        currencySymbolPriceDistance = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbolPriceDistance,
+                currencySymbolPriceDistance);
         currencySymbolText = JtlwCheckVariateUtils.getInstance().isEmpty(currencySymbolText) ? "¥" : currencySymbolText;
         //初始化画笔
         currencySymbolPaint = new Paint();
@@ -202,7 +203,8 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
                 //线绘制金额符号
                 canvas.drawText(priceSymbol, left, top - pricePaintFm.top, pricePaint);
                 //带间距的绘制货币符号,顶部计算为金额top-内容高于基线顶部的负值为距离顶部的距离，在加上货币符号高于其基线的实际距离
-                canvas.drawText(currencySymbolText, right - strTextWidth, -(pricePaintFm.top - pricePaintFm.ascent + currencySymbolFm.top), currencySymbolPaint);
+                canvas.drawText(currencySymbolText, right - strTextWidth, -(pricePaintFm.top - pricePaintFm.ascent + currencySymbolFm.top),
+                        currencySymbolPaint);
                 //绘制父级
                 super.onDrawRegion(canvas, left, top, right, bottom);
                 break;
@@ -219,6 +221,14 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
         }
     }
 
+    /**
+     * 设置金额符号颜色
+     *
+     * @param color 颜色
+     */
+    protected void setSymbolTextColor(int color) {
+        currencySymbolPaint.setColor(color);
+    }
 
     /**
      * 获取金额左侧距离

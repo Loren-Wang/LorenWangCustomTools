@@ -11,7 +11,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "2.2.2"
+        versionName "2.2.3"
     }
 
     buildTypes {
@@ -33,6 +33,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'org.jetbrains:annotations:19.0.0'
     compileOnly project(':AndroidCustomToolsFromLorenWang')
     compileOnly project(':JavaCustomToolsFromLorenWang')
     implementation 'androidx.appcompat:appcompat:1.1.0'
