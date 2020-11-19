@@ -69,7 +69,7 @@ inline fun <P, R> haveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R, vararg
  * 待检测参数中是否包含空数据，包括空字符串检测
  * @return 有返回true，否则返回false
  */
-fun <P> aahaveEmptyCheck(vararg params: P): Boolean {
+fun <P> haveEmptyCheck(vararg params: P): Boolean {
     params.forEach {
         if (it.isEmpty()) {
             return true
