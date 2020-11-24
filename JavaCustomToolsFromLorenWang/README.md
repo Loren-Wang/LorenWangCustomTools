@@ -1,6 +1,6 @@
 Java自定义工具类
 
-<h3>一、FileOptionUtils---（文件操作工具类）
+<h3>一、FileOptionUtils---（文件操作工具类）</h3>
       
       1、读取图片文件并获取字节
       2、从指定路径的文件中读取Bytes
@@ -20,7 +20,7 @@ Java自定义工具类
       16、创建文件夹
       
       
- <h3>一、JtlwVariateDataParamUtils---（变量格式化工具类）
+ <h3>一、JtlwVariateDataParamUtils---（变量格式化工具类）</h3>
  
       1、格式化double变量的小数部分为指定数量  paramsDoubleToNum
       2、除去末尾的0字符操作  clearEndZeroAndParamsForDouble
@@ -32,3 +32,12 @@ Java自定义工具类
       8、获取首字母的拼音 getFirstPinYin
       9、汉字转为拼音 getPinYin  
       10、布尔值转int值
+
+<h3> JtlwNetUtils---(网络处理相关工具类)</h3>
+
+      1、获取url域名
+      2、获取url协议
+      3、获取url链接地址
+      4、获取url中指定key的参数
+      5、添加网址参数
+      6、获取url端口

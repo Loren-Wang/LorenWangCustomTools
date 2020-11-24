@@ -101,6 +101,11 @@ public class JtlwMatchesRegularCommon {
      * 匹配网址(仅为协议和ip)
      */
     public static final String EXP_URL = "(" + EXP_URL_IP + "|" + EXP_URL_STR + ")";
+    /**
+     * 匹配网址域名
+     */
+    public static final String EXP_URL_HOST =
+            "(" + EXP_URL_USER_PWD + "?" + EXP_URL_DOMAIN_NAME_IP + "|" + EXP_URL_USER_PWD + "?" + EXP_URL_DOMAIN_NAME_STR + ")";
 
     /**
      * 匹配所有的小写字母
