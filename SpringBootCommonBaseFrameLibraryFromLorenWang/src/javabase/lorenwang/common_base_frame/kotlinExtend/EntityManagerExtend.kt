@@ -1,9 +1,11 @@
 package javabase.lorenwang.common_base_frame.kotlinExtend
 
+import com.sun.xml.internal.bind.v2.model.core.ID
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
-import javabase.lorenwang.tools.JtlwLogUtils
-import org.springframework.jdbc.core.JdbcTemplate
+import kotlinbase.lorenwang.tools.extend.emptyCheck
+import kotlinbase.lorenwang.tools.extend.isNotNullOrEmpty
+import org.springframework.transaction.annotation.Transactional
 import java.math.BigInteger
 import javax.persistence.EntityManager
 
@@ -21,137 +23,127 @@ import javax.persistence.EntityManager
 
 
 /**
- * 更新移动所有的排行信息
+ * 更新移动所有的排行信息，将from到to范围的所有排行从from开始处理重新设置
  * @param tableName 表名
  * @param primaryKeyColumn 主键字段名
- * @param oldRank 旧的排行
- * @param newRank 新的排行
+ * @param rankColumn 排行字段名
+ * @param fromRank 起始排行
+ * @param toRank 目标排行
+ * @return 更新异常返回null，否则返回新的目标排行
  */
-fun EntityManager.upDataAllRankMove(tableName: String, primaryKeyColumn: String, oldRank: Long, newRank: Long): Long? {
-     SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "开始更新排行相关数据")
-    var newRankOptions = newRank
-
-    //判断是否大于最大的排行，是的话则返回当前变更后的排行,前提是旧数据是非0开始移动的
-    val maxRankList = this.createNativeQuery("select max($RANK) from $tableName").resultList
-    maxRankList?.let {
-        if (oldRank > 0 && newRankOptions > 0 && it.size == 1 &&
-                it[0] is BigInteger && (it[0] as BigInteger) > BigInteger.ZERO &&
-                (it[0] as BigInteger).toLong() < newRankOptions) {
-            newRankOptions = (it[0] as BigInteger).toLong()
+@Transactional
+fun EntityManager.sbcbflwUpDataAllRankMove(tableName : String, primaryKeyColumn : String, rankColumn : String? = RANK, fromRank : BigInteger, toRank : BigInteger) : BigInteger? {
+    SbcbfBaseAllUtils.logUtils.logI(EntityManager::class.java, "开始重新按顺序设置排行数据")
+    //处理后的排行信息
+    val newRankOptions = sbcbflwGetTableMaxRank(tableName, rankColumn!!).emptyCheck({ toRank }, {
+        if (it < toRank) {
+            it
+        } else {
+            toRank
         }
-    }
+    })
 
-    //初始化修改的排行变动值
-    val changeRank: Long
-    val startRank: Long
+    //每条数据的前移后移记录
+    val changeRank : BigInteger
+    //起始排行位置
+    val startRank : BigInteger
     //根据排行变动获取要修改的数据
-    val list: MutableList<Any?> = when {
-        oldRank == 0L && newRankOptions > 0 -> {
-            changeRank = 1;
+    val list : MutableList<Any?> = when {
+        fromRank == BigInteger.ZERO && newRankOptions > BigInteger.ZERO -> {
+            changeRank = BigInteger.ONE
             startRank = newRankOptions
-            this.createNativeQuery("select $primaryKeyColumn from $tableName where $RANK>=$newRankOptions order by $RANK").resultList
+            this.createNativeQuery("select $primaryKeyColumn from $tableName where $rankColumn>=$newRankOptions order by $rankColumn").resultList
         }
-        oldRank > 0 && newRankOptions == 0L -> {
-            changeRank = -1;
-            startRank = oldRank + 1
-            this.createNativeQuery("select $primaryKeyColumn from $tableName where $RANK>$oldRank order by $RANK").resultList
+        fromRank > BigInteger.ZERO && newRankOptions == BigInteger.ZERO -> {
+            changeRank = BigInteger.valueOf(-1)
+            startRank = fromRank + BigInteger.ONE
+            this.createNativeQuery("select $primaryKeyColumn from $tableName where $rankColumn>$fromRank order by $rankColumn").resultList
         }
-        oldRank > newRankOptions -> {
-            changeRank = 1;
+        fromRank > newRankOptions -> {
+            changeRank = BigInteger.ONE
             startRank = newRankOptions
-            this.createNativeQuery("select $primaryKeyColumn from $tableName where $RANK>=$newRankOptions and $RANK<$oldRank order by $RANK").resultList
+            this.createNativeQuery("select $primaryKeyColumn from $tableName where $rankColumn>=$newRankOptions and $rankColumn<$fromRank order by $rankColumn").resultList
         }
-        oldRank < newRankOptions -> {
-            changeRank = -1;
-            startRank = oldRank + 1
-            this.createNativeQuery("select $primaryKeyColumn from $tableName where $RANK>$oldRank and $RANK<=$newRankOptions order by $RANK").resultList
+        fromRank < newRankOptions -> {
+            changeRank = BigInteger.valueOf(-1)
+            startRank = fromRank + BigInteger.ONE
+            this.createNativeQuery("select $primaryKeyColumn from $tableName where $rankColumn>$fromRank and $rankColumn<=$newRankOptions order by $rankColumn").resultList
         }
         else -> {
-            changeRank = 0;
-            startRank = 0;
+            changeRank = BigInteger.ZERO
+            startRank = BigInteger.ZERO
             mutableListOf()
         }
     }
 
     val size = list.size
-    var primaryKey: Any?
+    var primaryKey : Any?
     for (index in 0 until size) {
         primaryKey = list[index]
         primaryKey?.let {
-            if (this.createNativeQuery("update $tableName set $RANK=${startRank + index + changeRank}  where $primaryKeyColumn=$primaryKey").executeUpdate() <= 0) {
-                 SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "中止更新排行相关数据")
+            if (this.createNativeQuery("update $tableName set $rankColumn=${startRank.add(changeRank).add(BigInteger.valueOf(index.toLong()))}  where $primaryKeyColumn=$primaryKey").executeUpdate() <= 0) {
+                SbcbfBaseAllUtils.logUtils.logI(EntityManager::class.java, "中止更新排行相关数据")
                 return null
             }
         }
     }
-     SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "完成更新排行相关数据")
+    SbcbfBaseAllUtils.logUtils.logI(EntityManager::class.java, "完成更新排行相关数据")
     return newRankOptions
 }
 
 /**
- * 更新移动所有的排行信息
+ * 移除指定排行数据
  * @param tableName 表名
  * @param primaryKeyColumn 主键字段名
- * @param newRank 新的排行
- * @param isAddLast 是否添加到最后
+ * @param rankColumn 排行字段名
+ * @param deleteRank 要删除的排行
  */
-fun EntityManager.addNewRank(tableName: String, primaryKeyColumn: String, newRank: Long, isAddLast: Boolean): Long {
-     SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "开始更新排行相关数据")
-    var newRankOptions = newRank
-    //判断是否大于最大的排行，是的话则返回当前变更后的排行
-    //新排行为0且不添加到最后时不处理，添加到最后时处理，不为0的话则是否添加到最后无效
-    if (newRankOptions > 0 || isAddLast) {
-        val maxRankList = this.createNativeQuery("select max($RANK) from $tableName").resultList
-        maxRankList?.let {
-            if (it.size == 1 && it[0] is BigInteger) {
-                newRankOptions = when {
-                    newRankOptions > 0 && (it[0] as BigInteger).toLong() < newRankOptions -> {
-                        (it[0] as BigInteger).toLong() + 1
-                    }
-                    newRankOptions == 0L && isAddLast -> {
-                        (it[0] as BigInteger).toLong() + 1
-                    }
-                    else -> {
-                        newRankOptions
-                    }
-                }
-            }
-        }
-    }
-
-
-    //初始化修改的排行变动值
-    val changeRank: Long
-    val startRank: Long
-    //根据排行变动获取要修改的数据
-    val list: MutableList<Any?> = if (newRankOptions > 0) {
-        changeRank = 1;
-        startRank = newRankOptions
-        this.createNativeQuery("select $primaryKeyColumn from $tableName where $RANK>=$newRankOptions order by $RANK").resultList
-    } else {
-        changeRank = 0;
-        startRank = 0;
-        mutableListOf()
-    }
-
-    val size = list.size
-    var primaryKey: Any?
-    for (index in 0 until size) {
-        primaryKey = list[index]
-        primaryKey?.let {
-            if (this.createNativeQuery("update $tableName set $RANK=${startRank + index + changeRank}  where $primaryKeyColumn=$primaryKey").executeUpdate() <= 0) {
-                 SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "中止更新排行相关数据")
-                return 0L
-            }
-        }
-    }
-     SbcbfBaseAllUtils.logUtils.logI(JdbcTemplate::class.java, "完成更新排行相关数据")
-    return newRankOptions
+fun EntityManager.sbcbflwRemoveRank(tableName : String, primaryKeyColumn : String, rankColumn : String? = RANK, deleteRank : BigInteger) : BigInteger? {
+    return sbcbflwUpDataAllRankMove(tableName, primaryKeyColumn, rankColumn, deleteRank, BigInteger.ZERO)
 }
 
 /**
- * 移除排行
+ * 删除指定表的一条数据
+ * @param tableName 表名
+ * @param primaryKeyColumn 主键字段名
+ * @param id 要删除的id
+ * @param rankColumn 该字段不为空则代表着要移动指定的排行信息
  */
-fun EntityManager.removeRank(tableName: String, primaryKeyColumn: String, oldRank: Long): Long? {
-    return upDataAllRankMove(tableName, primaryKeyColumn, oldRank, 0L)
+fun <Id> EntityManager.sbcbflwDeleteTableInfo(tableName : String, primaryKeyColumn : String, rankColumn : String?, id : ID) : Boolean {
+    var deleteRank : BigInteger? = null
+    if (rankColumn.isNotNullOrEmpty()) {
+        //需要更新排行则先查询原始数据
+        this.createNativeQuery("select $rankColumn from $tableName where $primaryKeyColumn=$id").resultList?.let {
+            if (it.size == 1 && it[0] is BigInteger) {
+                deleteRank = it[0] as BigInteger
+            }
+        }
+    }
+    //删除数据
+    return (this.createQuery("delete $tableName  where $primaryKeyColumn=$id").executeUpdate() <= 0).let {
+        if (it) {
+            //删除失败
+            false
+        } else {
+            //删除成功，判断是否需要移除排行
+            if (deleteRank != null) {
+                sbcbflwRemoveRank(tableName, primaryKeyColumn, rankColumn, deleteRank!!)
+            }
+            true
+        }
+    }
+}
+
+/**
+ * 获取表中最大的排行
+ * @param tableName 表名
+ * @param rankColumn 排行使用的字段
+ */
+fun EntityManager.sbcbflwGetTableMaxRank(tableName : String, rankColumn : String) : BigInteger? {
+    this.createNativeQuery("select max($rankColumn) from $tableName").resultList?.let {
+        if (it.size == 1 && it[0] is BigInteger) {
+            return it[0] as BigInteger
+        }
+    }
+    return null
 }

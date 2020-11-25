@@ -7,7 +7,7 @@ import com.qiniu.storage.Region
 import com.qiniu.storage.UploadManager
 import com.qiniu.storage.model.DefaultPutRet
 import com.qiniu.util.Auth
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.OssOptions
 import javabase.lorenwang.dataparse.JdplwJsonUtils
@@ -30,7 +30,7 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
     /**
      * 文件地址正则
      */
-    private val filePathRegex = Regex("^[hH][tT]{2}[p|P][sS]?://${SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.domain}")
+    private val filePathRegex = Regex("^[hH][tT]{2}[p|P][sS]?://${SbcbflwCommon.instance.qiNiuPropertiesConfig.domain}")
     /**
      * 保存地址手部被替换的，如果查找不到则不会替换
      */
@@ -41,7 +41,7 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
      * @return 地址前缀
      */
     override fun getFilePathPrefix(): String {
-        return "${SbcbflwCommonUtils.instance.propertiesConfig.ossTypeProtocol}://${SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.domain}"
+        return "${SbcbflwCommon.instance.propertiesConfig.ossTypeProtocol}://${SbcbflwCommon.instance.qiNiuPropertiesConfig.domain}"
     }
 
     /**
@@ -63,9 +63,9 @@ internal class SbcbflwQiNiuOssUtils : OssOptions() {
         val uploadManager = UploadManager(cfg)
 
         try {
-            val auth = Auth.create(SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.accessKey,
-                    SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.secretKey)
-            val upToken = auth.uploadToken(SbcbflwCommonUtils.instance.qiNiuPropertiesConfig.bucket)
+            val auth = Auth.create(SbcbflwCommon.instance.qiNiuPropertiesConfig.accessKey,
+                    SbcbflwCommon.instance.qiNiuPropertiesConfig.secretKey)
+            val upToken = auth.uploadToken(SbcbflwCommon.instance.qiNiuPropertiesConfig.bucket)
             return try {
                 val response: Response = uploadManager.put(inputStream, savePath.replace(savePathFirstReplace,""), upToken, null, null)
                 //解析上传成功的结果 val putRet: DefaultPutRet =

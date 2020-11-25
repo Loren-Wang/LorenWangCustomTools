@@ -1,8 +1,7 @@
 package javabase.lorenwang.common_base_frame.email
 
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
-import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -42,10 +41,10 @@ open class SbcbflwEmailUtils {
     init {
         try {
             javaMailSender = JavaMailSenderImpl()
-            javaMailSender?.javaMailProperties = SbcbflwCommonUtils.instance.getProperties("application-email.properties")
-            javaMailSender?.host = SbcbflwCommonUtils.instance.propertiesConfig.emailHost
-            javaMailSender?.username = SbcbflwCommonUtils.instance.propertiesConfig.emailUserName
-            javaMailSender?.password = SbcbflwCommonUtils.instance.propertiesConfig.emailUserPassword
+            javaMailSender?.javaMailProperties = SbcbflwCommon.instance.getProperties("application-email.properties")
+            javaMailSender?.host = SbcbflwCommon.instance.propertiesConfig.emailHost
+            javaMailSender?.username = SbcbflwCommon.instance.propertiesConfig.emailUserName
+            javaMailSender?.password = SbcbflwCommon.instance.propertiesConfig.emailUserPassword
             javaMailSender?.testConnection()
              SbcbfBaseAllUtils.logUtils.logI(this::class.java, "邮件发送工具初始化结束，测试连接状态")
         } catch (e: Exception) {
@@ -70,7 +69,7 @@ open class SbcbflwEmailUtils {
                  SbcbfBaseAllUtils.logUtils.logI(this::class.java, "开始向${toEmail}发送邮件")
                 val message = it.createMimeMessage()
                 val messageHelper = MimeMessageHelper(message, true, "utf-8")
-                messageHelper.setFrom(SbcbflwCommonUtils.instance.propertiesConfig.emailUserName)
+                messageHelper.setFrom(SbcbflwCommon.instance.propertiesConfig.emailUserName)
                 messageHelper.setTo(toEmail)
                 messageHelper.setSubject(title)
                 messageHelper.setText(content)

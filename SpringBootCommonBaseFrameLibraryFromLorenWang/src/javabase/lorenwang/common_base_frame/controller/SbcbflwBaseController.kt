@@ -1,10 +1,9 @@
 package javabase.lorenwang.common_base_frame.controller
 
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.dataparse.JdplwJsonUtils
-import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import kotlinbase.lorenwang.tools.common.bean.KttlwNetPageResponseBean
 import org.springframework.context.MessageSource
@@ -28,17 +27,17 @@ import javax.annotation.Resource
  */
 abstract class SbcbflwBaseController {
     @Resource
-    private lateinit var messageSource: MessageSource
+    private lateinit var messageSource : MessageSource
 
     /**
      * 保留方法（所有子方法都要继承这个方法）
      * @param t
      */
-    protected fun <T> base(request: SbcbflwBaseHttpServletRequestWrapper, t: T?) {
-         SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前编译器环境：${SbcbflwCommonUtils.instance.propertiesConfig.runCompilingEnvironment}")
-         SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前请求地址：${request.servletPath}")
+    protected fun <T> base(request : SbcbflwBaseHttpServletRequestWrapper, t : T?) {
+        SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前编译器环境：${SbcbflwCommon.instance.propertiesConfig.runCompilingEnvironment}")
+        SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前请求地址：${request.servletPath}")
         t.let {
-             SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前请求数据：${JdplwJsonUtils.toJson(it)}")
+            SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前请求数据：${JdplwJsonUtils.toJson(it)}")
         }
     }
 
@@ -47,7 +46,7 @@ abstract class SbcbflwBaseController {
      * @param code ：对应messages配置的key.
      * @return
      */
-    fun getMessage(code: String?): String {
+    fun getMessage(code : String?) : String {
         //这里使用比较方便的方法，不依赖request.
         return getMessage(code, null)
     }
@@ -58,7 +57,7 @@ abstract class SbcbflwBaseController {
      * @param defaultMessage : 没有设置key的时候的默认值.
      * @return
      */
-    fun getMessage(code: String?, defaultMessage: String?): String {
+    fun getMessage(code : String?, defaultMessage : String?) : String {
         //这里使用比较方便的方法，不依赖request.
         return code?.let {
             messageSource.getMessage(it, null, defaultMessage
@@ -74,7 +73,7 @@ abstract class SbcbflwBaseController {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <T> responseContent(stateCode: String, stateMessage: String, obj: T?): String {
+    fun <T> responseContent(stateCode : String, stateMessage : String, obj : T?) : String {
         val baseResponseBean = KttlwBaseNetResponseBean(obj)
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
@@ -89,7 +88,7 @@ abstract class SbcbflwBaseController {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <T> responseContentCode(stateCode: String, stateMessageCode: String, obj: T?): String {
+    fun <T> responseContentCode(stateCode : String, stateMessageCode : String, obj : T?) : String {
         val baseResponseBean = KttlwBaseNetResponseBean(obj)
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = getMessage(stateMessageCode)
@@ -99,7 +98,7 @@ abstract class SbcbflwBaseController {
     /**
      * 响应数据状态处理
      */
-    fun responseDataDisposeStatus(bean: SbcbflwBaseDataDisposeStatusBean): String {
+    fun responseDataDisposeStatus(bean : SbcbflwBaseDataDisposeStatusBean) : String {
         return if (bean.repDataList) {
             responseDataListContent(bean.statusCode!!, if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else getMessage(bean.statusMsgCode),
                     bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
@@ -116,8 +115,8 @@ abstract class SbcbflwBaseController {
      * @return 格式化后字符串
     </T> */
     fun <E, T : ArrayList<E>> responseDataListContent(
-            stateCode: String, stateMessage: String, pageIndex: Int,
-            pageSize: Int, sumCount: Long, dataList: T): String {
+            stateCode : String, stateMessage : String, pageIndex : Int,
+            pageSize : Int, sumCount : Long, dataList : T) : String {
         val baseResponseBean = KttlwBaseNetResponseBean(KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
@@ -132,8 +131,8 @@ abstract class SbcbflwBaseController {
      * @return 格式化后字符串
     </T> */
     fun <E, T : ArrayList<E>> responseDataListContentCode(
-            stateCode: String, stateMessageCode: String, pageIndex: Int,
-            pageSize: Int, sumCount: Long, dataList: T): String {
+            stateCode : String, stateMessageCode : String, pageIndex : Int,
+            pageSize : Int, sumCount : Long, dataList : T) : String {
         val baseResponseBean = KttlwBaseNetResponseBean(KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = getMessage(stateMessageCode)
@@ -141,33 +140,53 @@ abstract class SbcbflwBaseController {
     }
 
     /**
+     * 响应数据
+     */
+    fun responseData(result : Any?) : String {
+        return when (result) {
+            //如果是类型的话则按类型处理
+            is SbcbflwBaseDataDisposeStatusBean -> {
+                responseDataDisposeStatus(result)
+            }
+            //如果是字符串的话则直接返回
+            is String -> {
+                result
+            }
+            else -> {
+                //如果是其他的则为未知错误
+                responseFailForUnKnow()
+            }
+        }
+    }
+
+    /**
      * 参数异常响应
      */
-    abstract fun responseErrorForParams(): String
+    abstract fun responseErrorForParams() : String
 
     /**
      * 数据响应成功
      */
-    abstract fun responseSuccess(data: Any?): String
+    abstract fun responseSuccess(data : Any?) : String
 
     /**
      * 数据删除失败
      */
-    abstract fun responseDeleteFail(): String
+    abstract fun responseDeleteFail() : String
 
     /**
      * 未知错误失败
      */
-    abstract fun responseFailForUnKnow(): String
+    abstract fun responseFailForUnKnow() : String
 
     /**
      * 登录验证失败,用户未登录或者token失效
      */
-    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective(): String
+    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective() : String
 
     /**
      * 无权限异常
      */
-    abstract fun responseErrorNotPermission(): String
+    abstract fun responseErrorNotPermission() : String
 
 }

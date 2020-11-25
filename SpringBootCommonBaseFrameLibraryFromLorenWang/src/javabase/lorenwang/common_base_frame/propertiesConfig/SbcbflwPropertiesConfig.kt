@@ -91,4 +91,10 @@ open class SbcbflwPropertiesConfig {
     @Value("\${Sbcbflw.default.page.index}")
     open var defaultRequestPageIndex = 0
 
+    /**
+     * 是否有用户体系
+     */
+    @Value("\${Sbcbflw.haveUserSystem}")
+    open var haveUserSystem = true
+
 }

@@ -1,6 +1,6 @@
 package javabase.lorenwang.common_base_frame.plugins
 
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.aliyun.SbcbflwALiYunOssUtils
 import javabase.lorenwang.common_base_frame.plugins.qiniu.SbcbflwQiNiuOssUtils
@@ -25,9 +25,9 @@ open class SbcbflwOssUtils private constructor() : OssOptions() {
     private var ossOptions: OssOptions? = null
 
     init {
-        if (SbcbflwCommonUtils.instance.propertiesConfig.ossTypeAliYun) {
+        if (SbcbflwCommon.instance.propertiesConfig.ossTypeAliYun) {
             ossOptions = SbcbflwALiYunOssUtils()
-        } else if (SbcbflwCommonUtils.instance.propertiesConfig.ossTypeQiNiu) {
+        } else if (SbcbflwCommon.instance.propertiesConfig.ossTypeQiNiu) {
             ossOptions = SbcbflwQiNiuOssUtils()
         }
     }

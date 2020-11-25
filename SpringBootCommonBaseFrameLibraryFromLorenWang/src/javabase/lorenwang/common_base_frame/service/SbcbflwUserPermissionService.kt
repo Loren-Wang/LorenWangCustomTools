@@ -7,7 +7,6 @@ import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserPermissionTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * 功能作用：用户权限service
@@ -22,30 +21,29 @@ import org.springframework.beans.factory.annotation.Autowired
  *
  * @author 王亮（Loren wang）
  */
-abstract class SbcbflwUserPermissionService<R : SbcbflwBaseHttpServletRequestWrapper,
-        P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>,
-        U : SbcbflwBaseUserInfoTb<P, ROLE>, PT : SbcbflwBaseUserPermissionType,
-        PR : SbcbflwUserPermissionRepository<P, ROLE>> : SbcbflwBaseService {
+abstract class SbcbflwUserPermissionService : SbcbflwBaseService {
     /*
     * 检测是否有权限
     */
-    abstract fun checkUserHavePermission(request: R, userInfo: U, permission: PT):
-            SbcbflwBaseDataDisposeStatusBean
+    abstract fun <R : SbcbflwBaseHttpServletRequestWrapper,
+            P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>,
+            U : SbcbflwBaseUserInfoTb<P, ROLE>, PT : SbcbflwBaseUserPermissionType>
+            checkUserHavePermission(request : R, userInfo : U, permission : PT) : SbcbflwBaseDataDisposeStatusBean
 
     /**
      * 保存用户角色对应的权限
      */
-    fun saveUserPermission(bean: P): P {
+    fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, PR : SbcbflwUserPermissionRepository<P, ROLE>> saveUserPermission(bean : P) : P {
         val mutableSetOf = mutableSetOf<ROLE>()
         bean.permissionRole?.forEach {
             it.permission = mutableSetOf()
             mutableSetOf.add(it)
         }
         bean.permissionRole = mutableSetOf
-        var repBean = getUserPermissionRepository().save(bean)
+        var repBean = getUserPermissionRepository<P, ROLE, PR>().save(bean)
         if (repBean.permissionId.isNullOrEmpty() && repBean._ID != null) {
             repBean.permissionId = repBean._ID.toString()
-            repBean = getUserPermissionRepository().save(repBean)
+            repBean = getUserPermissionRepository<P, ROLE, PR>().save(repBean)
         }
         return repBean
     }
@@ -53,5 +51,6 @@ abstract class SbcbflwUserPermissionService<R : SbcbflwBaseHttpServletRequestWra
     /**
      * 获取用户权限数据库操作实体
      */
-    abstract fun getUserPermissionRepository(): PR
+    abstract fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>,
+            PR : SbcbflwUserPermissionRepository<P, ROLE>> getUserPermissionRepository() : PR
 }

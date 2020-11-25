@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame.database.table
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatus
+import javabase.lorenwang.tools.common.JtlwCommonUtils
 import javax.persistence.*
 import java.io.Serializable
 
@@ -24,9 +25,8 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
      * id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ID, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '用户id'")
-    var userId: Long? = null
+    var userId: String = JtlwCommonUtils.getInstance().generateUuid(true)
     /**
      * 乐观锁锁数据
      */

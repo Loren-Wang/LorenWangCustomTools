@@ -2,7 +2,7 @@ package javabase.lorenwang.common_base_frame.plugins.aliyun
 
 import com.aliyun.oss.OSSClient
 import com.aliyun.oss.model.ObjectMetadata
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.OssOptions
 import java.io.InputStream
@@ -27,14 +27,14 @@ import java.io.InputStream
  * 备注：
  */
 internal class SbcbflwALiYunOssUtils : OssOptions() {
-    private val filePathRegex = Regex("^[hH][tT]{2}[p|P][sS]?://${SbcbflwCommonUtils.instance.aliYunPropertiesConfig.domain}")
+    private val filePathRegex = Regex("^[hH][tT]{2}[p|P][sS]?://${SbcbflwCommon.instance.aliYunPropertiesConfig.domain}")
 
     /**
      * 获取文件地址前缀，最后不包含斜杠
      * @return 地址前缀
      */
     override fun getFilePathPrefix(): String {
-        return "${SbcbflwCommonUtils.instance.propertiesConfig.ossTypeProtocol}://${SbcbflwCommonUtils.instance.aliYunPropertiesConfig.domain}"
+        return "${SbcbflwCommon.instance.propertiesConfig.ossTypeProtocol}://${SbcbflwCommon.instance.aliYunPropertiesConfig.domain}"
     }
 
     /**
@@ -52,12 +52,12 @@ internal class SbcbflwALiYunOssUtils : OssOptions() {
      */
     override fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean {
         // 创建OSSClient实例。
-        val ossClient = OSSClient(SbcbflwCommonUtils.instance.aliYunPropertiesConfig.endpoint,
-                SbcbflwCommonUtils.instance.aliYunPropertiesConfig.accessKeyId,
-                SbcbflwCommonUtils.instance.aliYunPropertiesConfig.accessKeySecret)
+        val ossClient = OSSClient(SbcbflwCommon.instance.aliYunPropertiesConfig.endpoint,
+                SbcbflwCommon.instance.aliYunPropertiesConfig.accessKeyId,
+                SbcbflwCommon.instance.aliYunPropertiesConfig.accessKeySecret)
 
         return try { // 上传文件流。
-            ossClient.putObject(SbcbflwCommonUtils.instance.aliYunPropertiesConfig.bucket, savePath, inputStream, ObjectMetadata())
+            ossClient.putObject(SbcbflwCommon.instance.aliYunPropertiesConfig.bucket, savePath, inputStream, ObjectMetadata())
             SbcbflwBaseDataDisposeStatusBean(true,savePath)
         } catch (e: Exception) {
             SbcbflwBaseDataDisposeStatusBean(false)

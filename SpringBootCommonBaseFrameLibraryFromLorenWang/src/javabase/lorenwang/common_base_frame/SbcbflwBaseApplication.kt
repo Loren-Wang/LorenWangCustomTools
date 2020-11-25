@@ -53,10 +53,10 @@ abstract class  SbcbflwBaseApplication : SpringBootServletInitializer() {
         private fun getStandardEnvironment(properties: Array<String>): StandardEnvironment {
             SbcbfBaseAllUtils.logUtils.logI(this::class.java, "读取各个properties配置文件，按照先后顺序更新配置信息Map",true)
             var map = hashMapOf<String, Any>()
-            map = SbcbflwCommonUtils.instance.getPropertiesDataMap("application-email.properties", map)
-            map = SbcbflwCommonUtils.instance.getPropertiesDataMap("application-sbcbflw.properties", map)
+            map = SbcbflwCommon.instance.getPropertiesDataMap("application-email.properties", map)
+            map = SbcbflwCommon.instance.getPropertiesDataMap("application-sbcbflw.properties", map)
             properties.forEach {
-                map = SbcbflwCommonUtils.instance.getPropertiesDataMap(it, map)
+                map = SbcbflwCommon.instance.getPropertiesDataMap(it, map)
             }
             SbcbfBaseAllUtils.logUtils.logI(this::class.java, "各个properties配置文件配置读取覆盖完成：${JdplwJsonUtils.toJson(map)}",true)
 

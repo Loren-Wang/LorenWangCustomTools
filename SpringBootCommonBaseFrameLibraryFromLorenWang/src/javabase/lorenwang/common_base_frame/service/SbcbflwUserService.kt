@@ -42,7 +42,7 @@ abstract class SbcbflwUserService : SbcbflwBaseService {
     /**
      * 根据用户token获取用户id
      */
-    abstract fun getUserIdByAccessToken(token: String?): Long?
+    abstract fun getUserIdByAccessToken(token: String?): String?
 
     /**
      * 检测用户是否已经登录

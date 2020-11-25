@@ -1,6 +1,6 @@
 package javabase.lorenwang.common_base_frame.utils
 
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.tools.common.JtlwCommonUtils
 import javabase.lorenwang.tools.enums.JtlwFileTypeEnum
@@ -40,8 +40,8 @@ abstract class SbcbflwBaseFileOptionsUtils {
             return getFileEmptyStatusBean()
         }
         //判断文件上传大小
-        if (file.size > SbcbflwCommonUtils.instance.propertiesConfig.ossTypeFileMaxSize) {
-            SbcbfBaseAllUtils.logUtils.logE(this.javaClass, "文件${file.originalFilename}---上传文件过大，大于${SbcbflwCommonUtils.instance.propertiesConfig.ossTypeFileMaxSize}！",true)
+        if (file.size > SbcbflwCommon.instance.propertiesConfig.ossTypeFileMaxSize) {
+            SbcbfBaseAllUtils.logUtils.logE(this.javaClass, "文件${file.originalFilename}---上传文件过大，大于${SbcbflwCommon.instance.propertiesConfig.ossTypeFileMaxSize}！",true)
             return getFileTooLargeStatusBean()
         }
         //文件接收类型判断

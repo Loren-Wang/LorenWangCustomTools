@@ -1,6 +1,6 @@
 package javabase.lorenwang.common_base_frame.safe
 
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.tools.safe.JtlwEncryptDecryptUtils
 
 /**
@@ -41,7 +41,7 @@ open class SbcbflwEncryptDecryptUtils private constructor() {
      * @return 返回加密后字符串，失败返回空null
      */
     fun encrypt(sSrc: String): String? {
-        return encrypt(sSrc, SbcbflwCommonUtils.instance.propertiesConfig.encryptDecryptKey, SbcbflwCommonUtils.instance.propertiesConfig.encryptDecryptIvParameter)
+        return encrypt(sSrc, SbcbflwCommon.instance.propertiesConfig.encryptDecryptKey, SbcbflwCommon.instance.propertiesConfig.encryptDecryptIvParameter)
     }
 
     /**
@@ -50,7 +50,7 @@ open class SbcbflwEncryptDecryptUtils private constructor() {
      * @return 返回解密后字符串，失败返回空null
      */
     fun decrypt(sSrc: String): String? {
-        return decrypt(sSrc, SbcbflwCommonUtils.instance.propertiesConfig.encryptDecryptKey, SbcbflwCommonUtils.instance.propertiesConfig.encryptDecryptIvParameter)
+        return decrypt(sSrc, SbcbflwCommon.instance.propertiesConfig.encryptDecryptKey, SbcbflwCommon.instance.propertiesConfig.encryptDecryptIvParameter)
     }
 
     /**

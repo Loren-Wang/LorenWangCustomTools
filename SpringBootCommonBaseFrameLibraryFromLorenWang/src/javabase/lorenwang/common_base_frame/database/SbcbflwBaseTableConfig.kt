@@ -27,58 +27,72 @@ object SbcbflwBaseTableConfig {
          * 乐观锁字段
          */
         const val OPTIMISTIC_LOCKING = "locking_version"
+
         /**
          * 创建时间
          */
         const val CREATE_TIME = "create_time"
+
         /**
          * 更新时间
          */
         const val UPDATE_TIME = "update_time"
+
         /**
          * 父级id
          */
         const val PARENT_ID = "parent_id"
+
         /**
          * 名称
          */
         const val NAME = "name"
+
         /**
          * 名称id
          */
         const val NAME_ID = "name_id"
+
         /**
          * 图片
          */
         const val IMG_PATH = "img_path"
+
         /**
          * 图片
          */
         const val IMG_PATH_ID = "img_path_id"
+
         /**
          * 排行
          */
         const val RANK = "rank_list"
+
         /**
          * 手机号
          */
         const val PHONE_NUM = "phone_num"
+
         /**
          * 邮箱
          */
         const val EMAIL = "email"
+
         /**
          * 状态
          */
         const val STATUS = "status"
+
         /**
          * 备注
          */
         const val REMARKS = "remarks"
+
         /**
          * 类型
          */
         const val TYPE = "type"
+
         /**
          * 是否必选
          */
@@ -91,34 +105,46 @@ object SbcbflwBaseTableConfig {
          * 手机号
          */
         const val PHONE_NUMBER = "varchar(30)"
+
         /**
          * 邮箱
          */
         const val EMAIL = "varchar(100)"
+
         /**
          * 图片
          */
         const val IMAGE = "text"
+
         /**
          * 自定义的图片上传使用的
          */
         const val IMAGE_CUSTOM = "VARCHAR(1024)"
+
         /**
          * 人员名称
          */
         const val PERSON_NAME = "varchar(100)"
+
         /**
          * 状态类型
          */
         const val STATUS = "int"
+
         /**
          * 通用主键类型
          */
-        const val COMMON_PRIMARY_KEY = "bigint"
+        const val COMMON_PRIMARY_KEY = "varchar(32)"
+
         /**
          * 类型字段类型
          */
         const val TYPE = "int"
+
+        /**
+         * 排行字段类型
+         */
+        const val RANK = "bigint"
     }
 
     /********************************数据库表版本表部分*****************************/
@@ -127,10 +153,12 @@ object SbcbflwBaseTableConfig {
          * 版本id
          */
         const val VERSION_ID = "v_id"
+
         /**
          * 版本名称
          */
         const val VERSION_NAME = "v_name"
+
         /**
          * 版本码
          */
@@ -143,30 +171,37 @@ object SbcbflwBaseTableConfig {
          * id
          */
         const val USER_ID = "user_id"
+
         /**
          * 名称
          */
         const val ACCOUNT = "account"
+
         /**
          *密码
          */
         const val PASSWORD = "password"
+
         /**
          * 昵称
          */
         const val NICK_NAME = "nick_name"
+
         /**
          * security加密的密码种子，和md5加密的密码类似
          */
         const val SECURITY_SALT = "security_salt"
+
         /**
          * security用户角色，还没有搞明白
          */
         const val SECURITY_ROLE = "security_role"
+
         /**
          * 用户角色
          */
         const val USER_ROLE = "user_role"
+
         /**
          * 用户token
          */
@@ -179,14 +214,17 @@ object SbcbflwBaseTableConfig {
          * id
          */
         const val ID = "role_id"
+
         /**
          * 角色类型
          */
         const val ROLE_TYPE = "role_type"
+
         /**
          * 角色名称
          */
         const val ROLE_NAME = "role_name"
+
         /**
          * 角色权限
          */
@@ -199,10 +237,12 @@ object SbcbflwBaseTableConfig {
          * id
          */
         const val ID = "permission_id"
+
         /**
          * 权限名称
          */
         const val PERMISSION_NAME = "permission_name"
+
         /**
          * 权限角色
          */
@@ -215,6 +255,7 @@ object SbcbflwBaseTableConfig {
          * 角色id
          */
         const val ROLE_ID = "r_id"
+
         /**
          * 权限id
          */

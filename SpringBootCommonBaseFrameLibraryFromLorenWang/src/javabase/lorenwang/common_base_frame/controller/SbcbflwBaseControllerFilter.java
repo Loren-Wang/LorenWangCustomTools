@@ -13,7 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils;
+import javabase.lorenwang.common_base_frame.SbcbflwCommon;
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean;
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb;
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserService;
@@ -67,7 +67,7 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
         HttpServletResponse rep = (HttpServletResponse) response;
 
         //允许跨域请求
-        if (SbcbflwCommonUtils.getInstance().propertiesConfig.isDebug()) {
+        if (SbcbflwCommon.getInstance().propertiesConfig.isDebug()) {
             //设置允许跨域的配置
             // 这里填写你允许进行跨域的主机ip（正式上线时可以动态配置具体允许的域名和IP）
             rep.setHeader("Access-Control-Allow-Origin", "*");
@@ -101,46 +101,50 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
             }
         }
 
-        //响应中允许返回被读取的header，不添加客户端无法读取该key
-        rep.setHeader("Access-Control-Expose-Headers",
-                SbcbflwCommonUtils.getInstance().getHeaderKeyUserAccessToken());
+        if (SbcbflwCommon.getInstance().getPropertiesConfig().getHaveUserSystem()) {
+            //响应中允许返回被读取的header，不添加客户端无法读取该key
+            rep.setHeader("Access-Control-Expose-Headers", SbcbflwCommon.getInstance().getHeaderKeyUserAccessToken());
 
-        //做该关键字拦截，因为后面要用到该关键字所有信息，所以此处要拦截，防止被攻击时传递该参数导致能够获取响应用户权限数据
-        req.setAttribute(REQUEST_SET_USER_INFO_KEY, "");
+            //做该关键字拦截，因为后面要用到该关键字所有信息，所以此处要拦截，防止被攻击时传递该参数导致能够获取响应用户权限数据
+            req.setAttribute(REQUEST_SET_USER_INFO_KEY, "");
 
-        //token检测
-        SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "接收到接口请求，开始检测用户登录状态，如果有token的话", false);
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(getUserService().getAccessTokenByReqHeader(req))) {
-            //正常发起请求
-            chain.doFilter(req, response);
-        } else {
-            SbcbflwBaseDataDisposeStatusBean userStatus = getUserService().checkUserLogin(req);
-            if (userStatus.getStatusResult() && userStatus.getBody() != null && userStatus.getBody() instanceof SbcbflwBaseUserInfoTb) {
-                String accessToken =
-                        ((SbcbflwBaseUserInfoTb) userStatus.getBody()).getAccessToken();
-                SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息"
-                        , false);
-                String newToken = getUserService().refreshAccessToken(accessToken);
-                if (JtlwCheckVariateUtils.getInstance().isNotEmpty(newToken) && accessToken.equals(newToken)) {
-                    ((SbcbflwBaseUserInfoTb)userStatus.getBody() ).setAccessToken(newToken);
-                    rep.setHeader(SbcbflwCommonUtils.getInstance().getHeaderKeyUserAccessToken(),
-                            newToken);
-                    req.addHeader(SbcbflwCommonUtils.getInstance().getHeaderKeyUserAccessToken(),
-                            newToken);
-                    SbcbfBaseAllUtils.getLogUtils().logI(getClass(), "token已更新",false);
-                }
-                req.setAttribute(REQUEST_SET_USER_INFO_KEY, userStatus.getBody());
+            //token检测
+            SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "接收到接口请求，开始检测用户登录状态，如果有token的话", false);
+            if (JtlwCheckVariateUtils.getInstance().isEmpty(getUserService().getAccessTokenByReqHeader(req))) {
                 //正常发起请求
                 chain.doFilter(req, response);
             } else {
-                SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "token无效或者不存在，生成提示信息",false);
-                String responseFailInfo = responseErrorUser(userStatus);
-                //通过设置响应头控制浏览器以UTF-8的编码显示数据
-                rep.setHeader("content-type", "text/html;charset=UTF-8");
-                //获取OutputStream输出流
-                rep.getOutputStream().write(responseFailInfo.getBytes());
-                rep.setStatus(20);
+                SbcbflwBaseDataDisposeStatusBean userStatus = getUserService().checkUserLogin(req);
+                if (userStatus.getStatusResult() && userStatus.getBody() != null && userStatus.getBody() instanceof SbcbflwBaseUserInfoTb) {
+                    String accessToken =
+                            ((SbcbflwBaseUserInfoTb) userStatus.getBody()).getAccessToken();
+                    SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息"
+                            , false);
+                    String newToken = getUserService().refreshAccessToken(accessToken);
+                    if (JtlwCheckVariateUtils.getInstance().isNotEmpty(newToken) && accessToken.equals(newToken)) {
+                        ((SbcbflwBaseUserInfoTb) userStatus.getBody()).setAccessToken(newToken);
+                        rep.setHeader(SbcbflwCommon.getInstance().getHeaderKeyUserAccessToken(),
+                                newToken);
+                        req.addHeader(SbcbflwCommon.getInstance().getHeaderKeyUserAccessToken(),
+                                newToken);
+                        SbcbfBaseAllUtils.getLogUtils().logI(getClass(), "token已更新", false);
+                    }
+                    req.setAttribute(REQUEST_SET_USER_INFO_KEY, userStatus.getBody());
+                    //正常发起请求
+                    chain.doFilter(req, response);
+                } else {
+                    SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "token无效或者不存在，生成提示信息", false);
+                    String responseFailInfo = responseErrorUser(userStatus);
+                    //通过设置响应头控制浏览器以UTF-8的编码显示数据
+                    rep.setHeader("content-type", "text/html;charset=UTF-8");
+                    //获取OutputStream输出流
+                    rep.getOutputStream().write(responseFailInfo.getBytes());
+                    rep.setStatus(20);
+                }
             }
+        } else {
+            //正常发起请求
+            chain.doFilter(req, response);
         }
     }
 
@@ -151,14 +155,21 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
 
     /**
      * 登录验证失败,用户未登录或者token失效
+     *
      * @param errorInfo 错误信息
      * @return 返回登录验证失败响应字符串
      */
-    public abstract String responseErrorUser(SbcbflwBaseDataDisposeStatusBean errorInfo);
+    public String responseErrorUser(SbcbflwBaseDataDisposeStatusBean errorInfo) {
+        return null;
+    }
 
     /**
      * 获取用户服务
+     *
      * @return 用户服务实例
      */
-    public abstract SbcbflwUserService getUserService();
+    public SbcbflwUserService getUserService() {
+        return null;
+    }
+
 }
