@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javabase.lorenwang.common_base_frame.SbcbflwCommon;
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean;
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb;
-import javabase.lorenwang.common_base_frame.service.SbcbflwUserService;
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import kotlin.jvm.Throws;
@@ -110,17 +109,17 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
 
             //token检测
             SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "接收到接口请求，开始检测用户登录状态，如果有token的话", false);
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(getUserService().getAccessTokenByReqHeader(req))) {
+            if (JtlwCheckVariateUtils.getInstance().isEmpty(SbcbflwCommon.getInstance().getUserService().getAccessTokenByReqHeader(req))) {
                 //正常发起请求
                 chain.doFilter(req, response);
             } else {
-                SbcbflwBaseDataDisposeStatusBean userStatus = getUserService().checkUserLogin(req);
+                SbcbflwBaseDataDisposeStatusBean userStatus = SbcbflwCommon.getInstance().getUserService().checkUserLogin(req);
                 if (userStatus.getStatusResult() && userStatus.getBody() != null && userStatus.getBody() instanceof SbcbflwBaseUserInfoTb) {
                     String accessToken =
                             ((SbcbflwBaseUserInfoTb) userStatus.getBody()).getAccessToken();
                     SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息"
                             , false);
-                    String newToken = getUserService().refreshAccessToken(accessToken);
+                    String newToken = SbcbflwCommon.getInstance().getUserService().refreshAccessToken(accessToken);
                     if (JtlwCheckVariateUtils.getInstance().isNotEmpty(newToken) && accessToken.equals(newToken)) {
                         ((SbcbflwBaseUserInfoTb) userStatus.getBody()).setAccessToken(newToken);
                         rep.setHeader(SbcbflwCommon.getInstance().getHeaderKeyUserAccessToken(),
@@ -160,15 +159,6 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
      * @return 返回登录验证失败响应字符串
      */
     public String responseErrorUser(SbcbflwBaseDataDisposeStatusBean errorInfo) {
-        return null;
-    }
-
-    /**
-     * 获取用户服务
-     *
-     * @return 用户服务实例
-     */
-    public SbcbflwUserService getUserService() {
         return null;
     }
 
