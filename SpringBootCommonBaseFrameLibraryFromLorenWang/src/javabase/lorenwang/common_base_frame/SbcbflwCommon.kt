@@ -53,7 +53,7 @@ open class SbcbflwCommon {
     /**
      * 用户角色权限服务
      */
-    var userRolePermission : SbcbflwUserPermissionService? = null
+    var userRolePermission : SbcbflwUserPermissionService<*,*,*,*,*,*>? = null
 
     companion object {
         private var options : SbcbflwCommon? = null
