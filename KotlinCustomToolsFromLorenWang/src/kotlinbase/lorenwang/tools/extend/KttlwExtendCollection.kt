@@ -44,3 +44,33 @@ fun <T> Collection<T>.kttlwItemUpDownToLeftRight(rowCount : Int) : ArrayList<T> 
     }
     return list
 }
+
+/**
+ * 集合item由原本上下排列转为水平排列欢唱显示，为空代表着只需要占位
+ * 例如：0 3 6 9
+ *      1 4 7 10
+ *      2 5 8 11
+ *
+ * 转换为：0  1  2  3  4  5  6
+ *        7  8  9  10 11
+ * @param rowCount 行数量
+ * @param columnCount 列数量
+ */
+fun <T> Collection<T>.kttlwItemUpDownToHorizontal(columnCount : Int) : ArrayList<T?> {
+    //获取总行数
+    val rows = if (this.size % columnCount > 0) {
+        this.size / columnCount + 1
+    } else {
+        this.size / columnCount
+    }
+    //初始化集合数据，使其指定位置可以直接赋值，并且所有位置都为null，在返回是没有设置为null的显示，null的位置占位隐藏
+    val list = ArrayList<T?>(rows * columnCount)
+    for (i in 0 until rows * columnCount) {
+        list.add(null)
+    }
+    //开始赋值
+    this.forEachIndexed { index, t ->
+        list[(index % columnCount) * rows + index / columnCount] = t
+    }
+    return list
+}
