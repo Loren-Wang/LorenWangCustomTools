@@ -1,6 +1,6 @@
 package com.test.springboot.database.table
 
-import service.qtoolsbaby.official.database.table.SbcbflwBaseUserPermissionTb
+import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserPermissionTb
 
 /**
  * 功能作用：用户权限表
@@ -15,5 +15,5 @@ import service.qtoolsbaby.official.database.table.SbcbflwBaseUserPermissionTb
  *
  * @author 王亮（Loren wang）
  */
-class UserPermissionTb :SbcbflwBaseUserPermissionTb<UserRoleTb>() {
+class UserPermissionTb : SbcbflwBaseUserPermissionTb<UserRoleTb>() {
 }

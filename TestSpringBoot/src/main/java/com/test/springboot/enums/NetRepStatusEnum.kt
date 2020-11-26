@@ -1,4 +1,4 @@
-package com.moments_of_life.task.enums
+package com.test.springboot.enums
 
 /**
  * 功能作用：网络响应状态枚举

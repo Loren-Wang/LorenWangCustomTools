@@ -1,8 +1,11 @@
 package com.test.springboot
 
 import com.qtoolsbaby.servicemmxs.config.PropertiesConfig
+import com.test.springboot.utils.FileOptionsUtils
+import com.test.springboot.utils.LogUtils
 import javabase.lorenwang.common_base_frame.SbcbflwBaseApplication
-import javabase.lorenwang.common_base_frame.SbcbflwCommonUtils
+import javabase.lorenwang.common_base_frame.SbcbflwCommon
+import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.web.servlet.ServletComponentScan
@@ -23,21 +26,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @ServletComponentScan
 @SpringBootApplication
 @EnableSwagger2
-class SpringbootApplication : SbcbflwBaseApplication() {
-    override fun getConfigProperties(): Array<String> {
+open class StartApplication : SbcbflwBaseApplication() {
+    override fun getConfigProperties() : Array<String> {
         return arrayOf("application.properties")
     }
 
-    override fun outSideTomcatConfigureFinish(springApplication: SpringApplication) {}
+    override fun outSideTomcatConfigureFinish(application : SpringApplication) {}
 
     companion object {
         @JvmStatic
-        fun main(args: Array<String>) {
-            val springApplication = SpringApplication(SpringbootApplication::class.java)
+        fun main(args : Array<String>) {
+            SbcbfBaseAllUtils.logUtils = LogUtils.instance
+            SbcbfBaseAllUtils.fileOptionsUtils = FileOptionsUtils.instance
+            val springApplication = SpringApplication(StartApplication::class.java)
             initBase(springApplication, arrayOf("application.properties"))
             val applicationContext = springApplication.run(*args)
-            SbcbflwCommonUtils.instance.initBase(applicationContext,
-                    applicationContext.getBean(PropertiesConfig::class.java))
+            SbcbflwCommon.instance.initBase(applicationContext, applicationContext.getBean(PropertiesConfig::class.java))
         }
     }
 }

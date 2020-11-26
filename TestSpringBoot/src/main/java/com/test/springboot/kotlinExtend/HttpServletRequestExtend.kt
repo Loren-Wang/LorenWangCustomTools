@@ -9,7 +9,7 @@ import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.Comm
 import javabase.lorenwang.common_base_frame.database.SbcbflwDatabaseParams.FIRST_RANK_LIST
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseTb
 import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
-import javabase.lorenwang.common_base_frame.kotlinExtend.removeRank
+import javabase.lorenwang.common_base_frame.kotlinExtend.sbcbflwRemoveRank
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetUpDateRankReqBean
 import kotlinbase.lorenwang.tools.extend.isEmpty
 import org.springframework.data.repository.CrudRepository
@@ -266,7 +266,7 @@ private fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb> deleteTableI
     } else {
         //移动排行
         if (deleteTbInfo != null && deleteTbInfo.size == 1) {
-            entityManager.removeRank(tableName, primaryKeyColumn, (deleteTbInfo[0] as BigInteger).toLong())
+            entityManager.sbcbflwRemoveRank(tableName, primaryKeyColumn,null, deleteTbInfo[0] as BigInteger)
         }
         baseController.responseSuccess(null)
     }

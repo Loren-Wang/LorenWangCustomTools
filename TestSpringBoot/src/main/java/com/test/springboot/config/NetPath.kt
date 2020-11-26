@@ -1,4 +1,4 @@
-package com.moments_of_life.task.configs
+package com.test.springboot.config
 
 /**
  * 功能作用：网络地址相关常量

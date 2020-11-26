@@ -44,7 +44,7 @@ class UserServiceImpl :SbcbflwUserService() {
     /**
      * 根据用户token获取用户id
      */
-    override fun getUserIdByAccessToken(token: String?): Long? {
+    override fun getUserIdByAccessToken(token: String?): String? {
         TODO("Not yet implemented")
     }
 

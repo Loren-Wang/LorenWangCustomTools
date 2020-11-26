@@ -1,18 +1,14 @@
 package com.test.springboot.controller
 
-import com.qtoolsbaby.servicemmxs.base.BaseController
-import com.test.springboot.enums.UserPermissionType
+import com.test.springboot.base.BaseController
 import com.test.springboot.kotlinExtend.controllerCheckAndOptions
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
-import javabase.lorenwang.tools.file.JtlwFileOptionUtils
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.io.File
 
 /**
  * 功能作用：通用接口请求
@@ -33,8 +29,7 @@ import java.io.File
 class CommonController : BaseController() {
     @PostMapping("test")
     @ApiOperation(value = "test", httpMethod = "POST")
-    fun submit(request: SbcbflwBaseHttpServletRequestWrapper, @RequestBody reqBean: Object):
-            String {
+    fun submit(request : SbcbflwBaseHttpServletRequestWrapper, @RequestBody reqBean : Object) : String {
         super.base(request, reqBean)
         return request.controllerCheckAndOptions(arrayOf(reqBean), this) {
             return@controllerCheckAndOptions responseSuccess(null)

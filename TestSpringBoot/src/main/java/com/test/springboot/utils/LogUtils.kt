@@ -1,5 +1,6 @@
 package com.test.springboot.utils
 
+import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.common_base_frame.utils.SbcbflwLogUtils
 
 /**
@@ -17,10 +18,6 @@ import javabase.lorenwang.common_base_frame.utils.SbcbflwLogUtils
  */
 class LogUtils private constructor() : SbcbflwLogUtils() {
     companion object {
-        init {
-            baseInstance = LogUtils()
-        }
-
         private var optionsInstance: LogUtils? = null
         val instance: LogUtils
             get() {
