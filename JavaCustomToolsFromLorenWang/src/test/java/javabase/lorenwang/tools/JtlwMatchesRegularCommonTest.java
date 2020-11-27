@@ -1,4 +1,4 @@
-package test.javabase.lorenwang.tools;
+package javabase.lorenwang.tools;
 
 import org.junit.Test;
 import org.junit.Before;

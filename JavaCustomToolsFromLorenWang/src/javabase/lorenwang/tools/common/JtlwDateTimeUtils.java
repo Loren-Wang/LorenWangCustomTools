@@ -67,13 +67,12 @@ public class JtlwDateTimeUtils {
 
     /**
      * 格式化指定时间到指定格式
-     *
+     * <p>
      * yyyy.MM.dd G 'at' hh:mm:ss z 如 '2002-1-1 AD at 22:10:59 PSD'
      * yy/MM/dd HH:mm:ss 如 '2002/1/1 17:55:00'
      * yy/MM/dd HH:mm:ss pm 如 '2002/1/1 17:55:00 pm'
      * yy-MM-dd HH:mm:ss 如 '2002-1-1 17:55:00'
      * yy-MM-dd HH:mm:ss am 如 '2002-1-1 17:55:00 am'
-     *
      *
      * @param pattern  时间格式正则
      * @param dateTime 时间戳
@@ -94,7 +93,7 @@ public class JtlwDateTimeUtils {
         if (pattern == null || "".equals(pattern) || date == null) {
             return null;
         } else {
-            SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.CHINA);
+            SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT));
             return sDateFormat.format(date);
         }
     }
@@ -109,7 +108,7 @@ public class JtlwDateTimeUtils {
         if (pattern == null || "".equals(pattern)) {
             return null;
         }
-        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.CHINA);
+        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT));
         return sDateFormat.format(new Date(getMillisecond()));
     }
 
@@ -123,7 +122,7 @@ public class JtlwDateTimeUtils {
         if (pattern == null || "".equals(pattern)) {
             return null;
         }
-        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.CHINA);
+        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT));
         Long time = null;
         try {
             time = sDateFormat.parse(sDateFormat.format(new Date(getMillisecond()))).getTime();
@@ -144,7 +143,7 @@ public class JtlwDateTimeUtils {
         if (dateAndTime == null || "".equals(dateAndTime) || dateAndTimeFormat == null || "".equals(dateAndTimeFormat)) {
             return 0L;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(dateAndTimeFormat, Locale.CHINA);
+        SimpleDateFormat sdf = new SimpleDateFormat(dateAndTimeFormat, Locale.getDefault(Locale.Category.FORMAT));
         long millionSeconds = 0L;
         try {
             //毫秒
@@ -195,6 +194,92 @@ public class JtlwDateTimeUtils {
             month = month - 1;
         }
         return constellationArr[month];
+    }
+
+    /**
+     * 或倒计时天数
+     *
+     * @param millisecondTime 时间毫秒数
+     * @return 倒计时天数
+     */
+    public int getCountdownDay(long millisecondTime) {
+        return (int) (millisecondTime / 86400000);
+    }
+
+    /**
+     * 获取倒计时小时，总小时，可能会超过24小时以上
+     *
+     * @param millisecondTime 时间毫秒数
+     * @return 倒计时小时，总小时，可能会超过24小时以上
+     */
+    public int getCountdownHours(long millisecondTime) {
+        return getCountdownHours(millisecondTime, false);
+    }
+
+    /**
+     * 获取倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时
+     *
+     * @param millisecondTime 时间毫秒数
+     * @param useOneDay       是否使用一天做处理
+     * @return 倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时
+     */
+    public int getCountdownHours(long millisecondTime, boolean useOneDay) {
+        if (useOneDay) {
+            return (int) (millisecondTime / 3600000 % 24);
+        } else {
+            return (int) (millisecondTime / 3600000);
+        }
+    }
+
+    /**
+     * 获取倒计时分钟，总小时，可能会超过24小时以上
+     *
+     * @param millisecondTime 时间毫秒数
+     * @return 倒计时分钟，总分钟，可能会超过60分钟以上
+     */
+    public int getCountdownMinutes(long millisecondTime) {
+        return getCountdownMinutes(millisecondTime, false);
+    }
+
+    /**
+     * 获取倒计时小时, 如果useOnHours为true的话，那么返回时间不会超过60小时
+     *
+     * @param millisecondTime 时间毫秒数
+     * @param useOnHours      是否使用一天做处理
+     * @return 倒计时小时, 如果useOnHours为true的话，那么返回时间不会超过60分钟以上
+     */
+    public int getCountdownMinutes(long millisecondTime, boolean useOnHours) {
+        if (useOnHours) {
+            return (int) (millisecondTime / 60000 % 60);
+        } else {
+            return (int) (millisecondTime / 60000);
+        }
+    }
+
+
+    /**
+     * 获取倒计时秒，总秒数，可能会超过60s以上
+     *
+     * @param millisecondTime 时间毫秒数
+     * @return 倒计时秒，总秒数，可能会超过60s以上
+     */
+    public int getCountdownMmillisecond(long millisecondTime) {
+        return getCountdownMmillisecond(millisecondTime, false);
+    }
+
+    /**
+     * 获取倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上
+     *
+     * @param millisecondTime 时间毫秒数
+     * @param useOnMinutes    是否使用一分钟做处理
+     * @return 倒计时倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上
+     */
+    public int getCountdownMmillisecond(long millisecondTime, boolean useOnMinutes) {
+        if (useOnMinutes) {
+            return (int) (millisecondTime / 1000 % 60);
+        } else {
+            return (int) (millisecondTime / 1000);
+        }
     }
 
 }

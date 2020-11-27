@@ -1,4 +1,4 @@
-package test.javabase.lorenwang.tools.dataConversion;
+package javabase.lorenwang.tools.dataConversion;
 
 import org.junit.Test;
 import org.junit.Before;
