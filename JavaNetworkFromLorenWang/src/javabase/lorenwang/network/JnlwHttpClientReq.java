@@ -45,7 +45,7 @@ public class JnlwHttpClientReq extends JnlwBaseReq {
      *
      * @param httpclient 请求客户端
      */
-    public void setRequestClient(CloseableHttpClient httpclient) {
+    void setRequestClient(CloseableHttpClient httpclient) {
         this.requestClient = httpclient;
     }
 

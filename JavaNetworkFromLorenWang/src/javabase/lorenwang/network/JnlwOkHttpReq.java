@@ -45,7 +45,11 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
      */
     private OkHttpClient requestClient;
 
-    public void setRequestClient(OkHttpClient requestClient) {
+    /**
+     * 设置客户端
+     * @param requestClient 客户端
+     */
+    void setRequestClient(OkHttpClient requestClient) {
         this.requestClient = requestClient;
     }
 

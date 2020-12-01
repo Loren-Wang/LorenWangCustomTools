@@ -15,6 +15,9 @@ package javabase.lorenwang.network;
  * @author 王亮（Loren）
  */
 public class JnlwNetworkPlunsInitConfig {
+    private JnlwNetworkPlunsInitConfig() {
+    }
+
     /**
      * 线程池最大连接数
      */

@@ -22,6 +22,9 @@ import java.util.Map;
  * @author 王亮（Loren）
  */
 public class JnlwNetworkReqConfig {
+    private JnlwNetworkReqConfig() {
+    }
+
     /**
      * 请求基础地址，不传递则请求localHost地址
      */
