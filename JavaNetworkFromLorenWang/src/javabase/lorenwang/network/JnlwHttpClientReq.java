@@ -3,8 +3,11 @@ package javabase.lorenwang.network;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -31,7 +34,7 @@ import javabase.lorenwang.tools.net.JtlwNetUtils;
  *
  * @author 王亮（Loren）
  */
-class JnlwHttpClientReq extends JnlwBaseReq {
+public class JnlwHttpClientReq extends JnlwBaseReq {
     /**
      * 请求客户端
      */
@@ -66,7 +69,15 @@ class JnlwHttpClientReq extends JnlwBaseReq {
      */
     @Override
     void sendPutRequest(@NotNull JnlwNetworkReqConfig config) {
-
+        //创建请求
+        HttpPut request = getHttpRequestBase(new HttpPut(), config);
+        //json数据处理
+        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
+            request.setEntity(new StringEntity(config.getRequestDataJson(), "UTF-8"));
+            request.setHeader("Content-Type", "application/json;charset=utf8");
+        }
+        //发起请求
+        sendRequest(config, request);
     }
 
     /**
@@ -94,7 +105,10 @@ class JnlwHttpClientReq extends JnlwBaseReq {
      */
     @Override
     void sendDeleteRequest(@NotNull JnlwNetworkReqConfig config) {
-
+        //创建请求
+        HttpDelete request = getHttpRequestBase(new HttpDelete(), config);
+        //发起请求
+        sendRequest(config, request);
     }
 
     /**
@@ -104,7 +118,10 @@ class JnlwHttpClientReq extends JnlwBaseReq {
      */
     @Override
     void sendOptionsRequest(@NotNull JnlwNetworkReqConfig config) {
-
+        //创建请求
+        HttpOptions request = getHttpRequestBase(new HttpOptions(), config);
+        //发起请求
+        sendRequest(config, request);
     }
 
     /**

@@ -39,7 +39,7 @@ import okhttp3.Response;
  *
  * @author 王亮（Loren）
  */
-class JnlwOkHttpReq extends JnlwBaseReq {
+public class JnlwOkHttpReq extends JnlwBaseReq {
     /**
      * 请求客户端
      */
@@ -68,7 +68,16 @@ class JnlwOkHttpReq extends JnlwBaseReq {
      */
     @Override
     void sendPutRequest(@NotNull JnlwNetworkReqConfig config) {
-
+        Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder(), config);
+        RequestBody requestBody;
+        //json数据处理
+        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
+            requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(config.getRequestDataJson()));
+        } else {
+            requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
+        }
+        Call call = requestClient.newCall(requestBuilder.put(requestBody).build());
+        call.enqueue(getRequestCallback(config));
     }
 
     /**
@@ -78,13 +87,11 @@ class JnlwOkHttpReq extends JnlwBaseReq {
      */
     @Override
     void sendPostRequest(@NotNull JnlwNetworkReqConfig config) {
-        Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder().get(), config);
+        Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder(), config);
         RequestBody requestBody;
         //json数据处理
         if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
-            //json为String类型的json数据
-            requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
-                    String.valueOf(config.getRequestDataJson()));
+            requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(config.getRequestDataJson()));
         } else {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
         }
@@ -99,14 +106,17 @@ class JnlwOkHttpReq extends JnlwBaseReq {
      */
     @Override
     void sendDeleteRequest(@NotNull JnlwNetworkReqConfig config) {
-
+        Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder().delete(), config);
+        Call call = requestClient.newCall(requestBuilder.build());
+        call.enqueue(getRequestCallback(config));
     }
 
     /**
-     * 设置Options请求
+     * 设置Options请求,okhttp没有该方法
      *
      * @param config 请求配置
      */
+    @Deprecated
     @Override
     void sendOptionsRequest(@NotNull JnlwNetworkReqConfig config) {
 

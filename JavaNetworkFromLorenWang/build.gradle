@@ -31,7 +31,7 @@ dependencies {
 }
 def moduleName = "JavaNetworkFromLorenWang"
 def moduleDescription = "java网络请求工具库"
-version '1.0.0'
+version '1.0.1'
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

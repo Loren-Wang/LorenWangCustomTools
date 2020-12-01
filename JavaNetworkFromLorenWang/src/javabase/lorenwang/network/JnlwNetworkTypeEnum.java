@@ -13,7 +13,7 @@ package javabase.lorenwang.network;
  *
  * @author 王亮（Loren）
  */
-enum JnlwNetworkTypeEnum {
+public enum JnlwNetworkTypeEnum {
     /**
      * 未知请求类型
      */
