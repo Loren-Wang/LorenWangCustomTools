@@ -1,25 +1,14 @@
 package javabase.lorenwang.network;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Map;
 
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import javabase.lorenwang.tools.net.JtlwNetUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -192,9 +181,6 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
                             case HTTP_1_1:
                                 config.getNetworkCallback().success("http", 1, 1, data);
                                 break;
-                            case SPDY_3:
-                                config.getNetworkCallback().success("spdy", 3, 1, data);
-                                break;
                             case HTTP_1_0:
                                 config.getNetworkCallback().success("http", 1, 0, data);
                                 break;
@@ -210,9 +196,6 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
                                 case HTTP_2:
                                 case HTTP_1_1:
                                     config.getNetworkCallback().fail("http", 1, 1, response.code());
-                                    break;
-                                case SPDY_3:
-                                    config.getNetworkCallback().fail("spdy", 3, 1, response.code());
                                     break;
                                 case HTTP_1_0:
                                     config.getNetworkCallback().fail("http", 1, 0, response.code());

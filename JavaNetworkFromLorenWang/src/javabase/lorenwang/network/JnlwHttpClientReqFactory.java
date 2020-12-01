@@ -3,6 +3,7 @@ package javabase.lorenwang.network;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -50,6 +51,7 @@ public class JnlwHttpClientReqFactory {
      *
      * @return httpClient请求实例
      */
+    @NotNull
     public static JnlwBaseReq getHttpClientRequest() {
         initHttpClientReq();
         return httpClientReq;
@@ -60,8 +62,9 @@ public class JnlwHttpClientReqFactory {
      *
      * @return OkHttp请求实例
      */
+    @NotNull
     public static JnlwOkHttpReq getOkHttpRequest() {
-        initHttpClientReq();
+        initOkHttpReq();
         return okHttpReq;
     }
 
@@ -115,12 +118,12 @@ public class JnlwHttpClientReqFactory {
                 OkHttpClient.Builder clientBuilder = new OkHttpClient().newBuilder();
                 OkHttpClient client;
                 if (initConfig != null) {
-                    clientBuilder.connectTimeout(initConfig.getDefaultConnectTimeout(), TimeUnit.MILLISECONDS);
-                    clientBuilder.readTimeout(initConfig.getDefaultConnectRequestTimeout(), TimeUnit.MILLISECONDS);
-                    clientBuilder.writeTimeout(initConfig.getDefaultConnectRequestTimeout(), TimeUnit.MILLISECONDS);
+//                    clientBuilder.connectTimeout(initConfig.getDefaultConnectTimeout(), TimeUnit.MILLISECONDS);
+//                    clientBuilder.readTimeout(initConfig.getDefaultConnectRequestTimeout(), TimeUnit.MILLISECONDS);
+//                    clientBuilder.writeTimeout(initConfig.getDefaultConnectRequestTimeout(), TimeUnit.MILLISECONDS);
                     client = clientBuilder.build();
-                    client.dispatcher().setMaxRequests(initConfig.getConnectMaxTotal());
-                    client.dispatcher().setMaxRequestsPerHost(initConfig.getConnectHostMaxTotal());
+//                    client.dispatcher().setMaxRequests(initConfig.getConnectMaxTotal());
+//                    client.dispatcher().setMaxRequestsPerHost(initConfig.getConnectHostMaxTotal());
                 } else {
                     client = clientBuilder.build();
                 }

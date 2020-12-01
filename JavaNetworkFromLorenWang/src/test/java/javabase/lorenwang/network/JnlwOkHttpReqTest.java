@@ -21,8 +21,9 @@ public class JnlwOkHttpReqTest {
 
     @Test
     public void sendGetRequest() {
-        JnlwHttpClientReqFactory.getHttpClientRequest().sendRequest(new JnlwNetworkReqConfig.Build()
-                .setBaseUrl("http://www.ip38.com/")
+        JnlwHttpClientReqFactory.setInitConfig(new JnlwNetworkPlunsInitConfig.Build().build());
+        JnlwHttpClientReqFactory.getOkHttpRequest().sendRequest(new JnlwNetworkReqConfig.Build()
+                .setBaseUrl("https://www.baidu.com/")
                 .setNetworkTypeEnum(JnlwNetworkTypeEnum.GET)
                 .setNetworkCallback(new JnlwNetworkCallback() {
                     @Override
@@ -44,7 +45,7 @@ public class JnlwOkHttpReqTest {
 
     @Test
     public void sendPostRequest() {
-        JnlwHttpClientReqFactory.getHttpClientRequest().sendRequest(new JnlwNetworkReqConfig.Build()
+        JnlwHttpClientReqFactory.getOkHttpRequest().sendRequest(new JnlwNetworkReqConfig.Build()
                 .setBaseUrl("http://localhost:5432")
                 .setRequestUrl("/customServiceTest/setHomeData")
                 .addRequestDataParam("type", "1")
