@@ -23,7 +23,8 @@ public class JnlwOkHttpReqTest {
     public void sendGetRequest() {
         JnlwHttpClientReqFactory.setInitConfig(new JnlwNetworkPlunsInitConfig.Build().build());
         JnlwHttpClientReqFactory.getOkHttpRequest().sendRequest(new JnlwNetworkReqConfig.Build()
-                .setBaseUrl("https://www.baidu.com/")
+                .setBaseUrl("https://www.baidu.com")
+                .setRequestUrl("akkakdaf")
                 .setNetworkTypeEnum(JnlwNetworkTypeEnum.GET)
                 .setNetworkCallback(new JnlwNetworkCallback() {
                     @Override

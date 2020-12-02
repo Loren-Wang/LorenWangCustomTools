@@ -2,6 +2,11 @@ package javabase.lorenwang.network;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.net.JtlwNetUtils;
+
 /**
  * 功能作用：网络基础请求
  * 创建时间：2020-12-01 11:59 上午
@@ -57,6 +62,37 @@ abstract class JnlwBaseReq {
         } else {
             return true;
         }
+    }
+
+    /**
+     * 生成请求的url地址
+     * @param config 配置信息
+     * @return url地址
+     */
+    protected String generateRequestUrl(@NotNull JnlwNetworkReqConfig config) {
+        //url处理
+        StringBuilder url = new StringBuilder();
+        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getBaseUrl())) {
+            url.append(config.getBaseUrl());
+        } else {
+            url.append("http://127.0.0.1");
+        }
+        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestUrl())) {
+            //如果是本地的话判断是否第一位是斜杠，无斜杠要添加
+            String first = config.getRequestUrl().substring(0, 1);
+            String end = url.substring(url.length() - 1, url.length());
+            if(first.matches("[^/?]") && end.matches("[^/?]")){
+                url.append("/");
+            }
+            url.append(config.getRequestUrl());
+        }
+        String requestUrl = url.toString();
+        url.setLength(0);
+        //参数拼接处理
+        for (Map.Entry<String, String> entry : config.getRequestDataParams().entrySet()) {
+            requestUrl = JtlwNetUtils.getInstance().addUrlParams(requestUrl, entry.getKey(), entry.getValue());
+        }
+        return requestUrl;
     }
 
     /**

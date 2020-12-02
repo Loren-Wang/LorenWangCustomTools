@@ -122,29 +122,7 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
      * @return 处理后的请求实例
      */
     private Request.Builder getHttpRequestBase(Request.Builder requestBuilder, @NotNull JnlwNetworkReqConfig config) {
-        //url处理
-        StringBuilder url = new StringBuilder();
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getBaseUrl())) {
-            url.append(config.getBaseUrl());
-        } else {
-            url.append("http://127.0.0.1");
-        }
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestUrl())) {
-            //如果是本地的话判断是否第一位是斜杠，无斜杠要添加
-            if (config.getRequestUrl().indexOf("/") > 0 &&
-                    config.getRequestUrl().indexOf("?") > 0 &&
-                    JtlwCheckVariateUtils.getInstance().isEmpty(config.getBaseUrl())) {
-                url.append("/");
-            }
-            url.append(config.getRequestUrl());
-        }
-        String requestUrl = url.toString();
-        url.setLength(0);
-        //参数拼接处理
-        for (Map.Entry<String, String> entry : config.getRequestDataParams().entrySet()) {
-            requestUrl = JtlwNetUtils.getInstance().addUrlParams(requestUrl, entry.getKey(), entry.getValue());
-        }
-        requestBuilder.url(requestUrl);
+        requestBuilder.url(generateRequestUrl(config));
 
         //header处理
         for (Map.Entry<String, String> entry : config.getRequestHeaderParams().entrySet()) {
