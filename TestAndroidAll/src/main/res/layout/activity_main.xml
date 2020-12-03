@@ -11,6 +11,12 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnClickTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="点击测试" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnImageView"
             style="@style/MainButtons"
             android:text="图片控件" />

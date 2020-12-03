@@ -84,6 +84,7 @@ dependencies {
     implementation project(':AndroidCommonBaseFrameLibraryFromLorenWang')
 
     //扩展库
+    implementation project(':AndroidKotlinCustomToolsFromLorenWang')
     implementation project(':AndroidGraphicCodeScanFromLorenWang')
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha05'

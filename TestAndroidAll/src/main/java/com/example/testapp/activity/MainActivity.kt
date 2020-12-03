@@ -2,9 +2,12 @@ package com.example.testapp.activity
 
 import android.content.Intent
 import android.lorenwang.tools.app.AtlwActivityJumpUtils
+import android.lorenwang.tools.base.AtlwLogUtils
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ScrollView
+import androidx.appcompat.widget.AppCompatButton
 import com.example.testapp.R
 import com.example.testapp.activity.androidTools.MobileContactsActivity
 import com.example.testapp.activity.androidTools.MobileSmsActivity
@@ -24,21 +27,26 @@ import com.example.testapp.activity.viewpager.FragmentAndBannerActivity
 import com.example.testapp.activity.viewpager.ViewPager2Activity
 import com.example.testapp.base.BaseActivity
 import com.facebook.drawee.backends.pipeline.Fresco
+import kotlinbase.lorenwang.tools.extend.kttlwThrottleClick
 
 class MainActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState : Bundle?) {
         addContentView(R.layout.activity_main)
         Fresco.initialize(applicationContext)
     }
 
-    override fun initListener(savedInstanceState: Bundle?) {
+    override fun initListener(savedInstanceState : Bundle?) {
         super.initListener(savedInstanceState)
         findViewById<ScrollView>(R.id.scrollView)?.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if(scrollY > 0){
+            if (scrollY > 0) {
                 swipeRefresh?.isEnabled = false
-            }else{
+            } else {
                 swipeRefresh?.isEnabled = true
             }
+        }
+
+        findViewById<AppCompatButton>(R.id.btnClickTest).kttlwThrottleClick(2000) {
+            Log.d("xxxx", System.currentTimeMillis().toString())
         }
     }
 
@@ -47,7 +55,7 @@ class MainActivity : BaseActivity() {
         swipeRefresh?.isRefreshing = false
     }
 
-    fun mainClick(view: View?) {
+    fun mainClick(view : View?) {
         if (view != null) {
             when (view.id) {
                 R.id.btnImageView -> {

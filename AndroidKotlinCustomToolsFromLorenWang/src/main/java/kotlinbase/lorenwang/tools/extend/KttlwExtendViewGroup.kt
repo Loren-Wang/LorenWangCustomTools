@@ -14,10 +14,11 @@ import android.view.ViewGroup
  * 修改时间：
  * 备注：
  */
+
 /**
  * 子控件遍历
  */
-fun <T : ViewGroup> T?.forEachChild(exe: (Int, View) -> Unit) {
+fun <T : ViewGroup> T?.kttlwForEachChild(exe : (Int, View) -> Unit) {
     this?.let {
         for (i in 0 until it.childCount) {
             exe(i, it.getChildAt(i))
