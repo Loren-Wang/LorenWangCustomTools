@@ -9,6 +9,7 @@ import android.view.ViewGroup
  * 创建人：王亮（Loren wang）
  * 思路：
  * 方法：
+ * 子控件遍历(ViewGroup.kttlwForEachChild)
  * 注意：
  * 修改人：
  * 修改时间：

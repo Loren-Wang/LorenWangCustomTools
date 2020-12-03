@@ -11,6 +11,14 @@ import androidx.annotation.FloatRange
  * 创建人：王亮（Loren wang）
  * 思路：
  * 方法：
+ * 单个控件调用：View，集合控件调用：Collection<View?>
+ * 设置单个或集合控件为显示（kttlwToVisible）
+ * 设置单个或集合控件为隐藏（kttlwToGone）
+ * 设置单个或集合控件为占位不显示（kttlwToInvisible）
+ * 设置单个或集合控件为启用状态（kttlwToEnable）
+ * 设置单个或集合控件为禁用状态（kttlwToDisable）
+ * 设置单个或集合控件的防重点击（kttlwThrottleClick）
+ * 设置单个控件宽高（kttlwSetWidthHeight、kttlwSetWidthHeightForWidth、kttlwSetWidthHeightForHeight）
  * 注意：
  * 修改人：
  * 修改时间：
@@ -36,11 +44,8 @@ fun <V : View> Collection<V?>.kttlwToVisible() {
 /**
  * 设置控件为隐藏
  */
-fun <V : View> V.kttlwToGone(vararg views : V) {
-    this.visibility = View.GONE
-    views.forEach {
-        it.visibility = View.GONE
-    }
+fun <V : View> V?.kttlwToGone() {
+    this?.visibility = View.GONE
 }
 
 /**
@@ -55,11 +60,8 @@ fun <V : View> Collection<V?>.kttlwToGone() {
 /**
  * 设置控件为不显示但是占位
  */
-fun <V : View> V.kttlwToInvisible(vararg views : V) {
-    this.visibility = View.INVISIBLE
-    views.forEach {
-        it.visibility = View.INVISIBLE
-    }
+fun <V : View> V?.kttlwToInvisible() {
+    this?.visibility = View.INVISIBLE
 }
 
 /**
@@ -149,9 +151,9 @@ fun <V : View> V?.kttlwSetWidthHeightForHeight(height : Int, aspectRatio : Float
 /**
  * 设置多控件同样的点击事件监听
  */
-fun <V : View> Collection<V?>.kttlwSetOnClickListenerWith(listener : View.OnClickListener) {
-    this.forEach { it ->
-        it?.setOnClickListener { listener.onClick(it) }
+fun <V : View> Collection<V?>.kttlwThrottleClick(clickFun : (view : View) -> Any) {
+    this.forEach {
+        it?.kttlwThrottleClick(clickFun)
     }
 }
 
