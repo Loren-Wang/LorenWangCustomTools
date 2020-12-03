@@ -1,0 +1,24 @@
+{
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "name": "javascripttoolsfromlorenwang",
+  "version": "1.0.0",
+  "private": false,
+  "description": "JavaScript工具库",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Loren-Wang/LorenWangCustomTools.git"
+  },
+  "keywords": [
+    "LorenWang",
+    "JavaScriptTools"
+  ],
+  "author": "LorenWang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Loren-Wang/LorenWangCustomTools/issues"
+  },
+  "homepage": "https://github.com/Loren-Wang/LorenWangCustomTools#readme"
+}
