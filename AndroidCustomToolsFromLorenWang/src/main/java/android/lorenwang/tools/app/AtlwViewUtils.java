@@ -2,6 +2,7 @@ package android.lorenwang.tools.app;
 
 import android.content.res.ColorStateList;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.base.AtlwLogUtils;
 import android.os.Build;
@@ -438,51 +439,32 @@ public class AtlwViewUtils {
     }
 
     /**
-     * 获取RecyclerView显示宽度
+     * RecycleView 是否在顶部未向下滑动过
      *
-     * @param recyclerView 列表控件
-     * @return 宽度
+     * @param recyclerView RecycleView列表控件
+     * @return 未向下或者空或者没有布局管理器均返回true，其他情况返回false
      */
-    public float getRecyclerViewShowWidth(RecyclerView recyclerView) {
-        if (recyclerView != null && recyclerView.getLayoutManager() != null) {
-            float left = 0f;
-            float right = 0f;
-            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-            View itemView;
-            for (int index = 0; index < layoutManager.getItemCount(); index++) {
-                itemView = recyclerView.getChildAt(index);
-                if (itemView != null) {
-                    left = Math.min(layoutManager.getDecoratedLeft(itemView), left);
-                    right = Math.max(layoutManager.getDecoratedRight(itemView), right);
-                }
+    public boolean recycleViewIsTheTop(RecyclerView recyclerView) {
+        if (recyclerView != null && recyclerView.getLayoutManager() != null && recyclerView.getLayoutManager().getChildCount() > 0) {
+            View view = recyclerView.getLayoutManager().getChildAt(0);
+            if (recyclerView.getLayoutManager().getPosition(view) > 0) {
+                //第一个显示的view不是最顶部的view
+                return false;
             }
-            return right - left;
-        }
-        return 0F;
-    }
+            //间隔线偏移
+            int offset = 0;
+            Rect rect;
+            RecyclerView.State state = new RecyclerView.State();
+            for (int i = 0; i < recyclerView.getItemDecorationCount(); i++) {
+                rect = new Rect(0, 0, 0, 0);
+                recyclerView.getItemDecorationAt(i).getItemOffsets(rect, view, recyclerView, state);
+                offset = Math.max(offset, rect.top);
+            }
 
-    /**
-     * 获取RecyclerView显示高度
-     *
-     * @param recyclerView 列表控件
-     * @return 高度
-     */
-    public float getRecyclerViewShowHeight(RecyclerView recyclerView) {
-        if (recyclerView != null && recyclerView.getLayoutManager() != null) {
-            float top = 0f;
-            float bottom = 0f;
-            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-            View itemView;
-            for (int index = 0; index < layoutManager.getItemCount(); index++) {
-                itemView = recyclerView.getChildAt(index);
-                if (itemView != null) {
-                    top = Math.min(layoutManager.getDecoratedTop(itemView), top);
-                    bottom = Math.max(layoutManager.getDecoratedBottom(itemView), bottom);
-                }
-            }
-            return bottom - top;
+            //第一个显示的view是首尾的话获取当前view的偏移量
+            return view.getTop() == offset;
         }
-        return 0F;
+        return true;
     }
 
 }

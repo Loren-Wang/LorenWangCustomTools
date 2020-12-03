@@ -6,8 +6,6 @@ import android.os.Looper;
 
 import java.util.concurrent.FutureTask;
 
-import androidx.annotation.VisibleForTesting;
-
 
 public class AtlwThreadUtils {
     private static volatile AtlwThreadUtils atlwThreadUtils;
@@ -19,15 +17,15 @@ public class AtlwThreadUtils {
      * 子线程handler
      */
     private Handler childThreadHandler;
-    private Boolean sWillOverride = false;
+    private final Boolean sWillOverride = false;
     /**
      * 同步锁使用
      */
-    private Object sLockUI = new Object();
+    private final Object sLockUI = new Object();
     /**
      * 同步锁使用
      */
-    private Object sLockChild = new Object();
+    private final Object sLockChild = new Object();
 
     private AtlwThreadUtils() {
         //初始化主线程
@@ -110,7 +108,6 @@ public class AtlwThreadUtils {
      * @param task        The Runnable to run
      * @param delayMillis The delay in milliseconds until the Runnable will be run
      */
-    @VisibleForTesting
     public void postOnUiThreadDelayed(Runnable task, Long delayMillis) {
         getUiThreadHandler().postDelayed(task, delayMillis);
     }
