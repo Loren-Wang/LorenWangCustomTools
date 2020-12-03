@@ -4,7 +4,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "name": "javascripttoolsfromlorenwang",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "JavaScript工具库",
   "repository": {

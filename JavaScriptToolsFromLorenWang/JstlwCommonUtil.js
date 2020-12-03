@@ -4,7 +4,7 @@
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 16禁止hae颜色值转rgb带透明度颜色（hexToRgba）
+ * 16进制hex颜色值转rgb带透明度颜色（hexToRgba）
  * 字符串转字符流（str2Ab）
  * 注意：
  * 修改人：
