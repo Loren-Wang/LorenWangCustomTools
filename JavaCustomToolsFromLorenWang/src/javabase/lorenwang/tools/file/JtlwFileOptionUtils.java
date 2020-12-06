@@ -415,7 +415,7 @@ public class JtlwFileOptionUtils {
                 return false;
             }
             //新文件夹判断处理
-            createDirectory(newPath, false);
+            createDirectory(newPath, oldFile.isFile());
             if (oldFile.isFile()) {
                 //是文件，直接复制
                 return copyFile(oldPath, newPath);
