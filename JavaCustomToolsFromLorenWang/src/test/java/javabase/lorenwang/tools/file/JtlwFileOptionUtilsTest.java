@@ -23,4 +23,10 @@ public class JtlwFileOptionUtilsTest {
     public void copyFileDir() {
         JtlwFileOptionUtils.getInstance().copyFileDir("/Volumes/DataStorege/蠢蛋蛋", "/Volumes/DataStorege/test");
     }
+
+    @Test
+    public void compressToZip() {
+        JtlwFileOptionUtils.getInstance().compressToZip("/Volumes/DataStorege/蠢蛋蛋", "/Volumes/DataStorege/test.zip");
+
+    }
 }

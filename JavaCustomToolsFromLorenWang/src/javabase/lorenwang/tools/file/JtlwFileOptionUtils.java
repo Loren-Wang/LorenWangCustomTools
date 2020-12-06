@@ -1,5 +1,7 @@
 package javabase.lorenwang.tools.file;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -20,10 +22,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javabase.lorenwang.tools.JtlwLogUtils;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import javabase.lorenwang.tools.common.JtlwCommonUtils;
+import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
 
@@ -434,6 +439,107 @@ public class JtlwFileOptionUtils {
             }
 
         } else {
+            return false;
+        }
+    }
+
+    /**
+     * 压缩文件夹
+     *
+     * @param sourcePath 要被压缩的文件夹路径
+     * @param outPutPath 输出的文件夹路径，包含.zip后缀名
+     * @return 压缩结果
+     */
+    public boolean compressToZip(@NotNull String sourcePath, @NotNull String outPutPath) {
+        //源文件处理
+        File sourceFile = new File(sourcePath);
+        if (!sourceFile.exists()) {
+            JtlwLogUtils.logUtils.logI(TAG, sourcePath + "-zip压缩：源文件不存在");
+            return false;
+        }
+        //输出文件处理
+        File outputFile = new File(outPutPath);
+        if (outputFile.exists()) {
+            JtlwLogUtils.logUtils.logI(TAG, sourcePath + "-zip压缩：输出目标存在，不进行压缩");
+            return false;
+        }
+
+        //输出流
+        FileOutputStream outputStream = null;
+        //压缩输出流
+        ZipOutputStream zos = null;
+        try {
+            JtlwLogUtils.logUtils.logI(TAG, sourcePath + "-zip压缩：开始进行压缩:" + JtlwDateTimeUtils.getInstance().getMillisecond());
+            outputStream = new FileOutputStream(new File(outPutPath));
+            zos = new ZipOutputStream(outputStream);
+            boolean status = compressToZip(sourceFile, zos, sourceFile.getName());
+            if (status) {
+                JtlwLogUtils.logUtils.logI(TAG, sourcePath + "-zip压缩：压缩完成:" + JtlwDateTimeUtils.getInstance().getMillisecond());
+            } else {
+                JtlwLogUtils.logUtils.logI(TAG, sourcePath + "-zip压缩：压缩失败");
+            }
+            return status;
+        } catch (Exception e) {
+            JtlwLogUtils.logUtils.logI(TAG, sourcePath + "-zip压缩：压缩失败，异常原因：" + (e.getMessage() != null ? e.getMessage() : ""));
+            return false;
+        } finally {
+            if (zos != null) {
+                try {
+                    zos.close();
+                } catch (IOException ignored) {
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
+    }
+
+    /**
+     * 私有压缩文件夹
+     *
+     * @param sourceFile   源文件
+     * @param zos          压缩流
+     * @param saveFileName 保存的文件名
+     * @return 压缩结果
+     */
+    private boolean compressToZip(File sourceFile, ZipOutputStream zos, String saveFileName) {
+        try {
+            byte[] buf = new byte[2048];
+            if (sourceFile.isFile()) {
+                // 向zip输出流中添加一个zip实体，构造器中name为zip实体的文件的名字
+                zos.putNextEntry(new ZipEntry(saveFileName));
+                // copy文件到zip输出流中
+                int len;
+                FileInputStream in = new FileInputStream(sourceFile);
+                while ((len = in.read(buf)) != -1) {
+                    zos.write(buf, 0, len);
+                }
+                zos.closeEntry();
+                in.close();
+            } else {
+                File[] listFiles = sourceFile.listFiles();
+                if (listFiles == null || listFiles.length == 0) {
+                    // 空文件夹的处理
+                    zos.putNextEntry(new ZipEntry(saveFileName + "/"));
+                    // 没有文件，不需要文件的copy
+                    zos.closeEntry();
+                } else {
+                    boolean status = true;
+                    for (File file : listFiles) {
+                        // 注意：file.getName()前面需要带上父文件夹的名字加一斜杠,
+                        // 不然最后压缩包中就不能保留原来的文件结构,即：所有文件都跑到压缩包根目录下了
+                        status = status && compressToZip(file, zos, saveFileName + "/" + file.getName());
+                    }
+                    return status;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            JtlwLogUtils.logUtils.logI(TAG, sourceFile.getAbsolutePath() + "-zip压缩：压缩失败，异常原因：" + (e.getMessage() != null ? e.getMessage() : ""));
             return false;
         }
     }
