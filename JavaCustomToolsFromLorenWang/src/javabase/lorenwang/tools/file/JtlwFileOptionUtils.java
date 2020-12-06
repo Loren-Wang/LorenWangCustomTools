@@ -48,6 +48,7 @@ import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
  * 14、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
  * 15、格式化文件大小
  * 16、创建文件夹
+ * 文件夹复制(copyFileDir)
  * <p>
  * 注意：
  * 修改人：
@@ -227,7 +228,7 @@ public class JtlwFileOptionUtils {
             deleteFile(file.getAbsolutePath());
         }
         //创建父级文件夹
-        createDirectory(file.getAbsolutePath(),true);
+        createDirectory(file.getAbsolutePath(), true);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file, append);
@@ -311,7 +312,7 @@ public class JtlwFileOptionUtils {
             //删除文件
             deleteFile(file.getAbsolutePath());
             //创建父级文件夹
-            createDirectory(file.getAbsolutePath(),true);
+            createDirectory(file.getAbsolutePath(), true);
             fos = new FileOutputStream(file, append);
             fos.write(buffer);
             return true;
@@ -394,6 +395,47 @@ public class JtlwFileOptionUtils {
             }
         }
 
+    }
+
+    /**
+     * 文件夹复制
+     *
+     * @param oldPath 旧文件夹,如果是文件的话则直接变成文件复制
+     * @param newPath 新文件夹
+     * @return 复制结果，有一个失败就是失败
+     */
+    public boolean copyFileDir(String oldPath, String newPath) {
+        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(oldPath)
+                && JtlwCheckVariateUtils.getInstance().isNotEmpty(newPath)) {
+            File oldFile = new File(oldPath);
+            File newFile = new File(newPath);
+            //文件类型判断处理
+            if (!oldFile.exists() || newFile.exists()) {
+                //旧文件夹不存在或者新文件夹存在
+                return false;
+            }
+            //新文件夹判断处理
+            createDirectory(newPath, false);
+            if (oldFile.isFile()) {
+                //是文件，直接复制
+                return copyFile(oldPath, newPath);
+            } else {
+                boolean status = true;
+                //是文件夹开始处理
+                for (File file : oldFile.listFiles()) {
+                    if (file.isFile()) {
+                        status = status && copyFile(file.getAbsolutePath(), newFile.getAbsolutePath() + "/" + file.getName());
+                    } else {
+                        //是文件夹，递归处理
+                        status = status && copyFileDir(file.getAbsolutePath(), newFile.getAbsolutePath() + "/" + file.getName());
+                    }
+                }
+                return status;
+            }
+
+        } else {
+            return false;
+        }
     }
 
     /**
