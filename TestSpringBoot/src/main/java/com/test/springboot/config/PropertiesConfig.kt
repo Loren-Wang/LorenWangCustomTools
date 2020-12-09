@@ -1,6 +1,7 @@
 package com.qtoolsbaby.servicemmxs.config
 
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwPropertiesConfig
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 /**
@@ -18,4 +19,14 @@ import org.springframework.stereotype.Service
  */
 @Service
 class PropertiesConfig :SbcbflwPropertiesConfig() {
+    /**
+     * 数据库表版本名称
+     */
+    @Value("\${database.table.versionName}")
+    val databaseTableVersionName: String? = null
+    /**
+     * 数据库表版本号
+     */
+    @Value("\${database.table.versionCode}")
+    val databaseTableVersionCode: Long? = null
 }

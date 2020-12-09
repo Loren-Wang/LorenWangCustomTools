@@ -1,6 +1,7 @@
 package com.test.springboot
 
 import com.qtoolsbaby.servicemmxs.config.PropertiesConfig
+import com.test.springboot.applicationListener.ApplicationListenerForStart
 import com.test.springboot.utils.FileOptionsUtils
 import com.test.springboot.utils.LogUtils
 import javabase.lorenwang.common_base_frame.SbcbflwBaseApplication
@@ -39,9 +40,10 @@ open class StartApplication : SbcbflwBaseApplication() {
             SbcbfBaseAllUtils.logUtils = LogUtils.instance
             SbcbfBaseAllUtils.fileOptionsUtils = FileOptionsUtils.instance
             val springApplication = SpringApplication(StartApplication::class.java)
+            LogUtils.instance.logI(this::class.java, "添加启动监听")
+            springApplication.addListeners(ApplicationListenerForStart())
             initBase(springApplication, arrayOf("application.properties"))
-            val applicationContext = springApplication.run(*args)
-            SbcbflwCommon.instance.initBase(applicationContext, applicationContext.getBean(PropertiesConfig::class.java))
+            springApplication.run(*args)
         }
     }
 }
