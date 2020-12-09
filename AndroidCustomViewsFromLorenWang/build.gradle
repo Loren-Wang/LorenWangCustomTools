@@ -28,9 +28,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'org.jetbrains:annotations:19.0.0'
@@ -163,5 +166,4 @@ bintray {
 repositories {
     mavenCentral()
 }
-
 

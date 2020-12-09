@@ -29,7 +29,7 @@ public class AvlwFrescoImageHotSpotsView extends SimpleDraweeView {
     /**
      * 热区数据
      */
-    private final Map<Rect, ImageHotSpotsInfo> locationMap = new ConcurrentHashMap<>();
+    private final Map<Integer, ImageHotSpotsInfo> locationMap = new ConcurrentHashMap<>();
 
     /**
      * 热区点击
@@ -46,6 +46,16 @@ public class AvlwFrescoImageHotSpotsView extends SimpleDraweeView {
      */
     private final long CLICK_TIME_INTERVAL = 1000L;
 
+    /**
+     * 上一次记录的宽度
+     */
+    private int lastWidth = 0;
+
+    /**
+     * 上一次记录的高度
+     */
+    private int lastHeight = 0;
+
     public AvlwFrescoImageHotSpotsView(Context context) {
         super(context);
     }
@@ -60,20 +70,38 @@ public class AvlwFrescoImageHotSpotsView extends SimpleDraweeView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        //同步代码块处理数据信息
+        if (lastWidth != getWidth() && lastHeight != getHeight()) {
+            synchronized (ImageHotSpotsInfo.class) {
+                lastWidth = getWidth();
+                lastHeight = getHeight();
+                //初始化信息
+                for (ImageHotSpotsInfo item : locationMap.values()) {
+                    item.rect = new Rect(
+                            (int) (item.getLeftTopPercentX() * lastWidth),
+                            (int) (item.getLeftTopPercentY() * lastHeight),
+                            (int) ((item.getLeftTopPercentX() + item.getWidthPercent()) * lastWidth),
+                            (int) ((item.getLeftTopPercentY() + item.getHeightPercent()) * lastHeight)
+                    );
+                    locationMap.put(item.hashCode(), item);
+                }
+            }
+        }
         if (hotSpotsOnClick != null && isEnabled() && System.currentTimeMillis() - lastClickTime > CLICK_TIME_INTERVAL) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 float upX = event.getX();
                 float upY = event.getY();
                 //手拿起
-                Iterator<Rect> iterator = locationMap.keySet().iterator();
-                Rect rect;
+                Iterator<ImageHotSpotsInfo> iterator = locationMap.values().iterator();
+                ImageHotSpotsInfo bean;
                 while (iterator.hasNext()) {
-                    rect = iterator.next();
-                    if (rect != null && upX > rect.left && upX <= rect.right
-                            && upY > rect.top && upY <= rect.bottom) {
+                    bean = iterator.next();
+                    if (bean != null && bean.rect != null &&
+                            upX > bean.rect.left && upX <= bean.rect.right &&
+                            upY > bean.rect.top && upY <= bean.rect.bottom) {
                         lastClickTime = System.currentTimeMillis();
                         //查找到点击区域，执行点击回调
-                        hotSpotsOnClick.onClick(this, locationMap.get(rect));
+                        hotSpotsOnClick.onClick(this, bean);
                         return true;
                     }
                 }
@@ -94,7 +122,7 @@ public class AvlwFrescoImageHotSpotsView extends SimpleDraweeView {
         this.hotSpotsOnClick = hotSpotsOnClick;
         if (list != null) {
             for (ImageHotSpotsInfo item : list) {
-                locationMap.put(item.rect, item);
+                locationMap.put(item.hashCode(), item);
             }
         }
     }
@@ -103,6 +131,22 @@ public class AvlwFrescoImageHotSpotsView extends SimpleDraweeView {
      * 图片热区所使用的参数
      */
     public static class ImageHotSpotsInfo<T> {
+        /**
+         * 左上角x占图片百分比
+         */
+        private float leftTopPercentX = 0F;
+        /**
+         * 左上角y占图片百分比
+         */
+        private float leftTopPercentY = 0F;
+        /**
+         * 区域占图片宽度百分比
+         */
+        private float widthPercent = 0F;
+        /**
+         * 区域占图片高度百分比
+         */
+        private float heightPercent = 0F;
         /**
          * 范围
          */
@@ -116,16 +160,44 @@ public class AvlwFrescoImageHotSpotsView extends SimpleDraweeView {
             this.data = data;
         }
 
-        public void setRect(Rect rect) {
-            this.rect = rect;
-        }
-
         public T getData() {
             return data;
         }
 
         public Rect getRect() {
             return rect;
+        }
+
+        public float getLeftTopPercentX() {
+            return leftTopPercentX;
+        }
+
+        public void setLeftTopPercentX(float leftTopPercentX) {
+            this.leftTopPercentX = leftTopPercentX;
+        }
+
+        public float getLeftTopPercentY() {
+            return leftTopPercentY;
+        }
+
+        public void setLeftTopPercentY(float leftTopPercentY) {
+            this.leftTopPercentY = leftTopPercentY;
+        }
+
+        public float getWidthPercent() {
+            return widthPercent;
+        }
+
+        public void setWidthPercent(float widthPercent) {
+            this.widthPercent = widthPercent;
+        }
+
+        public float getHeightPercent() {
+            return heightPercent;
+        }
+
+        public void setHeightPercent(float heightPercent) {
+            this.heightPercent = heightPercent;
         }
     }
 
