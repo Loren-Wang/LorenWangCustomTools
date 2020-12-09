@@ -25,10 +25,11 @@ import java.util.*
  * 备注：
  */
 open class SbcbflwCommon {
+
     /**
-     * 用户headerKey的token
+     * 项目运行实例
      */
-    var headerKeyUserAccessToken = "accessToken"
+    lateinit var applicationContext : ConfigurableApplicationContext
 
     /**
      * 基础配置
@@ -78,6 +79,7 @@ open class SbcbflwCommon {
      * @param propertiesConfig 基础配置文件
      */
     fun initBase(applicationContext : ConfigurableApplicationContext, propertiesConfig : SbcbflwPropertiesConfig) {
+        this.applicationContext = applicationContext
         this.propertiesConfig = propertiesConfig
         if (propertiesConfig.ossTypeAliYun) {
             aliYunPropertiesConfig = SbcbflwAlLiYunOssPropertiesConfig(applicationContext)

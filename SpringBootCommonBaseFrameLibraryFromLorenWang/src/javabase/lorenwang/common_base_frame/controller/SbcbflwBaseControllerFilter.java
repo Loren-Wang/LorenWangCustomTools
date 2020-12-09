@@ -102,7 +102,7 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
 
         if (SbcbflwCommon.getInstance().getPropertiesConfig().getHaveUserSystem()) {
             //响应中允许返回被读取的header，不添加客户端无法读取该key
-            rep.setHeader("Access-Control-Expose-Headers", SbcbflwCommon.getInstance().getHeaderKeyUserAccessToken());
+            rep.setHeader("Access-Control-Expose-Headers", SbcbflwCommon.getInstance().getUserService().getAccessTokenByReqHeader(req));
 
             //做该关键字拦截，因为后面要用到该关键字所有信息，所以此处要拦截，防止被攻击时传递该参数导致能够获取响应用户权限数据
             req.setAttribute(REQUEST_SET_USER_INFO_KEY, "");
@@ -122,10 +122,8 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
                     String newToken = SbcbflwCommon.getInstance().getUserService().refreshAccessToken(accessToken);
                     if (JtlwCheckVariateUtils.getInstance().isNotEmpty(newToken) && accessToken.equals(newToken)) {
                         ((SbcbflwBaseUserInfoTb) userStatus.getBody()).setAccessToken(newToken);
-                        rep.setHeader(SbcbflwCommon.getInstance().getHeaderKeyUserAccessToken(),
-                                newToken);
-                        req.addHeader(SbcbflwCommon.getInstance().getHeaderKeyUserAccessToken(),
-                                newToken);
+                        rep.setHeader(SbcbflwCommon.getInstance().getUserService().getAccessTokenByReqHeader(req), newToken);
+                        req.addHeader(SbcbflwCommon.getInstance().getUserService().getAccessTokenByReqHeader(req), newToken);
                         SbcbfBaseAllUtils.getLogUtils().logI(getClass(), "token已更新", false);
                     }
                     req.setAttribute(REQUEST_SET_USER_INFO_KEY, userStatus.getBody());
