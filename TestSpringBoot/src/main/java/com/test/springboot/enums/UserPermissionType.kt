@@ -1,6 +1,6 @@
-package com.test.springboot.enums;
+package com.test.springboot.enums
 
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType;
+import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
 
 /**
  * 功能作用：用户权限
@@ -15,9 +15,4 @@ import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType;
  *
  * @author 王亮（Loren wang）
  */
-
-public class UserPermissionType extends SbcbflwBaseUserPermissionType {
-    public UserPermissionType(int type, String des) {
-        super(type, des);
-    }
-}
+class UserPermissionType(type : Int, des : String?) : SbcbflwBaseUserPermissionType(type, des)

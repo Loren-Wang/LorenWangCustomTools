@@ -14,8 +14,6 @@ repositories {
 }
 
 dependencies {
-
-
     //以下需联合使用
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
@@ -25,6 +23,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.9.5")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    runtimeOnly("mysql:mysql-connector-java")
     //数据库操作库
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.5.RELEASE'
 

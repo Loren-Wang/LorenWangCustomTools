@@ -1,6 +1,6 @@
-package com.test.springboot.enums;
+package com.test.springboot.enums
 
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatus;
+import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatus
 
 /**
  * 功能作用：用户状态
@@ -15,9 +15,4 @@ import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserStatus;
  *
  * @author 王亮（Loren wang）
  */
-
-public class UserStatus extends SbcbflwBaseUserStatus {
-    public UserStatus(int status) {
-        super(status);
-    }
-}
+class UserStatus(status : Int) : SbcbflwBaseUserStatus(status)
