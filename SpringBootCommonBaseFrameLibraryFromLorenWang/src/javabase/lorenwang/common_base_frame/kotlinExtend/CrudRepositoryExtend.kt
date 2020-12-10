@@ -1,6 +1,7 @@
 package javabase.lorenwang.common_base_frame.kotlinExtend
 
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseController
+import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
 import javabase.lorenwang.common_base_frame.database.SbcbflwDatabaseParams.FIRST_RANK_LIST
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseTb
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetUpDateRankReqBean
@@ -28,8 +29,8 @@ import org.springframework.data.repository.CrudRepository
  * @param checkOldCount 是否要检测更新的排行数量和数据库内的总数量一致
  * @param getNewSaveTbFun 获取要新保存的数据库实例,参数1:tb实体数据，参数2：新排行
  */
-fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb> CURD.sbcbflwUpDataTbAllRank(
-        baseController : SbcbflwBaseController, rankBean : KttlwBaseNetUpDateRankReqBean<ID>,
+fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb, R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>> CURD.sbcbflwUpDataTbAllRank(
+        baseController : BC, rankBean : KttlwBaseNetUpDateRankReqBean<ID>,
         checkOldCount : Boolean, getNewSaveTbFun : (tbInfo : TB, newRank : Long) -> TB) : String {
     //做数量判断
     if (checkOldCount && rankBean.ids!!.size.compareTo(this.count()) != 0) {

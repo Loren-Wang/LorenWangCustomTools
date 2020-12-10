@@ -36,11 +36,13 @@ import kotlinbase.lorenwang.tools.extend.kttlwHaveEmptyCheck
  * @param baseController 基础接口控制器
  * @param optionsFun 验证通过操作调用函数
  */
-inline fun <PT : SbcbflwBaseUserPermissionType, P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>>
+inline fun <PT : SbcbflwBaseUserPermissionType, P : SbcbflwBaseUserPermissionTb<ROLE>,
+        ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>,
+        R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>>
         sbcbflwControllerCheckAndOptions(emptyCheckArray : Array<*>,
                                          checkPermissionArray : Array<PT>,
-                                         request : SbcbflwBaseHttpServletRequestWrapper,
-                                         baseController : SbcbflwBaseController,
+                                         request : R,
+                                         baseController : BC,
                                          noinline notLoginFun : (() -> Any)? = null,
                                          noinline notPermissionFun : ((userInfoTb : U) -> Any)? = null,
                                          noinline optionsFun : (() -> Any?)? = null) : String {
@@ -48,7 +50,7 @@ inline fun <PT : SbcbflwBaseUserPermissionType, P : SbcbflwBaseUserPermissionTb<
         baseController.responseErrorForParams()
     }, {
         //检测用户是否登录
-        var result = sbcbflwCheckUserLoginStatus<P, ROLE, U>(request, baseController, notLoginFun)
+        var result = sbcbflwCheckUserLoginStatus<P, ROLE, U, R, BC>(request, baseController, notLoginFun)
         if (result is U) {
             //用户已登录，检测用户权限
             result = sbcbflwCheckPermissions(request, result, checkPermissionArray, baseController, notPermissionFun)
@@ -70,7 +72,7 @@ inline fun <PT : SbcbflwBaseUserPermissionType, P : SbcbflwBaseUserPermissionTb<
  * @param baseController 基础接口控制器
  * @param optionsFun 验证通过操作调用函数
  */
-fun sbcbflwControllerCheckAndOptions(emptyCheckArray : Array<*>, baseController : SbcbflwBaseController, optionsFun : (() -> Any?)) : String {
+fun <R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>> sbcbflwControllerCheckAndOptions(emptyCheckArray : Array<*>, baseController : BC, optionsFun : (() -> Any?)) : String {
     return kttlwHaveEmptyCheck({
         baseController.responseErrorForParams()
     }, {
@@ -85,8 +87,9 @@ fun sbcbflwControllerCheckAndOptions(emptyCheckArray : Array<*>, baseController 
  * @param notLoginFun 未登陆执行操作
  * @return 检测通过返回用户信息，否则返回异常信息或其他函数信息
  */
-inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>>
-        sbcbflwCheckUserLoginStatus(request : SbcbflwBaseHttpServletRequestWrapper, baseController : SbcbflwBaseController,
+inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>,
+        R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>>
+        sbcbflwCheckUserLoginStatus(request : SbcbflwBaseHttpServletRequestWrapper, baseController : BC,
                                     noinline notLoginFun : (() -> Any?)? = null) : Any? {
     //从request中获取token信息
     val tokenByReqHeader = SbcbflwCommon.instance.userService?.getAccessTokenByReqHeader(request)
@@ -165,8 +168,8 @@ inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<
  * @return 检测通过返回用户信息，否则返回异常信息或其他函数信息
  */
 fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, U : SbcbflwBaseUserInfoTb<P, ROLE>, PT : SbcbflwBaseUserPermissionType,
-        R : SbcbflwBaseHttpServletRequestWrapper, PR : SbcbflwUserPermissionRepository<P, ROLE>>
-        sbcbflwCheckPermissions(request : R, userInfo : U, permissionCheckTypes : Array<PT>?, baseController : SbcbflwBaseController, notPermissionFun : ((userInfoTb : U) -> Any)? = null) : Any {
+        R : SbcbflwBaseHttpServletRequestWrapper, PR : SbcbflwUserPermissionRepository<P, ROLE>, BC : SbcbflwBaseController<R>>
+        sbcbflwCheckPermissions(request : R, userInfo : U, permissionCheckTypes : Array<PT>?, baseController : BC, notPermissionFun : ((userInfoTb : U) -> Any)? = null) : Any {
     SbcbfBaseAllUtils.logUtils.logOptions(SbcbflwBaseUserPermissionType::class.java, "用户${userInfo.userId}开始进行权限检测")
     for (permission in permissionCheckTypes!!) {
         if (!SbcbflwCommon.instance.userRolePermission?.formatConversion<SbcbflwUserPermissionService<R, P, ROLE, U, PT, PR>>()?.checkUserHavePermission(request, userInfo, permission)?.statusResult.getNotEmptyData(true)) {

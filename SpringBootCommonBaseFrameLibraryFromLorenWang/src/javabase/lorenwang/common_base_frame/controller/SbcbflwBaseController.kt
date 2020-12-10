@@ -25,7 +25,7 @@ import javax.annotation.Resource
  * 修改时间：
  * 备注：
  */
-abstract class SbcbflwBaseController {
+abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
     @Resource
     private lateinit var messageSource : MessageSource
 
@@ -33,7 +33,7 @@ abstract class SbcbflwBaseController {
      * 保留方法（所有子方法都要继承这个方法）
      * @param t
      */
-    protected fun <T> base(request : SbcbflwBaseHttpServletRequestWrapper, t : T?) {
+    protected fun <T> base(request : R, t : T?) {
         SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前编译器环境：${SbcbflwCommon.instance.propertiesConfig.runCompilingEnvironment}")
         SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前请求地址：${request.servletPath}")
         t.let {

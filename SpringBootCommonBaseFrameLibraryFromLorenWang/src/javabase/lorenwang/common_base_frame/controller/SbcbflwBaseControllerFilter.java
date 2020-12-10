@@ -1,5 +1,7 @@
 package javabase.lorenwang.common_base_frame.controller;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ import static javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpSer
  *
  * @author 王亮（Loren）
  */
-public abstract class SbcbflwBaseControllerFilter implements Filter {
+public abstract class SbcbflwBaseControllerFilter<T extends SbcbflwBaseHttpServletRequestWrapper> implements Filter {
     private final String TAG = "SbcbflwBaseControllerFilter";
     private final List<String> swaggerPathList = new ArrayList<>();
 
@@ -61,8 +63,7 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        SbcbflwBaseHttpServletRequestWrapper req =
-                new SbcbflwBaseHttpServletRequestWrapper((HttpServletRequest) request);
+        T req = paramsRequest(request);
         HttpServletResponse rep = (HttpServletResponse) response;
 
         //允许跨域请求
@@ -159,5 +160,13 @@ public abstract class SbcbflwBaseControllerFilter implements Filter {
     public String responseErrorUser(SbcbflwBaseDataDisposeStatusBean errorInfo) {
         return null;
     }
+
+    /**
+     * 格式化
+     * @param request 默认进入的请求
+     * @return 格式化的请求
+     */
+    @NotNull
+    public abstract T paramsRequest(ServletRequest request);
 
 }
