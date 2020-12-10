@@ -46,4 +46,50 @@ fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb> CURD.sbcbflwUpDataTb
 }
 
 
+/**
+ * 修改数据库操作扩展
+ * @param zeroError 返回值为0是否算是异常
+ * @param options 操作内容
+ * @param successFun 成功方法
+ * @param errorFun 异常方法
+ *
+ */
+fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb, R> CURD.sbcbflwModifyOptions(
+        zeroError : Boolean, options : (CURD) -> Int, successFun : () -> R, errorFun : (Exception?) -> R) : R {
+    return try {
+        val result = options(this)
+        if (result > 0) {
+            successFun()
+        } else if (result == 0) {
+            if (zeroError) {
+                errorFun(null)
+            } else {
+                successFun()
+            }
+        } else {
+            errorFun(null)
+        }
+    } catch (e : java.lang.Exception) {
+        errorFun(e)
+    }
+}
 
+/**
+ * 查找数据信息操作
+ * @param options 操作逻辑
+ * @param successFun 查找成功操作
+ * @param errorFun 查找异常或者失败操作
+ */
+fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb, R> CURD.sbcbflwFindTbInfoOptions(
+        options : (CURD) -> TB?, successFun : (TB) -> R, errorFun : (Exception?) -> R) : R {
+    return try {
+        val result = options(this)
+        if (result != null) {
+            successFun(result)
+        } else {
+            errorFun(null)
+        }
+    } catch (e : java.lang.Exception) {
+        errorFun(e)
+    }
+}
