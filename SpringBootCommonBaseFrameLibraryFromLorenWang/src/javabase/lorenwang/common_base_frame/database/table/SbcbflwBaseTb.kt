@@ -5,6 +5,7 @@ import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.io.Serializable
+import java.sql.Date
 import java.sql.Timestamp
 import javax.persistence.Column
 import javax.persistence.MappedSuperclass
@@ -28,11 +29,11 @@ open class SbcbflwBaseTb : Serializable, Cloneable {
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.CREATE_TIME, updatable = false, columnDefinition = "DATETIME comment '创建时间'")
     @CreationTimestamp
-    var createTime: Timestamp? = null
+    var createTime: Date? = null
     /**
      * 更新时间时间
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.UPDATE_TIME, columnDefinition = "DATETIME comment '更新时间'")
     @UpdateTimestamp
-    var updateTime: Timestamp? = null
+    var updateTime: Date? = null
 }
