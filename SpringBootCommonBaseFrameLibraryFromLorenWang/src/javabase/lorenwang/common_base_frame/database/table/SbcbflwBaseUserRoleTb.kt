@@ -5,6 +5,7 @@ import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.IntermediateUserRolePermissionColumn.PERMISSION_ID
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.IntermediateUserRolePermissionColumn.ROLE_ID
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.TableName.INTERMEDIATE_USER_ROLE_PERMISSION
+import javabase.lorenwang.tools.common.JtlwCommonUtils
 import java.io.Serializable
 import javax.persistence.*
 
@@ -32,8 +33,8 @@ open class SbcbflwBaseUserRoleTb<T> : SbcbflwBaseTb(), Serializable, Cloneable {
     /**
      * 角色id
      */
-    @Column(name = SbcbflwBaseTableConfig.UserRoleColumn.ID, columnDefinition = "varchar(50) comment '角色id'")
-    var roleId: String? = null
+    @Column(name = SbcbflwBaseTableConfig.UserRoleColumn.ID, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY}  comment '角色id'")
+    var roleId: String = JtlwCommonUtils.getInstance().generateUuid(true)
 
     /**
      * 角色类型

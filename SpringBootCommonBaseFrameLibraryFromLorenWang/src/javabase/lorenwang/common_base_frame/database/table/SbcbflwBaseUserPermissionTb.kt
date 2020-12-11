@@ -2,6 +2,7 @@ package javabase.lorenwang.common_base_frame.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
+import javabase.lorenwang.tools.common.JtlwCommonUtils
 import java.io.Serializable
 import javax.persistence.*
 
@@ -29,8 +30,8 @@ open class SbcbflwBaseUserPermissionTb<T> : SbcbflwBaseTb(), Serializable, Clone
     /**
      * 权限id
      */
-    @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.ID,  columnDefinition = "varchar(50) comment '权限id'")
-    var permissionId: String? = null
+    @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.ID,  columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY}  comment '权限id'")
+    var permissionId: String = JtlwCommonUtils.getInstance().generateUuid(true)
 
     /**
      * 权限名称
