@@ -6,8 +6,6 @@ import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserPermi
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserPermissionTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
-import kotlinbase.lorenwang.tools.extend.formatConversion
 
 /**
  * 功能作用：用户权限service
@@ -24,7 +22,7 @@ import kotlinbase.lorenwang.tools.extend.formatConversion
  */
 abstract class SbcbflwUserPermissionService<R : SbcbflwBaseHttpServletRequestWrapper,
         P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>,
-        U : SbcbflwBaseUserInfoTb<P, ROLE>, PT : SbcbflwBaseUserPermissionType,
+        U : SbcbflwBaseUserInfoTb<P, ROLE>, PT,
         PR : SbcbflwUserPermissionRepository<P, ROLE>> : SbcbflwBaseService {
     /*
     * 检测是否有权限

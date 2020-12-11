@@ -4,11 +4,11 @@ import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.controller.REQUEST_SET_USER_INFO_KEY
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseController
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
+import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserInfoRepository
 import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserPermissionRepository
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserPermissionTb
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
-import javabase.lorenwang.common_base_frame.enums.SbcbflwBaseUserPermissionType
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserPermissionService
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import kotlinbase.lorenwang.tools.extend.emptyCheck
@@ -36,7 +36,7 @@ import kotlinbase.lorenwang.tools.extend.kttlwHaveEmptyCheck
  * @param baseController 基础接口控制器
  * @param optionsFun 验证通过操作调用函数
  */
-inline fun <PT : SbcbflwBaseUserPermissionType, P : SbcbflwBaseUserPermissionTb<ROLE>,
+inline fun <PT, P : SbcbflwBaseUserPermissionTb<ROLE>,
         ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>,
         R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>>
         sbcbflwControllerCheckAndOptions(emptyCheckArray : Array<*>,
@@ -167,13 +167,13 @@ inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<
  * @param notPermissionFun 无权限操作
  * @return 检测通过返回用户信息，否则返回异常信息或其他函数信息
  */
-fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, U : SbcbflwBaseUserInfoTb<P, ROLE>, PT : SbcbflwBaseUserPermissionType,
+fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, U : SbcbflwBaseUserInfoTb<P, ROLE>, PT,
         R : SbcbflwBaseHttpServletRequestWrapper, PR : SbcbflwUserPermissionRepository<P, ROLE>, BC : SbcbflwBaseController<R>>
         sbcbflwCheckPermissions(request : R, userInfo : U, permissionCheckTypes : Array<PT>?, baseController : BC, notPermissionFun : ((userInfoTb : U) -> Any)? = null) : Any {
-    SbcbfBaseAllUtils.logUtils.logOptions(SbcbflwBaseUserPermissionType::class.java, "用户${userInfo.userId}开始进行权限检测")
+    SbcbfBaseAllUtils.logUtils.logOptions(SbcbflwUserInfoRepository::class.java, "用户${userInfo.userId}开始进行权限检测")
     for (permission in permissionCheckTypes!!) {
         if (!SbcbflwCommon.instance.userRolePermission?.formatConversion<SbcbflwUserPermissionService<R, P, ROLE, U, PT, PR>>()?.checkUserHavePermission(request, userInfo, permission)?.statusResult.getNotEmptyData(true)) {
-            SbcbfBaseAllUtils.logUtils.logI(SbcbflwBaseUserPermissionType::class.java, "权限检测，用户${userInfo.userId}没有相关权限")
+            SbcbfBaseAllUtils.logUtils.logI(SbcbflwUserInfoRepository::class.java, "权限检测，用户${userInfo.userId}没有相关权限")
             return try {
                 notPermissionFun.emptyCheck({
                     baseController.responseErrorUserLoginEmptyOrTokenNoneffective()
@@ -185,6 +185,6 @@ fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, U :
             }
         }
     }
-    SbcbfBaseAllUtils.logUtils.logOptions(SbcbflwBaseUserPermissionType::class.java, "权限检测，用户${userInfo.userId}权限检测通过")
+    SbcbfBaseAllUtils.logUtils.logOptions(SbcbflwUserInfoRepository::class.java, "权限检测，用户${userInfo.userId}权限检测通过")
     return userInfo
 }
