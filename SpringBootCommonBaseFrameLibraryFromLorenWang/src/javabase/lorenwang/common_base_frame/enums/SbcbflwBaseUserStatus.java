@@ -18,23 +18,24 @@ public class SbcbflwBaseUserStatus {
     /**
      * 启用
      */
-    public final static SbcbflwBaseUserStatus ENABLE =
-            new SbcbflwBaseUserStatus(0);
+    public final static SbcbflwBaseUserStatus ENABLE = new SbcbflwBaseUserStatus(-1);
 
     /**
      * 禁用
      */
-    public final static SbcbflwBaseUserStatus DISABLE =
-            new SbcbflwBaseUserStatus(1);
+    public final static SbcbflwBaseUserStatus DISABLE = new SbcbflwBaseUserStatus(-2);
 
     /**
      * 删除
      */
-    public final static SbcbflwBaseUserStatus DELETE =
-            new SbcbflwBaseUserStatus(2);
+    public final static SbcbflwBaseUserStatus DELETE = new SbcbflwBaseUserStatus(-3);
+
+    /**
+     * 状态
+     */
     private final int status;
 
-    public SbcbflwBaseUserStatus(int status) {
+    protected SbcbflwBaseUserStatus(int status) {
         this.status = status;
     }
 

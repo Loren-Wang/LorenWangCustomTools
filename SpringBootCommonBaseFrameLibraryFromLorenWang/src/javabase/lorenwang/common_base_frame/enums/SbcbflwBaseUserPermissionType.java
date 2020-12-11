@@ -18,19 +18,17 @@ public class SbcbflwBaseUserPermissionType {
     /**
      * 超级管理员。该权限可以做任何操作，但是无法删除禁用同级的人，基本上是唯一的
      */
-    public final static SbcbflwBaseUserPermissionType SUPER_ADMIN =
-            new SbcbflwBaseUserPermissionType(-1, "超级管理员权限");
+    public final static SbcbflwBaseUserPermissionType SUPER_ADMIN = new SbcbflwBaseUserPermissionType(-1, "超级管理员权限");
 
     /**
      * 管理员权限，该权限可以做任何操作，但是无法删除禁用同级的人
      */
-    public final static SbcbflwBaseUserPermissionType ADMIN =
-            new SbcbflwBaseUserPermissionType(0, "管理员权限");
+    public final static SbcbflwBaseUserPermissionType ADMIN = new SbcbflwBaseUserPermissionType(-2, "管理员权限");
 
     private final int type;
     private final String des;
 
-    public SbcbflwBaseUserPermissionType(int type, String des) {
+    protected SbcbflwBaseUserPermissionType(int type, String des) {
         this.type = type;
         this.des = des;
     }
