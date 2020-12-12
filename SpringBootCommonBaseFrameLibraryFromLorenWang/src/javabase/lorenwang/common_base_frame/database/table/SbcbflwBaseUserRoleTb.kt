@@ -52,7 +52,7 @@ open class SbcbflwBaseUserRoleTb<T> : SbcbflwBaseTb(), Serializable, Cloneable {
      * 角色名称
      */
     @Column(name = SbcbflwBaseTableConfig.UserRoleColumn.ROLE_PERMISSION, nullable = false)
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = INTERMEDIATE_USER_ROLE_PERMISSION,
             joinColumns = [JoinColumn(name = ROLE_ID, referencedColumnName = SbcbflwBaseTableConfig.UserRoleColumn.ID)],
             inverseJoinColumns = [JoinColumn(name = PERMISSION_ID, referencedColumnName = SbcbflwBaseTableConfig.UserPermissionColumn.ID)])
