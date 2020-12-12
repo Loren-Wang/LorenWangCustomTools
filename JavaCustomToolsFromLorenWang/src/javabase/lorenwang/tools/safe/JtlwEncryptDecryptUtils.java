@@ -8,6 +8,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.dataConversion.JtlwCodeConversionUtil;
 
 /**
  * 功能作用：加密解密工具类
@@ -72,7 +73,7 @@ public class JtlwEncryptDecryptUtils {
             SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), KEY_ALGORITHM);
             IvParameterSpec ivParameterSpec = new IvParameterSpec(ivs.getBytes());
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParameterSpec);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(srcData.getBytes()));
+            return Base64.getEncoder().encodeToString(cipher.doFinal(JtlwCodeConversionUtil.getInstance().unicodeToChinese(srcData).getBytes()));
         } catch (Exception e) {
             return "";
         }
@@ -97,7 +98,7 @@ public class JtlwEncryptDecryptUtils {
             SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), KEY_ALGORITHM);
             IvParameterSpec ivParameterSpec = new IvParameterSpec(ivs.getBytes());
             cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec);
-            byte[] bytes = Base64.getDecoder().decode(srcData);
+            byte[] bytes = Base64.getDecoder().decode(JtlwCodeConversionUtil.getInstance().unicodeToChinese(srcData));
             return new String(cipher.doFinal(bytes));
         } catch (Exception e) {
             return "";

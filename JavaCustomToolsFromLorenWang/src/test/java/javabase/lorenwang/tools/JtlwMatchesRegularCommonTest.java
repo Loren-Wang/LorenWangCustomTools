@@ -34,10 +34,10 @@ public class JtlwMatchesRegularCommonTest {
         String strUrl = "http://tool.chinaz.com/regex/";
         String ipUrl = "http://192.168.2.31:91/regex/";
 
-        System.out.println(JtlwMatchesRegularCommon.getRegexResultList(ipUrl, EXP_URL_IP).get(0));
-        System.out.println(JtlwMatchesRegularCommon.getRegexResultList(strUrl, EXP_URL_STR).get(0));
-        System.out.println(JtlwMatchesRegularCommon.getRegexResultList(ipUrl, EXP_URL).get(0));
-        System.out.println(JtlwMatchesRegularCommon.getRegexResultList(strUrl, EXP_URL).get(0));
+        System.out.println(JtlwMatchesRegularCommon.getRegexResultList(ipUrl, EXP_URL_IP,false).get(0));
+        System.out.println(JtlwMatchesRegularCommon.getRegexResultList(strUrl, EXP_URL_STR,true).get(0));
+        System.out.println(JtlwMatchesRegularCommon.getRegexResultList(ipUrl, EXP_URL,true).get(0));
+        System.out.println(JtlwMatchesRegularCommon.getRegexResultList(strUrl, EXP_URL,true).get(0));
         System.out.println("邮箱验证(aaa@gmail.com)：" + "aaa@gmail.com".matches(EXP_EMAIL));
         System.out.println("邮箱验证(ewrqwer@gmail.com)：" + "ewrqwer@gmail.com".matches(EXP_EMAIL));
         System.out.println("邮箱验证(aaa@a.com)：" + "aaa@gmail.com".matches(EXP_EMAIL));

@@ -32,7 +32,7 @@ public class JtlwEncryptDecryptUtilsTest {
     @Test
     public void decrypt() {
         System.out.println(JtlwEncryptDecryptUtils.getInstance().decrypt(
-                "eSdiPHrCw70GwCK3DcsbIjLcwbYUhMqNmY6g1aV2u43UbqO8EThc+WF655xISYXDVZN8zTMFOultZtGRKc2CzQ==",
+                "eSdiPHrCw70GwCK3DcsbIjLcwbYUhMqNmY6g1aV2u41+xOi/7XU34dgloSrf5B6vdsUpiJ4CPeaF6oT3SMLKjg\\u003d\\u003d",
                 "6pcWBA9PyapDv3Q1", "6pcWBA9PyapDv3Q1"
         ));
     }

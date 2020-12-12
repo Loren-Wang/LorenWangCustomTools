@@ -41,3 +41,8 @@ Java自定义工具类
       4、获取url中指定key的参数
       5、添加网址参数
       6、获取url端口
+
+<h3> JtlwCodeConversionUtil---(编码转换)</h3>
+
+      --中文转unicode编码(chineseToUnicode)
+      --unicode编码转中文(unicodeToChinese)
