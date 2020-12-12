@@ -34,7 +34,7 @@ fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb, R : SbcbflwBaseHttpS
         checkOldCount : Boolean, getNewSaveTbFun : (tbInfo : TB, newRank : Long) -> TB) : String {
     //做数量判断
     if (checkOldCount && rankBean.ids!!.size.compareTo(this.count()) != 0) {
-        return baseController.responseErrorForParams()
+        return baseController.responseErrorForParams(null)
     }
     //更新排行数据
     val list = arrayListOf<TB>()
@@ -43,7 +43,7 @@ fun <CURD : CrudRepository<TB, ID>, ID, TB : SbcbflwBaseTb, R : SbcbflwBaseHttpS
     }
     this.saveAll(list)
     //返回成功信息
-    return baseController.responseSuccess(null)
+    return baseController.responseSuccess(null, null)
 }
 
 

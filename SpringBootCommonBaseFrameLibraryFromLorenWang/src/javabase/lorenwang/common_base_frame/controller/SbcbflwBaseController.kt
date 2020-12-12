@@ -73,11 +73,15 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <T> responseContent(stateCode : String, stateMessage : String, obj : T?) : String {
+    fun <T> responseContent(request : R?, stateCode : String, stateMessage : String, obj : T?) : String {
         val baseResponseBean = KttlwBaseNetResponseBean(obj)
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
-        return JdplwJsonUtils.toJson(baseResponseBean)
+        val toJson = JdplwJsonUtils.toJson(baseResponseBean)
+        if (request != null) {
+            SbcbfBaseAllUtils.logUtils.logI(javaClass, "请求地址：${request.servletPath}，数据：${toJson}")
+        }
+        return toJson
     }
 
     /**
@@ -88,22 +92,19 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <T> responseContentCode(stateCode : String, stateMessageCode : String, obj : T?) : String {
-        val baseResponseBean = KttlwBaseNetResponseBean(obj)
-        baseResponseBean.stateCode = stateCode
-        baseResponseBean.stateMessage = getMessage(stateMessageCode)
-        return JdplwJsonUtils.toJson(baseResponseBean)
+    fun <T> responseContentCode(request : R?, stateCode : String, stateMessageCode : String, obj : T?) : String {
+        return responseContent(request, stateCode, getMessage(stateMessageCode), obj)
     }
 
     /**
      * 响应数据状态处理
      */
-    fun responseDataDisposeStatus(bean : SbcbflwBaseDataDisposeStatusBean) : String {
+    fun responseDataDisposeStatus(request : R?, bean : SbcbflwBaseDataDisposeStatusBean) : String {
         return if (bean.repDataList) {
-            responseDataListContent(bean.statusCode!!, if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else getMessage(bean.statusMsgCode),
+            responseDataListContent(request, bean.statusCode!!, if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else getMessage(bean.statusMsgCode),
                     bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
         } else {
-            responseContent(bean.statusCode!!, getMessage(bean.statusMsgCode), bean.body)
+            responseContent(request, bean.statusCode!!, getMessage(bean.statusMsgCode), bean.body)
         }
     }
 
@@ -115,12 +116,9 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @return 格式化后字符串
     </T> */
     fun <E, T : ArrayList<E>> responseDataListContent(
-            stateCode : String, stateMessage : String, pageIndex : Int,
+            request : R?, stateCode : String, stateMessage : String, pageIndex : Int,
             pageSize : Int, sumCount : Long, dataList : T) : String {
-        val baseResponseBean = KttlwBaseNetResponseBean(KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
-        baseResponseBean.stateCode = stateCode
-        baseResponseBean.stateMessage = stateMessage
-        return JdplwJsonUtils.toJson(baseResponseBean)
+        return responseContent(request, stateCode, stateMessage, KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
     }
 
     /**
@@ -131,22 +129,19 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @return 格式化后字符串
     </T> */
     fun <E, T : ArrayList<E>> responseDataListContentCode(
-            stateCode : String, stateMessageCode : String, pageIndex : Int,
+            request : R?, stateCode : String, stateMessageCode : String, pageIndex : Int,
             pageSize : Int, sumCount : Long, dataList : T) : String {
-        val baseResponseBean = KttlwBaseNetResponseBean(KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
-        baseResponseBean.stateCode = stateCode
-        baseResponseBean.stateMessage = getMessage(stateMessageCode)
-        return JdplwJsonUtils.toJson(baseResponseBean)
+        return responseContent(request, stateCode, getMessage(stateMessageCode), KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
     }
 
     /**
      * 响应数据
      */
-    fun responseData(result : Any?) : String {
+    fun responseData(request : R?, result : Any?) : String {
         return when (result) {
             //如果是类型的话则按类型处理
             is SbcbflwBaseDataDisposeStatusBean -> {
-                responseDataDisposeStatus(result)
+                responseDataDisposeStatus(request, result)
             }
             //如果是字符串的话则直接返回
             is String -> {
@@ -154,7 +149,7 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
             }
             else -> {
                 //如果是其他的则为未知错误
-                responseFailForUnKnow()
+                responseFailForUnKnow(request)
             }
         }
     }
@@ -162,31 +157,31 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
     /**
      * 参数异常响应
      */
-    abstract fun responseErrorForParams() : String
+    abstract fun responseErrorForParams(request : R?) : String
 
     /**
      * 数据响应成功
      */
-    abstract fun responseSuccess(data : Any?) : String
+    abstract fun responseSuccess(request : R?, data : Any?) : String
 
     /**
      * 数据删除失败
      */
-    abstract fun responseDeleteFail() : String
+    abstract fun responseDeleteFail(request : R?) : String
 
     /**
      * 未知错误失败
      */
-    abstract fun responseFailForUnKnow() : String
+    abstract fun responseFailForUnKnow(request : R?) : String
 
     /**
      * 登录验证失败,用户未登录或者token失效
      */
-    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective() : String
+    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective(request : R?) : String
 
     /**
      * 无权限异常
      */
-    abstract fun responseErrorNotPermission() : String
+    abstract fun responseErrorNotPermission(request : R?) : String
 
 }

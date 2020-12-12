@@ -22,7 +22,7 @@ abstract class SbcbflwUserService : SbcbflwBaseService {
     /**
      * 密码长度，默认10位
      */
-    protected var passwordLength: Int = 10
+    protected var passwordLength : Int = 10
 
     /**
      * 是否加密了token，自动调用，当执行过加密方法之后会被自动设置为true
@@ -32,35 +32,35 @@ abstract class SbcbflwUserService : SbcbflwBaseService {
     /**
      * 通过请求头获取用户token
      */
-    abstract fun getAccessTokenByReqHeader(request: SbcbflwBaseHttpServletRequestWrapper): String?
+    abstract fun getAccessTokenByReqHeader(request : SbcbflwBaseHttpServletRequestWrapper) : String?
 
     /**
      * 检查token是否有效
      */
-    abstract fun checkAccessTokenEffective(token: String?): SbcbflwBaseDataDisposeStatusBean
+    abstract fun checkAccessTokenEffective(token : String?) : SbcbflwBaseDataDisposeStatusBean
 
     /**
      * 根据用户token获取用户id
      */
-    abstract fun getUserIdByAccessToken(token: String?): String?
+    abstract fun getUserIdByAccessToken(token : String?) : String?
 
     /**
      * 检测用户是否已经登录
      */
-    abstract fun checkUserLogin(request: SbcbflwBaseHttpServletRequestWrapper): SbcbflwBaseDataDisposeStatusBean
+    abstract fun checkUserLogin(request : SbcbflwBaseHttpServletRequestWrapper) : SbcbflwBaseDataDisposeStatusBean
 
     /**
      * 刷新用户token
      */
-    abstract fun refreshAccessToken(token: String): String
+    abstract fun refreshAccessToken(token : String) : String
 
     /**
      * 生成密码,可能为空
      */
-    fun generatePassword(): String? {
+    fun generatePassword() : String? {
         return try {
             SbcbflwRandomStringUtils.randomAlphanumeric(passwordLength)
-        } catch (e: Exception) {
+        } catch (e : Exception) {
             null
         }
     }
@@ -68,7 +68,7 @@ abstract class SbcbflwUserService : SbcbflwBaseService {
     /**
      * 加密token
      */
-    fun encryptAccessToken(token: String): String? {
+    fun encryptAccessToken(token : String) : String? {
         encryptAccessToken = true
         return SbcbflwEncryptDecryptUtils.instance.encrypt(token)
     }
@@ -76,11 +76,12 @@ abstract class SbcbflwUserService : SbcbflwBaseService {
     /**
      * 解密token
      */
-    fun decryptAccessToken(token: String): String? {
+    fun decryptAccessToken(token : String) : String? {
         return if (encryptAccessToken) {
             SbcbflwEncryptDecryptUtils.instance.decrypt(token)
         } else {
             token
         }
     }
+
 }

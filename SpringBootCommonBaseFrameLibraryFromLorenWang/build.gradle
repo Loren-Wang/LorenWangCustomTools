@@ -35,7 +35,7 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.5.RELEASE'
 
     //java工具类库
-    compileOnly 'com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.2'
+    compileOnly 'com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.9'
     //java数据格式化类库
     compileOnly 'com.github.lorenwang:JavaDataParseFromLorenWang:2.0.0'
     //kotlin工具类
@@ -67,7 +67,7 @@ dependencies {
 
 def moduleName = "SpringBootCommonBaseFrameLibraryFromLorenWang"
 def moduleDescription = "SpringBoot通用基础框架包"
-version '1.4.8'
+version '1.4.9'
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

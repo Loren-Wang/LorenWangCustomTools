@@ -20,6 +20,7 @@ import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBea
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb;
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.dataConversion.JtlwCodeConversionUtil;
 import kotlin.jvm.Throws;
 
 import static javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapperKt.REQUEST_SET_USER_INFO_KEY;
@@ -108,30 +109,42 @@ public abstract class SbcbflwBaseControllerFilter<T extends SbcbflwBaseHttpServl
             //做该关键字拦截，因为后面要用到该关键字所有信息，所以此处要拦截，防止被攻击时传递该参数导致能够获取响应用户权限数据
             req.setAttribute(REQUEST_SET_USER_INFO_KEY, "");
 
+            //请求地址
+            String reqUrl = req.getRequestURI();
+
             //token检测
-            SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "接收到接口请求，开始检测用户登录状态，如果有token的话", false);
             if (JtlwCheckVariateUtils.getInstance().isEmpty(SbcbflwCommon.getInstance().getUserService().getAccessTokenByReqHeader(req))) {
+                SbcbfBaseAllUtils.getLogUtils().logI(getClass(), reqUrl + "接收到无token接口请求，正常发起", false);
                 //正常发起请求
                 chain.doFilter(req, response);
             } else {
+                SbcbfBaseAllUtils.getLogUtils().logI(getClass(), reqUrl + "接收到token接口请求，开始校验用户信息", false);
                 SbcbflwBaseDataDisposeStatusBean userStatus = SbcbflwCommon.getInstance().getUserService().checkUserLogin(req);
                 if (userStatus.getStatusResult() && userStatus.getBody() != null && userStatus.getBody() instanceof SbcbflwBaseUserInfoTb) {
+                    SbcbfBaseAllUtils.getLogUtils().logD(getClass(), reqUrl + "用户信息校验完毕,当前用户存在并是登录状态", false);
+                    //开始进行编码转换
                     String accessToken =
-                            ((SbcbflwBaseUserInfoTb) userStatus.getBody()).getAccessToken();
-                    SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "该用户存在，token有效，执行刷新逻辑，来决定是否刷新信息"
-                            , false);
+                            JtlwCodeConversionUtil.getInstance().unicodeToChinese(((SbcbflwBaseUserInfoTb) userStatus.getBody()).getAccessToken());
+                    //获取刷新后token信息
                     String newToken = SbcbflwCommon.getInstance().getUserService().refreshAccessToken(accessToken);
+                    //判断刷新后token和当前token是否一致，一致则不进行处理
                     if (JtlwCheckVariateUtils.getInstance().isNotEmpty(newToken) && accessToken.equals(newToken)) {
                         ((SbcbflwBaseUserInfoTb) userStatus.getBody()).setAccessToken(newToken);
-                        rep.setHeader(SbcbflwCommon.getInstance().getUserService().getAccessTokenByReqHeader(req), newToken);
-                        req.addHeader(SbcbflwCommon.getInstance().getUserService().getAccessTokenByReqHeader(req), newToken);
+                        rep.setHeader(getHeaderAccessTokenKey(), newToken);
+                        req.addHeader(getHeaderAccessTokenKey(), newToken);
                         SbcbfBaseAllUtils.getLogUtils().logI(getClass(), "token已更新", false);
+                    } else {
+                        //更新转码后的旧token
+                        ((SbcbflwBaseUserInfoTb) userStatus.getBody()).setAccessToken(accessToken);
+                        rep.setHeader(getHeaderAccessTokenKey(), accessToken);
+                        req.addHeader(getHeaderAccessTokenKey(), accessToken);
                     }
                     req.setAttribute(REQUEST_SET_USER_INFO_KEY, userStatus.getBody());
                     //正常发起请求
+                    SbcbfBaseAllUtils.getLogUtils().logD(getClass(), reqUrl + "正常发起请求", false);
                     chain.doFilter(req, response);
                 } else {
-                    SbcbfBaseAllUtils.getLogUtils().logD(getClass(), "token无效或者不存在，生成提示信息", false);
+                    SbcbfBaseAllUtils.getLogUtils().logD(getClass(), reqUrl + "token无效或者不存在", false);
                     String responseFailInfo = responseErrorUser(userStatus);
                     //通过设置响应头控制浏览器以UTF-8的编码显示数据
                     rep.setHeader("content-type", "text/html;charset=UTF-8");
@@ -163,10 +176,19 @@ public abstract class SbcbflwBaseControllerFilter<T extends SbcbflwBaseHttpServl
 
     /**
      * 格式化
+     *
      * @param request 默认进入的请求
      * @return 格式化的请求
      */
     @NotNull
     public abstract T paramsRequest(ServletRequest request);
+
+    /**
+     * 获取header中accessToken使用的关键字
+     *
+     * @return key值关键字
+     */
+    @NotNull
+    public abstract String getHeaderAccessTokenKey();
 
 }
