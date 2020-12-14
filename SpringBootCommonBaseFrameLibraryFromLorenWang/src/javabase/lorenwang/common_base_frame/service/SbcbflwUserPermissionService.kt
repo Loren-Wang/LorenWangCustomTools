@@ -40,8 +40,8 @@ abstract class SbcbflwUserPermissionService<R : SbcbflwBaseHttpServletRequestWra
         }
         bean.permissionRole = mutableSetOf
         var repBean = getUserPermissionRepository().save(bean)
-        if (repBean.permissionId.isNullOrEmpty() && repBean._ID != null) {
-            repBean.permissionId = repBean._ID.toString()
+        if (repBean.permissionId.isEmpty()) {
+            repBean.permissionId = repBean.permissionId
             repBean = getUserPermissionRepository().save(repBean)
         }
         return repBean

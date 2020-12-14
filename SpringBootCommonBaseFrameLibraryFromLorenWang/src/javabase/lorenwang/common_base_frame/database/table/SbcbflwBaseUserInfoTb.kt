@@ -67,7 +67,7 @@ open class SbcbflwBaseUserInfoTb<T, ROLE_TB : SbcbflwBaseUserRoleTb<T>> : Sbcbfl
     /**
      * 用户角色
      */
-    @JoinColumn(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ROLE, nullable = false, columnDefinition = "bigint comment '用户角色'")
+    @JoinColumn(name = SbcbflwBaseTableConfig.UserInfoColumn.USER_ROLE, nullable = false, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '用户角色'")
     @ManyToOne
     var userRole : ROLE_TB? = null
 

@@ -33,10 +33,10 @@ abstract class SbcbflwUserRoleService<R : SbcbflwBaseHttpServletRequestWrapper,
             it.permissionRole = mutableSetOf()
             mutableSetOf.add(it)
         }
-        bean.permission = mutableSetOf
+        bean.permission = mutableSetOf()
         var repBean = getUserRoleRepository().save(bean)
-        if (repBean.roleId.isNullOrEmpty() && repBean._ID != null) {
-            repBean.roleId = repBean._ID.toString()
+        if (repBean.roleId.isEmpty()) {
+            repBean.roleId = repBean.roleId
             repBean = getUserRoleRepository().save(repBean)
         }
         return repBean

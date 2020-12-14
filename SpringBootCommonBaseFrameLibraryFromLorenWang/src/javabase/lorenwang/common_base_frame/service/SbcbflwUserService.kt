@@ -2,6 +2,8 @@ package javabase.lorenwang.common_base_frame.service
 
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
+import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserPermissionTb
+import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
 import javabase.lorenwang.common_base_frame.safe.SbcbflwEncryptDecryptUtils
 import javabase.lorenwang.common_base_frame.utils.SbcbflwRandomStringUtils
 
@@ -18,7 +20,7 @@ import javabase.lorenwang.common_base_frame.utils.SbcbflwRandomStringUtils
  *
  * @author 王亮（Loren wang）
  */
-abstract class SbcbflwUserService : SbcbflwBaseService {
+abstract class SbcbflwUserService: SbcbflwBaseService {
     /**
      * 密码长度，默认10位
      */
@@ -83,5 +85,12 @@ abstract class SbcbflwUserService : SbcbflwBaseService {
             token
         }
     }
+
+    /**
+     * 新增新用户
+     * @param account 用户名称
+     * @param roleType 角色类型
+     */
+    abstract fun addNewUser(account : String, phoneNum : String, roleType : Int)
 
 }

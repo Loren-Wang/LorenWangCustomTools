@@ -3,6 +3,7 @@ package javabase.lorenwang.common_base_frame.database.table
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import javabase.lorenwang.tools.common.JtlwCommonUtils
+import org.hibernate.annotations.Cascade
 import java.io.Serializable
 import javax.persistence.*
 
@@ -20,38 +21,30 @@ import javax.persistence.*
 @MappedSuperclass
 @JsonAutoDetect
 open class SbcbflwBaseUserPermissionTb<T> : SbcbflwBaseTb(), Serializable, Cloneable {
-    /**
-     * 主键id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var _ID: Long? = null
 
     /**
      * 权限id
      */
-    @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.ID,  columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY}  comment '权限id'")
-    var permissionId: String = JtlwCommonUtils.getInstance().generateUuid(true)
+    @Id
+    @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.ID, columnDefinition = "${SbcbflwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY}  comment '权限id'")
+    var permissionId : String = JtlwCommonUtils.getInstance().generateUuid(true)
 
     /**
      * 权限名称
      */
     @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.PERMISSION_NAME, nullable = false, columnDefinition = "varchar(100) comment '权限名称'")
-    var permissionName: String? = null
+    var permissionName : String? = null
 
     /**
      * 权限类型
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.TYPE, nullable = false, columnDefinition = "int comment '角色类型'")
-    var type: Int? = null
+    var type : Int? = null
 
     /**
      * 角色名称
      */
     @Column(name = SbcbflwBaseTableConfig.UserPermissionColumn.PERMISSION_ROLE, nullable = false)
-    @ManyToMany
-    @JoinTable(name = SbcbflwBaseTableConfig.TableName.INTERMEDIATE_USER_ROLE_PERMISSION,
-            inverseJoinColumns = [JoinColumn(name = SbcbflwBaseTableConfig.IntermediateUserRolePermissionColumn.ROLE_ID, referencedColumnName = SbcbflwBaseTableConfig.UserRoleColumn.ID)],
-            joinColumns = [JoinColumn(name = SbcbflwBaseTableConfig.IntermediateUserRolePermissionColumn.PERMISSION_ID, referencedColumnName = SbcbflwBaseTableConfig.UserPermissionColumn.ID)])
-    var permissionRole: MutableSet<T>? = null
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER, mappedBy = SbcbflwBaseTableConfig.UserRoleColumn.ROLE_PERMISSION)
+    var permissionRole : MutableSet<T>? = null
 }
