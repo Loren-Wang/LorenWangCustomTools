@@ -19,46 +19,46 @@ import kotlinbase.lorenwang.tools.extend.toJsonData
  *
  * @author 王亮（Loren wang）
  */
-open class BaseController : SbcbflwBaseController() {
+open class BaseController : SbcbflwBaseController<BaseHttpServletRequestWrapper>() {
     /**
      * 数据删除失败
      */
-    override fun responseDeleteFail() : String {
+    override fun responseDeleteFail(request : BaseHttpServletRequestWrapper?) : String {
         return getResponseData(NetRepStatusEnum.DATA_DELETE_FAIL)
     }
 
     /**
      * 参数异常响应
      */
-    override fun responseErrorForParams() : String {
+    override fun responseErrorForParams(request : BaseHttpServletRequestWrapper?) : String {
         return getResponseData(NetRepStatusEnum.PARAMS_ERROR)
     }
 
     /**
      * 无权限异常
      */
-    override fun responseErrorNotPermission() : String {
+    override fun responseErrorNotPermission(request : BaseHttpServletRequestWrapper?) : String {
         return getResponseData(NetRepStatusEnum.USER_HAVE_NOT_PERMISSION)
     }
 
     /**
      * 登录验证失败,用户未登录或者token失效
      */
-    override fun responseErrorUserLoginEmptyOrTokenNoneffective() : String {
+    override fun responseErrorUserLoginEmptyOrTokenNoneffective(request : BaseHttpServletRequestWrapper?) : String {
         return getResponseData(NetRepStatusEnum.USER_NOT_LOGIN_OR_TOKEN_FAILURE)
     }
 
     /**
      * 未知错误失败
      */
-    override fun responseFailForUnKnow() : String {
+    override fun responseFailForUnKnow(request : BaseHttpServletRequestWrapper?) : String {
         return getResponseData(NetRepStatusEnum.FAIL_UN_KNOW)
     }
 
     /**
      * 数据响应成功
      */
-    override fun responseSuccess(data : Any?) : String {
+    override fun responseSuccess(request : BaseHttpServletRequestWrapper?, data : Any?) : String {
         return getResponseData(NetRepStatusEnum.SUCCESS, data)
     }
 

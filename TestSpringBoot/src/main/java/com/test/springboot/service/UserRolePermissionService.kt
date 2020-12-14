@@ -5,9 +5,7 @@ import com.test.springboot.database.repository.UserPermissionRepository
 import com.test.springboot.database.table.UserInfoTb
 import com.test.springboot.database.table.UserPermissionTb
 import com.test.springboot.database.table.UserRoleTb
-import com.test.springboot.enums.UserPermissionType
-import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
-import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserPermissionRepository
+import com.test.springboot.enums.UserPermissionTypeEnum
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserPermissionService
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -25,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired
  * @author 王亮（Loren wang）
  */
 abstract class UserRolePermissionService : SbcbflwUserPermissionService<BaseHttpServletRequestWrapper,
-        UserPermissionTb,UserRoleTb,UserInfoTb,UserPermissionType, UserPermissionRepository>() {
+        UserPermissionTb,UserRoleTb,UserInfoTb,UserPermissionTypeEnum, UserPermissionRepository>() {
     @Autowired
     protected lateinit var permissionsRepository : UserPermissionRepository
 }

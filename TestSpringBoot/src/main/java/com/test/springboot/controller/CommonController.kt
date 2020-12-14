@@ -1,14 +1,11 @@
 package com.test.springboot.controller
 
 import com.test.springboot.base.BaseController
-import com.test.springboot.kotlinExtend.controllerCheckAndOptions
+import com.test.springboot.base.BaseHttpServletRequestWrapper
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import javabase.lorenwang.common_base_frame.kotlinExtend.sbcbflwControllerCheckAndOptions
+import org.springframework.web.bind.annotation.*
 
 /**
  * 功能作用：通用接口请求
@@ -27,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/")
 @Api(tags = ["test"], description = "test")
 class CommonController : BaseController() {
-    @PostMapping("test")
-    @ApiOperation(value = "test", httpMethod = "POST")
-    fun submit(request : SbcbflwBaseHttpServletRequestWrapper, @RequestBody reqBean : Object) : String {
+
+    @GetMapping("test")
+    @ApiOperation(value = "test", httpMethod = "GET")
+    fun submit(request : BaseHttpServletRequestWrapper, reqBean : String) : String {
         super.base(request, reqBean)
-        return request.controllerCheckAndOptions(arrayOf(reqBean), this) {
-            return@controllerCheckAndOptions responseSuccess(null)
+        return sbcbflwControllerCheckAndOptions(request, arrayOf(reqBean), this) {
+            responseSuccess(request, null)
         }
     }
 }

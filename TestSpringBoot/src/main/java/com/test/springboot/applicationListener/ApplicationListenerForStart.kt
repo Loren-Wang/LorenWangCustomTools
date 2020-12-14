@@ -1,8 +1,8 @@
 package com.test.springboot.applicationListener
 
-import com.qtoolsbaby.servicemmxs.config.PropertiesConfig
+import com.test.springboot.config.PropertiesConfig
 import com.test.springboot.config.DataBaseTableVersionUpdateOptions
-import com.test.springboot.utils.LogUtils
+import com.test.springboot.utils.LogUtil
 import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
@@ -23,7 +23,7 @@ class ApplicationListenerForStart : ApplicationListener<ApplicationReadyEvent> {
 
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
 
-        LogUtils.instance.logI(javaClass, "开始初始化设置配置信息")
+        LogUtil.instance.logI(javaClass, "开始初始化设置配置信息")
         //启动后初始化阿里云oss的配置信息
         SbcbflwCommon.instance.initBase(event.applicationContext, event.applicationContext.getBean(PropertiesConfig::class.java))
         //数据库版本更新初始化

@@ -1,4 +1,4 @@
-package com.qtoolsbaby.servicemmxs.config
+package com.test.springboot.config
 
 import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwPropertiesConfig
 import org.springframework.beans.factory.annotation.Value
