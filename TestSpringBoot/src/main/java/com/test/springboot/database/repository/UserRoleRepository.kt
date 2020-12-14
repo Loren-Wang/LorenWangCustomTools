@@ -17,4 +17,4 @@ import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserRoleR
  *
  * @author 王亮（Loren ）
  */
-abstract class UserRoleRepository : SbcbflwUserRoleRepository<UserPermissionTb, UserRoleTb>()
+interface UserRoleRepository : SbcbflwUserRoleRepository<UserPermissionTb, UserRoleTb>
