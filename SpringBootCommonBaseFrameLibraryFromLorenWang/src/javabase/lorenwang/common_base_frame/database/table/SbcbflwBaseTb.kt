@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
-import java.sql.Date
-import java.sql.Timestamp
+import java.time.ZonedDateTime
+import java.util.*
 import javax.persistence.Column
+import javax.persistence.EntityListeners
 import javax.persistence.MappedSuperclass
 
 /**
@@ -23,17 +27,19 @@ import javax.persistence.MappedSuperclass
  */
 @MappedSuperclass
 @JsonAutoDetect
+@EntityListeners(AuditingEntityListener::class)
 open class SbcbflwBaseTb : Serializable, Cloneable {
     /**
      * 创建时间
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.CREATE_TIME, updatable = false, columnDefinition = "DATETIME comment '创建时间'")
-    @CreationTimestamp
-    var createTime: Date? = null
+    @CreatedDate
+    var createTime : Date? = null
+
     /**
      * 更新时间时间
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.UPDATE_TIME, columnDefinition = "DATETIME comment '更新时间'")
-    @UpdateTimestamp
-    var updateTime: Date? = null
+    @LastModifiedDate
+    var updateTime : Date? = null
 }
