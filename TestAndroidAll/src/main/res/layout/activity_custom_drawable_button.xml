@@ -7,232 +7,205 @@
     tools:context=".activity.textview.CustomDrawableButtonActivity"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.textview.CustomDrawableButtonActivity"
         android:orientation="vertical">
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="15dp"
-            app:drawableHeight="30dp"
-            app:drawablePosi="DRAWABLE_POSI_LEFT"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFixedWidthHeightTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="15dp"
-            app:drawableHeight="15dp"
-            app:drawablePosi="DRAWABLE_POSI_LEFT"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            android:text="@string/custom_drawable_button_fixed_width_height_title" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="200dp"
-            app:drawableHeight="15dp"
-            app:drawablePosi="DRAWABLE_POSI_LEFT"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            android:orientation="vertical">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_drawable_button_fixed_width_height_left" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="center_horizontal"
+                tools:ignore="MissingPrefix" />
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="15dp"
-            app:drawableHeight="30dp"
-            app:drawablePosi="DRAWABLE_POSI_RIGHT"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="center"
+                tools:ignore="MissingPrefix" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="start"
+                tools:ignore="MissingPrefix" />
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="15dp"
-            app:drawableHeight="15dp"
-            app:drawablePosi="DRAWABLE_POSI_RIGHT"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="top"
+                android:paddingStart="120dp"
+                android:paddingEnd="30dp"
+                tools:ignore="MissingPrefix" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="end"
+                android:paddingStart="80dp"
+                tools:ignore="MissingPrefix,RtlSymmetry" />
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="200dp"
-            app:drawableHeight="15dp"
-            app:drawablePosi="DRAWABLE_POSI_RIGHT"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_drawable_button_fixed_width_height_top" />
 
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="top"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                tools:ignore="MissingPrefix" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="top"
+                android:text="啊"
+                android:paddingTop="50dp"
+                android:paddingBottom="20dp"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                tools:ignore="MissingPrefix" />
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="15dp"
-            app:drawableHeight="30dp"
-            app:drawablePosi="DRAWABLE_POSI_TOP"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="top"
+                android:gravity="center"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                tools:ignore="MissingPrefix" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="top"
+                android:gravity="start"
+                android:paddingEnd="30dp"
+                tools:ignore="MissingPrefix" />
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="15dp"
-            app:drawableHeight="15dp"
-            app:drawablePosi="DRAWABLE_POSI_TOP"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="top"
+                android:gravity="top"
+                android:paddingStart="120dp"
+                android:paddingEnd="30dp"
+                tools:ignore="MissingPrefix" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="top"
+                android:gravity="end"
+                android:paddingStart="80dp"
+                tools:ignore="MissingPrefix,RtlSymmetry" />
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="200dp"
-            app:drawableHeight="200dp"
-            app:drawablePosi="DRAWABLE_POSI_TOP"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_drawable_button_fixed_width_height_right" />
 
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="right"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:paddingBottom="20dp"
+                tools:ignore="MissingPrefix" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="15dp"
-            app:drawableHeight="30dp"
-            app:drawablePosi="DRAWABLE_POSI_BOTTOM"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="right"
+                android:gravity="center"
+                android:paddingStart="90dp"
+                android:paddingEnd="50dp"
+                tools:ignore="MissingPrefix" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="right"
+                android:gravity="start"
+                android:paddingStart="120dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="20dp"
+                tools:ignore="MissingPrefix" />
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="15dp"
-            app:drawableHeight="15dp"
-            app:drawablePosi="DRAWABLE_POSI_BOTTOM"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="bottom"
+                android:gravity="top"
+                android:paddingEnd="50dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="40dp"
+                tools:ignore="MissingPrefix,RtlSymmetry" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="bottom"
+                android:gravity="end"
+                android:paddingStart="80dp"
+                tools:ignore="MissingPrefix,RtlSymmetry" />
 
-        <android.lorenwang.customview.texiview.AvlwCustomDrawableButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f00"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="还好"
-            android:textSize="30sp"
-            app:drawableWidth="200dp"
-            app:drawableHeight="15dp"
-            app:drawablePosi="DRAWABLE_POSI_BOTTOM"
-            app:drawableResId="@drawable/image_default"
-            tools:ignore="MissingPrefix" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_drawable_button_fixed_width_height_bottom" />
 
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="bottom"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:paddingBottom="20dp"
+                tools:ignore="MissingPrefix" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="bottom"
+                android:gravity="center"
+                android:paddingStart="90dp"
+                android:paddingEnd="50dp"
+                tools:ignore="MissingPrefix" />
+
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="bottom"
+                android:gravity="start"
+                android:paddingStart="120dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="20dp"
+                tools:ignore="MissingPrefix" />
+
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="bottom"
+                android:gravity="top"
+                android:paddingEnd="50dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="40dp"
+                tools:ignore="MissingPrefix,RtlSymmetry" />
+
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="bottom"
+                android:gravity="end"
+                android:paddingStart="80dp"
+                tools:ignore="MissingPrefix,RtlSymmetry" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

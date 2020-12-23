@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AvlwFixedWidthHeightDrawableButton">
+        <!--图标显示位置-->
+        <attr name="avlwDrawablePosition">
+            <enum name="left" value="1" />
+            <enum name="top" value="2" />
+            <enum name="right" value="3" />
+            <enum name="bottom" value="4" />
+        </attr>
+        <!--图标显示宽度-->
+        <attr name="avlwDrawableWidth" format="dimension" />
+        <!--图标渲染颜色-->
+        <attr name="avlwDrawableTint" format="color" />
+        <!--图标显示高度-->
+        <attr name="avlwDrawableHeight" format="dimension" />
+        <!--图标和文本的间距-->
+        <attr name="avlwDrawableTextDistance" format="dimension" />
+        <!--图标显示资源-->
+        <attr name="avlwDrawableResId" format="reference" />
+    </declare-styleable>
+
+</resources>

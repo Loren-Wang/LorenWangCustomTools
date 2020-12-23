@@ -8,6 +8,28 @@
     <string name="dialog_confirm_cancel">确认取消弹窗</string>
     <string name="dialog_only_button">单按钮中心弹窗</string>
 
+    <string name="page_type_custom_image_view">图片控件</string>
+    <string name="page_type_glide_image_loading">glide图片加载</string>
+    <string name="page_type_brightness">屏幕亮度调节</string>
+    <string name="page_type_file_scan">文件扫描</string>
+    <string name="page_type_custom_view_sidebar">SideBar</string>
+    <string name="page_type_horizontal_slip_tab">水平切换tab</string>
+    <string name="page_type_custom_view_tab_layout">TabLayout</string>
+    <string name="page_type_custom_view_switch_buttom">切换按钮</string>
+    <string name="page_type_custom_view_smart_refresh_layout">SmartRefreshLayout</string>
+    <string name="page_type_file_options">文件操作按钮</string>
+    <string name="page_type_toast">吐司Toast页面</string>
+    <string name="page_type_data_parse">数据格式化页面</string>
+    <string name="page_type_mobile_contancts">手机联系人操作</string>
+    <string name="page_type_mobile_sms">获取Sms</string>
+    <string name="page_type_graphic_code_scan">图形码扫描</string>
+    <string name="page_type_custom_view_recycle_viewpager">RecycleviewViewPager</string>
+    <string name="page_type_custom_view_show_price_text">金额文本显示</string>
+    <string name="page_type_custom_view_show_quantity_of_commodity">数量变化修改组件</string>
+    <string name="page_type_custom_view_banner">Banner列表</string>
+    <string name="page_type_custom_view_viewpager_2">ViewPager2嵌套ViewPager2</string>
+    <string name="page_type_custom_view_dialog">弹窗相关</string>
+    <string name="page_type_anims">动画相关</string>
     <string name="anim_translate_y">Y轴平移动画</string>
     <string name="anim_translate_x">X轴平移动画</string>
     <string name="anim_translate_xy">XY轴同时平移动画</string>
@@ -28,4 +50,18 @@
     <string name="anim_rotate_obj">旋转属性动画</string>
     <string name="anim_alpha_obj">透明属性动画</string>
     <string name="page_type_bluetooth">蓝牙相关页面</string>
+
+
+    <string name="custom_drawable_button_fixed_width_height_title">固定宽高按钮</string>
+    <string name="page_type_zoom_image">缩放图片相关</string>
+    <string name="page_type_title_bar">标题栏类型</string>
+    <string name="page_type_progress">进度条</string>
+    <string name="page_type_custom_drawable_button">CustomDrawableButton</string>
+    <string name="page_type_banner_viewpager">Banner和ViewPager嵌套页面</string>
+    <string name="page_type_code_generate">图形码生成</string>
+    <string name="custom_drawable_button_fixed_width_height_left">图标左</string>
+    <string name="custom_drawable_button_fixed_width_height_top">图标上</string>
+    <string name="custom_drawable_button_fixed_width_height_right">图标右</string>
+    <string name="custom_drawable_button_fixed_width_height_bottom">图标下</string>
+
 </resources>

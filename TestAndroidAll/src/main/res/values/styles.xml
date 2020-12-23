@@ -55,4 +55,17 @@
         <item name="avlwTitleTextSize">@dimen/textSize16</item>
         <item name="avlwTitleTextColor">#464646</item>
     </style>
+
+    <!--默认标题栏样式-->
+    <style name="FixedWidthHeightDrawableButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="avlwDrawableWidth">25dp</item>
+        <item name="avlwDrawableHeight">25dp</item>
+        <item name="avlwDrawableTextDistance">5dp</item>
+        <item name="avlwDrawableResId">@drawable/image_default</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
 </resources>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAnim"
+            style="@style/MainButtons"
+            android:text="@string/page_type_anims" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBlue"
+            style="@style/MainButtons"
+            android:text="@string/page_type_bluetooth" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnImageView"
+            style="@style/MainButtons"
+            android:text="@string/page_type_custom_image_view" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnImageLoadForGlide"
+            style="@style/MainButtons"
+            android:text="@string/page_type_glide_image_loading" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBrightness"
+            style="@style/MainButtons"
+            android:text="@string/page_type_brightness" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFileOptionsForScan"
+            android:text="@string/page_type_file_scan"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSideBar"
+            android:text="@string/page_type_custom_view_sidebar"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHorizontalSlipTabLayout"
+            android:text="@string/page_type_horizontal_slip_tab"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTabLayout"
+            android:text="@string/page_type_custom_view_tab_layout"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSwitchButton"
+            android:text="@string/page_type_custom_view_switch_buttom"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSmartRefreshLayout"
+            android:text="@string/page_type_custom_view_smart_refresh_layout"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFileOptions"
+            android:text="@string/page_type_file_options"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnToast"
+            android:text="@string/page_type_toast"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDataParse"
+            android:text="@string/page_type_data_parse"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnMobileContacts"
+            android:text="@string/page_type_mobile_contancts"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnMobileSms"
+            android:text="@string/page_type_mobile_sms"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScanCode"
+            android:text="@string/page_type_graphic_code_scan"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRecycleViewPager"
+            android:text="@string/page_type_custom_view_recycle_viewpager"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnShowPriceText"
+            android:text="@string/page_type_custom_view_show_price_text"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnShowQuantityOfCommodity"
+            android:text="@string/page_type_custom_view_show_quantity_of_commodity"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBanner"
+            android:text="@string/page_type_custom_view_banner"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnViewPager2"
+            android:text="@string/page_type_custom_view_viewpager_2"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDialogs"
+            android:text="@string/page_type_custom_view_dialog"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnZoomableImageView"
+            android:text="@string/page_type_zoom_image"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTitleBarHeadView"
+            android:text="@string/page_type_title_bar"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnProgress"
+            style="@style/MainButtons"
+            android:text="@string/page_type_progress" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCustomDrawableButton"
+            android:text="@string/page_type_custom_drawable_button"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBannerAndViewPager"
+            android:text="@string/page_type_banner_viewpager"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCodeGenerate"
+            android:text="@string/page_type_code_generate"
+            style="@style/MainButtons" />
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>
