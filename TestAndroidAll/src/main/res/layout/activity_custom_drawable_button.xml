@@ -23,38 +23,38 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            <androidx.appcompat.widget.AppCompatTextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/custom_drawable_button_fixed_width_height_left" />-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_drawable_button_fixed_width_height_left" />
 
-<!--            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton-->
-<!--                style="@style/FixedWidthHeightDrawableButton"-->
-<!--                app:avlwDrawablePosition="left"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                tools:ignore="MissingPrefix" />-->
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="center_horizontal"
+                tools:ignore="MissingPrefix" />
 
-<!--            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton-->
-<!--                style="@style/FixedWidthHeightDrawableButton"-->
-<!--                app:avlwDrawablePosition="left"-->
-<!--                android:gravity="center"-->
-<!--                tools:ignore="MissingPrefix" />-->
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="center"
+                tools:ignore="MissingPrefix" />
 
-<!--            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton-->
-<!--                style="@style/FixedWidthHeightDrawableButton"-->
-<!--                app:avlwDrawablePosition="left"-->
-<!--                android:gravity="start"-->
-<!--                tools:ignore="MissingPrefix" />-->
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="start"
+                tools:ignore="MissingPrefix" />
 
-<!--            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton-->
-<!--                style="@style/FixedWidthHeightDrawableButton"-->
-<!--                app:avlwDrawablePosition="left"-->
-<!--                android:gravity="top"-->
-<!--                android:paddingStart="120dp"-->
-<!--                android:paddingEnd="30dp"-->
-<!--                tools:ignore="MissingPrefix" />-->
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                style="@style/FixedWidthHeightDrawableButton"
+                app:avlwDrawablePosition="left"
+                android:gravity="top"
+                android:paddingStart="120dp"
+                android:paddingEnd="30dp"
+                tools:ignore="MissingPrefix" />
 
-<!--            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton-->
+            <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
                 style="@style/FixedWidthHeightDrawableButton"
                 app:avlwDrawablePosition="left"
                 android:gravity="end"
