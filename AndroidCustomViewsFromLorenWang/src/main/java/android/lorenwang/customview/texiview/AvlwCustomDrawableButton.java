@@ -150,7 +150,24 @@ public class AvlwCustomDrawableButton extends AppCompatButton {
         super.onDraw(canvas);
     }
 
-
+    /**
+     * 设置资源id
+     *
+     * @param drawableResId 资源id
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @SuppressLint("ResourceType")
+    public void setShowDrawableResId(@DrawableRes int drawableResId) {
+        if (drawableResId > 0) {
+            drawBitmap = getDrawBitmap(drawableResId);
+            if (drawBitmap != null) {
+                drawBitmapSrcRect = new Rect(0, 0, drawBitmap.getWidth(), drawBitmap.getHeight());
+                setDrawable(drawablePosition, drawableWidth, drawableHeight, drawableTextDistance,
+                        drawableResId);
+                invalidate();
+            }
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

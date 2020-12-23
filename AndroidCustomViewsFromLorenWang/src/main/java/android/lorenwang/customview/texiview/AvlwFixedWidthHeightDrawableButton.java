@@ -109,7 +109,13 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
         setIncludeFontPadding(false);
 
         //设置资源文件
-        serShowDrawableResId(drawableResId);
+        setShowDrawableResId(drawableResId);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        initViewAndDrawableInfo();
     }
 
     @Override
@@ -181,7 +187,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
      *
      * @param drawableResId 资源id
      */
-    public void serShowDrawableResId(@DrawableRes int drawableResId) {
+    public void setShowDrawableResId(@DrawableRes int drawableResId) {
         if (drawableResId > 0) {
             drawBitmap = getDrawBitmap(drawableResId);
             if (drawBitmap != null) {
@@ -222,16 +228,24 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
                     //左内边距以及图片绘制位置处理
                     if (judgeGravity(Gravity.END)) {
                         left = Math.max(drawableWidth + drawableTextDistance, viewWidth - textWidth - right);
-                    } else if (judgeGravity(Gravity.CENTER_HORIZONTAL) || judgeGravity(Gravity.CENTER)) {
+                    } else if (judgeGravity(Gravity.CENTER)) {
+                        left = Math.max(drawableWidth + drawableTextDistance, left + (viewWidth - left - right - textWidth) / 2.0f);
+                        right = Math.max(viewWidth - left - textWidth, 0);
+                        top = top + (viewHeight - top - bottom - textHeight) / 2.0f;
+                        bottom = viewHeight - top - textHeight;
+                    } else if (judgeGravity(Gravity.CENTER_HORIZONTAL)) {
                         left = Math.max(drawableWidth + drawableTextDistance, left + (viewWidth - left - right - textWidth) / 2.0f);
                         right = Math.max(viewWidth - left - textWidth, 0);
                     } else if (judgeGravity(Gravity.START) || judgeGravity(Gravity.TOP)) {
                         left = Math.max(drawableWidth + drawableTextDistance, left);
                     }
+
                     //上下边距处理
                     if (drawableHeight > viewHeight) {
                         bottom = top = (drawableHeight - viewHeight) / 2.0f;
                     }
+
+
                     //图片绘制坐标
                     drawableStartX = left - drawableWidth - drawableTextDistance;
                     if (drawableHeight > textHeight) {
@@ -252,10 +266,12 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
                     } else if (judgeGravity(Gravity.START) || judgeGravity(Gravity.TOP) || judgeGravity(Gravity.END)) {
                         top = Math.max(drawableHeight + drawableTextDistance, top);
                     }
+
                     //左右边距处理
                     if (drawableWidth > viewWidth) {
                         left = right = (drawableWidth - viewWidth) / 2.0f;
                     }
+
                     //图片绘制坐标
                     if (drawableWidth > textWidth) {
                         drawableStartX = left - (drawableWidth - textWidth) / 2.0f;
@@ -268,12 +284,18 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
                     //右边距以及图片绘制位置处理
                     if (judgeGravity(Gravity.END)) {
                         right = Math.max(drawableWidth + drawableTextDistance, right);
-                    } else if (judgeGravity(Gravity.CENTER_HORIZONTAL) || judgeGravity(Gravity.CENTER)) {
+                    }else if(judgeGravity(Gravity.CENTER)){
+                        right = Math.max(drawableWidth + drawableTextDistance, right + (viewWidth - left - right - textWidth) / 2.0f);
+                        left = Math.max(viewWidth - right - textWidth, 0);
+                        top = top + (viewHeight - top - bottom - textHeight) / 2.0f;
+                        bottom = viewHeight - top - textHeight;
+                    }else if(judgeGravity(Gravity.CENTER_HORIZONTAL)){
                         right = Math.max(drawableWidth + drawableTextDistance, right + (viewWidth - left - right - textWidth) / 2.0f);
                         left = Math.max(viewWidth - right - textWidth, 0);
                     } else if (judgeGravity(Gravity.START) || judgeGravity(Gravity.TOP)) {
                         right = Math.max(drawableWidth + drawableTextDistance, viewWidth - textWidth - left);
                     }
+
                     //上下边距处理
                     if (drawableHeight > viewHeight) {
                         bottom = top = (drawableHeight - viewHeight) / 2.0f;
@@ -292,7 +314,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
                         bottom = Math.max(drawableHeight + drawableTextDistance, bottom);
                     } else if (judgeGravity(Gravity.CENTER_VERTICAL) || judgeGravity(Gravity.CENTER)) {
                         bottom = Math.max(drawableHeight + drawableTextDistance, bottom + (viewHeight - top - bottom - textHeight) / 2.0f);
-                        top = Math.max(viewHeight - bottom - textHeight,0);
+                        top = Math.max(viewHeight - bottom - textHeight, 0);
                         left = Math.max(left + (viewWidth - left - right - textWidth) / 2.0f, 0);
                         right = Math.max(viewWidth - left - textWidth, 0);
                     } else if (judgeGravity(Gravity.START) || judgeGravity(Gravity.TOP) || judgeGravity(Gravity.END)) {
