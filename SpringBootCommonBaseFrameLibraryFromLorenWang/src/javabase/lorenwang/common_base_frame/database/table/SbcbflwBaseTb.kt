@@ -33,13 +33,13 @@ open class SbcbflwBaseTb : Serializable, Cloneable {
      * 创建时间
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.CREATE_TIME, updatable = false, columnDefinition = "DATETIME comment '创建时间'")
-    @CreatedDate
+    @CreationTimestamp
     var createTime : Date? = null
 
     /**
      * 更新时间时间
      */
     @Column(name = SbcbflwBaseTableConfig.CommonColumn.UPDATE_TIME, columnDefinition = "DATETIME comment '更新时间'")
-    @LastModifiedDate
+    @UpdateTimestamp
     var updateTime : Date? = null
 }
