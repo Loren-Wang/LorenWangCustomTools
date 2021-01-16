@@ -4,10 +4,12 @@ import android.app.Activity
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerAdapter
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseType
+import android.lorenwang.commonbaseframe.adapter.AcbflwEmptyViewHolder
 import android.lorenwang.commonbaseframe.refresh.AcbflwBaseRefreshDataOptions
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
 /**
  * 功能作用：列表数据操作
@@ -53,8 +55,8 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
         }
     }
 
-    override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>? {
-        return decorator?.getListViewHolder(viewType, itemView)
+    override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T> {
+        return decorator?.getListViewHolder(viewType, itemView).kttlwGetNotEmptyData(AcbflwEmptyViewHolder(itemView))
     }
 
     override fun clear() {
@@ -114,7 +116,7 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
             this.recyclerView?.layoutManager = this.layoutManager
             this.recyclerView?.layoutManager = layoutManager
             adapter = object : AcbflwBaseRecyclerAdapter<T>(activity) {
-                override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>? {
+                override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T> {
                     return this@AcbflwBaseListDataOptions.getListViewHolder(viewType, itemView)
                 }
             }

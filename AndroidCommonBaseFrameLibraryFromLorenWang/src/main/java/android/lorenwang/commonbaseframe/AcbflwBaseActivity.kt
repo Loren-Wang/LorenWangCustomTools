@@ -11,6 +11,7 @@ import android.view.ViewStub
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 
 /**
  * 功能作用：基础activity
@@ -36,6 +37,16 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      * 内容视图
      */
     protected var showContentView: View? = null
+
+    /**
+     * 标题栏视图
+     */
+    protected var showTitleBarView: View? = null
+
+    /**
+     * 底部操作栏视图
+     */
+    protected var showBottomOptionsView: View? = null
 
     /**
      * 空视图
@@ -78,7 +89,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     /**
      * 初始化空数据视图
      */
-    open fun initEmptyView(view: View?, emptyResId: Int) {}
+    open fun <T> initEmptyView(view: View?, emptyResId: Int, data: T) {}
 
     /**
      * 执行刷新数据
@@ -89,7 +100,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      * 添加内容视图，其内部设置了contentview，然后通过baselayout当中的viewstub设置布局并进行绘制显示
      *
      * @param resId                       视图资源id
-     * @param titleBarHeadViewLayoutResId 标题栏视图资源id
      */
     protected open fun addContentView(@LayoutRes resId: Int) {
         addContentView(resId, null)
@@ -112,13 +122,12 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      * @param titleBarHeadViewLayoutResId 标题栏视图资源id
      * @param bottomViewResId 底部操作栏资源id
      */
-    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?, @LayoutRes bottomViewResId: Int?) {
-        //设置view
+    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?,
+        @LayoutRes bottomViewResId: Int?) { //设置view
         setContentView(R.layout.acbflw_activity_base)
 
         //初始化刷新控件
-        swipeRefresh = findViewById(R.id.swipeRefresh)
-        //初始化刷新控件监听
+        swipeRefresh = findViewById(R.id.swipeRefresh) //初始化刷新控件监听
         swipeRefresh?.setOnRefreshListener { onRefreshData() }
 
         //内容视图
@@ -131,7 +140,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
             val vsbTitleBarHeadView = findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
             vsbTitleBarHeadView.layoutResource = it
             AtlwViewUtils.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
-            vsbTitleBarHeadView.inflate()
+            showTitleBarView = vsbTitleBarHeadView.inflate()
             findViewById<View>(R.id.viewHeadViewShadow).visibility = View.VISIBLE
         }
 
@@ -140,7 +149,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
             val vsbBottomView = findViewById<ViewStub>(R.id.vsbBottomView)
             vsbBottomView.layoutResource = bottomViewResId
             AtlwViewUtils.getInstance().setViewWidthHeight(vsbBottomView, ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
-            vsbBottomView.inflate()
+            showBottomOptionsView = vsbBottomView.inflate()
         }
     }
 
@@ -152,20 +161,16 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         showContentView?.visibility = View.VISIBLE
     }
 
-    /**
-     * 显示空数据视图
-     *
-     * @param emptyResId 空数据视图资源id
-     */
-    protected open fun showEmptyData(@LayoutRes emptyResId: Int) {
+    protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T) {
         showContentView?.visibility = View.GONE
         if (emptyView == null) {
             val vsbQtEmpty = findViewById<ViewStub>(R.id.vsbEmpty)
             vsbQtEmpty.layoutResource = emptyResId
             emptyView = vsbQtEmpty.inflate()
-            initEmptyView(emptyView, emptyResId)
+            emptyView?.setOnClickListener { v: View? -> onRefreshData() }
+            initEmptyView(emptyView, emptyResId, data)
         } else {
-            emptyView!!.visibility = View.VISIBLE
+            emptyView!!.visibility = 0
         }
     }
 
@@ -179,11 +184,13 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         AtlwImageLoadingFactory.getInstance().resumeLoading()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        AtlwActivityUtils.getInstance().receivePermissionsResult(requestCode, permissions,
-                grantResults)
+        AtlwActivityUtils.getInstance().receivePermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun currentLimitingBaffleError(netOptionReqCode: Int, repBean: KttlwBaseNetResponseBean<Any>) {
+        TODO("Not yet implemented")
     }
 
 }

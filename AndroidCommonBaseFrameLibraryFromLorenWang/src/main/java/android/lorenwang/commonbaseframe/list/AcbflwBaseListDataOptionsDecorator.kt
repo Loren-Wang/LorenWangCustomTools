@@ -21,7 +21,7 @@ interface AcbflwBaseListDataOptionsDecorator<T> {
      *
      * @return 返回要加载使用的viewHolder
      */
-    fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>?
+    fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>
 
     /**
      * 清空数据列表

@@ -17,6 +17,7 @@ import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelpay.PayResp;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import androidx.annotation.NonNull;
@@ -42,85 +43,74 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean;
 public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWXAPIEventHandler {
     private final String TAG = getClass().getName();
 
-    @Override
-    public void currentLimitingBaffleError(int netOptionReqCode, @NonNull KttlwBaseNetResponseBean<Object> repBean) {
+    @Override public void hideBaseLoading() {
 
     }
 
-    @Override
-    public void hideBaseLoading() {
+    @Override public void initData(@Nullable Bundle savedInstanceState) {
 
     }
 
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    @Override public void initView(@Nullable Bundle savedInstanceState) {
 
     }
 
-    @Override
-    public void initView(@Nullable Bundle savedInstanceState) {
+    @Override public void showBaseLoading(boolean allowLoadingBackFinishPage) {
 
     }
 
-    @Override
-    public void showBaseLoading(boolean allowLoadingBackFinishPage) {
-
-    }
-
-    @Override
-    public void userLoginStatusError(@Nullable Object code, @Nullable String message) {
+    @Override public void userLoginStatusError(@Nullable Object code, @Nullable String message) {
 
     }
 
 
-
-    @Override
-    public <T> void netReqSuccess(int netOptionReqCode, T data) {
+    @Override public <T> void netReqSuccess(int netOptionReqCode, T data) {
 
     }
 
-    @Override
-    public void netReqFail(int netOptionReqCode,  @Nullable String message) {
+    @Override public void netReqFail(int netOptionReqCode, @Nullable String message) {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //接收到分享以及登录的intent传递handleIntent方法，处理结果
         AcbflwPluginUtils.getInstance().getApi().handleIntent(getIntent(), this);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
+    @Override protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
         //接收到分享以及登录的intent传递handleIntent方法，处理结果
         AcbflwPluginUtils.getInstance().getApi().handleIntent(intent, this);
     }
 
-    @Override
-    public void onReq(BaseReq baseReq) {
+    @Override public void onReq(BaseReq baseReq) {
     }
 
     //请求回调结果处理
-    @Override
-    public void onResp(BaseResp baseResp) {
-        AtlwLogUtils.logUtils.logE(this.TAG, baseResp.getType() + "    " + baseResp.errCode + "    " + baseResp.errStr);
+    @Override public void onResp(BaseResp baseResp) {
+        AtlwLogUtils.logUtils.logE(this.TAG,
+                baseResp.getType() + "    " + baseResp.errCode + "    " + baseResp.errStr);
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (baseResp instanceof PayResp) {
                 switch (baseResp.errCode) {
                     case BaseResp.ErrCode.ERR_OK:
                         AtlwLogUtils.logUtils.logI(TAG, "微信支付成功");
-                        AcbflwPluginUtils.getInstance().callBackInfo(((PayResp) baseResp).returnKey);
+                        AcbflwPluginUtils.getInstance().callBackInfo(
+                                ((PayResp) baseResp).returnKey);
                         break;
                     case BaseResp.ErrCode.ERR_COMM:
                         AtlwLogUtils.logUtils.logI(TAG, "微信支付未知错误");
-                        AcbflwPluginUtils.getInstance().callBackError(((PayResp) baseResp).returnKey, AcbflwPluginErrorTypeEnum.WECHAT_PAY_UNKNOW_ERROR);
+                        AcbflwPluginUtils.getInstance().callBackError(
+                                ((PayResp) baseResp).returnKey,
+                                AcbflwPluginErrorTypeEnum.WECHAT_PAY_UNKNOW_ERROR);
                         break;
                     case BaseResp.ErrCode.ERR_USER_CANCEL:
                         AtlwLogUtils.logUtils.logI(TAG, "微信支付用户取消支付");
-                        AcbflwPluginUtils.getInstance().callBackError(((PayResp) baseResp).returnKey, AcbflwPluginErrorTypeEnum.WECHAT_PAY_CANCEL);
+                        AcbflwPluginUtils.getInstance().callBackError(
+                                ((PayResp) baseResp).returnKey,
+                                AcbflwPluginErrorTypeEnum.WECHAT_PAY_CANCEL);
                         break;
                     default:
                         break;
@@ -170,65 +160,63 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
                     AcbflwPluginUtils.getInstance().callBackInfo(transaction);
                 } else {
                     AtlwLogUtils.logUtils.logI(TAG, "微信分享失败：未知错误");
-                    AcbflwPluginUtils.getInstance().callBackError(transaction, AcbflwPluginErrorTypeEnum.WECHAT_SHARE_UNKNOW_ERROR);
+                    AcbflwPluginUtils.getInstance().callBackError(transaction,
+                            AcbflwPluginErrorTypeEnum.WECHAT_SHARE_UNKNOW_ERROR);
                     finish();
                 }
             }
         }
     }
 
-    @Override
-    protected void onPause() {
+    @Override protected void onPause() {
         overridePendingTransition(0, 0);
         super.onPause();
     }
 
     private void getAccessToken(final String state, String code) {
         //获取授权
-        String url = "https://api.weixin.qq.com/sns/oauth2/access_token" +
-                "?appid=" +
-                AcbflwPluginUtils.getInstance().getWeChatId() +
-                "&secret=" +
-                AcbflwPluginUtils.getInstance().getWeiChatSecret() +
-                "&code=" +
-                code +
-                "&grant_type=authorization_code";
-        AcbflwNetworkManager.getInstance().create(AcbflwPluginApi.class)
-                .getWeiXinToken(url)
-                .compose(new ObservableTransformer<AcbflwWeChatResponse, AcbflwWeChatResponse>() {
-                    @Override
-                    public ObservableSource<AcbflwWeChatResponse> apply(Observable<AcbflwWeChatResponse> upstream) {
-                        return upstream.subscribeOn(Schedulers.io())
-                                .unsubscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread());
-                    }
-                })
-                .subscribe(new Observer<AcbflwWeChatResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token" + "?appid=" + AcbflwPluginUtils
+                .getInstance().getWeChatId() + "&secret=" + AcbflwPluginUtils.getInstance()
+                .getWeiChatSecret() + "&code=" + code + "&grant_type=authorization_code";
+        AcbflwPluginApi api = AcbflwNetworkManager.getInstance().create(AcbflwPluginApi.class);
+        if (api == null) {
+            AtlwLogUtils.logUtils.logI(TAG, "微信登陆接口调用异常");
+            AcbflwPluginUtils.getInstance().callBackError(
+                    AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
+                    AcbflwPluginErrorTypeEnum.WECHAT_LOGIN_AUTH_UNKNOW_ERROR);
+        } else {
+            api.getWeiXinToken(url).compose(
+                    new ObservableTransformer<AcbflwWeChatResponse, AcbflwWeChatResponse>() {
+                        @Override public ObservableSource<AcbflwWeChatResponse> apply(
+                                Observable<AcbflwWeChatResponse> upstream) {
+                            return upstream.subscribeOn(Schedulers.io()).unsubscribeOn(
+                                    Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                        }
+                    }).subscribe(new Observer<AcbflwWeChatResponse>() {
+                @Override public void onSubscribe(Disposable d) {
 
-                    }
+                }
 
-                    @Override
-                    public void onNext(AcbflwWeChatResponse AcbflwWeChatResponse) {
-                        AtlwLogUtils.logUtils.logI(TAG, "微信登陆获取用户部分参数成功");
-                        AcbflwPluginUtils.getInstance().callBackInfo(
-                                AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
-                                AcbflwWeChatResponse.getAccess_token(), AcbflwWeChatResponse.getOpenid());
-                    }
+                @Override public void onNext(AcbflwWeChatResponse AcbflwWeChatResponse) {
+                    AtlwLogUtils.logUtils.logI(TAG, "微信登陆获取用户部分参数成功");
+                    AcbflwPluginUtils.getInstance().callBackInfo(
+                            AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
+                            AcbflwWeChatResponse.getAccess_token(),
+                            AcbflwWeChatResponse.getOpenid());
+                }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        AtlwLogUtils.logUtils.logI(TAG, "微信登陆获取用户部分参数失败");
-                        AcbflwPluginUtils.getInstance().callBackError(
-                                AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
-                                AcbflwPluginErrorTypeEnum.WECHAT_LOGIN_AUTH_UNKNOW_ERROR);
-                    }
+                @Override public void onError(Throwable e) {
+                    AtlwLogUtils.logUtils.logI(TAG, "微信登陆获取用户部分参数失败");
+                    AcbflwPluginUtils.getInstance().callBackError(
+                            AcbflwPluginUtils.getInstance().getWeChatLoginCallbackKey(),
+                            AcbflwPluginErrorTypeEnum.WECHAT_LOGIN_AUTH_UNKNOW_ERROR);
+                }
 
-                    @Override
-                    public void onComplete() {
-                        finish();
-                    }
-                });
+                @Override public void onComplete() {
+                    finish();
+                }
+            });
+        }
+
     }
 }

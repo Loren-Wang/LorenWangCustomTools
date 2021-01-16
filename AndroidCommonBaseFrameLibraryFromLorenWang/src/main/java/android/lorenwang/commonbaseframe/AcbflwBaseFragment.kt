@@ -12,6 +12,8 @@ import android.view.ViewStub
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinbase.lorenwang.tools.extend.kttlwToGone
+import kotlinbase.lorenwang.tools.extend.kttlwToVisible
 
 /**
  * 功能作用：基础通用fragment
@@ -34,6 +36,16 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     protected val DEFAULT_NET_REQUEST_CODE = -1
 
     /**
+     * 标题栏视图
+     */
+    protected var showTitleBarView: View? = null
+
+    /**
+     * 底部操作栏视图
+     */
+    protected var showBottomOptionsView: View? = null
+
+    /**
      * fragment的view视图
      */
     protected var fragmentView: View? = null
@@ -41,7 +53,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     /**
      * 内容视图
      */
-    protected var contentView: View? = null
+    protected var showContentView: View? = null
 
     /**
      * 空视图
@@ -53,8 +65,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      */
     protected var swipeRefresh: SwipeRefreshLayout? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentView = inflater.inflate(R.layout.acbflw_activity_base, null)
         return fragmentView
     }
@@ -81,8 +92,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      * @param resId                       视图资源id
      * @param titleBarHeadViewLayoutResId 标题栏视图资源id
      */
-    protected open fun addContentView(@LayoutRes resId: Int,
-                                      @LayoutRes titleBarHeadViewLayoutResId: Int?) {
+    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?) {
         addContentView(resId, titleBarHeadViewLayoutResId, null)
     }
 
@@ -93,26 +103,22 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      * @param titleBarHeadViewLayoutResId 标题栏视图资源id
      * @param bottomViewResId             底部操作栏资源id
      */
-    protected open fun addContentView(@LayoutRes resId: Int,
-                                      @LayoutRes titleBarHeadViewLayoutResId: Int?,
-                                      @LayoutRes bottomViewResId: Int?) {
-        //初始化刷新控件
-        swipeRefresh = fragmentView!!.findViewById(R.id.swipeRefresh)
-        //初始化刷新控件监听
+    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?,
+        @LayoutRes bottomViewResId: Int?) { //初始化刷新控件
+        swipeRefresh = fragmentView!!.findViewById(R.id.swipeRefresh) //初始化刷新控件监听
         swipeRefresh?.setOnRefreshListener { onRefreshData() }
 
         //内容视图
         val vsbContent = fragmentView!!.findViewById<ViewStub>(R.id.vsbContent)
         vsbContent.layoutResource = resId
-        contentView = vsbContent.inflate()
+        showContentView = vsbContent.inflate()
 
         //标题栏视图
         if (titleBarHeadViewLayoutResId != null) {
             val vsbTitleBarHeadView = fragmentView!!.findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
             vsbTitleBarHeadView.layoutResource = titleBarHeadViewLayoutResId
-            AtlwViewUtils.getInstance().setViewWidthHeight(vsbTitleBarHeadView,
-                    ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
-            vsbTitleBarHeadView.inflate()
+            AtlwViewUtils.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
+            showTitleBarView = vsbTitleBarHeadView.inflate()
             fragmentView!!.findViewById<View>(R.id.viewHeadViewShadow).visibility = View.VISIBLE
         }
 
@@ -120,9 +126,8 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
         if (bottomViewResId != null) {
             val vsbBottomView = fragmentView!!.findViewById<ViewStub>(R.id.vsbBottomView)
             vsbBottomView.layoutResource = bottomViewResId
-            AtlwViewUtils.getInstance().setViewWidthHeight(vsbBottomView,
-                    ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
-            vsbBottomView.inflate()
+            AtlwViewUtils.getInstance().setViewWidthHeight(vsbBottomView, ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
+            showBottomOptionsView = vsbBottomView.inflate()
         }
     }
 
@@ -133,8 +138,8 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
         if (emptyView != null) {
             emptyView!!.visibility = View.GONE
         }
-        if (contentView != null) {
-            contentView!!.visibility = View.VISIBLE
+        if (showContentView != null) {
+            showContentView.kttlwToVisible()
         }
     }
 
@@ -143,17 +148,16 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      *
      * @param emptyResId 空数据视图资源id
      */
-    protected open fun showEmptyData(@LayoutRes emptyResId: Int) {
-        if (contentView != null) {
-            contentView!!.visibility = View.GONE
-        }
+    protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T) {
+        showContentView?.kttlwToGone()
         if (emptyView == null) {
-            val vsbEmpty = fragmentView!!.findViewById<ViewStub>(R.id.vsbEmpty)
-            vsbEmpty.layoutResource = emptyResId
-            emptyView = vsbEmpty.inflate()
-            initEmptyView(emptyView, emptyResId)
+            val vsbQtEmpty = fragmentView?.findViewById<ViewStub>(R.id.vsbEmpty)
+            vsbQtEmpty?.layoutResource = emptyResId
+            emptyView = vsbQtEmpty?.inflate()
+            emptyView?.setOnClickListener { v: View? -> onRefreshData() }
+            initEmptyView(emptyView, emptyResId, data)
         } else {
-            emptyView!!.visibility = View.VISIBLE
+            emptyView!!.visibility = 0
         }
     }
 
@@ -181,7 +185,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     /**
      * 初始化空数据视图
      */
-    protected open fun initEmptyView(view: View?, emptyResId: Int) {}
+    open fun <T> initEmptyView(view: View?, emptyResId: Int, data: T) {}
 
     /**
      * 执行刷新数据
@@ -201,10 +205,8 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     /**
      * 权限接收回调
      */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        AtlwActivityUtils.getInstance().receivePermissionsResult(requestCode, permissions,
-                grantResults)
+        AtlwActivityUtils.getInstance().receivePermissionsResult(requestCode, permissions, grantResults)
     }
 }
