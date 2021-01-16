@@ -5,12 +5,12 @@ import android.lorenwang.commonbaseframe.AcbflwBaseApplication
 import android.lorenwang.commonbaseframe.R
 import android.lorenwang.commonbaseframe.network.AcbflwBaseRetrofitObserver
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
-import android.lorenwang.tools.base.AtlwLogUtils
 import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtils
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javabase.lorenwang.dataparse.JdplwJsonUtils
+import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import retrofit2.Response
 import java.net.SocketTimeoutException
@@ -42,7 +42,7 @@ open class AcbflwBaseModel {
      */
     fun releaseModel() {
         compositeDisposable.clear()
-        AtlwLogUtils.logUtils.logI(TAG, "释放了当前model所有网络请求！")
+        JtlwLogUtils.logUtils.logI(TAG, "释放了当前model所有网络请求！")
     }
 
     /**
@@ -83,11 +83,11 @@ open class AcbflwBaseModel {
                                 return
                             }
                         }
-                        AtlwLogUtils.logUtils.logE(TAG, t.code().toString())
+                        JtlwLogUtils.logUtils.logE(TAG, t.code().toString())
                         netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                     }
                 } else {
-                    AtlwLogUtils.logUtils.logE(TAG, t.code().toString())
+                    JtlwLogUtils.logUtils.logE(TAG, t.code().toString())
                     netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                 }
             }
@@ -98,36 +98,36 @@ open class AcbflwBaseModel {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
+                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
                             }
                         } catch (e: Exception) {
-                            AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                            JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                         }
                     }
                     is SocketTimeoutException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                             }
                         } catch (e: Exception) {
-                            AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                            JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                         }
                     }
                     is SSLException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                             }
                         } catch (e: Exception) {
-                            AtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                            JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                         }
                     }
                     else -> {

@@ -97,4 +97,77 @@ public class AcbflwLocalImageSelectBean extends LocalMedia {
             return new AcbflwLocalImageSelectBean[size];
         }
     };
+
+
+
+    /**
+     * 复制到基类数据类型
+     *
+     * @return 基类数据类型
+     */
+    public AcbflwLocalImageSelectBean copyToLocalCurrent(LocalMedia media) {
+        this.setId(media.getId());
+        this.setPath(media.getPath());
+        this.setRealPath(media.getRealPath());
+        this.setOriginalPath(media.getOriginalPath());
+        this.setCompressPath(media.getCompressPath());
+        this.setCutPath(media.getCutPath());
+        this.setAndroidQToPath(media.getAndroidQToPath());
+        this.setDuration(media.getDuration());
+        this.setChecked(media.isChecked());
+        this.setCut(media.isCut());
+        this.position = media.position;
+        this.setNum(media.getNum());
+        this.setMimeType(media.getMimeType());
+        this.setChooseModel(media.getChooseModel());
+        this.setCompressed(media.isCompressed());
+        this.setWidth(media.getWidth());
+        this.setHeight(media.getHeight());
+        this.setSize(media.getSize());
+        this.setOriginal(media.isOriginal());
+        this.setFileName(media.getFileName());
+        this.setParentFolderName(media.getParentFolderName());
+        this.setOrientation(media.getOrientation());
+        this.loadLongImageStatus = media.loadLongImageStatus;
+        this.isLongImage = media.isLongImage;
+        this.setBucketId(media.getBucketId());
+        this.setMaxSelectEnabledMask(media.isMaxSelectEnabledMask());
+        return this;
+    }
+
+    /**
+     * 复制到基类数据类型
+     *
+     * @return 基类数据类型
+     */
+    public LocalMedia copyToLocalMedia() {
+        LocalMedia localMedia = new LocalMedia();
+        localMedia.setId(super.getId());
+        localMedia.setPath(super.getPath());
+        localMedia.setRealPath(super.getRealPath());
+        localMedia.setOriginalPath(super.getOriginalPath());
+        localMedia.setCompressPath(super.getCompressPath());
+        localMedia.setCutPath(super.getCutPath());
+        localMedia.setAndroidQToPath(super.getAndroidQToPath());
+        localMedia.setDuration(super.getDuration());
+        localMedia.setChecked(super.isChecked());
+        localMedia.setCut(super.isCut());
+        localMedia.position = super.position;
+        localMedia.setNum(super.getNum());
+        localMedia.setMimeType(super.getMimeType());
+        localMedia.setChooseModel(super.getChooseModel());
+        localMedia.setCompressed(super.isCompressed());
+        localMedia.setWidth(super.getWidth());
+        localMedia.setHeight(super.getHeight());
+        localMedia.setSize(super.getSize());
+        localMedia.setOriginal(super.isOriginal());
+        localMedia.setFileName(super.getFileName());
+        localMedia.setParentFolderName(super.getParentFolderName());
+        localMedia.setOrientation(super.getOrientation());
+        localMedia.loadLongImageStatus = super.loadLongImageStatus;
+        localMedia.isLongImage = super.isLongImage;
+        localMedia.setBucketId(super.getBucketId());
+        localMedia.setMaxSelectEnabledMask(super.isMaxSelectEnabledMask());
+        return localMedia;
+    }
 }

@@ -41,6 +41,11 @@ object AcbflwBaseConfig {
     private const val APP_COMPILE_TYPE_RELEASE = 2
 
     /**
+     * 当前项目包名
+     */
+    var applicationIdPackageNameCurrent = ""
+
+    /**
      * 当前编译类型是否是正式环境
      *
      * @return true为是正式环境编译

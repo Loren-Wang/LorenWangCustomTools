@@ -43,7 +43,7 @@ repositories {
 dependencies {
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compileOnly 'androidx.appcompat:appcompat:1.1.0'
+    compileOnly 'androidx.appcompat:appcompat:1.2.0'
     compileOnly 'androidx.recyclerview:recyclerview:1.1.0'
     //安卓自定义组件框架库
     compileOnly project(':AndroidCustomViewsFromLorenWang')
@@ -58,17 +58,22 @@ dependencies {
     //kotlin工具框架库
     compileOnly project(':KotlinCustomToolsFromLorenWang')
     // RxJava 引用
-    compileOnly 'io.reactivex.rxjava2:rxjava:2.1.3'
-    compileOnly 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compileOnly 'com.squareup.retrofit2:retrofit:2.1.0'
-    compileOnly 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compileOnly 'io.reactivex.rxjava2:rxjava:2.2.13'
+    compileOnly 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    compileOnly 'com.squareup.retrofit2:retrofit:2.6.0'
+    compileOnly 'com.squareup.retrofit2:converter-gson:2.6.0'
     compileOnly 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     //图片选择框架
-    compileOnly 'com.github.LuckSiege.PictureSelector:picture_library:v2.3.9'
+    compileOnly 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
     //fresco图片加载
     compileOnly 'com.facebook.fresco:fresco:2.0.0'
+    compileOnly 'com.facebook.fresco:animated-gif:2.0.0'
     //glide图片加载
     compileOnly 'com.github.bumptech.glide:glide:4.10.0'
+    //Picasso图片加载
+    compileOnly 'com.squareup.picasso:picasso:2.71828'
+    //imageLoad加载库
+    compileOnly 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     //Toast提示框架
     compileOnly 'com.github.hss01248:Toasty:2.0.6'
     //列表数据加载

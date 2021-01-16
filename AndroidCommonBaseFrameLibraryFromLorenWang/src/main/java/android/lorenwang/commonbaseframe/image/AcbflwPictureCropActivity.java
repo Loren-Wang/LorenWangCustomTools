@@ -30,7 +30,7 @@ public class AcbflwPictureCropActivity extends PictureBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startCrop(getIntent().getStringExtra(KEY_PICTURE_CROP_IMAGE_PATH));
+//        startCrop(getIntent().getStringExtra(KEY_PICTURE_CROP_IMAGE_PATH));
     }
 
     @Override
