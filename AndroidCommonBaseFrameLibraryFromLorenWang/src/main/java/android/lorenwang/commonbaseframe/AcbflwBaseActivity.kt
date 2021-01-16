@@ -189,8 +189,4 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         AtlwActivityUtils.getInstance().receivePermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun currentLimitingBaffleError(netOptionReqCode: Int, repBean: KttlwBaseNetResponseBean<Any>) {
-        TODO("Not yet implemented")
-    }
-
 }

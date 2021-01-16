@@ -3,6 +3,8 @@ package android.lorenwang.commonbaseframe
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.lorenwang.commonbaseframe.image.AcbflwImageSelectUtils
+import android.lorenwang.commonbaseframe.image.loading.AcbflwImageLoadingFactory
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseModel
 import android.lorenwang.commonbaseframe.mvp.AcbflwBasePresenter
 import android.lorenwang.tools.AtlwConfig
@@ -29,7 +31,7 @@ open class AcbflwBaseApplication : Application() {
      */
     private val presenterMap: HashMap<Activity, ArrayList<AcbflwBasePresenter?>> = hashMapOf()
 
-    override fun onCreate() {
+    open override fun onCreate() {
         super.onCreate()
         application = this
         appContext = applicationContext
@@ -50,9 +52,9 @@ open class AcbflwBaseApplication : Application() {
             override fun onActivityStopped(activity: Activity) {}
             override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {}
 
-            override fun onActivityDestroyed(activity: Activity) {
-                //取消activity页面的model、presenter相关
-                releaseModelsAndPresenters(activity)
+            override fun onActivityDestroyed(activity: Activity) { //取消activity页面的model、presenter相关
+                releaseModelsAndPresenters(activity) //清除图片选择缓存
+                AcbflwImageSelectUtils.getInstance().clearCache(activity)
             }
         })
 
@@ -67,18 +69,12 @@ open class AcbflwBaseApplication : Application() {
     /**
      * 初始化安卓自定义工具类相关
      */
-    private fun initAndroidCustomTools() {
-        //设置项目application实例
-        AtlwConfig.nowApplication = this
-        //注册监听供工具库使用
-        AtlwConfig.registActivityLifecycleCallbacks(this)
-        //设置新页面进入动画
-        AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM = R.anim.aalw_anim_from_right
-        //设置旧业面退出动画
-        AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM = R.anim.aalw_anim_to_left
-        //设置后退时新页面进入动画
-        AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM = R.anim.aalw_anim_from_left;
-        //设置后退时就业面退出动画
+    private fun initAndroidCustomTools() { //设置项目application实例
+        AtlwConfig.nowApplication = this //注册监听供工具库使用
+        AtlwConfig.registActivityLifecycleCallbacks(this) //设置新页面进入动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM = R.anim.aalw_anim_from_right //设置旧业面退出动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM = R.anim.aalw_anim_to_left //设置后退时新页面进入动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM = R.anim.aalw_anim_from_left; //设置后退时就业面退出动画
         AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM = R.anim.aalw_anim_to_right
     }
 

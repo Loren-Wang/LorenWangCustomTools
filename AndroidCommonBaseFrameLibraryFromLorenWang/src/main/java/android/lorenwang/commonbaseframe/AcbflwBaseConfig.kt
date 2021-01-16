@@ -1,5 +1,7 @@
 package android.lorenwang.commonbaseframe
 
+import android.lorenwang.commonbaseframe.mvp.AcbflwNetRepCode
+import android.lorenwang.tools.AtlwConfig
 import androidx.annotation.DrawableRes
 import androidx.customview.R
 
@@ -74,5 +76,30 @@ object AcbflwBaseConfig {
     @JvmStatic
     fun appCompileTypeIsTest(appCompileType: Int): Boolean {
         return APP_COMPILE_TYPE_TEST.compareTo(appCompileType) == 0
+    }
+
+
+    /**
+     * 初始化基础配置
+     *
+     * @param applicationIdPackageNameCurrent      当前项目包名
+     * @param apiResponseCodeSuccess               接口请求成功code
+     * @param apiResponseCodeLoginStatusError      登录状态异常code
+     * @param apiResponseCodeCurrentLimitingBaffle 限流挡板返回code
+     * @param imageLoadingFailResId                加载失败图片
+     * @param imageLoadingLoadResId                加载中图片
+     */
+    fun initBaseConfig(applicationIdPackageNameCurrent: String, apiResponseCodeSuccess: String?, apiResponseCodeLoginStatusError: String?,
+        apiResponseCodeCurrentLimitingBaffle: List<String?>?, @DrawableRes imageLoadingFailResId: Int?, @DrawableRes imageLoadingLoadResId: Int?) {
+        this.applicationIdPackageNameCurrent = applicationIdPackageNameCurrent
+        AcbflwNetRepCode.repCodeSuccess = apiResponseCodeSuccess
+        AcbflwNetRepCode.repCodeLoginStatusError.clear()
+        apiResponseCodeLoginStatusError?.let { AcbflwNetRepCode.repCodeLoginStatusError.add(it) }
+        if (imageLoadingFailResId != null) {
+            AtlwConfig.imageLoadingFailResId = imageLoadingFailResId
+        }
+        if (imageLoadingLoadResId != null) {
+            AtlwConfig.imageLoadingLoadResId = imageLoadingLoadResId
+        }
     }
 }
