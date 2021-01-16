@@ -31,12 +31,12 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
     /**
      * 列表布局管理器
      */
-    private lateinit var layoutManager: RecyclerView.LayoutManager
+    lateinit var layoutManager: RecyclerView.LayoutManager
 
     /**
      * 适配器
      */
-    private lateinit var adapter: AcbflwBaseRecyclerAdapter<T>
+    lateinit var adapter: AcbflwBaseRecyclerAdapter<T>
 
     /**
      * 数据列表
