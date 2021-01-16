@@ -19,32 +19,39 @@ import androidx.recyclerview.widget.RecyclerView
  * 修改人：
  * 修改时间：
  * 备注：
+ * @param activity 页面实例
+ * @param decorator 装饰器接口
+ * @param refreshDataOptions 数据刷新操作
+ * @param recyclerView 列表控件群
  */
-open class AcbflwBaseListDataOptions<T>(val activity: Activity?,
-                                   /**
-                                    * 装饰器接口
-                                    */
-                                   private val decorator: AcbflwBaseListDataOptionsDecorator<T>?,
-                                   /**
-                                    * 数据刷新操作
-                                    */
-                                   private val refreshDataOptions: AcbflwBaseRefreshDataOptions?,
-                                   /**
-                                    * 列表控件群
-                                    */
-                                   private var recyclerView: RecyclerView) : AcbflwBaseListDataOptionsDecorator<T> {
+open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val decorator: AcbflwBaseListDataOptionsDecorator<T>?,
+    private val refreshDataOptions: AcbflwBaseRefreshDataOptions?, private var recyclerView: RecyclerView?) : AcbflwBaseListDataOptionsDecorator<T> {
     /**
      * 列表布局管理器
      */
     private lateinit var layoutManager: RecyclerView.LayoutManager
+
     /**
      * 适配器
      */
     private lateinit var adapter: AcbflwBaseRecyclerAdapter<T>
+
     /**
      * 数据列表
      */
-    private var list: ArrayList<AcbflwBaseType<T>> = arrayListOf();
+    private var list: ArrayList<AcbflwBaseType<T>> = arrayListOf()
+
+    /**
+     * 适配器数据
+     */
+    override val adapterDataList: ArrayList<AcbflwBaseType<T>>
+        get() = adapter.dataList
+
+    init {
+        activity?.let {
+            setRecycle(recyclerView, LinearLayoutManager(activity))
+        }
+    }
 
     override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>? {
         return decorator?.getListViewHolder(viewType, itemView)
@@ -94,7 +101,6 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?,
         refreshDataOptions?.setAllowLoadMore(haveMoreData)
     }
 
-
     /**
      * 设置列表控件
      *
@@ -102,25 +108,19 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?,
      * @param layoutManager 布局管理器
      */
     fun setRecycle(recyclerView: RecyclerView?, layoutManager: RecyclerView.LayoutManager?) {
-        if (recyclerView != null) {
-            this.recyclerView = recyclerView;
+        if (recyclerView != null && activity != null) {
+            this.recyclerView = recyclerView
             this.layoutManager = layoutManager ?: this.layoutManager
-            this.recyclerView.layoutManager = this.layoutManager
-            this.recyclerView.layoutManager = layoutManager
-            adapter = object : AcbflwBaseRecyclerAdapter<T>(activity!!) {
+            this.recyclerView?.layoutManager = this.layoutManager
+            this.recyclerView?.layoutManager = layoutManager
+            adapter = object : AcbflwBaseRecyclerAdapter<T>(activity) {
                 override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>? {
                     return this@AcbflwBaseListDataOptions.getListViewHolder(viewType, itemView)
                 }
             }
-            this.recyclerView.adapter = adapter
+            this.recyclerView?.adapter = adapter
         }
     }
 
-    init {
-        setRecycle(recyclerView, LinearLayoutManager(recyclerView.context))
-    }
-
-    override val adapterDataList: ArrayList<AcbflwBaseType<T>>
-        get() = adapter.dataList
 
 }

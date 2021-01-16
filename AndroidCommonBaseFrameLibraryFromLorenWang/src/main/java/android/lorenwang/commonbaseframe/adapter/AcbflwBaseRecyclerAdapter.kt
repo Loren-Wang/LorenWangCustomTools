@@ -54,6 +54,14 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      */
     private val autoCycleMaxCount = 60000
 
+    /**
+     * 获取数据列表
+     *
+     * @return 数据列表
+     */
+    override val adapterDataList: ArrayList<AcbflwBaseType<T>>
+        get() = dataList
+
     constructor(activity: Activity) : this(activity, false)
 
     constructor(activity: Activity, showWhetherTheCycle: Boolean) {
@@ -72,8 +80,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcbflwBaseRecyclerViewHolder<T> {
-        val itemView = LayoutInflater.from(activity)
-                .inflate(viewType, parent, false)
+        val itemView = LayoutInflater.from(activity).inflate(viewType, parent, false)
         return getListViewHolder(viewType, itemView)!!
     }
 
@@ -82,22 +89,13 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
         holder.setViewData(activity, dataList[position % if (dataList.size > 0) dataList.size else 1].bean, position)
     }
 
-    override fun getItemCount(): Int {
-        //如果是单张显示也要轮播或者本身也是要轮播情况下会进行轮播
-        return if(showWhetherTheCycle || onlyShowCycle){
+    override fun getItemCount(): Int { //如果是单张显示也要轮播或者本身也是要轮播情况下会进行轮播
+        return if (showWhetherTheCycle || onlyShowCycle) {
             autoCycleMaxCount.coerceAtLeast(dataList.size)
-        }else{
+        } else {
             dataList.size
         }
     }
-
-    /**
-     * 获取数据列表
-     *
-     * @return 数据列表
-     */
-    override val adapterDataList: ArrayList<AcbflwBaseType<T>>
-        get() = dataList
 
     /**
      * 清空数据列表

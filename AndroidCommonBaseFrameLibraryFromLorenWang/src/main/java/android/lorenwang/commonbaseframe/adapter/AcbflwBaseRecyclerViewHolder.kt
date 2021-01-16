@@ -19,5 +19,5 @@ abstract class AcbflwBaseRecyclerViewHolder<T>(itemView: View) : RecyclerView.Vi
     /**
      * 设置view数据
      */
-    abstract fun setViewData(activity: Activity?, model: T?, position: Int)
+    abstract fun setViewData(activity: Activity, model: T?, position: Int)
 }
