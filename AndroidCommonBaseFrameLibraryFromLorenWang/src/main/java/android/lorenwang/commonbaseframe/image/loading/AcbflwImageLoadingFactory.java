@@ -1,9 +1,9 @@
 package android.lorenwang.commonbaseframe.image.loading;
 
-import static com.qtools.base.QtBaseConfig.IMAGE_LOAD_LIBRARY_TYPE_FRESCO;
-import static com.qtools.base.QtBaseConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE;
-import static com.qtools.base.QtBaseConfig.IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD;
 
+import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_FRESCO;
+import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE;
+import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD;
 
 /**
  * 功能作用：图片加载工厂
@@ -25,9 +25,9 @@ import static com.qtools.base.QtBaseConfig.IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD;
  */
 public class AcbflwImageLoadingFactory {
     private final String TAG = getClass().getName();
-    private static AcbflwFrescoImageLoading qtFrescoImageLoading;
-    private static AcbflwGlideImageLoading qtGlideImageLoading;
-    private static AcbflwImageLoadImageLoading qtImageLoadImageLoading;
+    private static AcbflwFrescoImageLoading acbflwFrescoImageLoading;
+    private static AcbflwGlideImageLoading acbflwGlideImageLoading;
+    private static AcbflwImageLoadImageLoading acbflwImageLoadImageLoading;
     private static AcbflwImageLoadingFactory optionsFactory;
 
     private AcbflwImageLoadingFactory() {
@@ -42,32 +42,32 @@ public class AcbflwImageLoadingFactory {
     public static AcbflwBaseImageLoading getImageLoading(int imageLoadLibraryType) {
         switch (imageLoadLibraryType) {
             case IMAGE_LOAD_LIBRARY_TYPE_FRESCO:
-                if (qtFrescoImageLoading == null) {
+                if (acbflwFrescoImageLoading == null) {
                     synchronized (AcbflwFrescoImageLoading.class) {
-                        if (qtFrescoImageLoading == null) {
-                            qtFrescoImageLoading = new AcbflwFrescoImageLoading();
+                        if (acbflwFrescoImageLoading == null) {
+                            acbflwFrescoImageLoading = new AcbflwFrescoImageLoading();
                         }
                     }
                 }
-                return qtFrescoImageLoading;
+                return acbflwFrescoImageLoading;
             case IMAGE_LOAD_LIBRARY_TYPE_GLIDE:
-                if (qtGlideImageLoading == null) {
+                if (acbflwGlideImageLoading == null) {
                     synchronized (AcbflwGlideImageLoading.class) {
-                        if (qtGlideImageLoading == null) {
-                            qtGlideImageLoading = new AcbflwGlideImageLoading();
+                        if (acbflwGlideImageLoading == null) {
+                            acbflwGlideImageLoading = new AcbflwGlideImageLoading();
                         }
                     }
                 }
-                return qtGlideImageLoading;
+                return acbflwGlideImageLoading;
             case IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD:
-                if (qtImageLoadImageLoading == null) {
+                if (acbflwImageLoadImageLoading == null) {
                     synchronized (AcbflwImageLoadImageLoading.class) {
-                        if (qtImageLoadImageLoading == null) {
-                            qtImageLoadImageLoading = new AcbflwImageLoadImageLoading();
+                        if (acbflwImageLoadImageLoading == null) {
+                            acbflwImageLoadImageLoading = new AcbflwImageLoadImageLoading();
                         }
                     }
                 }
-                return qtImageLoadImageLoading;
+                return acbflwImageLoadImageLoading;
             default:
                 return null;
         }
@@ -94,22 +94,22 @@ public class AcbflwImageLoadingFactory {
      */
     public void clearMemoryCache(Integer imageLoadLibraryType) {
         if (imageLoadLibraryType == null) {
-            if (qtFrescoImageLoading != null) {
-                qtFrescoImageLoading.clearMemoryCache();
+            if (acbflwFrescoImageLoading != null) {
+                acbflwFrescoImageLoading.clearMemoryCache();
             }
-            if (qtGlideImageLoading != null) {
-                qtGlideImageLoading.clearMemoryCache();
+            if (acbflwGlideImageLoading != null) {
+                acbflwGlideImageLoading.clearMemoryCache();
             }
         } else {
             switch (imageLoadLibraryType) {
                 case IMAGE_LOAD_LIBRARY_TYPE_FRESCO:
-                    if (qtFrescoImageLoading != null) {
-                        qtFrescoImageLoading.clearMemoryCache();
+                    if (acbflwFrescoImageLoading != null) {
+                        acbflwFrescoImageLoading.clearMemoryCache();
                     }
                     break;
                 case IMAGE_LOAD_LIBRARY_TYPE_GLIDE:
-                    if (qtGlideImageLoading != null) {
-                        qtGlideImageLoading.clearMemoryCache();
+                    if (acbflwGlideImageLoading != null) {
+                        acbflwGlideImageLoading.clearMemoryCache();
                     }
                     break;
                 default:
@@ -123,22 +123,22 @@ public class AcbflwImageLoadingFactory {
      */
     public void clearDiskCache(Integer imageLoadLibraryType) {
         if (imageLoadLibraryType == null) {
-            if (qtFrescoImageLoading != null) {
-                qtFrescoImageLoading.clearDiskCache();
+            if (acbflwFrescoImageLoading != null) {
+                acbflwFrescoImageLoading.clearDiskCache();
             }
-            if (qtGlideImageLoading != null) {
-                qtGlideImageLoading.clearDiskCache();
+            if (acbflwGlideImageLoading != null) {
+                acbflwGlideImageLoading.clearDiskCache();
             }
         } else {
             switch (imageLoadLibraryType) {
                 case IMAGE_LOAD_LIBRARY_TYPE_FRESCO:
-                    if (qtFrescoImageLoading != null) {
-                        qtFrescoImageLoading.clearDiskCache();
+                    if (acbflwFrescoImageLoading != null) {
+                        acbflwFrescoImageLoading.clearDiskCache();
                     }
                     break;
                 case IMAGE_LOAD_LIBRARY_TYPE_GLIDE:
-                    if (qtGlideImageLoading != null) {
-                        qtGlideImageLoading.clearDiskCache();
+                    if (acbflwGlideImageLoading != null) {
+                        acbflwGlideImageLoading.clearDiskCache();
                     }
                     break;
                 default:
@@ -151,11 +151,11 @@ public class AcbflwImageLoadingFactory {
      * 暂停加载图片
      */
     public void pauseLoading() {
-        if (qtFrescoImageLoading != null) {
-            qtFrescoImageLoading.pauseLoading();
+        if (acbflwFrescoImageLoading != null) {
+            acbflwFrescoImageLoading.pauseLoading();
         }
-        if (qtGlideImageLoading != null) {
-            qtGlideImageLoading.pauseLoading();
+        if (acbflwGlideImageLoading != null) {
+            acbflwGlideImageLoading.pauseLoading();
         }
     }
 
@@ -163,11 +163,11 @@ public class AcbflwImageLoadingFactory {
      * 恢复加载图片
      */
     public void resumeLoading() {
-        if (qtFrescoImageLoading != null) {
-            qtFrescoImageLoading.resumeLoading();
+        if (acbflwFrescoImageLoading != null) {
+            acbflwFrescoImageLoading.resumeLoading();
         }
-        if (qtGlideImageLoading != null) {
-            qtGlideImageLoading.resumeLoading();
+        if (acbflwGlideImageLoading != null) {
+            acbflwGlideImageLoading.resumeLoading();
         }
     }
 }

@@ -71,15 +71,15 @@ open class AcbflwBaseModel {
             override fun onNext(t: Response<T>) {
                 setPageInfo()
                 if (t.code() == 200) {
-                    val repCode = t.body().stateCode
+                    val repCode = t.body()?.stateCode
                     if (repCode == AcbflwNetRepCode.repCodeSuccess) {
                         //网络请求成功
-                        netOptionsCallback.success(t.body())
+                        netOptionsCallback.success(t.body()!!)
                     } else {
                         AcbflwNetRepCode.repCodeLoginStatusError.forEach {
                             if (it == repCode) {
                                 //用户登陆状态异常，需要跳转到登陆页面
-                                netOptionsCallback.userLoginStatusError(it, t.body().stateMessage)
+                                netOptionsCallback.userLoginStatusError(it, t.body()?.stateMessage)
                                 return
                             }
                         }

@@ -7,7 +7,6 @@ import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
 import android.os.Build;
 import android.os.Bundle;
 
-import java.io.File;
 import java.util.Vector;
 
 import androidx.annotation.AnimRes;
@@ -25,7 +24,7 @@ import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACT
 
 /**
  * 创建时间：2019-01-29 下午 15:41:53
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren ）
  * 功能作用：安卓工具类设置
  * 思路：
  * 方法：
@@ -59,6 +58,10 @@ public class AtlwConfig {
      * 图片加载框架类型是glide
      */
     public static final int IMAGE_LOAD_LIBRARY_TYPE_GLIDE = 1;
+    /**
+     * 图片加载框架类型是ImageLoad
+     */
+    public static final int IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD = 2;
     /**
      * 图片加载失败图片
      */
@@ -167,7 +170,7 @@ public class AtlwConfig {
      *
      * @return 是否注册了监听
      */
-    public static boolean isRegistActivityLifecycleCallback() {
+    public static boolean isRegisterActivityLifecycleCallback() {
         return isRegistActivityLifecycleCallback;
     }
 
@@ -185,7 +188,7 @@ public class AtlwConfig {
         JtlwLogUtils.logUtils = new AtlwLogUtils();
         JtlwLogUtils.logUtils.setShowLog(isDebug);
         if (debugLogFileDirSavePath != null) {
-            AtlwLogUtils.logUtils.setLogSaveFileDirPath(debugLogFileDirSavePath);
+            JtlwLogUtils.logUtils.setLogSaveFileDirPath(debugLogFileDirSavePath);
         }
     }
 }

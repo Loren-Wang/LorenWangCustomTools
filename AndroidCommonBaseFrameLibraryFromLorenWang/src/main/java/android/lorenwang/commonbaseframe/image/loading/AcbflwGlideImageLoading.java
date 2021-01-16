@@ -40,7 +40,7 @@ class AcbflwGlideImageLoading extends AcbflwBaseImageLoading {
      * @param config    配置
      */
     private void loadGildeImage(Object pathOrRes, final ImageView imageView,
-            @NotNull AcbflwImageLoadConfig config) {
+            @NotNull final AcbflwImageLoadConfig config) {
         RequestManager requestManager = Glide.with(AtlwConfig.nowApplication);
         if (config.getLoadCallback() == null) {
             RequestBuilder<Drawable> builder = requestManager.load(pathOrRes);
