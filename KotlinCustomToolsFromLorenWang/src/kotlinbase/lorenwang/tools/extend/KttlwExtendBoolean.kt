@@ -14,7 +14,7 @@ package kotlinbase.lorenwang.tools.extend
 /**
  *如果是false值情况下处理
  */
-fun <R> Boolean?.ifFalse(exe: () -> R): R? {
+fun <R> Boolean?.kttlwIfFalse(exe: () -> R): R? {
     return if (this == null || this.not()) {
         exe()
     } else {
@@ -25,7 +25,7 @@ fun <R> Boolean?.ifFalse(exe: () -> R): R? {
 /**
  * 如果是true值的情况下处理
  */
-fun <R> Boolean?.ifTrue(exe: () -> R): R? {
+fun <R> Boolean?.kttlwIfTrue(exe: () -> R): R? {
     return if (this != null && this) {
         exe()
     } else {
@@ -36,7 +36,7 @@ fun <R> Boolean?.ifTrue(exe: () -> R): R? {
 /**
  * 值状态处理，分true和false处理
  */
-fun <R> Boolean?.valueStatus(trueFun: () -> R, falseFun: () -> R): R {
+fun <R> Boolean?.kttlwValueStatus(trueFun: () -> R, falseFun: () -> R): R {
     return if (this == null || this.not()) {
         falseFun()
     } else {
@@ -47,7 +47,7 @@ fun <R> Boolean?.valueStatus(trueFun: () -> R, falseFun: () -> R): R {
 /**
  * 布尔值对应的整型数值
  */
-fun Boolean?.toInt(): Int {
+fun Boolean?.kttlwToInt(): Int {
     return if (this == null || this.not()) {
         0
     } else {
@@ -58,6 +58,6 @@ fun Boolean?.toInt(): Int {
 /**
  * 获取非空数据
  */
-fun Boolean?.getNotEmptyData(defaultData: Boolean = false): Boolean {
+fun Boolean?.kttlwGetNotEmptyData(defaultData: Boolean = false): Boolean {
     return this ?: defaultData
 }

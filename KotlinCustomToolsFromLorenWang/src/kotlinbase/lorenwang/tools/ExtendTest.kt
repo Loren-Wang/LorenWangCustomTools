@@ -1,7 +1,8 @@
 package kotlinbase.lorenwang.tools
 
-import kotlinbase.lorenwang.tools.extend.ifFalse
-import kotlinbase.lorenwang.tools.extend.ifTrue
+import kotlinbase.lorenwang.tools.extend.kttlwIfFalse
+import kotlinbase.lorenwang.tools.extend.kttlwIfTrue
+
 
 /**
  * 功能作用：扩展测试
@@ -18,7 +19,7 @@ import kotlinbase.lorenwang.tools.extend.ifTrue
  */
 open class ExtendTest {
     init {
-        println("boolean:" + 0.ifFalse().toString())
-        println("boolean:" + 0.ifTrue().toString())
+        println("boolean:" + 0.kttlwIfFalse().toString())
+        println("boolean:" + 0.kttlwIfTrue().toString())
     }
 }

@@ -17,7 +17,7 @@ import javabase.lorenwang.dataparse.JdplwJsonUtils
 /**
  * 格式化json数据
  */
-fun <T> String.parseJsonData(cls: Class<T>): T? {
+fun <T> String.kttlwParseJsonData(cls: Class<T>): T? {
     return try {
         JdplwJsonUtils.fromJson(this, cls)
     } catch (e: Exception) {
@@ -28,7 +28,7 @@ fun <T> String.parseJsonData(cls: Class<T>): T? {
 /**
  * 获取非空数据
  */
-fun String?.getNotEmptyData(defaultStr: String = ""): String {
+fun String?.kttlwGetNotEmptyData(defaultStr: String = ""): String {
     return if (this.isNullOrEmpty()) {
         defaultStr
     } else {
@@ -39,6 +39,6 @@ fun String?.getNotEmptyData(defaultStr: String = ""): String {
 /**
  * 判断这个字符串是否是长整型时间戳
  */
-fun String?.isLongTime(): Boolean {
+fun String?.kttlwIsLongTime(): Boolean {
     return !(this == null || !this.matches(Regex("[0-9]+")))
 }

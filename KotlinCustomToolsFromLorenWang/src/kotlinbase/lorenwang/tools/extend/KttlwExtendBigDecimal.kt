@@ -18,8 +18,8 @@ import java.math.BigDecimal
 /**
  * 获取非空数据
  */
-fun BigDecimal?.getNotEmptyData(defaultData: BigDecimal = BigDecimal.ZERO): BigDecimal {
-    return if (this.isEmpty()) {
+fun BigDecimal?.kttlwGetNotEmptyData(defaultData: BigDecimal = BigDecimal.ZERO): BigDecimal {
+    return if (this.kttlwIsEmpty()) {
         defaultData
     } else {
         this!!

@@ -18,7 +18,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
 /**
  * 获取实例的json数据
  */
-fun <R> Map<String, Any?>.parseJsonData(cls: Class<R>): R? {
+fun <R> Map<String, Any?>.kttlwParseJsonData(cls: Class<R>): R? {
     return try {
         JdplwJsonUtils.fromJson(this, cls)
     } catch (e: Exception) {
@@ -29,7 +29,7 @@ fun <R> Map<String, Any?>.parseJsonData(cls: Class<R>): R? {
 /**
  * 获取非空数据
  */
-fun <K, V> Map<K, V>?.getNotEmptyData(defaultData: Map<K, V> = mapOf()): Map<K, V> {
+fun <K, V> Map<K, V>?.kttlwGetNotEmptyData(defaultData: Map<K, V> = mapOf()): Map<K, V> {
     return if (this.isNullOrEmpty()) {
         defaultData
     } else {
