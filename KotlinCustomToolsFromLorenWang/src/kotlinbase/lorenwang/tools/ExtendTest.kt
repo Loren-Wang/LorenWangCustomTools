@@ -1,7 +1,5 @@
 package kotlinbase.lorenwang.tools
 
-import kotlinbase.lorenwang.tools.extend.kttlwIfFalse
-import kotlinbase.lorenwang.tools.extend.kttlwIfTrue
 
 
 /**
@@ -19,7 +17,5 @@ import kotlinbase.lorenwang.tools.extend.kttlwIfTrue
  */
 open class ExtendTest {
     init {
-        println("boolean:" + 0.kttlwIfFalse().toString())
-        println("boolean:" + 0.kttlwIfTrue().toString())
     }
 }

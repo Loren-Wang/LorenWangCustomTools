@@ -16,22 +16,23 @@ repositories {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'junit:junit:4.12'
     implementation 'junit:junit:4.12'
     //java工具类库
-    compileOnly 'com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.2'
+    compileOnly project(':JavaCustomToolsFromLorenWang')
     //java数据格式化类库
-    compileOnly 'com.github.lorenwang:JavaDataParseFromLorenWang:2.0.0'
+    compileOnly project(':JavaDataParseFromLorenWang')
+    compileOnly 'com.google.code.gson:gson:2.8.6'
     //swagger注释
     compileOnly 'io.springfox:springfox-swagger2:2.6.0'
     compileOnly 'io.springfox:springfox-swagger-ui:2.6.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
 }
 
 def moduleName = "KotlinCustomToolsFromLorenWang"
 def moduleDescription = "Kotlin自定义工具类"
-def moduleVersion = '1.3.0'
+def moduleVersion = '1.3.2'
 Properties properties = new Properties();
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def bintrayUser = properties.getProperty("bintray.user")

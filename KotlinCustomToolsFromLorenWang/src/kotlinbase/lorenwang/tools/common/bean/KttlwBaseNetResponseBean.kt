@@ -1,5 +1,6 @@
 package kotlinbase.lorenwang.tools.common.bean
 
+import com.google.gson.annotations.SerializedName
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -16,10 +17,15 @@ import io.swagger.annotations.ApiModelProperty
  * 配置参数2：响应的状态信息---stateMessage
  * 配置参数3：响应数据---data
  */
-open class KttlwBaseNetResponseBean<T>(var data: T? = null) {
+open class KttlwBaseNetResponseBean<T>(
+    @ApiModelProperty(value = "响应数据", required = true) @SerializedName(value = "data", alternate = ["result","value"]) var data: T? = null) {
+
     @ApiModelProperty(value = "响应的状态码，和前端会是约定好的值列表", required = true)
+    @SerializedName(value = "stateCode", alternate = ["statusCode", "code", "statecode", "statuscode","responseCode"])
     var stateCode: String = "0"
+
     @ApiModelProperty(value = "响应的状态信息，例如错误信息等", required = true)
+    @SerializedName(value = "stateMessage", alternate = ["statusMessage", "message", "statemessage", "statusmessage","responseMsg"])
     var stateMessage: String? = null
 
     /**

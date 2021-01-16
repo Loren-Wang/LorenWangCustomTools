@@ -25,17 +25,19 @@ open class KttlwBaseNetRequestBean {
      */
     @ApiModelProperty(value = "请求中返回的图片相关是否返回全地址链接", example = "true")
     @ApiParam(value = "请求中返回的图片相关是否返回全地址链接", defaultValue = true.toString())
-    var returnFullImagePath = true;
+    var returnFullImagePath = true
+
     /**
      * 分页页码
      */
     @ApiModelProperty(value = "进行分页列表请求是传递的分页页码")
     @ApiParam(value = "请求中返回的图片相关是否返回全地址链接")
-    var pageIndex = DEFAULT_NET_PAGE_INDEX;
+    var pageIndex = DEFAULT_NET_PAGE_INDEX
+
     /**
      * 每页请求数量
      */
     @ApiModelProperty(value = "进行分页列表请求是传递的每页请求数量")
     @ApiParam(value = "进行分页列表请求是传递的每页请求数量")
-    var pageSize = DEFAULT_NET_PAGE_SIZE;
+    var pageSize = DEFAULT_NET_PAGE_SIZE
 }
