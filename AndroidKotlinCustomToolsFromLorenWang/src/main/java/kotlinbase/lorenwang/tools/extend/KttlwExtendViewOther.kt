@@ -23,13 +23,13 @@ import android.lorenwang.tools.app.AtlwScreenUtils
 /**
  * 获取屏幕宽度
  */
-fun kttlwGetScreenWidth() : Int {
+fun kttlwGetScreenWidth(): Int {
     return AtlwScreenUtils.getInstance().screenWidth
 }
 
 /**
  * 获取屏幕高度
  */
-fun kttlwGetScreenHeight() : Int {
+fun kttlwGetScreenHeight(): Int {
     return AtlwScreenUtils.getInstance().screenHeight
 }
