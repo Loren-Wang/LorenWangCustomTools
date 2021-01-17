@@ -55,7 +55,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     /**
      * 基类刷新控件
      */
-    protected var swipeRefresh: SwipeRefreshLayout? = null
+    protected var swipeAcbflwRefresh: SwipeRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initCreateSuperBefore(savedInstanceState)
@@ -123,14 +123,15 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      */
     protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?,
         @LayoutRes bottomViewResId: Int?) { //设置view
-        setContentView(R.layout.acbflw_activity_base)
+        setContentView(R.layout.acbflw_page_base)
 
         //初始化刷新控件
-        swipeRefresh = findViewById(R.id.swipeRefresh) //初始化刷新控件监听
-        swipeRefresh?.setOnRefreshListener { onRefreshData() }
+        swipeAcbflwRefresh = findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
+        swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
+        swipeAcbflwRefresh?.isRefreshing = false
 
         //内容视图
-        val vsbContent = findViewById<ViewStub>(R.id.vsbContent)
+        val vsbContent = findViewById<ViewStub>(R.id.vsbAcbflwContent)
         vsbContent.layoutResource = resId
         showContentView = vsbContent.inflate()
 
@@ -140,12 +141,12 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
             vsbTitleBarHeadView.layoutResource = it
             AtlwViewUtils.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
             showTitleBarView = vsbTitleBarHeadView.inflate()
-            findViewById<View>(R.id.viewHeadViewShadow).visibility = View.VISIBLE
+            findViewById<View>(R.id.viewAcbflwHeadViewShadow).visibility = View.VISIBLE
         }
 
         //底部栏视图
         bottomViewResId?.let {
-            val vsbBottomView = findViewById<ViewStub>(R.id.vsbBottomView)
+            val vsbBottomView = findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
             vsbBottomView.layoutResource = bottomViewResId
             AtlwViewUtils.getInstance().setViewWidthHeight(vsbBottomView, ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
             showBottomOptionsView = vsbBottomView.inflate()
@@ -163,7 +164,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T) {
         showContentView?.visibility = View.GONE
         if (emptyView == null) {
-            val vsbQtEmpty = findViewById<ViewStub>(R.id.vsbEmpty)
+            val vsbQtEmpty = findViewById<ViewStub>(R.id.vsbAcbflwEmpty)
             vsbQtEmpty.layoutResource = emptyResId
             emptyView = vsbQtEmpty.inflate()
             emptyView?.setOnClickListener { _: View? -> onRefreshData() }

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
+        android:id="@+id/swipeAcbflwRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -23,19 +23,19 @@
 
             <!--内容数据-->
             <ViewStub
-                android:id="@+id/vsbContent"
+                android:id="@+id/vsbAcbflwContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <!--空数据-->
             <ViewStub
-                android:id="@+id/vsbEmpty"
+                android:id="@+id/vsbAcbflwEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <!--阴影-->
             <View
-                android:id="@+id/viewHeadViewShadow"
+                android:id="@+id/viewAcbflwHeadViewShadow"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:background="@drawable/avlw_shape_shadow_down"
@@ -46,7 +46,7 @@
 
     <!--底部操作栏-->
     <ViewStub
-        android:id="@+id/vsbBottomView"
+        android:id="@+id/vsbAcbflwBottomView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

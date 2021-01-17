@@ -63,10 +63,10 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     /**
      * 基类刷新控件
      */
-    protected var swipeRefresh: SwipeRefreshLayout? = null
+    protected var swipeAcbflwRefresh: SwipeRefreshLayout? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentView = inflater.inflate(R.layout.acbflw_activity_base, null)
+        fragmentView = inflater.inflate(R.layout.acbflw_page_base, null)
         return fragmentView
     }
 
@@ -105,11 +105,12 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      */
     protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?,
         @LayoutRes bottomViewResId: Int?) { //初始化刷新控件
-        swipeRefresh = fragmentView!!.findViewById(R.id.swipeRefresh) //初始化刷新控件监听
-        swipeRefresh?.setOnRefreshListener { onRefreshData() }
+        swipeAcbflwRefresh = fragmentView!!.findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
+        swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
+        swipeAcbflwRefresh?.isRefreshing = false
 
         //内容视图
-        val vsbContent = fragmentView!!.findViewById<ViewStub>(R.id.vsbContent)
+        val vsbContent = fragmentView!!.findViewById<ViewStub>(R.id.vsbAcbflwContent)
         vsbContent.layoutResource = resId
         showContentView = vsbContent.inflate()
 
@@ -119,12 +120,12 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
             vsbTitleBarHeadView.layoutResource = titleBarHeadViewLayoutResId
             AtlwViewUtils.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
             showTitleBarView = vsbTitleBarHeadView.inflate()
-            fragmentView!!.findViewById<View>(R.id.viewHeadViewShadow).visibility = View.VISIBLE
+            fragmentView!!.findViewById<View>(R.id.viewAcbflwHeadViewShadow).visibility = View.VISIBLE
         }
 
         //底部栏视图
         if (bottomViewResId != null) {
-            val vsbBottomView = fragmentView!!.findViewById<ViewStub>(R.id.vsbBottomView)
+            val vsbBottomView = fragmentView!!.findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
             vsbBottomView.layoutResource = bottomViewResId
             AtlwViewUtils.getInstance().setViewWidthHeight(vsbBottomView, ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
             showBottomOptionsView = vsbBottomView.inflate()
@@ -151,7 +152,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T) {
         showContentView?.kttlwToGone()
         if (emptyView == null) {
-            val vsbQtEmpty = fragmentView?.findViewById<ViewStub>(R.id.vsbEmpty)
+            val vsbQtEmpty = fragmentView?.findViewById<ViewStub>(R.id.vsbAcbflwEmpty)
             vsbQtEmpty?.layoutResource = emptyResId
             emptyView = vsbQtEmpty?.inflate()
             emptyView?.setOnClickListener { _: View? -> onRefreshData() }
