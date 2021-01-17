@@ -128,7 +128,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         //初始化刷新控件
         swipeAcbflwRefresh = findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
         swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
-        swipeAcbflwRefresh?.isRefreshing = false
+        swipeAcbflwRefresh?.isEnabled = false
 
         //内容视图
         val vsbContent = findViewById<ViewStub>(R.id.vsbAcbflwContent)
