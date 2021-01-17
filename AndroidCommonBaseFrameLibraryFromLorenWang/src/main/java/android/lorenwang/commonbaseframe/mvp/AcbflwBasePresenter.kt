@@ -191,7 +191,7 @@ abstract class AcbflwBasePresenter<V : AcbflwBaseView>(var baseView: V) {
         allowLoadingBackFinishPage: Boolean, repOptionsCallback: CALL): MCALL {
         //新增presenter记录
         AcbflwBaseApplication.application?.addPresenter(activity, this)
-        val entity = getRepOptionsByPresenterCallback<DATA, REP, CALL, MCALL>()
+        val entity = getRepOptionsByPresenterCallback<DATA, REP, CALL, MCALL>(repOptionsCallback)
         entity.setAllFun({ dto ->
             if (!activity?.isFinishing.kttlwGetNotEmptyData(false)) {
                 if (successHideLoading) {
@@ -243,7 +243,8 @@ abstract class AcbflwBasePresenter<V : AcbflwBaseView>(var baseView: V) {
     /**
      * 获取默认实例
      */
-    abstract fun <DATA, REP : KttlwBaseNetResponseBean<DATA>, CALL : AcbflwRepOptionsByPresenterCallback<REP>, MCALL : AcbflwNetOptionsByModelCallback<DATA, REP>> getRepOptionsByPresenterCallback(): MCALL
+    abstract fun <DATA, REP : KttlwBaseNetResponseBean<DATA>, CALL : AcbflwRepOptionsByPresenterCallback<REP>, MCALL : AcbflwNetOptionsByModelCallback<DATA, REP>> getRepOptionsByPresenterCallback(
+        repOptionsCallback: CALL): MCALL
 
     /**
      * 返回列表BaseType数据
