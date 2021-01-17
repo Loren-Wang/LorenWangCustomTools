@@ -5,11 +5,6 @@ import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView;
 
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
-import androidx.annotation.NonNull;
 
 /**
  * 功能作用：基础列表数据类
@@ -25,7 +20,7 @@ import androidx.annotation.NonNull;
 
 public class AcbflwBaseRefreshDataOptions implements AcbflwBaseRefreshDataOptionsDecorator {
     private final String TAG = getClass().getName();
-    private AcbflwRefreshView refreshLayout;
+    private final AcbflwRefreshView refreshLayout;
     /**
      * 刷新头
      */
@@ -39,11 +34,12 @@ public class AcbflwBaseRefreshDataOptions implements AcbflwBaseRefreshDataOption
      */
     private boolean firstRefresh = true;
 
-    private AcbflwBaseRefreshDataOptionsDecorator qtBaseRefreshDataOptionsDecorator;
+    private final AcbflwBaseRefreshDataOptionsDecorator qtBaseRefreshDataOptionsDecorator;
 
     public AcbflwBaseRefreshDataOptions(Context context, AcbflwBaseView baseView, AcbflwRefreshView refreshLayout,
                                         AcbflwBaseRefreshDataOptionsDecorator qtBaseRefreshDataOptionsDecorator) {
         this.qtBaseRefreshDataOptionsDecorator = qtBaseRefreshDataOptionsDecorator;
+        this.refreshLayout = refreshLayout;
         if (refreshHeader != null) {
             refreshLayout.setRefreshHeader(refreshHeader);
         }
@@ -61,19 +57,9 @@ public class AcbflwBaseRefreshDataOptions implements AcbflwBaseRefreshDataOption
         //设置底部越界时是否自动加载，在项目中关闭自动加载更多
         refreshLayout.setEnableAutoLoadMore(false);
         //刷新监听
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                startRefreshing();
-            }
-        });
+        refreshLayout.setOnRefreshListener(refreshLayout1 -> startRefreshing());
         //加载更多监听
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                startLoadingMore();
-            }
-        });
+        refreshLayout.setOnLoadMoreListener(refreshLayout12 -> startLoadingMore());
     }
 
     /**
