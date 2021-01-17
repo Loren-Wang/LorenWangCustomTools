@@ -14,17 +14,17 @@ import android.lorenwang.commonbaseframe.network.file.AcbflwFileUpLoadBean
  * 备注：该类放到presenter中，因为mvp中的p层负责m数据和v的中间连接，而该回调是用来对m数据层从接口获取到的数据之后的
  * 一些处理，例如当activity被结束后不调用该方法给view层展示数据等
  */
-interface AcbflwRepOptionsByPresenterCallback<T> {
+abstract class AcbflwRepOptionsByPresenterCallback<T> {
     /**
      * 返回view操作数据
      */
-    fun viewOptionsData(data: T)
+    abstract fun viewOptionsData(data: T)
 
     /**
      * 响应数据异常
      * @param code 错误码
      */
-    fun repDataError(code: Any?, message: String?)
+    fun repDataError(code: Any?, message: String?){}
 
     /**
      * 文件上传进度
