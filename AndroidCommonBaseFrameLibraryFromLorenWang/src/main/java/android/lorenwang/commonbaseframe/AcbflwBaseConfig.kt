@@ -48,6 +48,11 @@ object AcbflwBaseConfig {
     var applicationIdPackageNameCurrent = ""
 
     /**
+     * 默认图片加载库
+     */
+    var defaultImageLoadingLibrary = AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_FRESCO
+
+    /**
      * 当前编译类型是否是正式环境
      *
      * @return true为是正式环境编译

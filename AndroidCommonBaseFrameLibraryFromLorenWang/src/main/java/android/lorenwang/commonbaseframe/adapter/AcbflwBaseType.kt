@@ -17,6 +17,4 @@ import androidx.annotation.LayoutRes
  * @param bean 数据实例
  * @param layoutResId 布局资源id
  */
-open class AcbflwBaseType<T>(@LayoutRes var layoutResId: Int, var bean: T?){
-    constructor():this(0,null)
-}
+open class AcbflwBaseType<T>(@LayoutRes var layoutResId: Int, var bean: T?)
