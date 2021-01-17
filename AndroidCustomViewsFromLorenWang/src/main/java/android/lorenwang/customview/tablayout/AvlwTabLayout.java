@@ -134,30 +134,28 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
     /**
      * 滑动跳转到指定位置线程
      */
-    private final AvlwTabScrollToPositionRunnable scrollToPositionRunnable =
-            new AvlwTabScrollToPositionRunnable() {
-                @Override
-                public void run() {
-                    float percent = 0f;
-                    while (true) {
-                        percent += 0.05f;
-                        //修改滑动进度
-                        changeScrollPercent(percent, onTouchChange);
-                        if ((int) percent == 1) {
-                            break;
-                        }
-                        try {
-                            if (percent < 0.75) {
-                                Thread.sleep(15);
-                            } else {
-                                Thread.sleep(30);
-                            }
-                        } catch (Exception e) {
-                            AtlwLogUtils.logUtils.logE(TAG, "滑动异常");
-                        }
-                    }
+    private final AvlwTabScrollToPositionRunnable scrollToPositionRunnable = new AvlwTabScrollToPositionRunnable() {
+        @Override public void run() {
+            float percent = 0f;
+            while (true) {
+                percent += 0.05f;
+                //修改滑动进度
+                changeScrollPercent(percent, onTouchChange);
+                if ((int) percent == 1) {
+                    break;
                 }
-            };
+                try {
+                    if (percent < 0.75) {
+                        Thread.sleep(15);
+                    } else {
+                        Thread.sleep(30);
+                    }
+                } catch (Exception e) {
+                    AtlwLogUtils.logUtils.logE(TAG, "滑动异常");
+                }
+            }
+        }
+    };
 
     public AvlwTabLayout(Context context) {
         super(context);
@@ -179,37 +177,40 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
         showType = attributes.getInt(R.styleable.AvlwTabLayout_avlw_tl_showType, showType);
         tabWidth = attributes.getDimension(R.styleable.AvlwTabLayout_avlw_tl_tabWidth, tabWidth);
         tabHeight = attributes.getDimension(R.styleable.AvlwTabLayout_avlw_tl_tabHeight, tabHeight);
-        currentPosition = attributes.getInt(R.styleable.AvlwTabLayout_avlw_tl_tabDefaultPosition,
-                currentPosition);
-        lineTextBaselineAligning =
-                attributes.getBoolean(R.styleable.AvlwTabLayout_avlw_tl_lineTextBaselineAligning,
+        currentPosition = attributes
+                .getInt(R.styleable.AvlwTabLayout_avlw_tl_tabDefaultPosition, currentPosition);
+        lineTextBaselineAligning = attributes
+                .getBoolean(R.styleable.AvlwTabLayout_avlw_tl_lineTextBaselineAligning,
                         lineTextBaselineAligning);
 
         //初始化tab画笔
         tabTextPaintY = new Paint();
         tabTextPaintY.setAntiAlias(true);
-        tabTextPaintY.setTextSize(attributes.getDimension(R.styleable.AvlwTabLayout_avlw_tl_tabTextSizeY, 50f));
-        tabTextPaintY.setColor(attributes.getColor(R.styleable.AvlwTabLayout_avlw_tl_tabTextColorY, Color.BLUE));
+        tabTextPaintY.setTextSize(
+                attributes.getDimension(R.styleable.AvlwTabLayout_avlw_tl_tabTextSizeY, 50f));
+        tabTextPaintY.setColor(
+                attributes.getColor(R.styleable.AvlwTabLayout_avlw_tl_tabTextColorY, Color.BLUE));
         //加粗配置
         if (attributes.getBoolean(R.styleable.AvlwTabLayout_avlw_tl_tabTextBoldY, false)) {
             tabTextPaintY.setTypeface(Typeface.DEFAULT_BOLD);
         }
         tabTextPaintN = new Paint();
         tabTextPaintN.setAntiAlias(true);
-        tabTextPaintN.setTextSize(attributes.getDimension(R.styleable.AvlwTabLayout_avlw_tl_tabTextSizeN, 50f));
-        tabTextPaintN.setColor(attributes.getColor(R.styleable.AvlwTabLayout_avlw_tl_tabTextColorN, Color.BLACK));
+        tabTextPaintN.setTextSize(
+                attributes.getDimension(R.styleable.AvlwTabLayout_avlw_tl_tabTextSizeN, 50f));
+        tabTextPaintN.setColor(
+                attributes.getColor(R.styleable.AvlwTabLayout_avlw_tl_tabTextColorN, Color.BLACK));
         //加粗配置
         if (attributes.getBoolean(R.styleable.AvlwTabLayout_avlw_tl_tabTextBoldN, false)) {
             tabTextPaintN.setTypeface(Typeface.DEFAULT_BOLD);
         }
         //判断选中文本大小是否是最大的
-        tabSizeMaxY =
-                Float.compare(tabTextPaintY.getTextSize(), tabTextPaintN.getTextSize()) >= 0;
+        tabSizeMaxY = Float.compare(tabTextPaintY.getTextSize(), tabTextPaintN.getTextSize()) >= 0;
 
 
         //获取相对于屏幕百分比，大于0情况下安照百分比来显示宽度
-        float tabWidthPercent =
-                attributes.getFloat(R.styleable.AvlwTabLayout_avlw_tl_tabWidthPercent, -1.0F);
+        float tabWidthPercent = attributes
+                .getFloat(R.styleable.AvlwTabLayout_avlw_tl_tabWidthPercent, -1.0F);
         if (tabWidthPercent > (float) 0) {
             if (tabWidthPercent > (float) 1) {
                 tabWidthPercent = 1.0F;
@@ -238,16 +239,15 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                 break;
             case SHOW_TYPE_TEXT_LINE:
             default:
-                drawTabLayout = new AvlwTabLayoutTypeTextLine(context, this, attributes, tabWidth
-                        , tabHeight);
+                drawTabLayout = new AvlwTabLayoutTypeTextLine(context, this, attributes, tabWidth,
+                        tabHeight);
                 break;
         }
 
         attributes.recycle();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = widthMeasureSpec;
         int height = heightMeasureSpec;
         //wrap的时候读取自定义的宽高设置
@@ -264,8 +264,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
         setMeasuredDimension(width, height);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
+    @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //绘制基础部分
         String currentText = tabTextList.get(currentPosition);
@@ -346,8 +345,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
+    @SuppressLint("ClickableViewAccessibility") @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -360,17 +358,18 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                 if (layoutOffset > 0) {
                     //一旦大于0代表着已经滑动到了左边界
                     layoutOffset = 0;
-                } else if (Math.abs(layoutOffset) > getMeasureWidth(this, 0, tabTextListSize) - getWidth()) {
+                } else if (Math.abs(layoutOffset) >
+                        getMeasureWidth(this, 0, tabTextListSize) - getWidth()) {
                     //绝对值大于差值则代表着已经到了右边界
-                    layoutOffset =
-                            -Math.abs(getMeasureWidth(this, 0, tabTextListSize) - getWidth());
+                    layoutOffset = -Math
+                            .abs(getMeasureWidth(this, 0, tabTextListSize) - getWidth());
                 }
                 AtlwLogUtils.logUtils.logD(TAG, String.valueOf(layoutOffset));
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 if (allowTouchChange) {
-                    checkChangePosition(event.getX(), event.getY(), true);
+                    checkChangePosition(event.getX(), event.getY());
                 }
                 break;
             default:
@@ -382,33 +381,29 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
 
     /**
      * 检测是否是要修改位置,如果要修改则直接切换位置
-     *
-     * @param nowX            当前x坐标
+     *  @param nowX            当前x坐标
      * @param nowY            当前点击y坐标
-     * @param isOnTouchChange 是否是触摸切换的
      */
-    private void checkChangePosition(float nowX, float nowY, boolean isOnTouchChange) {
+    private void checkChangePosition(float nowX, float nowY) {
         if (Math.abs(nowX - downX) < 25 && Math.abs(nowY - downY) < 25) {
             int clickPosition = (int) ((nowX - getPaddingLeft() - layoutOffset) / tabWidth);
-            setCurrentPosition(clickPosition, false, isOnTouchChange);
+            setCurrentPosition(clickPosition, false, true);
         }
     }
 
     /**
      * 无用，给其他子控件使用的
      */
-    @Override
-    public int getMeasureWidth(AvlwTabLayout avlwTabLayout, int widthMeasureSpec,
-                               int tabTextListSize) {
+    @Override public int getMeasureWidth(AvlwTabLayout avlwTabLayout, int widthMeasureSpec,
+            int tabTextListSize) {
         return drawTabLayout.getMeasureWidth(avlwTabLayout, widthMeasureSpec, tabTextListSize);
     }
 
     /**
      * 无用，给其他子控件使用的
      */
-    @Override
-    public int getMeasureHeight(AvlwTabLayout avlwTabLayout, int heightMeasureSpec,
-                                int tabTextListSize) {
+    @Override public int getMeasureHeight(AvlwTabLayout avlwTabLayout, int heightMeasureSpec,
+            int tabTextListSize) {
         return drawTabLayout.getMeasureHeight(avlwTabLayout, heightMeasureSpec, tabTextListSize);
     }
 
@@ -424,12 +419,11 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param currentWidth     当前位置宽度
      * @param scrollToWidth    滑动到目标的宽度
      */
-    @Override
-    public void drawTypeChild(Canvas canvas, Integer currentPosition, Integer scrollToPosition,
-                              float lineSlipPercent, float startX, float stopX,
-                              float currentWidth, float scrollToWidth) {
-        drawTabLayout.drawTypeChild(canvas, currentPosition, this.scrollToPosition,
-                lineSlipPercent, startX, stopX, currentWidth, scrollToWidth);
+    @Override public void drawTypeChild(Canvas canvas, Integer currentPosition,
+            Integer scrollToPosition, float lineSlipPercent, float startX, float stopX,
+            float currentWidth, float scrollToWidth) {
+        drawTabLayout.drawTypeChild(canvas, currentPosition, this.scrollToPosition, lineSlipPercent,
+                startX, stopX, currentWidth, scrollToWidth);
     }
 
     /**
@@ -446,11 +440,9 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param textWidth         文本宽度
      * @param textHeight        文本高度
      */
-    @Override
-    public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX, float drawTextY,
-                             float scrollToTextX, float scrollToTextWidth,
-                             float lineScrollPercent, boolean isCurrent, float textWidth,
-                             float textHeight) {
+    @Override public void drawTypeItem(Canvas canvas, Paint textPaint, float drawTextX,
+            float drawTextY, float scrollToTextX, float scrollToTextWidth, float lineScrollPercent,
+            boolean isCurrent, float textWidth, float textHeight) {
         drawTabLayout.drawTypeItem(canvas, textPaint, drawTextX, drawTextY, scrollToTextX,
                 scrollToTextWidth, lineScrollPercent, isCurrent, textWidth, textHeight);
     }
@@ -471,7 +463,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param percent         目标百分比
      */
     public void setCurrentPosition(int currentPosition,
-                                   @FloatRange(from = 0, to = 1) float percent) {
+            @FloatRange(from = 0, to = 1) float percent) {
         setCurrentPosition(currentPosition, false, percent);
     }
 
@@ -483,7 +475,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param isOnTouchChange 是否是触摸修改位置的
      */
     private void setCurrentPosition(int currentPosition, boolean isOnTouchChange,
-                                    @FloatRange(from = 0, to = 1) float percent) {
+            @FloatRange(from = 0, to = 1) float percent) {
         if (tabTextList == null || currentPosition >= tabTextList.size()) {
             return;
         }
@@ -511,7 +503,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param isOnTouchChange 是否是触摸切换的
      */
     private void setCurrentPosition(int currentPosition, boolean isScroll,
-                                    boolean isOnTouchChange) {
+            boolean isOnTouchChange) {
         if (tabTextList == null || currentPosition >= tabTextList.size()) {
             return;
         }
@@ -628,8 +620,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param tabWidth tab宽度
      * @return 当前view实例
      */
-    @Override
-    public AvlwTabLayout setTabWidth(float tabWidth) {
+    @Override public AvlwTabLayout setTabWidth(float tabWidth) {
         this.tabWidth = tabWidth;
         drawTabLayout.setTabWidth(tabWidth);
         return this;
@@ -665,9 +656,8 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @return 当前实例
      */
     public AvlwTabLayout setTabTextConfig(Integer textSizeY, Integer textSizeN, Integer textColorY,
-                                          Integer textColorN, Boolean isTextYBold,
-                                          Boolean isTextNBold,
-                                          Boolean isAllowLineTextBaselineAligning) {
+            Integer textColorN, Boolean isTextYBold, Boolean isTextNBold,
+            Boolean isAllowLineTextBaselineAligning) {
         if (textSizeY != null) {
             tabTextPaintY.setTextSize(textSizeY);
         }
@@ -714,12 +704,12 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @return 当前实例
      */
     public AvlwTabLayout setLineConfig(Float lineWidth,
-                                       @FloatRange(from = 0, to = 1) Float lineWidthPercent,
-                                       Float lineHeight, Drawable lineBgDrawable,
-                                       Float lineTextSpace) {
+            @FloatRange(from = 0, to = 1) Float lineWidthPercent, Float lineHeight,
+            Drawable lineBgDrawable, Float lineTextSpace) {
         if (drawTabLayout instanceof AvlwTabLayoutTypeTextLine) {
-            ((AvlwTabLayoutTypeTextLine) drawTabLayout).setLineConfig(lineWidth, lineWidthPercent
-                    , lineHeight, lineBgDrawable, lineTextSpace);
+            ((AvlwTabLayoutTypeTextLine) drawTabLayout)
+                    .setLineConfig(lineWidth, lineWidthPercent, lineHeight, lineBgDrawable,
+                            lineTextSpace);
         }
         return this;
     }
@@ -732,11 +722,12 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @param lineContainerTextSpace 下划线容器和文本之间的间距
      * @return 当前实例
      */
-    public AvlwTabLayout setLineContainerConfig(Drawable lineContainerBg,
-                                                Float lineContainerHeight,
-                                                Float lineContainerTextSpace) {
+    public AvlwTabLayout setLineContainerConfig(Drawable lineContainerBg, Float lineContainerHeight,
+            Float lineContainerTextSpace) {
         if (drawTabLayout instanceof AvlwTabLayoutTypeTextLineContainer) {
-            ((AvlwTabLayoutTypeTextLineContainer) drawTabLayout).setLineContainerConfig(lineContainerBg, lineContainerHeight, lineContainerTextSpace);
+            ((AvlwTabLayoutTypeTextLineContainer) drawTabLayout)
+                    .setLineContainerConfig(lineContainerBg, lineContainerHeight,
+                            lineContainerTextSpace);
         }
         return this;
     }
@@ -754,13 +745,13 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @return 当前实例
      */
     public AvlwTabLayout setTextBgConfig(Float tabBgWidth,
-                                         @FloatRange(from = 0, to = 1) Float tabBgWidthPercent,
-                                         Float tabBgHeight, Float tabBgTextWidthPadding,
-                                         Float tabBgTextHeightPadding,
-                                         Drawable tabBgY, Drawable tabBgN) {
+            @FloatRange(from = 0, to = 1) Float tabBgWidthPercent, Float tabBgHeight,
+            Float tabBgTextWidthPadding, Float tabBgTextHeightPadding, Drawable tabBgY,
+            Drawable tabBgN) {
         if (drawTabLayout instanceof AvlwTabLayoutTypeTextBg) {
-            ((AvlwTabLayoutTypeTextBg) drawTabLayout).setTextBgConfig(tabBgWidth, tabBgWidthPercent,
-                    tabBgHeight, tabBgTextWidthPadding, tabBgTextHeightPadding, tabBgY, tabBgN);
+            ((AvlwTabLayoutTypeTextBg) drawTabLayout)
+                    .setTextBgConfig(tabBgWidth, tabBgWidthPercent, tabBgHeight,
+                            tabBgTextWidthPadding, tabBgTextHeightPadding, tabBgY, tabBgN);
         }
         return this;
     }
@@ -840,6 +831,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
             //当前目标切换位置在右边界外则需要切换回来
             lastLayoutOffset = layoutOffset = -(currentX + tabWidth - getWidth());
         }
+        layoutOffset = 0;
         if (changeListener != null) {
             changeListener.onChangePosition(isOnTouchChange,
                     tabTextList.size() > currentPosition ? tabTextList.get(currentPosition) : "",
