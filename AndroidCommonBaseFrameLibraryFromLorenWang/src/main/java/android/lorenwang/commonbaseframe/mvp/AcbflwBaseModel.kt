@@ -3,10 +3,10 @@ package android.lorenwang.commonbaseframe.mvp
 import android.app.Activity
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication
 import android.lorenwang.commonbaseframe.R
-import android.lorenwang.commonbaseframe.network.AcbflwBaseRetrofitObserver
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
 import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtils
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
+import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javabase.lorenwang.dataparse.JdplwJsonUtils
@@ -31,6 +31,7 @@ import javax.net.ssl.SSLException
 
 open class AcbflwBaseModel {
     protected val TAG = javaClass.name
+
     /**
      *
      * 请求的记录器
@@ -52,11 +53,11 @@ open class AcbflwBaseModel {
      * @param pageCount 页面数量
      * @param netOptionsCallback 请求结果回调
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>> getBaseObserver(activity: Activity?,
-            pageIndex: Int?, pageCount: Int?, netOptionsCallback: AcbflwNetOptionsByModelCallback<D, T>): AcbflwBaseRetrofitObserver<D, T> {
+    open fun <D, T : KttlwBaseNetResponseBean<D>> getBaseObserver(activity: Activity?, pageIndex: Int?, pageCount: Int?,
+        netOptionsCallback: AcbflwNetOptionsByModelCallback<D, T>): Observer<Response<T>> {
         //添加model实例
-        AcbflwBaseApplication.application?.addModel(activity,this)
-        return object : AcbflwBaseRetrofitObserver<D, T> {
+        AcbflwBaseApplication.application?.addModel(activity, this)
+        return object : Observer<Response<T>> {
             override fun onComplete() {
                 setPageInfo()
                 netOptionsCallback.onCompleteFinish()

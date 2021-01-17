@@ -15,7 +15,7 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
  * 备注：
  * @param emptyData 是否是空数据体
  */
-abstract class AcbflwRepDataOptionsCallback<D, T : KttlwBaseNetResponseBean<D>>(var emptyData: Boolean) : AcbflwRepOptionsByPresenterCallback<T> {
+abstract class AcbflwRepDataOptionsCallback<D, T : KttlwBaseNetResponseBean<D>>(var emptyData: Boolean) : AcbflwRepOptionsByPresenterCallback<T>() {
     override fun viewOptionsData(data: T) {
         if (emptyData) {
             //如果是空数据，则则构造数据返回

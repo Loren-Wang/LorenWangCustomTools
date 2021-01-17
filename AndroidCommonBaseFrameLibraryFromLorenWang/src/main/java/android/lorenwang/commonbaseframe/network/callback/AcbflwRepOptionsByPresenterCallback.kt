@@ -24,7 +24,7 @@ abstract class AcbflwRepOptionsByPresenterCallback<T> {
      * 响应数据异常
      * @param code 错误码
      */
-    fun repDataError(code: Any?, message: String?){}
+    open fun repDataError(code: Any?, message: String?){}
 
     /**
      * 文件上传进度
@@ -34,5 +34,5 @@ abstract class AcbflwRepOptionsByPresenterCallback<T> {
      * @param nowUpload 当前已上传数据
      * @param process   上传进度，0-1之间
      */
-    fun fileUpLoadProcess(bean: AcbflwFileUpLoadBean, total: Long, nowUpload: Long, process: Double) {}
+    open fun fileUpLoadProcess(bean: AcbflwFileUpLoadBean, total: Long, nowUpload: Long, process: Double) {}
 }
