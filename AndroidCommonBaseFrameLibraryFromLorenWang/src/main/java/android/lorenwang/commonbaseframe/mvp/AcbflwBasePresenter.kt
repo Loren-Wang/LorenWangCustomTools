@@ -4,6 +4,7 @@ import android.app.Activity
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication
 import android.lorenwang.commonbaseframe.R
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseType
+import android.lorenwang.commonbaseframe.bean.AcbflwPageShowViewDataBean
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
 import android.lorenwang.commonbaseframe.network.callback.AcbflwRepOptionsByPresenterCallback
 import android.lorenwang.commonbaseframe.network.file.AcbflwFileUpLoadBean
@@ -12,6 +13,8 @@ import androidx.annotation.LayoutRes
 import javabase.lorenwang.tools.common.JtlwClassUtils
 import kotlinbase.lorenwang.tools.KttlwConfig
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
+import kotlinbase.lorenwang.tools.common.bean.KttlwNetPageResponseBean
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
 /**
  * 创建时间：2019-07-15 上午 11:11:22
@@ -67,6 +70,62 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
     }
 
     /**
+     * 获取默认页面数据
+     */
+    fun getPageCount(pageCount: Int?): Int {
+        return pageCount ?: defaultPageCount
+    }
+
+    /**
+     * 是否是最后一页
+     */
+    fun judgeLastPage(currentPage: Int, totalPage: Int, total: Int): Boolean {
+        var page = currentPage
+        return if (total == 0) {
+            true
+        } else {
+            if (defaultFirstPageIndex == 0) {
+                ++page
+            }
+            page.compareTo(totalPage) == 0
+        }
+    }
+
+    /**
+     * 是否是第一页
+     */
+    fun judgeFirstPage(currentPage: Int?): Boolean {
+        return currentPage == null || Integer.compare(currentPage, defaultFirstPageIndex) == 0
+    }
+
+
+    /**
+     * 格式化列表展示数据
+     */
+    fun <T, R : KttlwNetPageResponseBean<T>> paramsListData(page: Int?, count: Int?,
+        body: KttlwBaseNetResponseBean<R>): AcbflwPageShowViewDataBean<T> {
+        val pageIndex = getPageIndex(body.data?.pageIndex.kttlwGetNotEmptyData(page))
+        val pageCount = getPageCount(body.data?.pageSize.kttlwGetNotEmptyData(count))
+        return AcbflwPageShowViewDataBean<T>(
+            judgeLastPage(pageIndex, body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.sumDataCount.kttlwGetNotEmptyData(0)),
+            judgeFirstPage(pageIndex), pageIndex, pageCount, body.data?.sumDataCount.kttlwGetNotEmptyData(0),
+            body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.dataList)
+    }
+
+    /**
+     * 格式化列表展示数据(基础部分数据，不包含列表数)
+     */
+    fun <T, R, P : KttlwNetPageResponseBean<T>> paramsListBaseData(page: Int?, count: Int?,
+        body: KttlwBaseNetResponseBean<P>): AcbflwPageShowViewDataBean<R> {
+        val pageIndex = getPageIndex(body.data?.pageIndex.kttlwGetNotEmptyData(page))
+        val pageCount = getPageCount(body.data?.pageSize.kttlwGetNotEmptyData(count))
+        return AcbflwPageShowViewDataBean(
+            judgeLastPage(pageIndex, body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.sumDataCount.kttlwGetNotEmptyData(0)),
+            judgeFirstPage(pageIndex), pageIndex, pageCount, body.data?.sumDataCount.kttlwGetNotEmptyData(0),
+            body.data?.sumPageCount.kttlwGetNotEmptyData(0), arrayListOf())
+    }
+
+    /**
      * 列表转换为basetype类型列表
      */
     fun <T> listToBaseTypeList(@LayoutRes showLayout: Int, oldList: ArrayList<T>): ArrayList<AcbflwBaseType<T>> {
@@ -81,36 +140,29 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
     /**
      * 获取响应数据回调
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
-            requestCode: Int, dataIsNull: Boolean?,
-            repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
-        return getNetOptionsCallback(
-                requestCode = requestCode, dataIsNull = dataIsNull,
-                showLoading = true, successHideLoading = true, errorHideLoading = true,
-                allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int,
+        dataIsNull: Boolean?, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+        return getNetOptionsCallback(requestCode = requestCode, dataIsNull = dataIsNull, showLoading = true, successHideLoading = true,
+            errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
 
     /**
      * 获取响应数据回调
      * @param successHideLoading 成功是否隐藏加载中
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
-            requestCode: Int, dataIsNull: Boolean?,
-            successHideLoading: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
-        return getNetOptionsCallback(
-                requestCode = requestCode, dataIsNull = dataIsNull,
-                showLoading = true, successHideLoading = successHideLoading, errorHideLoading = true,
-                allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int,
+        dataIsNull: Boolean?, successHideLoading: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+        return getNetOptionsCallback(requestCode = requestCode, dataIsNull = dataIsNull, showLoading = true, successHideLoading = successHideLoading,
+            errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
 
     /**
      * 获取响应数据回调
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
-        return getNetOptionsCallback(
-                requestCode = requestCode, dataIsNull = false,
-                showLoading = true, successHideLoading = true, errorHideLoading = true,
-                allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int,
+        repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+        return getNetOptionsCallback(requestCode = requestCode, dataIsNull = false, showLoading = true, successHideLoading = true,
+            errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
 
     /**
@@ -122,16 +174,14 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
      * @param repOptionsCallback 数据操作后的回调
      * @return 网络请求回调
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(
-            requestCode: Int, dataIsNull: Boolean?,
-            showLoading: Boolean, successHideLoading: Boolean, errorHideLoading: Boolean,
-            allowLoadingBackFinishPage: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int,
+        dataIsNull: Boolean?, showLoading: Boolean, successHideLoading: Boolean, errorHideLoading: Boolean, allowLoadingBackFinishPage: Boolean,
+        repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
         //新增presenter记录
         AcbflwBaseApplication.application?.addPresenter(activity, this)
         //回传callback
         return object : AcbflwNetOptionsByModelCallback<D, T>() {
-            override fun fileUpLoadProcess(bean: AcbflwFileUpLoadBean, total: Long, nowUpload: Long,
-                                           process: Double) {
+            override fun fileUpLoadProcess(bean: AcbflwFileUpLoadBean, total: Long, nowUpload: Long, process: Double) {
                 super.fileUpLoadProcess(bean, total, nowUpload, process)
                 repOptionsCallback.fileUpLoadProcess(bean, total, nowUpload, process)
             }
@@ -148,8 +198,7 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
                         repOptionsCallback.viewOptionsData(dto)
                     } else {
                         baseView.netReqFail(requestCode, AtlwConfig.nowApplication.getString(R.string.empty_data_default))
-                        repOptionsCallback.repDataError(null,
-                                AtlwConfig.nowApplication.getString(R.string.empty_data_default))
+                        repOptionsCallback.repDataError(null, AtlwConfig.nowApplication.getString(R.string.empty_data_default))
                     }
                 } else {
                     repOptionsCallback.viewOptionsData(dto)
