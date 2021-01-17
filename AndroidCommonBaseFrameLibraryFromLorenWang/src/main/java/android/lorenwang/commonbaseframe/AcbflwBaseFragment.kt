@@ -154,7 +154,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
             val vsbQtEmpty = fragmentView?.findViewById<ViewStub>(R.id.vsbEmpty)
             vsbQtEmpty?.layoutResource = emptyResId
             emptyView = vsbQtEmpty?.inflate()
-            emptyView?.setOnClickListener { v: View? -> onRefreshData() }
+            emptyView?.setOnClickListener { _: View? -> onRefreshData() }
             initEmptyView(emptyView, emptyResId, data)
         } else {
             emptyView!!.visibility = 0

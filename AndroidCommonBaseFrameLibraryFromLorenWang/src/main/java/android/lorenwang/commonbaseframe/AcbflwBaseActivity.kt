@@ -11,7 +11,6 @@ import android.view.ViewStub
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 
 /**
  * 功能作用：基础activity
@@ -167,7 +166,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
             val vsbQtEmpty = findViewById<ViewStub>(R.id.vsbEmpty)
             vsbQtEmpty.layoutResource = emptyResId
             emptyView = vsbQtEmpty.inflate()
-            emptyView?.setOnClickListener { v: View? -> onRefreshData() }
+            emptyView?.setOnClickListener { _: View? -> onRefreshData() }
             initEmptyView(emptyView, emptyResId, data)
         } else {
             emptyView!!.visibility = 0

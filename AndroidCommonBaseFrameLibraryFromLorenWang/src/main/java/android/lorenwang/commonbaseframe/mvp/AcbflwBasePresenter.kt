@@ -14,24 +14,26 @@ import javabase.lorenwang.tools.common.JtlwClassUtils
 import kotlinbase.lorenwang.tools.KttlwConfig
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import kotlinbase.lorenwang.tools.common.bean.KttlwNetPageResponseBean
+import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
 /**
- * 创建时间：2019-07-15 上午 11:11:22
- * 创建人：王亮（Loren wang）
- * 功能作用：
+ * 功能作用：基础功能present
+ * 初始注释时间： 2021/1/17 8:53 下午
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
+abstract class AcbflwBasePresenter<V : AcbflwBaseView>(var baseView: V) {
 
-abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
-    protected var TAG: String? = javaClass.name
-
-    protected var activity: Activity? = null
+    var activity: Activity? = null
+        private set
 
     init {
         if (baseView is Activity) {
@@ -53,7 +55,6 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
      * 释放所有
      */
     fun releasePresenter() {
-        TAG = null
         releasePresenterChild()
     }
 
@@ -102,37 +103,47 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
     /**
      * 格式化列表展示数据
      */
-    fun <T, R : KttlwNetPageResponseBean<T>> paramsListData(page: Int?, count: Int?,
-        body: KttlwBaseNetResponseBean<R>): AcbflwPageShowViewDataBean<T> {
+    inline fun <T, R : KttlwNetPageResponseBean<T>, reified PD : AcbflwPageShowViewDataBean<T>, DATA : KttlwBaseNetResponseBean<R>> paramsListData(
+        page: Int?, count: Int?, body: DATA): PD {
         val pageIndex = getPageIndex(body.data?.pageIndex.kttlwGetNotEmptyData(page))
         val pageCount = getPageCount(body.data?.pageSize.kttlwGetNotEmptyData(count))
         return AcbflwPageShowViewDataBean<T>(
             judgeLastPage(pageIndex, body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.sumDataCount.kttlwGetNotEmptyData(0)),
             judgeFirstPage(pageIndex), pageIndex, pageCount, body.data?.sumDataCount.kttlwGetNotEmptyData(0),
-            body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.dataList)
+            body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.dataList).kttlwFormatConversion<PD>()!!
     }
 
     /**
      * 格式化列表展示数据(基础部分数据，不包含列表数)
      */
-    fun <T, R, P : KttlwNetPageResponseBean<T>> paramsListBaseData(page: Int?, count: Int?,
-        body: KttlwBaseNetResponseBean<P>): AcbflwPageShowViewDataBean<R> {
+    inline fun <T, R, P : KttlwNetPageResponseBean<T>, reified PD : AcbflwPageShowViewDataBean<R>, DATA : KttlwBaseNetResponseBean<R>> paramsListBaseData(
+        page: Int?, count: Int?, body: KttlwBaseNetResponseBean<P>): PD {
         val pageIndex = getPageIndex(body.data?.pageIndex.kttlwGetNotEmptyData(page))
         val pageCount = getPageCount(body.data?.pageSize.kttlwGetNotEmptyData(count))
-        return AcbflwPageShowViewDataBean(
-            judgeLastPage(pageIndex, body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.sumDataCount.kttlwGetNotEmptyData(0)),
-            judgeFirstPage(pageIndex), pageIndex, pageCount, body.data?.sumDataCount.kttlwGetNotEmptyData(0),
-            body.data?.sumPageCount.kttlwGetNotEmptyData(0), arrayListOf())
+        val entity = JtlwClassUtils.getInstance().getClassEntity(PD::class.java)
+        entity.isLastPageData =
+            judgeLastPage(pageIndex, body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.sumDataCount.kttlwGetNotEmptyData(0))
+        entity.isFirstPageData = judgeFirstPage(pageIndex)
+        entity.currentPageIndex = pageIndex
+        entity.currentPageCount = pageCount
+        entity.total = body.data?.sumDataCount.kttlwGetNotEmptyData(0)
+        entity.totalPage = body.data?.sumPageCount.kttlwGetNotEmptyData(0)
+        entity.list = arrayListOf()
+        return entity
     }
 
     /**
      * 列表转换为basetype类型列表
      */
-    fun <T> listToBaseTypeList(@LayoutRes showLayout: Int, oldList: ArrayList<T>): ArrayList<AcbflwBaseType<T>> {
-        val listBaseType = ArrayList<AcbflwBaseType<T>>()
+    inline fun <T, reified BT : AcbflwBaseType<T>> listToBaseTypeList(@LayoutRes showLayout: Int, oldList: ArrayList<T>): ArrayList<BT> {
+        val listBaseType = ArrayList<BT>()
         val iterator = oldList.iterator()
+        var bt: BT
         while (iterator.hasNext()) {
-            listBaseType.add(AcbflwBaseType(showLayout, iterator.next()))
+            bt = JtlwClassUtils.getInstance().getClassEntity(BT::class.java)
+            bt.layoutResId = showLayout
+            bt.bean = iterator.next()
+            listBaseType.add(bt)
         }
         return listBaseType
     }
@@ -140,8 +151,8 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
     /**
      * 获取响应数据回调
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int,
-        dataIsNull: Boolean?, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+    inline fun <DATA, REP : KttlwBaseNetResponseBean<DATA>, CALL : AcbflwRepOptionsByPresenterCallback<REP>, reified MCALL : AcbflwNetOptionsByModelCallback<DATA, REP>> getNetOptionsCallback(
+        requestCode: Int, dataIsNull: Boolean?, repOptionsCallback: CALL): MCALL {
         return getNetOptionsCallback(requestCode = requestCode, dataIsNull = dataIsNull, showLoading = true, successHideLoading = true,
             errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
@@ -150,8 +161,8 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
      * 获取响应数据回调
      * @param successHideLoading 成功是否隐藏加载中
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int,
-        dataIsNull: Boolean?, successHideLoading: Boolean, repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+    inline fun <DATA, REP : KttlwBaseNetResponseBean<DATA>, CALL : AcbflwRepOptionsByPresenterCallback<REP>, reified MCALL : AcbflwNetOptionsByModelCallback<DATA, REP>> getNetOptionsCallback(
+        requestCode: Int, dataIsNull: Boolean?, successHideLoading: Boolean, repOptionsCallback: CALL): MCALL {
         return getNetOptionsCallback(requestCode = requestCode, dataIsNull = dataIsNull, showLoading = true, successHideLoading = successHideLoading,
             errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
@@ -159,8 +170,8 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
     /**
      * 获取响应数据回调
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int,
-        repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+    inline fun <DATA, REP : KttlwBaseNetResponseBean<DATA>, CALL : AcbflwRepOptionsByPresenterCallback<REP>, reified MCALL : AcbflwNetOptionsByModelCallback<DATA, REP>> getNetOptionsCallback(
+        requestCode: Int, repOptionsCallback: CALL): MCALL {
         return getNetOptionsCallback(requestCode = requestCode, dataIsNull = false, showLoading = true, successHideLoading = true,
             errorHideLoading = true, allowLoadingBackFinishPage = false, repOptionsCallback = repOptionsCallback)
     }
@@ -174,35 +185,16 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
      * @param repOptionsCallback 数据操作后的回调
      * @return 网络请求回调
      */
-    fun <D, T : KttlwBaseNetResponseBean<D>, CALL : AcbflwRepOptionsByPresenterCallback<T>> getNetOptionsCallback(requestCode: Int,
-        dataIsNull: Boolean?, showLoading: Boolean, successHideLoading: Boolean, errorHideLoading: Boolean, allowLoadingBackFinishPage: Boolean,
-        repOptionsCallback: CALL): AcbflwNetOptionsByModelCallback<D, T> {
+    inline fun <DATA, REP : KttlwBaseNetResponseBean<DATA>, CALL : AcbflwRepOptionsByPresenterCallback<REP>, reified MCALL : AcbflwNetOptionsByModelCallback<DATA, REP>> getNetOptionsCallback(
+        requestCode: Int, dataIsNull: Boolean?, showLoading: Boolean, successHideLoading: Boolean, errorHideLoading: Boolean,
+        allowLoadingBackFinishPage: Boolean, repOptionsCallback: CALL): MCALL {
         //新增presenter记录
         AcbflwBaseApplication.application?.addPresenter(activity, this)
-        //回传callback
-        return object : AcbflwNetOptionsByModelCallback<D, T>() {
+        //初始化回调
+        return object : AcbflwNetOptionsByModelCallback<DATA, REP>() {
             override fun fileUpLoadProcess(bean: AcbflwFileUpLoadBean, total: Long, nowUpload: Long, process: Double) {
                 super.fileUpLoadProcess(bean, total, nowUpload, process)
                 repOptionsCallback.fileUpLoadProcess(bean, total, nowUpload, process)
-            }
-
-            override fun success(dto: T) {
-                if (activity == null || activity!!.isFinishing) {
-                    return
-                }
-                if (successHideLoading) {
-                    baseView.hideBaseLoading()
-                }
-                if (dataIsNull == null || !dataIsNull) {
-                    if (dto.data != null) {
-                        repOptionsCallback.viewOptionsData(dto)
-                    } else {
-                        baseView.netReqFail(requestCode, AtlwConfig.nowApplication.getString(R.string.empty_data_default))
-                        repOptionsCallback.repDataError(null, AtlwConfig.nowApplication.getString(R.string.empty_data_default))
-                    }
-                } else {
-                    repOptionsCallback.viewOptionsData(dto)
-                }
             }
 
             override fun error(e: Throwable) {
@@ -229,7 +221,25 @@ abstract class AcbflwBasePresenter(var baseView: AcbflwBaseView) {
                 baseView.userLoginStatusError(code, message)
             }
 
-        }
+            override fun success(dto: REP) {
+                if (activity?.isFinishing.kttlwGetNotEmptyData(false)) {
+                    return
+                }
+                if (successHideLoading) {
+                    baseView.hideBaseLoading()
+                }
+                if (dataIsNull == null || !dataIsNull) {
+                    if (dto.data != null) {
+                        repOptionsCallback.viewOptionsData(dto)
+                    } else {
+                        baseView.netReqFail(requestCode, AtlwConfig.nowApplication.getString(R.string.empty_data_default))
+                        repOptionsCallback.repDataError(null, AtlwConfig.nowApplication.getString(R.string.empty_data_default))
+                    }
+                } else {
+                    repOptionsCallback.viewOptionsData(dto)
+                }
+            }
+        }.kttlwFormatConversion<MCALL>()!!
     }
 
     /**

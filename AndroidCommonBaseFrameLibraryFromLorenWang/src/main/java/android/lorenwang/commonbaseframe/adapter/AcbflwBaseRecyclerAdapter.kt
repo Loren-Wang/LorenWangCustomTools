@@ -81,7 +81,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcbflwBaseRecyclerViewHolder<T> {
         val itemView = LayoutInflater.from(activity).inflate(viewType, parent, false)
-        return getListViewHolder(viewType, itemView)!!
+        return getListViewHolder(viewType, itemView)
     }
 
     override fun onBindViewHolder(holder: AcbflwBaseRecyclerViewHolder<T>, position: Int) {

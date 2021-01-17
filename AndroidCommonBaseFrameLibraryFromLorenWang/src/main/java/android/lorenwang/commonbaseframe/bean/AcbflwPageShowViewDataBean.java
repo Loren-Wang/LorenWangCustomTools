@@ -20,31 +20,34 @@ public class AcbflwPageShowViewDataBean<T> {
     /**
      * 是否是最后一页
      */
-    private final boolean lastPageData;
+    private boolean lastPageData;
     /**
      * 是否是第一页数据
      */
-    private final boolean firstPageData;
+    private boolean firstPageData;
     /**
      * 当前页码
      */
-    private final int currentPageIndex;
+    private int currentPageIndex;
     /**
      * 当前页面数量
      */
-    private final int currentPageCount;
+    private int currentPageCount;
     /**
      * 总数
      */
-    private final int total;
+    private int total;
     /**
      * 总页面数
      */
-    private final int totalPage;
+    private int totalPage;
     /**
      * 数据列表
      */
     private ArrayList<T> list;
+
+    AcbflwPageShowViewDataBean(){
+    }
 
     public AcbflwPageShowViewDataBean(boolean lastPageData, boolean firstPageData,
                                       int currentPageIndex, int currentPageCount, int total,
@@ -55,6 +58,34 @@ public class AcbflwPageShowViewDataBean<T> {
         this.currentPageCount = currentPageCount;
         this.total = total;
         this.totalPage = totalPage;
+        this.list = list;
+    }
+
+    public void setLastPageData(boolean lastPageData) {
+        this.lastPageData = lastPageData;
+    }
+
+    public void setFirstPageData(boolean firstPageData) {
+        this.firstPageData = firstPageData;
+    }
+
+    public void setCurrentPageIndex(int currentPageIndex) {
+        this.currentPageIndex = currentPageIndex;
+    }
+
+    public void setCurrentPageCount(int currentPageCount) {
+        this.currentPageCount = currentPageCount;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public void setList(ArrayList<T> list) {
         this.list = list;
     }
 

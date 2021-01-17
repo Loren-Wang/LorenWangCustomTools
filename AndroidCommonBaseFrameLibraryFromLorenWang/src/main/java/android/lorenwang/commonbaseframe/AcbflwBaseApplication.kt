@@ -4,11 +4,12 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.lorenwang.commonbaseframe.image.AcbflwImageSelectUtils
-import android.lorenwang.commonbaseframe.image.loading.AcbflwImageLoadingFactory
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseModel
 import android.lorenwang.commonbaseframe.mvp.AcbflwBasePresenter
+import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
 import android.lorenwang.tools.AtlwConfig
 import android.os.Bundle
+import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
 
 /**
  * 初始注释时间： 2019/8/14 0014 下午 17:24:25
@@ -29,9 +30,9 @@ open class AcbflwBaseApplication : Application() {
     /**
      * presenter的创建集合
      */
-    private val presenterMap: HashMap<Activity, ArrayList<AcbflwBasePresenter?>> = hashMapOf()
+    private val presenterMap: HashMap<Activity, ArrayList<AcbflwBasePresenter<AcbflwBaseView>?>> = hashMapOf()
 
-    open override fun onCreate() {
+    override fun onCreate() {
         super.onCreate()
         application = this
         appContext = applicationContext
@@ -71,10 +72,14 @@ open class AcbflwBaseApplication : Application() {
      */
     private fun initAndroidCustomTools() { //设置项目application实例
         AtlwConfig.nowApplication = this //注册监听供工具库使用
-        AtlwConfig.registActivityLifecycleCallbacks(this) //设置新页面进入动画
-        AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM = R.anim.aalw_anim_from_right //设置旧业面退出动画
-        AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM = R.anim.aalw_anim_to_left //设置后退时新页面进入动画
-        AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM = R.anim.aalw_anim_from_left; //设置后退时就业面退出动画
+        AtlwConfig.registActivityLifecycleCallbacks(this)
+        //设置新页面进入动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM = R.anim.aalw_anim_from_right
+        //设置旧业面退出动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM = R.anim.aalw_anim_to_left
+        //设置后退时新页面进入动画
+        AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM = R.anim.aalw_anim_from_left
+        //设置后退时就业面退出动画
         AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM = R.anim.aalw_anim_to_right
     }
 
@@ -85,7 +90,7 @@ open class AcbflwBaseApplication : Application() {
      * @param activity  activity实例
      * @param baseModel model实例
      */
-    open fun addModel(activity: Activity?, baseModel: AcbflwBaseModel?) {
+    open fun <BM : AcbflwBaseModel> addModel(activity: Activity?, baseModel: BM?) {
         if (activity != null && baseModel != null) {
             val modelList = modelMap[activity] ?: arrayListOf()
             modelList.add(baseModel)
@@ -99,10 +104,10 @@ open class AcbflwBaseApplication : Application() {
      * @param activity      activity实例
      * @param basePresenter presenter实例
      */
-    open fun addPresenter(activity: Activity?, basePresenter: AcbflwBasePresenter?) {
+    open fun <BV : AcbflwBaseView, BP : AcbflwBasePresenter<BV>> addPresenter(activity: Activity?, basePresenter: BP?) {
         if (activity != null && basePresenter != null) {
             val list = presenterMap[activity] ?: arrayListOf()
-            list.add(basePresenter)
+            list.add(basePresenter.kttlwFormatConversion())
             presenterMap[activity] = list
         }
     }

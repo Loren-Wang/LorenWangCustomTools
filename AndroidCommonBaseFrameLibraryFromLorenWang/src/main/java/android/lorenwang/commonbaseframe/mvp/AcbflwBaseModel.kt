@@ -17,20 +17,22 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.net.ssl.SSLException
 
+
 /**
- * 创建时间：2019-07-15 上午 11:11:5
- * 创建人：王亮（Loren wang）
- * 功能作用：
+ * 功能作用：基础model
+ * 初始注释时间： 2021/1/17 8:55 下午
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 open class AcbflwBaseModel {
-    protected val TAG = javaClass.name
+    protected val tag = javaClass.name
 
     /**
      *
@@ -43,7 +45,7 @@ open class AcbflwBaseModel {
      */
     fun releaseModel() {
         compositeDisposable.clear()
-        JtlwLogUtils.logUtils.logI(TAG, "释放了当前model所有网络请求！")
+        JtlwLogUtils.logUtils.logI(tag, "释放了当前model所有网络请求！")
     }
 
     /**
@@ -53,8 +55,8 @@ open class AcbflwBaseModel {
      * @param pageCount 页面数量
      * @param netOptionsCallback 请求结果回调
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>> getBaseObserver(activity: Activity?, pageIndex: Int?, pageCount: Int?,
-        netOptionsCallback: AcbflwNetOptionsByModelCallback<D, T>): Observer<Response<T>> {
+    open fun <D, T : KttlwBaseNetResponseBean<D>, CB : AcbflwNetOptionsByModelCallback<D, T>> getBaseObserver(activity: Activity?, pageIndex: Int?,
+        pageCount: Int?, netOptionsCallback: CB): Observer<Response<T>> {
         //添加model实例
         AcbflwBaseApplication.application?.addModel(activity, this)
         return object : Observer<Response<T>> {
@@ -84,11 +86,11 @@ open class AcbflwBaseModel {
                                 return
                             }
                         }
-                        JtlwLogUtils.logUtils.logE(TAG, t.code().toString())
+                        JtlwLogUtils.logUtils.logE(tag, t.code().toString())
                         netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                     }
                 } else {
-                    JtlwLogUtils.logUtils.logE(TAG, t.code().toString())
+                    JtlwLogUtils.logUtils.logE(tag, t.code().toString())
                     netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                 }
             }
@@ -99,36 +101,36 @@ open class AcbflwBaseModel {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
+                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
                             }
                         } catch (e: Exception) {
-                            JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                            JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                         }
                     }
                     is SocketTimeoutException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                             }
                         } catch (e: Exception) {
-                            JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                            JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                         }
                     }
                     is SSLException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
-                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                             }
                         } catch (e: Exception) {
-                            JtlwLogUtils.logUtils.logE(TAG, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                            JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                         }
                     }
                     else -> {
