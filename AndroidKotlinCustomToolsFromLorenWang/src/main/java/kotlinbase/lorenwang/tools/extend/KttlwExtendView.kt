@@ -151,7 +151,7 @@ fun <V : View> V?.kttlwSetWidthHeightForHeight(height : Int, aspectRatio : Float
 /**
  * 设置多控件同样的点击事件监听
  */
-fun <V : View> Collection<V?>.kttlwThrottleClick(clickFun : (view : View) -> Any) {
+fun <V : View> Collection<V?>.kttlwThrottleClick(clickFun : (view : View) -> Unit) {
     this.forEach {
         it?.kttlwThrottleClick(clickFun)
     }
@@ -161,7 +161,7 @@ fun <V : View> Collection<V?>.kttlwThrottleClick(clickFun : (view : View) -> Any
  * 防重点击
  * @param clickFun 点击执行函数
  */
-fun <V : View> V?.kttlwThrottleClick(clickFun : (view : View) -> Any) {
+fun <V : View> V?.kttlwThrottleClick(clickFun : (view : View) -> Unit) {
     this.kttlwThrottleClick(500, clickFun)
 }
 
@@ -170,7 +170,7 @@ fun <V : View> V?.kttlwThrottleClick(clickFun : (view : View) -> Any) {
  * @param timeInterval 两次点击之间的时间间隔
  * @param clickFun 点击执行函数
  */
-fun <V : View> V?.kttlwThrottleClick(timeInterval : Long, clickFun : (view : View) -> Any) {
+fun <V : View> V?.kttlwThrottleClick(timeInterval : Long, clickFun : (view : View) -> Unit) {
     this?.setOnClickListener {
         //本地是启用状态下点击才有效
         if (it?.isEnabled.getNotEmptyData(false)) {
