@@ -10,9 +10,15 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLocation"
+            style="@style/MainButtons"
+            android:text="@string/page_type_location" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAnim"
             style="@style/MainButtons"
             android:text="@string/page_type_anims" />
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBlue"

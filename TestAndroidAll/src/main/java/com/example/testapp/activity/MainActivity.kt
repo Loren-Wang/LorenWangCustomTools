@@ -14,6 +14,7 @@ import com.example.testapp.activity.graphicCodeScan.CodeGenerateActivity
 import com.example.testapp.activity.graphicCodeScan.ScanCodeActivity
 import com.example.testapp.activity.image.ImageViewActivity
 import com.example.testapp.activity.image.ZoomableImageViewActivity
+import com.example.testapp.activity.location.LocationActivity
 import com.example.testapp.activity.textview.CustomDrawableButtonActivity
 import com.example.testapp.activity.textview.ShowPriceTextViewActivity
 import com.example.testapp.activity.textview.ShowQuantityOfCommodityActivity
@@ -24,6 +25,7 @@ import com.example.testapp.activity.viewpager.ViewPager2Activity
 import com.example.testapp.base.BaseActivity
 import com.facebook.drawee.backends.pipeline.Fresco
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.empty_data_default.*
 
 class MainActivity : BaseActivity() {
     override fun initView(savedInstanceState : Bundle?) {
@@ -38,12 +40,15 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState : Bundle?) {
         super.initData(savedInstanceState)
-        btnCustomDrawableButton?.performClick()
+        btnLocation?.performClick()
     }
 
     fun mainClick(view : View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnLocation -> {
+                    startActivity(Intent(this, LocationActivity::class.java))
+                }
                 R.id.btnImageView -> {
                     startActivity(Intent(this, ImageViewActivity::class.java))
                 }

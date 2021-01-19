@@ -308,9 +308,11 @@ public class AcbflwImageSelectUtils {
      * @param activity 上下文
      */
     public void clearCache(Activity activity) {
-        PictureFileUtils.deleteCacheDirFile(activity, PictureMimeType.ofAll());
-        PictureFileUtils.deleteCacheDirFile(activity, PictureMimeType.ofImage());
-        PictureFileUtils.deleteAllCacheDirFile(activity);
+        try {
+            PictureFileUtils.deleteCacheDirFile(activity, PictureMimeType.ofAll());
+            PictureFileUtils.deleteCacheDirFile(activity, PictureMimeType.ofImage());
+            PictureFileUtils.deleteAllCacheDirFile(activity);
+        }catch (Exception ignore){}
     }
 
     /**

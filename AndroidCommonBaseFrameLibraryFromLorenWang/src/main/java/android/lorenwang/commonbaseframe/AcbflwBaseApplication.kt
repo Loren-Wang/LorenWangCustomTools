@@ -10,6 +10,7 @@ import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
 import android.lorenwang.tools.AtlwConfig
 import android.os.Bundle
 import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
+import java.lang.Exception
 
 /**
  * 初始注释时间： 2019/8/14 0014 下午 17:24:25
@@ -55,7 +56,6 @@ open class AcbflwBaseApplication : Application() {
 
             override fun onActivityDestroyed(activity: Activity) { //取消activity页面的model、presenter相关
                 releaseModelsAndPresenters(activity) //清除图片选择缓存
-                AcbflwImageSelectUtils.getInstance().clearCache(activity)
             }
         })
 

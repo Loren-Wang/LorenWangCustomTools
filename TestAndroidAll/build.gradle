@@ -102,6 +102,10 @@ dependencies {
     //1.0.5及以前版本的老用户升级需谨慎，API改动过大
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
 
+    implementation 'com.amap.api:location:latest.integration'
+
+
+
 }
 repositories {
     mavenCentral()

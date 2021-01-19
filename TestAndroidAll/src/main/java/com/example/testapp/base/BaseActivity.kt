@@ -48,15 +48,6 @@ abstract class BaseActivity : AcbflwBaseActivity() {
     }
 
     /**
-     * 限流挡板异常数据返回
-     *
-     * @param netOptionReqCode 网络请求code
-     * @param repBean          限流挡板数据
-     */
-    override fun currentLimitingBaffleError(netOptionReqCode: Int, repBean: KttlwBaseNetResponseBean<Any>) {
-    }
-
-    /**
      * 网络请求成功
      * @param data 响应数据
      * @param netOptionReqCode 网络操作请求code

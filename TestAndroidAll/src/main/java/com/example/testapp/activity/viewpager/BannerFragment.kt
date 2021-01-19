@@ -11,7 +11,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import com.example.testapp.base.BaseFragment
 import com.example.testapp.R
-import kotlinbase.lorenwang.tools.extend.getNotEmptyData
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import java.util.ArrayList
 
 /**
@@ -41,9 +41,9 @@ class BannerFragment : BaseFragment() {
 
         val adapter: AcbflwBaseRecyclerAdapter<String?> = object :
                 AcbflwBaseRecyclerAdapter<String?>(activity!!) {
-            override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?>? {
+            override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?> {
                 return object : AcbflwBaseRecyclerViewHolder<String?>(itemView) {
-                    override fun setViewData(activity: Activity?, model: String?, position: Int) {
+                    override fun setViewData(activity: Activity, model: String?, position: Int) {
                         AtlwImageLoadingFactory.getImageLoading(AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE)
                                 .loadingNetImage(model, itemView as AppCompatImageView, itemView.getWidth(), itemView.getHeight())
                     }
@@ -51,7 +51,7 @@ class BannerFragment : BaseFragment() {
             }
 
             override fun getItemCount(): Int {
-                return bvBanner?.adapterItemCount.getNotEmptyData(0)
+                return bvBanner?.adapterItemCount.kttlwGetNotEmptyData(0)
             }
         }
         adapter.singleTypeRefresh(list, R.layout.item_imageview, false)

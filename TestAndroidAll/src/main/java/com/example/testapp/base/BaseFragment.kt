@@ -24,7 +24,6 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
  */
 abstract class BaseFragment : AcbflwBaseFragment() {
     private var loadingDialog: AvlwLoadingDialogType1? = null//加载中弹窗
-    private lateinit var vsbContent: ViewStub
 
     override fun showBaseLoading(allowLoadingBackFinishPage: Boolean) {
         if (loadingDialog == null) {
@@ -47,15 +46,6 @@ abstract class BaseFragment : AcbflwBaseFragment() {
      */
     override fun userLoginStatusError(code: Any?, message: String?) {
         hideBaseLoading()
-    }
-
-    /**
-     * 限流挡板异常数据返回
-     *
-     * @param netOptionReqCode 网络请求code
-     * @param repBean          限流挡板数据
-     */
-    override fun currentLimitingBaffleError(netOptionReqCode: Int, repBean: KttlwBaseNetResponseBean<Any>) {
     }
 
     /**

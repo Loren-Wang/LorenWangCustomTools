@@ -38,9 +38,9 @@ class BannerActivity : BaseActivity() {
      */
     private fun showBanner(vpgList: AvlwBannerView, list: List<String>, itemCount: Int) {
         val adapter: AcbflwBaseRecyclerAdapter<String?> = object : AcbflwBaseRecyclerAdapter<String?>(this) {
-            override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?>? {
+            override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?> {
                 return object : AcbflwBaseRecyclerViewHolder<String?>(itemView) {
-                    override fun setViewData(activity: Activity?, model: String?, position: Int) {
+                    override fun setViewData(activity: Activity, model: String?, position: Int) {
                         AtlwImageLoadingFactory.getImageLoading(IMAGE_LOAD_LIBRARY_TYPE_GLIDE)
                                 .loadingNetImage(model, itemView as AppCompatImageView, itemView.getWidth(), itemView.getHeight())
                     }

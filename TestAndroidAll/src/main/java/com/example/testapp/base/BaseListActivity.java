@@ -84,7 +84,6 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
         refreshDataOptions = new AcbflwBaseRefreshDataOptions(this, this, getRefreshView(), this);
         listDataOptions = new AcbflwBaseListDataOptions<T>(this, this,
                 refreshDataOptions, getRecycleView()) {
-            @Nullable
             @Override
             public AcbflwBaseRecyclerViewHolder<T> getListViewHolder(int viewType,
                                                                      @NotNull final View itemView) {
@@ -93,7 +92,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
                         @Override
                         public void setViewData(@Nullable Activity activity, @Nullable T model,
                                                 int position) {
-                            initEmptyView(itemView, R.layout.empty_data_default);
+                            initEmptyView(itemView, R.layout.empty_data_default,null);
                         }
                     };
                 }
@@ -103,13 +102,13 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
         //如果使用swipe刷新，则禁用qtrefresh刷新，是否开启刷新使用enableRefresh 判断
         if (useSwipeRefresh) {
             refreshDataOptions.setAllowRefresh(false);
-            if (getSwipeRefresh() != null) {
-                getSwipeRefresh().setEnabled(enableRefresh);
-                getSwipeRefresh().setOnRefreshListener(() -> refreshDataOptions.startRefreshing());
+            if (getSwipeAcbflwRefresh() != null) {
+                getSwipeAcbflwRefresh().setEnabled(enableRefresh);
+                getSwipeAcbflwRefresh().setOnRefreshListener(() -> refreshDataOptions.startRefreshing());
             }
         } else {
-            if (getSwipeRefresh() != null) {
-                getSwipeRefresh().setEnabled(false);
+            if (getSwipeAcbflwRefresh() != null) {
+                getSwipeAcbflwRefresh().setEnabled(false);
             }
             refreshDataOptions.setAllowLoadMore(enableRefresh);
         }
@@ -227,8 +226,8 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
      */
     public void loadingAllFinish() {
         //结束刷新
-        if (getSwipeRefresh() != null) {
-            getSwipeRefresh().setRefreshing(false);
+        if (getSwipeAcbflwRefresh() != null) {
+            getSwipeAcbflwRefresh().setRefreshing(false);
         }
         refreshDataOptions.finishAll();
     }
