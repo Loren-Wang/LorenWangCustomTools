@@ -1,9 +1,9 @@
 package android.lorenwang.commonbaseframe.extension
 
 import android.lorenwang.commonbaseframe.AcbflwBaseConfig.defaultImageLoadingLibrary
-import android.lorenwang.commonbaseframe.image.loading.AcbflwImageLoadConfig
-import android.lorenwang.commonbaseframe.image.loading.AcbflwImageLoadingFactory
 import android.lorenwang.tools.AtlwConfig
+import android.lorenwang.tools.image.loading.AtlwImageLoadConfig
+import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -32,21 +32,21 @@ import androidx.annotation.DrawableRes
  * @param config 图片加载配置信息
  */
 fun ImageView?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean = false, loadWidth: Int? = null, loadHeight: Int? = null,
-    config: AcbflwImageLoadConfig?) {
+    config: AtlwImageLoadConfig?) {
     if (this != null && !urlPath.isNullOrEmpty()) {
         //显示控件
         this.visibility = View.VISIBLE
         val build = if (config == null) {
-            AcbflwImageLoadConfig.Build()
+            AtlwImageLoadConfig.Build()
         } else {
             config.copyBuild()
         }
 
         if (loadWidth != null && loadWidth > 0 || loadHeight != null && loadHeight > 0) {
-            AcbflwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary)
+            AtlwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary)
                 .loadingNetImage(urlPath, this, build.setShowViewHeight(loadHeight!!).setShowViewWidth(loadWidth!!).build())
         } else {
-            AcbflwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingNetImage(urlPath, this, build.build())
+            AtlwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingNetImage(urlPath, this, build.build())
         }
     } else {
         if (emptyUrlGone) {
@@ -62,12 +62,12 @@ fun ImageView?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean 
  * @param build 图片加载配置信息
  */
 fun ImageView?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean = false,
-    build: AcbflwImageLoadConfig.Build = AcbflwImageLoadConfig.Build()) {
+    build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
     if (this != null && !urlPath.isNullOrEmpty()) {
         //显示控件
         this.visibility = View.VISIBLE
-        val config: AcbflwImageLoadConfig = build.build()
-        AcbflwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingNetImage(urlPath, this, config)
+        val config: AtlwImageLoadConfig = build.build()
+        AtlwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingNetImage(urlPath, this, config)
     } else {
         if (emptyUrlGone) {
             this?.visibility = View.GONE
@@ -80,9 +80,9 @@ fun ImageView?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean 
  * @param resId 资源图片地址,可以直接为接口返回参数
  * @param config 图片加载配置信息
  */
-fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, config: AcbflwImageLoadConfig = AcbflwImageLoadConfig.Build().build()) {
+fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, config: AtlwImageLoadConfig = AtlwImageLoadConfig.Build().build()) {
     if (this != null) {
-        AcbflwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingResImage(resId, this, config)
+        AtlwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingResImage(resId, this, config)
     }
 }
 
@@ -91,9 +91,9 @@ fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, config: AcbflwI
  * @param resId 资源图片地址,可以直接为接口返回参数
  * @param build 图片加载配置信息
  */
-fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, build: AcbflwImageLoadConfig.Build = AcbflwImageLoadConfig.Build()) {
+fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
     if (this != null) {
-        AcbflwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingResImage(resId, this, build.build())
+        AtlwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingResImage(resId, this, build.build())
     }
 }
 
@@ -101,12 +101,12 @@ fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, build: AcbflwIm
  * 加载网络原始图片
  */
 fun ImageView?.acbflwLoadNetOriginImageConfig(urlPath: String?, emptyUrlGone: Boolean = false,
-    build: AcbflwImageLoadConfig.Build = AcbflwImageLoadConfig.Build()) {
+    build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
     if (this != null && !urlPath.isNullOrEmpty()) {
         //显示控件
         this.visibility = View.VISIBLE
-        val config: AcbflwImageLoadConfig = build.setUseOriginImage(true).build()
-        AcbflwImageLoadingFactory.getImageLoading(AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD).loadingNetImage(urlPath, this, config)
+        val config: AtlwImageLoadConfig = build.setUseOriginImage(true).build()
+        AtlwImageLoadingFactory.getImageLoading(AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD).loadingNetImage(urlPath, this, config)
     } else {
         if (emptyUrlGone) {
             this?.visibility = View.GONE
