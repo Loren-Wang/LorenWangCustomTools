@@ -68,25 +68,29 @@
     14、获取App系统文件夹地址
  
  <h3>十、AtlwImageCommonUtils---（图片处理通用类）
- 
-      1、将图片文件转换为base64字符串---imageFileToBase64String(filePath)
-      2、图片drawable转bitmap---drawableToBitmap（drawable）
-      3、图片drawable转bitmap---drawableToBitmap（drawable，width,height）
-      5、获取圆角bitmap---getRoundedCornerBitmap（bitmap，radius）
-      6、获取圆角bitmap---getRoundedCornerBitmap（drawable，width，height，radius）
-      7、获取圆角bitmap---getRoundedCornerBitmap（bitmap，leftRadius,topRadius,rightRadius,bottomRadius）
-      8、获取圆角bitmap---getRoundedCornerBitmap（drawable，width，height，leftRadius,topRadius,rightRadius,bottomRadius）
-      9、获取圆形bitmap---getCircleBitmap（drawable，width，height，radius）
-      10、获取圆形bitmap---getCircleBitmap（getCircleBitmap，radius）
-      11、位图压缩---bitmapCompress（bitmap，format，size）
-      12、获取位图字节---getBitmapBytes（bitmap）
-      13、十进制颜色值转16进制---toHexEncoding（color）
-      14、图片的缩放方法---zoomImage（bitmap，width，height）
-      15、读取照片exif信息中的旋转角度---readPictureDegree（path）
-      16、旋转指定图片一定的角度---toTurnPicture（bitmap，degree）
-      17、裁剪位图---cropBitmap(bitmap, leftPercentForBitmapWidth, topPercentForBitmapHeight, rightPercentForBitmapWidth, bottomPercentForBitmapHeight)
-      18、释放位图---releaseBitmap(bitmap)
-      19、从中心裁剪图片到指定的宽高---cropBitmapForCenter(bitmap,cropPercentWidthHeight)
+
+    --将图片文件转换为base64字符串--imageFileToBase64String(filePath)
+    --图片drawable转bitmap--drawableToBitmap(drawable,width,htight)
+    --获取drawable的宽度--getDrawableWidth(drawable)
+    --获取drawable的高度--getDrawableHeight(drawable)
+    --获取圆角bitmap--getRoundedCornerBitmap(bitmap,width,htight,radius)
+    --获取圆角bitmap--getRoundedCornerBitmap(bitmap,leftTopRadius,rightTopRadius,rightBottomRadius,leftBottomRadius)
+    --获取圆角bitmap--getRoundedCornerBitmap(drawable/bitmap,width,htight,leftTopRadius,rightTopRadius,rightBottomRadius,leftBottomRadius)
+    --获取圆形bitmap--getCircleBitmap(drawable/bitmap,width,height,radius)
+    --位图压缩，不压缩大小--bitmapCompress(bitmap,format,size)
+    --位图压缩--bitmapCompressToByte(bitmap,format,size)
+    --获取位图字节--getBitmapBytes(bitmap)
+    --十进制颜色值转16进制--toHexEncoding(color)
+    --图片的缩放方法--zoomImage(bgImage,newWidth,newHeight)
+    --读取照片exif信息中的旋转角度--readPictureDegree(path)
+    --旋转指定图片一定的角度--toTurnPicture(img,degree)
+    --裁剪位图--cropBitmap(bitmap,leftPercentForBitmapWidth,topPercentForBitmapHeight,rightPercentForBitmapWidth,bottomPercentForBitmapHeight)
+    --从中心裁剪图片到指定的宽高--cropBitmapForCenter(bitmap,cropPercentWidthHeight)
+    --使背景透明--makeBgTransparent(bitmap)
+    --合并位图--mergeBitmap(bitmapBg,bitmapTop,topShowWidth,topShowHeight,leftBgPercent,topBgPercent,Float bottomBgPercent)
+    --图片设置背景--setBitmapBg(bitmap,bgColor,bgContentPadding)
+    --获取两个位图重叠部分位图--getOverlapBitmap(bottomBitmap,topBitmap,showWidth,showHeight)
+    --释放bitmap--releaseBitmap(bitmap)
   
   <h3>十一、AtlwSimpleBitmapLruCacheUtils---（简单位图lrucache）
   

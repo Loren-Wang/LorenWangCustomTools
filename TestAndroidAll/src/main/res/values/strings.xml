@@ -31,6 +31,7 @@
     <string name="page_type_custom_view_dialog">弹窗相关</string>
     <string name="page_type_anims">动画相关</string>
     <string name="page_type_location">定位相关</string>
+    <string name="page_type_image_list_map">图片列表网络位图加载</string>
     <string name="anim_translate_y">Y轴平移动画</string>
     <string name="anim_translate_x">X轴平移动画</string>
     <string name="anim_translate_xy">XY轴同时平移动画</string>

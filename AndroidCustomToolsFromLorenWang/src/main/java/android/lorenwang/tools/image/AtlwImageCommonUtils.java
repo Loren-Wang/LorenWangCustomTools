@@ -20,6 +20,8 @@ import android.lorenwang.tools.file.AtlwFileOptionUtils;
 import android.media.ExifInterface;
 import android.util.Base64;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -29,35 +31,39 @@ import androidx.annotation.NonNull;
 
 
 /**
- * 创建时间：2018-11-16 上午 10:15:2
- * 创建人：王亮（Loren wang）
  * 功能作用：图片处理通用类
+ * 初始注释时间： 2021/1/19 6:27 下午
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、将图片文件转换为base64字符串---imageFileToBase64String(filePath)
- * 2、图片drawable转bitmap---drawableToBitmap（drawable）
- * 3、图片drawable转bitmap---drawableToBitmap（drawable，width,height）
- * 5、获取圆角bitmap---getRoundedCornerBitmap（bitmap，radius）
- * 6、获取圆角bitmap---getRoundedCornerBitmap（drawable，width，height，radius）
- * 7、获取圆角bitmap---getRoundedCornerBitmap（bitmap，leftRadius,topRadius,rightRadius,bottomRadius）
- * 8、获取圆角bitmap---getRoundedCornerBitmap（drawable，width，height，leftRadius,topRadius,rightRadius,
- * bottomRadius）
- * 9、获取圆形bitmap---getCircleBitmap（drawable，width，height，radius）
- * 10、获取圆形bitmap---getCircleBitmap（getCircleBitmap，radius）
- * 11、位图压缩---bitmapCompress（bitmap，format，size）
- * 12、获取位图字节---getBitmapBytes（bitmap）
- * 13、十进制颜色值转16进制---toHexEncoding（color）
- * 14、图片的缩放方法---zoomImage（bitmap，width，height）
- * 15、读取照片exif信息中的旋转角度---readPictureDegree（path）
- * 16、旋转指定图片一定的角度---toTurnPicture（bitmap，degree）
- * 17、裁剪位图---cropBitmap(bitmap, leftPercentForBitmapWidth, topPercentForBitmapHeight,
- * rightPercentForBitmapWidth, bottomPercentForBitmapHeight)
- * 18、释放位图---releaseBitmap(bitmap)
- * 19、从中心裁剪图片到指定的宽高---cropBitmapForCenter(bitmap,cropPercentWidthHeight)
+ * 将图片文件转换为base64字符串--imageFileToBase64String(filePath)
+ * 图片drawable转bitmap--drawableToBitmap(drawable,width,htight)
+ * 获取drawable的宽度--getDrawableWidth(drawable)
+ * 获取drawable的高度--getDrawableHeight(drawable)
+ * 获取圆角bitmap--getRoundedCornerBitmap(bitmap,width,htight,radius)
+ * 获取圆角bitmap--getRoundedCornerBitmap(bitmap,leftTopRadius,rightTopRadius,rightBottomRadius,leftBottomRadius)
+ * 获取圆角bitmap--getRoundedCornerBitmap(drawable/bitmap,width,htight,leftTopRadius,rightTopRadius,rightBottomRadius,leftBottomRadius)
+ * 获取圆形bitmap--getCircleBitmap(drawable/bitmap,width,height,radius)
+ * 位图压缩，不压缩大小--bitmapCompress(bitmap,format,size)
+ * 位图压缩--bitmapCompressToByte(bitmap,format,size)
+ * 获取位图字节--getBitmapBytes(bitmap)
+ * 十进制颜色值转16进制--toHexEncoding(color)
+ * 图片的缩放方法--zoomImage(bgImage,newWidth,newHeight)
+ * 读取照片exif信息中的旋转角度--readPictureDegree(path)
+ * 旋转指定图片一定的角度--toTurnPicture(img,degree)
+ * 裁剪位图--cropBitmap(bitmap,leftPercentForBitmapWidth,topPercentForBitmapHeight,rightPercentForBitmapWidth,bottomPercentForBitmapHeight)
+ * 从中心裁剪图片到指定的宽高--cropBitmapForCenter(bitmap,cropPercentWidthHeight)
+ * 使背景透明--makeBgTransparent(bitmap)
+ * 合并位图--mergeBitmap(bitmapBg,bitmapTop,topShowWidth,topShowHeight,leftBgPercent,topBgPercent,Float bottomBgPercent)
+ * 图片设置背景--setBitmapBg(bitmap,bgColor,bgContentPadding)
+ * 获取两个位图重叠部分位图--getOverlapBitmap(bottomBitmap,topBitmap,showWidth,showHeight)
+ * 释放bitmap--releaseBitmap(bitmap)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public class AtlwImageCommonUtils {
     private final String TAG = getClass().getName();
@@ -85,11 +91,9 @@ public class AtlwImageCommonUtils {
      * @return 转换后的字符串
      */
     public String imageFileToBase64String(String filePath) {
-        if (AtlwCheckUtils.getInstance().checkFileIsExit(filePath)
-                && AtlwCheckUtils.getInstance().checkFileIsImage(filePath)) {
+        if (AtlwCheckUtils.getInstance().checkFileIsExit(filePath) && AtlwCheckUtils.getInstance().checkFileIsImage(filePath)) {
             AtlwLogUtils.logUtils.logI(TAG, "图片文件地址有效性检测成功，开始获取文件字节");
-            byte[] bytes = AtlwFileOptionUtils.getInstance()
-                    .readImageFileGetBytes(false, false, filePath);
+            byte[] bytes = AtlwFileOptionUtils.getInstance().readImageFileGetBytes(false, false, filePath);
             String base64Str = null;
             if (bytes != null) {
                 base64Str = Base64.encodeToString(bytes, Base64.DEFAULT);
@@ -111,7 +115,7 @@ public class AtlwImageCommonUtils {
      * @return 转换后的位图
      */
     public Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable != null) {
+        if (drawable != null && drawable.getConstantState() != null) {
             //复制，防止影响原有视图
             drawable = drawable.getConstantState().newDrawable();
 
@@ -126,8 +130,7 @@ public class AtlwImageCommonUtils {
             }
 
             // 取 drawable 的颜色格式
-            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?
-                    Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
+            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
             // 建立对应 bitmap
             Bitmap bitmap = Bitmap.createBitmap(width, height, config);
             // 建立对应 bitmap 的画布
@@ -150,13 +153,12 @@ public class AtlwImageCommonUtils {
      * @return 转换后的位图
      */
     public Bitmap drawableToBitmap(Drawable drawable, int width, int height) {
-        if (drawable != null) {
+        if (drawable != null && drawable.getConstantState() != null) {
             //复制，防止影响原有视图
             drawable = drawable.getConstantState().newDrawable();
 
             // 取 drawable 的颜色格式
-            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?
-                    Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
+            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
             // 建立对应 bitmap
             Bitmap bitmap = Bitmap.createBitmap(width, height, config);
             // 建立对应 bitmap 的画布
@@ -164,9 +166,7 @@ public class AtlwImageCommonUtils {
 
             //做宽高转换
             float showProportion = width * 1.0f / height;
-            float drawableProportion =
-                    getDrawableWidth(drawable) * 1.0f / (getDrawableHeight(drawable) == 0 ? 1 :
-                            getDrawableHeight(drawable));
+            float drawableProportion = getDrawableWidth(drawable) * 1.0f / (getDrawableHeight(drawable) == 0 ? 1 : getDrawableHeight(drawable));
             int left = 0;
             int top = 0;
             int right = width;
@@ -205,8 +205,7 @@ public class AtlwImageCommonUtils {
         if (drawable == null) {
             return -1;
         } else {
-            return drawable.getIntrinsicWidth() > 0 ? drawable.getIntrinsicWidth() :
-                    drawable.getBounds().width();
+            return drawable.getIntrinsicWidth() > 0 ? drawable.getIntrinsicWidth() : drawable.getBounds().width();
         }
     }
 
@@ -220,8 +219,7 @@ public class AtlwImageCommonUtils {
         if (drawable == null) {
             return -1;
         } else {
-            return drawable.getIntrinsicHeight() > 0 ? drawable.getIntrinsicHeight() :
-                    drawable.getBounds().height();
+            return drawable.getIntrinsicHeight() > 0 ? drawable.getIntrinsicHeight() : drawable.getBounds().height();
         }
     }
 
@@ -265,12 +263,10 @@ public class AtlwImageCommonUtils {
      * @param leftBottomRadius  圆角角度
      * @return 圆角bitmap
      */
-    public Bitmap getRoundedCornerBitmap(Bitmap bitmap, float leftTopRadius, float rightTopRadius
-            , float rightBottomRadius, float leftBottomRadius) {
+    public Bitmap getRoundedCornerBitmap(Bitmap bitmap, float leftTopRadius, float rightTopRadius, float rightBottomRadius, float leftBottomRadius) {
 
         //获取输出的位图
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
-                Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
         //画板背景透明
         canvas.drawARGB(0, 0, 0, 0);
@@ -285,9 +281,9 @@ public class AtlwImageCommonUtils {
 
         //绘制圆角
         Path path = new Path();
-        path.addRoundRect(new RectF(rect), new float[]{leftTopRadius, leftTopRadius,
-                rightTopRadius, rightTopRadius, rightBottomRadius, rightBottomRadius,
-                leftBottomRadius, leftBottomRadius}, Path.Direction.CCW);
+        path.addRoundRect(new RectF(rect),
+                new float[]{leftTopRadius, leftTopRadius, rightTopRadius, rightTopRadius, rightBottomRadius, rightBottomRadius, leftBottomRadius,
+                        leftBottomRadius}, Path.Direction.CCW);
         path.close();
         canvas.drawPath(path, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
@@ -310,14 +306,12 @@ public class AtlwImageCommonUtils {
      * @param leftBottomRadius  圆角角度
      * @return 圆角bitmap
      */
-    public Bitmap getRoundedCornerBitmap(Drawable drawable, int width, int height,
-                                         float leftTopRadius, float rightTopRadius,
-                                         float rightBottomRadius, float leftBottomRadius) {
+    public Bitmap getRoundedCornerBitmap(Drawable drawable, int width, int height, float leftTopRadius, float rightTopRadius, float rightBottomRadius,
+            float leftBottomRadius) {
         if (drawable != null) {
             // 获取位图
             Bitmap bitmap = drawableToBitmap(drawable, width, height);
-            return getRoundedCornerBitmap(bitmap, leftTopRadius, rightTopRadius,
-                    rightBottomRadius, leftBottomRadius);
+            return getRoundedCornerBitmap(bitmap, leftTopRadius, rightTopRadius, rightBottomRadius, leftBottomRadius);
         } else {
             return null;
         }
@@ -369,8 +363,7 @@ public class AtlwImageCommonUtils {
             return null;
         }
         //获取输出的位图
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
-                Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
         //画板背景透明
         canvas.drawARGB(0, 0, 0, 0);
@@ -417,8 +410,7 @@ public class AtlwImageCommonUtils {
             if (!bitmap.isRecycled()) {
                 bitmap.recycle();
             }
-            return BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0,
-                    outputStream.toByteArray().length);
+            return BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.toByteArray().length);
         } else {
             return null;
         }
@@ -502,8 +494,7 @@ public class AtlwImageCommonUtils {
      * @param newHeight 缩放后高度
      * @return 压缩后的位图
      */
-    public Bitmap zoomImage(Bitmap bgImage, double newWidth,
-                            double newHeight) {
+    public Bitmap zoomImage(Bitmap bgImage, double newWidth, double newHeight) {
         // 获取这个图片的宽和高
         float width = bgImage.getWidth();
         float height = bgImage.getHeight();
@@ -514,8 +505,7 @@ public class AtlwImageCommonUtils {
         float scaleHeight = ((float) newHeight) / height;
         // 缩放图片动作
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap bitmap = Bitmap.createBitmap((int) newWidth, (int) newHeight,
-                Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap((int) newWidth, (int) newHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawBitmap(bgImage, matrix, null);
         return bitmap;
@@ -532,8 +522,7 @@ public class AtlwImageCommonUtils {
         ExifInterface exifInterface;
         try {
             exifInterface = new ExifInterface(path);
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_NORMAL);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
             switch (orientation) {
                 case ExifInterface.ORIENTATION_ROTATE_90:
                     degree = 90;
@@ -582,9 +571,8 @@ public class AtlwImageCommonUtils {
      * @param bottomPercentForBitmapHeight 底部相当于位图高度百分比
      * @return 裁剪后的图像
      */
-    public Bitmap cropBitmap(Bitmap bitmap, int leftPercentForBitmapWidth,
-                             int topPercentForBitmapHeight
-            , int rightPercentForBitmapWidth, int bottomPercentForBitmapHeight) {
+    public Bitmap cropBitmap(Bitmap bitmap, int leftPercentForBitmapWidth, int topPercentForBitmapHeight, int rightPercentForBitmapWidth,
+            int bottomPercentForBitmapHeight) {
         //先进行约束
         if (leftPercentForBitmapWidth < 0) {
             leftPercentForBitmapWidth = 0;
@@ -603,15 +591,12 @@ public class AtlwImageCommonUtils {
 
         int x = (int) (width * leftPercentForBitmapWidth / 100.0);
         int y = (int) (height * topPercentForBitmapHeight / 100.0);
-        int newWidth =
-                (int) (width * (100 - leftPercentForBitmapWidth - rightPercentForBitmapWidth) / 100.0);
-        int newHeight =
-                (int) (height * (100 - topPercentForBitmapHeight - bottomPercentForBitmapHeight) / 100.0);
+        int newWidth = (int) (width * (100 - leftPercentForBitmapWidth - rightPercentForBitmapWidth) / 100.0);
+        int newHeight = (int) (height * (100 - topPercentForBitmapHeight - bottomPercentForBitmapHeight) / 100.0);
         if (newWidth > 0 && newHeight > 0) {
             Bitmap cropBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(cropBitmap);
-            canvas.drawBitmap(bitmap, new Rect(x, y, x + newWidth, y + newHeight), new RectF(0, 0
-                    , newWidth, newHeight), null);
+            canvas.drawBitmap(bitmap, new Rect(x, y, x + newWidth, y + newHeight), new RectF(0, 0, newWidth, newHeight), null);
             releaseBitmap(bitmap);
             return cropBitmap;
         } else {
@@ -676,11 +661,9 @@ public class AtlwImageCommonUtils {
                     argbs[i] = 0x00FFFFFF;
                 }
             }
-            return Bitmap.createBitmap(argbs, 0, portraitWidth, portraitWidth, portraitHeight,
-                    bitmap.getConfig());
+            return Bitmap.createBitmap(argbs, 0, portraitWidth, portraitWidth, portraitHeight, bitmap.getConfig());
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(TAG, "是位图背景透明处理异常" + (e.getMessage() == null ? "" :
-                    e.getMessage()));
+            AtlwLogUtils.logUtils.logE(TAG, "是位图背景透明处理异常" + (e.getMessage() == null ? "" : e.getMessage()));
             return bitmap;
         }
     }
@@ -697,11 +680,9 @@ public class AtlwImageCommonUtils {
      * @param bottomBgPercent 顶部图片低部侧距离百分百（相对于背景），为空时不做处理
      * @return 合并后的位图
      */
-    public Bitmap mergeBitmap(Bitmap bitmapBg, @NonNull Bitmap bitmapTop,
-                              int topShowWidth, int topShowHeight,
-                              @FloatRange(from = 0, to = 1) float leftBgPercent,
-                              @FloatRange(from = 0, to = 1) Float topBgPercent,
-                              @FloatRange(from = 0, to = 1) Float bottomBgPercent) {
+    public Bitmap mergeBitmap(Bitmap bitmapBg, @NonNull Bitmap bitmapTop, int topShowWidth, int topShowHeight,
+            @FloatRange(from = 0, to = 1) float leftBgPercent, @FloatRange(from = 0, to = 1) Float topBgPercent,
+            @FloatRange(from = 0, to = 1) Float bottomBgPercent) {
         if (bitmapBg == null) {
             return null;
         }
@@ -714,8 +695,7 @@ public class AtlwImageCommonUtils {
             //判断是使用顶部背景百分百还是底部百分比，然后换算位置坐标
             if (topBgPercent == null) {
                 if (bottomBgPercent != null) {
-                    topShowRect.bottom =
-                            (int) (bitmapBg.getHeight() - bitmapBg.getHeight() * bottomBgPercent);
+                    topShowRect.bottom = (int) (bitmapBg.getHeight() - bitmapBg.getHeight() * bottomBgPercent);
                     topShowRect.top = topShowRect.bottom - topShowHeight;
                 }
             } else {
@@ -726,19 +706,16 @@ public class AtlwImageCommonUtils {
             Canvas canvas = new Canvas(bitmapBg);
             Paint paint = new Paint();
             paint.setAntiAlias(true);
-            canvas.drawBitmap(bitmapTop,
-                    new Rect(0, 0, bitmapTop.getWidth(), bitmapTop.getHeight()),
-                    topShowRect, paint);
+            canvas.drawBitmap(bitmapTop, new Rect(0, 0, bitmapTop.getWidth(), bitmapTop.getHeight()), topShowRect, paint);
             return bitmapBg;
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(TAG, "合并位图异常" + (e.getMessage() == null ? "" :
-                    e.getMessage()));
+            AtlwLogUtils.logUtils.logE(TAG, "合并位图异常" + (e.getMessage() == null ? "" : e.getMessage()));
             return bitmapBg;
         }
     }
 
     /**
-     * 图片设置背景异常
+     * 图片设置背景
      *
      * @param bitmap           要设置背景的图片位图
      * @param bgColor          背景颜色
@@ -758,10 +735,7 @@ public class AtlwImageCommonUtils {
             //内容背景间距处理
             bgContentPadding = bgContentPadding == null ? 0 : bgContentPadding;
             //新建接收位图
-            Bitmap newBitmap = Bitmap.createBitmap(
-                    portraitWidth + bgContentPadding * 2,
-                    portraitHeight + bgContentPadding * 2,
-                    bitmap.getConfig());
+            Bitmap newBitmap = Bitmap.createBitmap(portraitWidth + bgContentPadding * 2, portraitHeight + bgContentPadding * 2, bitmap.getConfig());
             //位图设置画板初始化
             Canvas canvas = new Canvas(newBitmap);
             //画笔初始化
@@ -772,16 +746,53 @@ public class AtlwImageCommonUtils {
             canvas.drawRect(0, 0, newBitmap.getWidth(), newBitmap.getHeight(), paint);
             //绘制图片
             canvas.drawBitmap(bitmap, null,
-                    new Rect(bgContentPadding, bgContentPadding,
-                            portraitWidth + bgContentPadding,
-                            portraitHeight + bgContentPadding),
-                    null);
-            paint = null;
+                    new Rect(bgContentPadding, bgContentPadding, portraitWidth + bgContentPadding, portraitHeight + bgContentPadding), null);
             return newBitmap;
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(TAG, "图片设置背景异常：" + (e.getMessage() == null ? "" :
-                    e.getMessage()));
+            AtlwLogUtils.logUtils.logE(TAG, "图片设置背景异常：" + (e.getMessage() == null ? "" : e.getMessage()));
             return bitmap;
+        }
+    }
+
+    /**
+     * 获取两个位图重叠部分位图
+     *
+     * @param bottom 底部要显示的位图
+     * @param top    顶部要取的重叠位置区域的位图，主要用来标记哪部分的底图要绘制显示
+     * @return 重叠部分位图
+     */
+    public Bitmap getOverlapBitmap(@NotNull Bitmap bottom, @NotNull Bitmap top) {
+        return getOverlapBitmap(bottom, top, null, null);
+    }
+
+    /**
+     * 获取两个位图重叠部分位图
+     *
+     * @param bottom     底部要显示的位图
+     * @param top        顶部要取的重叠位置区域的位图，主要用来标记哪部分的底图要绘制显示
+     * @param showWidth  显示宽度，默认以top宽度
+     * @param showHeight 显示宽度，默认以top高度
+     * @return 重叠部分位图
+     */
+    public Bitmap getOverlapBitmap(@NotNull Bitmap bottom, @NotNull Bitmap top, Integer showWidth, Integer showHeight) {
+        try {
+            showWidth = showWidth != null ? showWidth : top.getWidth();
+            showHeight = showHeight != null ? showHeight : top.getHeight();
+            //新建接收位图
+            Bitmap newBitmap = Bitmap.createBitmap(showWidth, showHeight, top.getConfig());
+            //位图设置画板初始化
+            Canvas canvas = new Canvas(newBitmap);
+            //画笔初始化
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            //绘制底部
+            canvas.drawBitmap(bottom, null, new RectF(0, 0, showWidth, showHeight), paint);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+            //绘制顶部
+            canvas.drawBitmap(top, null, new RectF(0, 0, showWidth, showHeight), paint);
+            return newBitmap;
+        } catch (Exception e) {
+            return null;
         }
     }
 

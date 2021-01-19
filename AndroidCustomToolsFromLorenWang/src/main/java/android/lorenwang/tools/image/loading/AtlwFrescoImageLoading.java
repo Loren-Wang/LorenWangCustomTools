@@ -1,9 +1,10 @@
 package android.lorenwang.tools.image.loading;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Animatable;
 import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
@@ -14,11 +15,12 @@ import com.facebook.common.util.UriUtil;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
-import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.DraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
@@ -28,152 +30,154 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
-import androidx.annotation.DrawableRes;
+import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.Nullable;
+import javabase.lorenwang.tools.JtlwLogUtils;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import javabase.lorenwang.tools.thread.JtlwTimingTaskUtils;
 
 
 /**
  * 功能作用：fresco图片加载类
- * 创建时间：2019-12-19 13:57
- * 创建人：王亮（Loren wang）
+ * 初始注释时间：2019-12-19 13:57
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 
 class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
 
-    @Override
-    public void loadingNetImage(String path, ImageView imageView, Integer width, Integer height,
-                                AtlwImageLoadConfig config) {
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(path)
-                && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView)
-                && imageView instanceof SimpleDraweeView) {
-            ImageRequest imageRequest =
-                    getImageRequest(imageView,
-                            ImageRequestBuilder.newBuilderWithSource(Uri.parse(path)),
-                            width, height, true);
-            loadFrecoImage((SimpleDraweeView) imageView, imageRequest, config);
-        }
-    }
 
-    @Override
-    public void loadingLocalImage(String path, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(path)
-                && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView)
-                && imageView instanceof SimpleDraweeView) {
-            ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME)
-                    .path(path).build()), width, height, true);
-            loadFrecoImage((SimpleDraweeView) imageView, imageRequest, config);
-        }
-    }
-
-    @Override
-    public void loadingResImage(int resId, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
-        ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithResourceId(resId), width, height, true);
-        loadFrecoImage((SimpleDraweeView) imageView, imageRequest, config);
-    }
-
-    @Override
-    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, Integer width, Integer height) {
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(bitmap)
-                && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView)
-                && imageView instanceof SimpleDraweeView) {
+    /**
+     * 加载图片
+     *
+     * @param imageView    图片控件
+     * @param imageRequest 请求体
+     * @param config       配置信息
+     */
+    private void loadImage(ImageView imageView, @NotNull ImageRequest imageRequest, @NotNull final AtlwImageLoadConfig config) {
+        if (imageView != null && !config.isLoadGetBitmap()) {
+            //生成加载控制器
+            DraweeController controller = getController(imageRequest, imageView, config);
+            //获取占位图控制器
+            GenericDraweeHierarchy hierarchy = getHierarchy(imageView, config);
+            //设置占位图
+            if (hierarchy != null) {
+                ((DraweeView) imageView).setHierarchy(hierarchy);
+            }
+            //开始加载
+            ((DraweeView) imageView).setController(controller);
+        } else {
+            DataSource<CloseableReference<CloseableImage>> dataSource = ImagePipelineFactory.getInstance().getImagePipeline().fetchDecodedImage(
+                    imageRequest, null);
             try {
-                if (bitmap != null) {
-                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwConfig.nowApplication.getApplicationContext().getContentResolver(), bitmap, null, null));
-                    if (uri != null) {
-                        ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), width, height, true);
-                        loadFrecoImage((SimpleDraweeView) imageView, imageRequest, null);
+                dataSource.subscribe(new BaseBitmapDataSubscriber() {
+                    @Override
+                    public void onNewResultImpl(@Nullable final Bitmap bitmap) {
+                        if (bitmap != null && !bitmap.isRecycled()) {
+                            JtlwTimingTaskUtils.getInstance().schedule(Double.valueOf(Math.random() * 100000).intValue(), new Runnable() {
+                                @Override
+                                public void run() {
+                                    resultBitmap(bitmap, config);
+                                }
+                            }, 0);
+                        }
                     }
-                }
+
+                    @Override
+                    public void onCancellation(DataSource<CloseableReference<CloseableImage>> dataSource) {
+                        super.onCancellation(dataSource);
+                    }
+
+                    @Override
+                    public void onFailureImpl(DataSource dataSource) {
+                        if (config.getLoadCallback() != null) {
+                            config.getLoadCallback().onFailure();
+                        }
+                    }
+                }, UiThreadImmediateExecutorService.getInstance());
             } catch (Exception e) {
-                AtlwLogUtils.logUtils.logE(TAG, "加载bitmap失败");
+                //oom风险.
+                e.printStackTrace();
+                if (config.getLoadCallback() != null) {
+                    config.getLoadCallback().onFailure();
+                }
             }
         }
     }
 
-    /**
-     * 图片加载
-     *
-     * @param imageView    图片空缺
-     * @param imageRequest 图片请求request
-     * @param config       回调
-     */
-    private void loadFrecoImage(final SimpleDraweeView imageView, ImageRequest imageRequest, final AtlwImageLoadConfig config) {
-        if (imageRequest != null) {
-            if (config == null || config.getCallback() == null) {
-                DraweeController draweeController = getDraweeController(imageRequest, imageView, true, null);
-                if (draweeController != null) {
+    @Override
+    public void loadingNetImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(path) && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView) &&
+                imageView instanceof DraweeView) {
+            //生成请求
+            ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(Uri.parse(path)), config);
+            if (imageRequest != null) {
+                loadImage(imageView, imageRequest, config);
+            }
+        }
+    }
 
-                    GenericDraweeHierarchy draweeHierarchy = getDraweeHierarchy(imageView, AtlwConfig.imageLoadingLoadResId, AtlwConfig.imageLoadingFailResId, config);
-                    //设置占位图
-                    if (draweeHierarchy != null) {
-                        imageView.setHierarchy(draweeHierarchy);
-                    }
-                    //开始加载
-                    imageView.setController(draweeController);
-                }
-            } else {
-                DataSource<CloseableReference<CloseableImage>> dataSource = ImagePipelineFactory.getInstance().getImagePipeline().fetchDecodedImage(imageRequest, null);
+    @Override
+    public void loadingLocalImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(path)) {
+            return;
+        }
+        Uri uri;
+        //格式化请求uri
+        if (path.contains("content://")) {
+            uri = new Uri.Builder().scheme(UriUtil.LOCAL_CONTENT_SCHEME).query(path).authority(
+                    AtlwConfig.nowApplication.getPackageName() + ".fileprovider").build();
+        } else {
+            uri = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME).path(path).authority(
+                    AtlwConfig.nowApplication.getPackageName() + ".fileprovider").build();
+        }
+        ImageRequest request = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), config);
+        if (request != null) {
+            loadImage(imageView, request, config);
+        }
+    }
 
-                try {
-                    dataSource.subscribe(new BaseBitmapDataSubscriber() {
-                                             @Override
-                                             public void onNewResultImpl(@Nullable final Bitmap bitmap) {
-                                                 if (bitmap != null && !bitmap.isRecycled()) {
-                                                     JtlwTimingTaskUtils.getInstance().schedule(
-                                                             imageView.getId(), new Runnable() {
-                                                                 @Override
-                                                                 public void run() {
-                                                                     final Bitmap resultBitmap =
-                                                                             bitmap.copy(bitmap.getConfig(),
-                                                                                     bitmap.isMutable());
-                                                                     if (config.getCallback() != null && resultBitmap != null && !resultBitmap.isRecycled()) {
-                                                                         AtlwThreadUtils.getInstance().postOnUiThread(new Runnable() {
-                                                                             @Override
-                                                                             public void run() {
-                                                                                 config.getCallback().onSuccess(imageView, resultBitmap);
-                                                                             }
-                                                                         });
-                                                                     }
-                                                                 }
-                                                             }, 0);
-                                                 }
-                                             }
+    @Override
+    public void loadingResImage(int resId, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+        ImageRequest request = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithResourceId(resId), config);
+        if (request != null) {
+            loadImage(imageView, request, config);
+        }
+    }
 
-                                             @Override
-                                             public void onCancellation(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                                                 super.onCancellation(dataSource);
-                                                 if (config.getCallback() != null) {
-                                                     config.getCallback().onCancel(imageView);
-                                                 }
-                                             }
-
-                                             @Override
-                                             public void onFailureImpl(DataSource dataSource) {
-                                                 Throwable throwable = null;
-                                                 if (dataSource != null) {
-                                                     throwable = dataSource.getFailureCause();
-                                                 }
-                                                 if (config.getCallback() != null) {
-                                                     config.getCallback().onFailure(imageView, throwable);
-                                                 }
-                                             }
-                                         },
-                            UiThreadImmediateExecutorService.getInstance());
-                } catch (Exception e) {
-                    //oom风险.
-                    e.printStackTrace();
-                    if (config.getCallback() != null) {
-                        config.getCallback().onFailure(imageView, e);
+    @Override
+    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+        if (!JtlwCheckVariateUtils.getInstance().isEmpty(bitmap) && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView) &&
+                imageView instanceof SimpleDraweeView) {
+            try {
+                if (bitmap != null) {
+                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwConfig.nowApplication.getContentResolver(), bitmap, null, null));
+                    if (uri != null) {
+                        loadImage(imageView, getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), config), config);
                     }
                 }
+            } catch (Exception e) {
+                JtlwLogUtils.logUtils.logE(TAG, "加载bitmap失败");
+            }
+        }
+
+    }
+
+    @Override
+    public void getNetImageBitmap(String path, AtlwImageLoadConfig config) {
+        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(path)) {
+            //生成请求
+            ImageRequest imageRequest = getImageRequest(null, ImageRequestBuilder.newBuilderWithSource(Uri.parse(path)), config);
+            if (imageRequest != null) {
+                loadImage(null, imageRequest, config);
             }
         }
     }
@@ -214,31 +218,35 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
     /**
      * 获取图片请求的request
      *
-     *
-     * @param imageView
-     * @param imageRequestBuilder         图片请求builder
-     * @param width                       宽
-     * @param height                      高
-     * @param isAllowProgressiveRendering 是否允许使用渐进式加载
+     * @param imageView           图片控件
+     * @param imageRequestBuilder 图片请求builder
+     * @param config              配置信息
      * @return 图片请求request
      */
-    private ImageRequest getImageRequest(ImageView imageView, ImageRequestBuilder imageRequestBuilder, Integer width, Integer height, boolean isAllowProgressiveRendering) {
+    private ImageRequest getImageRequest(ImageView imageView, ImageRequestBuilder imageRequestBuilder, @NotNull AtlwImageLoadConfig config) {
         //设置加载的宽高
-        if (width != null && height != null) {
+        if (config.getResizeLoadWidth() > 0 && config.getResizeLoadHeight() > 0) {
             try {
-                ResizeOptions resizeOptions = new ResizeOptions(width, height);
+                ResizeOptions resizeOptions = new ResizeOptions(config.getResizeLoadWidth(), config.getResizeLoadHeight());
                 imageRequestBuilder.setResizeOptions(resizeOptions);
             } catch (Exception e) {
-                AtlwLogUtils.logUtils.logE(TAG, "resize失败");
+                JtlwLogUtils.logUtils.logE(TAG, "resize失败");
             }
         }
-
         //判断是否需要显示缩略图
-        if (isShowThumbnail(imageView,width, height)) {
+        if (imageView != null && isShowThumbnail(imageView, config.getShowViewWidth(), config.getShowViewHeight())) {
             imageRequestBuilder.setLocalThumbnailPreviewsEnabled(true);
         }
+        //是否关闭存储卡缓存
+        if (config.isDisableDiskCache()) {
+            imageRequestBuilder.disableDiskCache();
+        }
+        //是否关闭内存缓存
+        if (config.isDisableMemoryCache()) {
+            imageRequestBuilder.disableMemoryCache();
+        }
         //设置是否渐进式加载
-        imageRequestBuilder.setProgressiveRenderingEnabled(isAllowProgressiveRendering);
+        imageRequestBuilder.setProgressiveRenderingEnabled(config.isAllowProgressiveRendering());
 
         return imageRequestBuilder.build();
     }
@@ -246,91 +254,120 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
     /**
      * 获取图片加载控制器
      *
-     * @param imageRequest     图片请求构造器
-     * @param simpleDraweeView 图片加载控件
-     * @param listener         图片处理监听
+     * @param imageRequest 图片请求构造器
+     * @param imageView    图片加载控件
+     * @param config       配置文件
      * @return 图片加载控制器
      */
-    private DraweeController getDraweeController(ImageRequest imageRequest, SimpleDraweeView simpleDraweeView, boolean isUserCache, ControllerListener<ImageInfo> listener) {
-        PipelineDraweeControllerBuilder builder = Fresco.newDraweeControllerBuilder()
-                .setImageRequest(imageRequest)
-                .setControllerListener(listener);
-        if (isUserCache) {
+    private DraweeController getController(@NotNull ImageRequest imageRequest, @NotNull final ImageView imageView,
+            @NotNull final AtlwImageLoadConfig config) {
+        PipelineDraweeControllerBuilder builder = Fresco.newDraweeControllerBuilder().setImageRequest(imageRequest)
+                //设置是否加载动图，默认加载动态
+                .setAutoPlayAnimations(config.isGifPlay());
+        if (config.isUseCacheLoadImage()) {
             builder.setLowResImageRequest(ImageRequest.fromUri(imageRequest.getSourceUri()));
         }
-        //加载上一个旧的
-        try {
-            builder.setOldController(simpleDraweeView.getController());
-        } catch (Exception e) {
-            AtlwLogUtils.logUtils.logD(TAG, "图片加载异常");
+        if (imageView instanceof DraweeView) {
+            //加载上一个旧的
+            try {
+                builder.setOldController(((DraweeView) imageView).getController());
+            } catch (Exception e) {
+                JtlwLogUtils.logUtils.logE(TAG, "图片加载异常");
+            }
+
+            builder.setControllerListener(new BaseControllerListener<ImageInfo>() {
+                @Override
+                public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                    super.onFinalImageSet(id, imageInfo, animatable);
+
+                    if (config.getLoadCallback() != null) {
+                        config.getLoadCallback().onSuccess(null, imageInfo.getWidth(), imageInfo.getHeight());
+                    }
+                    //设置控件样式
+                    setImageViewLayoutParams(config.isUseActualAspectRatio() && ((DraweeView) imageView).getAspectRatio() == 0, imageView,
+                            config.getShowViewWidth(), config.getShowViewHeight(), imageInfo.getWidth(), imageInfo.getHeight());
+
+                }
+
+                @Override
+                public void onFailure(String id, Throwable throwable) {
+                    super.onFailure(id, throwable);
+                    if (config.getLoadCallback() != null) {
+                        config.getLoadCallback().onFailure();
+                    }
+                }
+            });
         }
+
         return builder.build();
     }
 
     /**
      * 获取占位图控制器
      *
-     * @param loadingResId 加载中资源id
-     * @param failResId    失败资源id
-     * @param config 配置
+     * @param config 配置信息
      * @return 占位图控制器
      */
-    private GenericDraweeHierarchy getDraweeHierarchy(SimpleDraweeView simpleDraweeView, @DrawableRes Integer loadingResId, @DrawableRes Integer failResId, AtlwImageLoadConfig config) {
-        if (loadingResId == null && failResId == null) {
-            return null;
-        } else if (simpleDraweeView != null) {
-            GenericDraweeHierarchy hierarchy = simpleDraweeView.getHierarchy();
-            if (config != null) {
-                if (config.isScaleTypeCenterGroup()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
-                }
-                if (config.isScaleTypeCenterInside()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
-                }
-                if (config.isScaleTypeFitCenter()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
-                }
-                if (config.isScaleTypeFitEnd()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_END);
-                }
-                if (config.isScaleTypeFitStart()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_START);
-                }
-                if (config.isScaleTypeFocusCrop()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP);
-                }
-                if (config.isScaleTypeCenter()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER);
-                }
-                if (config.isScaleTypeFitXy()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY);
-                }
-                if (config.isScaleTypeFitBottomStart()) {
-                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_BOTTOM_START);
-                }
+    private GenericDraweeHierarchy getHierarchy(ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+        if (imageView instanceof SimpleDraweeView) {
+            GenericDraweeHierarchy hierarchy = ((SimpleDraweeView) imageView).getHierarchy();
+            if (config.isScaleTypeCenterGroup()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
             }
-
+            if (config.isScaleTypeCenterInside()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
+            }
+            if (config.isScaleTypeFitCenter()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
+            }
+            if (config.isScaleTypeFitEnd()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_END);
+            }
+            if (config.isScaleTypeFitStart()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_START);
+            }
+            if (config.isScaleTypeFocusCrop()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP);
+            }
+            if (config.isScaleTypeCenter()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER);
+            }
+            if (config.isScaleTypeFitXy()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY);
+            }
+            if (config.isScaleTypeFitBottomStart()) {
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_BOTTOM_START);
+            }
             if (hierarchy == null) {
-                GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(AtlwConfig.nowApplication.getApplicationContext().getResources());
-                if (loadingResId != null) {
-                    builder = builder.setPlaceholderImage(loadingResId);
+                GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(AtlwConfig.nowApplication.getResources());
+                if (config.getImageLoadingLoadResId() != null) {
+                    builder = builder.setPlaceholderImage(config.getImageLoadingLoadResId());
                 }
-                if (failResId != null) {
-                    builder = builder.setFailureImage(failResId);
+                if (config.getImageLoadingFailResId() != null) {
+                    builder = builder.setFailureImage(config.getImageLoadingFailResId());
                 }
                 return builder.build();
             } else {
-                if (loadingResId != null) {
-                    hierarchy.setPlaceholderImage(loadingResId);
+                if (config.getImageLoadingFailResId() != null) {
+                    hierarchy.setFailureImage(config.getImageLoadingFailResId());
                 }
-                if (failResId != null) {
-                    hierarchy.setFailureImage(failResId);
+                if (config.getImageLoadingLoadResId() != null && !hierarchy.hasPlaceholderImage()) {
+                    hierarchy.setPlaceholderImage(config.getImageLoadingLoadResId());
                 }
                 return hierarchy;
             }
-        } else {
-            return null;
+        } else if (imageView instanceof DraweeView) {
+            GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(AtlwConfig.nowApplication.getResources());
+            if (config.getImageLoadingLoadResId() != null) {
+                builder = builder.setPlaceholderImage(config.getImageLoadingLoadResId());
+            }
+            if (config.getImageLoadingFailResId() != null) {
+                builder = builder.setFailureImage(config.getImageLoadingFailResId());
+            }
+            return builder.build();
         }
+
+        return null;
     }
 
 }

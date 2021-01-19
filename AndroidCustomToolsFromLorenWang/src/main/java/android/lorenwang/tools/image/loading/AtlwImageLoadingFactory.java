@@ -1,13 +1,14 @@
 package android.lorenwang.tools.image.loading;
 
+
 import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_FRESCO;
 import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE;
-
+import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD;
 
 /**
  * 功能作用：图片加载工厂
  * 初始注释时间： 2019/12/19 15:09
- * 注释创建人：LorenWang（王亮）
+ * 注释创建人：Loren（王亮）
  * 方法介绍：
  * 1、获取图片加载实例---getImageLoading（imageLoadLibraryType）
  * 2、获取工具类实例---getInstance（）
@@ -19,11 +20,14 @@ import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE;
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author wangliang
  */
 public class AtlwImageLoadingFactory {
     private final String TAG = getClass().getName();
-    private static AtlwFrescoImageLoading qtFrescoImageLoading;
-    private static AtlwGlideImageLoading qtGlideImageLoading;
+    private static AtlwFrescoImageLoading acbflwFrescoImageLoading;
+    private static AtlwGlideImageLoading acbflwGlideImageLoading;
+    private static AtlwImageLoadImageLoading acbflwImageLoadImageLoading;
     private static AtlwImageLoadingFactory optionsFactory;
 
     private AtlwImageLoadingFactory() {
@@ -38,23 +42,32 @@ public class AtlwImageLoadingFactory {
     public static AtlwBaseImageLoading getImageLoading(int imageLoadLibraryType) {
         switch (imageLoadLibraryType) {
             case IMAGE_LOAD_LIBRARY_TYPE_FRESCO:
-                if (qtFrescoImageLoading == null) {
+                if (acbflwFrescoImageLoading == null) {
                     synchronized (AtlwFrescoImageLoading.class) {
-                        if (qtFrescoImageLoading == null) {
-                            qtFrescoImageLoading = new AtlwFrescoImageLoading();
+                        if (acbflwFrescoImageLoading == null) {
+                            acbflwFrescoImageLoading = new AtlwFrescoImageLoading();
                         }
                     }
                 }
-                return qtFrescoImageLoading;
+                return acbflwFrescoImageLoading;
             case IMAGE_LOAD_LIBRARY_TYPE_GLIDE:
-                if (qtGlideImageLoading == null) {
+                if (acbflwGlideImageLoading == null) {
                     synchronized (AtlwGlideImageLoading.class) {
-                        if (qtGlideImageLoading == null) {
-                            qtGlideImageLoading = new AtlwGlideImageLoading();
+                        if (acbflwGlideImageLoading == null) {
+                            acbflwGlideImageLoading = new AtlwGlideImageLoading();
                         }
                     }
                 }
-                return qtGlideImageLoading;
+                return acbflwGlideImageLoading;
+            case IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD:
+                if (acbflwImageLoadImageLoading == null) {
+                    synchronized (AtlwImageLoadImageLoading.class) {
+                        if (acbflwImageLoadImageLoading == null) {
+                            acbflwImageLoadImageLoading = new AtlwImageLoadImageLoading();
+                        }
+                    }
+                }
+                return acbflwImageLoadImageLoading;
             default:
                 return null;
         }
@@ -81,22 +94,22 @@ public class AtlwImageLoadingFactory {
      */
     public void clearMemoryCache(Integer imageLoadLibraryType) {
         if (imageLoadLibraryType == null) {
-            if (qtFrescoImageLoading != null) {
-                qtFrescoImageLoading.clearMemoryCache();
+            if (acbflwFrescoImageLoading != null) {
+                acbflwFrescoImageLoading.clearMemoryCache();
             }
-            if (qtGlideImageLoading != null) {
-                qtGlideImageLoading.clearMemoryCache();
+            if (acbflwGlideImageLoading != null) {
+                acbflwGlideImageLoading.clearMemoryCache();
             }
         } else {
             switch (imageLoadLibraryType) {
                 case IMAGE_LOAD_LIBRARY_TYPE_FRESCO:
-                    if (qtFrescoImageLoading != null) {
-                        qtFrescoImageLoading.clearMemoryCache();
+                    if (acbflwFrescoImageLoading != null) {
+                        acbflwFrescoImageLoading.clearMemoryCache();
                     }
                     break;
                 case IMAGE_LOAD_LIBRARY_TYPE_GLIDE:
-                    if (qtGlideImageLoading != null) {
-                        qtGlideImageLoading.clearMemoryCache();
+                    if (acbflwGlideImageLoading != null) {
+                        acbflwGlideImageLoading.clearMemoryCache();
                     }
                     break;
                 default:
@@ -110,22 +123,22 @@ public class AtlwImageLoadingFactory {
      */
     public void clearDiskCache(Integer imageLoadLibraryType) {
         if (imageLoadLibraryType == null) {
-            if (qtFrescoImageLoading != null) {
-                qtFrescoImageLoading.clearDiskCache();
+            if (acbflwFrescoImageLoading != null) {
+                acbflwFrescoImageLoading.clearDiskCache();
             }
-            if (qtGlideImageLoading != null) {
-                qtGlideImageLoading.clearDiskCache();
+            if (acbflwGlideImageLoading != null) {
+                acbflwGlideImageLoading.clearDiskCache();
             }
         } else {
             switch (imageLoadLibraryType) {
                 case IMAGE_LOAD_LIBRARY_TYPE_FRESCO:
-                    if (qtFrescoImageLoading != null) {
-                        qtFrescoImageLoading.clearDiskCache();
+                    if (acbflwFrescoImageLoading != null) {
+                        acbflwFrescoImageLoading.clearDiskCache();
                     }
                     break;
                 case IMAGE_LOAD_LIBRARY_TYPE_GLIDE:
-                    if (qtGlideImageLoading != null) {
-                        qtGlideImageLoading.clearDiskCache();
+                    if (acbflwGlideImageLoading != null) {
+                        acbflwGlideImageLoading.clearDiskCache();
                     }
                     break;
                 default:
@@ -138,11 +151,11 @@ public class AtlwImageLoadingFactory {
      * 暂停加载图片
      */
     public void pauseLoading() {
-        if (qtFrescoImageLoading != null) {
-            qtFrescoImageLoading.pauseLoading();
+        if (acbflwFrescoImageLoading != null) {
+            acbflwFrescoImageLoading.pauseLoading();
         }
-        if (qtGlideImageLoading != null) {
-            qtGlideImageLoading.pauseLoading();
+        if (acbflwGlideImageLoading != null) {
+            acbflwGlideImageLoading.pauseLoading();
         }
     }
 
@@ -150,11 +163,11 @@ public class AtlwImageLoadingFactory {
      * 恢复加载图片
      */
     public void resumeLoading() {
-        if (qtFrescoImageLoading != null) {
-            qtFrescoImageLoading.resumeLoading();
+        if (acbflwFrescoImageLoading != null) {
+            acbflwFrescoImageLoading.resumeLoading();
         }
-        if (qtGlideImageLoading != null) {
-            qtGlideImageLoading.resumeLoading();
+        if (acbflwGlideImageLoading != null) {
+            acbflwGlideImageLoading.resumeLoading();
         }
     }
 }

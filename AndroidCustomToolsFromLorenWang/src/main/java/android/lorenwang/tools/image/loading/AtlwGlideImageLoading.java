@@ -3,6 +3,7 @@ package android.lorenwang.tools.image.loading;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.AtlwConfig;
+import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -12,6 +13,8 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+
+import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,116 +33,80 @@ import androidx.annotation.Nullable;
 
 class AtlwGlideImageLoading extends AtlwBaseImageLoading {
 
-    @Override
-    public void loadingNetImage(String path, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
-        loadGildeImage(path, imageView, width, height, config);
-    }
-
-    @Override
-    public void loadingLocalImage(String path, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
-        loadGildeImage(path, imageView, width, height, config);
-    }
-
-    @Override
-    public void loadingResImage(int resId, ImageView imageView, Integer width, Integer height, AtlwImageLoadConfig config) {
-        loadGildeImage(resId, imageView, width, height, config);
-    }
-
-    @Override
-    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, Integer width, Integer height) {
-
-    }
-
     /**
      * 加载图片
      *
      * @param pathOrRes 地址或者资源
      * @param imageView 图片控件
-     * @param width     宽度
-     * @param height    高度
      * @param config    配置
      */
-    private void loadGildeImage(Object pathOrRes, final ImageView imageView, Integer width, Integer height, final AtlwImageLoadConfig config) {
-        RequestManager requestManager = Glide.with(AtlwConfig.nowApplication.getApplicationContext());
-        if (config == null || config.getCallback() == null) {
+    private void loadGildeImage(Object pathOrRes, final ImageView imageView, @NotNull final AtlwImageLoadConfig config) {
+        RequestManager requestManager = Glide.with(AtlwConfig.nowApplication);
+        if (config.isLoadGetBitmap() && imageView != null) {
             RequestBuilder<Drawable> builder = requestManager.load(pathOrRes);
-            getBuild(imageView,builder, width, height, config).into(imageView);
-//            getBuild(builder, width, height, config).into(new CustomTarget<Drawable>(width, height) {
-//                @Override
-//                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-//                    imageView.setImageDrawable(resource);
-//                }
-//
-//                @Override
-//                public void onLoadCleared(@Nullable Drawable placeholder) {
-//                    imageView.setImageDrawable(placeholder);
-//                }
-//            });
+            getBuild(imageView, builder, config).into(imageView);
         } else {
-            getBuild(imageView,requestManager.asBitmap().load(pathOrRes), width, height, config)
-                    .into(new Target<Bitmap>() {
-                        private Request request;
+            getBuild(imageView, requestManager.asBitmap().load(pathOrRes), config).into(new Target<Bitmap>() {
+                private Request request;
 
-                        @Override
-                        public void onStart() {
+                @Override
+                public void onStart() {
 
-                        }
+                }
 
-                        @Override
-                        public void onStop() {
+                @Override
+                public void onStop() {
 
-                        }
+                }
 
-                        @Override
-                        public void onDestroy() {
+                @Override
+                public void onDestroy() {
 
-                        }
+                }
 
-                        @Override
-                        public void onLoadStarted(@Nullable Drawable placeholder) {
+                @Override
+                public void onLoadStarted(@Nullable Drawable placeholder) {
 
-                        }
+                }
 
-                        @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            if (config.getCallback() != null) {
-                                config.getCallback().onFailure(imageView, new Throwable("error"));
-                            }
-                        }
+                @Override
+                public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                    if (config.getLoadCallback() != null) {
+                        config.getLoadCallback().onFailure();
+                    }
+                }
 
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            if (config.getCallback() != null) {
-                                config.getCallback().onSuccess(imageView, resource);
-                            }
-                        }
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    resultBitmap(resource, config);
+                }
 
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
 
-                        }
+                }
 
-                        @Override
-                        public void getSize(@NonNull SizeReadyCallback cb) {
+                @Override
+                public void getSize(@NonNull SizeReadyCallback cb) {
 
-                        }
+                }
 
-                        @Override
-                        public void removeCallback(@NonNull SizeReadyCallback cb) {
+                @Override
+                public void removeCallback(@NonNull SizeReadyCallback cb) {
 
-                        }
+                }
 
-                        @Override
-                        public void setRequest(@Nullable Request request) {
-                            this.request = request;
-                        }
+                @Override
+                public void setRequest(@Nullable Request request) {
+                    this.request = request;
+                }
 
-                        @Nullable
-                        @Override
-                        public Request getRequest() {
-                            return request;
-                        }
-                    });
+                @Nullable
+                @Override
+                public Request getRequest() {
+                    return request;
+                }
+            });
         }
     }
 
@@ -150,55 +117,76 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
      * @param config  配置文件
      * @return 构造器
      */
-    private <T> RequestBuilder<T> getBuild(ImageView imageView,RequestBuilder<T> builder,
-                                           Integer width, Integer height,
-                                           AtlwImageLoadConfig config) {
-        if (config != null) {
-            if (config.isScaleTypeFitCenter()) {
-                builder = builder.fitCenter();
-            }
-            if (config.isScaleTypeCenterGroup()) {
-                builder = builder.centerCrop();
-            }
-            if (config.isScaleTypeCenterInside()) {
-                builder = builder.centerInside();
-            }
-            if (config.getBitmapTransformations() != null
-                    && config.getBitmapTransformations().length > 0) {
-                builder = builder.transform(config.getBitmapTransformations());
-            }
+    private <T> RequestBuilder<T> getBuild(ImageView imageView, RequestBuilder<T> builder, @NotNull AtlwImageLoadConfig config) {
+        if (config.isScaleTypeFitCenter()) {
+            builder = builder.fitCenter();
+        }
+        if (config.isScaleTypeCenterGroup()) {
+            builder = builder.centerCrop();
+        }
+        if (config.isScaleTypeCenterInside()) {
+            builder = builder.centerInside();
+        }
+        if (config.getBitmapTransformations() != null && config.getBitmapTransformations().length > 0) {
+            builder = builder.transform(config.getBitmapTransformations());
         }
         //是否显示缩略图
-        if (isShowThumbnail(imageView,width, height)) {
+        if (isShowThumbnail(imageView, config.getShowViewWidth() > 0 ? config.getShowViewWidth() : null,
+                config.getShowViewHeight() > 0 ? config.getShowViewHeight() : null)) {
             builder = builder.thumbnail(0.2f);
         }
-        //宽高设置
-        if(width != null && height != null) {
-            builder = builder.override(width, height);
+        if (config.getShowViewWidth() > 0 && config.getShowViewHeight() > 0) {
+            //宽高设置
+            builder = builder.override(config.getShowViewWidth(), config.getShowViewHeight());
         }
         //占位图设置
-        builder = builder.placeholder(AtlwConfig.imageLoadingLoadResId)
-                .error(AtlwConfig.imageLoadingFailResId);
+        builder = builder.placeholder(AtlwConfig.imageLoadingLoadResId).error(AtlwConfig.imageLoadingFailResId);
         return builder;
     }
 
     @Override
+    public void loadingNetImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+        loadGildeImage(path, imageView, config);
+    }
+
+    @Override
+    public void loadingLocalImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+        loadGildeImage(path, imageView, config);
+
+    }
+
+    @Override
+    public void loadingResImage(int resId, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+        loadGildeImage(resId, imageView, config);
+    }
+
+    @Override
+    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+
+    }
+
+    @Override
+    public void getNetImageBitmap(String path, AtlwImageLoadConfig config) {
+        loadGildeImage(path, null, config);
+    }
+
+    @Override
     public void clearMemoryCache() {
-        Glide.get(AtlwConfig.nowApplication.getApplicationContext()).clearMemory();
+        Glide.get(AtlwConfig.nowApplication).clearMemory();
     }
 
     @Override
     public void clearDiskCache() {
-        Glide.get(AtlwConfig.nowApplication.getApplicationContext()).clearDiskCache();
+        Glide.get(AtlwConfig.nowApplication).clearDiskCache();
     }
 
     @Override
     public void pauseLoading() {
-        Glide.with(AtlwConfig.nowApplication.getApplicationContext()).pauseRequests();
+        Glide.with(AtlwConfig.nowApplication).pauseRequests();
     }
 
     @Override
     public void resumeLoading() {
-        Glide.with(AtlwConfig.nowApplication.getApplicationContext()).resumeRequests();
+        Glide.with(AtlwConfig.nowApplication).resumeRequests();
     }
 }

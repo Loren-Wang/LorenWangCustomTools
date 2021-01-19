@@ -12,6 +12,7 @@ import com.example.testapp.activity.bluetooth.BluetoothActivity
 import com.example.testapp.activity.dialog.DialogsActivity
 import com.example.testapp.activity.graphicCodeScan.CodeGenerateActivity
 import com.example.testapp.activity.graphicCodeScan.ScanCodeActivity
+import com.example.testapp.activity.image.ImageListBitmapActivity
 import com.example.testapp.activity.image.ImageViewActivity
 import com.example.testapp.activity.image.ZoomableImageViewActivity
 import com.example.testapp.activity.location.LocationActivity
@@ -28,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.empty_data_default.*
 
 class MainActivity : BaseActivity() {
-    override fun initView(savedInstanceState : Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         addContentView(R.layout.activity_main)
         Fresco.initialize(applicationContext)
     }
@@ -38,14 +39,17 @@ class MainActivity : BaseActivity() {
         swipeRefresh?.isRefreshing = false
     }
 
-    override fun initData(savedInstanceState : Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnLocation?.performClick()
+        btnImageListBitmap?.performClick()
     }
 
-    fun mainClick(view : View?) {
+    fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnImageListBitmap -> {
+                    startActivity(Intent(this, ImageListBitmapActivity::class.java))
+                }
                 R.id.btnLocation -> {
                     startActivity(Intent(this, LocationActivity::class.java))
                 }

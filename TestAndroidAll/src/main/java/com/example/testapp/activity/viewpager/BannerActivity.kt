@@ -5,6 +5,7 @@ import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerAdapter
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.customview.viewpager.banner.AvlwBannerView
 import android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE
+import android.lorenwang.tools.image.loading.AtlwImageLoadConfig
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.view.View
@@ -30,7 +31,7 @@ class BannerActivity : BaseActivity() {
         showBanner(findViewById(R.id.vpgList3), list, list.size)
         showBanner(findViewById(R.id.vpgList4), list, Int.MAX_VALUE)
         showBanner(findViewById(R.id.vpgList5), list, Int.MAX_VALUE)
-        showBanner(findViewById(R.id.vpgList6), list.subList(0,1), Int.MAX_VALUE)
+        showBanner(findViewById(R.id.vpgList6), list.subList(0, 1), Int.MAX_VALUE)
     }
 
     /**
@@ -41,8 +42,8 @@ class BannerActivity : BaseActivity() {
             override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?> {
                 return object : AcbflwBaseRecyclerViewHolder<String?>(itemView) {
                     override fun setViewData(activity: Activity, model: String?, position: Int) {
-                        AtlwImageLoadingFactory.getImageLoading(IMAGE_LOAD_LIBRARY_TYPE_GLIDE)
-                                .loadingNetImage(model, itemView as AppCompatImageView, itemView.getWidth(), itemView.getHeight())
+                        AtlwImageLoadingFactory.getImageLoading(IMAGE_LOAD_LIBRARY_TYPE_GLIDE).loadingNetImage(model, itemView as AppCompatImageView,
+                                AtlwImageLoadConfig.Build().setShowViewHeight(itemView.height).setShowViewWidth(itemView.width).build())
                     }
                 }
             }
