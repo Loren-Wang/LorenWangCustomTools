@@ -173,7 +173,7 @@ fun <V : View> V?.kttlwThrottleClick(clickFun : (view : View) -> Unit) {
 fun <V : View> V?.kttlwThrottleClick(timeInterval : Long, clickFun : (view : View) -> Unit) {
     this?.setOnClickListener {
         //本地是启用状态下点击才有效
-        if (it?.isEnabled.getNotEmptyData(false)) {
+        if (it?.isEnabled.kttlwGetNotEmptyData(false)) {
             it.kttlwToDisable()
             clickFun(it)
             AtlwThreadUtils.getInstance().postOnUiThreadDelayed({
