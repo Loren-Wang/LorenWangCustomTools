@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.image.ImageListBitmapActivity"></activity>
+        <activity
+            android:name=".activity.video.VideoPlayActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".activity.video.VideoPlayListActivity" />
+        <activity android:name=".activity.image.ImageListBitmapActivity" />
         <activity android:name=".activity.location.LocationActivity" />
         <activity android:name=".activity.ProgressActivity" />
         <activity android:name=".activity.textview.CustomDrawableButtonActivity" />
@@ -50,6 +54,7 @@
         <activity android:name=".activity.image.ImageViewActivity" />
         <activity android:name=".activity.androidTools.MobileContactsActivity" />
         <activity android:name=".activity.androidTools.MobileSmsActivity" />
+
         <service android:name="com.amap.api.location.APSService" />
     </application> <!-- 用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->

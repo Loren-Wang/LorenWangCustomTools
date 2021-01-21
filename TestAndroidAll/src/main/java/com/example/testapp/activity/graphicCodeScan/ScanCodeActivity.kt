@@ -8,10 +8,10 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.lorenwang.graphic_code_scan.AgcslwScan
 import android.lorenwang.graphic_code_scan.AgcslwScanResultCallback
-import android.lorenwang.tools.app.AtlwActivityUtils
+import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
-import android.lorenwang.tools.base.AtlwLogUtils
-import android.lorenwang.tools.file.AtlwFileOptionUtils
+import android.lorenwang.tools.base.AtlwLogUtil
+import android.lorenwang.tools.file.AtlwFileOptionUtil
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.TextView
@@ -28,7 +28,7 @@ class ScanCodeActivity : BaseActivity() {
     override fun initView(savedInstanceState: Bundle?) {
         addContentView(R.layout.activity_scan_code)
         //请求权限
-        AtlwActivityUtils.getInstance().goToRequestPermissions(this,
+        AtlwActivityUtil.getInstance().goToRequestPermissions(this,
                 arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0,
                 object : AtlwPermissionRequestCallback {
                     override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
@@ -36,7 +36,7 @@ class ScanCodeActivity : BaseActivity() {
 
                     @SuppressLint("MissingPermission")
                     override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
-                        AtlwLogUtils.logUtils.logD("sssss","扫描权限获取成功")
+                        AtlwLogUtil.logUtils.logD("sssss","扫描权限获取成功")
                         JtlwFileOptionUtils.getInstance().writeToFile(File(""), byteArrayOf())
                         //设置裁剪扫描区域
 //                        scan.setScanCropView(viewScan)
@@ -93,7 +93,7 @@ class ScanCodeActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
-            val path = AtlwFileOptionUtils.getInstance().getUriPath(data!!.data, MediaStore.MediaColumns.DATA)
+            val path = AtlwFileOptionUtil.getInstance().getUriPath(data!!.data, MediaStore.MediaColumns.DATA)
             scan.scanPhotoAlbumImage(path);
         }
     }

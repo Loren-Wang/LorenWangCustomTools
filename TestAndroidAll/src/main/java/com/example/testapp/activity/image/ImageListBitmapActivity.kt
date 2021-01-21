@@ -5,8 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.tools.AtlwConfig
-import android.lorenwang.tools.app.AtlwViewUtils
-import android.lorenwang.tools.image.AtlwImageCommonUtils
+import android.lorenwang.tools.app.AtlwViewUtil
+import android.lorenwang.tools.image.AtlwImageCommonUtil
 import android.lorenwang.tools.image.loading.AtlwImageLoadCallback
 import android.lorenwang.tools.image.loading.AtlwImageLoadConfig
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
@@ -63,10 +63,10 @@ class ImageListBitmapActivity : BaseListActivity<Bitmap?>() {
             override fun setViewData(activity: Activity, model: Bitmap?, position: Int) {
                 model?.let {bottom->
                     BitmapFactory.decodeResource(resources,R.drawable.icon_empty_add)?.let { top->
-                        AtlwImageCommonUtils.getInstance().getOverlapBitmap(bottom,top,200,null)?.let {
+                        AtlwImageCommonUtil.getInstance().getOverlapBitmap(bottom,top,200,null)?.let {
                             itemView.findViewById<AppCompatImageView>(R.id.imgPic).apply {
                                 setImageBitmap(it)
-                                AtlwViewUtils.getInstance().setViewWidthHeight(this, it.width, it.height)
+                                AtlwViewUtil.getInstance().setViewWidthHeight(this, it.width, it.height)
                             }
                         }
                     }

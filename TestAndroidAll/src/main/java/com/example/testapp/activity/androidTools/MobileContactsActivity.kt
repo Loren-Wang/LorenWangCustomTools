@@ -1,6 +1,6 @@
 package com.example.testapp.activity.androidTools
 
-import android.lorenwang.tools.mobile.AtlwMobileContentUtils
+import android.lorenwang.tools.mobile.AtlwMobileContentUtil
 import android.os.Bundle
 import android.widget.TextView
 import com.example.testapp.base.BaseActivity
@@ -26,7 +26,7 @@ class MobileContactsActivity : BaseActivity() {
         addContentView(R.layout.activity_android_tools_mobile_contacts)
 
         val contacts = StringBuilder()
-        AtlwMobileContentUtils.getInstance().allContacts.forEach {
+        AtlwMobileContentUtil.getInstance().allContacts.forEach {
             contacts.append(it.contactName).append(it.phoneNumber).append('\n')
         }
         findViewById<TextView>(R.id.tvShow).text = contacts.toString()

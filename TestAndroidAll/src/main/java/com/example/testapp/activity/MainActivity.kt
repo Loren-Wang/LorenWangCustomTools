@@ -1,7 +1,7 @@
 package com.example.testapp.activity
 
 import android.content.Intent
-import android.lorenwang.tools.app.AtlwActivityJumpUtils
+import android.lorenwang.tools.app.AtlwActivityJumpUtil
 import android.os.Bundle
 import android.view.View
 import com.example.testapp.R
@@ -20,6 +20,8 @@ import com.example.testapp.activity.textview.CustomDrawableButtonActivity
 import com.example.testapp.activity.textview.ShowPriceTextViewActivity
 import com.example.testapp.activity.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.activity.titlebar.TitleBarHeadViewActivity
+import com.example.testapp.activity.video.VideoPlayActivity
+import com.example.testapp.activity.video.VideoPlayListActivity
 import com.example.testapp.activity.viewpager.BannerActivity
 import com.example.testapp.activity.viewpager.FragmentAndBannerActivity
 import com.example.testapp.activity.viewpager.ViewPager2Activity
@@ -41,12 +43,18 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnImageListBitmap?.performClick()
+        btnVideoPlayList?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnVideoPlay -> {
+                    startActivity(Intent(this, VideoPlayActivity::class.java))
+                }
+                R.id.btnVideoPlayList -> {
+                    startActivity(Intent(this, VideoPlayListActivity::class.java))
+                }
                 R.id.btnImageListBitmap -> {
                     startActivity(Intent(this, ImageListBitmapActivity::class.java))
                 }
@@ -130,15 +138,15 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.btnAnim -> {
                     //动画界面
-                    AtlwActivityJumpUtils.getInstance().jump(this, AnimActivity::class.java)
+                    AtlwActivityJumpUtil.getInstance().jump(this, AnimActivity::class.java)
                 }
                 R.id.btnBlue -> {
                     //蓝牙
-                    AtlwActivityJumpUtils.getInstance().jump(this, BluetoothActivity::class.java)
+                    AtlwActivityJumpUtil.getInstance().jump(this, BluetoothActivity::class.java)
                 }
                 R.id.btnProgress -> {
                     //进度条
-                    AtlwActivityJumpUtils.getInstance().jump(this, ProgressActivity::class.java)
+                    AtlwActivityJumpUtil.getInstance().jump(this, ProgressActivity::class.java)
                 }
                 else -> {
 

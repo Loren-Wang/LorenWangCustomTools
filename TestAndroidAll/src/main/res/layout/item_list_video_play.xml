@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.lorenwang.customview.video.AvlwVideoPlayView
+        android:id="@+id/vpPlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始播放"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂停播放"
+        app:layout_constraintLeft_toRightOf="@id/btnStart"
+        app:layout_constraintTop_toTopOf="@id/btnStart" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnFull"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全屏播放"
+        app:layout_constraintLeft_toRightOf="@id/btnPause"
+        app:layout_constraintTop_toTopOf="@id/btnStart" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

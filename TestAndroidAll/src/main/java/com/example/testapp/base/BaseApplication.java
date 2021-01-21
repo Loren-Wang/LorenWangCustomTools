@@ -1,6 +1,5 @@
 package com.example.testapp.base;
 
-import android.app.Application;
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
 import android.lorenwang.commonbaseframe.AcbflwBaseConfig;
 import android.lorenwang.tools.AtlwConfig;
@@ -25,10 +24,19 @@ import java.util.Objects;
 
 public class BaseApplication extends AcbflwBaseApplication {
     @Override
+    public boolean isUsePictureSelectLibrary() {
+        return false;
+    }
+
+    @Override
+    public boolean isUseVideoPlayLibrary() {
+        return true;
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
-        AtlwConfig.initAndroidCustomTools(this,
-                AcbflwBaseConfig.appCompileTypeIsDebug(BuildConfig.APP_COMPILE_TYPE),
+        AtlwConfig.initAndroidCustomTools(this, AcbflwBaseConfig.appCompileTypeIsDebug(BuildConfig.APP_COMPILE_TYPE),
                 Objects.requireNonNull(this.getExternalFilesDir("logInfo")).getAbsolutePath());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.testapp.activity
 
-import android.lorenwang.tools.app.AtlwToastHintUtils
+import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -45,32 +45,32 @@ class ToastActivity : BaseActivity() {
         btnToastCenter?.setOnClickListener {
             edtTime?.text?.toString()?.let {
                 if (it.isNotEmpty()) {
-                    AtlwToastHintUtils.getInstance().setParams(it.toLong(), Gravity.CENTER, 0, 0, 0f, 0f)
-                    AtlwToastHintUtils.getInstance().toastMsg("重按退出")
+                    AtlwToastHintUtil.getInstance().setParams(it.toLong(), Gravity.CENTER, 0, 0, 0f, 0f)
+                    AtlwToastHintUtil.getInstance().toastMsg("重按退出")
                 }
             }
         }
         btnToastBottom?.setOnClickListener {
             edtTime?.text?.toString()?.let {
                 if (it.isNotEmpty()) {
-                    AtlwToastHintUtils.getInstance().setParams(it.toLong(), Gravity.BOTTOM, 0, 0, 0f, 0f)
-                    AtlwToastHintUtils.getInstance().toastMsg("重按退出")
+                    AtlwToastHintUtil.getInstance().setParams(it.toLong(), Gravity.BOTTOM, 0, 0, 0f, 0f)
+                    AtlwToastHintUtil.getInstance().toastMsg("重按退出")
                 }
             }
         }
         btnToastTop?.setOnClickListener {
             edtTime?.text?.toString()?.let {
                 if (it.isNotEmpty()) {
-                    AtlwToastHintUtils.getInstance().setParams(it.toLong(), Gravity.TOP, 0, 0, 0f, 0f)
-                    AtlwToastHintUtils.getInstance().toastMsg("重按退出")
+                    AtlwToastHintUtil.getInstance().setParams(it.toLong(), Gravity.TOP, 0, 0, 0f, 0f)
+                    AtlwToastHintUtil.getInstance().toastMsg("重按退出")
                 }
             }
         }
         btnCustomToastCenter?.setOnClickListener {
             edtTime?.text?.toString()?.let {
                 if (it.isNotEmpty()) {
-                    AtlwToastHintUtils.getInstance().setParams(it.toLong(), Gravity.CENTER, 0, 0, 0f, 0f)
-                    AtlwToastHintUtils.getInstance().toastView(customToastView)
+                    AtlwToastHintUtil.getInstance().setParams(it.toLong(), Gravity.CENTER, 0, 0, 0f, 0f)
+                    AtlwToastHintUtil.getInstance().toastView(customToastView)
                 }
             }
         }

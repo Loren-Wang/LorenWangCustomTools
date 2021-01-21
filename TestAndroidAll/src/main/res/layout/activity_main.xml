@@ -10,6 +10,16 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVideoPlay"
+            style="@style/MainButtons"
+            android:text="@string/page_type_video_play" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVideoPlayList"
+            style="@style/MainButtons"
+            android:text="@string/page_type_video_play_list" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnImageListBitmap"
             style="@style/MainButtons"
             android:text="@string/page_type_image_list_map" />

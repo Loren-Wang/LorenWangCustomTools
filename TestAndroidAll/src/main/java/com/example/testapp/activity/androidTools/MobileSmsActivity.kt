@@ -1,6 +1,6 @@
 package com.example.testapp.activity.androidTools
 
-import android.lorenwang.tools.mobile.AtlwMobileContentUtils
+import android.lorenwang.tools.mobile.AtlwMobileContentUtil
 import android.os.Bundle
 import android.widget.TextView
 import com.example.testapp.base.BaseActivity
@@ -26,7 +26,7 @@ class MobileSmsActivity : BaseActivity() {
         addContentView(R.layout.activity_android_tools_mobile_sms)
 
         val contacts = StringBuilder()
-        AtlwMobileContentUtils.getInstance().getSystemSms()
+        AtlwMobileContentUtil.getInstance().getSystemSms()
         findViewById<TextView>(R.id.tvShow).setText(contacts.toString())
     }
 }

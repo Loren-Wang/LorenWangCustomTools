@@ -3,7 +3,7 @@ package com.example.testapp.base
 import android.graphics.Color
 import android.lorenwang.commonbaseframe.AcbflwBaseActivity
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
-import android.lorenwang.tools.app.AtlwToastHintUtils
+import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.view.ViewStub
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
@@ -66,10 +66,10 @@ abstract class BaseActivity : AcbflwBaseActivity() {
                     KttlwBaseNetResponseBean::class.java)
             if (bean != null) {
                 if (JtlwCheckVariateUtils.getInstance().isNotEmpty(bean.stateMessage)) {
-                    AtlwToastHintUtils.getInstance().toastMsg(bean.stateMessage)
+                    AtlwToastHintUtil.getInstance().toastMsg(bean.stateMessage)
                 }
             } else {
-                AtlwToastHintUtils.getInstance().toastMsg(message)
+                AtlwToastHintUtil.getInstance().toastMsg(message)
             }
         }
     }

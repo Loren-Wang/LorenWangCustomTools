@@ -1,10 +1,10 @@
 package com.example.testapp.activity
 
 import android.Manifest
-import android.lorenwang.tools.app.AtlwActivityUtils
+import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
-import android.lorenwang.tools.app.AtlwThreadUtils
-import android.lorenwang.tools.file.AtlwFileOptionUtils
+import android.lorenwang.tools.app.AtlwThreadUtil
+import android.lorenwang.tools.file.AtlwFileOptionUtil
 import android.os.Bundle
 import android.os.Environment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,14 +56,15 @@ class FileOptionsForScanFileActivity : BaseActivity(), AtlwPermissionRequestCall
     override fun onResume() {
         super.onResume()
         showBaseLoading(false)
-        AtlwActivityUtils.getInstance().goToRequestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0, this)
+        AtlwActivityUtil.getInstance().goToRequestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0, this)
     }
 
     override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
         files.clear()
-        AtlwThreadUtils.getInstance().postOnChildThread {
-            files.addAll(AtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan( true, Environment.getExternalStorageDirectory().path, "^[^\\.].*\\.txt$"))
-            AtlwThreadUtils.getInstance().postOnUiThread {
+        AtlwThreadUtil.getInstance().postOnChildThread {
+            files.addAll(
+                AtlwFileOptionUtil.getInstance().getFileListForMatchLinkedQueueScan( true, Environment.getExternalStorageDirectory().path, "^[^\\.].*\\.txt$"))
+            AtlwThreadUtil.getInstance().postOnUiThread {
                 adapter?.setData(files)
                 hideBaseLoading()
             }

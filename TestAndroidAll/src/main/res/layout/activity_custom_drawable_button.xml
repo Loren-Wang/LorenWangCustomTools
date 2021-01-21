@@ -58,7 +58,6 @@
                 style="@style/FixedWidthHeightDrawableButton"
                 app:avlwDrawablePosition="left"
                 android:gravity="end"
-                android:paddingStart="80dp"
                 tools:ignore="MissingPrefix,RtlSymmetry" />
 
             <androidx.appcompat.widget.AppCompatTextView

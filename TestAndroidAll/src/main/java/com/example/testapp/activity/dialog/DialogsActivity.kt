@@ -1,7 +1,7 @@
 package com.example.testapp.activity.dialog
 
 import android.lorenwang.customview.dialog.*
-import android.lorenwang.tools.app.AtlwScreenUtils
+import android.lorenwang.tools.app.AtlwScreenUtil
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -72,7 +72,7 @@ class DialogsActivity : BaseActivity() {
         bottomDialog = AvlwBaseBottomDialog(this, R.layout.dialog_content, true)
 
         centerDialog = AvlwBaseCenterDialog(this, R.layout.dialog_content, true,
-                (AtlwScreenUtils.getInstance().screenWidth * 0.6).toInt(), null)
+                (AtlwScreenUtil.getInstance().screenWidth * 0.6).toInt(), null)
 
 
 

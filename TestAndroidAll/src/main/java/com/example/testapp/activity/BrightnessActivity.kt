@@ -1,7 +1,7 @@
 package com.example.testapp.activity
 
 import android.lorenwang.tools.app.AtlwBrightnessChangeContentObserver
-import android.lorenwang.tools.app.AtlwBrightnessChangeUtils
+import android.lorenwang.tools.app.AtlwBrightnessChangeUtil
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.CheckBox
@@ -27,7 +27,7 @@ class BrightnessActivity : BaseActivity(), CompoundButton.OnCheckedChangeListene
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         if (fromUser) {
             //随机设置个初始值
-            AtlwBrightnessChangeUtils.getInstance().setBrightness(this, progress.toFloat(), false)
+            AtlwBrightnessChangeUtil.getInstance().setBrightness(this, progress.toFloat(), false)
         }
     }
 
@@ -58,28 +58,28 @@ class BrightnessActivity : BaseActivity(), CompoundButton.OnCheckedChangeListene
         seekBar.progress = 22
 
         //注册亮度观察者
-        AtlwBrightnessChangeUtils.getInstance().registerBrightObserver(this, object : AtlwBrightnessChangeContentObserver(this) {
+        AtlwBrightnessChangeUtil.getInstance().registerBrightObserver(this, object : AtlwBrightnessChangeContentObserver(this) {
             override fun onBrightnessChange(brightness: Float?) {
                 if (brightness != null) {
                     seekBar.progress = brightness.toInt()
                 } else {
-                    seekBar.progress = AtlwBrightnessChangeUtils.getInstance().getScreenBrightness(this@BrightnessActivity).toInt()
+                    seekBar.progress = AtlwBrightnessChangeUtil.getInstance().getScreenBrightness(this@BrightnessActivity).toInt()
                 }
             }
         })
 
         //随机设置个初始值
-        AtlwBrightnessChangeUtils.getInstance().setBrightness(this, 22f, false)
+        AtlwBrightnessChangeUtil.getInstance().setBrightness(this, 22f, false)
     }
 
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         if (isChecked) {
             seekBar.isEnabled = false
-            AtlwBrightnessChangeUtils.getInstance().setBrightnessFollowMobileSystem()
+            AtlwBrightnessChangeUtil.getInstance().setBrightnessFollowMobileSystem()
         } else {
             seekBar.isEnabled = true
-            AtlwBrightnessChangeUtils.getInstance().setBrightness(this, 22f, true)
+            AtlwBrightnessChangeUtil.getInstance().setBrightness(this, 22f, true)
         }
     }
 }
