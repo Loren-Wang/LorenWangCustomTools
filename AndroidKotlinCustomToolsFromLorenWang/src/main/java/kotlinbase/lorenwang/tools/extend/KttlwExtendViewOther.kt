@@ -1,8 +1,6 @@
 package kotlinbase.lorenwang.tools.extend
 
-import android.content.Context
-import android.lorenwang.tools.app.AtlwActivityUtils
-import android.lorenwang.tools.app.AtlwScreenUtils
+import android.lorenwang.tools.app.AtlwScreenUtil
 
 /**
  * 功能作用：其他扩展
@@ -24,12 +22,12 @@ import android.lorenwang.tools.app.AtlwScreenUtils
  * 获取屏幕宽度
  */
 fun kttlwGetScreenWidth(): Int {
-    return AtlwScreenUtils.getInstance().screenWidth
+    return AtlwScreenUtil.getInstance().screenWidth
 }
 
 /**
  * 获取屏幕高度
  */
 fun kttlwGetScreenHeight(): Int {
-    return AtlwScreenUtils.getInstance().screenHeight
+    return AtlwScreenUtil.getInstance().screenHeight
 }

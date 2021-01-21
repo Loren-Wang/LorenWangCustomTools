@@ -1,8 +1,7 @@
 package kotlinbase.lorenwang.tools.extend
 
 import android.content.Context
-import android.lorenwang.tools.app.AtlwActivityUtils
-import android.lorenwang.tools.app.AtlwScreenUtils
+import android.lorenwang.tools.app.AtlwActivityUtil
 
 /**
  * 功能作用：Context扩展
@@ -23,5 +22,5 @@ import android.lorenwang.tools.app.AtlwScreenUtils
  * 通过context获取app实例
  */
 fun <C : Context> C.kttlwGetAppApplication() : Context? {
-    return AtlwActivityUtils.getInstance().getApplicationContext(this)
+    return AtlwActivityUtil.getInstance().getApplicationContext(this)
 }

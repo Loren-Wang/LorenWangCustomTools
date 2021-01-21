@@ -1,7 +1,7 @@
 package kotlinbase.lorenwang.tools.extend
 
-import android.lorenwang.tools.app.AtlwThreadUtils
-import android.lorenwang.tools.app.AtlwViewUtils
+import android.lorenwang.tools.app.AtlwThreadUtil
+import android.lorenwang.tools.app.AtlwViewUtil
 import android.view.View
 import androidx.annotation.FloatRange
 
@@ -109,7 +109,7 @@ fun <V : View> Collection<V?>.kttlwToDisable() {
  * 设置所有控件宽高
  */
 fun <V : View> V?.kttlwSetWidthHeight(width : Int, height : Int) {
-    AtlwViewUtils.getInstance().setViewWidthHeight(this, width, height)
+    AtlwViewUtil.getInstance().setViewWidthHeight(this, width, height)
 }
 
 /**
@@ -127,7 +127,7 @@ fun <V : View> V?.kttlwSetWidthHeightForWidth(@FloatRange(from = 0.0, to = 1.0) 
  * @param aspectRatio 宽/高比例
  */
 fun <V : View> V?.kttlwSetWidthHeightForWidth(width : Int, aspectRatio : Float) {
-    AtlwViewUtils.getInstance().setViewWidthHeight(this, width, (width / aspectRatio).toInt())
+    AtlwViewUtil.getInstance().setViewWidthHeight(this, width, (width / aspectRatio).toInt())
 }
 
 /**
@@ -145,7 +145,7 @@ fun <V : View> V?.kttlwSetWidthHeightForHeight(@FloatRange(from = 0.0, to = 1.0)
  * @param aspectRatio 宽/高比例
  */
 fun <V : View> V?.kttlwSetWidthHeightForHeight(height : Int, aspectRatio : Float) {
-    AtlwViewUtils.getInstance().setViewWidthHeight(this, (height * aspectRatio).toInt(), height)
+    AtlwViewUtil.getInstance().setViewWidthHeight(this, (height * aspectRatio).toInt(), height)
 }
 
 /**
@@ -176,7 +176,7 @@ fun <V : View> V?.kttlwThrottleClick(timeInterval : Long, clickFun : (view : Vie
         if (it?.isEnabled.kttlwGetNotEmptyData(false)) {
             it.kttlwToDisable()
             clickFun(it)
-            AtlwThreadUtils.getInstance().postOnUiThreadDelayed({
+            AtlwThreadUtil.getInstance().postOnUiThreadDelayed({
                 it.kttlwToEnable()
             }, timeInterval)
         }
