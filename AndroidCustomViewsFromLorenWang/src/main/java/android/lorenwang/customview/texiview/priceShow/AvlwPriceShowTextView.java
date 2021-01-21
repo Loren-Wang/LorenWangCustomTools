@@ -61,8 +61,8 @@ public class AvlwPriceShowTextView extends View {
             case 1:
                 this.showType = new AvlwPriceShowTypeCurrencySymbol();
                 break;
-            case 2:
-                this.showType = new AvlwPriceShowTypeCurrencySymbolAndDescribe();
+            case 3:
+                this.showType = new AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe();
                 break;
             case 0:
             default:
@@ -93,7 +93,31 @@ public class AvlwPriceShowTextView extends View {
      * @param color 文本颜色
      */
     public void setPrice(BigDecimal price, Integer color) {
-        setPrice(price, color,null);
+        setPrice(price, color, null);
+    }
+
+    /**
+     * 设置金额以及颜色
+     *
+     * @param price 金额
+     */
+    public void setPrice(BigDecimal price) {
+        setPrice(price, null, null);
+    }
+
+    /**
+     * 设置描述信息
+     *
+     * @param start 起始文本
+     * @param end   结束文本
+     * @return 当前实例
+     */
+    public AvlwPriceShowTextView setDesInfo(String start, String end) {
+        if (showType instanceof AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe) {
+            ((AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe) showType).setDesInfo(start, end);
+            requestLayout();
+        }
+        return this;
     }
 
     /**
@@ -101,23 +125,53 @@ public class AvlwPriceShowTextView extends View {
      *
      * @param price 金额
      * @param color 文本颜色
+     * @return 当前实例
      */
-    public void setPrice(BigDecimal price, Integer color, Typeface typeface) {
-        showType.setPrice(price, color);
-        setPriceTypeface(typeface);
+    public AvlwPriceShowTextView setPrice(BigDecimal price, Integer color, Typeface typeface) {
+        showType.setPrice(price);
+        showType.setPriceColor(color);
+        showType.setTypeFace(typeface);
+        requestLayout();
+        return this;
     }
 
     /**
      * 设置字体类型
      *
      * @param typeface 字体类型
+     * @return 当前实例
      */
-    public void setPriceTypeface(Typeface typeface) {
-        if(typeface != null){
-            showType.setTypeFace(typeface);
-        }
-        //必须重新绘制，否则会显示不全
+    public AvlwPriceShowTextView setPriceTypeface(Typeface typeface) {
+        showType.setTypeFace(typeface);
         requestLayout();
+        return this;
+    }
+
+    /**
+     * 设置价格区间
+     *
+     * @param priceMin 最小金额
+     * @param priceMax 最大金额
+     * @return 当前实例
+     */
+    public AvlwPriceShowTextView setRangPrice(BigDecimal priceMin, BigDecimal priceMax) {
+        if (showType instanceof AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe) {
+            ((AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe) showType).setRangPrice(priceMin, priceMax);
+            requestLayout();
+        }
+        return this;
+    }
+
+    /**
+     * 设置价格颜色
+     *
+     * @param color 价格颜色
+     * @return 当前实例
+     */
+    public AvlwPriceShowTextView setPriceColor(Integer color) {
+        showType.setPriceColor(color);
+        requestLayout();
+        return this;
     }
 
     /**
@@ -125,21 +179,34 @@ public class AvlwPriceShowTextView extends View {
      *
      * @param price 金额
      * @param color 文本颜色
+     * @return 当前实例
      */
-    public void setLinePrice(BigDecimal price, Integer color) {
-        showType.setLinePrice(price, color);
+    public AvlwPriceShowTextView setLinePrice(BigDecimal price, Integer color) {
+        showType.setPrice(price);
+        showType.setPriceColor(color);
+        showType.setPriceTypeLine();
         setPriceTypeface(null);
+        requestLayout();
+        return this;
     }
 
     /**
      * 设置金额符号颜色
      *
      * @param color 颜色
+     * @return 当前实例
      */
-    public void setSymbolTextColor(int color) {
-        if (showType instanceof AvlwPriceShowTypeCurrencySymbol ||
-                showType instanceof AvlwPriceShowTypeCurrencySymbolAndDescribe) {
+    public AvlwPriceShowTextView setSymbolTextColor(int color) {
+        if (showType instanceof AvlwPriceShowTypeCurrencySymbol) {
             ((AvlwPriceShowTypeCurrencySymbol) showType).setSymbolTextColor(color);
         }
+        requestLayout();
+        return this;
+    }
+
+
+    @Override
+    public int getBaseline() {
+        return showType.getTextBaseLine();
     }
 }

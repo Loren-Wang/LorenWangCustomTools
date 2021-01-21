@@ -1,7 +1,16 @@
 package android.lorenwang.customview.texiview.priceShow;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwViewUtil;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.math.BigDecimal;
+
+import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
 
 /**
  * 功能作用：默认金额显示类型
@@ -17,23 +26,50 @@ import android.lorenwang.tools.app.AtlwViewUtil;
 
 class AvlwPriceShowTypeDefault extends AvlwPriceShowTypeBase {
 
+    /**
+     * 显示的金额
+     */
+    protected String showPrice = "";
+
+    @Override
+    void init(Context context, AvlwPriceShowTextView qtPriceShowTextView, TypedArray attributes) {
+        super.init(context, qtPriceShowTextView, attributes);
+        //格式化金额显示
+        String priceText = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceText);
+        if (priceText != null && priceText.matches(JtlwMatchesRegularCommon.EXP_BIGDECIMAL)) {
+            setPrice(new BigDecimal(priceText));
+        } else {
+            setPrice(null);
+        }
+    }
 
     @Override
     public int getMeasureWidth(int widthMeasureSpec) {
-        //左右边距不要轻易删除，子类要用   宽度值为：金额金额符号宽度加上金额符号间距加上左右内边距
-        return (int) (AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice + priceSymbol)
-                + priceSymbolPriceDistance + avlwPriceShowTextView.getPaddingLeft() + avlwPriceShowTextView.getPaddingRight());
+        return (int) getPriceShowWidth();
     }
 
     @Override
     public int getMeasureHeight(int heightMeasureSpec) {
-        //上下边距不要轻易删除，子类要用
-        return (int) AtlwViewUtil.getInstance().getStrTextHeight(pricePaint) + avlwPriceShowTextView.getPaddingTop() + avlwPriceShowTextView.getPaddingBottom();
+        return (int) AtlwViewUtil.getInstance().getStrTextHeight(pricePaint);
     }
 
     @Override
     void onDrawRegion(Canvas canvas, float left, float top, float right, float bottom) {
         onDrawRegion(canvas, left, top, right, bottom, true);
+    }
+
+    /**
+     * 设置金额
+     *
+     * @param price 金额
+     */
+    @Override
+    void setPrice(BigDecimal price) {
+        if (price != null) {
+            showPrice = formatPrice(price);
+        } else {
+            showPrice = "";
+        }
     }
 
     /**
@@ -48,13 +84,10 @@ class AvlwPriceShowTypeDefault extends AvlwPriceShowTypeBase {
      */
     protected void onDrawRegion(Canvas canvas, float left, float top, float right, float bottom, boolean drawPriceSymbol) {
         if (drawPriceSymbol) {
-            canvas.drawText(priceSymbol, left, top - pricePaint.getFontMetrics().top, pricePaint);
-            canvas.drawText(showPrice,
-                    left + priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol)
-                    , top - pricePaint.getFontMetrics().top, pricePaint);
-        } else {
-            canvas.drawText(showPrice, left, top - pricePaint.getFontMetrics().top, pricePaint);
+            drawPriceSymbol(canvas, left, bottom - pricePaint.getFontMetricsInt().bottom);
         }
+        drawPrice(canvas, left + priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol),
+                bottom - pricePaint.getFontMetricsInt().descent, showPrice);
     }
 
     /**
@@ -63,7 +96,39 @@ class AvlwPriceShowTypeDefault extends AvlwPriceShowTypeBase {
      * @return 金额显示宽度，不包含间距什么的
      */
     protected float getPriceShowWidth() {
-        return AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice + priceSymbol);
+        return (int) (AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice + priceSymbol) + priceSymbolPriceDistance);
+    }
+
+    /**
+     * 绘制金额价格
+     *
+     * @param canvas    画板
+     * @param left      左侧
+     * @param baseLine  绘制基线
+     * @param showPrice 显示价格
+     * @return 绘制后左侧坐标
+     */
+    protected float drawPrice(Canvas canvas, float left, float baseLine, @NotNull String showPrice) {
+        priceBaseLine = (int) baseLine;
+        if (priceBaseLine < 0) {
+            textBaseLine = priceBaseLine;
+        }
+        canvas.drawText(showPrice, left, baseLine, pricePaint);
+        left += AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice);
+        return left;
+    }
+
+    /**
+     * 绘制金额符号
+     *
+     * @param canvas   画板
+     * @param left     左侧坐标
+     * @param baseLine 绘制基线
+     * @return 绘制后左侧坐标
+     */
+    protected float drawPriceSymbol(Canvas canvas, float left, float baseLine) {
+        canvas.drawText(priceSymbol, left, baseLine, pricePaint);
+        return left + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol);
     }
 
 }

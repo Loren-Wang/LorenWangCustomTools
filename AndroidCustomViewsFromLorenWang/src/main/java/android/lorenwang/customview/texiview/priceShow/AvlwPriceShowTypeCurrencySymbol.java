@@ -4,10 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwViewUtil;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 功能作用：金额显示类型之货币符号
@@ -52,80 +53,83 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
     /**
      * 左上,顶部齐平
      */
-    private final int CURRENCY_SYMBOL_LOCATION_LT = 0;
+    protected final int CURRENCY_SYMBOL_LOCATION_LT = 0;
     /**
      * 左下,底部齐平
      */
-    private final int CURRENCY_SYMBOL_LOCATION_LB = 1;
+    protected final int CURRENCY_SYMBOL_LOCATION_LB = 1;
     /**
      * 上左，左侧齐平
      */
-    private final int CURRENCY_SYMBOL_LOCATION_TL = 2;
+    protected final int CURRENCY_SYMBOL_LOCATION_TL = 2;
     /**
      * 下左，左侧齐平
      */
-    private final int CURRENCY_SYMBOL_LOCATION_BL = 3;
+    protected final int CURRENCY_SYMBOL_LOCATION_BL = 3;
     /**
      * 右上，顶部齐平
      */
-    private final int CURRENCY_SYMBOL_LOCATION_RT = 4;
+    protected final int CURRENCY_SYMBOL_LOCATION_RT = 4;
     /**
      * 右下，底部齐平
      */
-    private final int CURRENCY_SYMBOL_LOCATION_RB = 5;
+    protected final int CURRENCY_SYMBOL_LOCATION_RB = 5;
     /**
      * 上右，右侧齐平
      */
-    private final int CURRENCY_SYMBOL_LOCATION_TR = 6;
+    protected final int CURRENCY_SYMBOL_LOCATION_TR = 6;
     /**
      * 下右，右侧齐平
      */
-    private final int CURRENCY_SYMBOL_LOCATION_BR = 7;
+    protected final int CURRENCY_SYMBOL_LOCATION_BR = 7;
     /**
      * 符号位置，默认左下，底部齐平
      */
-    private int currencySymbolLocation = CURRENCY_SYMBOL_LOCATION_LB;
+    protected int currencySymbolLocation = CURRENCY_SYMBOL_LOCATION_LB;
 
     /**
-     * 金额符号文本
+     * 金额单位文本
      */
-    protected String currencySymbolText = "¥";
+    protected String currencySymbolText;
     /**
-     * 金额符号画笔
+     * 金额单位画笔
      */
     protected Paint currencySymbolPaint;
     /**
-     * 金额符号和文本之间的间距
+     * 金额单位和文本之间的间距
      */
     protected float currencySymbolPriceDistance = 0;
 
     @Override
-    void init(Context context, AvlwPriceShowTextView avlwPriceShowTextView, TypedArray attributes) {
-        super.init(context, avlwPriceShowTextView, attributes);
-        currencySymbolText = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbol);
-        currencySymbolLocation = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbolLocation, currencySymbolLocation);
-        currencySymbolPriceDistance = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbolPriceDistance,
+    void init(Context context, AvlwPriceShowTextView qtPriceShowTextView, TypedArray attributes) {
+        super.init(context, qtPriceShowTextView, attributes);
+        //符号文本
+        currencySymbolText = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbol);
+        currencySymbolText = currencySymbolText == null ? "￥" : currencySymbolText;
+        //符号要显示的位置
+        currencySymbolLocation = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolLocation, currencySymbolLocation);
+        //符号和价格的间距
+        currencySymbolPriceDistance = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolPriceDistance,
                 currencySymbolPriceDistance);
-        currencySymbolText = JtlwCheckVariateUtils.getInstance().isEmpty(currencySymbolText) ? "¥" : currencySymbolText;
+
         //初始化画笔
         currencySymbolPaint = new Paint();
         currencySymbolPaint.setAntiAlias(true);
-        currencySymbolPaint.setTextSize(attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbolTextSize, priceSize));
-        currencySymbolPaint.setColor(attributes.getColor(R.styleable.AvlwPriceShowTextView_avlwPriceShowCurrencySymbolTextColor, priceColor));
+        currencySymbolPaint.setTextSize(attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolTextSize, priceSize));
+        currencySymbolPaint.setColor(attributes.getColor(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolTextColor, priceColor));
+        if (attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolTextBold, false)) {
+            currencySymbolPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        }
     }
 
     @Override
     public int getMeasureWidth(int widthMeasureSpec) {
+        //符号文本宽度
         float strTextWidth = AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
         //顶部的，则为符号和数据的最大值
-        if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TL ||
-                currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TR ||
-                currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BL ||
-                currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BR) {
-            return (int) Math.max(
-                    super.getMeasureWidth(widthMeasureSpec),
-                    avlwPriceShowTextView.getPaddingLeft() + avlwPriceShowTextView.getPaddingRight() + strTextWidth
-            );
+        if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TL || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TR ||
+                currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BL || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BR) {
+            return (int) Math.max(super.getMeasureWidth(widthMeasureSpec), strTextWidth);
         } else {
             //super中本身已经加了左右内边距，所以此时直接加上宽度以及间距
             return (int) (super.getMeasureWidth(widthMeasureSpec) + strTextWidth + currencySymbolPriceDistance);
@@ -134,124 +138,146 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
 
     @Override
     public int getMeasureHeight(int heightMeasureSpec) {
+        //符号文本高度
         float strTextHeight = AtlwViewUtil.getInstance().getStrTextHeight(currencySymbolPaint);
-        //顶部的，则为符号、金额、间距的集合，因为super中已经包含了上下内边距，所以这里不加
-        if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TL ||
-                currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TR ||
-                currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BL ||
-                currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BR) {
+        if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TL || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TR ||
+                currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BL || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BR) {
             return (int) (super.getMeasureHeight(heightMeasureSpec) + strTextHeight + currencySymbolPriceDistance);
         } else {
-            return (int) Math.max(
-                    super.getMeasureHeight(heightMeasureSpec),
-                    avlwPriceShowTextView.getPaddingTop() + avlwPriceShowTextView.getPaddingBottom() + strTextHeight
-            );
+            return (int) Math.max(super.getMeasureHeight(heightMeasureSpec), strTextHeight);
         }
     }
 
     @Override
     void onDrawRegion(Canvas canvas, float left, float top, float right, float bottom) {
-        //货币符号高度
-        float strTextHeight = AtlwViewUtil.getInstance().getStrTextHeight(currencySymbolPaint);
-        //货币符号宽度
-        float strTextWidth = AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
-        //左侧已被使用距离
-        float useLeft;
-        Paint.FontMetrics pricePaintFm = pricePaint.getFontMetrics();
-        Paint.FontMetrics currencySymbolFm = currencySymbolPaint.getFontMetrics();
-        //绘制符号
+        //绘制金额符号
+        left = drawPriceSymbol(canvas, left, bottom - pricePaint.getFontMetricsInt().bottom);
+        //绘制金额单位
+        left = drawCurrencySymbol(canvas, left, bottom, showPrice);
+        //绘制金额
+        drawPrice(canvas, left, bottom - currencySymbolPaint.getFontMetricsInt().bottom, showPrice);
+    }
+
+    /**
+     * 设置金额单位颜色
+     *
+     * @param color 颜色
+     */
+    protected void setSymbolTextColor(Integer color) {
+        if (color != null) {
+            currencySymbolPaint.setColor(color);
+        }
+    }
+
+    /**
+     * 绘制金额单位
+     *
+     * @param canvas 画板
+     * @param left   左侧坐标
+     * @param bottom 底部坐标
+     * @param price  要绘制的金额，可能为空
+     * @return 绘制后下一个位置的左侧坐标
+     */
+    protected float drawCurrencySymbol(Canvas canvas, float left, float bottom, String price) {
+        float currencySymbolWidth = AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
+        float currencySymbolHeight = AtlwViewUtil.getInstance().getStrTextHeight(currencySymbolPaint);
+        float priceWidth = AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, price);
+        float priceHeight = AtlwViewUtil.getInstance().getStrTextHeight(pricePaint);
         switch (currencySymbolLocation) {
-            case CURRENCY_SYMBOL_LOCATION_BL://下左，左侧对齐
-                canvas.drawText(currencySymbolText, left, bottom - currencySymbolFm.bottom, currencySymbolPaint);
-                super.onDrawRegion(canvas, left, top, right, bottom - strTextHeight);
+            case CURRENCY_SYMBOL_LOCATION_TL:
+                canvas.drawText(currencySymbolText, left,
+                        bottom - priceHeight - currencySymbolPriceDistance - currencySymbolPaint.getFontMetrics().bottom, currencySymbolPaint);
                 break;
-            case CURRENCY_SYMBOL_LOCATION_BR://下右，右侧对齐
-                canvas.drawText(currencySymbolText, right - strTextWidth, bottom - currencySymbolFm.bottom, currencySymbolPaint);
-                super.onDrawRegion(canvas, left, top, right, bottom - strTextHeight);
+            case CURRENCY_SYMBOL_LOCATION_TR:
+                canvas.drawText(currencySymbolText, left + priceWidth - currencySymbolWidth,
+                        bottom - priceHeight - currencySymbolPriceDistance - currencySymbolPaint.getFontMetrics().bottom, currencySymbolPaint);
                 break;
-            case CURRENCY_SYMBOL_LOCATION_LB://左下，底部对齐，金额符号在货币符号左侧，相应数据右移
-                //线绘制金额符号
-                canvas.drawText(priceSymbol, left, top - pricePaintFm.top, pricePaint);
-                //计算左侧已使用距离
-                useLeft = left + priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol);
-                //带间距的绘制货币符号
-                canvas.drawText(currencySymbolText, useLeft, bottom - pricePaintFm.bottom, currencySymbolPaint);
-                //绘制父级
-                super.onDrawRegion(canvas, useLeft + currencySymbolPriceDistance + strTextWidth,
-                        top, right, bottom, false);
+            case CURRENCY_SYMBOL_LOCATION_BL:
+                canvas.drawText(currencySymbolText, left, bottom - currencySymbolPaint.getFontMetrics().bottom, currencySymbolPaint);
                 break;
-            case CURRENCY_SYMBOL_LOCATION_LT://左上，顶部对齐，金额符号在货币符号左侧，相应数据右移
-                //线绘制金额符号
-                canvas.drawText(priceSymbol, left, top - pricePaintFm.top, pricePaint);
-                //计算左侧已使用距离
-                useLeft = left + priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol);
-                //带间距的绘制货币符号,顶部计算为金额top-内容高于基线顶部的负值为距离顶部的距离，在加上货币符号高于其基线的实际距离
-                canvas.drawText(currencySymbolText, useLeft, -(pricePaintFm.top - pricePaintFm.ascent + currencySymbolFm.top), currencySymbolPaint);
-                //绘制父级
-                super.onDrawRegion(canvas, useLeft + currencySymbolPriceDistance + strTextWidth,
-                        top, right, bottom, false);
+            case CURRENCY_SYMBOL_LOCATION_BR:
+                canvas.drawText(currencySymbolText, left + priceWidth - currencySymbolWidth, bottom - currencySymbolPaint.getFontMetrics().bottom,
+                        currencySymbolPaint);
+                break;
+            case CURRENCY_SYMBOL_LOCATION_LB:
+                canvas.drawText(currencySymbolText, left, bottom - currencySymbolPaint.getFontMetrics().bottom, currencySymbolPaint);
+                left += AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
+                break;
+            case CURRENCY_SYMBOL_LOCATION_LT:
+                canvas.drawText(currencySymbolText, left,
+                        bottom - AtlwViewUtil.getInstance().getStrTextHeight(pricePaint) - currencySymbolPaint.getFontMetrics().top,
+                        currencySymbolPaint);
+                left += AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
                 break;
             case CURRENCY_SYMBOL_LOCATION_RB:
-                //线绘制金额符号
-                canvas.drawText(priceSymbol, left, top - pricePaintFm.top, pricePaint);
-                //带间距的绘制货币符号,顶部计算为金额top-内容高于基线顶部的负值为距离顶部的距离，在加上货币符号高于其基线的实际距离
-                canvas.drawText(currencySymbolText, right - strTextWidth, bottom - pricePaintFm.bottom, currencySymbolPaint);
-                //绘制父级
-                super.onDrawRegion(canvas, left, top, right, bottom);
+                canvas.drawText(currencySymbolText,
+                        left + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, price) + currencySymbolPriceDistance,
+                        bottom - currencySymbolPaint.getFontMetrics().bottom, currencySymbolPaint);
                 break;
             case CURRENCY_SYMBOL_LOCATION_RT:
-                //线绘制金额符号
-                canvas.drawText(priceSymbol, left, top - pricePaintFm.top, pricePaint);
-                //带间距的绘制货币符号,顶部计算为金额top-内容高于基线顶部的负值为距离顶部的距离，在加上货币符号高于其基线的实际距离
-                canvas.drawText(currencySymbolText, right - strTextWidth, -(pricePaintFm.top - pricePaintFm.ascent + currencySymbolFm.top),
+                canvas.drawText(currencySymbolText,
+                        left + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, price) + currencySymbolPriceDistance,
+                        bottom - AtlwViewUtil.getInstance().getStrTextHeight(pricePaint) - currencySymbolPaint.getFontMetrics().top,
                         currencySymbolPaint);
-                //绘制父级
-                super.onDrawRegion(canvas, left, top, right, bottom);
-                break;
-            case CURRENCY_SYMBOL_LOCATION_TL://上左，左侧对齐
-                canvas.drawText(currencySymbolText, left, top - currencySymbolFm.top, currencySymbolPaint);
-                super.onDrawRegion(canvas, left, top + strTextHeight, right, bottom);
-                break;
-            case CURRENCY_SYMBOL_LOCATION_TR://上右，右侧对齐
-                canvas.drawText(currencySymbolText, right - strTextWidth, top - currencySymbolFm.top, currencySymbolPaint);
-                super.onDrawRegion(canvas, left, top + strTextHeight, right, bottom);
                 break;
             default:
                 break;
         }
+        return left;
+    }
+
+    @Override
+    public void setPriceColor(Integer color) {
+        super.setPriceColor(color);
+        setSymbolTextColor(color);
     }
 
     /**
-     * 设置金额符号颜色
+     * 绘制金额价格
      *
-     * @param color 颜色
-     */
-    protected void setSymbolTextColor(int color) {
-        currencySymbolPaint.setColor(color);
-    }
-
-    /**
-     * 获取金额左侧距离
-     *
-     * @return 距离
-     */
-    protected float getPriceLeftDistance() {
-        if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_LB || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_LT
-                || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_RB || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_RT) {
-            return priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol)
-                    + AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
-        } else {
-            return priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol);
-        }
-    }
-
-    /**
-     * 获取金额显示的实际宽度
-     *
-     * @return 金额显示实际宽度
+     * @param canvas    画板
+     * @param left      左侧
+     * @param baseLine  绘制基线
+     * @param showPrice 显示价格
+     * @return 绘制后左侧坐标
      */
     @Override
-    protected float getPriceShowWidth() {
-        return AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice);
+    protected float drawPrice(Canvas canvas, float left, float baseLine, @NotNull String showPrice) {
+        switch (currencySymbolLocation) {
+            case CURRENCY_SYMBOL_LOCATION_BL:
+            case CURRENCY_SYMBOL_LOCATION_BR:
+                baseLine -= AtlwViewUtil.getInstance().getStrTextHeight(currencySymbolPaint) + currencySymbolPriceDistance;
+                break;
+            case CURRENCY_SYMBOL_LOCATION_LB:
+            case CURRENCY_SYMBOL_LOCATION_LT:
+                left += currencySymbolPriceDistance;
+                break;
+            case CURRENCY_SYMBOL_LOCATION_RB:
+            case CURRENCY_SYMBOL_LOCATION_RT:
+            case CURRENCY_SYMBOL_LOCATION_TL:
+            case CURRENCY_SYMBOL_LOCATION_TR:
+            default:
+                break;
+        }
+        return super.drawPrice(canvas, left, baseLine, showPrice);
+    }
+
+    @Override
+    protected float drawPriceSymbol(Canvas canvas, float left, float baseLine) {
+        switch (currencySymbolLocation) {
+            case CURRENCY_SYMBOL_LOCATION_BL:
+            case CURRENCY_SYMBOL_LOCATION_BR:
+                baseLine -= AtlwViewUtil.getInstance().getStrTextHeight(currencySymbolPaint) + currencySymbolPriceDistance;
+                break;
+            case CURRENCY_SYMBOL_LOCATION_LB:
+            case CURRENCY_SYMBOL_LOCATION_LT:
+            case CURRENCY_SYMBOL_LOCATION_RB:
+            case CURRENCY_SYMBOL_LOCATION_RT:
+            case CURRENCY_SYMBOL_LOCATION_TL:
+            case CURRENCY_SYMBOL_LOCATION_TR:
+            default:
+                break;
+        }
+        return super.drawPriceSymbol(canvas, left, baseLine);
     }
 }

@@ -7,11 +7,11 @@
             <enum name="DEFAULT" value="0" />
             <!--货币符号-->
             <enum name="CURRENCY_SYMBOL" value="1" />
-            <!--货币符号和描述-->
-            <enum name="CURRENCY_SYMBOL_AND_DES" value="2" />
+            <!--货币符号和描述、金额范围-->
+            <enum name="CURRENCY_SYMBOL_AND_DES_AND_RANG" value="3" />
         </attr>
         <!--金额符号-->
-        <attr name="avlwPriceShowPriceSymbol" format="enum">
+        <attr name="avlwPriceSymbol" format="enum">
             <!--默认的，按照原有金额符号处理-->
             <enum name="DEFAULT" value="0" />
             <!--空，什么都不加，原有的符号也会被移除-->
@@ -26,25 +26,28 @@
             <enum name="OPPOSITE_AND_POSITIVE_NONE" value="5" />
         </attr>
         <!--金额格式化格式-->
-        <attr name="avlwPriceShowPriceFormatPattern" format="string" />
+        <attr name="avlwPriceFormatPattern" format="string" />
         <!--金额文本大小-->
-        <attr name="avlwPriceShowPriceTextSize" format="dimension" />
+        <attr name="avlwPriceTextSize" format="dimension" />
         <!--金额符号和金额之间的间距-->
-        <attr name="avlwPriceShowPriceSymbolPriceDistance" format="dimension" />
+        <attr name="avlwPriceSymbolPriceDistance" format="dimension" />
         <!--金额文本颜色-->
-        <attr name="avlwPriceShowPriceTextColor" format="color" />
+        <attr name="avlwPriceTextColor" format="color" />
         <!--金额文本-->
-        <attr name="avlwPriceShowPriceText" format="string" />
+        <attr name="avlwPriceText" format="string" />
         <!--金额文本是否加粗-->
-        <attr name="avlwPriceShowPriceTextBold" format="boolean" />
+        <attr name="avlwPriceTextBold" format="boolean" />
         <!--金额文本处理模式-->
-        <attr name="avlwPriceShowPriceRoundingMode" format="integer" />
+        <attr name="avlwPriceRoundingMode" format="integer" />
+        <!--是否显示划线价格-->
+        <attr name="avlwPriceShowLine" format="boolean" />
 
+        <!--************************************************符号部分************************************************-->
 
         <!--货币符号-->
-        <attr name="avlwPriceShowCurrencySymbol" format="string" />
+        <attr name="avlwCurrencySymbol" format="string" />
         <!--金额符号在金额的位置-->
-        <attr name="avlwPriceShowCurrencySymbolLocation" format="enum">
+        <attr name="avlwCurrencySymbolLocation" format="enum">
             <!--左上顶部齐平-->
             <enum name="leftTop" value="0" />
             <!--左下底部齐平-->
@@ -63,24 +66,58 @@
             <enum name="bottomRight" value="7" />
         </attr>
         <!--金额符号和文本之间的间距-->
-        <attr name="avlwPriceShowCurrencySymbolPriceDistance" format="dimension" />
+        <attr name="avlwCurrencySymbolPriceDistance" format="dimension" />
         <!--金额符号文本大小-->
-        <attr name="avlwPriceShowCurrencySymbolTextSize" format="dimension" />
+        <attr name="avlwCurrencySymbolTextSize" format="dimension" />
         <!--金额符号文本颜色-->
-        <attr name="avlwPriceShowCurrencySymbolTextColor" format="color" />
+        <attr name="avlwCurrencySymbolTextColor" format="color" />
+        <!--金额符号文本是否加粗-->
+        <attr name="avlwCurrencySymbolTextBold" format="boolean" />
+
+        <!--************************************************描述部分************************************************-->
 
         <!--描述内容-->
-        <attr name="avlwPriceShowDescribe" format="string" />
+        <attr name="avlwDescribe" format="string" />
         <!--描述内容和文本之间的间距-->
-        <attr name="avlwPriceShowDescribePriceDistance" format="dimension" />
+        <attr name="avlwDescribePriceDistance" format="dimension" />
         <!--描述内容文本大小-->
-        <attr name="avlwPriceShowDescribeTextSize" format="dimension" />
+        <attr name="avlwDescribeTextSize" format="dimension" />
         <!--描述内容文本颜色-->
-        <attr name="avlwPriceShowDescribeTextColor" format="color" />
+        <attr name="avlwDescribeTextColor" format="color" />
         <!--描述内容文本最大宽度-->
-        <attr name="avlwPriceShowDescribeMaxWidth" format="dimension" />
+        <attr name="avlwDescribeMaxWidth" format="dimension" />
         <!--描述内容文本最大高度-->
-        <attr name="avlwPriceShowDescribeMaxHeight" format="dimension" />
+        <attr name="avlwDescribeMaxHeight" format="dimension" />
+        <!--描述内容文本是否加粗-->
+        <attr name="avlwDescribeTextBold" format="boolean" />
+
+
+        <!--************************************************范围、金额、符号、描述部分************************************************-->
+
+        <!--描述起始内容-->
+        <attr name="avlwDesStart" format="string" />
+        <!--描述结束内容-->
+        <attr name="avlwDesEnd" format="string" />
+        <!--价格最小-->
+        <attr name="avlwPriceMin" format="string" />
+        <!--价格最大-->
+        <attr name="avlwPriceMax" format="string" />
+        <!--范围分隔符-->
+        <attr name="avlwRangSeparate" format="string" />
+        <!--范围最大金额是否需要金额符号-->
+        <attr name="avlwRangMaxNeedCurrencySymbol" format="boolean" />
+        <!--范围分隔符文本大小-->
+        <attr name="avlwRangSeparateTextSize" format="dimension" />
+        <!--范围分隔符文本颜色-->
+        <attr name="avlwRangSeparateTextColor" format="color" />
+        <!--范围分隔符是否加粗-->
+        <attr name="avlwRangSeparateTextBold" format="boolean" />
+        <!--分隔符左右间距-->
+        <attr name="avlwRangSeparateLeftRightDistance" format="dimension" />
+        <!--描述起始有边距-->
+        <attr name="avlwDesStartRightDistance" format="dimension" />
+        <!--描述结束左边距-->
+        <attr name="avlwDesEndLeftDistance" format="dimension" />
 
     </declare-styleable>
 </resources>
