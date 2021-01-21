@@ -32,13 +32,6 @@ abstract class UserService :SbcbflwUserService() {
     /**
      * 新增新用户
      * @param account 用户名称
-     * @param roleType 角色类型
-     */
-    abstract fun addNewUser(account : String,phoneNum:String, roleType : Int)
-
-    /**
-     * 新增新用户
-     * @param account 用户名称
      * @param roleTb 用户角色信息
      */
     abstract fun addNewUser(account : String,phoneNum:String, roleTb : UserRoleTb)
