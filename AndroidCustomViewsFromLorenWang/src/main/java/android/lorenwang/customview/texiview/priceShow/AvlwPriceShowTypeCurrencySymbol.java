@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwViewUtils;
+import android.lorenwang.tools.app.AtlwViewUtil;
 
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
@@ -116,7 +116,7 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
 
     @Override
     public int getMeasureWidth(int widthMeasureSpec) {
-        float strTextWidth = AtlwViewUtils.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
+        float strTextWidth = AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
         //顶部的，则为符号和数据的最大值
         if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TL ||
                 currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TR ||
@@ -134,7 +134,7 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
 
     @Override
     public int getMeasureHeight(int heightMeasureSpec) {
-        float strTextHeight = AtlwViewUtils.getInstance().getStrTextHeight(currencySymbolPaint);
+        float strTextHeight = AtlwViewUtil.getInstance().getStrTextHeight(currencySymbolPaint);
         //顶部的，则为符号、金额、间距的集合，因为super中已经包含了上下内边距，所以这里不加
         if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TL ||
                 currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TR ||
@@ -152,9 +152,9 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
     @Override
     void onDrawRegion(Canvas canvas, float left, float top, float right, float bottom) {
         //货币符号高度
-        float strTextHeight = AtlwViewUtils.getInstance().getStrTextHeight(currencySymbolPaint);
+        float strTextHeight = AtlwViewUtil.getInstance().getStrTextHeight(currencySymbolPaint);
         //货币符号宽度
-        float strTextWidth = AtlwViewUtils.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
+        float strTextWidth = AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
         //左侧已被使用距离
         float useLeft;
         Paint.FontMetrics pricePaintFm = pricePaint.getFontMetrics();
@@ -173,7 +173,7 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
                 //线绘制金额符号
                 canvas.drawText(priceSymbol, left, top - pricePaintFm.top, pricePaint);
                 //计算左侧已使用距离
-                useLeft = left + priceSymbolPriceDistance + AtlwViewUtils.getInstance().getStrTextWidth(pricePaint, priceSymbol);
+                useLeft = left + priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol);
                 //带间距的绘制货币符号
                 canvas.drawText(currencySymbolText, useLeft, bottom - pricePaintFm.bottom, currencySymbolPaint);
                 //绘制父级
@@ -184,7 +184,7 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
                 //线绘制金额符号
                 canvas.drawText(priceSymbol, left, top - pricePaintFm.top, pricePaint);
                 //计算左侧已使用距离
-                useLeft = left + priceSymbolPriceDistance + AtlwViewUtils.getInstance().getStrTextWidth(pricePaint, priceSymbol);
+                useLeft = left + priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol);
                 //带间距的绘制货币符号,顶部计算为金额top-内容高于基线顶部的负值为距离顶部的距离，在加上货币符号高于其基线的实际距离
                 canvas.drawText(currencySymbolText, useLeft, -(pricePaintFm.top - pricePaintFm.ascent + currencySymbolFm.top), currencySymbolPaint);
                 //绘制父级
@@ -238,10 +238,10 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
     protected float getPriceLeftDistance() {
         if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_LB || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_LT
                 || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_RB || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_RT) {
-            return priceSymbolPriceDistance + AtlwViewUtils.getInstance().getStrTextWidth(pricePaint, priceSymbol)
-                    + AtlwViewUtils.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
+            return priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol)
+                    + AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText);
         } else {
-            return priceSymbolPriceDistance + AtlwViewUtils.getInstance().getStrTextWidth(pricePaint, priceSymbol);
+            return priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol);
         }
     }
 
@@ -252,6 +252,6 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
      */
     @Override
     protected float getPriceShowWidth() {
-        return AtlwViewUtils.getInstance().getStrTextWidth(pricePaint, showPrice);
+        return AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice);
     }
 }

@@ -7,14 +7,13 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwViewUtils;
+import android.lorenwang.tools.app.AtlwViewUtil;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -316,7 +315,7 @@ public class AvlwTitleBarHeadView extends FrameLayout {
             if (bgDrawable != null) {
                 view.setBackground(null);
                 if (bgColor >= 0) {
-                    ((ImageView) view).setImageDrawable(AtlwViewUtils.getInstance().tintDrawable(bgDrawable, ColorStateList.valueOf(bgColor)));
+                    ((ImageView) view).setImageDrawable(AtlwViewUtil.getInstance().tintDrawable(bgDrawable, ColorStateList.valueOf(bgColor)));
                 } else {
                     ((ImageView) view).setImageDrawable(bgDrawable);
                 }
@@ -347,7 +346,7 @@ public class AvlwTitleBarHeadView extends FrameLayout {
             width += topDistance + bottomDistance;
         }
         //设置大小以及外边距
-        AtlwViewUtils.getInstance().setViewWidthHeight(view, width, height);
+        AtlwViewUtil.getInstance().setViewWidthHeight(view, width, height);
         //后退按钮边距
         view.setPadding(leftDistance, topDistance, rightDistance, bottomDistance);
 

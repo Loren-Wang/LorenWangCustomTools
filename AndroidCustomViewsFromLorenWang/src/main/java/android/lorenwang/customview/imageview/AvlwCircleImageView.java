@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -78,7 +78,7 @@ public class AvlwCircleImageView extends AppCompatImageView implements AvlwCusto
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         //设置圆形图片
-        circlePaint.setShader(new BitmapShader(AtlwImageCommonUtils.getInstance().getCircleBitmap(
+        circlePaint.setShader(new BitmapShader(AtlwImageCommonUtil.getInstance().getCircleBitmap(
                 getDrawable(), w, h, (int) (Math.min(w, h) * 1.0 / 2)), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
     }
 

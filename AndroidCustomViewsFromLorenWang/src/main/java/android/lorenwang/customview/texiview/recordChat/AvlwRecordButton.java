@@ -3,10 +3,10 @@ package android.lorenwang.customview.texiview.recordChat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.lorenwang.customview.dialog.AvlwRecordDialog;
-import android.lorenwang.tools.base.AtlwCheckUtils;
-import android.lorenwang.tools.file.AtlwFileOptionUtils;
-import android.lorenwang.tools.mobile.AtlwMobileOptionsUtils;
-import android.lorenwang.tools.voice.AtlwRecordUtils;
+import android.lorenwang.tools.base.AtlwCheckUtil;
+import android.lorenwang.tools.file.AtlwFileOptionUtil;
+import android.lorenwang.tools.mobile.AtlwMobileOptionsUtil;
+import android.lorenwang.tools.voice.AtlwRecordUtil;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -200,7 +200,7 @@ public class AvlwRecordButton extends AppCompatButton {
         cancelLongPressedJudgeRunnable();
         this.isRecord = true;
         //开始录音
-        boolean start = AtlwRecordUtils.getInstance().start(activity, recordSavePathDir
+        boolean start = AtlwRecordUtil.getInstance().start(activity, recordSavePathDir
                 + JtlwCommonUtils.getInstance().generateUuid(false), true, true);
         if (start) {
             //初始化开始时间
@@ -215,8 +215,8 @@ public class AvlwRecordButton extends AppCompatButton {
                     avlwRecordListener.startRecord();
                 }
                 //震动设备
-                if (AtlwCheckUtils.getInstance().checkAppPermission(Manifest.permission.VIBRATE)) {
-                    AtlwMobileOptionsUtils.getInstance().vibrate(100);
+                if (AtlwCheckUtil.getInstance().checkAppPermission(Manifest.permission.VIBRATE)) {
+                    AtlwMobileOptionsUtil.getInstance().vibrate(100);
                 }
             }
         }
@@ -227,7 +227,7 @@ public class AvlwRecordButton extends AppCompatButton {
      */
     private void stopRecord() {
         this.isRecord = false;
-        AtlwRecordUtils.getInstance().stop();
+        AtlwRecordUtil.getInstance().stop();
         if (avlwRecordDialog != null && avlwRecordDialog.isShowing()) {
             //回传状态
             if (avlwRecordListener != null) {
@@ -243,7 +243,7 @@ public class AvlwRecordButton extends AppCompatButton {
     private void cancelRecord() {
         if (isRecord && isCancelRecordHint) {
             //取消录音
-            AtlwRecordUtils.getInstance().cancel();
+            AtlwRecordUtil.getInstance().cancel();
             //隐藏弹窗
             if (avlwRecordDialog != null && avlwRecordDialog.isShowing()) {
                 avlwRecordDialog.dismiss();
@@ -420,7 +420,7 @@ public class AvlwRecordButton extends AppCompatButton {
         }
         this.recordSavePathDir = recordSavePathDir;
         //不管文件夹是否存在，都创建个文件夹
-        AtlwFileOptionUtils.getInstance().createDirectory(true, recordSavePathDir,false);
+        AtlwFileOptionUtil.getInstance().createDirectory(true, recordSavePathDir,false);
     }
 
     /**

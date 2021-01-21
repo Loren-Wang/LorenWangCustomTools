@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwViewUtils;
+import android.lorenwang.tools.app.AtlwViewUtil;
 
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
@@ -78,9 +78,9 @@ class AvlwPriceShowTypeCurrencySymbolAndDescribe extends AvlwPriceShowTypeCurren
         //描述行数,默认1行
         describeLines = 1;
         //获取文本宽度
-        float strTextWidth = AtlwViewUtils.getInstance().getStrTextWidth(describePaint, describeText);
+        float strTextWidth = AtlwViewUtil.getInstance().getStrTextWidth(describePaint, describeText);
         //获取文本高度,一行高度乘以多行
-        float strTextHeight = AtlwViewUtils.getInstance().getStrTextHeight(describePaint);
+        float strTextHeight = AtlwViewUtil.getInstance().getStrTextHeight(describePaint);
         //文本实际显示高度
         float strTextShowHeight = strTextHeight * describeLines;
         //比较文本宽度以及边界宽度,如果边界宽度大于文本宽度则以边界宽度为准，如果文本宽度大于边界宽度则将文本宽度
@@ -186,7 +186,7 @@ class AvlwPriceShowTypeCurrencySymbolAndDescribe extends AvlwPriceShowTypeCurren
      */
     private void onDrawText(Canvas canvas, float left, float top, float right, float bottom, String text, int drawLines) {
         //获取单行文本高度
-        float textHeight = AtlwViewUtils.getInstance().getStrTextHeight(describePaint);
+        float textHeight = AtlwViewUtil.getInstance().getStrTextHeight(describePaint);
         //能够绘制的宽度
         float drawWidth = right - left;
         //获取大致每行显示文本数量
@@ -196,11 +196,11 @@ class AvlwPriceShowTypeCurrencySymbolAndDescribe extends AvlwPriceShowTypeCurren
         boolean isAllowDraw = false;
         do {
             //获取当前文本宽度
-            if (Float.compare(AtlwViewUtils.getInstance().getStrTextWidth(describePaint, drawText), drawWidth) < 0) {
+            if (Float.compare(AtlwViewUtil.getInstance().getStrTextWidth(describePaint, drawText), drawWidth) < 0) {
                 //当前小于可绘制，判断下一个是否大于可绘制
                 if (count == text.length()) {
                     isAllowDraw = true;
-                } else if (Float.compare(AtlwViewUtils.getInstance().getStrTextWidth(describePaint, text.substring(0, ++count)), drawWidth) > 0) {
+                } else if (Float.compare(AtlwViewUtil.getInstance().getStrTextWidth(describePaint, text.substring(0, ++count)), drawWidth) > 0) {
                     drawText = text.substring(0, --count);
                     isAllowDraw = true;
                 }

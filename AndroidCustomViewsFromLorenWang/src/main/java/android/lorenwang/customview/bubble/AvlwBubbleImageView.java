@@ -13,8 +13,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwScreenUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.app.AtlwScreenUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -500,7 +500,7 @@ public class AvlwBubbleImageView extends AppCompatImageView {
     public void setImageBitmap(Bitmap bm) {
         try {
             super.setImageBitmap(bm);
-            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(bm, getMeasuredWidth(), getMeasuredHeight());
+            mBitmap = AtlwImageCommonUtil.getInstance().zoomImage(bm, getMeasuredWidth(), getMeasuredHeight());
             postInvalidate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -511,7 +511,7 @@ public class AvlwBubbleImageView extends AppCompatImageView {
     public void setImageDrawable(Drawable drawable) {
         try {
             super.setImageDrawable(drawable);
-            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(AtlwImageCommonUtils.getInstance().drawableToBitmap(drawable), getMeasuredWidth(), getMeasuredHeight());
+            mBitmap = AtlwImageCommonUtil.getInstance().zoomImage(AtlwImageCommonUtil.getInstance().drawableToBitmap(drawable), getMeasuredWidth(), getMeasuredHeight());
             postInvalidate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -523,7 +523,7 @@ public class AvlwBubbleImageView extends AppCompatImageView {
     public void setImageResource(int resId) {
         try {
             super.setImageResource(resId);
-            mBitmap = AtlwImageCommonUtils.getInstance().zoomImage(AtlwImageCommonUtils.getInstance().drawableToBitmap(getDrawable()), getMeasuredWidth(), getMeasuredHeight());
+            mBitmap = AtlwImageCommonUtil.getInstance().zoomImage(AtlwImageCommonUtil.getInstance().drawableToBitmap(getDrawable()), getMeasuredWidth(), getMeasuredHeight());
             postInvalidate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -534,9 +534,9 @@ public class AvlwBubbleImageView extends AppCompatImageView {
         double itemHeight = 0;
         if (percent != null) {
             if (percent.contains("w")) {
-                itemHeight = Double.valueOf(percent.substring(0, percent.indexOf("%")).toString()) * 0.01 * AtlwScreenUtils.getInstance().getScreenWidth();
+                itemHeight = Double.valueOf(percent.substring(0, percent.indexOf("%")).toString()) * 0.01 * AtlwScreenUtil.getInstance().getScreenWidth();
             } else if (percent.contains("h")) {
-                itemHeight = Double.valueOf(percent.substring(0, percent.indexOf("%")).toString()) * 0.01 * AtlwScreenUtils.getInstance().getScreenHeight();
+                itemHeight = Double.valueOf(percent.substring(0, percent.indexOf("%")).toString()) * 0.01 * AtlwScreenUtil.getInstance().getScreenHeight();
             }
         }
         return (int) itemHeight;

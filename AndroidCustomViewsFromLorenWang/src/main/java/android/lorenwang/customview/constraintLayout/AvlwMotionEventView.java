@@ -1,7 +1,7 @@
 package android.lorenwang.customview.constraintLayout;
 
 import android.content.Context;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -52,7 +52,7 @@ public class AvlwMotionEventView extends ConstraintLayout {
      */
     private final Runnable runnable = () -> {
         if (actionIsUp) {
-            AtlwLogUtils.logUtils.logI(TAG, "当前滚动结束");
+            AtlwLogUtil.logUtils.logI(TAG, "当前滚动结束");
             if (onScrollStatusChangeListener != null) {
                 onScrollStatusChangeListener.endScroll();
             }
@@ -75,19 +75,19 @@ public class AvlwMotionEventView extends ConstraintLayout {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_UP:
-                AtlwLogUtils.logUtils.logI(TAG, "手势抬起");
+                AtlwLogUtil.logUtils.logI(TAG, "手势抬起");
                 actionIsUp = true;
                 //做显示判断
                 JtlwTimingTaskUtils.getInstance().cancelTimingTask(TASK_ID);
                 JtlwTimingTaskUtils.getInstance().schedule(TASK_ID, runnable, JUDGE_SCROLL_END_WAIT_TIME);
                 break;
             case MotionEvent.ACTION_DOWN:
-                AtlwLogUtils.logUtils.logI(TAG, "手势落下");
+                AtlwLogUtil.logUtils.logI(TAG, "手势落下");
                 actionIsUp = false;
                 contentScroll((int) ev.getRawX(), (int) ev.getRawY());
                 break;
             case MotionEvent.ACTION_MOVE:
-                AtlwLogUtils.logUtils.logI(TAG, "手势移动");
+                AtlwLogUtil.logUtils.logI(TAG, "手势移动");
                 actionIsUp = false;
                 if (onScrollStatusChangeListener != null) {
                     onScrollStatusChangeListener.startScroll();
@@ -112,7 +112,7 @@ public class AvlwMotionEventView extends ConstraintLayout {
                 judgeContentScrollY.compareTo(scrollY) == 0) {
             return;
         }
-        AtlwLogUtils.logUtils.logI(TAG, "接收到其子布局内容在滑动");
+        AtlwLogUtil.logUtils.logI(TAG, "接收到其子布局内容在滑动");
         this.judgeContentScrollX = scrollX;
         this.judgeContentScrollY = scrollY;
         JtlwTimingTaskUtils.getInstance().cancelTimingTask(TASK_ID);

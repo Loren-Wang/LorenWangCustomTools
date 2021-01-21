@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.lorenwang.tools.app.AtlwScreenUtils;
+import android.lorenwang.tools.app.AtlwScreenUtil;
 import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
@@ -124,7 +124,7 @@ public class AvlwCommonVerticalItemDecoration extends RecyclerView.ItemDecoratio
         } else {
             divideColor = Color.TRANSPARENT;
         }
-        this.divideHeight = divideHeight == null ? AtlwScreenUtils.getInstance().dip2px(16F) : divideHeight;
+        this.divideHeight = divideHeight == null ? AtlwScreenUtil.getInstance().dip2px(16F) : divideHeight;
         this.divideLeftDistance = divideLeftDistance != null ? divideLeftDistance : 0;
         this.divideRightDistance = divideRightDistance != null ? divideRightDistance : 0;
         this.rowTopDistance = rowTopDistance != null ? rowTopDistance : 0;

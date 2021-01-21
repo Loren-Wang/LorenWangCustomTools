@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.view.MotionEvent;
 
 import androidx.annotation.FloatRange;
@@ -183,7 +183,7 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
         //绘制背景
         if (progressBgDrawable != null && showProgressWidth > 0 && showProgressHeight > 0) {
             progressBgBitmap =
-                    AtlwImageCommonUtils.getInstance().drawableToBitmap(progressBgDrawable,
+                    AtlwImageCommonUtil.getInstance().drawableToBitmap(progressBgDrawable,
                             showProgressWidth, showProgressHeight);
             //用不到了，开始释放
             progressBgDrawable = null;
@@ -199,10 +199,10 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
             //缓存进度百分比为0-1
             showRect.right = (int) (left + showProgressWidth * progressCache);
             //释放旧的位图
-            AtlwImageCommonUtils.getInstance().releaseBitmap(bitmap);
+            AtlwImageCommonUtil.getInstance().releaseBitmap(bitmap);
             if (showRect.width() > 0 && showRect.height() > 0) {
                 //获取当前显示位图
-                bitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(progressCacheDrawable,
+                bitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(progressCacheDrawable,
                         showRect.width(), showRect.height());
                 //绘制当前位图
                 if (bitmap != null && !bitmap.isRecycled()) {
@@ -217,10 +217,10 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
             //缓存进度百分比为0-1
             showRect.right = (int) (left + showProgressWidth * progress);
             //释放旧的位图
-            AtlwImageCommonUtils.getInstance().releaseBitmap(bitmap);
+            AtlwImageCommonUtil.getInstance().releaseBitmap(bitmap);
             if (showRect.width() > 0 && showRect.height() > 0) {
                 //获取当前显示位图
-                bitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(progressShowDrawable,
+                bitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(progressShowDrawable,
                         showRect.width(), showRect.height());
                 //绘制当前位图
                 if (bitmap != null && !bitmap.isRecycled()) {
@@ -234,7 +234,7 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
         if (showBig) {
             if (progressCurrentDrawable != null && progressCurrentWidth > 0 && progressCurrentHeight > 0) {
                 progressCurrentBitmap =
-                        AtlwImageCommonUtils.getInstance().drawableToBitmap(progressCurrentDrawable,
+                        AtlwImageCommonUtil.getInstance().drawableToBitmap(progressCurrentDrawable,
                                 progressCurrentWidth, progressCurrentHeight);
                 //用不到了，开始释放
                 progressCurrentDrawable = null;

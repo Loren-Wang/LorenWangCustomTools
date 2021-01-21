@@ -6,15 +6,13 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwScreenUtils;
-import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.app.AtlwViewUtils;
+import android.lorenwang.tools.app.AtlwScreenUtil;
+import android.lorenwang.tools.app.AtlwThreadUtil;
+import android.lorenwang.tools.app.AtlwViewUtil;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -93,7 +91,7 @@ public class AvlwBannerView extends ConstraintLayout {
         public void run() {
             if (context == null || ((context instanceof Activity) && ((Activity) context).isFinishing())) {
                 //移除线程
-                AtlwThreadUtils.getInstance().removeRunnable(autoplayRunnable);
+                AtlwThreadUtil.getInstance().removeRunnable(autoplayRunnable);
                 return;
             }
             //切换位置
@@ -148,11 +146,11 @@ public class AvlwBannerView extends ConstraintLayout {
         }
         if (indicatorView != null) {
             ConstraintLayout.LayoutParams viewLayoutParams =
-                    AtlwViewUtils.getInstance().getViewLayoutParams(ConstraintLayout.LayoutParams.class, indicatorView,
+                    AtlwViewUtil.getInstance().getViewLayoutParams(ConstraintLayout.LayoutParams.class, indicatorView,
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
             //设置边距
-            int distance = (int) AtlwScreenUtils.getInstance().dip2px(10F);
+            int distance = (int) AtlwScreenUtil.getInstance().dip2px(10F);
             viewLayoutParams.setMargins(
                     attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginLeft, distance),
                     attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginTop, distance),
@@ -169,7 +167,7 @@ public class AvlwBannerView extends ConstraintLayout {
             indicatorView.setBackgroundResource(attributes.getResourceId(R.styleable.AvlwBannerView_avlwBvIndicatorBackground,
                     R.drawable.avlw_solid_radius_8));
             //设置背景渲染色
-            AtlwViewUtils.getInstance().setBackgroundTint(indicatorView,
+            AtlwViewUtil.getInstance().setBackgroundTint(indicatorView,
                     ColorStateList.valueOf(attributes.getColor(R.styleable.AvlwBannerView_avlwBvIndicatorBackgroundTintColor,
                             Color.TRANSPARENT)));
 
@@ -263,10 +261,10 @@ public class AvlwBannerView extends ConstraintLayout {
      */
     public void resetChangePageTask() {
         //关闭自动切换线程
-        AtlwThreadUtils.getInstance().removeRunnable(autoplayRunnable);
+        AtlwThreadUtil.getInstance().removeRunnable(autoplayRunnable);
         //开启新的线程
         if (autoplayTime != null && autoplayTime > 0 && dataListSize > 0) {
-            AtlwThreadUtils.getInstance().postOnUiThreadDelayed(autoplayRunnable, autoplayTime);
+            AtlwThreadUtil.getInstance().postOnUiThreadDelayed(autoplayRunnable, autoplayTime);
         }
     }
 

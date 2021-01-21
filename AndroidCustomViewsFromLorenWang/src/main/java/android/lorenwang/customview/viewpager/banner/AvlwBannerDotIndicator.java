@@ -5,10 +5,9 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwScreenUtils;
-import android.lorenwang.tools.app.AtlwViewUtils;
+import android.lorenwang.tools.app.AtlwScreenUtil;
+import android.lorenwang.tools.app.AtlwViewUtil;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -47,7 +46,7 @@ class AvlwBannerDotIndicator extends AvlwBaseBannerIndicator {
     /**
      * dot点显示的宽度
      */
-    private int dotItemWidth = (int) AtlwScreenUtils.getInstance().dip2px(5.6F);
+    private int dotItemWidth = (int) AtlwScreenUtil.getInstance().dip2px(5.6F);
 
     /**
      * dot点显示的高度
@@ -57,7 +56,7 @@ class AvlwBannerDotIndicator extends AvlwBaseBannerIndicator {
     /**
      * dot点左右外边距
      */
-    private int dotItemMarginLeftRight = (int) AtlwScreenUtils.getInstance().dip2px(4F);
+    private int dotItemMarginLeftRight = (int) AtlwScreenUtil.getInstance().dip2px(4F);
 
     public AvlwBannerDotIndicator(TypedArray typedArray, View indicatorView) {
         super(typedArray,indicatorView);
@@ -99,13 +98,13 @@ class AvlwBannerDotIndicator extends AvlwBaseBannerIndicator {
                 //设置图片
                 dotView.setImageResource(dotItemViewRes);
                 //设置dot的宽高以及边距
-                AtlwViewUtils.getInstance().setViewWidthHeightMargin(dotView,
+                AtlwViewUtil.getInstance().setViewWidthHeightMargin(dotView,
                         LinearLayout.LayoutParams.class, dotItemWidth, dotItemHeight,
                         dotItemMarginLeftRight, 0, dotItemMarginLeftRight, 0);
                 if (i == current) {
-                    AtlwViewUtils.getInstance().setImageSrcTint(dotView, dotSelectColor);
+                    AtlwViewUtil.getInstance().setImageSrcTint(dotView, dotSelectColor);
                 } else {
-                    AtlwViewUtils.getInstance().setImageSrcTint(dotView, dotUnSelectColor);
+                    AtlwViewUtil.getInstance().setImageSrcTint(dotView, dotUnSelectColor);
                 }
                 mIndicatorContainer.addView(dotView);
             }
@@ -123,10 +122,10 @@ class AvlwBannerDotIndicator extends AvlwBaseBannerIndicator {
         int childCount = mIndicatorContainer.getChildCount();
         for (int i = 0; i < childCount; i++) {
             if (i == showPosition) {
-                AtlwViewUtils.getInstance().setImageSrcTint((ImageView) mIndicatorContainer.getChildAt(i),
+                AtlwViewUtil.getInstance().setImageSrcTint((ImageView) mIndicatorContainer.getChildAt(i),
                         dotSelectColor);
             } else {
-                AtlwViewUtils.getInstance().setImageSrcTint((ImageView) mIndicatorContainer.getChildAt(i),
+                AtlwViewUtil.getInstance().setImageSrcTint((ImageView) mIndicatorContainer.getChildAt(i),
                         dotUnSelectColor);
             }
         }

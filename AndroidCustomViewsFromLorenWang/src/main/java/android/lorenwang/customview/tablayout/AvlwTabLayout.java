@@ -9,8 +9,8 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.app.AtlwThreadUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -151,7 +151,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                         Thread.sleep(30);
                     }
                 } catch (Exception e) {
-                    AtlwLogUtils.logUtils.logE(TAG, "滑动异常");
+                    AtlwLogUtil.logUtils.logE(TAG, "滑动异常");
                 }
             }
         }
@@ -364,7 +364,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                     layoutOffset = -Math
                             .abs(getMeasureWidth(this, 0, tabTextListSize) - getWidth());
                 }
-                AtlwLogUtils.logUtils.logD(TAG, String.valueOf(layoutOffset));
+                AtlwLogUtil.logUtils.logD(TAG, String.valueOf(layoutOffset));
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
@@ -512,7 +512,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
                 allowScrollChange = false;
                 this.scrollToPosition = currentPosition;
                 scrollToPositionRunnable.setOnTouchChange(isOnTouchChange);
-                AtlwThreadUtils.getInstance().postOnChildThread(scrollToPositionRunnable);
+                AtlwThreadUtil.getInstance().postOnChildThread(scrollToPositionRunnable);
             }
         } else {
             this.currentPosition = currentPosition;

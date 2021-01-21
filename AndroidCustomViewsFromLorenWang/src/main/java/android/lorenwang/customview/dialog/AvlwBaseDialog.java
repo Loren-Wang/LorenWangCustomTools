@@ -2,7 +2,7 @@ package android.lorenwang.customview.dialog;
 
 import android.app.Activity;
 import android.app.Application;
-import android.lorenwang.tools.app.AtlwScreenUtils;
+import android.lorenwang.tools.app.AtlwScreenUtil;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -76,10 +76,10 @@ public class AvlwBaseDialog extends AlertDialog {
         this.showDialogWidth = showDialogWidth != null ? showDialogWidth : this.showDialogWidth;
         this.showDialogHeight = showDialogHeight != null ? showDialogHeight : this.showDialogHeight;
         if (ViewGroup.LayoutParams.MATCH_PARENT == this.showDialogHeight) {
-            view.setMinimumHeight(AtlwScreenUtils.getInstance().getScreenHeight());
+            view.setMinimumHeight(AtlwScreenUtil.getInstance().getScreenHeight());
         }
         if (ViewGroup.LayoutParams.MATCH_PARENT == this.showDialogWidth) {
-            view.setMinimumWidth(AtlwScreenUtils.getInstance().getScreenWidth());
+            view.setMinimumWidth(AtlwScreenUtil.getInstance().getScreenWidth());
         }
         if (context.getApplicationContext() != null && context.getApplicationContext() instanceof Application) {
             ((Application) context.getApplicationContext()).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {

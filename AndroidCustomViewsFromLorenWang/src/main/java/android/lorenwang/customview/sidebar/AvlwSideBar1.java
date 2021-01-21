@@ -8,8 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -147,10 +147,10 @@ public class AvlwSideBar1 extends View {
         textPaintN.setAntiAlias(true);
 
         if (textBgDrawableY != null) {
-            textBgBitmapY = AtlwImageCommonUtils.getInstance().drawableToBitmap(textBgDrawableY, textBgWidth, textBgHeight);
+            textBgBitmapY = AtlwImageCommonUtil.getInstance().drawableToBitmap(textBgDrawableY, textBgWidth, textBgHeight);
         }
         if (textBgDrawableN != null) {
-            textBgBitmapN = AtlwImageCommonUtils.getInstance().drawableToBitmap(textBgDrawableN, textBgWidth, textBgHeight);
+            textBgBitmapN = AtlwImageCommonUtil.getInstance().drawableToBitmap(textBgDrawableN, textBgWidth, textBgHeight);
         }
     }
 
@@ -285,11 +285,11 @@ public class AvlwSideBar1 extends View {
         postInvalidate();
 
         if (isDown) {
-            AtlwLogUtils.logUtils.logI(TAG, "按下数组位置：" + posi);
+            AtlwLogUtil.logUtils.logI(TAG, "按下数组位置：" + posi);
         } else if (isMove) {
-            AtlwLogUtils.logUtils.logI(TAG, "滑动数组位置：" + posi);
+            AtlwLogUtil.logUtils.logI(TAG, "滑动数组位置：" + posi);
         } else if (isUp) {
-            AtlwLogUtils.logUtils.logI(TAG, "抬起数组位置：" + posi);
+            AtlwLogUtil.logUtils.logI(TAG, "抬起数组位置：" + posi);
         }
 
         if (avlwOnSideBarTounchListener != null) {

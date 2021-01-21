@@ -10,7 +10,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 
 /**
  * 功能作用：自定义tablayout文本以及其背景
@@ -219,14 +219,14 @@ class AvlwTabLayoutTypeTextBg implements AvlwBaseTabLayout {
      */
     private Bitmap getBgY(Integer width, Integer height) {
         if (tabBgY != null && width.compareTo(tabBgY.getWidth()) != 0) {
-            AtlwImageCommonUtils.getInstance().releaseBitmap(tabBgY);
+            AtlwImageCommonUtil.getInstance().releaseBitmap(tabBgY);
             tabBgY = null;
         }
         if (tabBgY == null) {
-            synchronized (AtlwImageCommonUtils.class) {
+            synchronized (AtlwImageCommonUtil.class) {
                 if (tabBgY == null) {
                     if (width > 0 && height > 0) {
-                        tabBgY = AtlwImageCommonUtils.getInstance().drawableToBitmap(tabBgDrawableY, width, height);
+                        tabBgY = AtlwImageCommonUtil.getInstance().drawableToBitmap(tabBgDrawableY, width, height);
                     }
                 }
             }
@@ -241,14 +241,14 @@ class AvlwTabLayoutTypeTextBg implements AvlwBaseTabLayout {
      */
     private Bitmap getBgN(Integer width, Integer height) {
         if (tabBgN != null && width.compareTo(tabBgN.getWidth()) != 0) {
-            AtlwImageCommonUtils.getInstance().releaseBitmap(tabBgN);
+            AtlwImageCommonUtil.getInstance().releaseBitmap(tabBgN);
             tabBgN = null;
         }
         if (tabBgN == null) {
-            synchronized (AtlwImageCommonUtils.class) {
+            synchronized (AtlwImageCommonUtil.class) {
                 if (tabBgN == null) {
                     if (width > 0 && height > 0) {
-                        tabBgN = AtlwImageCommonUtils.getInstance().drawableToBitmap(tabBgDrawableN, width, height);
+                        tabBgN = AtlwImageCommonUtil.getInstance().drawableToBitmap(tabBgDrawableN, width, height);
                     }
                 }
             }

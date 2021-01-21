@@ -11,7 +11,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.os.Build;
 import android.util.AttributeSet;
 
@@ -103,7 +103,7 @@ public class AvlwRoundedRectangleImageView extends AppCompatImageView implements
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         //设置圆角图片
-        contentPaint.setShader(new BitmapShader(AtlwImageCommonUtils.getInstance().getRoundedCornerBitmap(getDrawable(), w, h,
+        contentPaint.setShader(new BitmapShader(AtlwImageCommonUtil.getInstance().getRoundedCornerBitmap(getDrawable(), w, h,
                 roundedRectangleAngles[0],roundedRectangleAngles[2],roundedRectangleAngles[4],roundedRectangleAngles[6])
                 , Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
     }

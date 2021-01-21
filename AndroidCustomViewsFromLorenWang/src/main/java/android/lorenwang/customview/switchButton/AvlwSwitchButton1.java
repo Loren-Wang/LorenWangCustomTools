@@ -15,9 +15,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.app.AtlwViewUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.app.AtlwThreadUtil;
+import android.lorenwang.tools.app.AtlwViewUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -99,7 +99,7 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
             }
             if (nowTimeNum < changeTimeNum) {
                 postInvalidate();
-                AtlwThreadUtils.getInstance().postOnChildThreadDelayed(this, changeAnimMill / changeTimeNum);
+                AtlwThreadUtil.getInstance().postOnChildThreadDelayed(this, changeAnimMill / changeTimeNum);
             } else {
                 if (changeListener != null) {
                     if (isOpen) {
@@ -232,10 +232,10 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
         if (changeDrawable == null) {
             changeDrawable = new ColorDrawable(changeDrawableTintColor);
         } else {
-            changeDrawable = AtlwViewUtils.getInstance().tintDrawable(changeDrawable, ColorStateList.valueOf(changeDrawableTintColor));
+            changeDrawable = AtlwViewUtil.getInstance().tintDrawable(changeDrawable, ColorStateList.valueOf(changeDrawableTintColor));
         }
         changeDrawable.setBounds(0, 0, changeDrawableWidth, changeDrawableHeight);
-        changeDrawableBitmap = AtlwImageCommonUtils.getInstance().getRoundedCornerBitmap(changeDrawable, changeDrawableWidth, changeDrawableHeight, radius);
+        changeDrawableBitmap = AtlwImageCommonUtil.getInstance().getRoundedCornerBitmap(changeDrawable, changeDrawableWidth, changeDrawableHeight, radius);
         //设置点击事件
         setOnClickListener(null);
     }
@@ -288,7 +288,7 @@ public class AvlwSwitchButton1 extends View implements AvlwCustomViewCommon {
                 }
                 if (nowTimeNum == 0) {
                     isOpen = !isOpen;
-                    AtlwThreadUtils.getInstance().runOnChildThread(changeStateRunnable);
+                    AtlwThreadUtil.getInstance().runOnChildThread(changeStateRunnable);
 
                     //初始化切换动画
                     if (changeStateBgAnimator == null) {

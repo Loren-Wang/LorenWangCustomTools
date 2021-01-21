@@ -7,10 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.view.MotionEvent;
-
-import androidx.annotation.FloatRange;
 
 /**
  * 功能作用：滑动进度条
@@ -131,7 +129,7 @@ class AvlwProgressBarScroll extends AvlwProgressBarBase {
         //绘制背景
         if (progressBgDrawable != null && showProgressWidth > 0 && showProgressHeight > 0) {
             progressBgBitmap =
-                    AtlwImageCommonUtils.getInstance().drawableToBitmap(progressBgDrawable,
+                    AtlwImageCommonUtil.getInstance().drawableToBitmap(progressBgDrawable,
                             showProgressWidth, showProgressHeight);
             //用不到了，开始释放
             progressBgDrawable = null;
@@ -145,7 +143,7 @@ class AvlwProgressBarScroll extends AvlwProgressBarBase {
         //绘制当前
         if (progressCurrentDrawable != null && progressCurrentWidth > 0 && progressCurrentHeight > 0) {
             progressCurrentBitmap =
-                    AtlwImageCommonUtils.getInstance().drawableToBitmap(progressCurrentDrawable,
+                    AtlwImageCommonUtil.getInstance().drawableToBitmap(progressCurrentDrawable,
                             progressCurrentWidth, progressCurrentHeight);
             //用不到了，开始释放
             progressCurrentDrawable = null;

@@ -3,9 +3,7 @@ package android.lorenwang.customview.viewpager.banner;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.widget.AppCompatTextView;
 

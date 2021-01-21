@@ -9,7 +9,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 
 /**
  * 功能作用：tablayout自定义控件,文本、线、线容器
@@ -97,10 +97,10 @@ class AvlwTabLayoutTypeTextLineContainer extends AvlwTabLayoutTypeTextLine {
      */
     private Bitmap getLineContainerBg() {
         if (lineContainerBg == null) {
-            synchronized (AtlwImageCommonUtils.class) {
+            synchronized (AtlwImageCommonUtil.class) {
                 if (lineContainerBg == null) {
                     if (avlwTabLayout.getWidth() > 0 && lineContainerHeight > 0) {
-                        lineContainerBg = AtlwImageCommonUtils.getInstance().drawableToBitmap(lingContainerBgDrawable, avlwTabLayout.getWidth(), (int) lineContainerHeight);
+                        lineContainerBg = AtlwImageCommonUtil.getInstance().drawableToBitmap(lingContainerBgDrawable, avlwTabLayout.getWidth(), (int) lineContainerHeight);
                     }
                 }
             }

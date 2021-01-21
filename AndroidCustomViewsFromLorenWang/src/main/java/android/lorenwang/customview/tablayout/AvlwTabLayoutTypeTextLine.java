@@ -10,7 +10,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 
 /**
  * 功能作用：tablayout自定义控件
@@ -179,14 +179,14 @@ class AvlwTabLayoutTypeTextLine implements AvlwBaseTabLayout {
      */
     private Bitmap getLineBg(Integer lineWidth) {
         if (lineBg != null && lineWidth.compareTo(lineBg.getWidth()) != 0) {
-            AtlwImageCommonUtils.getInstance().releaseBitmap(lineBg);
+            AtlwImageCommonUtil.getInstance().releaseBitmap(lineBg);
             lineBg = null;
         }
         if (lineBg == null) {
-            synchronized (AtlwImageCommonUtils.class) {
+            synchronized (AtlwImageCommonUtil.class) {
                 if (lineBg == null) {
                     if (lineWidth > 0 && lineHeight > 0) {
-                        lineBg = AtlwImageCommonUtils.getInstance().drawableToBitmap(lingBgDrawable, lineWidth, (int) lineHeight);
+                        lineBg = AtlwImageCommonUtil.getInstance().drawableToBitmap(lingBgDrawable, lineWidth, (int) lineHeight);
                     }
                 }
             }

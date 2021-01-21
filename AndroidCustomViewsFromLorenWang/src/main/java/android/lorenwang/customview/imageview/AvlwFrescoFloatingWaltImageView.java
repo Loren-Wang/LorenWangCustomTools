@@ -1,7 +1,7 @@
 package android.lorenwang.customview.imageview;
 
 import android.content.Context;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.util.AttributeSet;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -143,14 +143,14 @@ public class AvlwFrescoFloatingWaltImageView extends SimpleDraweeView {
         if (moveCurrentCount < moveSumCount) {
             moveCurrentCount++;
             if (viewToShow) {
-                AtlwLogUtils.logUtils.logI(TAG, "当前是向显示移动，已移动百分比：" + moveCurrentCount * 1.0F / moveSumCount);
+                AtlwLogUtil.logUtils.logI(TAG, "当前是向显示移动，已移动百分比：" + moveCurrentCount * 1.0F / moveSumCount);
                 currentLeft = getLeft() - getOneChangeDistance();
                 layout(currentLeft, getTop(), currentLeft + getWidth(), getBottom());
                 //开始新任务
                 JtlwTimingTaskUtils.getInstance().cancelTimingTask(TASK_ID_AUTO_TO_SHOW);
                 JtlwTimingTaskUtils.getInstance().schedule(TASK_ID_AUTO_TO_SHOW, changeRunnable, ANIMATION_TIME_PERIOD);
             } else {
-                AtlwLogUtils.logUtils.logI(TAG, "当前是向隐藏移动，已移动百分比：" + moveCurrentCount * 1.0F / moveSumCount);
+                AtlwLogUtil.logUtils.logI(TAG, "当前是向隐藏移动，已移动百分比：" + moveCurrentCount * 1.0F / moveSumCount);
                 currentLeft = getLeft() + getOneChangeDistance();
                 layout(currentLeft, getTop(), currentLeft + getWidth(), getBottom());
                 //开始新任务
@@ -166,6 +166,6 @@ public class AvlwFrescoFloatingWaltImageView extends SimpleDraweeView {
         int left = currentLeft != null ? currentLeft : l;
         int right = currentLeft != null ? currentLeft + getWidth() : r;
         super.layout(left, t, right, b);
-        AtlwLogUtils.logUtils.logI(TAG, "当前布局位置正在变更，左侧坐标为：" + left);
+        AtlwLogUtil.logUtils.logI(TAG, "当前布局位置正在变更，左侧坐标为：" + left);
     }
 }

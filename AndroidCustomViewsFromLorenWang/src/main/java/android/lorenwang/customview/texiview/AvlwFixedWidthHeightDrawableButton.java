@@ -11,7 +11,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwViewUtils;
+import android.lorenwang.tools.app.AtlwViewUtil;
 import android.util.AttributeSet;
 import android.view.Gravity;
 
@@ -215,8 +215,8 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
             Paint paint = new Paint();
             paint.setTextSize(getTextSize());
             //宽度需要一个像素冗余，否则可能会出现英文时自动换行的情况
-            float textWidth = AtlwViewUtils.getInstance().getStrTextWidth(paint, getText().toString());
-            float textHeight = AtlwViewUtils.getInstance().getStrTextHeight(paint);
+            float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(paint, getText().toString());
+            float textHeight = AtlwViewUtil.getInstance().getStrTextHeight(paint);
 
             //图片绘制起始点x、y坐标
             float drawableStartX = left;

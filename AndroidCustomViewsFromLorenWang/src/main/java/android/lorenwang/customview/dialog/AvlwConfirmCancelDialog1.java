@@ -2,10 +2,8 @@ package android.lorenwang.customview.dialog;
 
 import android.app.Activity;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwScreenUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;

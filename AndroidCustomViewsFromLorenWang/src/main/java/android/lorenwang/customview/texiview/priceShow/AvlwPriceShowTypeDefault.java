@@ -1,7 +1,7 @@
 package android.lorenwang.customview.texiview.priceShow;
 
 import android.graphics.Canvas;
-import android.lorenwang.tools.app.AtlwViewUtils;
+import android.lorenwang.tools.app.AtlwViewUtil;
 
 /**
  * 功能作用：默认金额显示类型
@@ -21,14 +21,14 @@ class AvlwPriceShowTypeDefault extends AvlwPriceShowTypeBase {
     @Override
     public int getMeasureWidth(int widthMeasureSpec) {
         //左右边距不要轻易删除，子类要用   宽度值为：金额金额符号宽度加上金额符号间距加上左右内边距
-        return (int) (AtlwViewUtils.getInstance().getStrTextWidth(pricePaint, showPrice + priceSymbol)
+        return (int) (AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice + priceSymbol)
                 + priceSymbolPriceDistance + avlwPriceShowTextView.getPaddingLeft() + avlwPriceShowTextView.getPaddingRight());
     }
 
     @Override
     public int getMeasureHeight(int heightMeasureSpec) {
         //上下边距不要轻易删除，子类要用
-        return (int) AtlwViewUtils.getInstance().getStrTextHeight(pricePaint) + avlwPriceShowTextView.getPaddingTop() + avlwPriceShowTextView.getPaddingBottom();
+        return (int) AtlwViewUtil.getInstance().getStrTextHeight(pricePaint) + avlwPriceShowTextView.getPaddingTop() + avlwPriceShowTextView.getPaddingBottom();
     }
 
     @Override
@@ -50,7 +50,7 @@ class AvlwPriceShowTypeDefault extends AvlwPriceShowTypeBase {
         if (drawPriceSymbol) {
             canvas.drawText(priceSymbol, left, top - pricePaint.getFontMetrics().top, pricePaint);
             canvas.drawText(showPrice,
-                    left + priceSymbolPriceDistance + AtlwViewUtils.getInstance().getStrTextWidth(pricePaint, priceSymbol)
+                    left + priceSymbolPriceDistance + AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, priceSymbol)
                     , top - pricePaint.getFontMetrics().top, pricePaint);
         } else {
             canvas.drawText(showPrice, left, top - pricePaint.getFontMetrics().top, pricePaint);
@@ -63,7 +63,7 @@ class AvlwPriceShowTypeDefault extends AvlwPriceShowTypeBase {
      * @return 金额显示宽度，不包含间距什么的
      */
     protected float getPriceShowWidth() {
-        return AtlwViewUtils.getInstance().getStrTextWidth(pricePaint, showPrice + priceSymbol);
+        return AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice + priceSymbol);
     }
 
 }

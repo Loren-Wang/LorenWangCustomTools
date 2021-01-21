@@ -9,8 +9,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
@@ -176,12 +176,12 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
         borderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEQuantityBorderWidth, borderWidth);
         //按钮部分数据参数
         try {
-            addButtonAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEAddButtonDrawableAllow));
-            addButtonNotAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEAddButtonDrawableNotAllow));
-            reduceButtonAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableAllow));
-            reduceButtonNotAllowBitmap = AtlwImageCommonUtils.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableNotAllow));
+            addButtonAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEAddButtonDrawableAllow));
+            addButtonNotAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEAddButtonDrawableNotAllow));
+            reduceButtonAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableAllow));
+            reduceButtonNotAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableNotAllow));
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(TAG, "数量控件初始化异常");
+            AtlwLogUtil.logUtils.logE(TAG, "数量控件初始化异常");
         }
         if (addButtonAllowBitmap != null) {
             addButtonAllowBitmapRect = new Rect(0, 0, addButtonAllowBitmap.getWidth(), addButtonAllowBitmap.getHeight());
@@ -229,7 +229,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
                 try {
                     quantity = Long.parseLong(s.toString());
                 } catch (NumberFormatException e) {
-                    AtlwLogUtils.logUtils.logE(TAG, "传递的参数非整数参数");
+                    AtlwLogUtil.logUtils.logE(TAG, "传递的参数非整数参数");
                 }
                 //判断修改后是否超范围
                 if (quantity.compareTo(maxQuantity) > 0) {
@@ -505,7 +505,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
             try {
                 this.quantity = Long.parseLong(String.valueOf(text));
             } catch (NumberFormatException e) {
-                AtlwLogUtils.logUtils.logE(this.TAG, "传递的参数非整数参数");
+                AtlwLogUtil.logUtils.logE(this.TAG, "传递的参数非整数参数");
             }
         }
         text = String.valueOf(this.quantity);
