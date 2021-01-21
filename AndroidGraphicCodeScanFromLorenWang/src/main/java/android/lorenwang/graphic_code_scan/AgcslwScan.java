@@ -7,9 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.app.AtlwScreenUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.app.AtlwScreenUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -287,7 +287,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
                 if (returnScanBitmap) {
                     Bundle bundle = new Bundle();
                     bundle.putByteArray("barcode_bitmap",
-                            AtlwImageCommonUtils.getInstance().getBitmapBytes(scanBitmap));
+                            AtlwImageCommonUtil.getInstance().getBitmapBytes(scanBitmap));
                     handleDecode(result, bundle);
                 } else {
                     handleDecode(result, null);
@@ -507,7 +507,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         }
         if (rawResult != null && rawResult.getText() != null) {
             String resultText = rawResult.getText();
-            AtlwLogUtils.logUtils.logD(TAG, "扫描结果:::" + resultText);
+            AtlwLogUtil.logUtils.logD(TAG, "扫描结果:::" + resultText);
             if (scanResultCallback != null) {
                 scanResultCallback.scanResult(resultText);
                 if (returnScanBitmap) {
@@ -516,7 +516,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
                         assert barcodeBitmaps != null;
                         scanResultCallback.scanResultBitmap(BitmapFactory.decodeByteArray(barcodeBitmaps, 0, barcodeBitmaps.length));
                     } catch (Exception e) {
-                        AtlwLogUtils.logUtils.logD("处理返回的扫描结果位图数据异常：" + (e.getMessage() != null ?
+                        AtlwLogUtil.logUtils.logD("处理返回的扫描结果位图数据异常：" + (e.getMessage() != null ?
                                 e.getMessage() : ""));
                     }
                 }
@@ -539,10 +539,10 @@ public class AgcslwScan implements SurfaceHolder.Callback {
      */
     private int getBaseWidth(View view) {
         if (view == null) {
-            return AtlwScreenUtils.getInstance().getScreenWidth();
+            return AtlwScreenUtil.getInstance().getScreenWidth();
         }
         return view.getMeasuredWidthAndState() > 0 ? view.getMeasuredWidthAndState() :
-                AtlwScreenUtils.getInstance().getScreenWidth();
+                AtlwScreenUtil.getInstance().getScreenWidth();
     }
 
     /**
@@ -553,10 +553,10 @@ public class AgcslwScan implements SurfaceHolder.Callback {
      */
     private int getBaseHeight(View view) {
         if (view == null) {
-            return AtlwScreenUtils.getInstance().getScreenHeight();
+            return AtlwScreenUtil.getInstance().getScreenHeight();
         }
         return view.getMeasuredHeightAndState() > 0 ? view.getMeasuredHeightAndState() :
-                AtlwScreenUtils.getInstance().getScreenHeight();
+                AtlwScreenUtil.getInstance().getScreenHeight();
     }
 
     /**
@@ -574,16 +574,16 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         try {
             cameraWidth = cameraManager.getCameraResolution() != null ?
                     cameraManager.getCameraResolution().y :
-                    AtlwScreenUtils.getInstance().getScreenWidth();
+                    AtlwScreenUtil.getInstance().getScreenWidth();
         } catch (Exception ignored) {
-            cameraWidth = AtlwScreenUtils.getInstance().getScreenWidth();
+            cameraWidth = AtlwScreenUtil.getInstance().getScreenWidth();
         }
         try {
             cameraHeight = cameraManager.getCameraResolution() != null ?
                     cameraManager.getCameraResolution().x :
-                    AtlwScreenUtils.getInstance().getScreenHeight();
+                    AtlwScreenUtil.getInstance().getScreenHeight();
         } catch (Exception ignored) {
-            cameraHeight = AtlwScreenUtils.getInstance().getScreenHeight();
+            cameraHeight = AtlwScreenUtil.getInstance().getScreenHeight();
         }
         //裁剪区域的属性
         if (scanView != null) {
@@ -591,7 +591,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
             int[] location = new int[2];
             scanView.getLocationInWindow(location);
             int cropLeft = location[0];
-            int cropTop = location[1] - AtlwScreenUtils.getInstance().getStatusBarHeight();
+            int cropTop = location[1] - AtlwScreenUtil.getInstance().getStatusBarHeight();
             int cropWidth = getBaseWidth(scanView);
             int cropHeight = getBaseHeight(scanView);
             //修改裁剪区域为裁剪扫描框属性
@@ -601,9 +601,9 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         }
         //获取布局容器的宽高
         int containerWidth = getBaseWidth(sFVScan) > 0 ? getBaseWidth(sFVScan) :
-                AtlwScreenUtils.getInstance().getScreenWidth();
+                AtlwScreenUtil.getInstance().getScreenWidth();
         int containerHeight = getBaseHeight(sFVScan) > 0 ? getBaseHeight(sFVScan) :
-                AtlwScreenUtils.getInstance().getScreenHeight();
+                AtlwScreenUtil.getInstance().getScreenHeight();
 
         //计算最终截取的矩形的左上角顶点x坐标
         int x = showCropRect.left * cameraWidth / containerWidth;
@@ -629,7 +629,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
             throw new IllegalStateException("No SurfaceHolder provided");
         }
         if (cameraManager.isOpen()) {
-            AtlwLogUtils.logUtils.logD(TAG, "initCamera() while already open -- late SurfaceView callback?");
+            AtlwLogUtil.logUtils.logD(TAG, "initCamera() while already open -- late SurfaceView callback?");
             return;
         }
         try {
@@ -642,14 +642,14 @@ public class AgcslwScan implements SurfaceHolder.Callback {
 
             initCrop();
         } catch (IOException ioe) {
-            AtlwLogUtils.logUtils.logD(TAG, ioe.getMessage());
+            AtlwLogUtil.logUtils.logD(TAG, ioe.getMessage());
             if (scanResultCallback != null) {
                 scanResultCallback.cameraInitError();
             }
         } catch (RuntimeException e) {
             // Barcode Scanner has seen crashes in the wild of this variety:
             // java.?lang.?RuntimeException: Fail to connect to camera service
-            AtlwLogUtils.logUtils.logD(TAG, "Unexpected error initializing camera", e);
+            AtlwLogUtil.logUtils.logD(TAG, "Unexpected error initializing camera", e);
             if (scanResultCallback != null) {
                 scanResultCallback.cameraInitError();
             }
