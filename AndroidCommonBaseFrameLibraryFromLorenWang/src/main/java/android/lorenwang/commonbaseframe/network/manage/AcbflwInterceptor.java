@@ -1,7 +1,7 @@
 package android.lorenwang.commonbaseframe.network.manage;
 
 import android.lorenwang.commonbaseframe.AcbflwBaseConfig;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -86,7 +86,7 @@ public class AcbflwInterceptor implements Interceptor {
                     .append("\n\n");
 
             logBuilder.append("****  Network_options_end  ****");
-            AtlwLogUtils.logUtils.logI("Network_options", logBuilder.toString());
+            AtlwLogUtil.logUtils.logI("Network_options", logBuilder.toString());
             System.out.println(logBuilder.toString());
             logBuilder.setLength(0);
 

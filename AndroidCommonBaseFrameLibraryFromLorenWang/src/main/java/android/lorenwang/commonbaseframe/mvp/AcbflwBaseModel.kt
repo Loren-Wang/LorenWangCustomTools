@@ -4,7 +4,7 @@ import android.app.Activity
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication
 import android.lorenwang.commonbaseframe.R
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
-import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtils
+import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtil
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
@@ -100,7 +100,7 @@ open class AcbflwBaseModel {
                     is HttpException, is UnknownHostException -> {
                         //判断是无网络还是其他问题
                         try {
-                            if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
+                            if (AtlwMobileSystemInfoUtil.getNetworkType() == 0) {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
@@ -112,7 +112,7 @@ open class AcbflwBaseModel {
                     is SocketTimeoutException -> {
                         //判断是无网络还是其他问题
                         try {
-                            if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
+                            if (AtlwMobileSystemInfoUtil.getNetworkType() == 0) {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
@@ -124,7 +124,7 @@ open class AcbflwBaseModel {
                     is SSLException -> {
                         //判断是无网络还是其他问题
                         try {
-                            if (AtlwMobileSystemInfoUtils.getNetworkType() == 0) {
+                            if (AtlwMobileSystemInfoUtil.getNetworkType() == 0) {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))

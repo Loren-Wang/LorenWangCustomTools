@@ -3,14 +3,14 @@ package android.lorenwang.commonbaseframe
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.lorenwang.commonbaseframe.image.AcbflwImageSelectUtils
+import android.lorenwang.commonbaseframe.image.AcbflwImageSelectUtil
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseModel
 import android.lorenwang.commonbaseframe.mvp.AcbflwBasePresenter
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
+import android.lorenwang.customview.video.AvlwVideoPlayManager
 import android.lorenwang.tools.AtlwConfig
 import android.os.Bundle
 import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
-import java.lang.Exception
 
 /**
  * 初始注释时间： 2019/8/14 0014 下午 17:24:25
@@ -22,7 +22,7 @@ import java.lang.Exception
  * 修改时间：
  * 备注：
  */
-open class AcbflwBaseApplication : Application() {
+abstract class AcbflwBaseApplication : Application() {
     /**
      * model的创建集合
      */
@@ -49,13 +49,26 @@ open class AcbflwBaseApplication : Application() {
 
             override fun onActivityPaused(activity: Activity) {
                 currentShowActivity = null
+                //暂停视频播放
+                if (isUseVideoPlayLibrary()) {
+                    AvlwVideoPlayManager.getInstance().pausePlayVideoViews(activity, null)
+                }
             }
 
             override fun onActivityStopped(activity: Activity) {}
             override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {}
 
             override fun onActivityDestroyed(activity: Activity) { //取消activity页面的model、presenter相关
-                releaseModelsAndPresenters(activity) //清除图片选择缓存
+                //释放mvp缓存
+                releaseModelsAndPresenters(activity)
+                //清除图片选择缓存
+                if (isUsePictureSelectLibrary()) {
+                    AcbflwImageSelectUtil.getInstance().clearCache(activity)
+                }
+                //移除相应页面适配
+                if (isUseVideoPlayLibrary()) {
+                    AvlwVideoPlayManager.getInstance().removePlayVideoViews(activity)
+                }
             }
         })
 
@@ -82,7 +95,6 @@ open class AcbflwBaseApplication : Application() {
         //设置后退时就业面退出动画
         AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM = R.anim.aalw_anim_to_right
     }
-
 
     /**
      * 添加model记录
@@ -140,19 +152,29 @@ open class AcbflwBaseApplication : Application() {
         /**
          * App级别的context上下文
          */
-        @JvmField
+        @JvmStatic
         var appContext: Context? = null
 
         /**
          * application实例
          */
-        @JvmField
+        @JvmStatic
         var application: AcbflwBaseApplication? = null
 
         /**
          * 当前正在展示的Activity页面
          */
-        @JvmField
+        @JvmStatic
         var currentShowActivity: Activity? = null
     }
+
+    /**
+     * 是否使用了Picture图片选择库
+     */
+    abstract fun isUsePictureSelectLibrary(): Boolean
+
+    /**
+     * 是否使用了视图播放库
+     */
+    abstract fun isUseVideoPlayLibrary(): Boolean
 }

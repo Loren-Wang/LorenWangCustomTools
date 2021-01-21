@@ -1,6 +1,6 @@
 package android.lorenwang.commonbaseframe.image;
 
-import android.lorenwang.tools.file.AtlwFileOptionUtils;
+import android.lorenwang.tools.file.AtlwFileOptionUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
@@ -38,7 +38,7 @@ public class AcbflwLocalImageSelectBean extends LocalMedia {
     public String getPath() {
         String path = super.getPath();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            setPath(AtlwFileOptionUtils.getInstance().getUriPath(Uri.parse(path), MediaStore.Images.ImageColumns.DATA));
+            setPath(AtlwFileOptionUtil.getInstance().getUriPath(Uri.parse(path), MediaStore.Images.ImageColumns.DATA));
         }
         return super.getPath();
     }

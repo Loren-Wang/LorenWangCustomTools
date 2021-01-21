@@ -7,7 +7,7 @@ import android.lorenwang.commonbaseframe.AcbflwBaseCommonKey.KEY_BASE_URL_RECORD
 import android.lorenwang.commonbaseframe.AcbflwBaseConfig
 import android.lorenwang.commonbaseframe.network.manage.AcbflwInterceptor
 import android.lorenwang.commonbaseframe.network.manage.AcbflwResponseGsonConverterFactory
-import android.lorenwang.tools.app.AtlwSharedPrefUtils
+import android.lorenwang.tools.app.AtlwSharedPrefUtil
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
@@ -105,9 +105,9 @@ open class AcbflwNetworkManager private constructor() {
             this.shareBaseUrl = shareBaseUrl.kttlwGetNotEmptyData()
             this.h5BaseUrl = h5BaseUrl.kttlwGetNotEmptyData()
         } else { //非正式环境读取缓存数据
-            this.apiBaseUrl = AtlwSharedPrefUtils.getInstance().getString(KEY_BASE_API_URL, baseUrl.kttlwGetNotEmptyData())
-            this.shareBaseUrl = AtlwSharedPrefUtils.getInstance().getString(KEY_BASE_SHARE_URL, shareBaseUrl.kttlwGetNotEmptyData())
-            this.h5BaseUrl = AtlwSharedPrefUtils.getInstance().getString(KEY_BASE_H5_URL, h5BaseUrl.kttlwGetNotEmptyData())
+            this.apiBaseUrl = AtlwSharedPrefUtil.getInstance().getString(KEY_BASE_API_URL, baseUrl.kttlwGetNotEmptyData())
+            this.shareBaseUrl = AtlwSharedPrefUtil.getInstance().getString(KEY_BASE_SHARE_URL, shareBaseUrl.kttlwGetNotEmptyData())
+            this.h5BaseUrl = AtlwSharedPrefUtil.getInstance().getString(KEY_BASE_H5_URL, h5BaseUrl.kttlwGetNotEmptyData())
         }
 
         //构造okhttp
@@ -151,9 +151,9 @@ open class AcbflwNetworkManager private constructor() {
                 }
             } //重新初始化配置
             initRetrofit(appCompileType, baseUrl, shareBaseUrl, h5BaseUrl, timeout, this.converterFactory, this.interceptors) //记录数据
-            AtlwSharedPrefUtils.getInstance().putString(KEY_BASE_API_URL, baseUrl)
-            AtlwSharedPrefUtils.getInstance().putString(KEY_BASE_H5_URL, changeH5Url)
-            AtlwSharedPrefUtils.getInstance().putString(KEY_BASE_SHARE_URL, changeShareUrl) //记录数据,首先判断列表中是否有该数据
+            AtlwSharedPrefUtil.getInstance().putString(KEY_BASE_API_URL, baseUrl)
+            AtlwSharedPrefUtil.getInstance().putString(KEY_BASE_H5_URL, changeH5Url)
+            AtlwSharedPrefUtil.getInstance().putString(KEY_BASE_SHARE_URL, changeShareUrl) //记录数据,首先判断列表中是否有该数据
 
             //记录数据,首先判断列表中是否有该数据
             var haveApiUrl = false
@@ -167,7 +167,7 @@ open class AcbflwNetworkManager private constructor() {
                 val urls = arrayOfNulls<Array<String>>(recodeUrls.size + 1)
                 urls[recodeUrls.size] = arrayOf(this.apiBaseUrl, this.h5BaseUrl, this.shareBaseUrl)
                 System.arraycopy(recodeUrls, 0, urls, 0, recodeUrls.size)
-                AtlwSharedPrefUtils.getInstance().putString(KEY_BASE_URL_RECORDS, JdplwJsonUtils.toJson(urls))
+                AtlwSharedPrefUtil.getInstance().putString(KEY_BASE_URL_RECORDS, JdplwJsonUtils.toJson(urls))
             }
         }
     }
@@ -199,7 +199,8 @@ open class AcbflwNetworkManager private constructor() {
      * @return 二维数组，一级数组中的每一个元素内的数据从头至尾分别代表着基础URl，h5基础Url，分享基础Url
      */
     fun getRecordUrls(): Array<Array<String>> {
-        return JdplwJsonUtils.fromJson(AtlwSharedPrefUtils.getInstance().getString(KEY_BASE_URL_RECORDS, ""), Array<Array<String>>::class.java)
+        return JdplwJsonUtils.fromJson(
+            AtlwSharedPrefUtil.getInstance().getString(KEY_BASE_URL_RECORDS, ""), Array<Array<String>>::class.java)
             ?: arrayOf()
     }
 }

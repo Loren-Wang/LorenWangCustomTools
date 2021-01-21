@@ -1,7 +1,5 @@
 package android.lorenwang.commonbaseframe.network.manage;
 
-import android.lorenwang.tools.base.AtlwLogUtils;
-
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonWriter;
@@ -13,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import okio.Buffer;
 import retrofit2.Converter;
 

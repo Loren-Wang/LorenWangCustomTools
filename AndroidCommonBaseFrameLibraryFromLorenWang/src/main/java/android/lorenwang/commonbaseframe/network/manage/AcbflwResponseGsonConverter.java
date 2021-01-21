@@ -1,8 +1,7 @@
 package android.lorenwang.commonbaseframe.network.manage;
 
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
 
-import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
 import java.io.IOException;
@@ -34,7 +33,7 @@ public class AcbflwResponseGsonConverter<T> implements Converter<ResponseBody, T
         try {
             String originalBody = value.string();
             String TAG = "AcbflwResponseGsonConverter";
-            AtlwLogUtils.logUtils.logD(TAG, "接收到接口返回数据:" + originalBody);
+            AtlwLogUtil.logUtils.logD(TAG, "接收到接口返回数据:" + originalBody);
             return adapter.fromJson(originalBody);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

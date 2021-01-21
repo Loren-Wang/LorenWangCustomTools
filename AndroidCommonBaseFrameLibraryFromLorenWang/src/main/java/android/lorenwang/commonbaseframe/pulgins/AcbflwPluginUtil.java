@@ -28,22 +28,22 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * @author wangliang
  */
 
-public class AcbflwPluginUtils {
+public class AcbflwPluginUtil {
     private final String TAG = "QtPluginUtils";
-    private static volatile AcbflwPluginUtils optionsInstance;
+    private static volatile AcbflwPluginUtil optionsInstance;
     /**
      * 微信登陆回调key
      */
     private String weChatLoginCallbackKey = "";
 
-    private AcbflwPluginUtils() {
+    private AcbflwPluginUtil() {
     }
 
-    public static AcbflwPluginUtils getInstance() {
+    public static AcbflwPluginUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AcbflwPluginUtils.class) {
+            synchronized (AcbflwPluginUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AcbflwPluginUtils();
+                    optionsInstance = new AcbflwPluginUtil();
                 }
             }
         }

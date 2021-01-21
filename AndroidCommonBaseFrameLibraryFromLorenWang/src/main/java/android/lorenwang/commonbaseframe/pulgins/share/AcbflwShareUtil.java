@@ -7,12 +7,12 @@ import android.graphics.Bitmap;
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTargetTypeEnum;
-import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtils;
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.app.AtlwActivityUtils;
+import android.lorenwang.tools.app.AtlwActivityUtil;
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.file.AtlwFileOptionUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.file.AtlwFileOptionUtil;
 import android.net.Uri;
 
 import java.io.File;
@@ -38,22 +38,22 @@ import java.util.List;
  * @author wangliang
  */
 
-public class AcbflwShareUtils {
+public class AcbflwShareUtil {
     private final String TAG = "AcbflwShareUtils";
-    private static AcbflwShareUtils optionsInstance;
+    private static AcbflwShareUtil optionsInstance;
     /**
      * 微信分享实例
      */
     private AcbflwWeChatShare weChatShare;
 
-    private AcbflwShareUtils() {
+    private AcbflwShareUtil() {
     }
 
-    public static AcbflwShareUtils getInstance() {
+    public static AcbflwShareUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AcbflwShareUtils.class) {
+            synchronized (AcbflwShareUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AcbflwShareUtils();
+                    optionsInstance = new AcbflwShareUtil();
                 }
             }
         }
@@ -78,11 +78,11 @@ public class AcbflwShareUtils {
      * @param contentType   分享内容类型
      */
     private void sendShareData(final AcbflwShareDataBean shareDataBean, AcbflwPluginTargetTypeEnum targetType, AcbflwShareContentTypeEnum contentType) {
-        AtlwLogUtils.logUtils.logI(TAG, "准备发起分享数据");
+        AtlwLogUtil.logUtils.logI(TAG, "准备发起分享数据");
         assert targetType != null;
         assert contentType != null;
         assert shareDataBean.getShareCallBack() != null;
-        AtlwLogUtils.logUtils.logI(TAG, "分享目标：" + targetType.getDes() + " 分享内容类型：" + contentType.getDes());
+        AtlwLogUtil.logUtils.logI(TAG, "分享目标：" + targetType.getDes() + " 分享内容类型：" + contentType.getDes());
         switch (targetType) {
             //好友
             case SHARE_WE_CHAT_SESSION:
@@ -90,9 +90,9 @@ public class AcbflwShareUtils {
             case SHARE_WE_CHAT_FAVORITE:
                 //朋友圈
             case SHARE_WE_CHAT_MOMENTS:
-                if (AcbflwPluginUtils.getInstance().getApi() == null) {
+                if (AcbflwPluginUtil.getInstance().getApi() == null) {
                     getWeChatShare().callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.WECHAT_NOT_INIT);
-                } else if (AcbflwPluginUtils.getInstance().getApi().isWXAppInstalled()) {
+                } else if (AcbflwPluginUtil.getInstance().getApi().isWXAppInstalled()) {
                     switch (contentType) {
                         //文本
                         case TEXT:
@@ -129,7 +129,7 @@ public class AcbflwShareUtils {
                             break;
                     }
                 } else {
-                    AtlwLogUtils.logUtils.logI(TAG, "分享失败：微信未安装");
+                    AtlwLogUtil.logUtils.logI(TAG, "分享失败：微信未安装");
                     getWeChatShare().callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.WECHAT_NOT_INSTALL);
                 }
                 break;
@@ -142,12 +142,12 @@ public class AcbflwShareUtils {
                             AtlwConfig.nowApplication.getExternalFilesDir(null).getAbsolutePath();
                     final File file = new File(
                             dirPath.substring(0, dirPath.toLowerCase().indexOf("/android"))
-                                    + "/" + AtlwActivityUtils.getInstance().getAppName() + "/" +
+                                    + "/" + AtlwActivityUtil.getInstance().getAppName() + "/" +
                                     (shareDataBean.getSaveLocalImageName() == null ?
                                             System.currentTimeMillis() + ".png" :
                                             shareDataBean.getSaveLocalImageName()));
                     final int code = hashCode() % 10000;
-                    AtlwActivityUtils.getInstance().goToRequestPermissions(AcbflwBaseApplication.currentShowActivity,
+                    AtlwActivityUtil.getInstance().goToRequestPermissions(AcbflwBaseApplication.getCurrentShowActivity(),
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, code,
                             new AtlwPermissionRequestCallback() {
@@ -162,7 +162,7 @@ public class AcbflwShareUtils {
                                 public void permissionRequestSuccessCallback(List<String> permissionList, int permissionsRequestCode) {
                                     if (permissionsRequestCode == code) {
                                         //保存图片
-                                        if (AtlwFileOptionUtils.getInstance().writeToFile(true, file,
+                                        if (AtlwFileOptionUtil.getInstance().writeToFile(true, file,
                                                 shareDataBean.getSaveLocalImageBitmap(),
                                                 Bitmap.CompressFormat.PNG)) {
                                             //保存图片后发送广播通知更新数据库

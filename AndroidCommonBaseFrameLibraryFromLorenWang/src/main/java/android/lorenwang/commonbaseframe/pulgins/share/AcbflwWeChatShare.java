@@ -3,9 +3,9 @@ package android.lorenwang.commonbaseframe.pulgins.share;
 import android.graphics.Bitmap;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTargetTypeEnum;
-import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXFileObject;
@@ -124,7 +124,7 @@ class AcbflwWeChatShare {
         } else {
             //压缩图片
             try {
-                sendMessage(shareDataBean, new WXImageObject(AtlwImageCommonUtils.getInstance()
+                sendMessage(shareDataBean, new WXImageObject(AtlwImageCommonUtil.getInstance()
                         .bitmapCompressToByte(shareDataBean.getWxImageViewBitmap(),
                                 Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE)), shareTargetType);
             } catch (Exception e) {
@@ -262,7 +262,7 @@ class AcbflwWeChatShare {
             return;
         }
         //小程序id检测
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(AcbflwPluginUtils.getInstance().getWeChatId())) {
+        if (JtlwCheckVariateUtils.getInstance().isEmpty(AcbflwPluginUtil.getInstance().getWeChatId())) {
             callBackError(shareDataBean,
                     AcbflwPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_USER_NAME_EMPTY);
             return;
@@ -281,7 +281,7 @@ class AcbflwWeChatShare {
         // 正式版:0，测试版:1，体验版:2
         miniProgramObj.miniprogramType = shareDataBean.getWxMiniProgramType();
         // 小程序原始id
-        miniProgramObj.userName = AcbflwPluginUtils.getInstance().getWeChatApplyId();
+        miniProgramObj.userName = AcbflwPluginUtil.getInstance().getWeChatApplyId();
         //小程序页面路径；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "
         miniProgramObj.path = shareDataBean.getWxMiniProgramPath();
         //发送分享
@@ -297,7 +297,7 @@ class AcbflwWeChatShare {
      * @param mTargetScene  分享目标
      */
     private void sendMessage(AcbflwShareDataBean shareDataBean, WXMediaMessage.IMediaObject mediaObject, int mTargetScene) {
-        AtlwLogUtils.logUtils.logI(TAG, "微信分享已构造完分享请求类型实体");
+        AtlwLogUtil.logUtils.logI(TAG, "微信分享已构造完分享请求类型实体");
         //用 WXTextObject 对象初始化一个 WXMediaMessage 对象
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = mediaObject;
@@ -323,7 +323,7 @@ class AcbflwWeChatShare {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxMiniProgramThumbBitmap())) {
             //压缩图片
             try {
-                msg.thumbData = AtlwImageCommonUtils.getInstance()
+                msg.thumbData = AtlwImageCommonUtil.getInstance()
                         .bitmapCompressToByte(shareDataBean.getWxMiniProgramThumbBitmap(),
                                 Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE);
             } catch (Exception e) {
@@ -331,18 +331,18 @@ class AcbflwWeChatShare {
                 callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
             }
         }
-        AtlwLogUtils.logUtils.logI(TAG, "微信分享msg已构造完成");
+        AtlwLogUtil.logUtils.logI(TAG, "微信分享msg已构造完成");
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         //classname，hashcode，时间戳
         //transaction字段用与唯一标示一个请求
         req.transaction = "wx_share_" + msg.getClass().getName() + msg.hashCode() + System.currentTimeMillis();
         req.message = msg;
         req.scene = mTargetScene;
-        AtlwLogUtils.logUtils.logI(TAG, "微信分享准备向微信发送分享");
-        AcbflwPluginUtils.getInstance().getApi().sendReq(req);
+        AtlwLogUtil.logUtils.logI(TAG, "微信分享准备向微信发送分享");
+        AcbflwPluginUtil.getInstance().getApi().sendReq(req);
         //记录回调
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getShareCallBack())) {
-            AcbflwPluginUtils.getInstance().addCallBack(req.transaction, shareDataBean.getShareCallBack());
+            AcbflwPluginUtil.getInstance().addCallBack(req.transaction, shareDataBean.getShareCallBack());
         }
     }
 

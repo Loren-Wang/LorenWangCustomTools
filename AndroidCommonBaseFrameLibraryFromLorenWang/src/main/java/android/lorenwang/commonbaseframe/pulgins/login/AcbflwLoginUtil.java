@@ -1,8 +1,8 @@
 package android.lorenwang.commonbaseframe.pulgins.login;
 
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginCallBack;
-import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
 
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
@@ -18,18 +18,18 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
  * 备注：
  */
 
-public class AcbflwLoginUtils {
+public class AcbflwLoginUtil {
     private final String TAG = "QtLoginUtils";
-    private static volatile AcbflwLoginUtils optionsInstance;
+    private static volatile AcbflwLoginUtil optionsInstance;
 
-    private AcbflwLoginUtils() {
+    private AcbflwLoginUtil() {
     }
 
-    public static AcbflwLoginUtils getInstance() {
+    public static AcbflwLoginUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AcbflwLoginUtils.class) {
+            synchronized (AcbflwLoginUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AcbflwLoginUtils();
+                    optionsInstance = new AcbflwLoginUtil();
                 }
             }
         }
@@ -40,14 +40,14 @@ public class AcbflwLoginUtils {
      * 微信登陆
      */
     public void loginToWeChat(AcbflwPluginCallBack callBack) {
-        AtlwLogUtils.logUtils.logI(TAG, "准备发送微信登陆");
+        AtlwLogUtil.logUtils.logI(TAG, "准备发送微信登陆");
         // send oauth request
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
         String key = String.valueOf(callBack.hashCode());
-        AcbflwPluginUtils.getInstance().setWeChatLoginCallbackKey(key);
-        AcbflwPluginUtils.getInstance().addCallBack(key, callBack);
-        AcbflwPluginUtils.getInstance().getApi().sendReq(req);
+        AcbflwPluginUtil.getInstance().setWeChatLoginCallbackKey(key);
+        AcbflwPluginUtil.getInstance().addCallBack(key, callBack);
+        AcbflwPluginUtil.getInstance().getApi().sendReq(req);
     }
 }

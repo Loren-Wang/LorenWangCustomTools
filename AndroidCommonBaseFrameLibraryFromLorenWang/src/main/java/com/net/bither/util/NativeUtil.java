@@ -7,9 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.file.AtlwFileOptionUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.file.AtlwFileOptionUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -123,7 +123,7 @@ public class NativeUtil {
         //如果jni保存失败的话
         File file = new File(filePath);
         if (!file.exists()) {
-            AtlwFileOptionUtils.getInstance().writeToFile(true, new File(filePath), result, format);
+            AtlwFileOptionUtil.getInstance().writeToFile(true, new File(filePath), result, format);
         }
         file = null;
         // 释放Bitmap
@@ -142,11 +142,10 @@ public class NativeUtil {
      * @param isDegree         是否进行旋转
      * @return
      */
-    public synchronized static boolean compressFile(String compressFilePath, String savePath,
-                                                    int maxSize, boolean isDegree, Bitmap.CompressFormat format) {
+    public synchronized static boolean compressFile(String compressFilePath, String savePath, int maxSize, boolean isDegree,
+            Bitmap.CompressFormat format) {
         if (isDegree) {
-            return compressFile(compressFilePath, savePath, maxSize,
-                    AtlwImageCommonUtils.getInstance().readPictureDegree(compressFilePath), format);
+            return compressFile(compressFilePath, savePath, maxSize, AtlwImageCommonUtil.getInstance().readPictureDegree(compressFilePath), format);
         } else {
             return compressFile(compressFilePath, savePath, maxSize, 0, format);
         }
@@ -161,27 +160,26 @@ public class NativeUtil {
      * @param degree           旋转角度
      * @return
      */
-    public synchronized static boolean compressFile(String compressFilePath, String savePath,
-                                                    int maxSize, int degree, Bitmap.CompressFormat format) {
+    public synchronized static boolean compressFile(String compressFilePath, String savePath, int maxSize, int degree, Bitmap.CompressFormat format) {
         try {
             if (new File(compressFilePath).exists()) {
                 Uri uri = Uri.fromFile(new File(compressFilePath));
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(AcbflwBaseApplication.appContext.getContentResolver(), uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(AcbflwBaseApplication.getAppContext().getContentResolver(), uri);
                 if (degree != 0) {
-                    bitmap = AtlwImageCommonUtils.getInstance().toTurnPicture(bitmap, degree);
+                    bitmap = AtlwImageCommonUtil.getInstance().toTurnPicture(bitmap, degree);
                 }
-                AtlwLogUtils.logUtils.logE(TAG, "====开始==压缩==saveFile==" + savePath);
+                AtlwLogUtil.logUtils.logE(TAG, "====开始==压缩==saveFile==" + savePath);
                 compressBitmap(bitmap, savePath, maxSize, format);
-                AtlwLogUtils.logUtils.logE(TAG, "====完成==压缩==saveFile==" + savePath);
+                AtlwLogUtil.logUtils.logE(TAG, "====完成==压缩==saveFile==" + savePath);
                 return true;
             } else {
                 return false;
             }
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(TAG, "压缩失败");
+            AtlwLogUtil.logUtils.logE(TAG, "压缩失败");
             return false;
         } catch (java.lang.OutOfMemoryError OutOfMemoryError) {
-            AtlwLogUtils.logUtils.logE(TAG, "压缩失败");
+            AtlwLogUtil.logUtils.logE(TAG, "压缩失败");
             return false;
         }
 
@@ -248,8 +246,9 @@ public class NativeUtil {
             ratio = bitHeight / imageHeight;
         }
         // 最小比率为1
-        if (ratio <= 0)
+        if (ratio <= 0) {
             ratio = 1;
+        }
         return ratio;
     }
 
@@ -282,13 +281,12 @@ public class NativeUtil {
             if (fs != null) {
                 bitmap = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, newOpts);
                 //旋转图片
-                int photoDegree = AtlwImageCommonUtils.getInstance().readPictureDegree(filePath);
+                int photoDegree = AtlwImageCommonUtil.getInstance().readPictureDegree(filePath);
                 if (photoDegree != 0) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(photoDegree);
                     // 创建新的图片
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                            bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                 }
             }
         } catch (IOException e) {
@@ -337,8 +335,7 @@ public class NativeUtil {
      * @date 2016年3月23日 下午6:35:53
      * @version V1.0.0
      */
-    private static native String compressBitmap(Bitmap bit, int w, int h, int quality, byte[] fileNameBytes,
-                                                boolean optimize);
+    private static native String compressBitmap(Bitmap bit, int w, int h, int quality, byte[] fileNameBytes, boolean optimize);
 
     /**
      * 加载lib下两个so文件

@@ -1,8 +1,8 @@
 package android.lorenwang.commonbaseframe
 
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
-import android.lorenwang.tools.app.AtlwActivityUtils
-import android.lorenwang.tools.app.AtlwViewUtils
+import android.lorenwang.tools.app.AtlwActivityUtil
+import android.lorenwang.tools.app.AtlwViewUtil
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -118,7 +118,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
         if (titleBarHeadViewLayoutResId != null) {
             val vsbTitleBarHeadView = fragmentView!!.findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
             vsbTitleBarHeadView.layoutResource = titleBarHeadViewLayoutResId
-            AtlwViewUtils.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
+            AtlwViewUtil.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
             showTitleBarView = vsbTitleBarHeadView.inflate()
             fragmentView!!.findViewById<View>(R.id.viewAcbflwHeadViewShadow).visibility = View.VISIBLE
         }
@@ -127,7 +127,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
         if (bottomViewResId != null) {
             val vsbBottomView = fragmentView!!.findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
             vsbBottomView.layoutResource = bottomViewResId
-            AtlwViewUtils.getInstance().setViewWidthHeight(vsbBottomView, ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
+            AtlwViewUtil.getInstance().setViewWidthHeight(vsbBottomView, ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
             showBottomOptionsView = vsbBottomView.inflate()
         }
     }
@@ -208,6 +208,6 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        AtlwActivityUtils.getInstance().receivePermissionsResult(requestCode, permissions, grantResults)
+        AtlwActivityUtil.getInstance().receivePermissionsResult(requestCode, permissions, grantResults)
     }
 }

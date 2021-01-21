@@ -108,17 +108,17 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
  * .isDragFrame(false)// 是否可拖动裁剪框(固定)
  * .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
  */
-public class AcbflwImageSelectUtils {
-    private static AcbflwImageSelectUtils optionsInstance;
+public class AcbflwImageSelectUtil {
+    private static AcbflwImageSelectUtil optionsInstance;
 
-    private AcbflwImageSelectUtils() {
+    private AcbflwImageSelectUtil() {
     }
 
-    public static AcbflwImageSelectUtils getInstance() {
+    public static AcbflwImageSelectUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AcbflwImageSelectUtils.class) {
+            synchronized (AcbflwImageSelectUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AcbflwImageSelectUtils();
+                    optionsInstance = new AcbflwImageSelectUtil();
                 }
             }
         }
@@ -366,7 +366,7 @@ public class AcbflwImageSelectUtils {
      * @return 压缩后文件列表
      */
     private List<File> compressImage(@NotNull List<AcbflwLocalImageSelectBean> list, int maxSize, int compressQuality) throws Exception {
-        List<File> files = Luban.with(AcbflwBaseApplication.appContext)
+        List<File> files = Luban.with(AcbflwBaseApplication.getAppContext())
                 .loadMediaData(imageSelectBeanToLocalMedia(list))
                 .isCamera(false)
                 .setFocusAlpha(false)
