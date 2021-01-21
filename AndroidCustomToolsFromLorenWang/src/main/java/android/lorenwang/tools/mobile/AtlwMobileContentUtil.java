@@ -30,18 +30,18 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  * 备注：
  */
 
-public class AtlwMobileContentUtils {
+public class AtlwMobileContentUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwMobileContentUtils optionsInstance;
+    private static volatile AtlwMobileContentUtil optionsInstance;
 
-    private AtlwMobileContentUtils() {
+    private AtlwMobileContentUtil() {
     }
 
-    public static AtlwMobileContentUtils getInstance() {
+    public static AtlwMobileContentUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwMobileContentUtils.class) {
+            synchronized (AtlwMobileContentUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwMobileContentUtils();
+                    optionsInstance = new AtlwMobileContentUtil();
                 }
             }
         }

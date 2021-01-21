@@ -4,17 +4,71 @@
 方法获取，方便在使用的时候使用APP的上下文实例，减少对于Activity的实例的联系，不过特殊的类似
 于必须要使用Activity或者service的实例的地方不要通过该方法转换。
 
-<h3>一、AtlwActivityUtils---(Activity工具类)
-      
-      1、去请求权限
-      2、权限请求结果返回
-      3、控制软键盘显示与隐藏
-      4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
-      5、返回APP级别的实例（对于传递的上下文做转换）
-      6、允许退出App的判断以及线程
-      7、检测App版本更新，通过versionName比较
-      8、退出应用
-      9、获得应用是否在前台
+<h3>AtlwActivityUtil---(Activity工具类)
+
+    发起权限请求--goToRequestPermissions(object,permisstions,permissionsRequestCode,permissionRequestCallback)
+    接收到权限请求返回--receivePermissionsResult(requestCode,permissions,grantResults)(需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法)
+    控制软键盘显示与隐藏--setInputMethodVisibility(view,visibility)
+    返回APP级别的实例--getApplicationContext(context)
+    允许退出App的判断以及线程--allowExitApp(time)
+    检测App版本更新，通过versionName比较--checkAppVersionUpdate(oldVersion, newVersion)
+    退出应用--exitApp(activity)
+    获得应用是否在前台--isOnForeground()
+    获取应用程序名称--getAppName()
+    修改页面旋转方向--changeActivityScreenOrientation(activity)
+    参数页面当前是否是横屏显示--isPageLandscape(activity)
+
+<h3>AtlwLocationUtil---(AtlwLocationUtil定位库，需要导入相应的定位包或直接使用系统定位)
+
+    检测权限相关--checPermissions(config)
+    使用网络定位--startNetworkPositioning(config)
+    使用设备定位--startDevicesPositioning(config)
+    使用精度定位--startAccuratePositioning(config)
+    停止循环定位--stopLoopPositioning()
+    请求权限--requestPermissions(context,config)
+    设置定位库类型--locationLibraryType(config)
+
+<h3>AtlwFileOptionUtil---(AtlwFileOptionUtil文件操作库)
+
+    读取图片文件并获取字节--readImageFileGetBytes(isCheckPermisstion, isCheckFile, filePath)
+    读取文件并获取字节--readBytes(isCheckPermisstion, path/file/inputStream)
+    写入文件--writeToFile(isCheckPermisstion, file，inputStream/text/bitmap/buffer,...)
+    通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件--writeToFile(intent, saveFile)
+    复制单个文件--copyFile(isCheckPermisstion, oldPath, newPath)
+    删除文件--deleteFile(isCheckPermisstion, url)
+    获取文件大小，单位B--getFileSize(isCheckPermisstion, file, filtrationDir)
+    删除文件夹以及目录下的文件--deleteDirectory(isCheckPermisstion, filePath)
+    创建文件夹--createDirectory(isCheckPermisstion, path, nowPathIsFile)
+    根据正则获取指定目录下的所有文件列表(使用递归扫描方式)--getFileListForMatchRecursionScan(isCheckPermisstion, scanPath, matchRegular)
+    根据正则获取指定目录下的所有文件列表(使用队列扫描方式)--getFileListForMatchLinkedQueueScan(isCheckPermisstion, scanPath, matchRegular)
+    获取根目录文件夹地址--getBaseStorageDirPath()
+    获取App系统文件夹地址--getAppSystemStorageDirPath(applicationId)
+    根据uri获取图片文件地址--getUriPath(uri, dbKey)
+
+<h3>AtlwImageCommonUtils---（图片处理通用类）
+
+    将图片文件转换为base64字符串--imageFileToBase64String(filePath)
+    图片drawable转bitmap--drawableToBitmap(drawable,width,htight)
+    获取drawable的宽度--getDrawableWidth(drawable)
+    获取drawable的高度--getDrawableHeight(drawable)
+    获取圆角bitmap--getRoundedCornerBitmap(bitmap,width,htight,radius)
+    获取圆角bitmap--getRoundedCornerBitmap(bitmap,leftTopRadius,rightTopRadius,rightBottomRadius,leftBottomRadius)
+    获取圆角bitmap--getRoundedCornerBitmap(drawable/bitmap,width,htight,leftTopRadius,rightTopRadius,rightBottomRadius,leftBottomRadius)
+    获取圆形bitmap--getCircleBitmap(drawable/bitmap,width,height,radius)
+    位图压缩，不压缩大小--bitmapCompress(bitmap,format,size)
+    位图压缩--bitmapCompressToByte(bitmap,format,size)
+    获取位图字节--getBitmapBytes(bitmap)
+    十进制颜色值转16进制--toHexEncoding(color)
+    图片的缩放方法--zoomImage(bgImage,newWidth,newHeight)
+    读取照片exif信息中的旋转角度--readPictureDegree(path)
+    旋转指定图片一定的角度--toTurnPicture(img,degree)
+    裁剪位图--cropBitmap(bitmap,leftPercentForBitmapWidth,topPercentForBitmapHeight,rightPercentForBitmapWidth,bottomPercentForBitmapHeight)
+    从中心裁剪图片到指定的宽高--cropBitmapForCenter(bitmap,cropPercentWidthHeight)
+    使背景透明--makeBgTransparent(bitmap)
+    合并位图--mergeBitmap(bitmapBg,bitmapTop,topShowWidth,topShowHeight,leftBgPercent,topBgPercent,Float bottomBgPercent)
+    图片设置背景--setBitmapBg(bitmap,bgColor,bgContentPadding)
+    获取两个位图重叠部分位图--getOverlapBitmap(bottomBitmap,topBitmap,showWidth,showHeight)
+    释放bitmap--releaseBitmap(bitmap)
     
 
 <h3>二、AtlwSharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>
@@ -50,47 +104,6 @@
  <h3> 八、AtlwDesktopShortcutUtils---（桌面快捷方式管理类）
 
 
-<h3>九、AtlwFileOptionUtils---（文件操作工具类）
-
-    1、读取图片文件并获取字节
-    2、将InputStream写入File\
-    3、从指定路径的文件中读取Bytes
-    4、从File中读取Bytes
-    5、从InputStream中读取Bytes
-    6、复制单个文件
-    7、将bitmap写入File
-    8、获取文件大小，单位B
-    9、删除文件夹以及目录下的文件
-    10、根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
-    11、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
-    12、创建文件夹
-    13、获取根目录文件夹地址
-    14、获取App系统文件夹地址
- 
- <h3>十、AtlwImageCommonUtils---（图片处理通用类）
-
-    --将图片文件转换为base64字符串--imageFileToBase64String(filePath)
-    --图片drawable转bitmap--drawableToBitmap(drawable,width,htight)
-    --获取drawable的宽度--getDrawableWidth(drawable)
-    --获取drawable的高度--getDrawableHeight(drawable)
-    --获取圆角bitmap--getRoundedCornerBitmap(bitmap,width,htight,radius)
-    --获取圆角bitmap--getRoundedCornerBitmap(bitmap,leftTopRadius,rightTopRadius,rightBottomRadius,leftBottomRadius)
-    --获取圆角bitmap--getRoundedCornerBitmap(drawable/bitmap,width,htight,leftTopRadius,rightTopRadius,rightBottomRadius,leftBottomRadius)
-    --获取圆形bitmap--getCircleBitmap(drawable/bitmap,width,height,radius)
-    --位图压缩，不压缩大小--bitmapCompress(bitmap,format,size)
-    --位图压缩--bitmapCompressToByte(bitmap,format,size)
-    --获取位图字节--getBitmapBytes(bitmap)
-    --十进制颜色值转16进制--toHexEncoding(color)
-    --图片的缩放方法--zoomImage(bgImage,newWidth,newHeight)
-    --读取照片exif信息中的旋转角度--readPictureDegree(path)
-    --旋转指定图片一定的角度--toTurnPicture(img,degree)
-    --裁剪位图--cropBitmap(bitmap,leftPercentForBitmapWidth,topPercentForBitmapHeight,rightPercentForBitmapWidth,bottomPercentForBitmapHeight)
-    --从中心裁剪图片到指定的宽高--cropBitmapForCenter(bitmap,cropPercentWidthHeight)
-    --使背景透明--makeBgTransparent(bitmap)
-    --合并位图--mergeBitmap(bitmapBg,bitmapTop,topShowWidth,topShowHeight,leftBgPercent,topBgPercent,Float bottomBgPercent)
-    --图片设置背景--setBitmapBg(bitmap,bgColor,bgContentPadding)
-    --获取两个位图重叠部分位图--getOverlapBitmap(bottomBitmap,topBitmap,showWidth,showHeight)
-    --释放bitmap--releaseBitmap(bitmap)
   
   <h3>十一、AtlwSimpleBitmapLruCacheUtils---（简单位图lrucache）
   

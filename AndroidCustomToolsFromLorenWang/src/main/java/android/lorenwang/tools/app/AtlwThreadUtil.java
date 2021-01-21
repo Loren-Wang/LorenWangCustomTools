@@ -7,8 +7,8 @@ import android.os.Looper;
 import java.util.concurrent.FutureTask;
 
 
-public class AtlwThreadUtils {
-    private static volatile AtlwThreadUtils atlwThreadUtils;
+public class AtlwThreadUtil {
+    private static volatile AtlwThreadUtil atlwThreadUtils;
     /**
      * ui线程handler
      */
@@ -27,7 +27,7 @@ public class AtlwThreadUtils {
      */
     private final Object sLockChild = new Object();
 
-    private AtlwThreadUtils() {
+    private AtlwThreadUtil() {
         //初始化主线程
         sUiThreadHandler = new Handler(Looper.getMainLooper());
         //初始化子线程
@@ -37,10 +37,10 @@ public class AtlwThreadUtils {
     }
 
 
-    public static AtlwThreadUtils getInstance() {
-        synchronized (AtlwThreadUtils.class) {
+    public static AtlwThreadUtil getInstance() {
+        synchronized (AtlwThreadUtil.class) {
             if (atlwThreadUtils == null) {
-                atlwThreadUtils = new AtlwThreadUtils();
+                atlwThreadUtils = new AtlwThreadUtil();
             }
         }
         return atlwThreadUtils;

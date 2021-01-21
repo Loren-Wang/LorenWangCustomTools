@@ -12,5 +12,5 @@ package android.lorenwang.tools.image;
  * 备注：
  */
 
-class AtlwImageLoadingUtils extends AtlwBaseImageLoading {
+class AtlwImageLoadingUtil extends AtlwBaseImageLoading {
 }

@@ -2,8 +2,8 @@ package android.lorenwang.tools;
 
 import android.app.Activity;
 import android.app.Application;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtil;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -109,43 +109,43 @@ public class AtlwConfig {
                 @Override
                 public void onActivityCreated(Activity activity, Bundle bundle) {
                     activityCollection.add(activity);
-                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE,
+                    AtlwFlyMessageUtil.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE,
                             true, activity, bundle);
                 }
 
                 @Override
                 public void onActivityStarted(Activity activity) {
-                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, true
+                    AtlwFlyMessageUtil.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, true
                             , activity);
                 }
 
                 @Override
                 public void onActivityResumed(Activity activity) {
-                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED,
+                    AtlwFlyMessageUtil.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED,
                             true, activity);
                 }
 
                 @Override
                 public void onActivityPaused(Activity activity) {
-                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED,
+                    AtlwFlyMessageUtil.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED,
                             true, activity);
                 }
 
                 @Override
                 public void onActivityStopped(Activity activity) {
-                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED,
+                    AtlwFlyMessageUtil.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED,
                             true, activity);
                 }
 
                 @Override
                 public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, true, activity, bundle);
+                    AtlwFlyMessageUtil.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, true, activity, bundle);
                 }
 
                 @Override
                 public void onActivityDestroyed(Activity activity) {
                     activityCollection.remove(activity);
-                    AtlwFlyMessageUtils.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED,
+                    AtlwFlyMessageUtil.getInstance().sendMsg(ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED,
                             true, activity);
                 }
             };
@@ -185,7 +185,7 @@ public class AtlwConfig {
                                               String debugLogFileDirSavePath) {
         AtlwConfig.nowApplication = nowApplication;
         AtlwConfig.isDebug = isDebug;
-        JtlwLogUtils.logUtils = new AtlwLogUtils();
+        JtlwLogUtils.logUtils = new AtlwLogUtil();
         JtlwLogUtils.logUtils.setShowLog(isDebug);
         if (debugLogFileDirSavePath != null) {
             JtlwLogUtils.logUtils.setLogSaveFileDirPath(debugLogFileDirSavePath);

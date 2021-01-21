@@ -3,7 +3,7 @@ package android.lorenwang.tools.image;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.lorenwang.tools.app.AtlwThreadUtils;
+import android.lorenwang.tools.app.AtlwThreadUtil;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -93,7 +93,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
                 && !path.matches(JtlwMatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
-        AtlwThreadUtils.getInstance().postOnChildThread(new Runnable() {
+        AtlwThreadUtil.getInstance().postOnChildThread(new Runnable() {
             @Override
             public void run() {
                 Bitmap bmp = null;
@@ -126,7 +126,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
                 && !path.matches(JtlwMatchesRegularCommon.EXP_URL_STR)) {
             return;
         }
-        AtlwThreadUtils.getInstance().postOnChildThread(new Runnable() {
+        AtlwThreadUtil.getInstance().postOnChildThread(new Runnable() {
             Bitmap bmp = null;
 
             @Override
@@ -137,7 +137,7 @@ public class AtlwGlideImageLoadingUtils extends AtlwBaseImageLoading {
                     if (bmp != null) {
                         bmp = Blur.onStackBlurClip(bmp, radius);
                         if (bmp != null) {
-                            AtlwThreadUtils.getInstance().postOnUiThread(new Runnable() {
+                            AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     imageView.setImageBitmap(bmp);

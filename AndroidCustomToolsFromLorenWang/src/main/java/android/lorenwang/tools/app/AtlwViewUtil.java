@@ -4,7 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,18 +39,18 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 备注：
  */
 
-public class AtlwViewUtils {
+public class AtlwViewUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwViewUtils optionsInstance;
+    private static volatile AtlwViewUtil optionsInstance;
 
-    private AtlwViewUtils() {
+    private AtlwViewUtil() {
     }
 
-    public static AtlwViewUtils getInstance() {
+    public static AtlwViewUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwViewUtils.class) {
+            synchronized (AtlwViewUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwViewUtils();
+                    optionsInstance = new AtlwViewUtil();
                 }
             }
         }
@@ -90,7 +90,7 @@ public class AtlwViewUtils {
                         }
                     }
                 } catch (Exception e) {
-                    AtlwLogUtils.logUtils.logE(TAG, "当前ViewParams获取异常");
+                    AtlwLogUtil.logUtils.logE(TAG, "当前ViewParams获取异常");
                 }
                 //当前的params获取失败，获取父级的
                 if (view.getParent() != null) {
@@ -103,7 +103,7 @@ public class AtlwViewUtils {
                             }
                         }
                     } catch (Exception e) {
-                        AtlwLogUtils.logUtils.logE(TAG, "当前View父级Params获取异常");
+                        AtlwLogUtil.logUtils.logE(TAG, "当前View父级Params获取异常");
                     }
                 }
                 if (view instanceof LinearLayout) {
@@ -152,7 +152,7 @@ public class AtlwViewUtils {
                 params.height = height;
                 return params;
             } catch (Exception e) {
-                AtlwLogUtils.logUtils.logE(TAG, "Params获取异常");
+                AtlwLogUtil.logUtils.logE(TAG, "Params获取异常");
             }
         }
         return null;

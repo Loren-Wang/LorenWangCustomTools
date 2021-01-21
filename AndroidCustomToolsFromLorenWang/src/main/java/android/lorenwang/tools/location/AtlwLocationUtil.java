@@ -1,10 +1,8 @@
 package android.lorenwang.tools.location;
 
-import android.app.Activity;
-import android.lorenwang.tools.app.AtlwActivityUtils;
+import android.lorenwang.tools.app.AtlwActivityUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
 import android.lorenwang.tools.location.enums.AtlwLocationLibraryTypeEnum;
-import android.lorenwang.tools.mobile.AtlwMobileOptionsUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +12,13 @@ import org.jetbrains.annotations.NotNull;
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
+ * 检测权限相关--checPermissions(config)
+ * 使用网络定位--startNetworkPositioning(config)
+ * 使用设备定位--startDevicesPositioning(config)
+ * 使用精度定位--startAccuratePositioning(config)
+ * 停止循环定位--stopLoopPositioning()
+ * 请求权限--requestPermissions(context,config)
+ * 设置定位库类型--locationLibraryType(config)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -55,21 +60,39 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
         return locationLibrary.checPermissions(config);
     }
 
+    /**
+     * 使用网络定位
+     *
+     * @param config 配置信息
+     */
     @Override
     public void startNetworkPositioning(@NotNull AtlwLocationConfig config) {
         locationLibrary.startNetworkPositioning(config);
     }
 
+    /**
+     * 使用设备定位
+     *
+     * @param config 配置信息
+     */
     @Override
     public void startDevicesPositioning(@NotNull AtlwLocationConfig config) {
         locationLibrary.startDevicesPositioning(config);
     }
 
+    /**
+     * 使用精度定位
+     *
+     * @param config 定位配置信息
+     */
     @Override
     public void startAccuratePositioning(@NotNull AtlwLocationConfig config) {
         locationLibrary.startAccuratePositioning(config);
     }
 
+    /**
+     * 停止循环定位
+     */
     @Override
     public void stopLoopPositioning() {
         locationLibrary.stopLoopPositioning();
@@ -78,18 +101,18 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
     /**
      * 请求权限
      *
-     * @param activity 上下文
+     * @param context 上下文
      * @param config   配置信息
      */
-    public void requestPermissions(@NotNull Activity activity, @NotNull AtlwLocationConfig config) {
+    public void requestPermissions(@NotNull Object context, @NotNull AtlwLocationConfig config) {
         String[] permissions;
         if (config.isNeedBackLocation()) {
             permissions = NEED_PERMISSIONS_AND_BACK;
         } else {
             permissions = NEED_PERMISSIONS;
         }
-        AtlwActivityUtils.getInstance().goToRequestPermissions(activity, permissions,
-                config.getLocationsCallback() != null ? config.getLocationsCallback().permissionRequestCode : activity.hashCode() % 10000,
+        AtlwActivityUtil.getInstance().goToRequestPermissions(context, permissions,
+                config.getLocationsCallback() != null ? config.getLocationsCallback().permissionRequestCode : context.hashCode() % 10000,
                 config.getLocationsCallback());
     }
 
@@ -113,12 +136,5 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
                 break;
 
         }
-    }
-
-    /**
-     * 跳转到系统设置
-     */
-    public void goToSystemSetting(@NotNull Activity activity) {
-        AtlwMobileOptionsUtils.getInstance().jumpToAppPermissionSettingPage(activity, activity.getApplication().getPackageName());
     }
 }

@@ -36,7 +36,7 @@ public abstract class AtlwBrightnessChangeContentObserver extends ContentObserve
         super.onChange(selfChange);
         //如果是Activity自动模式才会将系统的亮度调用返回
         if (activity.getWindow().getAttributes().screenBrightness < 0) {
-            onBrightnessChange(AtlwBrightnessChangeUtils.getInstance().getScreenBrightness());
+            onBrightnessChange(AtlwBrightnessChangeUtil.getInstance().getScreenBrightness());
         }
     }
 
@@ -45,7 +45,7 @@ public abstract class AtlwBrightnessChangeContentObserver extends ContentObserve
         super.onChange(selfChange, uri);
         //如果是Activity自动模式才会将系统的亮度调用返回
         if (activity.getWindow().getAttributes().screenBrightness < 0) {
-            onBrightnessChange(AtlwBrightnessChangeUtils.getInstance().getScreenBrightness());
+            onBrightnessChange(AtlwBrightnessChangeUtil.getInstance().getScreenBrightness());
         }
     }
 

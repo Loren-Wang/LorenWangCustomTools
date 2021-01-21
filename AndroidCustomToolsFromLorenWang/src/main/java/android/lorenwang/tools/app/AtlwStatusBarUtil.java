@@ -3,8 +3,8 @@ package android.lorenwang.tools.app;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.mobile.AtlwMobilePhoneBrandUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.mobile.AtlwMobilePhoneBrandUtil;
 import android.os.Build;
 import android.view.View;
 import android.view.Window;
@@ -27,18 +27,18 @@ import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
  * 修改时间：
  * 备注：
  */
-public class AtlwStatusBarUtils {
+public class AtlwStatusBarUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwStatusBarUtils optionsInstance;
+    private static volatile AtlwStatusBarUtil optionsInstance;
 
-    private AtlwStatusBarUtils() {
+    private AtlwStatusBarUtil() {
     }
 
-    public static AtlwStatusBarUtils getInstance() {
+    public static AtlwStatusBarUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwStatusBarUtils.class) {
+            synchronized (AtlwStatusBarUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwStatusBarUtils();
+                    optionsInstance = new AtlwStatusBarUtil();
                 }
             }
         }
@@ -95,9 +95,9 @@ public class AtlwStatusBarUtils {
      */
     public void setStatusBarLightMode(Activity activity, boolean isFullscreen) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
+            if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile()) {
                 setStatusBarLightModeForXiaoMi(activity, true);
-            } else if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isMeiZuMobile()) {
                 setStatusBarLightModeForMeiZu(activity, true);
             }
         }
@@ -120,9 +120,9 @@ public class AtlwStatusBarUtils {
      */
     public void setStatusBarDarkMode(Activity activity, boolean isFullscreen) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
+            if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile()) {
                 setStatusBarLightModeForXiaoMi(activity, false);
-            } else if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isMeiZuMobile()) {
                 setStatusBarLightModeForMeiZu(activity, false);
             }
         }
@@ -199,9 +199,9 @@ public class AtlwStatusBarUtils {
             Method mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon",
                     boolean.class);
             mSetStatusBarDarkIcon.invoke(activity, dark);
-            AtlwLogUtils.logUtils.logD(TAG, "Set StatusBar success for MeiZu");
+            AtlwLogUtil.logUtils.logD(TAG, "Set StatusBar success for MeiZu");
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logD(TAG, "Set StatusBar fail for MeiZu");
+            AtlwLogUtil.logUtils.logD(TAG, "Set StatusBar fail for MeiZu");
             if (flag) {
                 setStatusBarDarkIcon(activity.getWindow(), dark);
             }

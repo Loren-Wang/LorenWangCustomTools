@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtil;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -30,18 +30,18 @@ import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.DES
  * 修改时间：
  * 备注：
  */
-public class AtlwDesktopShortcutUtils {
+public class AtlwDesktopShortcutUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwDesktopShortcutUtils optionsInstance;
+    private static volatile AtlwDesktopShortcutUtil optionsInstance;
 
-    private AtlwDesktopShortcutUtils() {
+    private AtlwDesktopShortcutUtil() {
     }
 
-    public static AtlwDesktopShortcutUtils getInstance() {
+    public static AtlwDesktopShortcutUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwDesktopShortcutUtils.class) {
+            synchronized (AtlwDesktopShortcutUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwDesktopShortcutUtils();
+                    optionsInstance = new AtlwDesktopShortcutUtil();
                 }
             }
         }
@@ -97,11 +97,11 @@ public class AtlwDesktopShortcutUtils {
             if (ShortcutManagerCompat.requestPinShortcut(context, shortcutInfoCompat, shortcutCallbackIntent.getIntentSender())) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     //创建消息接收监听
-                    AtlwFlyMessageUtils.getInstance().registMsgCallback(context, DESKTOP_SHORTCUT_CREATE_SUCCESS
-                            , new AtlwFlyMessageUtils.FlyMessgeCallback() {
+                    AtlwFlyMessageUtil.getInstance().registMsgCallback(context, DESKTOP_SHORTCUT_CREATE_SUCCESS
+                            , new AtlwFlyMessageUtil.FlyMessgeCallback() {
                                 @Override
                                 public void msg(int msgType, Object... msgs) {
-                                    AtlwLogUtils.logUtils.logI(TAG, "快捷方式添加主屏幕成功");
+                                    AtlwLogUtil.logUtils.logI(TAG, "快捷方式添加主屏幕成功");
                                     if (desktopShortcutOptionsCallback != null) {
                                         desktopShortcutOptionsCallback.addSuccess();
                                     }

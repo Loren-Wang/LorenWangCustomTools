@@ -34,18 +34,18 @@ import androidx.annotation.RequiresPermission;
  * 修改时间：
  * 备注：
  */
-public class AtlwMobileSystemInfoUtils {
+public class AtlwMobileSystemInfoUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwMobileSystemInfoUtils optionsInstance;
+    private static volatile AtlwMobileSystemInfoUtil optionsInstance;
 
-    private AtlwMobileSystemInfoUtils() {
+    private AtlwMobileSystemInfoUtil() {
     }
 
-    public static AtlwMobileSystemInfoUtils getInstance() {
+    public static AtlwMobileSystemInfoUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwMobileSystemInfoUtils.class) {
+            synchronized (AtlwMobileSystemInfoUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwMobileSystemInfoUtils();
+                    optionsInstance = new AtlwMobileSystemInfoUtil();
                 }
             }
         }

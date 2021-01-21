@@ -1,18 +1,23 @@
 package android.lorenwang.tools.file;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.base.AtlwCheckUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.base.AtlwCheckUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Xml;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -23,35 +28,35 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
 /**
- * 创建时间：2019-01-29 下午 15:41:0
- * 创建人：王亮（Loren wang）
  * 功能作用：文件操作工具类
+ * 初始注释时间： 2021/1/21 3:44 下午
+ * 创建人：王亮（Loren）
  * 思路：
- * 方法：1、读取图片文件并获取字节
- * 2、将InputStream写入File\
- * 3、从指定路径的文件中读取Bytes
- * 4、从File中读取Bytes
- * 5、从InputStream中读取Bytes
- * 6、复制单个文件
- * 7、将bitmap写入File
- * 8、获取文件大小，单位B
- * 9、删除文件夹以及目录下的文件
- * 10、根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
- * 11、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
- * 12、创建文件夹
- * 13、获取根目录文件夹地址
- * 14、获取App系统文件夹地址
+ * 方法：
+ * 读取图片文件并获取字节--readImageFileGetBytes(isCheckPermisstion, isCheckFile, filePath)
+ * 读取文件并获取字节--readBytes(isCheckPermisstion, path/file/inputStream)
+ * 写入文件--writeToFile(isCheckPermisstion, file，inputStream/text/bitmap/buffer,...)
+ * 通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件--writeToFile(intent, saveFile)
+ * 复制单个文件--copyFile(isCheckPermisstion, oldPath, newPath)
+ * 删除文件--deleteFile(isCheckPermisstion, url)
+ * 获取文件大小，单位B--getFileSize(isCheckPermisstion, file, filtrationDir)
+ * 删除文件夹以及目录下的文件--deleteDirectory(isCheckPermisstion, filePath)
+ * 创建文件夹--createDirectory(isCheckPermisstion, path, nowPathIsFile)
+ * 根据正则获取指定目录下的所有文件列表(使用递归扫描方式)--getFileListForMatchRecursionScan(isCheckPermisstion, scanPath, matchRegular)
+ * 根据正则获取指定目录下的所有文件列表(使用队列扫描方式)--getFileListForMatchLinkedQueueScan(isCheckPermisstion, scanPath, matchRegular)
+ * 获取根目录文件夹地址--getBaseStorageDirPath()
+ * 获取App系统文件夹地址--getAppSystemStorageDirPath(applicationId)
+ * 根据uri获取图片文件地址--getUriPath(uri, dbKey)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
  *
- * @author wangliang
+ * @author 王亮（Loren）
  */
-
-public class AtlwFileOptionUtils {
+public class AtlwFileOptionUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwFileOptionUtils optionsInstance;
+    private static volatile AtlwFileOptionUtil optionsInstance;
     /**
      * 流转换的缓存大小
      */
@@ -61,14 +66,14 @@ public class AtlwFileOptionUtils {
      */
     private ConcurrentLinkedQueue<File> fileOptionsLinkedQueue;
 
-    private AtlwFileOptionUtils() {
+    private AtlwFileOptionUtil() {
     }
 
-    public static AtlwFileOptionUtils getInstance() {
+    public static AtlwFileOptionUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwFileOptionUtils.class) {
+            synchronized (AtlwFileOptionUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwFileOptionUtils();
+                    optionsInstance = new AtlwFileOptionUtil();
                 }
             }
         }
@@ -85,9 +90,8 @@ public class AtlwFileOptionUtils {
      * @param filePath           文件地址
      * @return 读取到的字节
      */
-    public byte[] readImageFileGetBytes(Boolean isCheckPermisstion, Boolean isCheckFile,
-                                        String filePath) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(AtlwConfig.nowApplication)) {
+    public byte[] readImageFileGetBytes(Boolean isCheckPermisstion, Boolean isCheckFile, String filePath) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(AtlwConfig.nowApplication)) {
             return null;
         }
         return JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath);
@@ -101,7 +105,7 @@ public class AtlwFileOptionUtils {
      * @return 读取到的字节
      */
     public byte[] readBytes(Boolean isCheckPermisstion, String path) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(path)) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(path)) {
             return new byte[]{};
         }
         return JtlwFileOptionUtils.getInstance().readBytes(path);
@@ -115,7 +119,7 @@ public class AtlwFileOptionUtils {
      * @return 读取到的字节
      */
     public byte[] readBytes(Boolean isCheckPermisstion, File file) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file)) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(file)) {
             return new byte[]{};
         }
         return JtlwFileOptionUtils.getInstance().readBytes(file);
@@ -129,7 +133,7 @@ public class AtlwFileOptionUtils {
      * @return 读取到的字节
      */
     public byte[] readBytes(Boolean isCheckPermisstion, InputStream inputStream) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(inputStream)) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(inputStream)) {
             return new byte[]{};
         }
         return JtlwFileOptionUtils.getInstance().readBytes(inputStream);
@@ -147,9 +151,8 @@ public class AtlwFileOptionUtils {
      * @param append             是否拼接
      * @return 是否成功
      */
-    public Boolean writeToFile(Boolean isCheckPermisstion, File file, InputStream inputStream,
-                               Boolean append) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, inputStream)) {
+    public Boolean writeToFile(Boolean isCheckPermisstion, File file, InputStream inputStream, Boolean append) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, inputStream)) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().writeToFile(file, inputStream, append);
@@ -177,13 +180,11 @@ public class AtlwFileOptionUtils {
      * @param append             是否后续新增插入，不覆盖插入
      * @return 是否成功
      */
-    public Boolean writeToFile(Boolean isCheckPermisstion, File file, String text,
-                               String encoding, Boolean append) {
+    public Boolean writeToFile(Boolean isCheckPermisstion, File file, String text, String encoding, Boolean append) {
         try {
-            return writeToFile(isCheckPermisstion, file,
-                    new ByteArrayInputStream(text.getBytes(encoding)), append);
+            return writeToFile(isCheckPermisstion, file, new ByteArrayInputStream(text.getBytes(encoding)), append);
         } catch (UnsupportedEncodingException e) {
-            AtlwLogUtils.logUtils.logE(e);
+            AtlwLogUtil.logUtils.logE(e);
             return false;
         }
 
@@ -197,12 +198,11 @@ public class AtlwFileOptionUtils {
      *                           将bitmap写入File
      * @return 返回处理结果
      */
-    public Boolean writeToFile(Boolean isCheckPermisstion, File file, Bitmap bitmap,
-                               Bitmap.CompressFormat format) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, bitmap)) {
+    public Boolean writeToFile(Boolean isCheckPermisstion, File file, Bitmap bitmap, Bitmap.CompressFormat format) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, bitmap)) {
             return false;
         }
-        createDirectory(isCheckPermisstion, file.getAbsolutePath(),true);
+        createDirectory(isCheckPermisstion, file.getAbsolutePath(), true);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -211,14 +211,14 @@ public class AtlwFileOptionUtils {
             fos.close();
             return true;
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(e);
+            AtlwLogUtil.logUtils.logE(e);
             return false;
         } finally {
             try {
                 assert fos != null;
                 fos.close();
             } catch (Exception e) {
-                AtlwLogUtils.logUtils.logE(e);
+                AtlwLogUtil.logUtils.logE(e);
             }
 
         }
@@ -228,12 +228,51 @@ public class AtlwFileOptionUtils {
         return writeToFile(isCheckPermisstion, file, buffer, false);
     }
 
-    public boolean writeToFile(boolean isCheckPermisstion, File file, byte[] buffer,
-                               boolean append) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, buffer, append)) {
+    public boolean writeToFile(boolean isCheckPermisstion, File file, byte[] buffer, boolean append) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, buffer, append)) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().writeToFile(file, buffer, append);
+    }
+
+
+    /**
+     * 通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
+     *
+     * @param data     intent
+     * @param saveFile 保存地址
+     * @return 返回新图片地址
+     */
+    public String writeToFile(@NotNull Intent data, @NotNull String saveFile) {
+        if (saveFile.isEmpty() || AtlwConfig.nowApplication == null || AtlwConfig.nowApplication.getContentResolver() == null) {
+            return null;
+        }
+        if (data.getData() != null) {
+            //目标文件夹
+            InputStream inputStream = null;//文件图片输入流
+            try {
+                inputStream = AtlwConfig.nowApplication.getContentResolver().openInputStream(data.getData());
+                boolean state = writeToFile(true, new File(saveFile), inputStream, false);
+                if (state) {
+                    return saveFile;
+                } else {
+                    return null;
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else {
+            return null;
+        }
     }
 
 
@@ -248,20 +287,21 @@ public class AtlwFileOptionUtils {
      * @return boolean
      */
     public Boolean copyFile(Boolean isCheckPermisstion, String oldPath, String newPath) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().copyFile(oldPath, newPath);
     }
 
     /**
+     * 删除文件
      * @param isCheckPermisstion 是否检测权限
      * @param url                要删除的地址
      *                           删除文件
      * @return 返回删除结果
      */
     public Boolean deleteFile(Boolean isCheckPermisstion, String url) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().deleteFile(url);
@@ -276,7 +316,7 @@ public class AtlwFileOptionUtils {
      * @return 文件大小
      */
     public Long getFileSize(Boolean isCheckPermisstion, File file, String filtrationDir) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return 0L;
         }
         return JtlwFileOptionUtils.getInstance().getFileSize(file, filtrationDir);
@@ -290,7 +330,7 @@ public class AtlwFileOptionUtils {
      * @return 目录删除成功返回true，否则返回false
      */
     public Boolean deleteDirectory(Boolean isCheckPermisstion, String filePath) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
         return JtlwFileOptionUtils.getInstance().deleteDirectory(filePath);
@@ -301,14 +341,14 @@ public class AtlwFileOptionUtils {
      *
      * @param isCheckPermisstion 是否检测权限
      * @param path               路径
-     * @param nowPathIsFile  当前路径是否是文件
+     * @param nowPathIsFile      当前路径是否是文件
      * @return 文件夹创建结果
      */
-    public boolean createDirectory(Boolean isCheckPermisstion, String path,boolean nowPathIsFile) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
+    public boolean createDirectory(Boolean isCheckPermisstion, String path, boolean nowPathIsFile) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
-        return JtlwFileOptionUtils.getInstance().createDirectory(path,nowPathIsFile);
+        return JtlwFileOptionUtils.getInstance().createDirectory(path, nowPathIsFile);
     }
 
     /**
@@ -319,13 +359,11 @@ public class AtlwFileOptionUtils {
      * @param matchRegular       文件正则
      * @return 文件列表
      */
-    public List<File> getFileListForMatchRecursionScan(Boolean isCheckPermisstion,
-                                                       String scanPath, String matchRegular) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
+    public List<File> getFileListForMatchRecursionScan(Boolean isCheckPermisstion, String scanPath, String matchRegular) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return new ArrayList<>();
         }
-        return JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(scanPath,
-                matchRegular);
+        return JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(scanPath, matchRegular);
     }
 
     /**
@@ -336,14 +374,11 @@ public class AtlwFileOptionUtils {
      * @param matchRegular       要返回的文件的正则格式
      * @return 扫描到的文件列表
      */
-    public synchronized List<File> getFileListForMatchLinkedQueueScan(Boolean isCheckPermisstion,
-                                                                      String scanPath,
-                                                                      final String matchRegular) {
-        if (isCheckPermisstion && !AtlwCheckUtils.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
+    public synchronized List<File> getFileListForMatchLinkedQueueScan(Boolean isCheckPermisstion, String scanPath, final String matchRegular) {
+        if (isCheckPermisstion && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return new ArrayList<>();
         }
-        return JtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(scanPath,
-                matchRegular);
+        return JtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(scanPath, matchRegular);
     }
 
     /**
@@ -379,8 +414,7 @@ public class AtlwFileOptionUtils {
             if (scheme == null || ContentResolver.SCHEME_FILE.equals(scheme)) {
                 path = uri.getPath();
             } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-                Cursor cursor = AtlwConfig.nowApplication.getContentResolver().query(uri,
-                        new String[]{dbKey}, null, null, null);
+                Cursor cursor = AtlwConfig.nowApplication.getContentResolver().query(uri, new String[]{dbKey}, null, null, null);
                 if (null != cursor) {
                     if (cursor.moveToFirst()) {
                         int index = cursor.getColumnIndex(dbKey);

@@ -1,6 +1,6 @@
 package android.lorenwang.tools.mobile;
 
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -25,18 +25,18 @@ import java.lang.reflect.Method;
  * 修改时间：
  * 备注：
  */
-public class AtlwMobilePhoneBrandUtils {
+public class AtlwMobilePhoneBrandUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwMobilePhoneBrandUtils optionsInstance;
+    private static volatile AtlwMobilePhoneBrandUtil optionsInstance;
 
-    private AtlwMobilePhoneBrandUtils() {
+    private AtlwMobilePhoneBrandUtil() {
     }
 
-    public static AtlwMobilePhoneBrandUtils getInstance() {
+    public static AtlwMobilePhoneBrandUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwMobilePhoneBrandUtils.class) {
+            synchronized (AtlwMobilePhoneBrandUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwMobilePhoneBrandUtils();
+                    optionsInstance = new AtlwMobilePhoneBrandUtil();
                 }
             }
         }
@@ -67,7 +67,7 @@ public class AtlwMobilePhoneBrandUtils {
                     isXiaoMi = false;
                 }
             }
-            AtlwLogUtils.logUtils.logD(TAG, "is xiaomi mobile:" + isXiaoMi);
+            AtlwLogUtil.logUtils.logD(TAG, "is xiaomi mobile:" + isXiaoMi);
         }
         return isXiaoMi;
     }
@@ -91,7 +91,7 @@ public class AtlwMobilePhoneBrandUtils {
                     isMeiZu = false;
                 }
             }
-            AtlwLogUtils.logUtils.logD(TAG, "is meizu mobile:" + isMeiZu);
+            AtlwLogUtil.logUtils.logD(TAG, "is meizu mobile:" + isMeiZu);
         }
         return isMeiZu;
     }
@@ -116,7 +116,7 @@ public class AtlwMobilePhoneBrandUtils {
                     isHuaWei = false;
                 }
             }
-            AtlwLogUtils.logUtils.logD(TAG, "is huawei mobile:" + isHuaWei);
+            AtlwLogUtil.logUtils.logD(TAG, "is huawei mobile:" + isHuaWei);
         }
         return isHuaWei;
     }
@@ -127,7 +127,7 @@ public class AtlwMobilePhoneBrandUtils {
      * @return 是否是vivo手机
      */
     public boolean isVivoMobile() {
-        return "vivo".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "vivo".equals(AtlwMobileSystemInfoUtil.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -136,7 +136,7 @@ public class AtlwMobilePhoneBrandUtils {
      * @return 是否是oppo手机
      */
     public boolean isOPPOMobile() {
-        return "oppo".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "oppo".equals(AtlwMobileSystemInfoUtil.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -145,7 +145,7 @@ public class AtlwMobilePhoneBrandUtils {
      * @return 是否是酷派手机
      */
     public boolean isCoolpadMobile() {
-        return "coolpad".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "coolpad".equals(AtlwMobileSystemInfoUtil.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -154,7 +154,7 @@ public class AtlwMobilePhoneBrandUtils {
      * @return 是否是三星手机
      */
     public boolean isSamsungMobile() {
-        return "samsung".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "samsung".equals(AtlwMobileSystemInfoUtil.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -163,7 +163,7 @@ public class AtlwMobilePhoneBrandUtils {
      * @return 是否是索尼手机
      */
     public boolean isSonyMobile() {
-        return "sony".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "sony".equals(AtlwMobileSystemInfoUtil.getInstance().getMobileBrand().toLowerCase());
     }
 
     /**
@@ -172,6 +172,6 @@ public class AtlwMobilePhoneBrandUtils {
      * @return 是否是LG手机
      */
     public boolean isLGMobile() {
-        return "lg".equals(AtlwMobileSystemInfoUtils.getInstance().getMobileBrand().toLowerCase());
+        return "lg".equals(AtlwMobileSystemInfoUtil.getInstance().getMobileBrand().toLowerCase());
     }
 }

@@ -3,7 +3,6 @@ package android.lorenwang.tools.image.loading;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;

@@ -5,9 +5,9 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.base.AtlwCheckUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.app.AtlwThreadUtil;
+import android.lorenwang.tools.base.AtlwCheckUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
 import android.lorenwang.tools.location.config.AtlwLocationResultBean;
 import android.lorenwang.tools.location.enums.AtlwLocationResultFromTypeEnum;
@@ -93,9 +93,9 @@ class AtlwLocationLibraryDefault implements AtlwLocationLibraryBase {
     @Override
     public boolean checPermissions(@NotNull AtlwLocationConfig config) {
         if (config.isNeedBackLocation()) {
-            return AtlwCheckUtils.getInstance().checkAppPermission(NEED_PERMISSIONS_AND_BACK);
+            return AtlwCheckUtil.getInstance().checkAppPermission(NEED_PERMISSIONS_AND_BACK);
         } else {
-            return AtlwCheckUtils.getInstance().checkAppPermission(NEED_PERMISSIONS);
+            return AtlwCheckUtil.getInstance().checkAppPermission(NEED_PERMISSIONS);
         }
     }
 
@@ -158,7 +158,7 @@ class AtlwLocationLibraryDefault implements AtlwLocationLibraryBase {
         changeListener.type = null;
         changeListener.config = null;
         loopPositioning = false;
-        AtlwLogUtils.logUtils.logI(TAG, "停止定位");
+        AtlwLogUtil.logUtils.logI(TAG, "停止定位");
     }
 
     /**
@@ -198,17 +198,17 @@ class AtlwLocationLibraryDefault implements AtlwLocationLibraryBase {
                 }
             }
             //当前是需要循环的
-            AtlwThreadUtils.getInstance().postOnChildThreadDelayed(loopPositioningRunnable, (long) config.getLocationTimeInterval());
+            AtlwThreadUtil.getInstance().postOnChildThreadDelayed(loopPositioningRunnable, (long) config.getLocationTimeInterval());
         } else {
             //停止定位
             stopLoopPositioning();
         }
         //返回数据逻辑处理
         if (judgeLocationResultBean(bean)) {
-            AtlwLogUtils.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
+            AtlwLogUtil.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
             //回调定位
             if (config != null && config.getLocationsCallback() != null) {
-                AtlwThreadUtils.getInstance().postOnUiThread(new Runnable() {
+                AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         config.getLocationsCallback().locationResultSuccess(bean);
@@ -261,7 +261,7 @@ class AtlwLocationLibraryDefault implements AtlwLocationLibraryBase {
     protected boolean judgeLocationResultBean(@NotNull AtlwLocationResultBean bean) {
         if (lastLocatioBean != null && Double.compare(lastLocatioBean.getLatitude(), bean.getLatitude()) == 0 && Double.compare(
                 lastLocatioBean.getLongitude(), bean.getLongitude()) == 0) {
-            AtlwLogUtils.logUtils.logI(TAG, "当前位置信息未发生变更，所以不进行数据返回");
+            AtlwLogUtil.logUtils.logI(TAG, "当前位置信息未发生变更，所以不进行数据返回");
             return false;
         }
         lastLocatioBean = bean;

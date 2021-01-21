@@ -22,18 +22,18 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 备注：
  */
 
-public class AtlwToastHintUtils {
+public class AtlwToastHintUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwToastHintUtils optionsInstance;
+    private static volatile AtlwToastHintUtil optionsInstance;
 
-    private AtlwToastHintUtils() {
+    private AtlwToastHintUtil() {
     }
 
-    public static AtlwToastHintUtils getInstance() {
+    public static AtlwToastHintUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwToastHintUtils.class) {
+            synchronized (AtlwToastHintUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwToastHintUtils();
+                    optionsInstance = new AtlwToastHintUtil();
                 }
             }
         }
@@ -181,7 +181,7 @@ public class AtlwToastHintUtils {
      */
     private void sendHideMessageDelayed(Long time) {
         if (time != null) {
-            AtlwThreadUtils.getInstance().postOnChildThreadDelayed(hindToastRunnable, time);
+            AtlwThreadUtil.getInstance().postOnChildThreadDelayed(hindToastRunnable, time);
         }
     }
 
@@ -192,7 +192,7 @@ public class AtlwToastHintUtils {
         if (allToast != null) {
             allToast.cancel();
             //移除取消runnable
-            AtlwThreadUtils.getInstance().getChildThreadHandler().removeCallbacks(hindToastRunnable);
+            AtlwThreadUtil.getInstance().getChildThreadHandler().removeCallbacks(hindToastRunnable);
         }
     }
 

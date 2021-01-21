@@ -1,8 +1,8 @@
 package android.lorenwang.tools.messageTransmit;
 
 import android.app.Activity;
-import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.app.AtlwThreadUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,22 +37,22 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 备注：需要在application初始化的时候注册activity监听
  * 注册回调后，要直接回调，否则部分界面注册可能晚于回调，导致无法获得数据
  */
-public class AtlwFlyMessageUtils {
+public class AtlwFlyMessageUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwFlyMessageUtils optionsInstance;
+    private static volatile AtlwFlyMessageUtil optionsInstance;
 
-    public static AtlwFlyMessageUtils getInstance() {
+    public static AtlwFlyMessageUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwFlyMessageUtils.class) {
+            synchronized (AtlwFlyMessageUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwFlyMessageUtils();
+                    optionsInstance = new AtlwFlyMessageUtil();
                 }
             }
         }
         return optionsInstance;
     }
 
-    private AtlwFlyMessageUtils() {
+    private AtlwFlyMessageUtil() {
         //获取Activity生命周期监听的消息接收
         FlyMessgeCallback flyMessgeCallback = new FlyMessgeCallback() {
             @Override
@@ -250,7 +250,7 @@ public class AtlwFlyMessageUtils {
             if (JtlwCheckVariateUtils.getInstance().isEmpty(e)
                     && JtlwCheckVariateUtils.getInstance().isEmpty(e.getMessage())
                     && e.getMessage().contains("Only the original thread that created a view hierarchy can touch its views.")) {
-                AtlwThreadUtils.getInstance().runOnUiThread(new Runnable() {
+                AtlwThreadUtil.getInstance().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -260,12 +260,12 @@ public class AtlwFlyMessageUtils {
 //                             msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
 //                         }
                         } catch (Exception e) {
-                            AtlwLogUtils.logUtils.logE(TAG, "callback msg fail");
+                            AtlwLogUtil.logUtils.logE(TAG, "callback msg fail");
                         }
                     }
                 });
             } else {
-                AtlwLogUtils.logUtils.logE(TAG, "callback msg fail");
+                AtlwLogUtil.logUtils.logE(TAG, "callback msg fail");
             }
         }
     }

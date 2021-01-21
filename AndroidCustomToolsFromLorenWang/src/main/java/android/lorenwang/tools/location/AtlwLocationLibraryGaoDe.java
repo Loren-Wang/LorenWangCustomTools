@@ -1,8 +1,8 @@
 package android.lorenwang.tools.location;
 
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.app.AtlwThreadUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
 import android.lorenwang.tools.location.config.AtlwLocationResultBean;
 import android.lorenwang.tools.location.enums.AtlwLocationResultFromTypeEnum;
@@ -54,10 +54,10 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
                 bean.setLongitude(aMapLocation.getLongitude());
             }
             if (judgeLocationResultBean(bean)) {
-                AtlwLogUtils.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
+                AtlwLogUtil.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
                 //回调定位
                 if (config != null && config.getLocationsCallback() != null) {
-                    AtlwThreadUtils.getInstance().postOnUiThread(new Runnable() {
+                    AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             config.getLocationsCallback().locationResultSuccess(bean);
@@ -95,7 +95,7 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
         mLocationClient.unRegisterLocationListener(mLocationListener);
         //停止定位后，本地定位服务并不会被销毁
         mLocationClient.stopLocation();
-        AtlwLogUtils.logUtils.logI(TAG, "停止定位");
+        AtlwLogUtil.logUtils.logI(TAG, "停止定位");
     }
 
     /**

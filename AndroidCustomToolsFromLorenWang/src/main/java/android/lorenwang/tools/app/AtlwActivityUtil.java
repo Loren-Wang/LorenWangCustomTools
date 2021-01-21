@@ -2,23 +2,19 @@ package android.lorenwang.tools.app;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.base.AtlwCheckUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.file.AtlwFileOptionUtils;
+import android.lorenwang.tools.base.AtlwCheckUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,43 +24,47 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 
 /**
- * 创建时间：2018-12-21 下午 20:05:50
- * 创建人：王亮（Loren wang）
  * 功能作用：activity工具类
+ * 初始注释时间： 2021/1/21 3:17 下午
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、去请求权限
- * 2、权限请求结果返回
- * 3、控制软键盘显示与隐藏
- * 4、通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
- * 5、返回APP级别的实例（对于传递的上下文做转换）
- * 6、允许退出App的判断以及线程
- * 7、检测App版本更新，通过versionName比较
- * 8、退出应用
- * 9、获得应用是否在前台
+ * 发起权限请求--goToRequestPermissions(object,permisstions,permissionsRequestCode,permissionRequestCallback)
+ * 接收到权限请求返回--receivePermissionsResult(requestCode,permissions,grantResults)(需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法)
+ * 控制软键盘显示与隐藏--setInputMethodVisibility(view,visibility)
+ * 返回APP级别的实例--getApplicationContext(context)
+ * 允许退出App的判断以及线程--allowExitApp(time)
+ * 检测App版本更新，通过versionName比较--checkAppVersionUpdate(oldVersion, newVersion)
+ * 退出应用--exitApp(activity)
+ * 获得应用是否在前台--isOnForeground()
+ * 获取应用程序名称--getAppName()
+ * 修改页面旋转方向--changeActivityScreenOrientation(activity)
+ * 参数页面当前是否是横屏显示--isPageLandscape(activity)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-public class AtlwActivityUtils {
+public class AtlwActivityUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwActivityUtils optionsInstance;
+    private static volatile AtlwActivityUtil optionsInstance;
     //权限请求键值对
-    private final Map<Integer, AtlwPermissionRequestCallback> permissionRequestCallbackMap =
-            new HashMap<>();
+    private final Map<Integer, AtlwPermissionRequestCallback> permissionRequestCallbackMap = new HashMap<>();
 
-    private AtlwActivityUtils() {
+    private AtlwActivityUtil() {
     }
 
-    public static AtlwActivityUtils getInstance() {
+    public static AtlwActivityUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwActivityUtils.class) {
+            synchronized (AtlwActivityUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwActivityUtils();
+                    optionsInstance = new AtlwActivityUtil();
                 }
             }
         }
@@ -78,36 +78,36 @@ public class AtlwActivityUtils {
     /**
      * 发起权限请求，和receivePermisstionsResult方法结合使用，如果没有receivePermisstionsResult方法则可能会导致无法产生回调
      *
-     * @param activity                  Activity实体
+     * @param context                   上下文实体
      * @param permisstions              权限列表
      * @param permissionsRequestCode    权限请求码
      * @param permissionRequestCallback 权限请求回调
      */
-    public void goToRequestPermissions(Activity activity, @NonNull String[] permisstions,
-                                       int permissionsRequestCode
-            , AtlwPermissionRequestCallback permissionRequestCallback) {
+    public void goToRequestPermissions(@NotNull Object context, @NonNull String[] permisstions, int permissionsRequestCode,
+            AtlwPermissionRequestCallback permissionRequestCallback) {
         //版本判断，小于23的不执行权限请求
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             if (permissionRequestCallback != null) {
-                permissionRequestCallback.permissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions)
-                        , permissionsRequestCode);
+                permissionRequestCallback.permissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions),
+                        permissionsRequestCode);
             }
         } else {
             //检测所有的权限是否都已经拥有
-            //判断所有的权限是否是通过的
-            if (AtlwCheckUtils.getInstance().checkAppPermission(permisstions)) {
+            if (AtlwCheckUtil.getInstance().checkAppPermission(permisstions)) {
                 if (permissionRequestCallback != null) {
-                    permissionRequestCallback.permissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions)
-                            , permissionsRequestCode);
+                    permissionRequestCallback.permissionRequestSuccessCallback(
+                            JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions), permissionsRequestCode);
                 }
-            } else {//请求权限
+            } else {
                 //存储键值对
                 permissionRequestCallbackMap.put(permissionsRequestCode, permissionRequestCallback);
-                if (activity instanceof AppCompatActivity) {
-                    ActivityCompat.requestPermissions(activity, permisstions,
-                            permissionsRequestCode);
-                } else {
-                    activity.requestPermissions(permisstions, permissionsRequestCode);
+                //请求权限
+                if (context instanceof AppCompatActivity) {
+                    ActivityCompat.requestPermissions((Activity) context, permisstions, permissionsRequestCode);
+                } else if (context instanceof Activity) {
+                    ((Activity) context).requestPermissions(permisstions, permissionsRequestCode);
+                } else if (context instanceof Fragment) {
+                    ((Fragment) context).requestPermissions(permisstions, permissionsRequestCode);
                 }
             }
         }
@@ -120,11 +120,9 @@ public class AtlwActivityUtils {
      * @param permissions  权限列表
      * @param grantResults 权限状态
      */
-    public void receivePermissionsResult(int requestCode, @NonNull String[] permissions,
-                                         @NonNull int[] grantResults) {
+    public void receivePermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //获取回调
-        AtlwPermissionRequestCallback permissionRequestCallback =
-                permissionRequestCallbackMap.get(requestCode);
+        AtlwPermissionRequestCallback permissionRequestCallback = permissionRequestCallbackMap.get(requestCode);
         if (permissionRequestCallback != null) {
             // If request is cancelled, the result arrays are empty.
             List<String> successPermissionList = new ArrayList<>();
@@ -134,11 +132,9 @@ public class AtlwActivityUtils {
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                         successPermissionList.add(permissions[i]);
-                        AtlwLogUtils.logUtils.logI(TAG,
-                                "用户同意权限-user granted the permission!" + permissions[i]);
+                        AtlwLogUtil.logUtils.logI(TAG, "用户同意权限-user granted the permission!" + permissions[i]);
                     } else {
-                        AtlwLogUtils.logUtils.logI(TAG,
-                                "用户不同意权限-user denied the permission!" + permissions[i]);
+                        AtlwLogUtil.logUtils.logI(TAG, "用户不同意权限-user denied the permission!" + permissions[i]);
                         failPermissionList.add(permissions[i]);
                     }
                 }
@@ -147,13 +143,12 @@ public class AtlwActivityUtils {
             }
             try {//只要有一个权限不通过则都失败
                 if (failPermissionList.size() > 0) {
-                    permissionRequestCallback.permissionRequestFailCallback(failPermissionList,
-                            requestCode);
+                    permissionRequestCallback.permissionRequestFailCallback(failPermissionList, requestCode);
                 } else {
                     permissionRequestCallback.permissionRequestSuccessCallback(successPermissionList, requestCode);
                 }
             } catch (Exception e) {
-                AtlwLogUtils.logUtils.logE(TAG, e.getMessage());
+                AtlwLogUtil.logUtils.logE(TAG, e.getMessage());
             } finally {
                 successPermissionList.clear();
                 failPermissionList.clear();
@@ -167,77 +162,32 @@ public class AtlwActivityUtils {
     /**
      * 控制软键盘显示与隐藏
      *
-     * @param activity   界面实例
      * @param view       要显示或者隐藏的view
      * @param visibility 显示状态
      */
-    public void setInputMethodVisibility(Activity activity, View view, int visibility) {
-        InputMethodManager imm =
-                (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (view == null && visibility == View.GONE) {
-            if (activity.getCurrentFocus() != null) {
-                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-            }
+    public void setInputMethodVisibility(View view, int visibility) {
+        if (AtlwConfig.nowApplication == null) {
             return;
         }
-        switch (visibility) {
-            case View.VISIBLE:
-                //显示软键盘 //
-                if (view != null) {
-                    view.setFocusableInTouchMode(true);
-                    view.requestFocus();
-                }
-                imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
-                break;
-            case View.GONE:
-                //隐藏软键盘 //
-                view.clearFocus();
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * 通过系统相册选择图片后返回给activiy的实体的处理，用来返回新的图片文件
-     *
-     * @param data     intent
-     * @param saveFile 保存地址
-     * @return 返回新图片地址
-     */
-    public String onActivityResultFromPhotoAlbum(Intent data, String saveFile) {
-        if (data == null || saveFile == null || "".equals(saveFile)) {
-            return null;
-        }
-        if (data.getData() != null) {
-            //目标文件夹
-            InputStream inputStream = null;//文件图片输入流
-            try {
-                inputStream =
-                        AtlwConfig.nowApplication.getContentResolver().openInputStream(data.getData());
-                boolean state = AtlwFileOptionUtils.getInstance().writeToFile(true,
-                        new File(saveFile), inputStream, false);
-                if (state) {
-                    return saveFile;
-                } else {
-                    return null;
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return null;
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        InputMethodManager imm = (InputMethodManager) AtlwConfig.nowApplication.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            switch (visibility) {
+                case View.VISIBLE:
+                    //显示软键盘 //
+                    if (view != null) {
+                        view.setFocusableInTouchMode(true);
+                        view.requestFocus();
                     }
-                }
+                    imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+                    break;
+                case View.GONE:
+                    //隐藏软键盘 //
+                    view.clearFocus();
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    break;
+                default:
+                    break;
             }
-        } else {
-            return null;
         }
     }
 
@@ -273,7 +223,7 @@ public class AtlwActivityUtils {
     public boolean allowExitApp(long time) {
         if (!allowExitApp) {
             allowExitApp = true;
-            AtlwThreadUtils.getInstance().postOnChildThreadDelayed(new Runnable() {
+            AtlwThreadUtil.getInstance().postOnChildThreadDelayed(new Runnable() {
                 @Override
                 public void run() {
                     allowExitApp = false;
@@ -356,13 +306,13 @@ public class AtlwActivityUtils {
      * 获得应用是否在前台
      */
     public boolean isOnForeground() {
-        ActivityManager activityManager = (ActivityManager) AtlwConfig.nowApplication
-                .getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasksInfo = activityManager.getRunningTasks(1);
-        if (tasksInfo.size() > 0) {
-            // 应用程序位于堆栈的顶层
-            return AtlwConfig.nowApplication.getPackageName().equals(
-                    tasksInfo.get(0).topActivity.getPackageName());
+        if (AtlwConfig.nowApplication != null) {
+            ActivityManager activityManager = (ActivityManager) AtlwConfig.nowApplication.getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningTaskInfo> tasksInfo = activityManager.getRunningTasks(1);
+            if (tasksInfo.size() > 0) {
+                // 应用程序位于堆栈的顶层
+                return AtlwConfig.nowApplication.getPackageName().equals(tasksInfo.get(0).topActivity.getPackageName());
+            }
         }
         return false;
     }
@@ -370,21 +320,49 @@ public class AtlwActivityUtils {
     /**
      * 获取应用程序名称
      */
-
     public synchronized String getAppName() {
-        try {
-            PackageManager packageManager = AtlwConfig.nowApplication.getPackageManager();
-            PackageInfo packageInfo =
-                    packageManager.getPackageInfo(AtlwConfig.nowApplication.getPackageName(), 0);
-            int labelRes = packageInfo.applicationInfo.labelRes;
-            String name = AtlwConfig.nowApplication.getString(labelRes);
-            AtlwLogUtils.logUtils.logE(TAG, "App名称获取成功:" + name);
-            return name;
-        } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(TAG, "App名称获取失败");
+        if (AtlwConfig.nowApplication != null) {
+            try {
+                PackageManager packageManager = AtlwConfig.nowApplication.getPackageManager();
+                PackageInfo packageInfo = packageManager.getPackageInfo(AtlwConfig.nowApplication.getPackageName(), 0);
+                int labelRes = packageInfo.applicationInfo.labelRes;
+                String name = AtlwConfig.nowApplication.getString(labelRes);
+                AtlwLogUtil.logUtils.logE(TAG, "App名称获取成功:" + name);
+                return name;
+            } catch (Exception e) {
+                AtlwLogUtil.logUtils.logE(TAG, "App名称获取失败");
+            }
         }
         return null;
 
+    }
+
+    /**
+     * 修改页面旋转方向
+     *
+     * @param activity 当前页面实例
+     */
+    public void changeActivityScreenOrientation(@NotNull Activity activity) {
+        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+                activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+            //当前是竖排，需要修改为横排
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        } else if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+            //当前是横排，需要修改为横排
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    /**
+     * 参数页面当前是否是横屏显示
+     *
+     * @param activity 当前页面
+     * @return true代表当前是横屏显示
+     */
+    public boolean isPageLandscape(@NotNull Activity activity) {
+        return activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE ||
+                activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED ||
+                activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
     }
 
 

@@ -5,9 +5,9 @@ import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.lorenwang.tools.base.AtlwCheckUtils;
-import android.lorenwang.tools.base.AtlwLogUtils;
-import android.lorenwang.tools.mobile.AtlwMobileOptionsUtils;
+import android.lorenwang.tools.base.AtlwCheckUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.mobile.AtlwMobileOptionsUtil;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 
@@ -31,9 +31,9 @@ import static android.media.AudioManager.STREAM_VOICE_CALL;
  * 备注：
  */
 
-public class AtlwMediaPlayUtils {
+public class AtlwMediaPlayUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwMediaPlayUtils optionsInstance;
+    private static volatile AtlwMediaPlayUtil optionsInstance;
 
     /**
      * 是否正在播放
@@ -73,14 +73,14 @@ public class AtlwMediaPlayUtils {
     private AtlwMediaPlayCallback atlwMediaPlayCallback;
 
 
-    private AtlwMediaPlayUtils() {
+    private AtlwMediaPlayUtil() {
     }
 
-    public static AtlwMediaPlayUtils getInstance() {
+    public static AtlwMediaPlayUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwMediaPlayUtils.class) {
+            synchronized (AtlwMediaPlayUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwMediaPlayUtils();
+                    optionsInstance = new AtlwMediaPlayUtil();
                 }
             }
         }
@@ -100,29 +100,29 @@ public class AtlwMediaPlayUtils {
     public boolean start(Activity activity, final String playPath, @AtlwMediaPlayOutputType int type, boolean isEndRecord, boolean isCancelLastPlay) {
         //检测传入的地址是否为空
         if (JtlwCheckVariateUtils.getInstance().isEmpty(playPath)) {
-            AtlwLogUtils.logUtils.logUtils.logE(TAG, "The playPath is never empty");
+            AtlwLogUtil.logUtils.logUtils.logE(TAG, "The playPath is never empty");
             //回传状态
             playStart(false);
             return false;
         }
         //开启前首先要检测文件权限
-        if (!AtlwCheckUtils.getInstance().checkAppPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            AtlwLogUtils.logUtils.logUtils.logE(TAG, "Not read and storage permisstions!");
+        if (!AtlwCheckUtil.getInstance().checkAppPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            AtlwLogUtil.logUtils.logUtils.logE(TAG, "Not read and storage permisstions!");
             //回传状态
             playStart(false);
             return false;
         }
         //判断当前是否在播放
         if (playing) {
-            AtlwLogUtils.logUtils.logUtils.logE(TAG, "Now playing");
+            AtlwLogUtil.logUtils.logUtils.logE(TAG, "Now playing");
             //判断是否要取消上一次播放
             if (isCancelLastPlay) {
-                AtlwLogUtils.logUtils.logUtils.logE(TAG, "Ready to cancel the last play");
+                AtlwLogUtil.logUtils.logUtils.logE(TAG, "Ready to cancel the last play");
                 //停止成功继续
                 if (stop(activity)) {
-                    AtlwLogUtils.logUtils.logUtils.logE(TAG, "The last play ending successful.");
+                    AtlwLogUtil.logUtils.logUtils.logE(TAG, "The last play ending successful.");
                 } else {
-                    AtlwLogUtils.logUtils.logUtils.logE(TAG, "The last play ending failed.");
+                    AtlwLogUtil.logUtils.logUtils.logE(TAG, "The last play ending failed.");
                     //回传状态
                     playStart(false);
                     return false;
@@ -135,14 +135,14 @@ public class AtlwMediaPlayUtils {
         }
 
         //判断当前是否在录音
-        if (AtlwRecordUtils.getInstance().isRecording()) {
-            AtlwLogUtils.logUtils.logUtils.logI(TAG, "Now recording");
+        if (AtlwRecordUtil.getInstance().isRecording()) {
+            AtlwLogUtil.logUtils.logUtils.logI(TAG, "Now recording");
             //判断是否要结束，只有结束成功了才会向下走，不结束或者结束失败都会返回失败，不会继续向下走
             if (isEndRecord) {
-                if (AtlwRecordUtils.getInstance().stop()) {
-                    AtlwLogUtils.logUtils.logUtils.logI(TAG, "Record ended successfully!");
+                if (AtlwRecordUtil.getInstance().stop()) {
+                    AtlwLogUtil.logUtils.logUtils.logI(TAG, "Record ended successfully!");
                 } else {
-                    AtlwLogUtils.logUtils.logUtils.logI(TAG, "Record end failed!");
+                    AtlwLogUtil.logUtils.logUtils.logI(TAG, "Record end failed!");
                     //回传状态
                     playStart(false);
                     return false;
@@ -155,15 +155,15 @@ public class AtlwMediaPlayUtils {
         }
 
         //检测文件是否存在
-        if (!AtlwCheckUtils.getInstance().checkFileIsExit(playPath)) {
-            AtlwLogUtils.logUtils.logUtils.logE(TAG, "File not Exists.");
+        if (!AtlwCheckUtil.getInstance().checkFileIsExit(playPath)) {
+            AtlwLogUtil.logUtils.logUtils.logE(TAG, "File not Exists.");
             //回传状态
             playStart(false);
             return false;
         }
 
         //锁住录音的类，同一时间只允许同一个录音使用
-        synchronized (AtlwMediaPlayUtils.class) {
+        synchronized (AtlwMediaPlayUtil.class) {
             if (mediaPlayer == null) {
                 mediaPlayer = new MediaPlayer();
             }
@@ -209,7 +209,7 @@ public class AtlwMediaPlayUtils {
                         mp.start();
                         playing = true;
                         nowPlayPath = playPath;
-                        AtlwLogUtils.logUtils.logUtils.logI(TAG, "Playing started successfully");
+                        AtlwLogUtil.logUtils.logUtils.logI(TAG, "Playing started successfully");
                         //回传状态
                         playStart(true);
                     }
@@ -230,7 +230,7 @@ public class AtlwMediaPlayUtils {
                         playFileInputStream = null;
                     }
                 }
-                AtlwLogUtils.logUtils.logUtils.logI(TAG, "Playing started failed");
+                AtlwLogUtil.logUtils.logUtils.logI(TAG, "Playing started failed");
                 //回传状态
                 playStart(false);
                 return false;
@@ -245,7 +245,7 @@ public class AtlwMediaPlayUtils {
      * @return 返回停止状态
      */
     public boolean stop(Activity activity) {
-        synchronized (AtlwMediaPlayUtils.class) {
+        synchronized (AtlwMediaPlayUtil.class) {
             if (mediaPlayer != null && playing) {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
@@ -253,12 +253,12 @@ public class AtlwMediaPlayUtils {
                 //停止播放就取消注册监听
                 unRegistProximitySensorListener(activity);
                 //打印日志
-                AtlwLogUtils.logUtils.logUtils.logI(TAG, "Play stop successful!");
+                AtlwLogUtil.logUtils.logUtils.logI(TAG, "Play stop successful!");
                 //回传状态
                 playStop(true, nowPlayPath);
                 return true;
             } else {
-                AtlwLogUtils.logUtils.logUtils.logI(TAG, "Play stop failed!");
+                AtlwLogUtil.logUtils.logUtils.logI(TAG, "Play stop failed!");
                 //回传状态
                 playStop(false, nowPlayPath);
                 return false;
@@ -304,12 +304,12 @@ public class AtlwMediaPlayUtils {
                         if (isUsePowerWakeLock) {
                             if (values[0] == 0.0) {
                                 if (playing) {
-                                    AtlwLogUtils.logUtils.logI(TAG, "申请电源设备锁");
-                                    AtlwMobileOptionsUtils.getInstance().applyForPowerLocalWakeLock();
+                                    AtlwLogUtil.logUtils.logI(TAG, "申请电源设备锁");
+                                    AtlwMobileOptionsUtil.getInstance().applyForPowerLocalWakeLock();
                                 }
                             } else {
-                                AtlwLogUtils.logUtils.logI(TAG, "释放设备电源锁");
-                                AtlwMobileOptionsUtils.getInstance().releasePowerLocalWakeLock();
+                                AtlwLogUtil.logUtils.logI(TAG, "释放设备电源锁");
+                                AtlwMobileOptionsUtil.getInstance().releasePowerLocalWakeLock();
                             }
                         }
                         //判断是否允许修改输出设备
@@ -317,16 +317,16 @@ public class AtlwMediaPlayUtils {
                             if (playing) {
                                 if (values[0] == 0.0) {
                                     if (nowPlayOutputStreamType == STREAM_MUSIC) {
-                                        AtlwLogUtils.logUtils.logI(TAG, "贴近手机，切换到听筒播放");
+                                        AtlwLogUtil.logUtils.logI(TAG, "贴近手机，切换到听筒播放");
                                         nowPlayOutputStreamType = STREAM_VOICE_CALL;
-                                        AtlwMobileOptionsUtils.getInstance().useHandsetToPlay(activity);
+                                        AtlwMobileOptionsUtil.getInstance().useHandsetToPlay(activity);
                                         start(activity, nowPlayPath, AtlwMediaPlayOutputType.EARPIECE, true, true);
                                     }
                                 } else {
                                     if (nowPlayOutputStreamType == STREAM_VOICE_CALL) {
-                                        AtlwLogUtils.logUtils.logI(TAG, "远离手机，切换到扬声器播放");
+                                        AtlwLogUtil.logUtils.logI(TAG, "远离手机，切换到扬声器播放");
                                         nowPlayOutputStreamType = STREAM_MUSIC;
-                                        AtlwMobileOptionsUtils.getInstance().useSpeakersToPlay();
+                                        AtlwMobileOptionsUtil.getInstance().useSpeakersToPlay();
                                         start(activity, nowPlayPath, AtlwMediaPlayOutputType.SPEAKER, true, true);
                                     }
                                 }
@@ -349,7 +349,7 @@ public class AtlwMediaPlayUtils {
      */
     private void registProximitySensorListener(Activity activity) {
         if (isUsePowerWakeLock || isAllowChangeOutputType) {
-            AtlwMobileOptionsUtils.getInstance().registProximitySensorListener( getProximityListener(activity));
+            AtlwMobileOptionsUtil.getInstance().registProximitySensorListener( getProximityListener(activity));
         }
     }
 
@@ -358,7 +358,7 @@ public class AtlwMediaPlayUtils {
      */
     private void unRegistProximitySensorListener(Activity activity) {
         if (proximityListener != null) {
-            AtlwMobileOptionsUtils.getInstance().unRegistProximitySensorListener( getProximityListener(activity));
+            AtlwMobileOptionsUtil.getInstance().unRegistProximitySensorListener( getProximityListener(activity));
             proximityListener = null;
         }
     }

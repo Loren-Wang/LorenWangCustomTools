@@ -3,10 +3,10 @@ package android.lorenwang.tools.image.loading;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.app.AtlwScreenUtils;
-import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.app.AtlwViewUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
+import android.lorenwang.tools.app.AtlwScreenUtil;
+import android.lorenwang.tools.app.AtlwThreadUtil;
+import android.lorenwang.tools.app.AtlwViewUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -74,8 +74,8 @@ public abstract class AtlwBaseImageLoading {
     protected final AtlwImageLoadConfig defaultConfig = new AtlwImageLoadConfig.Build().build();
 
     public AtlwBaseImageLoading() {
-        showThumbnailMaxWidth = (int) (AtlwScreenUtils.getInstance().getScreenWidth() * 0.05);
-        showThumbnailMaxHeight = (int) (AtlwScreenUtils.getInstance().getScreenHeight() * 0.05);
+        showThumbnailMaxWidth = (int) (AtlwScreenUtil.getInstance().getScreenWidth() * 0.05);
+        showThumbnailMaxHeight = (int) (AtlwScreenUtil.getInstance().getScreenHeight() * 0.05);
     }
 
     /**
@@ -343,7 +343,7 @@ public abstract class AtlwBaseImageLoading {
             }
         }
         if (setViewWidth > 0 && setViewHeight > 0 && (imageView.getWidth() != setViewWidth || imageView.getHeight() != setViewHeight)) {
-            AtlwViewUtils.getInstance().setViewWidthHeight(imageView, setViewWidth, setViewHeight);
+            AtlwViewUtil.getInstance().setViewWidthHeight(imageView, setViewWidth, setViewHeight);
         }
     }
 
@@ -360,24 +360,24 @@ public abstract class AtlwBaseImageLoading {
             if (resultBitmap != null && !resultBitmap.isRecycled()) {
                 //判断是否有显示宽高以及比例处理问题
                 if (config.getShowViewWidth() > 0 && config.getShowViewHeight() > 0) {
-                    resultBitmap = AtlwImageCommonUtils.getInstance().zoomImage(resultBitmap, config.getShowViewWidth(), config.getShowViewHeight());
+                    resultBitmap = AtlwImageCommonUtil.getInstance().zoomImage(resultBitmap, config.getShowViewWidth(), config.getShowViewHeight());
                 } else if (config.getShowViewWidth() > 0) {
                     if (config.isUseActualAspectRatio()) {
                         int zoomHeight = Float.valueOf(resultBitmap.getHeight() * 1.0f / resultBitmap.getWidth() * config.getShowViewWidth())
                                 .intValue();
-                        resultBitmap = AtlwImageCommonUtils.getInstance().zoomImage(resultBitmap, config.getShowViewWidth(), zoomHeight);
+                        resultBitmap = AtlwImageCommonUtil.getInstance().zoomImage(resultBitmap, config.getShowViewWidth(), zoomHeight);
                     }
                 } else if (config.getShowViewHeight() > 0) {
                     if (config.isUseActualAspectRatio()) {
                         int zoomWidth = Float.valueOf(resultBitmap.getWidth() * 1.0f / resultBitmap.getHeight() * config.getShowViewHeight())
                                 .intValue();
-                        resultBitmap = AtlwImageCommonUtils.getInstance().zoomImage(resultBitmap, zoomWidth, config.getShowViewHeight());
+                        resultBitmap = AtlwImageCommonUtil.getInstance().zoomImage(resultBitmap, zoomWidth, config.getShowViewHeight());
                     }
                 }
                 //返回位图
                 if (resultBitmap != null && !resultBitmap.isRecycled() && config.getLoadCallback() != null) {
                     final Bitmap finalResultBitmap = resultBitmap;
-                    AtlwThreadUtils.getInstance().postOnUiThread(new Runnable() {
+                    AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             config.getLoadCallback().onSuccess(finalResultBitmap, finalResultBitmap.getWidth(), finalResultBitmap.getHeight());

@@ -41,18 +41,18 @@ import android.view.WindowManager;
  * Log.d("h_bl", "屏幕高度（dp）：" + screenHeight);
  */
 
-public class AtlwScreenUtils {
+public class AtlwScreenUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwScreenUtils optionsInstance;
+    private static volatile AtlwScreenUtil optionsInstance;
 
-    private AtlwScreenUtils() {
+    private AtlwScreenUtil() {
     }
 
-    public static AtlwScreenUtils getInstance() {
+    public static AtlwScreenUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwScreenUtils.class) {
+            synchronized (AtlwScreenUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwScreenUtils();
+                    optionsInstance = new AtlwScreenUtil();
                 }
             }
         }

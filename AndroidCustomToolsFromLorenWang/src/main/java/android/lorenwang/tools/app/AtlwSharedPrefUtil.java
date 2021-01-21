@@ -19,28 +19,28 @@ import java.util.Set;
  * 备注：
  */
 
-public class AtlwSharedPrefUtils {
+public class AtlwSharedPrefUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwSharedPrefUtils optionsInstance;
+    private static volatile AtlwSharedPrefUtil optionsInstance;
     private final SharedPreferences mPref;
 
-    private AtlwSharedPrefUtils() {
+    private AtlwSharedPrefUtil() {
         mPref = PreferenceManager
                 .getDefaultSharedPreferences(AtlwConfig.nowApplication);
     }
 
-    public static AtlwSharedPrefUtils getInstance() {
+    public static AtlwSharedPrefUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwSharedPrefUtils.class) {
+            synchronized (AtlwSharedPrefUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwSharedPrefUtils();
+                    optionsInstance = new AtlwSharedPrefUtil();
                 }
             }
         }
         return optionsInstance;
     }
 
-    private static volatile AtlwSharedPrefUtils atlwSharedPrefUtils;
+    private static volatile AtlwSharedPrefUtil atlwSharedPrefUtils;
 
 
     public SharedPreferences getSharedPreferences(String name) {

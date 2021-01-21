@@ -9,8 +9,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwAPKPackageNameList;
-import android.lorenwang.tools.base.AtlwCheckUtils;
-import android.lorenwang.tools.mobile.AtlwMobilePhoneBrandUtils;
+import android.lorenwang.tools.base.AtlwCheckUtil;
+import android.lorenwang.tools.mobile.AtlwMobilePhoneBrandUtil;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -53,18 +53,18 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 修改时间：
  * 备注：
  */
-public class AtlwActivityJumpUtils {
+public class AtlwActivityJumpUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwActivityJumpUtils optionsInstance;
+    private static volatile AtlwActivityJumpUtil optionsInstance;
 
-    private AtlwActivityJumpUtils() {
+    private AtlwActivityJumpUtil() {
     }
 
-    public static AtlwActivityJumpUtils getInstance() {
+    public static AtlwActivityJumpUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwActivityJumpUtils.class) {
+            synchronized (AtlwActivityJumpUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwActivityJumpUtils();
+                    optionsInstance = new AtlwActivityJumpUtil();
                 }
             }
         }
@@ -440,31 +440,31 @@ public class AtlwActivityJumpUtils {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //如果有传应用市场包则指定包，否则自动选择
         if (JtlwCheckVariateUtils.getInstance().isEmpty(marketPkg)) {
-            if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_XIAO_MI)) {
+            if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile()
+                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_XIAO_MI)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_XIAO_MI);
-            } else if (AtlwMobilePhoneBrandUtils.getInstance().isVivoMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_VIVO)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isVivoMobile()
+                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_VIVO)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_VIVO);
-            } else if (AtlwMobilePhoneBrandUtils.getInstance().isCoolpadMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_COOLPAD)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isCoolpadMobile()
+                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_COOLPAD)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_COOLPAD);
-            } else if (AtlwMobilePhoneBrandUtils.getInstance().isHuaWeiMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_HUA_WEI)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isHuaWeiMobile()
+                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_HUA_WEI)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_HUA_WEI);
-            } else if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_FLY_ME)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isMeiZuMobile()
+                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_FLY_ME)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_FLY_ME);
-            } else if (AtlwMobilePhoneBrandUtils.getInstance().isOPPOMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_OPPO)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isOPPOMobile()
+                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_OPPO)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_OPPO);
-            } else if (AtlwMobilePhoneBrandUtils.getInstance().isSamsungMobile()
-                    && AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_SAMSUNG)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isSamsungMobile()
+                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_SAMSUNG)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_SAMSUNG);
             } else {
-                if (AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_APPLICATION_OF_TREASURE)) {
+                if (AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_APPLICATION_OF_TREASURE)) {
                     intent.setPackage(AtlwAPKPackageNameList.MARKET_APPLICATION_OF_TREASURE);
-                } else if (AtlwCheckUtils.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_BAIDU)) {
+                } else if (AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_BAIDU)) {
                     intent.setPackage(AtlwAPKPackageNameList.MARKET_BAIDU);
                 }
             }

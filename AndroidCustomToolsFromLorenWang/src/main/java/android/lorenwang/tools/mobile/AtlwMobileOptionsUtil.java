@@ -12,7 +12,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.base.AtlwLogUtils;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -69,18 +69,18 @@ import static android.media.AudioManager.STREAM_VOICE_CALL;
  * 修改时间：
  * 备注：
  */
-public final class AtlwMobileOptionsUtils {
+public final class AtlwMobileOptionsUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwMobileOptionsUtils optionsInstance;
+    private static volatile AtlwMobileOptionsUtil optionsInstance;
 
-    private AtlwMobileOptionsUtils() {
+    private AtlwMobileOptionsUtil() {
     }
 
-    public static AtlwMobileOptionsUtils getInstance() {
+    public static AtlwMobileOptionsUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwMobileOptionsUtils.class) {
+            synchronized (AtlwMobileOptionsUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwMobileOptionsUtils();
+                    optionsInstance = new AtlwMobileOptionsUtil();
                 }
             }
         }
@@ -132,7 +132,7 @@ public final class AtlwMobileOptionsUtils {
             }
             return intent;
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logD(TAG, "安装异常：" + e.getMessage());
+            AtlwLogUtil.logUtils.logD(TAG, "安装异常：" + e.getMessage());
             return null;
         }
     }
@@ -143,10 +143,10 @@ public final class AtlwMobileOptionsUtils {
      * @param packageName 包名
      */
     public void jumpToAppPermissionSettingPage(Activity activity, String packageName) {
-        AtlwLogUtils.logUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
-        if (AtlwMobilePhoneBrandUtils.getInstance().isMeiZuMobile()) {
+        AtlwLogUtil.logUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
+        if (AtlwMobilePhoneBrandUtil.getInstance().isMeiZuMobile()) {
             jumpToMeizuAppPermissionSettingPage(activity, packageName);
-        } else if (AtlwMobilePhoneBrandUtils.getInstance().isXiaoMiMobile()) {
+        } else if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile()) {
             jumpToXiaoMiAppPermissionSettingPage(activity, packageName);
         } else {
             jumpToDefaultAppPermissionSettingPage(activity, packageName);
@@ -215,7 +215,7 @@ public final class AtlwMobileOptionsUtils {
      */
     private void jumpToXiaoMiAppPermissionSettingPage(Activity activity, String packageName) {
         String rom = getMiuiVersion();
-        AtlwLogUtils.logUtils.logI(TAG, "jumpToMiaoMiAppPermissionSettingPage --- rom : " + rom);
+        AtlwLogUtil.logUtils.logI(TAG, "jumpToMiaoMiAppPermissionSettingPage --- rom : " + rom);
         Intent intent = new Intent();
         if ("V6".equals(rom) || "V7".equals(rom)) {
             intent.setAction("miui.intent.action.APP_PERM_EDITOR");
@@ -281,7 +281,7 @@ public final class AtlwMobileOptionsUtils {
                     .getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(milliseconds);
         } catch (Exception e) {
-            AtlwLogUtils.logUtils.logE(e);
+            AtlwLogUtil.logUtils.logE(e);
         }
     }
 
@@ -323,7 +323,7 @@ public final class AtlwMobileOptionsUtils {
             }
             activity.startActivityForResult(intent, requestCode);
         } else {
-            AtlwLogUtils.logUtils.logD(TAG, "don't get camera permisstion");
+            AtlwLogUtil.logUtils.logD(TAG, "don't get camera permisstion");
         }
     }
 
@@ -366,7 +366,7 @@ public final class AtlwMobileOptionsUtils {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             activity.startActivityForResult(intent, requestCode);
         } else {
-            AtlwLogUtils.logUtils.logD(TAG, "don't get camera permisstion");
+            AtlwLogUtil.logUtils.logD(TAG, "don't get camera permisstion");
         }
     }
 
@@ -412,9 +412,9 @@ public final class AtlwMobileOptionsUtils {
      * 申请电源设备锁，关闭屏幕
      */
     public void applyForPowerLocalWakeLock() {
-        AtlwLogUtils.logUtils.logI(TAG, "申请电源设备锁");
+        AtlwLogUtil.logUtils.logI(TAG, "申请电源设备锁");
         if (getPowerLocalWakeLock() != null) {
-            AtlwLogUtils.logUtils.logI(TAG, "电源设备锁获取成功，准备申请锁住屏幕。");
+            AtlwLogUtil.logUtils.logI(TAG, "电源设备锁获取成功，准备申请锁住屏幕。");
             //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
             getPowerLocalWakeLock().acquire(100);// 申请设备电源锁
         }
@@ -424,9 +424,9 @@ public final class AtlwMobileOptionsUtils {
      * 释放电源设备锁，唤起屏幕
      */
     public void releasePowerLocalWakeLock() {
-        AtlwLogUtils.logUtils.logD(TAG, "释放设备电源锁");
+        AtlwLogUtil.logUtils.logD(TAG, "释放设备电源锁");
         if (getPowerLocalWakeLock() != null) {
-            AtlwLogUtils.logUtils.logI(TAG, "电源设备锁获取成功，准备申请释放屏幕并唤醒。");
+            AtlwLogUtil.logUtils.logI(TAG, "电源设备锁获取成功，准备申请释放屏幕并唤醒。");
             //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
             getPowerLocalWakeLock().setReferenceCounted(false);
             getPowerLocalWakeLock().release(); // 释放设备电源锁
@@ -517,7 +517,7 @@ public final class AtlwMobileOptionsUtils {
      */
     public void useHandsetToPlay(Activity activity) {
         if (getAudioManager() != null) {
-            AtlwLogUtils.logUtils.logD(TAG, "切换到手机听筒播放");
+            AtlwLogUtil.logUtils.logD(TAG, "切换到手机听筒播放");
             activity.setVolumeControlStream(STREAM_VOICE_CALL);
             getAudioManager().setSpeakerphoneOn(false);//关闭扬声器
             getAudioManager().setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE,
@@ -532,7 +532,7 @@ public final class AtlwMobileOptionsUtils {
      */
     public void useSpeakersToPlay() {
         if (getAudioManager() != null) {
-            AtlwLogUtils.logUtils.logD(TAG, "切换到扬声器播放");
+            AtlwLogUtil.logUtils.logD(TAG, "切换到扬声器播放");
             getAudioManager().setSpeakerphoneOn(true);
             getAudioManager().setMode(AudioManager.MODE_NORMAL);
         }

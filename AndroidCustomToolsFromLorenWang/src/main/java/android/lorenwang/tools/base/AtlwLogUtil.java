@@ -1,7 +1,6 @@
 package android.lorenwang.tools.base;
 
-import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.file.AtlwFileOptionUtils;
+import android.lorenwang.tools.file.AtlwFileOptionUtil;
 import android.util.Log;
 
 import java.io.File;
@@ -14,7 +13,7 @@ import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
 /**
  * 日志工具类
  */
-public final class AtlwLogUtils extends JtlwLogUtils {
+public final class AtlwLogUtil extends JtlwLogUtils {
 
     @Override
     public void logV(String msg) {
@@ -120,105 +119,6 @@ public final class AtlwLogUtils extends JtlwLogUtils {
         }
     }
 
-
-
-//
-//    public static void logD(String tag, String msg) {
-//        if (isDebuggable) {
-//            Log.d(tag, msg);
-//            saveLog("d", tag, msg);
-//        }
-//    }
-//
-
-
-//
-//    // info
-//    public static void logI(String msg) {
-//        if (isDebuggable) {
-//            Log.i(DEFAULT_TAG, msg);
-//            saveLog("i", DEFAULT_TAG, msg);
-//        }
-//    }
-//
-//    public static void logI(String tag, String msg) {
-//        if (isDebuggable) {
-//            Log.i(tag, msg);
-//            saveLog("i", tag, msg);
-//        }
-//    }
-//
-
-//
-//    public static void logI(String tag, String msg, Throwable tr) {
-//        if (isDebuggable) {
-//            Log.i(tag, msg, tr);
-//            saveLog("i", tag, msg);
-//        }
-//    }
-//
-//    // warning
-//    public static void logW(String msg) {
-//        if (isDebuggable) {
-//            Log.w(DEFAULT_TAG, msg);
-//            saveLog("w", DEFAULT_TAG, msg);
-//        }
-//    }
-//
-//    public static void logW(String tag, String msg) {
-//        if (isDebuggable) {
-//            Log.w(tag, msg);
-//            saveLog("w", tag, msg);
-//        }
-//    }
-//
-//    public static void logW(Throwable tr) {
-//        if (isDebuggable) {
-//            Log.w(DEFAULT_TAG, DEFAULT_MSG, tr);
-//            saveLog("w", DEFAULT_TAG, DEFAULT_MSG);
-//        }
-//    }
-//
-//    public static void logW(String tag, String msg, Throwable tr) {
-//        if (isDebuggable) {
-//            Log.w(tag, msg, tr);
-//            saveLog("w", tag, msg);
-//        }
-//    }
-//
-//    // error
-//    public static void logE(String msg) {
-//        if (isDebuggable) {
-//            Log.e(DEFAULT_TAG, msg);
-//            saveLog("error", DEFAULT_TAG, msg);
-//        }
-//    }
-//
-//    public static void logE(String tag, String msg) {
-//        if (isDebuggable) {
-//            Log.e(tag, msg);
-//            saveLog("error", tag, msg);
-//        }
-//    }
-//
-
-//
-//    public static void logE(String tag, Throwable tr) {
-//        if (isDebuggable) {
-//            Log.e(tag, DEFAULT_MSG, tr);
-//            saveLog("error", tag, DEFAULT_MSG);
-//        }
-//    }
-//
-//    public static void logE(String tag, String msg, Throwable tr) {
-//        if (isDebuggable) {
-//            Log.e(tag, msg, tr);
-//            saveLog("error", tag, msg);
-//        }
-//    }
-//
-//
-
     /**
      * 保存log信息
      *
@@ -243,9 +143,8 @@ public final class AtlwLogUtils extends JtlwLogUtils {
                 message = "";
             }
 
-            AtlwFileOptionUtils.getInstance().writeToFile(true, saveFile
-                    , "logType:" + type + "  logTag:" + tag + "\nlogMessage:" + message + "\n\n"
-                    , "utf-8", true);
+            AtlwFileOptionUtil.getInstance().writeToFile(true, saveFile, "logType:" + type + "  logTag:" + tag + "\nlogMessage:" + message + "\n\n",
+                    "utf-8", true);
         } catch (Exception e) {
             Log.e("error", "error");
         }
@@ -269,10 +168,9 @@ public final class AtlwLogUtils extends JtlwLogUtils {
         if (logSaveFileDirPath != null) {
             try {
                 //创建日志文件夹
-                AtlwFileOptionUtils.getInstance().createDirectory(true, logSaveFileDirPath,false);
+                AtlwFileOptionUtil.getInstance().createDirectory(true, logSaveFileDirPath, false);
                 //生成文件名称
-                String fileName = JtlwDateTimeUtils.getInstance().getFormatDateNowTime(
-                        "yyyy_mm_dd_hh_MM_ss.log");
+                String fileName = JtlwDateTimeUtils.getInstance().getFormatDateNowTime("yyyy_mm_dd_hh_MM_ss.log");
                 //生成文件file
                 if (logSaveFileDirPath.lastIndexOf("/") == logSaveFileDirPath.length() - 1) {
                     logSaveFile = new File(logSaveFileDirPath + fileName);

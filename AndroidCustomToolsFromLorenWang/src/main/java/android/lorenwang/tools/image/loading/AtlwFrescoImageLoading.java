@@ -3,8 +3,6 @@ package android.lorenwang.tools.image.loading;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.app.AtlwThreadUtils;
-import android.lorenwang.tools.image.AtlwImageCommonUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
