@@ -8,7 +8,7 @@
 
     发起权限请求--goToRequestPermissions(object,permisstions,permissionsRequestCode,permissionRequestCallback)
     接收到权限请求返回--receivePermissionsResult(requestCode,permissions,grantResults)(需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法)
-    控制软键盘显示与隐藏--setInputMethodVisibility(view,visibility)
+    控制软键盘显示与隐藏--setInputMethodVisibility(activity,view,visibility)
     返回APP级别的实例--getApplicationContext(context)
     允许退出App的判断以及线程--allowExitApp(time)
     检测App版本更新，通过versionName比较--checkAppVersionUpdate(oldVersion, newVersion)

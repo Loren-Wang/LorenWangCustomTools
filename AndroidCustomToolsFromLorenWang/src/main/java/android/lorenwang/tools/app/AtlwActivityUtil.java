@@ -35,7 +35,7 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  * 方法：
  * 发起权限请求--goToRequestPermissions(object,permisstions,permissionsRequestCode,permissionRequestCallback)
  * 接收到权限请求返回--receivePermissionsResult(requestCode,permissions,grantResults)(需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法)
- * 控制软键盘显示与隐藏--setInputMethodVisibility(view,visibility)
+ * 控制软键盘显示与隐藏--setInputMethodVisibility(activity,view,visibility)
  * 返回APP级别的实例--getApplicationContext(context)
  * 允许退出App的判断以及线程--allowExitApp(time)
  * 检测App版本更新，通过versionName比较--checkAppVersionUpdate(oldVersion, newVersion)
@@ -165,29 +165,32 @@ public class AtlwActivityUtil {
      * @param view       要显示或者隐藏的view
      * @param visibility 显示状态
      */
-    public void setInputMethodVisibility(View view, int visibility) {
-        if (AtlwConfig.nowApplication == null) {
+    public void setInputMethodVisibility(Activity activity, View view, int visibility) {
+        InputMethodManager imm =
+                (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (view == null && visibility == View.GONE) {
+            if (activity.getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            }
             return;
         }
-        InputMethodManager imm = (InputMethodManager) AtlwConfig.nowApplication.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            switch (visibility) {
-                case View.VISIBLE:
-                    //显示软键盘 //
-                    if (view != null) {
-                        view.setFocusableInTouchMode(true);
-                        view.requestFocus();
-                    }
-                    imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
-                    break;
-                case View.GONE:
-                    //隐藏软键盘 //
-                    view.clearFocus();
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    break;
-                default:
-                    break;
-            }
+        switch (visibility) {
+            case View.VISIBLE:
+                //显示软键盘 //
+                if (view != null) {
+                    view.setFocusableInTouchMode(true);
+                    view.requestFocus();
+                }
+                imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+                break;
+            case View.GONE:
+                //隐藏软键盘 //
+                view.clearFocus();
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                break;
+            default:
+                break;
         }
     }
 
