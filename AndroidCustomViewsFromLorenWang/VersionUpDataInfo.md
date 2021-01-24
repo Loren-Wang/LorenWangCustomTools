@@ -1,3 +1,10 @@
+**V3.0.2**
+
+1、AvlwQuantityOfCommodityEditText显示逻辑修改
+2、AvlwFixedWidthHeightDrawableButton修改图片渲染
+
+
+    
 **V3.0.0**
 
 1、所有工具类名称修改

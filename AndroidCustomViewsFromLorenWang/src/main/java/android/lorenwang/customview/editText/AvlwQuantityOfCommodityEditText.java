@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.base.AtlwLogUtil;
+import android.lorenwang.tools.app.AtlwViewUtil;
 import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.os.Build;
 import android.text.Editable;
@@ -17,10 +17,12 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.appcompat.widget.AppCompatEditText;
+import javabase.lorenwang.tools.JtlwLogUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
  * 功能作用：商品数量修改textView
@@ -36,6 +38,10 @@ import androidx.appcompat.widget.AppCompatEditText;
 
 public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
     private final String TAG = getClass().getName();
+    /**
+     * 输入文本正则
+     */
+    private final String TEXT_MATCHES = "[0-9]+";
     /**
      * 初始左侧内边距
      */
@@ -55,23 +61,31 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
     /**
      * 边框宽度
      */
-    private int borderWidth = 0;
+    private Integer borderWidth = 0;
+    /**
+     * 是否只给内容加边框
+     */
+    private boolean borderOnlyShowContent = false;
     /**
      * 边框角度半径
      */
     private int borderRadio = 0;
     /**
-     * 操作按钮和文本之间 的间距
+     * 文本内部左右边距
      */
-    private int optionsButtonAndTextDistance = 0;
+    private int textInsideDistance = 0;
+    /**
+     * 操作按钮和文本分隔之间的间距
+     */
+    private int optionsButtonAndTextSeparatedDistance = 0;
+    /**
+     * 操作按钮内部边距
+     */
+    private int optionsButtonInsideDistance = 0;
     /**
      * 操作按钮宽度
      */
     private int optionsButtonWidth = 0;
-    /**
-     * 操作按钮左右边距
-     */
-    private int optionsButtonLeftRightDistance = 0;
     /**
      * 是否允许新增
      */
@@ -87,7 +101,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
     /**
      * 总量数量
      */
-    private Long quantity = 0L;
+    private long quantity = 0L;
     /**
      * 最小总量数量
      */
@@ -99,13 +113,13 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
     /**
      * 新增点击事件
      */
-    private OnClickListener addClickListener;
+    private View.OnClickListener addClickListener;
     /**
      * 减少点击事件
      */
-    private OnClickListener reduceClickListener;
+    private View.OnClickListener reduceClickListener;
 
-    /*****************************************绘制参数*****************************************/
+    /*-----------------------------------------绘制参数--------------------------------------------*/
     /**
      * 边框画笔
      */
@@ -142,46 +156,76 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
      * 减少按钮禁止位图坐标矩形
      */
     private Rect reduceButtonNotAllowBitmapRect = null;
+    /**
+     * 改变监听
+     */
+    private OnChangeListener onChangeListener;
+    /**
+     * 使用的数据
+     */
+    private Object data;
 
+    /**
+     * 控件宽度
+     */
+    private int viewLayoutSetWidth = -1;
+
+    /**
+     * 控件高度
+     */
+    private int viewLayoutSetHeight = -1;
 
     public AvlwQuantityOfCommodityEditText(Context context) {
         super(context);
-        init(context, null);
+        init(context, null, -1);
     }
 
     public AvlwQuantityOfCommodityEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        init(context, attrs, -1);
     }
 
     public AvlwQuantityOfCommodityEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
+        init(context, attrs, defStyleAttr);
     }
 
     /**
      * 初始化
      */
-    private void init(Context context, AttributeSet attrs) {
+    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwQuantityOfCommodityEditText);
         //获取间距
-        optionsButtonAndTextDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEOptionsButtonAndTextDistance, optionsButtonAndTextDistance);
+        textInsideDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwTextInsideDistance,
+                textInsideDistance);
+        //操作按钮内部边距
+        optionsButtonInsideDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwOptionsButtonInsideDistance,
+                optionsButtonInsideDistance);
+        //操作按钮和文本分隔之间的间距
+        optionsButtonAndTextSeparatedDistance = attributes.getDimensionPixelOffset(
+                R.styleable.AvlwQuantityOfCommodityEditText_avlwOptionsButtonAndTextSeparatedDistance, optionsButtonAndTextSeparatedDistance);
         //获取操作按钮宽度
-        optionsButtonWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEOptionsButtonWidth, optionsButtonWidth);
-        //操作按钮左右边距
-        optionsButtonLeftRightDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEOptionsButtonLeftRightDistance, optionsButtonLeftRightDistance);
+        optionsButtonWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwOptionsButtonWidth,
+                optionsButtonWidth);
         //边框角度半径
-        borderRadio = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEQuantityBorderRadio, borderRadio);
+        borderRadio = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQuantityBorderRadio, borderRadio);
         //边框宽度
-        borderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEQuantityBorderWidth, borderWidth);
+        borderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQuantityBorderWidth, borderWidth);
+        //是否只给内容加边框
+        borderOnlyShowContent = attributes.getBoolean(R.styleable.AvlwQuantityOfCommodityEditText_avlwBorderOnlyShowContent, borderOnlyShowContent);
+
         //按钮部分数据参数
         try {
-            addButtonAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEAddButtonDrawableAllow));
-            addButtonNotAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEAddButtonDrawableNotAllow));
-            reduceButtonAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableAllow));
-            reduceButtonNotAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEReduceButtonDrawableNotAllow));
+            addButtonAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(
+                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwAddButtonDrawableAllow));
+            addButtonNotAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(
+                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwAddButtonDrawableNotAllow));
+            reduceButtonAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(
+                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwReduceButtonDrawableAllow));
+            reduceButtonNotAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(
+                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwReduceButtonDrawableNotAllow));
         } catch (Exception e) {
-            AtlwLogUtil.logUtils.logE(TAG, "数量控件初始化异常");
+            JtlwLogUtils.logUtils.logE(TAG, "数量控件初始化异常");
         }
         if (addButtonAllowBitmap != null) {
             addButtonAllowBitmapRect = new Rect(0, 0, addButtonAllowBitmap.getWidth(), addButtonAllowBitmap.getHeight());
@@ -201,23 +245,46 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
         borderPaint = new Paint();
         borderPaint.setAntiAlias(true);
         borderPaint.setStrokeWidth(borderWidth);
-        borderPaint.setColor(attributes.getColor(R.styleable.AvlwQuantityOfCommodityEditText_avlwQOCEQuantityBorderColor, Color.TRANSPARENT));
+        borderPaint.setColor(attributes.getColor(R.styleable.AvlwQuantityOfCommodityEditText_avlwQuantityBorderColor, Color.TRANSPARENT));
         borderPaint.setStyle(Paint.Style.STROKE);
 
-
-        //默认禁用输入
-        setEnabled(false);
         //设置允许输入的字符串
         setKeyListener(DigitsKeyListener.getInstance("1234567890"));
         //设置输入类型是数字
         setInputType(InputType.TYPE_CLASS_NUMBER);
-        firstPaddingLeft = getPaddingLeft();
-        firstPaddingRight = getPaddingRight();
-        firstPaddingTop = getPaddingTop();
-        firstPaddingBottom = getPaddingBottom();
         attributes.recycle();
 
-        addTextChangedListener(new TextWatcher() {
+        //添加监听(重写函数进行了处理)
+        addTextChangedListener(null);
+
+        //控件布局设置宽高处理
+        attributes = context.obtainStyledAttributes(attrs,
+                new int[]{android.R.attr.layout_width, android.R.attr.layout_height, android.R.attr.paddingStart, android.R.attr.paddingLeft,
+                        android.R.attr.paddingEnd, android.R.attr.paddingRight, android.R.attr.paddingTop, android.R.attr.paddingBottom});
+        String value = attributes.getString(0);
+        String regex = "-[0-9]+";
+        if (value != null && !value.matches(regex)) {
+            viewLayoutSetWidth = attributes.getDimensionPixelOffset(0, -1);
+        }
+        value = attributes.getString(1);
+        if (value != null && !value.matches(regex)) {
+            viewLayoutSetHeight = attributes.getDimensionPixelOffset(1, -1);
+        }
+        //内边距处理
+        firstPaddingLeft = Math.max(attributes.getDimensionPixelOffset(2, firstPaddingLeft),
+                Math.max(attributes.getDimensionPixelOffset(3, firstPaddingLeft), firstPaddingLeft));
+        firstPaddingRight = Math.max(attributes.getDimensionPixelOffset(4, firstPaddingRight),
+                Math.max(attributes.getDimensionPixelOffset(5, firstPaddingRight), firstPaddingRight));
+        firstPaddingTop = attributes.getDimensionPixelOffset(6, firstPaddingTop);
+        firstPaddingBottom = attributes.getDimensionPixelOffset(7, firstPaddingBottom);
+
+        //设置布局设置数据
+        changeQuantity(getText(), true);
+    }
+
+    @Override
+    public void addTextChangedListener(TextWatcher watcher) {
+        super.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -225,196 +292,234 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Long quantity = AvlwQuantityOfCommodityEditText.this.quantity;
-                try {
-                    quantity = Long.parseLong(s.toString());
-                } catch (NumberFormatException e) {
-                    AtlwLogUtil.logUtils.logE(TAG, "传递的参数非整数参数");
-                }
-                //判断修改后是否超范围
-                if (quantity.compareTo(maxQuantity) > 0) {
-                    setText(null);
-                    return;
-                }
-                if (quantity.compareTo(minQuantity) < 0) {
-                    setText(null);
-                    return;
-                }
-                //更新显示数据
-                AvlwQuantityOfCommodityEditText.this.quantity = quantity;
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (s != null && JtlwCheckVariateUtils.getInstance().isNotEmpty(s.toString())) {
+                    changeQuantity(s, true);
+                } else {
+                    changeQuantity(quantity, false);
+                }
             }
         });
-
     }
 
-    @Override
-    public void setPadding(int left, int top, int right, int bottom) {
-        super.setPadding(left, top, right, bottom);
-        firstPaddingLeft = left;
-        firstPaddingRight = right;
-        firstPaddingTop = top;
-        firstPaddingBottom = bottom;
+    /**
+     * 设置改变监听
+     *
+     * @param onChangeListener 改变监听
+     */
+    public void setOnChangeListener(AvlwQuantityOfCommodityEditText.OnChangeListener onChangeListener) {
+        this.onChangeListener = onChangeListener;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int borderPosi = (int) (borderWidth / 2.0f);
-        super.setPadding((int) (firstPaddingLeft + optionsButtonAndTextDistance + borderWidth * 1.5 + optionsButtonWidth + optionsButtonLeftRightDistance * 2),
-                firstPaddingTop + borderPosi,
-                (int) (firstPaddingRight + optionsButtonAndTextDistance + borderWidth * 1.5 + optionsButtonWidth + optionsButtonLeftRightDistance * 2),
-                firstPaddingBottom + borderPosi);
+    /**
+     * 设置使用的数据
+     *
+     * @param data 使用的数据
+     */
+    public void setData(Object data) {
+        this.data = data;
     }
 
+    /**
+     * 禁用长按事件
+     *
+     * @return 已执行长按
+     */
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        int showHeight = Math.min(optionsButtonWidth, getHeight());
-        if (allowAdd && addButtonAllowBitmap != null && addButtonAllowBitmapRect != null) {
-            canvas.drawBitmap(addButtonAllowBitmap, addButtonAllowBitmapRect, getAddRectF(showHeight), null);
-        }
-        if (!allowAdd && addButtonNotAllowBitmap != null && addButtonNotAllowBitmapRect != null) {
-            canvas.drawBitmap(addButtonNotAllowBitmap, addButtonNotAllowBitmapRect, getAddRectF(showHeight), null);
-        }
-        if (allowReduce && reduceButtonAllowBitmap != null && reduceButtonAllowBitmapRect != null) {
-            canvas.drawBitmap(reduceButtonAllowBitmap, reduceButtonAllowBitmapRect, getReduceRectF(showHeight), null);
-        }
-        if (!allowReduce && reduceButtonNotAllowBitmap != null && reduceButtonNotAllowBitmapRect != null) {
-            canvas.drawBitmap(reduceButtonNotAllowBitmap, reduceButtonNotAllowBitmapRect, getReduceRectF(showHeight), null);
-        }
-        //绘制矩形
-        int borderPosi = (int) (borderWidth / 2.0f);
-        borderPaint.setStyle(Paint.Style.STROKE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            canvas.drawRoundRect(borderPosi, borderPosi,
-                    getWidth() - borderPosi, getHeight() - borderPosi, borderRadio, borderRadio, borderPaint);
-        } else {
-            canvas.drawRoundRect(new RectF(borderPosi, borderPosi,
-                    getWidth() - borderPosi, getHeight() - borderPosi), borderRadio, borderRadio, borderPaint);
-        }
-        //绘制分隔线
-        borderPaint.setStyle(Paint.Style.FILL);
-        int leftStartX = optionsButtonWidth + firstPaddingLeft + borderWidth + optionsButtonLeftRightDistance * 2;
-        int rightStartX = getWidth() - optionsButtonWidth - firstPaddingRight - borderWidth - optionsButtonLeftRightDistance * 2;
-        int stopY = getHeight() - borderWidth;
-        canvas.drawLine(leftStartX, borderWidth, leftStartX, stopY, borderPaint);
-        canvas.drawLine(rightStartX, borderWidth, rightStartX, stopY, borderPaint);
-
+    public boolean performLongClick() {
+        return true;
     }
 
     private float downX;
     private float downY;
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                downX = event.getRawX();
-                downY = event.getRawY();
-                break;
-            case MotionEvent.ACTION_UP:
-                //判断点击范围移动
-                if (Math.abs(downX - event.getRawX()) < 100 && Math.abs(downY - event.getRawY()) < 100) {
-                    //判断抬起位置是否是增加或者减少区域
-                    if (event.getX() > firstPaddingLeft && event.getX() < firstPaddingLeft + optionsButtonWidth + optionsButtonLeftRightDistance * 2
-                            && event.getY() > 0 && event.getY() < getHeight()) {
-                        if (reduceClickListener != null) {
-                            reduceClickListener.onClick(this);
-                        } else {
-                            reduceQuantity();
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (isEnabled()) {
+            //手拿起时判断为移动的最小距离
+            int touchMinDistance = 100;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    downX = event.getRawX();
+                    downY = event.getRawY();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    //判断点击范围移动
+                    if (Math.abs(downX - event.getRawX()) < touchMinDistance && Math.abs(downY - event.getRawY()) < touchMinDistance) {
+                        Rect rect = getReduceRectF();
+                        //判断抬起位置是否是增加或者减少区域
+                        if (event.getX() > rect.left - optionsButtonInsideDistance && event.getX() < rect.right + optionsButtonInsideDistance &&
+                                event.getY() > rect.top - optionsButtonInsideDistance && event.getY() < rect.bottom + optionsButtonInsideDistance) {
+                            if (reduceClickListener != null) {
+                                reduceClickListener.onClick(this);
+                            } else {
+                                reduceQuantity(true);
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-                    if (event.getX() > getWidth() - firstPaddingRight - optionsButtonLeftRightDistance * 2 - optionsButtonWidth
-                            && event.getX() < getWidth() - firstPaddingRight
-                            && event.getY() > 0 && event.getY() < getHeight()) {
-                        if (addClickListener != null) {
-                            addClickListener.onClick(this);
-                        } else {
-                            addQuantity();
+                        rect = getAddRectF();
+                        //判断抬起位置是否是增加或者减少区域
+                        if (event.getX() > rect.left - optionsButtonInsideDistance && event.getX() < rect.right + optionsButtonInsideDistance &&
+                                event.getY() > rect.top - optionsButtonInsideDistance && event.getY() < rect.bottom + optionsButtonInsideDistance) {
+                            if (addClickListener != null) {
+                                addClickListener.onClick(this);
+                            } else {
+                                addQuantity(true);
+                            }
+                            return true;
                         }
-                        return true;
                     }
-                }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
-        return super.onTouchEvent(event);
+        return super.dispatchTouchEvent(event);
     }
 
-    /**
-     * 获取添加按钮要显示的位置
-     *
-     * @param rectHeight 要显示的高度
-     * @return 显示位置
-     */
-    private Rect getAddRectF(int rectHeight) {
-        int right = (int) (getWidth() - firstPaddingRight - borderWidth / 2.0f - optionsButtonLeftRightDistance);
-        int top = (getHeight() - rectHeight) / 2;
-        return new Rect(right - optionsButtonWidth, top, right, top + rectHeight);
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //绘制图标
+        if (allowAdd && addButtonAllowBitmap != null && addButtonAllowBitmapRect != null) {
+            canvas.drawBitmap(addButtonAllowBitmap, addButtonAllowBitmapRect, getAddRectF(), null);
+        }
+        if (!allowAdd && addButtonNotAllowBitmap != null && addButtonNotAllowBitmapRect != null) {
+            canvas.drawBitmap(addButtonNotAllowBitmap, addButtonNotAllowBitmapRect, getAddRectF(), null);
+        }
+        if (allowReduce && reduceButtonAllowBitmap != null && reduceButtonAllowBitmapRect != null) {
+            canvas.drawBitmap(reduceButtonAllowBitmap, reduceButtonAllowBitmapRect, getReduceRectF(), null);
+        }
+        if (!allowReduce && reduceButtonNotAllowBitmap != null && reduceButtonNotAllowBitmapRect != null) {
+            canvas.drawBitmap(reduceButtonNotAllowBitmap, reduceButtonNotAllowBitmapRect, getReduceRectF(), null);
+        }
+        if (borderWidth > 0) {
+            borderPaint.setStyle(Paint.Style.STROKE);
+            borderPaint.setStrokeWidth(borderWidth);
+            if (borderOnlyShowContent) {
+                int left = getReduceRectF().right + optionsButtonInsideDistance + optionsButtonAndTextSeparatedDistance;
+                int right = getAddRectF().left - optionsButtonInsideDistance - optionsButtonAndTextSeparatedDistance;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    canvas.drawRoundRect(left, borderWidth.floatValue(), right, getHeight() - borderWidth, borderRadio, borderRadio, borderPaint);
+                } else {
+                    canvas.drawRoundRect(new RectF(left, borderWidth.floatValue(), right, getHeight() - borderWidth), borderRadio, borderRadio,
+                            borderPaint);
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    canvas.drawRoundRect(getReduceRectF().left - borderWidth / 2.0F - optionsButtonInsideDistance, borderWidth.floatValue(),
+                            getAddRectF().right + optionsButtonInsideDistance + borderWidth / 2.0F, getHeight() - borderWidth.floatValue(),
+                            borderRadio, borderRadio, borderPaint);
+                } else {
+                    canvas.drawRoundRect(new RectF(getReduceRectF().left - borderWidth / 2.0F - optionsButtonInsideDistance, borderWidth.floatValue(),
+                                    getAddRectF().right + optionsButtonInsideDistance + borderWidth / 2.0F, getHeight() - borderWidth.floatValue()),
+                            borderRadio, borderRadio, borderPaint);
+                }
+                //绘制分隔线
+                borderPaint.setStyle(Paint.Style.FILL);
+                float x1 = getReduceRectF().right + optionsButtonInsideDistance + borderWidth / 2.0F + optionsButtonAndTextSeparatedDistance;
+                float x2 = getAddRectF().left - borderWidth / 2.0F - optionsButtonInsideDistance - optionsButtonAndTextSeparatedDistance;
+                canvas.drawLine(x1, borderWidth.floatValue(), x1, getHeight() - borderWidth, borderPaint);
+                canvas.drawLine(x2, borderWidth.floatValue(), x2, getHeight() - borderWidth, borderPaint);
+            }
+        }
     }
 
     /**
      * 获取减少按钮显示的位置
      *
-     * @param rectHeight 显示的高度
      * @return 显示位置
      */
-    private Rect getReduceRectF(int rectHeight) {
-        int left = (int) (firstPaddingLeft + borderWidth / 2.0f + optionsButtonLeftRightDistance);
-        int top = (getHeight() - rectHeight) / 2;
-        return new Rect(left, top, left + optionsButtonWidth, top + rectHeight);
+    private Rect getReduceRectF() {
+        int left = firstPaddingLeft + borderWidth;
+        int top = (int) Math.max((getHeight() - optionsButtonWidth - borderWidth * 2) / 2.0f + borderWidth, firstPaddingTop + borderWidth);
+        return new Rect(left + optionsButtonInsideDistance, top + optionsButtonInsideDistance,
+                left + optionsButtonWidth - optionsButtonInsideDistance, top + optionsButtonWidth - optionsButtonInsideDistance);
+    }
+
+    /**
+     * 获取添加按钮要显示的位置
+     *
+     * @return 显示位置
+     */
+    private Rect getAddRectF() {
+        int left = getWidth() - borderWidth * 2 - optionsButtonWidth - firstPaddingRight;
+        int top = (int) Math.max((getHeight() - optionsButtonWidth - borderWidth * 2) / 2.0f + borderWidth, firstPaddingTop + borderWidth);
+        return new Rect(left + optionsButtonInsideDistance, top + optionsButtonInsideDistance,
+                left + optionsButtonWidth - optionsButtonInsideDistance, top + optionsButtonWidth - optionsButtonInsideDistance);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        resetViewWidthHeight();
     }
 
     @Override
     public void setGravity(int gravity) {
-        super.setGravity(Gravity.CENTER_VERTICAL);
     }
 
-    /**
-     * 新增数量
-     */
-    public void addQuantity() {
-        addQuantity(addReduceQuantity);
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, type);
+        resetViewWidthHeight();
     }
 
     /**
      * 新增数量
      *
-     * @param quantity 数量
+     * @param allowCallbackChange 是否回调修改
      */
-    public void addQuantity(long quantity) {
+    public void addQuantity(boolean allowCallbackChange) {
+        long change = quantity % addReduceQuantity;
+        if (change == 0) {
+            addQuantity(addReduceQuantity, allowCallbackChange);
+        } else {
+            addQuantity(addReduceQuantity - change, allowCallbackChange);
+        }
+    }
+
+    /**
+     * 新增数量
+     *
+     * @param allowCallbackChange 是否回调修改
+     * @param quantity            数量
+     */
+    public void addQuantity(long quantity, boolean allowCallbackChange) {
         if (!allowAdd) {
             return;
         }
-        this.quantity += Math.abs(quantity);
-        setText(null);
-    }
-
-    /**
-     * 减少数量
-     */
-    public void reduceQuantity() {
-        reduceQuantity(-addReduceQuantity);
+        changeQuantity(this.quantity + Math.abs(quantity), allowCallbackChange);
     }
 
     /**
      * 减少数量
      *
-     * @param quantity 数量
+     * @param allowCallbackChange 是否回调修改
      */
-    public void reduceQuantity(long quantity) {
+    public void reduceQuantity(boolean allowCallbackChange) {
+        long change = quantity % addReduceQuantity;
+        if (change == 0) {
+            reduceQuantity(-addReduceQuantity, allowCallbackChange);
+        } else {
+            reduceQuantity(-change, allowCallbackChange);
+        }
+    }
+
+    /**
+     * 减少数量
+     *
+     * @param allowCallbackChange 是否回调修改
+     * @param quantity            数量
+     */
+    public void reduceQuantity(long quantity, boolean allowCallbackChange) {
         if (!allowReduce) {
             return;
         }
-        this.quantity -= Math.abs(quantity);
-        setText(null);
+        changeQuantity(this.quantity - Math.abs(quantity), allowCallbackChange);
     }
 
     /**
@@ -423,8 +528,9 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
      * @param addReduceQuantity 加减数量
      * @return 当前实例
      */
-    public AvlwQuantityOfCommodityEditText setAddReduceQuantity(long addReduceQuantity) {
+    public AvlwQuantityOfCommodityEditText setAddReduceQuantity(long addReduceQuantity, boolean allowCallbackChange) {
         this.addReduceQuantity = addReduceQuantity;
+        setQuantity(this.quantity, allowCallbackChange);
         return this;
     }
 
@@ -456,24 +562,57 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
     }
 
     /**
+     * 设置当前
+     *
+     * @param quantity            当前
+     * @param allowCallbackChange 是否回调修改
+     */
+    public void setQuantity(long quantity, boolean allowCallbackChange) {
+        changeQuantity(String.valueOf(quantity), allowCallbackChange);
+    }
+
+    /**
+     * 设置当前，内部修改使用
+     *
+     * @param quantity            当前
+     * @param allowCallbackChange 是否回调修改
+     */
+    private void changeQuantity(long quantity, boolean allowCallbackChange) {
+        if (maxQuantity < addReduceQuantity) {
+            quantity = 0;
+        } else if (quantity < addReduceQuantity) {
+            quantity = addReduceQuantity;
+        } else if (quantity > maxQuantity) {
+            quantity = maxQuantity;
+        } else {
+            quantity = quantity / addReduceQuantity * addReduceQuantity;
+        }
+        changeQuantity(String.valueOf(quantity), allowCallbackChange);
+    }
+
+    /**
      * 设置最小数量
      *
-     * @param minQuantity 最小数量
+     * @param minQuantity         最小数量
+     * @param allowCallbackChange 是否回调修改
      * @return 当前实例
      */
-    public AvlwQuantityOfCommodityEditText setMinQuantity(long minQuantity) {
+    public AvlwQuantityOfCommodityEditText setMinQuantity(long minQuantity, boolean allowCallbackChange) {
         this.minQuantity = minQuantity;
+        setQuantity(quantity, allowCallbackChange);
         return this;
     }
 
     /**
      * 设置允许操作的最大数据
      *
-     * @param maxQuantity 最大数据数量
+     * @param allowCallbackChange 是否回调修改
+     * @param maxQuantity         最大数据数量
      * @return 当前实例
      */
-    public AvlwQuantityOfCommodityEditText setMaxQuantity(long maxQuantity) {
+    public AvlwQuantityOfCommodityEditText setMaxQuantity(long maxQuantity, boolean allowCallbackChange) {
         this.maxQuantity = maxQuantity;
+        setQuantity(quantity, allowCallbackChange);
         return this;
     }
 
@@ -499,28 +638,81 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
         return this;
     }
 
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        if (text != null) {
+    /**
+     * 设置更新数据
+     *
+     * @param text                文本显示
+     * @param allowCallbackChange 是否回调修改
+     */
+    private void changeQuantity(CharSequence text, boolean allowCallbackChange) {
+        if (text != null && text.toString().matches("[0-9 ]+")) {
             try {
-                this.quantity = Long.parseLong(String.valueOf(text));
-            } catch (NumberFormatException e) {
-                AtlwLogUtil.logUtils.logE(this.TAG, "传递的参数非整数参数");
+                String contentText = text.toString().replaceAll(" ", "");
+                if (contentText.isEmpty()) {
+                    return;
+                }
+                long quantity = Long.parseLong(contentText);
+                if (quantity >= maxQuantity) {
+                    quantity = maxQuantity;
+                    allowAdd = false;
+                } else {
+                    allowAdd = true;
+                }
+                if (quantity <= minQuantity) {
+                    quantity = minQuantity;
+                    allowReduce = false;
+                } else {
+                    allowReduce = true;
+                }
+                if (!contentText.equals(String.valueOf(this.quantity))) {
+                    this.quantity = quantity;
+                    String value = String.valueOf(this.quantity);
+                    setText(value);
+                    setSelection(value.length());
+                    resetViewWidthHeight();
+                    if (allowCallbackChange && onChangeListener != null) {
+                        onChangeListener.changeEnd(data, this.quantity);
+                    }
+                }
+            } catch (Exception e) {
+                JtlwLogUtils.logUtils.logE(this.TAG, "传递的参数非整数参数");
             }
         }
-        text = String.valueOf(this.quantity);
-        if (this.quantity.compareTo(maxQuantity) >= 0) {
-            this.quantity = maxQuantity;
-            allowAdd = false;
-        } else {
-            allowAdd = true;
+        postInvalidate();
+    }
+
+    /**
+     * 重置控件宽高
+     */
+    private void resetViewWidthHeight() {
+        int realWidth = viewLayoutSetWidth;
+        int realHeight = viewLayoutSetHeight;
+        float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(getPaint(), getText() != null ? getText().toString() : "");
+        float textHeight = AtlwViewUtil.getInstance().getStrTextHeight(getPaint());
+        if (realWidth < 0) {
+            //配置设置宽度
+            realWidth = (int) (textWidth + optionsButtonWidth * 2 + firstPaddingLeft + firstPaddingRight + borderWidth * 4 + textInsideDistance * 2 +
+                    optionsButtonAndTextSeparatedDistance * 2);
         }
-        if (this.quantity.compareTo(minQuantity) <= 0) {
-            this.quantity = minQuantity;
-            allowReduce = false;
-        } else {
-            allowReduce = true;
+        if (realHeight < 0) {
+            realHeight = (int) (Math.max(textHeight, optionsButtonWidth + borderWidth * 2) + firstPaddingTop + firstPaddingBottom);
         }
-        super.setText(text, type);
+        super.setPadding(Math.max((int) ((realWidth - firstPaddingLeft - firstPaddingRight - textWidth) / 2.0F + firstPaddingLeft), 0),
+                (int) ((realHeight - firstPaddingTop - firstPaddingBottom - textHeight) / 2.0F + firstPaddingTop),
+                (int) ((realWidth - firstPaddingLeft - firstPaddingRight - textWidth) / 2.0F + firstPaddingRight),
+                (int) ((realHeight - firstPaddingTop - firstPaddingBottom - textHeight) / 2.0F + firstPaddingBottom));
+        setMeasuredDimension(realWidth, realHeight);
+    }
+
+    /**
+     * 改变监听
+     */
+    public interface OnChangeListener {
+        /**
+         * 改变结束数量
+         *
+         * @param count 当前数量
+         */
+        void changeEnd(Object data, long count);
     }
 }
