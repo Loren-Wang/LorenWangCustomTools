@@ -1,5 +1,7 @@
 package android.lorenwang.tools.location.config;
 
+import java.io.Serializable;
+
 /**
  * 功能作用：定位信息返回实体
  * 创建时间：2021-01-19 2:33 下午
@@ -13,8 +15,7 @@ package android.lorenwang.tools.location.config;
  *
  * @author 王亮（Loren）
  */
-
-public class AtlwLocationResultBean {
+public class AtlwLocationResultBean implements Serializable {
     /**
      * 纬度
      */
