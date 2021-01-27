@@ -43,7 +43,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnVideoPlayList?.performClick()
+        btnCustomDrawableButton?.performClick()
     }
 
     fun mainClick(view: View?) {

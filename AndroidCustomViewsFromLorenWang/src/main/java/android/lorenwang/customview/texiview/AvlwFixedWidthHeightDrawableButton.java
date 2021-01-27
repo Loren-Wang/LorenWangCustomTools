@@ -5,35 +5,19 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwViewUtil;
 import android.lorenwang.tools.image.AtlwImageCommonUtil;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.Gravity;
+import android.view.ViewGroup;
 
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.drawable.DrawableCompat;
-
-import static android.view.Gravity.BOTTOM;
-import static android.view.Gravity.CENTER;
-import static android.view.Gravity.CENTER_HORIZONTAL;
-import static android.view.Gravity.CENTER_VERTICAL;
-import static android.view.Gravity.DISPLAY_CLIP_HORIZONTAL;
-import static android.view.Gravity.DISPLAY_CLIP_VERTICAL;
-import static android.view.Gravity.END;
-import static android.view.Gravity.FILL;
-import static android.view.Gravity.FILL_HORIZONTAL;
-import static android.view.Gravity.FILL_VERTICAL;
-import static android.view.Gravity.LEFT;
-import static android.view.Gravity.RIGHT;
-import static android.view.Gravity.START;
-import static android.view.Gravity.TOP;
 
 /**
  * 功能作用：固定宽高按钮
@@ -57,10 +41,31 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
     private final int DRAWABLE_POSITION_TOP = 2;
     private final int DRAWABLE_POSITION_RIGHT = 3;
     private final int DRAWABLE_POSITION_BOTTOM = 4;
+
+    /**
+     * 文本显示区域类型
+     */
+    private final int TEXT_GRAVITY_TOP = 1;
+    private final int TEXT_GRAVITY_BOTTOM = 2;
+    private final int TEXT_GRAVITY_LEFT = 3;
+    private final int TEXT_GRAVITY_START = 4;
+    private final int TEXT_GRAVITY_RIGHT = 5;
+    private final int TEXT_GRAVITY_END = 6;
+    private final int TEXT_GRAVITY_CENTER_VERTICAL_LEFT = 7;
+    private final int TEXT_GRAVITY_CENTER_VERTICAL_RIGHT = 8;
+    private final int TEXT_GRAVITY_CENTER_HORIZONTAL_TOP = 9;
+    private final int TEXT_GRAVITY_CENTER_HORIZONTAL_BOTTOM = 10;
+    private final int TEXT_GRAVITY_CENTER = 11;
+    private final int TEXT_GRAVITY_RIGHT_BOTTOM = 12;
+
+    /**
+     * 文本显示位置，使用属性传递，不读取上层控件的，上层控件的读取太费劲
+     */
+    private int textShowGravity = 7;
     /**
      * 图片位置
      */
-    private int drawablePosition = DRAWABLE_POSITION_NONE;
+    private int drawablePosition = 0;
     /**
      * 图片宽度
      */
@@ -84,6 +89,21 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
     private Rect drawBitmapSrcRect;
     private RectF drawBitmapDstRect;
     private ColorStateList tint;
+
+    private int paddingLeft = 0;
+    private int paddingTop = 0;
+    private int paddingRight = 0;
+    private int paddingBottom = 0;
+
+    /**
+     * 控件宽度
+     */
+    private int viewWidth = 0;
+
+    /**
+     * 控件高度
+     */
+    private int viewHeight = 0;
 
     public AvlwFixedWidthHeightDrawableButton(Context context) {
         super(context);
@@ -109,46 +129,265 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
         drawableTextDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableTextDistance,
                 drawableTextDistance);
         drawableResId = attributes.getResourceId(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableResId, -1);
+        textShowGravity = attributes.getInt(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwTextGravity, textShowGravity);
         if (Integer.MAX_VALUE != attributes.getColor(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableTint, Integer.MAX_VALUE)) {
             tint = ColorStateList.valueOf(attributes.getColor(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableTint, 0));
         }
         attributes.recycle();
 
+        //控件背景设置
+        attributes = context.obtainStyledAttributes(attrs,
+                new int[]{android.R.attr.background, android.R.attr.paddingTop, android.R.attr.paddingBottom, android.R.attr.paddingStart,
+                        android.R.attr.paddingEnd, android.R.attr.layout_width});
+        Drawable drawable = attributes.getDrawable(0);
+        if (drawable == null) {
+            setBackground(null);
+        }
+        paddingLeft = attributes.getDimensionPixelOffset(3, 0);
+        paddingTop = attributes.getDimensionPixelOffset(1, 0);
+        paddingRight = attributes.getDimensionPixelOffset(4, 0);
+        paddingBottom = attributes.getDimensionPixelOffset(2, 0);
+
         //默认属性处理
-        setMinWidth(0);
-        setMinHeight(0);
+        if (drawablePosition == DRAWABLE_POSITION_LEFT || drawablePosition == DRAWABLE_POSITION_RIGHT) {
+            setMinWidth(drawableWidth + drawableTextDistance);
+        } else {
+            setMinWidth(drawableWidth);
+        }
+        if (drawablePosition == DRAWABLE_POSITION_TOP || drawablePosition == DRAWABLE_POSITION_BOTTOM) {
+            setMinHeight(drawableHeight + drawableTextDistance);
+        } else {
+            setMinHeight(drawableHeight);
+        }
         setMinEms(0);
         setMinimumWidth(0);
         setMinimumHeight(0);
-        setBackground(null);
         setAllCaps(false);
+        setMaxLines(1);
         setIncludeFontPadding(false);
-
         //设置资源文件
         setShowDrawableResId(drawableResId);
+
+        addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                drawBitmapDstRect = null;
+            }
+        });
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        initViewAndDrawableInfo();
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        if (drawBitmapDstRect == null && getWidth() > 0 && getHeight() > 0) {
-            initViewAndDrawableInfo();
-        }
-        if (drawBitmap != null && drawBitmapDstRect != null) {
-            canvas.drawBitmap(drawBitmap, drawBitmapSrcRect, drawBitmapDstRect, null);
-        }
-        super.onDraw(canvas);
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        viewWidth = w;
+        viewHeight = h;
     }
 
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
-        super.setPadding(left, top, right, bottom);
-        initViewAndDrawableInfo();
+        paddingLeft = left;
+        paddingRight = right;
+        paddingTop = top;
+        paddingBottom = bottom;
+        requestLayout();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (drawBitmapDstRect == null) {
+            changePadding();
+        }
+        drawBitmapDstRect = getBitmapShowRect();
+        if (drawBitmap != null && drawBitmapDstRect != null) {
+            if (drawBitmapDstRect.width() > 0 && drawBitmapDstRect.height() > 0) {
+                canvas.drawBitmap(drawBitmap, drawBitmapSrcRect, drawBitmapDstRect, getPaint());
+            }
+        }
+    }
+
+    /**
+     * 获取图片显示位置
+     *
+     * @return 图片显示位置
+     */
+    private RectF getBitmapShowRect() {
+        if (viewWidth <= 0 || viewHeight <= 0) {
+            return null;
+        }
+        //文本显示区域
+        RectF textShowRect = getTextShowRect();
+        //位图显示区域
+        RectF bitmapShowRect = new RectF();
+        //区域处理
+        switch (drawablePosition) {
+            case DRAWABLE_POSITION_LEFT:
+                bitmapShowRect.left = Math.max(textShowRect.left, drawableWidth + drawableTextDistance) - drawableWidth - drawableTextDistance;
+                if (drawableHeight > textShowRect.height()) {
+                    bitmapShowRect.top = textShowRect.top - (drawableHeight - textShowRect.height()) / 2;
+                } else {
+                    bitmapShowRect.top = textShowRect.top + (textShowRect.height() - drawableHeight) / 2;
+                }
+                break;
+            case DRAWABLE_POSITION_RIGHT:
+                bitmapShowRect.left = textShowRect.right + drawableTextDistance;
+                if (drawableHeight > textShowRect.height()) {
+                    bitmapShowRect.top = textShowRect.top - (drawableHeight - textShowRect.height()) / 2;
+                } else {
+                    bitmapShowRect.top = textShowRect.top + (textShowRect.height() - drawableHeight) / 2;
+                }
+                break;
+            case DRAWABLE_POSITION_TOP:
+                bitmapShowRect.top = Math.max(textShowRect.top, drawableHeight + drawableTextDistance) - drawableHeight - drawableTextDistance;
+                if (drawableWidth > textShowRect.width()) {
+                    bitmapShowRect.left = textShowRect.left - (drawableWidth - textShowRect.width()) / 2;
+                } else {
+                    bitmapShowRect.left = textShowRect.left + (textShowRect.width() - drawableWidth) / 2;
+                }
+                break;
+            case DRAWABLE_POSITION_BOTTOM:
+                bitmapShowRect.top = viewHeight - Math.max(viewHeight - textShowRect.bottom, drawableHeight + drawableTextDistance) +
+                        drawableTextDistance;
+                if (drawableWidth > textShowRect.width()) {
+                    bitmapShowRect.left = textShowRect.left - (drawableWidth - textShowRect.width()) / 2;
+                } else {
+                    bitmapShowRect.left = textShowRect.left + (textShowRect.width() - drawableWidth) / 2;
+                }
+                break;
+            default:
+                break;
+        }
+
+        bitmapShowRect.left = Math.max(bitmapShowRect.left, 0);
+        bitmapShowRect.top = Math.max(bitmapShowRect.top, 0);
+        bitmapShowRect.right = bitmapShowRect.left + drawableWidth;
+        bitmapShowRect.bottom = bitmapShowRect.top + drawableHeight;
+        switch (drawablePosition) {
+            case DRAWABLE_POSITION_LEFT:
+                if (bitmapShowRect.bottom > viewHeight) {
+                    bitmapShowRect.bottom = viewHeight;
+                    if (drawableHeight <= viewHeight) {
+                        bitmapShowRect.top = bitmapShowRect.bottom - drawableHeight;
+                    }
+                }
+                if (bitmapShowRect.right > viewWidth) {
+                    bitmapShowRect.right = viewWidth;
+                    if (drawableWidth <= viewWidth) {
+                        bitmapShowRect.left = bitmapShowRect.right - drawableWidth;
+                    }
+                }
+                break;
+            case DRAWABLE_POSITION_RIGHT:
+                if (bitmapShowRect.bottom > viewHeight) {
+                    bitmapShowRect.bottom = viewHeight;
+                    if (drawableHeight <= viewHeight) {
+                        bitmapShowRect.top = bitmapShowRect.bottom - drawableHeight;
+                    }
+                }
+                //自适应不需要左侧偏移处理
+                if (!(getLayoutParams() != null && getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT)) {
+                    if (bitmapShowRect.right > viewWidth) {
+                        bitmapShowRect.right = viewWidth;
+                        if (drawableWidth <= viewWidth) {
+                            bitmapShowRect.left = bitmapShowRect.right - drawableWidth;
+                        }
+                    }
+                }
+                break;
+            case DRAWABLE_POSITION_TOP:
+            case DRAWABLE_POSITION_BOTTOM:
+            default:
+                break;
+        }
+        return bitmapShowRect;
+    }
+
+    /**
+     * 修改内边距
+     */
+    private void changePadding() {
+        RectF bitmapShowRect = getBitmapShowRect();
+        if (bitmapShowRect != null && bitmapShowRect.width() > 0 && bitmapShowRect.height() > 0) {
+            RectF textShowRect = getTextShowRect();
+            float left = paddingLeft;
+            float right = paddingRight;
+            float top = paddingTop;
+            float bottom = paddingBottom;
+            switch (drawablePosition) {
+                case DRAWABLE_POSITION_LEFT:
+                    if (textShowRect.left < drawableWidth + drawableTextDistance) {
+                        left = drawableWidth + drawableTextDistance;
+                    }
+                    if (textShowRect.height() < drawableHeight) {
+                        float more = Math.max((drawableHeight - textShowRect.height()) / 2, 0);
+                        if (bitmapShowRect.top < more) {
+                            top = more;
+                        }
+                        if (bitmapShowRect.bottom > viewHeight - more) {
+                            bottom = more;
+                        }
+                    }
+                    break;
+                case DRAWABLE_POSITION_RIGHT:
+                    if ((viewWidth - textShowRect.right) < drawableWidth + drawableTextDistance) {
+                        right = drawableWidth + drawableTextDistance;
+                    }
+                    if (textShowRect.height() < drawableHeight) {
+                        float more = Math.max((drawableHeight - textShowRect.height()) / 2, 0);
+                        if (bitmapShowRect.top < more) {
+                            top = more;
+                        }
+                        if (bitmapShowRect.bottom > viewHeight - more) {
+                            bottom = more;
+                        }
+                    }
+                    break;
+                case DRAWABLE_POSITION_TOP:
+                    top = bitmapShowRect.bottom + drawableTextDistance;
+                    bottom = viewHeight - top - textShowRect.height();
+                    if (textShowRect.width() < drawableWidth) {
+                        float more = Math.max((drawableWidth - textShowRect.width()) / 2, 0);
+                        if (bitmapShowRect.left < more) {
+                            left = more;
+                        }
+                        if (bitmapShowRect.right > viewWidth - more) {
+                            right = more;
+                        }
+                    }
+                    break;
+                case DRAWABLE_POSITION_BOTTOM:
+                    top = bitmapShowRect.top - drawableTextDistance - textShowRect.height();
+                    bottom = viewHeight - top - textShowRect.height();
+                    if (textShowRect.width() < drawableWidth) {
+                        float more = Math.max((drawableWidth - textShowRect.width()) / 2, 0);
+                        if (bitmapShowRect.left < more) {
+                            left = more;
+                        }
+                        if (bitmapShowRect.right > viewWidth - more) {
+                            right = more;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if (left != paddingLeft || right != paddingRight || top != paddingTop || bottom != paddingBottom) {
+                super.setPadding((int) left, (int) top, (int) right, (int) bottom);
+            }
+        }
+        //边距修改后一定要重新计算位图数据
+        drawBitmapDstRect = getBitmapShowRect();
     }
 
     /**
@@ -183,7 +422,6 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
                 drawBitmapSrcRect = new Rect(0, 0, drawBitmap.getWidth(), drawBitmap.getHeight());
             } else {
                 drawBitmapSrcRect = null;
-                drawBitmapDstRect = null;
             }
         } else {
             if (drawBitmap != null && !drawBitmap.isRecycled()) {
@@ -191,10 +429,9 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
                 drawBitmap = null;
             }
             drawBitmapSrcRect = null;
-            drawBitmapDstRect = null;
         }
 
-        initViewAndDrawableInfo();
+        postInvalidate();
         return this;
     }
 
@@ -208,156 +445,6 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
             drawBitmap = getDrawBitmap(drawableResId);
             if (drawBitmap != null) {
                 setDrawable(drawablePosition, drawableWidth, drawableHeight, drawableTextDistance, drawableResId);
-                invalidate();
-            }
-        }
-    }
-
-    /**
-     * 初始化视图以及图片信息
-     */
-    private void initViewAndDrawableInfo() {
-        //实际宽高
-        int viewWidth = getWidth();
-        int viewHeight = getHeight();
-        if (viewHeight > 0 && viewWidth > 0) {
-            //边距处理
-            float left = getPaddingStart();
-            float top = getPaddingTop();
-            float bottom = getPaddingBottom();
-            float right = getPaddingEnd();
-
-            //文本宽高
-            Paint paint = new Paint();
-            paint.setTextSize(getTextSize());
-            //宽度需要一个像素冗余，否则可能会出现英文时自动换行的情况
-            float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(paint, getText().toString());
-            float textHeight = AtlwViewUtil.getInstance().getStrTextHeight(paint);
-
-            //图片绘制起始点x、y坐标
-            float drawableStartX = left;
-            float drawableStartY = top;
-
-            //兼容后内边距处理
-            switch (drawablePosition) {
-                case DRAWABLE_POSITION_LEFT:
-                    //左内边距以及图片绘制位置处理
-                    if (judgeGravity(END)) {
-                        left = Math.max(drawableWidth + drawableTextDistance, viewWidth - textWidth - right);
-                    } else if (judgeGravity(CENTER)) {
-                        left = Math.max(drawableWidth + drawableTextDistance, left + (viewWidth - left - right - textWidth) / 2.0f);
-                        right = Math.max(viewWidth - left - textWidth, Math.max(right, 0));
-                        top = top + (viewHeight - top - bottom - textHeight) / 2.0f;
-                        bottom = viewHeight - top - textHeight;
-                    } else if (judgeGravity(CENTER_HORIZONTAL)) {
-                        left = Math.max(drawableWidth + drawableTextDistance, left + (viewWidth - left - right - textWidth) / 2.0f);
-                        right = Math.max(viewWidth - left - textWidth, Math.max(right, 0));
-                    } else if (judgeGravity(START) || judgeGravity(TOP)) {
-                        left = Math.max(drawableWidth + drawableTextDistance, left);
-                    }
-
-                    //上下边距处理
-                    if (drawableHeight > viewHeight) {
-                        bottom = top = (drawableHeight - viewHeight) / 2.0f;
-                    }
-
-                    //图片绘制坐标
-                    drawableStartX = left - drawableWidth - drawableTextDistance;
-                    if (drawableHeight > textHeight) {
-                        drawableStartY = top - (drawableHeight - textHeight) / 2.0f;
-                    } else {
-                        drawableStartY = top + (textHeight - drawableHeight) / 2.0f;
-                    }
-                    break;
-                case DRAWABLE_POSITION_TOP:
-                    //上内边距以及图片绘制位置处理
-                    if (judgeGravity(BOTTOM)) {
-                        top = Math.max(drawableHeight + drawableTextDistance, viewHeight - textHeight - bottom);
-                    } else if (judgeGravity(CENTER_VERTICAL) || judgeGravity(CENTER)) {
-                        top = Math.max(drawableHeight + drawableTextDistance, top + (viewHeight - top - bottom - textHeight) / 2.0f);
-                        bottom = Math.max(viewHeight - top - textHeight, Math.max(bottom, Math.max(bottom, 0)));
-                        left = Math.max(left + (viewWidth - left - right - textWidth) / 2.0f, Math.max(left, 0));
-                        right = Math.max(viewWidth - left - textWidth, Math.max(right, 0));
-                    } else if (judgeGravity(START) || judgeGravity(TOP) || judgeGravity(END)) {
-                        top = Math.max(drawableHeight + drawableTextDistance, top);
-                    }
-
-                    //左右边距处理
-                    if (drawableWidth > viewWidth) {
-                        left = right = (drawableWidth - viewWidth) / 2.0f;
-                    }
-
-                    //图片绘制坐标
-                    if (drawableWidth > textWidth) {
-                        drawableStartX = left - (drawableWidth - textWidth) / 2.0f;
-                    } else {
-                        drawableStartX = left + (textWidth - drawableWidth) / 2.0f;
-                    }
-                    drawableStartY = top - drawableHeight - drawableTextDistance;
-                    break;
-                case DRAWABLE_POSITION_RIGHT:
-                    //右边距以及图片绘制位置处理
-                    if (judgeGravity(END)) {
-                        right = Math.max(drawableWidth + drawableTextDistance, right);
-                    } else if (judgeGravity(CENTER)) {
-                        right = Math.max(drawableWidth + drawableTextDistance, right + (viewWidth - left - right - textWidth) / 2.0f);
-                        left = Math.max(viewWidth - right - textWidth, Math.max(left, 0));
-                        top = top + (viewHeight - top - bottom - textHeight) / 2.0f;
-                        bottom = viewHeight - top - textHeight;
-                    } else if (judgeGravity(CENTER_HORIZONTAL)) {
-                        right = Math.max(drawableWidth + drawableTextDistance, right + (viewWidth - left - right - textWidth) / 2.0f);
-                        left = Math.max(viewWidth - right - textWidth, Math.max(left, 0));
-                    } else if (judgeGravity(START) || judgeGravity(TOP)) {
-                        right = Math.max(drawableWidth + drawableTextDistance, viewWidth - textWidth - left);
-                    }
-
-                    //上下边距处理
-                    if (drawableHeight > viewHeight) {
-                        bottom = top = (drawableHeight - viewHeight) / 2.0f;
-                    }
-
-                    //图片绘制坐标
-                    drawableStartX = left + textWidth + drawableTextDistance;
-                    if (drawableHeight > textHeight) {
-                        drawableStartY = top - (drawableHeight - textHeight) / 2.0f;
-                    } else {
-                        drawableStartY = top + (textHeight - drawableHeight) / 2.0f;
-                    }
-                    break;
-                case DRAWABLE_POSITION_BOTTOM:
-                    //下边距以及图片绘制位置处理
-                    if (judgeGravity(BOTTOM)) {
-                        bottom = Math.max(drawableHeight + drawableTextDistance, bottom);
-                    } else if (judgeGravity(CENTER_VERTICAL) || judgeGravity(CENTER)) {
-                        bottom = Math.max(drawableHeight + drawableTextDistance, bottom + (viewHeight - top - bottom - textHeight) / 2.0f);
-                        top = Math.max(viewHeight - bottom - textHeight, Math.max(top, 0));
-                        left = Math.max(left + (viewWidth - left - right - textWidth) / 2.0f, Math.max(left, 0));
-                        right = Math.max(viewWidth - left - textWidth, 0);
-                    } else if (judgeGravity(START) || judgeGravity(TOP) || judgeGravity(END)) {
-                        bottom = Math.max(drawableHeight + drawableTextDistance, viewHeight - textHeight - top);
-                    }
-                    //左右边距处理
-                    if (drawableWidth > viewWidth) {
-                        left = right = (drawableWidth - viewWidth) / 2.0f;
-                    }
-                    //图片绘制坐标
-                    if (drawableWidth > textWidth) {
-                        drawableStartX = left - (drawableWidth - textWidth) / 2.0f;
-                    } else {
-                        drawableStartX = left + (textWidth - drawableWidth) / 2.0f;
-                    }
-                    drawableStartY = top + textHeight + drawableTextDistance;
-                    break;
-                default:
-                    break;
-            }
-
-            //图片绘制区域
-            drawBitmapDstRect = new RectF(drawableStartX, drawableStartY, drawableStartX + drawableWidth, drawableStartY + drawableHeight);
-
-            //判断内边距是否需要修改
-            if (left != getPaddingStart() || top != getPaddingTop() || right != getPaddingEnd() || bottom != getPaddingBottom()) {
-                super.setPadding((int) left, (int) top, (int) right, (int) bottom);
             }
         }
     }
@@ -384,63 +471,72 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
     }
 
     /**
-     * 判断当前的文本位置
+     * 获取文本显示区域
      *
-     * @param targetGravity 要比较的位置
-     * @return 是的话返回true
+     * @return 文本显示区域
      */
-    private boolean judgeGravity(int targetGravity) {
-        int gravity = getGravity();
-        final StringBuilder result = new StringBuilder();
-        if ((gravity & FILL) == FILL) {
-            result.append("FILL").append(' ');
+    private RectF getTextShowRect() {
+        float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(getPaint(), getText().toString());
+        float textHeight = Math.max(AtlwViewUtil.getInstance().getStrTextHeight(getPaint()), getLineHeight());
+        int lineCount;
+        float more = textWidth % (viewWidth - paddingRight - paddingLeft);
+        if (more > 0) {
+            lineCount = (int) (textWidth / (viewWidth - paddingRight - paddingLeft) + 1);
         } else {
-            if ((gravity & FILL_VERTICAL) == FILL_VERTICAL) {
-                result.append("FILL_VERTICAL").append(' ');
-            } else {
-                if ((gravity & TOP) == TOP) {
-                    result.append("TOP").append(' ');
-                }
-                if ((gravity & BOTTOM) == BOTTOM) {
-                    result.append("BOTTOM").append(' ');
-                }
-            }
-            if ((gravity & FILL_HORIZONTAL) == FILL_HORIZONTAL) {
-                result.append("FILL_HORIZONTAL").append(' ');
-            } else {
-                if ((gravity & START) == START) {
-                    result.append("START").append(' ');
-                } else if ((gravity & LEFT) == LEFT) {
-                    result.append("LEFT").append(' ');
-                }
-                if ((gravity & END) == END) {
-                    result.append("END").append(' ');
-                } else if ((gravity & RIGHT) == RIGHT) {
-                    result.append("RIGHT").append(' ');
-                }
-            }
+            lineCount = (int) (textWidth / (viewWidth - paddingRight - paddingLeft));
         }
-        if ((gravity & CENTER) == CENTER) {
-            result.append("CENTER").append(' ');
-        } else {
-            if ((gravity & CENTER_VERTICAL) == CENTER_VERTICAL) {
-                result.append("CENTER_VERTICAL").append(' ');
-            }
-            if ((gravity & CENTER_HORIZONTAL) == CENTER_HORIZONTAL) {
-                result.append("CENTER_HORIZONTAL").append(' ');
-            }
-        }
-        if (result.length() == 0) {
-            result.append("NO GRAVITY").append(' ');
-        }
-        if ((gravity & DISPLAY_CLIP_VERTICAL) == DISPLAY_CLIP_VERTICAL) {
-            result.append("DISPLAY_CLIP_VERTICAL").append(' ');
-        }
-        if ((gravity & DISPLAY_CLIP_HORIZONTAL) == DISPLAY_CLIP_HORIZONTAL) {
-            result.append("DISPLAY_CLIP_HORIZONTAL").append(' ');
-        }
-        result.deleteCharAt(result.length() - 1);
+        //文本内容显示宽高
+        float showHeight = textHeight * lineCount;
+        float showWidth = Math.min(textWidth, viewWidth - paddingRight - paddingLeft);
+        //空白区域
+        float heightEmptyHalf = Math.max((viewHeight - paddingTop - paddingBottom - showHeight) / 2, 0);
+        float widthEmptyHalf = Math.max((viewWidth - paddingLeft - paddingRight - showWidth) / 2, 0);
 
-        return (getGravity() & targetGravity) == targetGravity;
+        float left;
+        float top;
+        switch (textShowGravity) {
+            case TEXT_GRAVITY_CENTER_VERTICAL_LEFT:
+                left = paddingLeft;
+                top = heightEmptyHalf + paddingTop;
+                break;
+            case TEXT_GRAVITY_BOTTOM:
+                left = paddingLeft;
+                top = viewHeight - paddingBottom - showHeight;
+                break;
+            case TEXT_GRAVITY_CENTER_HORIZONTAL_TOP:
+                left = paddingLeft + widthEmptyHalf;
+                top = paddingTop;
+                break;
+            case TEXT_GRAVITY_CENTER_HORIZONTAL_BOTTOM:
+                left = paddingLeft + widthEmptyHalf;
+                top = viewHeight - paddingBottom - showHeight;
+                break;
+            case TEXT_GRAVITY_RIGHT:
+            case TEXT_GRAVITY_END:
+                left = viewWidth - showWidth - paddingRight;
+                top = paddingTop;
+                break;
+            case TEXT_GRAVITY_CENTER_VERTICAL_RIGHT:
+                left = viewWidth - showWidth - paddingRight;
+                top = heightEmptyHalf + paddingTop;
+                break;
+            case TEXT_GRAVITY_CENTER:
+                left = widthEmptyHalf + paddingLeft;
+                top = heightEmptyHalf + paddingTop;
+                break;
+            case TEXT_GRAVITY_RIGHT_BOTTOM:
+                left = viewWidth - showWidth - paddingRight;
+                top = viewHeight - paddingBottom - showHeight;
+                break;
+            case TEXT_GRAVITY_LEFT:
+            case TEXT_GRAVITY_START:
+            case TEXT_GRAVITY_TOP:
+            default:
+                left = paddingLeft;
+                top = paddingTop;
+                break;
+        }
+        return new RectF(left, top, left + showWidth, top + showHeight);
     }
+
 }
