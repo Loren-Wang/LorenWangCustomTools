@@ -27,13 +27,13 @@ import javax.annotation.Resource
  */
 abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
     @Resource
-    private lateinit var messageSource : MessageSource
+    private lateinit var messageSource: MessageSource
 
     /**
      * 保留方法（所有子方法都要继承这个方法）
      * @param t
      */
-    protected fun <T> base(request : R, t : T?) {
+    protected fun <T> base(request: R, t: T?) {
         SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前编译器环境：${SbcbflwCommon.instance.propertiesConfig.runCompilingEnvironment}")
         SbcbfBaseAllUtils.logUtils.logI(javaClass, "当前请求地址：${request.servletPath}")
         t.let {
@@ -46,7 +46,7 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @param code ：对应messages配置的key.
      * @return
      */
-    fun getMessage(code : String?) : String {
+    fun getMessage(code: String?): String {
         //这里使用比较方便的方法，不依赖request.
         return getMessage(code, null)
     }
@@ -57,11 +57,10 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @param defaultMessage : 没有设置key的时候的默认值.
      * @return
      */
-    fun getMessage(code : String?, defaultMessage : String?) : String {
+    fun getMessage(code: String?, defaultMessage: String?): String {
         //这里使用比较方便的方法，不依赖request.
         return code?.let {
-            messageSource.getMessage(it, null, defaultMessage
-                    ?: "", LocaleContextHolder.getLocale())
+            messageSource.getMessage(it, null, defaultMessage ?: "", LocaleContextHolder.getLocale())
         } ?: ""
     }
 
@@ -73,7 +72,7 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <T> responseContent(request : R?, stateCode : String, stateMessage : String, obj : T?) : String {
+    fun <T> responseContent(request: R?, stateCode: String, stateMessage: String, obj: T?): String {
         val baseResponseBean = KttlwBaseNetResponseBean(obj)
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
@@ -92,17 +91,18 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <T> responseContentCode(request : R?, stateCode : String, stateMessageCode : String, obj : T?) : String {
+    fun <T> responseContentCode(request: R?, stateCode: String, stateMessageCode: String, obj: T?): String {
         return responseContent(request, stateCode, getMessage(stateMessageCode), obj)
     }
 
     /**
      * 响应数据状态处理
      */
-    fun responseDataDisposeStatus(request : R?, bean : SbcbflwBaseDataDisposeStatusBean) : String {
+    fun responseDataDisposeStatus(request: R?, bean: SbcbflwBaseDataDisposeStatusBean): String {
         return if (bean.repDataList) {
-            responseDataListContent(request, bean.statusCode!!, if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else getMessage(bean.statusMsgCode),
-                    bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
+            responseDataListContent(request, bean.statusCode!!,
+                if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else getMessage(bean.statusMsgCode), bean.pageIndex!!, bean.pageSize!!,
+                bean.sumCount!!, bean.dataList)
         } else {
             responseContent(request, bean.statusCode!!, getMessage(bean.statusMsgCode), bean.body)
         }
@@ -115,10 +115,15 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <E, T : ArrayList<E>> responseDataListContent(
-            request : R?, stateCode : String, stateMessage : String, pageIndex : Int,
-            pageSize : Int, sumCount : Long, dataList : T) : String {
-        return responseContent(request, stateCode, stateMessage, KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
+    fun <E, T : ArrayList<E>> responseDataListContent(request: R?, stateCode: String, stateMessage: String, pageIndex: Int, pageSize: Int,
+        sumCount: Long, dataList: T): String {
+        val sumPageCount = if (sumCount % pageSize > 0) {
+            sumCount / pageSize + 1
+        } else {
+            sumCount / pageSize
+        }
+        return responseContent(request, stateCode, stateMessage,
+            KttlwNetPageResponseBean(pageIndex, pageSize, sumCount.toInt(), sumPageCount.toInt(), dataList))
     }
 
     /**
@@ -128,16 +133,21 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <E, T : ArrayList<E>> responseDataListContentCode(
-            request : R?, stateCode : String, stateMessageCode : String, pageIndex : Int,
-            pageSize : Int, sumCount : Long, dataList : T) : String {
-        return responseContent(request, stateCode, getMessage(stateMessageCode), KttlwNetPageResponseBean(pageIndex, pageSize, sumCount, dataList))
+    fun <E, T : ArrayList<E>> responseDataListContentCode(request: R?, stateCode: String, stateMessageCode: String, pageIndex: Int, pageSize: Int,
+        sumCount: Long, dataList: T): String {
+        val sumPageCount = if (sumCount % pageSize > 0) {
+            sumCount / pageSize + 1
+        } else {
+            sumCount / pageSize
+        }
+        return responseContent(request, stateCode, getMessage(stateMessageCode),
+            KttlwNetPageResponseBean(pageIndex, pageSize, sumCount.toInt(), sumPageCount.toInt(), dataList))
     }
 
     /**
      * 响应数据
      */
-    fun responseData(request : R?, result : Any?) : String {
+    fun responseData(request: R?, result: Any?): String {
         return when (result) {
             //如果是类型的话则按类型处理
             is SbcbflwBaseDataDisposeStatusBean -> {
@@ -157,31 +167,31 @@ abstract class SbcbflwBaseController<R : SbcbflwBaseHttpServletRequestWrapper> {
     /**
      * 参数异常响应
      */
-    abstract fun responseErrorForParams(request : R?) : String
+    abstract fun responseErrorForParams(request: R?): String
 
     /**
      * 数据响应成功
      */
-    abstract fun responseSuccess(request : R?, data : Any?) : String
+    abstract fun responseSuccess(request: R?, data: Any?): String
 
     /**
      * 数据删除失败
      */
-    abstract fun responseDeleteFail(request : R?) : String
+    abstract fun responseDeleteFail(request: R?): String
 
     /**
      * 未知错误失败
      */
-    abstract fun responseFailForUnKnow(request : R?) : String
+    abstract fun responseFailForUnKnow(request: R?): String
 
     /**
      * 登录验证失败,用户未登录或者token失效
      */
-    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective(request : R?) : String
+    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective(request: R?): String
 
     /**
      * 无权限异常
      */
-    abstract fun responseErrorNotPermission(request : R?) : String
+    abstract fun responseErrorNotPermission(request: R?): String
 
 }

@@ -4,7 +4,7 @@ import javabase.lorenwang.common_base_frame.SbcbflwBASE64DecodedMultipartFile
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import javabase.lorenwang.tools.enums.JtlwFileTypeEnum
-import kotlinbase.lorenwang.tools.extend.emptyCheck
+import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 import org.springframework.web.multipart.MultipartFile
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -43,10 +43,10 @@ abstract class OssOptions {
      * @return 图片地址
      */
     open fun getImageUrl(isFullPath: Boolean, imgPath: String?): String {
-        return imgPath.emptyCheck({
+        return imgPath.kttlwEmptyCheck({
             ""
         }, {
-            return@emptyCheck if (isFullPath) {
+            return@kttlwEmptyCheck if (isFullPath) {
                 "${getFilePathPrefix()}${clearImageDomain(imgPath)}"
             } else {
                 it
@@ -60,7 +60,7 @@ abstract class OssOptions {
      * @return 图片地址
      */
     open fun clearImageDomain(imgPath: String?): String {
-        return imgPath.emptyCheck({
+        return imgPath.kttlwEmptyCheck({
             ""
         }, {
             it.replace(getFilePathPrefixRegex(), "")
@@ -71,7 +71,7 @@ abstract class OssOptions {
      * 是否有地址域名
      */
     open fun haveImageDomain(imgPath: String?): Boolean {
-        return imgPath.emptyCheck({
+        return imgPath.kttlwEmptyCheck({
             false
         }, {
             it.contains(getFilePathPrefixRegex())
@@ -94,7 +94,7 @@ abstract class OssOptions {
      */
     open fun upLoadFile(file: MultipartFile, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
         //检测文件接收类型
-        return SbcbfBaseAllUtils.fileOptionsUtils.emptyCheck({
+        return SbcbfBaseAllUtils.fileOptionsUtils.kttlwEmptyCheck({
             SbcbflwBaseDataDisposeStatusBean(false)
         }, {
             it.checkFileStatus(file, receiveFileTypes) {
@@ -142,7 +142,7 @@ abstract class OssOptions {
      */
     open fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SbcbflwBaseDataDisposeStatusBean {
         //检测文件接收类型
-        return SbcbfBaseAllUtils.fileOptionsUtils.emptyCheck({
+        return SbcbfBaseAllUtils.fileOptionsUtils.kttlwEmptyCheck({
             SbcbflwBaseDataDisposeStatusBean(false)
         }, {
             val file = SbcbflwBASE64DecodedMultipartFile(bytes, contentType)

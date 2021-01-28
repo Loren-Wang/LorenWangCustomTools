@@ -379,7 +379,6 @@ public class AvlwVideoPlayView extends SurfaceView {
         public void progressChange(long currentTime, float progresss) {}
     }
 
-
     /**
      * 视频播放结束
      */

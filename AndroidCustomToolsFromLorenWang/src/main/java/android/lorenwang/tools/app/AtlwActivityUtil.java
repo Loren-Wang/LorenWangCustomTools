@@ -282,7 +282,9 @@ public class AtlwActivityUtil {
 
         //判断是否有某一位的值大
         for (int i = 0; i < maxLength; i++) {
-            if (newList.get(i).compareTo(oldList.get(i)) > 0) {
+            if (newList.get(i).compareTo(oldList.get(i)) < 0) {
+                return false;
+            } else if (newList.get(i).compareTo(oldList.get(i)) > 0) {
                 return true;
             }
         }

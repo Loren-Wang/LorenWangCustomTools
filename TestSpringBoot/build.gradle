@@ -32,12 +32,12 @@ dependencies {
     implementation project(':SpringBootCommonBaseFrameLibraryFromLorenWang')
 
     //java工具类库
-    implementation("com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.2")
+    implementation("com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.9")
     //java数据格式化类库
     implementation("com.github.lorenwang:JavaDataParseFromLorenWang:2.0.0")
     implementation("com.google.code.gson:gson:2.8.5")
     //kotlin工具类
-    implementation("com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.2.8")
+    implementation("com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.3.3")
 
     //swagger注释
     implementation("io.springfox:springfox-swagger2:2.6.0")

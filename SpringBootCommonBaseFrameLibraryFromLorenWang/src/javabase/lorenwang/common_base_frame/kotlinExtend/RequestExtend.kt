@@ -11,9 +11,9 @@ import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserPermis
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
 import javabase.lorenwang.common_base_frame.service.SbcbflwUserPermissionService
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
-import kotlinbase.lorenwang.tools.extend.emptyCheck
-import kotlinbase.lorenwang.tools.extend.formatConversion
-import kotlinbase.lorenwang.tools.extend.getNotEmptyData
+import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
+import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import kotlinbase.lorenwang.tools.extend.kttlwHaveEmptyCheck
 
 /**
@@ -36,16 +36,9 @@ import kotlinbase.lorenwang.tools.extend.kttlwHaveEmptyCheck
  * @param baseController 基础接口控制器
  * @param optionsFun 验证通过操作调用函数
  */
-inline fun <PT, P : SbcbflwBaseUserPermissionTb<ROLE>,
-        ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>,
-        R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>>
-        sbcbflwControllerCheckAndOptions(emptyCheckArray : Array<*>,
-                                         checkPermissionArray : Array<PT>,
-                                         request : R,
-                                         baseController : BC,
-                                         noinline notLoginFun : (() -> Any)? = null,
-                                         noinline notPermissionFun : ((userInfoTb : U) -> Any)? = null,
-                                         noinline optionsFun : (() -> Any?)? = null) : String {
+inline fun <PT, P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>, R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>> sbcbflwControllerCheckAndOptions(
+    emptyCheckArray: Array<*>, checkPermissionArray: Array<PT>, request: R, baseController: BC, noinline notLoginFun: (() -> Any)? = null,
+    noinline notPermissionFun: ((userInfoTb: U) -> Any)? = null, noinline optionsFun: (() -> Any?)? = null): String {
     return kttlwHaveEmptyCheck({
         baseController.responseErrorForParams(request)
     }, {
@@ -56,12 +49,12 @@ inline fun <PT, P : SbcbflwBaseUserPermissionTb<ROLE>,
             result = sbcbflwCheckPermissions(request, result, checkPermissionArray, baseController, notPermissionFun)
             if (result is U && optionsFun != null) {
                 //有权限，执行指定操作
-                baseController.responseData(request,optionsFun())
+                baseController.responseData(request, optionsFun())
             } else {
-                baseController.responseData(request,result)
+                baseController.responseData(request, result)
             }
         } else {
-            baseController.responseData(request,result)
+            baseController.responseData(request, result)
         }
     }, emptyCheckArray)
 }
@@ -72,11 +65,12 @@ inline fun <PT, P : SbcbflwBaseUserPermissionTb<ROLE>,
  * @param baseController 基础接口控制器
  * @param optionsFun 验证通过操作调用函数
  */
-fun <R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>> sbcbflwControllerCheckAndOptions(request : R,emptyCheckArray : Array<*>, baseController : BC, optionsFun : (() -> Any?)) : String {
+fun <R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>> sbcbflwControllerCheckAndOptions(request: R, emptyCheckArray: Array<*>,
+    baseController: BC, optionsFun: (() -> Any?)): String {
     return kttlwHaveEmptyCheck({
         baseController.responseErrorForParams(request)
     }, {
-        baseController.responseData(request,optionsFun())
+        baseController.responseData(request, optionsFun())
     }, emptyCheckArray)
 }
 
@@ -87,13 +81,12 @@ fun <R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>> sb
  * @param notLoginFun 未登陆执行操作
  * @return 检测通过返回用户信息，否则返回异常信息或其他函数信息
  */
-inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>,
-        R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>>
-        sbcbflwCheckUserLoginStatus(request : R, baseController : BC, noinline notLoginFun : (() -> Any?)? = null) : Any? {
+inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, reified U : SbcbflwBaseUserInfoTb<P, ROLE>, R : SbcbflwBaseHttpServletRequestWrapper, BC : SbcbflwBaseController<R>> sbcbflwCheckUserLoginStatus(
+    request: R, baseController: BC, noinline notLoginFun: (() -> Any?)? = null): Any? {
     //从request中获取token信息
     val tokenByReqHeader = SbcbflwCommon.instance.userService?.getAccessTokenByReqHeader(request)
     //从request中获取用户信息，该信息是在filter中拦截并添加到attribute中的
-    val userInfo = request.getAttribute(REQUEST_SET_USER_INFO_KEY).emptyCheck({
+    val userInfo = request.getAttribute(REQUEST_SET_USER_INFO_KEY).kttlwEmptyCheck({
         null
     }, {
         it
@@ -101,12 +94,12 @@ inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<
     return if (userInfo == null || userInfo !is U || tokenByReqHeader == null) {
         SbcbfBaseAllUtils.logUtils.logOptions(SbcbflwBaseController::class.java, "用户登录信息为空，登录状态验证未通过")
         try {
-            notLoginFun.emptyCheck({
+            notLoginFun.kttlwEmptyCheck({
                 baseController.responseErrorUserLoginEmptyOrTokenNoneffective(request)
             }, {
                 it()
             })
-        } catch (ignore : Exception) {
+        } catch (ignore: Exception) {
             baseController.responseErrorUserLoginEmptyOrTokenNoneffective(request)
         }
     } else {
@@ -114,13 +107,13 @@ inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<
         return tokenByReqHeader.let {
             //解密token信息
             val decryptToken = SbcbflwCommon.instance.userService?.decryptAccessToken(it)
-            decryptToken.emptyCheck({
+            decryptToken.kttlwEmptyCheck({
                 SbcbfBaseAllUtils.logUtils.logOptions(SbcbflwBaseController::class.java, "用户信息无法解密，登录状态验证未通过")
                 return baseController.responseErrorUserLoginEmptyOrTokenNoneffective(request)
             }, { deToken ->
                 //判断token是否是正常的
                 val tokenEffective = SbcbflwCommon.instance.userService?.checkAccessTokenEffective(deToken)
-                if (tokenEffective?.statusResult.getNotEmptyData(false)) {
+                if (tokenEffective?.statusResult.kttlwGetNotEmptyData(false)) {
                     //token是正常的，开始验证用户信息，首先获取用户id
                     SbcbflwCommon.instance.userService?.getUserIdByAccessToken(deToken)!!.let { tokenUserId ->
                         //因为token已经验证过了，所以id是可以正常取值的
@@ -131,24 +124,24 @@ inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<
                             userInfo
                         } else {
                             try {
-                                notLoginFun.emptyCheck({
+                                notLoginFun.kttlwEmptyCheck({
                                     baseController.responseErrorUserLoginEmptyOrTokenNoneffective(request)
                                 }, {
                                     it()
                                 })
-                            } catch (ignore : Exception) {
+                            } catch (ignore: Exception) {
                                 baseController.responseErrorUserLoginEmptyOrTokenNoneffective(request)
                             }
                         }
                     }
                 } else {
                     try {
-                        notLoginFun.emptyCheck({
+                        notLoginFun.kttlwEmptyCheck({
                             baseController.responseErrorUserLoginEmptyOrTokenNoneffective(request)
                         }, {
                             it()
                         })
-                    } catch (ignore : Exception) {
+                    } catch (ignore: Exception) {
                         baseController.responseErrorUserLoginEmptyOrTokenNoneffective(request)
                     }
                 }
@@ -166,20 +159,20 @@ inline fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<
  * @param notPermissionFun 无权限操作
  * @return 检测通过返回用户信息，否则返回异常信息或其他函数信息
  */
-fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, U : SbcbflwBaseUserInfoTb<P, ROLE>, PT,
-        R : SbcbflwBaseHttpServletRequestWrapper, PR : SbcbflwUserPermissionRepository<P, ROLE>, BC : SbcbflwBaseController<R>>
-        sbcbflwCheckPermissions(request : R, userInfo : U, permissionCheckTypes : Array<PT>?, baseController : BC, notPermissionFun : ((userInfoTb : U) -> Any)? = null) : Any {
+fun <P : SbcbflwBaseUserPermissionTb<ROLE>, ROLE : SbcbflwBaseUserRoleTb<P>, U : SbcbflwBaseUserInfoTb<P, ROLE>, PT, R : SbcbflwBaseHttpServletRequestWrapper, PR : SbcbflwUserPermissionRepository<P, ROLE>, BC : SbcbflwBaseController<R>> sbcbflwCheckPermissions(
+    request: R, userInfo: U, permissionCheckTypes: Array<PT>?, baseController: BC, notPermissionFun: ((userInfoTb: U) -> Any)? = null): Any {
     SbcbfBaseAllUtils.logUtils.logOptions(SbcbflwUserInfoRepository::class.java, "用户${userInfo.userId}开始进行权限检测")
     for (permission in permissionCheckTypes!!) {
-        if (!SbcbflwCommon.instance.userRolePermission?.formatConversion<SbcbflwUserPermissionService<R, P, ROLE, U, PT, PR>>()?.checkUserHavePermission(request, userInfo, permission)?.statusResult.getNotEmptyData(true)) {
+        if (!SbcbflwCommon.instance.userRolePermission?.kttlwFormatConversion<SbcbflwUserPermissionService<R, P, ROLE, U, PT, PR>>()
+                ?.checkUserHavePermission(request, userInfo, permission)?.statusResult.kttlwGetNotEmptyData(true)) {
             SbcbfBaseAllUtils.logUtils.logI(SbcbflwUserInfoRepository::class.java, "权限检测，用户${userInfo.userId}没有相关权限")
             return try {
-                notPermissionFun.emptyCheck({
+                notPermissionFun.kttlwEmptyCheck({
                     baseController.responseErrorUserLoginEmptyOrTokenNoneffective(request)
                 }, {
                     it(userInfo)
                 })
-            } catch (ignore : Exception) {
+            } catch (ignore: Exception) {
                 baseController.responseErrorNotPermission(request)
             }
         }

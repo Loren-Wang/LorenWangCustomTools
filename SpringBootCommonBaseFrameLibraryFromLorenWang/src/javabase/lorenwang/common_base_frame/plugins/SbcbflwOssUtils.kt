@@ -4,7 +4,7 @@ import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import javabase.lorenwang.common_base_frame.plugins.aliyun.SbcbflwALiYunOssUtils
 import javabase.lorenwang.common_base_frame.plugins.qiniu.SbcbflwQiNiuOssUtils
-import kotlinbase.lorenwang.tools.extend.emptyCheck
+import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 import java.io.InputStream
 
 /**
@@ -54,7 +54,7 @@ open class SbcbflwOssUtils private constructor() : OssOptions() {
      * @return 地址前缀
      */
     override fun getFilePathPrefix(): String {
-        return ossOptions.emptyCheck({
+        return ossOptions.kttlwEmptyCheck({
             ""
         }, {
             it.getFilePathPrefix()
@@ -66,7 +66,7 @@ open class SbcbflwOssUtils private constructor() : OssOptions() {
      * @return 文件地址前缀正则，最后不包含斜杠
      */
     override fun getFilePathPrefixRegex(): Regex {
-        return ossOptions.emptyCheck({
+        return ossOptions.kttlwEmptyCheck({
             Regex("")
         }, {
             it.getFilePathPrefixRegex()
@@ -80,7 +80,7 @@ open class SbcbflwOssUtils private constructor() : OssOptions() {
      * @return 返回结果
      */
     override fun upLoadFile(inputStream: InputStream, savePath: String): SbcbflwBaseDataDisposeStatusBean {
-        return ossOptions.emptyCheck({
+        return ossOptions.kttlwEmptyCheck({
             SbcbflwBaseDataDisposeStatusBean(false)
         }, {
             it.upLoadFile(inputStream, savePath)

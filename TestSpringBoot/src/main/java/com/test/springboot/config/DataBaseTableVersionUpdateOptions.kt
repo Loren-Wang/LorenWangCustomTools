@@ -2,11 +2,9 @@ package com.test.springboot.config
 
 import com.test.springboot.database.TableInfoConfig
 import com.test.springboot.database.repository.DatabaseTableVersionRepository
-import com.test.springboot.database.repository.UserInfoRepository
 import com.test.springboot.database.repository.UserPermissionRepository
 import com.test.springboot.database.repository.UserRoleRepository
 import com.test.springboot.database.table.DatabaseTableVersionTb
-import com.test.springboot.database.table.UserInfoTb
 import com.test.springboot.database.table.UserPermissionTb
 import com.test.springboot.database.table.UserRoleTb
 import com.test.springboot.enums.UserPermissionTypeEnum
@@ -15,7 +13,7 @@ import com.test.springboot.service.UserService
 import com.test.springboot.utils.LogUtil
 import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
-import kotlinbase.lorenwang.tools.extend.formatConversion
+import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
@@ -42,7 +40,7 @@ open class DataBaseTableVersionUpdateOptions {
     open fun initData(applicationContext : ConfigurableApplicationContext) {
 
         try {
-            val config = SbcbflwCommon.instance.propertiesConfig.formatConversion<PropertiesConfig>()
+            val config = SbcbflwCommon.instance.propertiesConfig.kttlwFormatConversion<PropertiesConfig>()
             //获取数据库表版本表操作实例
             databaseTableVersionRepository = applicationContext.getBean(DatabaseTableVersionRepository::class.java)
             val tableVersion = databaseTableVersionRepository.findDatabaseTableVersionTbByVersionCodeAndVersionName(config?.databaseTableVersionCode!!, config.databaseTableVersionName!!)

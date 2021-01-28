@@ -3,8 +3,8 @@ package javabase.lorenwang.common_base_frame.kotlinExtend
 import com.sun.xml.internal.bind.v2.model.core.ID
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
-import kotlinbase.lorenwang.tools.extend.emptyCheck
-import kotlinbase.lorenwang.tools.extend.isNotNullOrEmpty
+import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
+import kotlinbase.lorenwang.tools.extend.kttlwIsNotNullOrEmpty
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigInteger
 import javax.persistence.EntityManager
@@ -35,7 +35,7 @@ import javax.persistence.EntityManager
 fun EntityManager.sbcbflwUpDataAllRankMove(tableName : String, primaryKeyColumn : String, rankColumn : String? = RANK, fromRank : BigInteger, toRank : BigInteger) : BigInteger? {
     SbcbfBaseAllUtils.logUtils.logI(EntityManager::class.java, "开始重新按顺序设置排行数据")
     //处理后的排行信息
-    val newRankOptions = sbcbflwGetTableMaxRank(tableName, rankColumn!!).emptyCheck({ toRank }, {
+    val newRankOptions = sbcbflwGetTableMaxRank(tableName, rankColumn!!).kttlwEmptyCheck({ toRank }, {
         if (it < toRank) {
             it
         } else {
@@ -111,7 +111,7 @@ fun EntityManager.sbcbflwRemoveRank(tableName : String, primaryKeyColumn : Strin
  */
 fun <Id> EntityManager.sbcbflwDeleteTableInfo(tableName : String, primaryKeyColumn : String, rankColumn : String?, id : ID) : Boolean {
     var deleteRank : BigInteger? = null
-    if (rankColumn.isNotNullOrEmpty()) {
+    if (rankColumn.kttlwIsNotNullOrEmpty()) {
         //需要更新排行则先查询原始数据
         this.createNativeQuery("select $rankColumn from $tableName where $primaryKeyColumn=$id").resultList?.let {
             if (it.size == 1 && it[0] is BigInteger) {

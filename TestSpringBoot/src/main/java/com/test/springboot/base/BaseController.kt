@@ -2,9 +2,8 @@ package com.test.springboot.base
 
 import com.test.springboot.enums.NetRepStatusEnum
 import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseController
-import javabase.lorenwang.dataparse.JdplwJsonUtils
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
-import kotlinbase.lorenwang.tools.extend.toJsonData
+import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
 
 /**
  * 功能作用：基础接口
@@ -71,6 +70,6 @@ open class BaseController : SbcbflwBaseController<BaseHttpServletRequestWrapper>
         val repBean = KttlwBaseNetResponseBean(data)
         repBean.stateMessage = getMessage(repStatusEnum.messageKey)
         repBean.stateCode = repStatusEnum.code
-        return repBean.toJsonData()
+        return repBean.kttlwToJsonData()
     }
 }

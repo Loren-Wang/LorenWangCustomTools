@@ -2,7 +2,7 @@ package javabase.lorenwang.common_base_frame.email
 
 import javabase.lorenwang.common_base_frame.SbcbflwCommon
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
-import kotlinbase.lorenwang.tools.extend.emptyCheck
+import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.mail.javamail.MimeMessageHelper
 
@@ -61,7 +61,7 @@ open class SbcbflwEmailUtils {
      * @return 邮件发送结果，true成功
      */
     fun sendEmailMessage(title: String, content: String, toEmail: String): Boolean {
-        return javaMailSender.emptyCheck({
+        return javaMailSender.kttlwEmptyCheck({
              SbcbfBaseAllUtils.logUtils.logI(this::class.java, "向${toEmail}发送邮件失败,邮件发送实例无法初始化")
             false
         }, {
