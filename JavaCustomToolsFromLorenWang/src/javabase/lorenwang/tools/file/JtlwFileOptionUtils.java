@@ -17,6 +17,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -97,8 +98,8 @@ public class JtlwFileOptionUtils {
      * @return 文件字节
      */
     public byte[] readImageFileGetBytes(Boolean isCheckFile, String filePath) {
-        if (isCheckFile && !JtlwCheckVariateUtils.getInstance().checkFileIsExit(filePath)
-                && !JtlwCheckVariateUtils.getInstance().checkFileIsImage(filePath)) {
+        if (isCheckFile && !JtlwCheckVariateUtils.getInstance().checkFileIsExit(filePath) && !JtlwCheckVariateUtils.getInstance().checkFileIsImage(
+                filePath)) {
             return null;
         }
         FileInputStream fileInputStream = null;
@@ -144,8 +145,7 @@ public class JtlwFileOptionUtils {
             File file = new File(path);
             return readBytes(file);
         } catch (Exception e) {
-            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
-                    e.getMessage());
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             return new byte[]{};
         }
     }
@@ -165,17 +165,14 @@ public class JtlwFileOptionUtils {
             fis = new FileInputStream(file);
             return readBytes(fis);
         } catch (Exception e) {
-            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
-                    e.getMessage());
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             return new byte[]{};
         } finally {
             try {
                 assert fis != null;
                 fis.close();
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ?
-                        "" :
-                        e.getMessage());
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             }
 
         }
@@ -200,17 +197,14 @@ public class JtlwFileOptionUtils {
             }
             return baos.toByteArray();
         } catch (Exception e) {
-            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
-                    e.getMessage());
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             return new byte[]{};
         } finally {
             try {
                 assert baos != null;
                 baos.close();
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ?
-                        "" :
-                        e.getMessage());
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             }
 
         }
@@ -246,17 +240,14 @@ public class JtlwFileOptionUtils {
             }
             return true;
         } catch (Exception e) {
-            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
-                    e.getMessage());
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             return false;
         } finally {
             try {
                 assert fos != null;
                 fos.close();
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ?
-                        "" :
-                        e.getMessage());
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             }
         }
     }
@@ -285,8 +276,7 @@ public class JtlwFileOptionUtils {
         try {
             return writeToFile(file, new ByteArrayInputStream(text.getBytes(encoding)), append);
         } catch (UnsupportedEncodingException e) {
-            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
-                    e.getMessage());
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             return false;
         }
 
@@ -322,8 +312,7 @@ public class JtlwFileOptionUtils {
             fos.write(buffer);
             return true;
         } catch (Exception e) {
-            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" :
-                    e.getMessage());
+            JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             return false;
         } finally {
             try {
@@ -331,9 +320,7 @@ public class JtlwFileOptionUtils {
                     fos.close();
                 }
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ?
-                        "" :
-                        e.getMessage());
+                JtlwLogUtils.logUtils.logE(TAG, JtlwCheckVariateUtils.getInstance().isEmpty(e) ? "" : e.getMessage());
             }
         }
     }
@@ -410,8 +397,7 @@ public class JtlwFileOptionUtils {
      * @return 复制结果，有一个失败就是失败
      */
     public boolean copyFileDir(String oldPath, String newPath) {
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(oldPath)
-                && JtlwCheckVariateUtils.getInstance().isNotEmpty(newPath)) {
+        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(oldPath) && JtlwCheckVariateUtils.getInstance().isNotEmpty(newPath)) {
             File oldFile = new File(oldPath);
             File newFile = new File(newPath);
             //文件类型判断处理
@@ -716,8 +702,7 @@ public class JtlwFileOptionUtils {
      * @param matchRegular 要返回的文件的正则格式
      * @return 扫描到的文件列表
      */
-    public synchronized List<File> getFileListForMatchLinkedQueueScan(String scanPath,
-                                                                      final String matchRegular) {
+    public synchronized List<File> getFileListForMatchLinkedQueueScan(String scanPath, final String matchRegular) {
         final List<File> list = new ArrayList<>();
         if (!JtlwCheckVariateUtils.getInstance().isHaveEmpty(scanPath, matchRegular)) {
             if (fileOptionsLinkedQueue == null) {
@@ -754,8 +739,7 @@ public class JtlwFileOptionUtils {
                 }
 
                 //固定数目线程池(最大线程数目为cpu核心数,多余线程放在等待队列中)
-                final ExecutorService executorService =
-                        Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+                final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
                 for (Runnable runnable : runnableList) {
                     executorService.submit(runnable);
                 }
@@ -860,9 +844,9 @@ public class JtlwFileOptionUtils {
             } else {
                 byte[] bytes = new byte[28];
                 inputStream.read(bytes, 0, bytes.length);
-                String fileHeader = JtlwCommonUtils.getInstance().bytesToHexString(bytes);
+                String fileHeader = JtlwCommonUtils.getInstance().bytesToHexString(bytes).toLowerCase();
                 for (JtlwFileTypeEnum type : JtlwFileTypeEnum.values()) {
-                    if (fileHeader.startsWith(type.getStart())) {
+                    if (fileHeader.startsWith(type.getStart().toLowerCase())) {
                         return type;
                     }
                 }
@@ -899,13 +883,11 @@ public class JtlwFileOptionUtils {
      * @param newCodedFormat 新文件的编码格式
      * @return 是否成功，成功返回true
      */
-    public boolean changeFileCodedFormat(String filePath, Charset oldCodedFormat,
-                                         Charset newCodedFormat) {
+    public boolean changeFileCodedFormat(String filePath, Charset oldCodedFormat, Charset newCodedFormat) {
         //读取文件原内容
         String content = readFileContent(filePath, oldCodedFormat);
         //写入新内容
-        return writeFilContent(filePath, newCodedFormat,
-                new String(content.getBytes(newCodedFormat), newCodedFormat));
+        return writeFilContent(filePath, newCodedFormat, new String(content.getBytes(newCodedFormat), newCodedFormat));
     }
 
     /**
