@@ -69,7 +69,19 @@
     图片设置背景--setBitmapBg(bitmap,bgColor,bgContentPadding)
     获取两个位图重叠部分位图--getOverlapBitmap(bottomBitmap,topBitmap,showWidth,showHeight)
     释放bitmap--releaseBitmap(bitmap)
-    
+
+<h3>AtlwScreenUtil---（屏幕相关处理类）
+
+    根据手机的分辨率从 dp 的单位 转成为 px(像素)--dip2px(dpValue)
+    根据手机的分辨率从 px(像素) 的单位 转成为 dp--px2dip(pxValue)
+    将sp值转换为px值，保证文字大小不变--sp2px(spValue)
+    将px值转换为sp值，保证文字大小不变--px2sp(pxValue)
+    获取屏幕宽度--getScreenWidth()
+    获取屏幕高度--getScreenHeight()
+    或者状态栏高度--getStatusBarHeight()
+    获取需要补充的高度，特殊机型需要补充--getMiSupplementHeight()
+    根据宽度获取在屏幕上显示的总的像素值--getShowPixelValueForWidth(layoutShowValue)
+    根据高度获取在屏幕上显示的总的像素值--getShowPixelValueForHeight(layoutShowValue)
 
 <h3>二、AtlwSharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>
 
@@ -142,8 +154,7 @@
       5.2、使用听筒播放正在播放的音频
       5.3、使用扬声器播放正在播放的音频
   
- <h3> 十四、AtlwMobilePhoneBrandUtils---（手机品牌判断工具类）
-  
+ <h3> 十四、AtlwMobilePhoneBrandUtils---（手机品牌判断工具类）  
     1、是否是小米手机
     2、判断是否是魅族手机
     3、是否是华为手机
@@ -153,7 +164,6 @@
     7、是否是samsung手机
     8、是否是Sony手机
     9、是否是LG手机
-   
    
    <h3>十五、AtlwMobileSystemInfoUtils---（手机系统信息工具类）
    
@@ -167,18 +177,6 @@
     8、获取当前网络类型  return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
 
 
-<h3>十六、AtlwScreenUtils---（屏幕相关工具类）
-
-    1、根据手机的分辨率从 dp 的单位 转成为 px(像素)
-    2、根据手机的分辨率从 px(像素) 的单位 转成为 dp
-    3、将sp值转换为px值，保证文字大小不变
-    4、将px值转换为sp值，保证文字大小不变
-    5、获取屏幕宽度
-    6、获取屏幕高度
-    7、根据宽度获取在屏幕上显示的总的像素值
-    8、根据高度获取在屏幕上显示的总的像素值
-    
-    
 <h3>十七、AtlwBrightnessChangeUtils---（亮度相关工具类）
 
     1、获取当前屏幕亮度

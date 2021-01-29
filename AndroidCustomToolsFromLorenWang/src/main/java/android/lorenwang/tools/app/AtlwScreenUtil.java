@@ -1,46 +1,36 @@
 package android.lorenwang.tools.app;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.lorenwang.tools.AtlwConfig;
+import android.lorenwang.tools.mobile.AtlwMobilePhoneBrandUtil;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 /**
- * 创建时间：2019-04-30 下午 14:36:58
- * 创建人：王亮（Loren wang）
  * 功能作用：屏幕相关工具类
+ * 初始注释时间： 2021/1/29 12:26 下午
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、根据手机的分辨率从 dp 的单位 转成为 px(像素)
- * 2、根据手机的分辨率从 px(像素) 的单位 转成为 dp
- * 3、将sp值转换为px值，保证文字大小不变
- * 4、将px值转换为sp值，保证文字大小不变
- * 5、获取屏幕宽度
- * 6、获取屏幕高度
- * 7、根据宽度获取在屏幕上显示的总的像素值
- * 8、根据高度获取在屏幕上显示的总的像素值
- * 9、或者状态栏高度
+ * 根据手机的分辨率从 dp 的单位 转成为 px(像素)--dip2px(dpValue)
+ * 根据手机的分辨率从 px(像素) 的单位 转成为 dp--px2dip(pxValue)
+ * 将sp值转换为px值，保证文字大小不变--sp2px(spValue)
+ * 将px值转换为sp值，保证文字大小不变--px2sp(pxValue)
+ * 获取屏幕宽度--getScreenWidth()
+ * 获取屏幕高度--getScreenHeight()
+ * 或者状态栏高度--getStatusBarHeight()
+ * 获取需要补充的高度，特殊机型需要补充--getMiSupplementHeight()
+ * 根据宽度获取在屏幕上显示的总的像素值--getShowPixelValueForWidth(layoutShowValue)
+ * 根据高度获取在屏幕上显示的总的像素值--getShowPixelValueForHeight(layoutShowValue)
  * 注意：
  * 修改人：
  * 修改时间：
- * 备注：WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
- * DisplayMetrics dm = new DisplayMetrics();
- * wm.getDefaultDisplay().getMetrics(dm);
- * int width = dm.widthPixels;         // 屏幕宽度（像素）
- * int height = dm.heightPixels;       // 屏幕高度（像素）
- * float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
- * int densityDpi = dm.densityDpi;     // 屏幕密度dpi（120 / 160 / 240）
- * // 屏幕宽度算法:屏幕宽度（像素）/屏幕密度
- * int screenWidth = (int) (width / density);  // 屏幕宽度(dp)
- * int screenHeight = (int) (height / density);// 屏幕高度(dp)
- * Log.d("h_bl", "屏幕宽度（像素）：" + width);
- * Log.d("h_bl", "屏幕高度（像素）：" + height);
- * Log.d("h_bl", "屏幕密度（0.75 / 1.0 / 1.5）：" + density);
- * Log.d("h_bl", "屏幕密度dpi（120 / 160 / 240）：" + densityDpi);
- * Log.d("h_bl", "屏幕宽度（dp）：" + screenWidth);
- * Log.d("h_bl", "屏幕高度（dp）：" + screenHeight);
+ * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 public class AtlwScreenUtil {
     private final String TAG = getClass().getName();
     private static volatile AtlwScreenUtil optionsInstance;
@@ -63,7 +53,6 @@ public class AtlwScreenUtil {
     private Integer screenWidth = null;
     //屏幕高度
     private Integer screenHeight = null;
-
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
@@ -128,7 +117,7 @@ public class AtlwScreenUtil {
      */
     public int getScreenHeight() {
         if (screenHeight == null) {
-            screenHeight = getDisplayMetrics().heightPixels;         // 屏幕宽度（像素）
+            screenHeight = getDisplayMetrics().heightPixels + getMiSupplementHeight();
         }
         return screenHeight;
     }
@@ -168,7 +157,31 @@ public class AtlwScreenUtil {
     }
 
     /**
+     * 获取需要补充的高度，特殊机型需要补充
+     */
+    public int getMiSupplementHeight() {
+        int result = 0;
+        //是否是小米系统，不是小米系统则不需要补充高度
+        if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile()) {
+            if (Settings.Global.getInt(AtlwConfig.nowApplication.getContentResolver(), "force_fsg_nav_bar", 0) == 0) {
+                //如果虚拟按键已经显示，则不需要补充高度
+                return 0;
+            } else {
+                //如果虚拟按键没有显示，则需要补充虚拟按键高度到屏幕高度
+                Resources res = AtlwConfig.nowApplication.getResources();
+                int resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android");
+                if (resourceId > 0) {
+                    result = res.getDimensionPixelSize(resourceId);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * 获取手机的屏幕管理
+     *
      * @return 手机的屏幕管理
      */
     private DisplayMetrics getDisplayMetrics() {
