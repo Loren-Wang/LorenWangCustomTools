@@ -25,7 +25,9 @@ public abstract class AtlwLocationCallback implements AtlwPermissionRequestCallb
 
     /**
      * 定位信息获取成功
-     * @param bean 定位信息
+     *
+     * @param bean             定位信息
+     * @param locationIsChange 定位信息是否有改变
      */
-    public abstract void locationResultSuccess(@NotNull AtlwLocationResultBean bean);
+    public abstract void locationResultSuccess(@NotNull AtlwLocationResultBean bean, boolean locationIsChange);
 }

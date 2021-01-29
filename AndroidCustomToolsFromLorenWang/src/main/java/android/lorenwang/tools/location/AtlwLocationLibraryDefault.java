@@ -204,17 +204,15 @@ class AtlwLocationLibraryDefault implements AtlwLocationLibraryBase {
             stopLoopPositioning();
         }
         //返回数据逻辑处理
-        if (judgeLocationResultBean(bean)) {
-            AtlwLogUtil.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
-            //回调定位
-            if (config != null && config.getLocationsCallback() != null) {
-                AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        config.getLocationsCallback().locationResultSuccess(bean);
-                    }
-                });
-            }
+        AtlwLogUtil.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
+        //回调定位
+        if (config != null && config.getLocationsCallback() != null) {
+            AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    config.getLocationsCallback().locationResultSuccess(bean,judgeLocationResultBean(bean));
+                }
+            });
         }
     }
 
@@ -261,7 +259,7 @@ class AtlwLocationLibraryDefault implements AtlwLocationLibraryBase {
     protected boolean judgeLocationResultBean(@NotNull AtlwLocationResultBean bean) {
         if (lastLocatioBean != null && Double.compare(lastLocatioBean.getLatitude(), bean.getLatitude()) == 0 && Double.compare(
                 lastLocatioBean.getLongitude(), bean.getLongitude()) == 0) {
-            AtlwLogUtil.logUtils.logI(TAG, "当前位置信息未发生变更，所以不进行数据返回");
+            AtlwLogUtil.logUtils.logI(TAG, "当前位置信息未发生变更");
             return false;
         }
         lastLocatioBean = bean;

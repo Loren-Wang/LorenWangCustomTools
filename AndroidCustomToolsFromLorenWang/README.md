@@ -17,6 +17,7 @@
     获取应用程序名称--getAppName()
     修改页面旋转方向--changeActivityScreenOrientation(activity)
     参数页面当前是否是横屏显示--isPageLandscape(activity)
+    是否有服务在运行--isRunSercice(cls)
 
 <h3>AtlwLocationUtil---(AtlwLocationUtil定位库，需要导入相应的定位包或直接使用系统定位)
 

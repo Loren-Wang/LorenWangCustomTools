@@ -27,6 +27,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 
+import static android.content.Context.ACTIVITY_SERVICE;
+
 /**
  * 功能作用：activity工具类
  * 初始注释时间： 2021/1/21 3:17 下午
@@ -44,6 +46,7 @@ import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
  * 获取应用程序名称--getAppName()
  * 修改页面旋转方向--changeActivityScreenOrientation(activity)
  * 参数页面当前是否是横屏显示--isPageLandscape(activity)
+ * 是否有服务在运行--isRunSercice(cls)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -166,12 +169,10 @@ public class AtlwActivityUtil {
      * @param visibility 显示状态
      */
     public void setInputMethodVisibility(Activity activity, View view, int visibility) {
-        InputMethodManager imm =
-                (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (view == null && visibility == View.GONE) {
             if (activity.getCurrentFocus() != null) {
-                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
             return;
         }
@@ -312,7 +313,7 @@ public class AtlwActivityUtil {
      */
     public boolean isOnForeground() {
         if (AtlwConfig.nowApplication != null) {
-            ActivityManager activityManager = (ActivityManager) AtlwConfig.nowApplication.getSystemService(Context.ACTIVITY_SERVICE);
+            ActivityManager activityManager = (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
             List<ActivityManager.RunningTaskInfo> tasksInfo = activityManager.getRunningTasks(1);
             if (tasksInfo.size() > 0) {
                 // 应用程序位于堆栈的顶层
@@ -370,5 +371,24 @@ public class AtlwActivityUtil {
                 activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
     }
 
+    /**
+     * 是否有服务在运行
+     *
+     * @param <T> 服务泛型
+     * @param cls 服务cls
+     * @return true，代表有运行
+     */
+    private <T> boolean isRunSercice(@NotNull Class<T> cls) {
+        // 获取Activity管理器
+        ActivityManager activityManger = (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
+        // 从窗口管理器中获取正在运行的Service
+        List<ActivityManager.RunningServiceInfo> serviceList = activityManger.getRunningServices(30);
+        for (ActivityManager.RunningServiceInfo runningServiceInfo : serviceList) {
+            if (cls.getName().equals(runningServiceInfo.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

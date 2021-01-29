@@ -53,17 +53,15 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
                 bean.setLatitude(aMapLocation.getLatitude());
                 bean.setLongitude(aMapLocation.getLongitude());
             }
-            if (judgeLocationResultBean(bean)) {
-                AtlwLogUtil.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
-                //回调定位
-                if (config != null && config.getLocationsCallback() != null) {
-                    AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            config.getLocationsCallback().locationResultSuccess(bean);
-                        }
-                    });
-                }
+            AtlwLogUtil.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
+            //回调定位
+            if (config != null && config.getLocationsCallback() != null) {
+                AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        config.getLocationsCallback().locationResultSuccess(bean, judgeLocationResultBean(bean));
+                    }
+                });
             }
         }
     };
