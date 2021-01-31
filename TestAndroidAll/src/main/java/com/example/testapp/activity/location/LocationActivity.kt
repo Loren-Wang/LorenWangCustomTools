@@ -10,6 +10,7 @@ import android.view.View
 import com.example.testapp.R
 import com.example.testapp.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_location.*
+import org.jetbrains.annotations.NotNull
 
 /**
  * 功能作用：定位相关页面
@@ -35,7 +36,7 @@ class LocationActivity : BaseActivity() {
             tvResult?.text = "权限请求失败"
         }
 
-        override fun locationResultSuccess(bean: AtlwLocationResultBean) {
+        override fun locationResultSuccess(bean: @NotNull AtlwLocationResultBean, locationIsChange: Boolean) {
             tvResult?.text = bean.getLatitude().toString() + "_" + bean.getLongitude()
         }
     }

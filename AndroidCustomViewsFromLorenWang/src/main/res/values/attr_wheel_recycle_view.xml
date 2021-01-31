@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AvlwWheelRecyclerView">
+        <!--item高度-->
+        <attr name="avlwItemHeight" format="dimension" />
+        <!--选中文本大小-->
+        <attr name="avlwSelectTextSize" format="dimension" />
+        <!--未选中文本大小-->
+        <attr name="avlwUnSelectTextSize" format="dimension" />
+        <!--选中文本颜色-->
+        <attr name="avlwSelectTextColor" format="color" />
+        <!--未选中文本颜色-->
+        <attr name="avlwUnSelectTextColor" format="color" />
+        <!--选中文本是否加粗-->
+        <attr name="avlwSelectTextIsBold" format="boolean" />
+        <!--未选中文本是否加粗-->
+        <attr name="avlwUnSelectTextIsBold" format="boolean" />
+        <!--单侧显示数量-->
+        <attr name="avlwWheelOffset" format="integer" />
+        <!--分隔线宽度-->
+        <attr name="avlwDividerWidth" format="dimension" />
+        <!--分隔线高度-->
+        <attr name="avlwDividerHeight" format="dimension" />
+        <!--分隔线颜色-->
+        <attr name="avlwDividerColor" format="color" />
+    </declare-styleable>
+
+</resources>

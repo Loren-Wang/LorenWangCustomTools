@@ -16,6 +16,7 @@ import com.example.testapp.activity.image.ImageListBitmapActivity
 import com.example.testapp.activity.image.ImageViewActivity
 import com.example.testapp.activity.image.ZoomableImageViewActivity
 import com.example.testapp.activity.location.LocationActivity
+import com.example.testapp.activity.recycleView.WheelRecycleViewActivity
 import com.example.testapp.activity.textview.CustomDrawableButtonActivity
 import com.example.testapp.activity.textview.ShowPriceTextViewActivity
 import com.example.testapp.activity.textview.ShowQuantityOfCommodityActivity
@@ -43,12 +44,15 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnCustomDrawableButton?.performClick()
+        btnWheelRecycleView?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnWheelRecycleView -> {
+                    startActivity(Intent(this, WheelRecycleViewActivity::class.java))
+                }
                 R.id.btnVideoPlay -> {
                     startActivity(Intent(this, VideoPlayActivity::class.java))
                 }

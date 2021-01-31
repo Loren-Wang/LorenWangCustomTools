@@ -32,6 +32,7 @@
     <string name="page_type_anims">动画相关</string>
     <string name="page_type_location">定位相关</string>
     <string name="page_type_image_list_map">图片列表网络位图加载</string>
+    <string name="page_type_wheel_recycle_view">滚筒显示</string>
     <string name="page_type_video_play">视频播放</string>
     <string name="page_type_video_play_list">视频列表播放</string>
     <string name="anim_translate_y">Y轴平移动画</string>

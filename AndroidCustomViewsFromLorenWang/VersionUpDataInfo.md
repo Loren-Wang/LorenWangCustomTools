@@ -1,3 +1,7 @@
+**V3.0.4**
+
+    AvlwWheelRecyclerView--新增滚动列表显示控件
+
 **V3.0.3**
 
 1、AvlwFixedWidthHeightDrawableButton修改参数设置逻辑以及渲染逻辑
