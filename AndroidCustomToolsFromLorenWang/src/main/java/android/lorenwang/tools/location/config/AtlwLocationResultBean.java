@@ -24,6 +24,10 @@ public class AtlwLocationResultBean implements Serializable {
      * 经度
      */
     private double longitude = 0.0;
+    /**
+     * 城市信息
+     */
+    private String cityName;
 
     public double getLatitude() {
         return latitude;
@@ -39,5 +43,13 @@ public class AtlwLocationResultBean implements Serializable {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getCityName() {
+        return cityName;
     }
 }

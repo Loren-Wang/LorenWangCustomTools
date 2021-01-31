@@ -52,6 +52,7 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
             if (aMapLocation != null) {
                 bean.setLatitude(aMapLocation.getLatitude());
                 bean.setLongitude(aMapLocation.getLongitude());
+                bean.setCityName(aMapLocation.getCity());
             }
             AtlwLogUtil.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
             //回调定位
@@ -130,6 +131,8 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
                 //获取最近3s内精度最高的一次定位结果
                 mLocationOption.setOnceLocationLatest(true);
             }
+            //设置返回地址信息
+            mLocationOption.setNeedAddress(true);
             mLocationListener.config = config;
             mLocationListener.type = type;
             mLocationClient.setLocationListener(mLocationListener);
