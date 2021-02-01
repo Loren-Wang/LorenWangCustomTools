@@ -1,6 +1,7 @@
 package changFileContent;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
@@ -20,7 +21,21 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
 public class ChangeFileName {
     public static void main(String[] args) {
-        inTheLineToTheUnderline(new File("/Volumes/AllDevelop/Project/Official/QtoolsWebSiteCommonOfficial/src/assets/images"),false);
+        //        changeFileName(new File("/Users/wangliang/Desktop/src/api"), false, ".js", ".ts");
+        addFirstContent(new File("/Users/wangliang/Desktop/src/common"), "\\S+.tsx", "[\\s\\S\\n]*import React[\\s\\S\\n]*",
+                "import React from \"react\";\n");
+    }
+
+    static class a {
+        int w;
+        int h;
+        int x;
+
+        public a(int w, int h, int x) {
+            this.w = w;
+            this.h = h;
+            this.x = x;
+        }
     }
 
     /**
@@ -33,12 +48,57 @@ public class ChangeFileName {
         if (dirFile != null && dirFile.isDirectory() && dirFile.listFiles() != null) {
             for (File file : dirFile.listFiles()) {
                 if (file.isFile()) {
-                    JtlwFileOptionUtils.getInstance().renameFile(file, file.getName().replace("-",
-                            "_"));
+                    JtlwFileOptionUtils.getInstance().renameFile(file, file.getName().replace("-", "_"));
                 } else {
                     inTheLineToTheUnderline(file, changeChild);
                 }
             }
         }
     }
+
+    /**
+     * 修改文件名称
+     *
+     * @param dirFile     文件夹file
+     * @param changeChild 是否修复子文件名称
+     */
+    public static void changeFileName(File dirFile, boolean changeChild, String target, String replacement) {
+        if (dirFile != null && dirFile.isDirectory() && dirFile.listFiles() != null) {
+            for (File file : dirFile.listFiles()) {
+                if (file.isFile()) {
+                    System.out.println(file.getAbsolutePath());
+                    JtlwFileOptionUtils.getInstance().renameFile(file, file.getName().replace(target, replacement));
+                } else {
+                    changeFileName(file, changeChild, target, replacement);
+                }
+            }
+        }
+    }
+
+    /**
+     * 向头部添加数据
+     *
+     * @param dirFile      文件
+     * @param fileRegex    文件名称正则
+     * @param contentRegex 文件内容正则
+     * @param text         文本
+     */
+    public static void addFirstContent(File dirFile, String fileRegex, String contentRegex, String text) {
+        if (dirFile != null && dirFile.isDirectory() && dirFile.listFiles() != null) {
+            for (File file : dirFile.listFiles()) {
+                if (file.isFile()) {
+                    if (file.getName().matches(fileRegex)) {
+                        String content = JtlwFileOptionUtils.getInstance().readFileContent(file.getAbsolutePath(), Charset.defaultCharset());
+                        if (!content.matches(contentRegex)) {
+                            content = text + content;
+                        }
+                        JtlwFileOptionUtils.getInstance().writeToFile(file, content);
+                    }
+                } else {
+                    addFirstContent(file, fileRegex, contentRegex, text);
+                }
+            }
+        }
+    }
+
 }
