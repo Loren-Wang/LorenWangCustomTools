@@ -53,6 +53,13 @@
             android:text="@string/dialog_only_button"
             android:onClick="dialogOnClick" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDialogRight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_right"
+            android:onClick="dialogOnClick" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </ScrollView>

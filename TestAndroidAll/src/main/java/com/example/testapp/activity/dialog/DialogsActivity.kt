@@ -27,6 +27,7 @@ class DialogsActivity : BaseActivity() {
     private lateinit var centerWebViewDialog: AvlwBaseWebViewDialog
     private lateinit var confirmCancelDialog: AvlwConfirmCancelDialog1
     private lateinit var onlyButtonDialog: AvlwConfirmCancelDialog1
+    private lateinit var rightButtonDialog: AvlwBaseRightDialog
 
 
     /**
@@ -52,6 +53,9 @@ class DialogsActivity : BaseActivity() {
             R.id.btnDialogOnlyButton -> {
                 showDialog(onlyButtonDialog)
             }
+            R.id.btnDialogRight -> {
+                showDialog(rightButtonDialog)
+            }
             else -> {
 
             }
@@ -71,19 +75,18 @@ class DialogsActivity : BaseActivity() {
         addContentView(R.layout.activity_dialogs)
         bottomDialog = AvlwBaseBottomDialog(this, R.layout.dialog_content, true)
 
-        centerDialog = AvlwBaseCenterDialog(this, R.layout.dialog_content, true,
-                (AtlwScreenUtil.getInstance().screenWidth * 0.6).toInt(), null)
+        centerDialog = AvlwBaseCenterDialog(this, R.layout.dialog_content, true, (AtlwScreenUtil.getInstance().screenWidth * 0.6).toInt(), null)
 
 
 
-        bottomWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.AvlwLayoutDialogBottom,
-                R.style.AvlwAnimDialogBottom, true, ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.BOTTOM)
+        bottomWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.AvlwLayoutDialogBottom, R.style.AvlwAnimDialogBottom, true,
+            ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.BOTTOM)
         bottomWebViewDialog.initWebView(R.id.webView, "https://www.jianshu.com/p/56e2b0bf9ab2")
 
 
 
-        centerWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.AvlwLayoutDialogCenter,
-                R.style.AvlwAnimDialogCenter, true, ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.CENTER)
+        centerWebViewDialog = AvlwBaseWebViewDialog(this, R.layout.dialog_webview, R.style.AvlwLayoutDialogCenter, R.style.AvlwAnimDialogCenter, true,
+            ViewGroup.LayoutParams.MATCH_PARENT, null, Gravity.CENTER)
         centerWebViewDialog.initWebView(R.id.webView, "https://www.jianshu.com/p/56e2b0bf9ab2")
 
 
@@ -99,5 +102,8 @@ class DialogsActivity : BaseActivity() {
         onlyButtonDialog.setOptionsState(true, false, 100)
         onlyButtonDialog.setBtnLeft("确定", null, null) { onlyButtonDialog.dismiss() }
         onlyButtonDialog.setContent("确定||取消 确定||取消 确定||取消 确定||取消", null, null)
+
+        rightButtonDialog = AvlwBaseRightDialog(this, R.layout.dialog_content, true, (AtlwScreenUtil.getInstance().screenWidth).toInt(),
+            ViewGroup.LayoutParams.MATCH_PARENT)
     }
 }

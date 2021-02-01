@@ -1,3 +1,7 @@
+**V3.0.5**
+
+    AvlwBaseRightDialog--新增右侧进入弹窗dialog
+
 **V3.0.4**
 
     AvlwWheelRecyclerView--新增滚动列表显示控件
