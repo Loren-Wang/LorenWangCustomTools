@@ -18,6 +18,7 @@ Java自定义工具类
     获取一个月的所有时间列表--getMonthTimeList(monthTime,firstWeek,onlyMonth)
     是否是同一天时间--isOneDay(timeOne, timeTwo)
     获取指定时间下个月第一天的时间--getNextMonthStartDayTime(time)
+    获取指定时间上个月第一天的时间--getLastMonthStartDayTime(time)
     获取倒计时天数--getCountdownDay(millisecondTime)
     获取倒计时小时，总小时，可能会超过24小时以上--getCountdownHours(millisecondTime)
     获取倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时--getCountdownHours(millisecondTime,useOneDay)

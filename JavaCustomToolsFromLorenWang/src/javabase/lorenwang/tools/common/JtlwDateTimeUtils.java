@@ -30,6 +30,7 @@ import java.util.Locale;
  * 获取一个月的所有时间列表--getMonthTimeList(monthTime,firstWeek,onlyMonth)
  * 是否是同一天时间--isOneDay(timeOne, timeTwo)
  * 获取指定时间下个月第一天的时间--getNextMonthStartDayTime(time)
+ * 获取指定时间上个月第一天的时间--getLastMonthStartDayTime(time)
  * 获取倒计时天数--getCountdownDay(millisecondTime)
  * 获取倒计时小时，总小时，可能会超过24小时以上--getCountdownHours(millisecondTime)
  * 获取倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时--getCountdownHours(millisecondTime,useOneDay)
@@ -283,7 +284,7 @@ public class JtlwDateTimeUtils {
         if (!onlyMonth) {
             //当月最后一天星期
             int lastWeekDay = dateToWeek(nextMonthStartTime - DAY_TIME_MILLISECOND);
-            int addLast = firstWeek + 7 - lastWeekDay;
+            int addLast = firstWeek + 7 - lastWeekDay - 1;
             for (int i = 0; i < addLast; i++) {
                 timeList.add(nextMonthStartTime);
                 nextMonthStartTime += DAY_TIME_MILLISECOND;
@@ -338,6 +339,45 @@ public class JtlwDateTimeUtils {
                 return JtlwDateTimeUtils.getInstance().getMillisecond(year + "12", "yyyyMM");
             case "12":
                 return JtlwDateTimeUtils.getInstance().getMillisecond((Integer.parseInt(year) + 1) + "01", "yyyyMM");
+            default:
+                return -1;
+        }
+    }
+
+    /**
+     * 获取指定时间上个月第一天的时间
+     *
+     * @param time 指定时间
+     * @return 上个月1号的时间
+     */
+    public long getLastMonthStartDayTime(long time) {
+        String month = JtlwDateTimeUtils.getInstance().getFormatDateTime("MM", time);
+        String year = JtlwDateTimeUtils.getInstance().getFormatDateTime("yyyy", time);
+        switch (month) {
+            case "01":
+                return JtlwDateTimeUtils.getInstance().getMillisecond((Integer.parseInt(year) - 1) + "12", "yyyyMM");
+            case "02":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "01", "yyyyMM");
+            case "03":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "02", "yyyyMM");
+            case "04":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "03", "yyyyMM");
+            case "05":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "04", "yyyyMM");
+            case "06":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "05", "yyyyMM");
+            case "07":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "06", "yyyyMM");
+            case "08":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "07", "yyyyMM");
+            case "09":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "08", "yyyyMM");
+            case "10":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "09", "yyyyMM");
+            case "11":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "10", "yyyyMM");
+            case "12":
+                return JtlwDateTimeUtils.getInstance().getMillisecond(year + "11", "yyyyMM");
             default:
                 return -1;
         }
