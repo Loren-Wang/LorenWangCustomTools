@@ -9,6 +9,7 @@ import com.example.testapp.activity.androidTools.MobileContactsActivity
 import com.example.testapp.activity.androidTools.MobileSmsActivity
 import com.example.testapp.activity.anim.AnimActivity
 import com.example.testapp.activity.bluetooth.BluetoothActivity
+import com.example.testapp.activity.calendar.CalendarActivity
 import com.example.testapp.activity.dialog.DialogsActivity
 import com.example.testapp.activity.graphicCodeScan.CodeGenerateActivity
 import com.example.testapp.activity.graphicCodeScan.ScanCodeActivity
@@ -44,12 +45,15 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnDialogs?.performClick()
+        btnCalendar?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnCalendar -> {
+                    startActivity(Intent(this, CalendarActivity::class.java))
+                }
                 R.id.btnWheelRecycleView -> {
                     startActivity(Intent(this, WheelRecycleViewActivity::class.java))
                 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvlwCalendarView">
+        <!--周的第一天显示是周几-->
+        <attr name="avlwCaledarWeekFirst">
+            <enum name="sunday" value="0" />
+            <enum name="monday" value="1" />
+            <enum name="tuesday" value="2" />
+            <enum name="wednesday" value="3" />
+            <enum name="thursday" value="4" />
+            <enum name="friday" value="5" />
+            <enum name="saturday" value="6" />
+        </attr>
+        <!--是否只显示单月-->
+        <attr name="avlwCaledarShowOnlyMonth" format="boolean" />
+        <!--是否是单选-->
+        <attr name="avlwCaledarSelecOne" format="boolean" />
+    </declare-styleable>
+</resources>

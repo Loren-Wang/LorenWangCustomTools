@@ -1,3 +1,8 @@
+**V3.0.7**
+
+    AvlwCalendarView--新增日历控件
+    AvlwHeightChangeViewPager--高度可变的轮播控件
+
 **V3.0.6**
 
     AvlwTabLayout--修改tab切换重新渲染逻辑
