@@ -1,5 +1,31 @@
 Java自定义工具类
 
+<h3>JtlwDateTimeUtils---(时间工具类)
+
+    每天的时间毫秒数--DAY_TIME_MILLISECOND
+    每小时的时间毫秒数--HOUR_TIME_MILLISECOND
+    获取当前时间的毫秒值--getMillisecond()
+    获取当前时间的秒值--getSecond()
+    格式化指定时间到指定格式--getFormatDateTime(pattern,dateTime)
+    格式化时间--getFormatDateTime(pattern,date)
+    格式化当前时间到指定格式--getFormatDateNowTime(pattern)
+    格式化当前时间到指定格式，并返回该格式的相应毫秒值--getFormatNowTimeToMillisecond(pattern)
+    根据日期时间获得毫秒数--getMillisecond(dateAndTime,dateAndTimeFormat)
+    根据日期时间获得秒数--getSecond(dateAndTime,dateAndTimeFormat)
+    根据输入的年份判断该年份是否是闰年，是则返回true--isLeapYear(year)
+    根据月日判断星座--getConstellation(m,d)
+    根据日期获取 星期--dateToWeek(time)
+    获取一个月的所有时间列表--getMonthTimeList(monthTime,firstWeek,onlyMonth)
+    是否是同一天时间--isOneDay(timeOne, timeTwo)
+    获取指定时间下个月第一天的时间--getNextMonthStartDayTime(time)
+    获取倒计时天数--getCountdownDay(millisecondTime)
+    获取倒计时小时，总小时，可能会超过24小时以上--getCountdownHours(millisecondTime)
+    获取倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时--getCountdownHours(millisecondTime,useOneDay)
+    获取倒计时分钟，总小时，可能会超过24小时以上--getCountdownMinutes(millisecondTime)
+    获取倒计时小时, 如果useOnHours为true的话，那么返回时间不会超过60小时--getCountdownMinutes(millisecondTime,useOnHours)
+    获取倒计时秒，总秒数，可能会超过60s以上--getCountdownMmillisecond(millisecondTime)
+    获取倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上--getCountdownMmillisecond(millisecondTime,useOnMinutes)
+
 <h3>一、FileOptionUtils---（文件操作工具类）</h3>
       
       1、读取图片文件并获取字节

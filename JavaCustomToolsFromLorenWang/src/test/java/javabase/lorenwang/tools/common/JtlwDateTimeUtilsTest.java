@@ -2,6 +2,8 @@ package javabase.lorenwang.tools.common;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -19,6 +21,12 @@ import static org.junit.Assert.*;
  */
 public class JtlwDateTimeUtilsTest {
 
+    @Test
+    public void getMonthTimeList() {
+        List<Long> longList = JtlwDateTimeUtils.getInstance().getMonthTimeList(System.currentTimeMillis(), 0, false);
+        System.out.println(JtlwDateTimeUtils.getInstance().getFormatDateTime("yyy-MM-dd", longList.get(0)));
+    }
+
     public void testIsLeapYear() {
         System.out.println("判断年份是否是闰年");
         System.out.println("年份为：" + 2000 + "  结果为：" + JtlwDateTimeUtils.getInstance().isLeapYear(2000));
@@ -35,18 +43,19 @@ public class JtlwDateTimeUtilsTest {
     @Test
     public void getCountdownHours() {
         System.out.println(JtlwDateTimeUtils.getInstance().getCountdownHours(86400000));
-        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownHours(86400000,true));
+        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownHours(86400000, true));
     }
 
     @Test
     public void getCountdownMinutes() {
         System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMinutes(86400000));
-        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMinutes(86400000,true));
+        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMinutes(86400000, true));
     }
+
     @Test
     public void getCountdownMmillisecond() {
         System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMmillisecond(86400000));
-        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMmillisecond(86400000,true));
+        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMmillisecond(86400000, true));
     }
 
 }
