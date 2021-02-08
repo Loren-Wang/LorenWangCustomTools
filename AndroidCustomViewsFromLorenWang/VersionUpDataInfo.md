@@ -1,3 +1,7 @@
+**V3.0.6**
+
+    AvlwTabLayout--修改tab切换重新渲染逻辑
+
 **V3.0.5**
 
     AvlwBaseRightDialog--新增右侧进入弹窗dialog
