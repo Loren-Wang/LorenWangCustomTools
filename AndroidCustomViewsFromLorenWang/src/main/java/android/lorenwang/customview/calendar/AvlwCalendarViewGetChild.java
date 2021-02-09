@@ -27,9 +27,23 @@ public interface AvlwCalendarViewGetChild {
     View getWeekTitleView(int weekDay);
 
     /**
+     * 获取周标题视图viw的高度
+     *
+     * @return 高度
+     */
+    int getWeekTitleViewHeight();
+
+    /**
      * 获取周中每天的view
      */
     View getWeekDayView();
+
+    /**
+     * 获取周中每天viw的高度
+     *
+     * @return 高度
+     */
+    int getWeekDayViewHeight();
 
     /**
      * 设置天view

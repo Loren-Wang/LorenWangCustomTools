@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.testapp.R
 import com.example.testapp.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_calendar.*
 
 /**
  * 功能作用：日历显示页面
@@ -21,5 +22,6 @@ import com.example.testapp.base.BaseActivity
 class CalendarActivity : BaseActivity() {
     override fun initView(savedInstanceState: Bundle?) {
         addContentView(R.layout.activity_calendar)
+        timeShow?.setShowMonthCount(3,12)?.changeToNowMonth()
     }
 }
