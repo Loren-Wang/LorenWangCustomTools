@@ -87,6 +87,10 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
      */
     private int optionsButtonWidth = 0;
     /**
+     * 文本显示宽度
+     */
+    private int textShowWidth = 0;
+    /**
      * 是否允许新增
      */
     private boolean allowAdd = false;
@@ -105,7 +109,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
     /**
      * 最小总量数量
      */
-    private long minQuantity = 1;
+    private long minQuantity = 0L;
     /**
      * 最大总量数量
      */
@@ -213,6 +217,8 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
         borderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQuantityBorderWidth, borderWidth);
         //是否只给内容加边框
         borderOnlyShowContent = attributes.getBoolean(R.styleable.AvlwQuantityOfCommodityEditText_avlwBorderOnlyShowContent, borderOnlyShowContent);
+        //文本显示宽度
+        textShowWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwTextShowWidth, textShowWidth);
 
         //按钮部分数据参数
         try {
@@ -280,6 +286,10 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
 
         //设置布局设置数据
         changeQuantity(getText(), true);
+        //设置初始数据
+        if (getText().toString().isEmpty()) {
+            setText(String.valueOf(this.quantity));
+        }
     }
 
     @Override
@@ -649,29 +659,37 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
             try {
                 String contentText = text.toString().replaceAll(" ", "");
                 if (contentText.isEmpty()) {
-                    return;
-                }
-                long quantity = Long.parseLong(contentText);
-                if (quantity >= maxQuantity) {
-                    quantity = maxQuantity;
-                    allowAdd = false;
-                } else {
-                    allowAdd = true;
-                }
-                if (quantity <= minQuantity) {
-                    quantity = minQuantity;
-                    allowReduce = false;
-                } else {
-                    allowReduce = true;
-                }
-                if (!contentText.equals(String.valueOf(this.quantity))) {
-                    this.quantity = quantity;
+                    this.quantity = 0;
                     String value = String.valueOf(this.quantity);
                     setText(value);
                     setSelection(value.length());
                     resetViewWidthHeight();
                     if (allowCallbackChange && onChangeListener != null) {
                         onChangeListener.changeEnd(data, this.quantity);
+                    }
+                } else {
+                    long quantity = Long.parseLong(contentText);
+                    if (quantity >= maxQuantity) {
+                        quantity = maxQuantity;
+                        allowAdd = false;
+                    } else {
+                        allowAdd = true;
+                    }
+                    if (quantity <= minQuantity) {
+                        quantity = minQuantity;
+                        allowReduce = false;
+                    } else {
+                        allowReduce = true;
+                    }
+                    if (!contentText.equals(String.valueOf(this.quantity))) {
+                        this.quantity = quantity;
+                        String value = String.valueOf(this.quantity);
+                        setText(value);
+                        setSelection(value.length());
+                        resetViewWidthHeight();
+                        if (allowCallbackChange && onChangeListener != null) {
+                            onChangeListener.changeEnd(data, this.quantity);
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -691,8 +709,8 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
         float textHeight = AtlwViewUtil.getInstance().getStrTextHeight(getPaint());
         if (realWidth < 0) {
             //配置设置宽度
-            realWidth = (int) (textWidth + optionsButtonWidth * 2 + firstPaddingLeft + firstPaddingRight + borderWidth * 4 + textInsideDistance * 2 +
-                    optionsButtonAndTextSeparatedDistance * 2);
+            realWidth = (int) (Math.max(textWidth, textShowWidth) + optionsButtonWidth * 2 + firstPaddingLeft + firstPaddingRight + borderWidth * 4 +
+                    textInsideDistance * 2 + optionsButtonAndTextSeparatedDistance * 2);
         }
         if (realHeight < 0) {
             realHeight = (int) (Math.max(textHeight, optionsButtonWidth + borderWidth * 2) + firstPaddingTop + firstPaddingBottom);

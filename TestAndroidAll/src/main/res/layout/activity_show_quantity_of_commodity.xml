@@ -20,6 +20,25 @@
             android:layout_height="30dp"
             android:background="@drawable/avlw_solid_radius_8"
             android:backgroundTint="#dcdcdc"
+            app:avlwAddButtonDrawableAllow="@drawable/icon_empty_add"
+            app:avlwAddButtonDrawableNotAllow="@drawable/icon_empty_add_unable"
+            app:avlwReduceButtonDrawableAllow="@drawable/icon_empty_sub"
+            app:avlwReduceButtonDrawableNotAllow="@drawable/icon_empty_sub_unable"
+            app:avlwTextInsideDistance="10dp"
+            app:avlwOptionsButtonWidth="15dp"
+            app:avlwQuantityBorderColor="#000"
+            app:avlwQuantityBorderWidth="1dp"
+            app:avlwQuantityBorderRadio="8dp"
+            app:avlwTextShowWidth="200dp"
+            app:avlwOptionsButtonInsideDistance="3dp"
+            tools:ignore="MissingPrefix" />
+
+
+        <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/avlw_solid_radius_8"
+            android:backgroundTint="#dcdcdc"
             android:text="3333"
             app:avlwAddButtonDrawableAllow="@drawable/icon_empty_add"
             app:avlwAddButtonDrawableNotAllow="@drawable/icon_empty_add_unable"
@@ -30,6 +49,7 @@
             app:avlwQuantityBorderColor="#000"
             app:avlwQuantityBorderWidth="1dp"
             app:avlwQuantityBorderRadio="8dp"
+            app:avlwTextShowWidth="200dp"
             app:avlwOptionsButtonInsideDistance="3dp"
             tools:ignore="MissingPrefix" />
 

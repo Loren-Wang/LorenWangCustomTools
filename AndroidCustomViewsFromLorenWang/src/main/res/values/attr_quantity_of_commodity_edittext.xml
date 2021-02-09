@@ -17,6 +17,8 @@
         <attr name="avlwOptionsButtonInsideDistance" format="dimension" />
         <!--操作按钮和文本分隔之间的间距-->
         <attr name="avlwOptionsButtonAndTextSeparatedDistance" format="dimension" />
+        <!--文本显示宽度-->
+        <attr name="avlwTextShowWidth" format="dimension" />
         <!--边框颜色-->
         <attr name="avlwQuantityBorderColor" format="color" />
         <!--边框宽度-->

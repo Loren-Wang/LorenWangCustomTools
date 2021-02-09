@@ -1,3 +1,7 @@
+**V3.1.2**
+
+    AvlwQuantityOfCommodityEditText--新增文本内容宽度固定处理（avlwTextShowWidth）
+
 **V3.1.1**
 
     AvlwCalendarView--新增选择回调

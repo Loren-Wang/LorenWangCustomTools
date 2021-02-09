@@ -45,7 +45,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnCalendar?.performClick()
+        btnShowQuantityOfCommodity?.performClick()
     }
 
     fun mainClick(view: View?) {
