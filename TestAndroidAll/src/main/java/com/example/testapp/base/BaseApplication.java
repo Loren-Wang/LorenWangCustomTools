@@ -3,6 +3,7 @@ package com.example.testapp.base;
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
 import android.lorenwang.commonbaseframe.AcbflwBaseConfig;
 import android.lorenwang.tools.AtlwConfig;
+import android.lorenwang.tools.base.AtlwLogUtil;
 
 import com.example.testapp.BuildConfig;
 
@@ -38,5 +39,7 @@ public class BaseApplication extends AcbflwBaseApplication {
         super.onCreate();
         AtlwConfig.initAndroidCustomTools(this, AcbflwBaseConfig.appCompileTypeIsDebug(BuildConfig.APP_COMPILE_TYPE),
                 Objects.requireNonNull(this.getExternalFilesDir("logInfo")).getAbsolutePath());
+
+        AtlwLogUtil.logUtils = new AtlwLogUtil();
     }
 }

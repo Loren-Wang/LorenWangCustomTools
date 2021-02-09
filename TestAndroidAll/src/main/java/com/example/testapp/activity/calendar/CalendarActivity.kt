@@ -1,6 +1,7 @@
 package com.example.testapp.activity.calendar
 
-import androidx.appcompat.app.AppCompatActivity
+import android.lorenwang.tools.app.AtlwToastHintUtil
+import android.lorenwang.tools.base.AtlwLogUtil
 import android.os.Bundle
 import com.example.testapp.R
 import com.example.testapp.base.BaseActivity
@@ -22,6 +23,17 @@ import kotlinx.android.synthetic.main.activity_calendar.*
 class CalendarActivity : BaseActivity() {
     override fun initView(savedInstanceState: Bundle?) {
         addContentView(R.layout.activity_calendar)
-        timeShow?.setShowMonthCount(3,12)?.changeToNowMonth()
+        timeShow?.setShowMonthCount(3, 12)?.changeToNowMonth()?.setCalendarViewCallback { selectTimeOne, selectTimeTwo ->
+            if (selectTimeOne == null) {
+                println("没有选择\n")
+            } else {
+                println("选择了第一个\n")
+            }
+            if (selectTimeTwo == null) {
+                println("第二个没有选择\n")
+            } else {
+                println("选择了第二个\n")
+            }
+        }
     }
 }

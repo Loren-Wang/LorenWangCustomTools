@@ -1,3 +1,7 @@
+**V3.1.1**
+
+    AvlwCalendarView--新增选择回调
+
 **V3.0.9**
 
     AvlwCalendarView--日历控件修改高度处理逻辑

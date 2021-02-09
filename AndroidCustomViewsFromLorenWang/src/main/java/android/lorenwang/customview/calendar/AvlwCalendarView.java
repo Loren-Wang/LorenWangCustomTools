@@ -120,6 +120,15 @@ public class AvlwCalendarView extends LinearLayoutCompat {
         }
     };
     /**
+     * 控件回调
+     */
+    private AvlwCalendarViewCallback calendarViewCallback = new AvlwCalendarViewCallback() {
+        @Override
+        public void selectChange(Long selectTimeOne, Long selectTimeTwo) {
+
+        }
+    };
+    /**
      * 第一个选择的时间
      */
     private Long selectTimeOne = null;
@@ -234,12 +243,27 @@ public class AvlwCalendarView extends LinearLayoutCompat {
      * 设置字视图获取
      *
      * @param calendarViewGetChild 字视图获取接口
+     * @return 当前实例
      */
-    public void setCalendarViewGetChild(AvlwCalendarViewGetChild calendarViewGetChild) {
+    public AvlwCalendarView setCalendarViewGetChild(AvlwCalendarViewGetChild calendarViewGetChild) {
         if (calendarViewGetChild != null) {
             this.calendarViewGetChild = calendarViewGetChild;
             initWeekTitleData();
         }
+        return this;
+    }
+
+    /**
+     * 设置回调
+     *
+     * @param calendarViewCallback 回调
+     * @return 当前实例
+     */
+    public AvlwCalendarView setCalendarViewCallback(AvlwCalendarViewCallback calendarViewCallback) {
+        if (calendarViewCallback != null) {
+            this.calendarViewCallback = calendarViewCallback;
+        }
+        return this;
     }
 
     /**
@@ -509,50 +533,11 @@ public class AvlwCalendarView extends LinearLayoutCompat {
                                     }
                                 }
                             }
+                            //回调数据
+                            calendarViewCallback.selectChange(selectTimeOne, selectTimeTwo);
                         }
                     }
                 });
-            }
-
-            /**
-             * 设置起始时间(范围选择)
-             * @param time 时间
-             * @param position 列表适配器中的位置
-             */
-            private void setRangSelectOneTime(long time, int position) {
-                if (selectTimeOne == null) {
-                    //没有设置起始时间
-                    selectTimeOne = time;
-                    //添加记录
-                    selectPageList.add(String.valueOf(vpgPosition));
-                    notifyItemChanged(position);
-                } else {
-                    //已经设置过了起始时间，判断当前时间是否是起始时间
-                    if (Long.valueOf(time).compareTo(selectTimeOne) == 0) {
-                        selectTimeOne = null;
-                        //当前时间是点击了起始时间，将结束时间转移到当前时间
-                        if (selectTimeTwo != null) {
-                            selectTimeOne = selectTimeTwo;
-                            selectTimeTwo = null;
-                            //最后一位
-                            String last = selectPageList.get(selectPageList.size() - 1);
-                            selectPageList.clear();
-                            selectPageList.add(last);
-                        }
-                        updateViewPager();
-                        notifyDataSetChanged();
-                    } else if (Long.valueOf(time).compareTo(selectTimeOne) < 0) {
-                        //当前时间和已选择时间不同
-                        selectTimeOne = time;
-                        //第一个元素为起始位置
-                        int start = Integer.parseInt(selectPageList.get(0));
-                        for (int i = start - 1; i >= vpgPosition; i--) {
-                            selectPageList.add(0, String.valueOf(i));
-                        }
-                        //更新所有轮播页面
-                        updateViewPager();
-                    }
-                }
             }
 
             @Override
