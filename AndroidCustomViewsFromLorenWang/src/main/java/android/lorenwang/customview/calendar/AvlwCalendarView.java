@@ -58,6 +58,10 @@ public class AvlwCalendarView extends LinearLayoutCompat {
      */
     private boolean selecOne = true;
     /**
+     * 是否使用自动高度切换
+     */
+    private boolean useAutoHeight = true;
+    /**
      * 轮播列表页面
      */
     private final List<RecyclerView> vpgViewList = new ArrayList<>();
@@ -148,6 +152,7 @@ public class AvlwCalendarView extends LinearLayoutCompat {
         caledarWeekFirst = attributes.getInt(R.styleable.AvlwCalendarView_avlwCaledarWeekFirst, caledarWeekFirst);
         showOnlyMonth = attributes.getBoolean(R.styleable.AvlwCalendarView_avlwCaledarShowOnlyMonth, showOnlyMonth);
         selecOne = attributes.getBoolean(R.styleable.AvlwCalendarView_avlwCaledarSelecOne, selecOne);
+        useAutoHeight = attributes.getBoolean(R.styleable.AvlwCalendarView_avlwCaledarUseAutoHeight, useAutoHeight);
         attributes.recycle();
 
         //设置当前组件元素
@@ -160,6 +165,37 @@ public class AvlwCalendarView extends LinearLayoutCompat {
         //添加内容组件
         contentShowContainer = new ViewPager2(context);
         contentShowContainer.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        contentShowContainer.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (useAutoHeight) {
+                    RecyclerView view = vpgViewList.get(position);
+                    if (view != null && view.getAdapter() != null) {
+                        int count = view.getAdapter().getItemCount();
+                        int rows;
+                        if (count % 7 == 0) {
+                            rows = count / 7;
+                        } else {
+                            rows = count / 7 + 1;
+                        }
+                        //重新修改高度
+                        contentShowContainer.setLayoutParams(
+                                new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, calendarViewGetChild.getWeekDayViewHeight() * rows));
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
         addView(contentShowContainer);
 
 
@@ -306,8 +342,12 @@ public class AvlwCalendarView extends LinearLayoutCompat {
             }
         });
 
-        //重新修改高度
-        contentShowContainer.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, calendarViewGetChild.getWeekDayViewHeight() * 6));
+        //容器高度处理
+        if (!useAutoHeight) {
+            //重新修改高度
+            contentShowContainer.setLayoutParams(
+                    new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, calendarViewGetChild.getWeekDayViewHeight() * 7));
+        }
     }
 
     /**

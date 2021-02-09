@@ -1,5 +1,10 @@
 **V3.0.9**
 
+    AvlwCalendarView--日历控件修改高度处理逻辑
+
+
+**V3.0.9**
+
     AvlwCalendarView--日历控件新增view回调以及修复范围点击异常
 
 **V3.0.7**

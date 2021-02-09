@@ -15,5 +15,7 @@
         <attr name="avlwCaledarShowOnlyMonth" format="boolean" />
         <!--是否是单选-->
         <attr name="avlwCaledarSelecOne" format="boolean" />
+        <!--是否使用自动高度切换-->
+        <attr name="avlwCaledarUseAutoHeight" format="boolean" />
     </declare-styleable>
 </resources>
