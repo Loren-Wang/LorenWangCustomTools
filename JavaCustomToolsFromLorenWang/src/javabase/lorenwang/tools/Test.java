@@ -1,5 +1,8 @@
 package javabase.lorenwang.tools;
 
+import java.util.List;
+
+import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
 import javabase.lorenwang.tools.thread.CountDownCallback;
 import javabase.lorenwang.tools.thread.JtlwTimingTaskUtils;
 
@@ -17,16 +20,9 @@ import javabase.lorenwang.tools.thread.JtlwTimingTaskUtils;
 
 public class Test {
     public static void main(String[] args) {
-        JtlwTimingTaskUtils.getInstance().countDownTask(1, new CountDownCallback() {
-            @Override
-            public void countDownTime(long sumTime, long nowTime) {
-                System.out.print(nowTime);
-            }
-
-            @Override
-            public void finish() {
-
-            }
-        },60000,1000);
+        List<Long> longList = JtlwDateTimeUtils.getInstance().getYearList(12, 0);
+        for (Long item : longList) {
+            System.out.println(JtlwDateTimeUtils.getInstance().getFormatDateTime("yyyy", item));
+        }
     }
 }

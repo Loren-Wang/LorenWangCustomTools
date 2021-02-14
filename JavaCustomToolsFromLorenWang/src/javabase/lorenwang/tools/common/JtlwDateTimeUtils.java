@@ -60,6 +60,21 @@ public class JtlwDateTimeUtils {
     public static long HOUR_TIME_MILLISECOND = 3600000;
 
     /**
+     * 年份默认格式
+     */
+    public static String YEAR_PATTERN = "yyyy";
+
+    /**
+     * 月份默认格式
+     */
+    public static String MONTH_PATTERN = "MM";
+
+    /**
+     * 日期默认格式
+     */
+    public static String DAY_PATTERN = "dd";
+
+    /**
      * 私有构造
      */
     private JtlwDateTimeUtils() {
@@ -205,6 +220,16 @@ public class JtlwDateTimeUtils {
             return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
         }
         return false;
+    }
+
+    /**
+     * 根据输入的年份判断该年份是否是闰年，是则返回true
+     *
+     * @param yearTime 要输入的年份
+     * @return 是闰年返回true，否则返回false
+     */
+    public boolean isLeapYearForTime(long yearTime) {
+        return isLeapYear(Integer.parseInt(getFormatDateTime(YEAR_PATTERN, yearTime)));
     }
 
     /**
@@ -466,6 +491,90 @@ public class JtlwDateTimeUtils {
         } else {
             return (int) (millisecondTime / 1000);
         }
+    }
+
+    /**
+     * 获取年份列表
+     *
+     * @param leftYearCount  左侧年份需要补充的数量，不包含当当年
+     * @param rightYearCount 右侧年份需要补充的数量，不包含当年
+     * @return 年份列表
+     */
+    public List<Long> getYearList(int leftYearCount, int rightYearCount) {
+        List<Long> list = new ArrayList<>();
+        String year = getFormatDateNowTime(YEAR_PATTERN);
+        list.add(getMillisecond(year, YEAR_PATTERN));
+        int yearNum = Integer.parseInt(year);
+        //左侧
+        for (int i = 1; i <= leftYearCount; i++) {
+            list.add(0, getMillisecond(String.valueOf(yearNum - i), YEAR_PATTERN));
+        }
+        //右侧
+        for (int i = 1; i <= rightYearCount; i++) {
+            list.add(getMillisecond(String.valueOf(yearNum + i), YEAR_PATTERN));
+        }
+        return list;
+    }
+
+    /**
+     * 获取月份列表
+     *
+     * @param yearTime    年份时间
+     * @param asOfCurrent 是否截止到当前
+     * @return 月份列表
+     */
+    public List<Long> getMonthList(long yearTime, boolean asOfCurrent) {
+        String monthPattern = YEAR_PATTERN + MONTH_PATTERN;
+        String year = getFormatDateTime(YEAR_PATTERN, yearTime);
+        List<Long> list = new ArrayList<>();
+        if (asOfCurrent) {
+            int month = Integer.parseInt(getFormatDateNowTime(MONTH_PATTERN));
+            for (int i = 1; i <= month; i++) {
+                list.add(getMillisecond(year + i, monthPattern));
+            }
+        } else {
+            for (int i = 1; i <= 12; i++) {
+                list.add(getMillisecond(year + i, monthPattern));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取日期列表
+     *
+     * @param monthTime   年份时间
+     * @param asOfCurrent 是否截止到当前
+     * @return 日期列表
+     */
+    public List<Long> getDayList(long monthTime, boolean asOfCurrent) {
+        String dayPattern = YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN;
+        String yearMonth = getFormatDateTime(YEAR_PATTERN + MONTH_PATTERN, monthTime);
+        int month = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, monthTime));
+        List<Long> list = new ArrayList<>();
+        //最大日期
+        int maxDay;
+        //获取指定时间月份的最大天数
+        if (asOfCurrent) {
+            //截止当前处理
+            maxDay = Integer.parseInt(getFormatDateNowTime(DAY_PATTERN));
+        } else {
+            if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+                maxDay = 31;
+            } else if (month == 2) {
+                if (isLeapYearForTime(monthTime)) {
+                    maxDay = 29;
+                } else {
+                    maxDay = 28;
+                }
+            } else {
+                maxDay = 30;
+            }
+        }
+        for (int i = 1; i <= maxDay; i++) {
+            list.add(getMillisecond(yearMonth + i, dayPattern));
+        }
+        return list;
     }
 
 }
