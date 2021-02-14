@@ -25,6 +25,7 @@ import java.util.Locale;
  * 根据日期时间获得毫秒数--getMillisecond(dateAndTime,dateAndTimeFormat)
  * 根据日期时间获得秒数--getSecond(dateAndTime,dateAndTimeFormat)
  * 根据输入的年份判断该年份是否是闰年，是则返回true--isLeapYear(year)
+ * 根据输入的年份判断该年份是否是闰年，是则返回true--isLeapYearForTime(yearTime)
  * 根据月日判断星座--getConstellation(m,d)
  * 根据日期获取 星期--dateToWeek(time)
  * 获取一个月的所有时间列表--getMonthTimeList(monthTime,firstWeek,onlyMonth)
@@ -36,8 +37,11 @@ import java.util.Locale;
  * 获取倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时--getCountdownHours(millisecondTime,useOneDay)
  * 获取倒计时分钟，总小时，可能会超过24小时以上--getCountdownMinutes(millisecondTime)
  * 获取倒计时小时, 如果useOnHours为true的话，那么返回时间不会超过60小时--getCountdownMinutes(millisecondTime,useOnHours)
- * 获取倒计时秒，总秒数，可能会超过60s以上--getCountdownMmillisecond(millisecondTime)
- * 获取倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上--getCountdownMmillisecond(millisecondTime,useOnMinutes)
+ * 获取倒计时秒，总秒数，可能会超过60s以上--getCountdownMillisecond(millisecondTime)
+ * 获取倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上--getCountdownMillisecond(millisecondTime,useOnMinutes)
+ * 获取年份列表--getYearList(leftYearCount,rightYearCount)
+ * 获取月份列表--getMonthList(yearTime,asOfCurrent)
+ * 获取日期列表--getDayList(monthTime,asOfCurrent)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -46,7 +50,6 @@ import java.util.Locale;
  * @author 王亮（Loren）
  */
 public class JtlwDateTimeUtils {
-    private final String TAG = getClass().getName();
     private static volatile JtlwDateTimeUtils optionUtils;
 
     /**
@@ -474,8 +477,8 @@ public class JtlwDateTimeUtils {
      * @param millisecondTime 时间毫秒数
      * @return 倒计时秒，总秒数，可能会超过60s以上
      */
-    public int getCountdownMmillisecond(long millisecondTime) {
-        return getCountdownMmillisecond(millisecondTime, false);
+    public int getCountdownMillisecond(long millisecondTime) {
+        return getCountdownMillisecond(millisecondTime, false);
     }
 
     /**
@@ -485,7 +488,7 @@ public class JtlwDateTimeUtils {
      * @param useOnMinutes    是否使用一分钟做处理
      * @return 倒计时倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上
      */
-    public int getCountdownMmillisecond(long millisecondTime, boolean useOnMinutes) {
+    public int getCountdownMillisecond(long millisecondTime, boolean useOnMinutes) {
         if (useOnMinutes) {
             return (int) (millisecondTime / 1000 % 60);
         } else {

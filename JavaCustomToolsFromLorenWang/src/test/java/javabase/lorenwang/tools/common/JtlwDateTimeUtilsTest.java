@@ -22,6 +22,30 @@ import static org.junit.Assert.*;
 public class JtlwDateTimeUtilsTest {
 
     @Test
+    public void getYearList() {
+        List<Long> longList = JtlwDateTimeUtils.getInstance().getYearList(20, 20);
+        for (Long item : longList) {
+            System.out.println(JtlwDateTimeUtils.getInstance().getFormatDateTime("yyyy", item));
+        }
+    }
+
+    @Test
+    public void getMonthList() {
+        List<Long> longList = JtlwDateTimeUtils.getInstance().getMonthList(System.currentTimeMillis(), true);
+        for (Long item : longList) {
+            System.out.println(JtlwDateTimeUtils.getInstance().getFormatDateTime("MM", item));
+        }
+    }
+
+    @Test
+    public void getDayList() {
+        List<Long> longList = JtlwDateTimeUtils.getInstance().getDayList(System.currentTimeMillis(), true);
+        for (Long item : longList) {
+            System.out.println(JtlwDateTimeUtils.getInstance().getFormatDateTime("dd", item));
+        }
+    }
+
+    @Test
     public void getMonthTimeList() {
         List<Long> longList = JtlwDateTimeUtils.getInstance().getMonthTimeList(System.currentTimeMillis(), 0, false);
         System.out.println(JtlwDateTimeUtils.getInstance().getFormatDateTime("yyy-MM-dd", longList.get(0)));
