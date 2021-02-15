@@ -15,13 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="300dp" />
 
-        <android.lorenwang.customview.AvlwRecycleViewViewpager
+        <android.lorenwang.customview.recycleview.AvlwRecycleViewViewpager
             android:id="@+id/vpgList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".activity.RecycleViewPageActivity">
 
-        </android.lorenwang.customview.AvlwRecycleViewViewpager>
+        </android.lorenwang.customview.recycleview.AvlwRecycleViewViewpager>
 
         <View
             android:layout_width="match_parent"

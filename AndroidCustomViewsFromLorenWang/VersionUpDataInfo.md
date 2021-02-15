@@ -1,3 +1,7 @@
+**V3.1.3**
+
+    AvlwWheelRecyclerView--修改显示处理
+
 **V3.1.2**
 
     AvlwQuantityOfCommodityEditText--新增文本内容宽度固定处理（avlwTextShowWidth）

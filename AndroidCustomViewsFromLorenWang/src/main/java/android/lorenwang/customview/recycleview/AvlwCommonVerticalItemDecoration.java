@@ -96,7 +96,7 @@ public class AvlwCommonVerticalItemDecoration extends RecyclerView.ItemDecoratio
      */
     public AvlwCommonVerticalItemDecoration(Integer color, Float divideHeight,
                                             Float divideLeftDistance, Float divideRightDistance) {
-        this(color, divideHeight, 0F, 0F, 0F, 0F, 0F, 0F, null, null);
+        this(color, divideHeight, divideLeftDistance, divideRightDistance, 0F, 0F, 0F, 0F, null, null);
     }
 
     /**

@@ -32,25 +32,6 @@ public class AvlwWheelRecyclerView extends RecyclerView {
     //默认参数
     private final int DEFAULT_WIDTH = (int) AtlwScreenUtil.getInstance().dip2px(160);
 
-    private final int DEFAULT_ITEM_HEIGHT = (int) AtlwScreenUtil.getInstance().dip2px(50);
-
-    private final int DEFAULT_SELECT_TEXT_COLOR = Color.BLACK;
-
-    private final int DEFAULT_UNSELECT_TEXT_COLOR = Color.parseColor("#999999");
-
-    private final int DEFAULT_SELECT_TEXT_SIZE = (int) AtlwScreenUtil.getInstance().sp2px(14);
-
-    private final int DEFAULT_UNSELECT_TEXT_SIZE = (int) AtlwScreenUtil.getInstance().sp2px(14);
-
-    private final int DEFAULT_OFFSET = 1;
-
-    private final int DEFAULT_DIVIDER_WIDTH = ViewGroup.LayoutParams.MATCH_PARENT;
-
-    private final int DEFAULT_DIVIDER_HEIGHT = (int) AtlwScreenUtil.getInstance().dip2px(1);
-
-    private final int DEFAULT_DIVIVER_COLOR = Color.parseColor("#666666");
-
-
     private WheelAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
@@ -67,58 +48,57 @@ public class AvlwWheelRecyclerView extends RecyclerView {
     /**
      * 选项高度
      */
-    private int mItemHeight;
+    private int mItemHeight = (int) AtlwScreenUtil.getInstance().dip2px(50);
 
     /**
      * 处于中间的item为选中，在头尾需补充 offset个空白view，可显示的item数量=2*offset+1
      */
-    private final int mOffset;
+    private int mOffset = 1;
 
     /**
      * 选中item的文本颜色
      */
-    private final int mSelectTextColor;
+    private int mSelectTextColor = Color.BLACK;
 
     /**
      * 非选中item的文本颜色
      */
-    private final int mUnselectTextColor;
+    private int mUnselectTextColor = Color.parseColor("#999999");
 
     /**
      * 选中item的文本大小
      */
-    private final float mSelectTextSize;
+    private float mSelectTextSize = AtlwScreenUtil.getInstance().sp2px(14);
 
     /**
      * 非选中item的文本大小
      */
-    private final float mUnselectTextSize;
+    private float mUnselectTextSize = AtlwScreenUtil.getInstance().sp2px(14);
 
     /**
      * 选中的文字是否加粗
      */
-    private final boolean selectTextIsBold;
+    private boolean selectTextIsBold = false;
 
     /**
      * 非选中的文字是否加粗
      */
-    private final boolean unSelectTextIsBold;
+    private boolean unSelectTextIsBold = false;
 
     /**
      * 分割线的宽度
      */
-    private float mDividerWidth;
+    private float mDividerWidth = ViewGroup.LayoutParams.MATCH_PARENT;
 
     /**
      * 分割线高度
      */
-    private final float mDividerHeight;
+    private float mDividerHeight = AtlwScreenUtil.getInstance().dip2px(1);
 
     /**
      * 分割线颜色
      */
-    private final int mDividerColor;
-
+    private int mDividerColor = Color.parseColor("#666666");
     /**
      * 绘制分割线的paint
      */
@@ -139,17 +119,17 @@ public class AvlwWheelRecyclerView extends RecyclerView {
         super(context, attrs);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AvlwWheelRecyclerView);
 
-        mItemHeight = (int) ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwItemHeight, DEFAULT_ITEM_HEIGHT);
-        mSelectTextColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwSelectTextColor, DEFAULT_SELECT_TEXT_COLOR);
-        mUnselectTextColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextColor, DEFAULT_UNSELECT_TEXT_COLOR);
-        mSelectTextSize = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwSelectTextSize, DEFAULT_SELECT_TEXT_SIZE);
-        mUnselectTextSize = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextSize, DEFAULT_UNSELECT_TEXT_SIZE);
-        selectTextIsBold = ta.getBoolean(R.styleable.AvlwWheelRecyclerView_avlwSelectTextIsBold, false);
-        unSelectTextIsBold = ta.getBoolean(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextIsBold, false);
-        mOffset = ta.getInteger(R.styleable.AvlwWheelRecyclerView_avlwWheelOffset, DEFAULT_OFFSET);
-        mDividerWidth = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwDividerWidth, DEFAULT_DIVIDER_WIDTH);
-        mDividerHeight = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwDividerHeight, DEFAULT_DIVIDER_HEIGHT);
-        mDividerColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwDividerColor, DEFAULT_DIVIVER_COLOR);
+        mItemHeight = (int) ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwItemHeight, mItemHeight);
+        mSelectTextColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwSelectTextColor, mSelectTextColor);
+        mUnselectTextColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextColor, mUnselectTextColor);
+        mSelectTextSize = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwSelectTextSize, mSelectTextSize);
+        mUnselectTextSize = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextSize, mUnselectTextSize);
+        selectTextIsBold = ta.getBoolean(R.styleable.AvlwWheelRecyclerView_avlwSelectTextIsBold, selectTextIsBold);
+        unSelectTextIsBold = ta.getBoolean(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextIsBold, unSelectTextIsBold);
+        mOffset = ta.getInteger(R.styleable.AvlwWheelRecyclerView_avlwWheelOffset, mOffset);
+        mDividerWidth = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwDividerWidth, mDividerWidth);
+        mDividerHeight = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwDividerHeight, mDividerHeight);
+        mDividerColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwDividerColor, mDividerColor);
 
         ta.recycle();
 
@@ -162,8 +142,6 @@ public class AvlwWheelRecyclerView extends RecyclerView {
     }
 
     private void init() {
-        mLayoutManager = new LinearLayoutManager(getContext());
-        setLayoutManager(mLayoutManager);
         if (mDividerColor != Color.TRANSPARENT && mDividerHeight != 0 && mDividerWidth != 0) {
             addItemDecoration(new DividerItemDecoration());
         }
@@ -186,7 +164,7 @@ public class AvlwWheelRecyclerView extends RecyclerView {
             height = (mOffset * 2 + 1) * mItemHeight;
         }
         width = getDefaultSize(DEFAULT_WIDTH, widthSpec);
-        if (mDividerWidth == DEFAULT_DIVIDER_WIDTH) {
+        if (mDividerWidth == ViewGroup.LayoutParams.MATCH_PARENT) {
             mDividerWidth = width;
         }
         setMeasuredDimension(width, height);
@@ -203,6 +181,8 @@ public class AvlwWheelRecyclerView extends RecyclerView {
         }
         mDatas.clear();
         mDatas.addAll(datas);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        setLayoutManager(mLayoutManager);
         mAdapter.notifyDataSetChanged();
         mDatasSize = mDatas.size();
         setSelect(mSelected);
@@ -249,10 +229,6 @@ public class AvlwWheelRecyclerView extends RecyclerView {
         }
         mLayoutManager.scrollToPosition(mSelected);
         mAdapter.notifyItemChanged(mSelected);
-    }
-
-    public int getSelected() {
-        return mSelected;
     }
 
     /**

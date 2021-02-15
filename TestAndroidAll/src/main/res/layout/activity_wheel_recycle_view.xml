@@ -7,10 +7,27 @@
     tools:context=".activity.recycleView.WheelRecycleViewActivity"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="切换位置"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRemove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="移除选中"/>
+
     <android.lorenwang.customview.recycleview.AvlwWheelRecyclerView
         android:id="@+id/rvList"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         app:avlwDividerHeight="1dp"
         app:avlwDividerColor="#00ffffff"
         app:avlwSelectTextColor="#101010"

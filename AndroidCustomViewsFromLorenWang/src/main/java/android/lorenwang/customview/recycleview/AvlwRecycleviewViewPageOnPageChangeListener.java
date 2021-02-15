@@ -1,4 +1,4 @@
-package android.lorenwang.customview;
+package android.lorenwang.customview.recycleview;
 
 /**
  * Created by wangliang on 0029/2017/6/29.
