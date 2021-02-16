@@ -1,3 +1,10 @@
+**V2.2.4**
+
+    新增时间处理工具函数，
+    获取年龄--getAge(birthTime,isReal)
+    修改根据月日判断星座--getConstellation(time)
+
+
 **V2.2.3**
 
     新增时间处理工具函数，

@@ -26,7 +26,7 @@ import java.util.Locale;
  * 根据日期时间获得秒数--getSecond(dateAndTime,dateAndTimeFormat)
  * 根据输入的年份判断该年份是否是闰年，是则返回true--isLeapYear(year)
  * 根据输入的年份判断该年份是否是闰年，是则返回true--isLeapYearForTime(yearTime)
- * 根据月日判断星座--getConstellation(m,d)
+ * 根据月日判断星座--getConstellation(time)
  * 根据日期获取 星期--dateToWeek(time)
  * 获取一个月的所有时间列表--getMonthTimeList(monthTime,firstWeek,onlyMonth)
  * 是否是同一天时间--isOneDay(timeOne, timeTwo)
@@ -42,6 +42,7 @@ import java.util.Locale;
  * 获取年份列表--getYearList(leftYearCount,rightYearCount)
  * 获取月份列表--getMonthList(yearTime,asOfCurrent)
  * 获取日期列表--getDayList(monthTime,asOfCurrent)
+ * 获取年龄--getAge(birthTime,isReal)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -233,23 +234,6 @@ public class JtlwDateTimeUtils {
      */
     public boolean isLeapYearForTime(long yearTime) {
         return isLeapYear(Integer.parseInt(getFormatDateTime(YEAR_PATTERN, yearTime)));
-    }
-
-    /**
-     * 根据月日判断星座
-     *
-     * @param m 月
-     * @param d 日
-     * @return 星座字符串
-     */
-    public String getConstellation(int m, int d) {
-        final String[] constellationArr = {"魔羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "魔羯座"};
-        final int[] constellationEdgeDay = {20, 18, 20, 20, 20, 21, 22, 22, 22, 22, 21, 21};
-        int month = m;
-        if (d <= constellationEdgeDay[month - 1]) {
-            month = month - 1;
-        }
-        return constellationArr[month];
     }
 
     /**
@@ -580,4 +564,47 @@ public class JtlwDateTimeUtils {
         return list;
     }
 
+    /**
+     * 根据时间获取星座
+     *
+     * @param time 时间
+     * @return 星座顺序下标
+     */
+    public int getConstellation(long time) {
+        int day = Integer.parseInt(getFormatDateTime(DAY_PATTERN, time));
+        int month = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, time));
+        //        final String[] constellationArr = {"魔羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "魔羯座"};
+        final int[] constellationEdgeDay = {20, 18, 20, 20, 20, 21, 22, 22, 22, 22, 21, 21};
+        if (day <= constellationEdgeDay[month - 1]) {
+            month = month - 1;
+        }
+        return month;
+    }
+
+    /**
+     * 获取年龄
+     *
+     * @param birthTime 出生日期
+     * @param isReal    是否获取实岁，true获取实岁，false获取虚岁
+     * @return 年龄整数
+     */
+    public int getAge(long birthTime, boolean isReal) {
+        int currentYear = Integer.parseInt(getFormatDateNowTime(YEAR_PATTERN));
+        int birthYear = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, birthTime));
+        int year = currentYear - birthYear + 1;
+        if (isReal) {
+            int currentMonth = Integer.parseInt(getFormatDateNowTime(MONTH_PATTERN));
+            int birthMonth = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, birthTime));
+            if (currentMonth < birthMonth) {
+                year--;
+            } else if (currentMonth == birthMonth) {
+                int currentDay = Integer.parseInt(getFormatDateNowTime(DAY_PATTERN));
+                int birthDay = Integer.parseInt(getFormatDateTime(DAY_PATTERN, birthTime));
+                if (currentDay < birthDay) {
+                    year--;
+                }
+            }
+        }
+        return year;
+    }
 }

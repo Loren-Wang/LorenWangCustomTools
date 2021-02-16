@@ -22,6 +22,12 @@ import static org.junit.Assert.*;
 public class JtlwDateTimeUtilsTest {
 
     @Test
+    public void getAge() {
+        System.out.println(JtlwDateTimeUtils.getInstance().getAge(
+                JtlwDateTimeUtils.getInstance().getMillisecond("1994-05-12","yyyy-MM-dd"), true));
+    }
+
+    @Test
     public void getYearList() {
         List<Long> longList = JtlwDateTimeUtils.getInstance().getYearList(20, 20);
         for (Long item : longList) {
@@ -78,8 +84,8 @@ public class JtlwDateTimeUtilsTest {
 
     @Test
     public void getCountdownMmillisecond() {
-        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMmillisecond(86400000));
-        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMmillisecond(86400000, true));
+        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMillisecond(86400000));
+        System.out.println(JtlwDateTimeUtils.getInstance().getCountdownMillisecond(86400000, true));
     }
 
 }
