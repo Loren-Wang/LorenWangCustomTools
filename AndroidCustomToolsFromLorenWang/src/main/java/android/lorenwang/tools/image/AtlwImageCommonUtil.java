@@ -898,18 +898,19 @@ public class AtlwImageCommonUtil {
         float useWidth = 0;
         float useHeight;
         //新建接收位图
-        Bitmap newBitmap = Bitmap.createBitmap(width * 2, height * 2, Bitmap.Config.ARGB_4444);
+        int textMaxWidthHeight = (int) (Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) * 3);
+        Bitmap newBitmap = Bitmap.createBitmap(textMaxWidthHeight, textMaxWidthHeight, Bitmap.Config.ARGB_4444);
         //位图设置画板初始化
         Canvas canvasText = new Canvas(newBitmap);
-        while (useWidth < width * 2) {
+        while (useWidth < textMaxWidthHeight) {
             useHeight = 0;
-            while (useHeight < height * 2 + textHeight) {
+            while (useHeight < textMaxWidthHeight + textHeight) {
                 canvasText.drawText(text, useWidth, useHeight - paint.getFontMetrics().descent, paint);
                 useHeight += textHeight - paint.getFontMetrics().descent;
             }
             useWidth += textWidth;
         }
-        canvas.drawBitmap(toTurnPicture(newBitmap, -rotationAngle), -width, -height, null);
+        canvas.drawBitmap(toTurnPicture(newBitmap, -rotationAngle), -width * 2, -height * 2, null);
     }
 
 }
