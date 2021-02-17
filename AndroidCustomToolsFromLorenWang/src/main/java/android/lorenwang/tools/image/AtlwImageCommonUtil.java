@@ -26,8 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
@@ -826,7 +824,7 @@ public class AtlwImageCommonUtil {
             //位图设置画板初始化
             Canvas canvas = new Canvas(bitmap);
             //在画布上绘制水印
-            drawWatermarkCanvas(canvas, textSize, textColor, text, width, height, rotationAngle);
+            addWatermarkBitmap(canvas, textSize, textColor, text, width, height, rotationAngle);
             return bitmap;
         } catch (Exception e) {
             return null;
@@ -854,7 +852,7 @@ public class AtlwImageCommonUtil {
             //位图设置画板初始化
             Canvas canvas = new Canvas(newBitmap);
             //在画布上绘制水印
-            drawWatermarkCanvas(canvas, textSize, textColor, text, width, height, rotationAngle);
+            addWatermarkBitmap(canvas, textSize, textColor, text, width, height, rotationAngle);
             return newBitmap;
         } catch (Exception e) {
             return null;
@@ -872,7 +870,7 @@ public class AtlwImageCommonUtil {
      * @param width         水印显示范围宽度
      * @param height        水印显示范围高度
      */
-    public void drawWatermarkCanvas(@NotNull Canvas canvas, int textSize, int textColor, @NotNull String text, int width, int height,
+    public void addWatermarkBitmap(@NotNull Canvas canvas, int textSize, int textColor, @NotNull String text, int width, int height,
             int rotationAngle) {
         //画笔初始化
         Paint paint = new Paint();
@@ -880,7 +878,7 @@ public class AtlwImageCommonUtil {
         paint.setTextSize(textSize);
         paint.setColor(textColor);
         //在画布上绘制水印
-        drawWatermarkCanvas(canvas, paint, text, width, height, rotationAngle);
+        addWatermarkBitmap(canvas, paint, text, width, height, rotationAngle);
     }
 
     /**
@@ -893,32 +891,25 @@ public class AtlwImageCommonUtil {
      * @param width         水印显示范围宽度
      * @param height        水印显示范围高度
      */
-    public void drawWatermarkCanvas(@NotNull Canvas canvas, @NotNull Paint paint, @NotNull String text, int width, int height, int rotationAngle) {
+    public void addWatermarkBitmap(@NotNull Canvas canvas, @NotNull Paint paint, @NotNull String text, int width, int height, int rotationAngle) {
         //获取文本属性
         float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(paint, text);
         float textHeight = AtlwViewUtil.getInstance().getStrTextHeight(paint);
-        //要绘制的位置
-        List<Path> pathList = generateWatermarkPathList(textWidth, textHeight, width, height, rotationAngle);
-        //开始绘制
-        for (Path path : pathList) {
-            canvas.drawTextOnPath(text, path, 0, 0, paint);
+        float useWidth = 0;
+        float useHeight;
+        //新建接收位图
+        Bitmap newBitmap = Bitmap.createBitmap(width * 2, height * 2, Bitmap.Config.ARGB_4444);
+        //位图设置画板初始化
+        Canvas canvasText = new Canvas(newBitmap);
+        while (useWidth < width * 2) {
+            useHeight = 0;
+            while (useHeight < height * 2 + textHeight) {
+                canvasText.drawText(text, useWidth, useHeight - paint.getFontMetrics().descent, paint);
+                useHeight += textHeight - paint.getFontMetrics().descent;
+            }
+            useWidth += textWidth;
         }
-    }
-
-    /**
-     * 生成水印要绘制的path列表
-     *
-     * @param textWidth     文本宽度
-     * @param textHeight    文本高度
-     * @param showWidth     显示宽度
-     * @param showHeight    显示高度
-     * @param rotationAngle 旋转角度
-     * @return 要绘制的path列表
-     */
-    private List<Path> generateWatermarkPathList(float textWidth, float textHeight, int showWidth, int showHeight, int rotationAngle) {
-        List<Path> pathList = new ArrayList<>();
-
-        return pathList;
+        canvas.drawBitmap(toTurnPicture(newBitmap, -rotationAngle), -width, -height, null);
     }
 
 }

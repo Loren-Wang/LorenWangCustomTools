@@ -45,7 +45,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnWheelRecycleView?.performClick()
+        btnImageListBitmap?.performClick()
 
     }
 
