@@ -59,6 +59,7 @@ public abstract class AcbflwBaseApplication extends Application {
 
     /**
      * App上下文
+     *
      * @return App上下文
      */
     public static Context getAppContext() {
@@ -67,6 +68,7 @@ public abstract class AcbflwBaseApplication extends Application {
 
     /**
      * 当前正在显示的页面
+     *
      * @return 当前正在显示的页面
      */
     public static Activity getCurrentShowActivity() {
@@ -220,10 +222,10 @@ public abstract class AcbflwBaseApplication extends Application {
     /**
      * 是否使用了Picture图片选择库
      */
-    abstract boolean isUsePictureSelectLibrary();
+    public abstract boolean isUsePictureSelectLibrary();
 
     /**
      * 是否使用了视图播放库
      */
-    abstract boolean isUseVideoPlayLibrary();
+    public abstract boolean isUseVideoPlayLibrary();
 }
