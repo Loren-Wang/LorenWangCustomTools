@@ -31,18 +31,18 @@ import androidx.annotation.NonNull;
  *
  * @author 王亮（Loren）
  */
-public class SpannableUtil {
+public class AtlwSpannableUtil {
     private final String TAG = getClass().getName();
-    private static volatile SpannableUtil optionsInstance;
+    private static volatile AtlwSpannableUtil optionsInstance;
 
-    private SpannableUtil() {
+    private AtlwSpannableUtil() {
     }
 
-    public static SpannableUtil getInstance() {
+    public static AtlwSpannableUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (SpannableUtil.class) {
+            synchronized (AtlwSpannableUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new SpannableUtil();
+                    optionsInstance = new AtlwSpannableUtil();
                 }
             }
         }

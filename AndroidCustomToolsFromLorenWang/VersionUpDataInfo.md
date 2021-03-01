@@ -1,6 +1,6 @@
 **V3.0.9**
 
-    SpannableUtil--新增Spannable文本处理工具类
+    AtlwSpannableUtil--新增Spannable文本处理工具类
     
     
 **V3.0.7**

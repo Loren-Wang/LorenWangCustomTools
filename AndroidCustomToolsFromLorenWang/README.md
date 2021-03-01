@@ -84,7 +84,7 @@
     根据宽度获取在屏幕上显示的总的像素值--getShowPixelValueForWidth(layoutShowValue)
     根据高度获取在屏幕上显示的总的像素值--getShowPixelValueForHeight(layoutShowValue)
   
-<h3>SpannableUtil---（Spannable文本处理）
+<h3>AtlwSpannableUtil---（Spannable文本处理）
 
     格式化点击消息数据--paramsClickMessage(message,AtlwSpannableClickBean...)
     格式化消息数据--paramsTagMessage(message,AvlwSpannableTagBean...)
