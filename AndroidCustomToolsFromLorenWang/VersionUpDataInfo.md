@@ -1,3 +1,8 @@
+**V3.0.9**
+
+    SpannableUtil--新增Spannable文本处理工具类
+    
+    
 **V3.0.7**
 
     AtlwImageCommonUtil--修改水印处理工具类

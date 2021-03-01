@@ -22,8 +22,6 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 public class ChangeFileName {
     public static void main(String[] args) {
         //        changeFileName(new File("/Users/wangliang/Desktop/src/api"), false, ".js", ".ts");
-        addFirstContent(new File("/Users/wangliang/Desktop/src/common"), "\\S+.tsx", "[\\s\\S\\n]*import React[\\s\\S\\n]*",
-                "import React from \"react\";\n");
     }
 
     static class a {
@@ -75,30 +73,6 @@ public class ChangeFileName {
         }
     }
 
-    /**
-     * 向头部添加数据
-     *
-     * @param dirFile      文件
-     * @param fileRegex    文件名称正则
-     * @param contentRegex 文件内容正则
-     * @param text         文本
-     */
-    public static void addFirstContent(File dirFile, String fileRegex, String contentRegex, String text) {
-        if (dirFile != null && dirFile.isDirectory() && dirFile.listFiles() != null) {
-            for (File file : dirFile.listFiles()) {
-                if (file.isFile()) {
-                    if (file.getName().matches(fileRegex)) {
-                        String content = JtlwFileOptionUtils.getInstance().readFileContent(file.getAbsolutePath(), Charset.defaultCharset());
-                        if (!content.matches(contentRegex)) {
-                            content = text + content;
-                        }
-                        JtlwFileOptionUtils.getInstance().writeToFile(file, content);
-                    }
-                } else {
-                    addFirstContent(file, fileRegex, contentRegex, text);
-                }
-            }
-        }
-    }
+
 
 }

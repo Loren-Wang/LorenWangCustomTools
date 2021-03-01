@@ -83,6 +83,14 @@
     获取需要补充的高度，特殊机型需要补充--getMiSupplementHeight()
     根据宽度获取在屏幕上显示的总的像素值--getShowPixelValueForWidth(layoutShowValue)
     根据高度获取在屏幕上显示的总的像素值--getShowPixelValueForHeight(layoutShowValue)
+  
+<h3>SpannableUtil---（Spannable文本处理）
+
+    格式化点击消息数据--paramsClickMessage(message,AtlwSpannableClickBean...)
+    格式化消息数据--paramsTagMessage(message,AvlwSpannableTagBean...)
+    textview设置字符串，保证spannable的click生效--setSpannableString(textView,SpannableString...)
+    
+     
 
 <h3>二、AtlwSharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>
 

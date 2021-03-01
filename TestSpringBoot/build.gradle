@@ -28,8 +28,8 @@ dependencies {
     //数据库操作库
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.5.RELEASE'
 
-    //spring 基础框架
-    implementation project(':SpringBootCommonBaseFrameLibraryFromLorenWang')
+//    //spring 基础框架
+//    implementation project(':SpringBootCommonBaseFrameLibraryFromLorenWang')
 
     //java工具类库
     implementation("com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.9")
