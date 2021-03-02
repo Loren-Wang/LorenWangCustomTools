@@ -1,5 +1,6 @@
 package kotlinbase.lorenwang.tools.common.bean
 
+import com.google.gson.annotations.SerializedName
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -17,10 +18,37 @@ import io.swagger.annotations.ApiModelProperty
  * 配置参数3：当前条件下的取到的数据总数---sumCount
  * 配置参数4：列表数据实体，不能为空，但是可以为空数组---dataList
  */
-open class KttlwNetPageResponseBean<T>(@ApiModelProperty(value = "分页的页码，由传递进来的数据决定", required = true) var pageIndex: Int,
-    @ApiModelProperty(value = "分页的每页请求数量，为实际数量而不是请求数量", required = true) var pageSize: Int,
-    @ApiModelProperty(value = "当前条件下的取到的数据总数", required = true) var sumDataCount: Int?,
-    @ApiModelProperty(value = "数据总页数") var sumPageCount: Int,
-    @ApiModelProperty(value = "列表数据实体，不能为空，但是可以为空数组", required = true) var dataList: ArrayList<T>) {
+open class KttlwNetPageResponseBean<T> {
+    @ApiModelProperty(value = "分页的页码，由传递进来的数据决定", required = true)
+    @SerializedName(value = "index", alternate = ["current", "pageIndex"])
+    var pageIndex: Int? = null
+
+    @ApiModelProperty(value = "分页的每页请求数量，为实际数量而不是请求数量", required = true)
+    @SerializedName(value = "size", alternate = ["pageSize", "count", "pageCount"])
+    var pageSize: Int? = null
+
+    @ApiModelProperty(value = "当前条件下的取到的数据总数", required = true)
+    @SerializedName(value = "total", alternate = ["sumDataCount"])
+    var sumDataCount: Int? = null
+
+    @ApiModelProperty(value = "数据总页数")
+    @SerializedName(value = "pages", alternate = ["sumPageCount"])
+    var sumPageCount: Int? = null
+
+    @ApiModelProperty(value = "列表数据实体，不能为空，但是可以为空数组", required = true)
+    @SerializedName(value = "list", alternate = ["result", "records", "data", "dataList"])
+    var dataList: ArrayList<T>? = null
+
+    constructor()
+    constructor(pageIndex: Int, pageSize: Int, sumDataCount: Int, sumPageCount: Int) : this(pageIndex, pageSize, sumDataCount, sumPageCount,
+        arrayListOf())
+
+    constructor(pageIndex: Int, pageSize: Int, sumDataCount: Int, sumPageCount: Int, dataList: ArrayList<T>) {
+        this.pageIndex = pageIndex
+        this.pageSize = pageSize
+        this.sumDataCount = pageIndex
+        this.sumPageCount = pageIndex
+        this.dataList = dataList
+    }
 
 }
