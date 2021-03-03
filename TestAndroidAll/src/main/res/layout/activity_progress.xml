@@ -18,6 +18,7 @@
         app:avlwProgressCurrentImage="@drawable/progressbar_current"
         app:avlwProgressCurrentHeight="20dp"
         app:avlwProgressCurrentWidth="20dp"
+        app:avlwShowProgressType="PROGRESS_TYPE_1"
         app:avlwProgress="0.2"
         app:avlwProgressCache="0.5"
         tools:ignore="MissingPrefix" />
@@ -33,6 +34,7 @@
         app:avlwProgressCurrentHeight="10dp"
         app:avlwProgressCurrentWidth="10dp"
         android:layout_marginTop="10dp"
+        app:avlwShowProgressType="PROGRESS_TYPE_1"
         app:avlwProgress="0.2"
         app:avlwProgressCache="0.5"
         tools:ignore="MissingPrefix" />
@@ -48,6 +50,17 @@
         app:avlwShowProgressType="PROGRESS_TYPE_2"
         android:layout_marginTop="10dp"
         app:avlwProgress="1"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.progress.AvlwProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        app:avlwProgressBgHeight="10dp"
+        app:avlwProgressImage="@drawable/sidebar_select"
+        app:avlwProgressBgImage="@drawable/progressbar_current"
+        app:avlwProgressHeight="10dp"
+        android:layout_marginTop="10dp"
+        app:avlwProgress="0.2"
         tools:ignore="MissingPrefix" />
 
 

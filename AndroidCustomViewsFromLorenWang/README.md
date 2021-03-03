@@ -33,4 +33,5 @@ ps：不支持使用代码控制图片边框以及各个角度，如果定义了
 <h3>AvlwCalendarView---（日历控件）
 
 <h3>AvlwHeightChangeViewPager---（高度可变的轮播控件）
+<h3>AvlwProgressBar---（多种类型进度条控件）
 

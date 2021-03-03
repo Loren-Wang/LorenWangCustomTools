@@ -31,6 +31,7 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
      */
     private final int PROGRESS_TYPE_1 = 0;
     private final int PROGRESS_TYPE_2 = 1;
+    private final int PROGRESS_TYPE_3 = 2;
     /**
      * 进度条实现基类
      */
@@ -54,14 +55,16 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
 
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwProgressBar);
-        switch (attributes.getInt(R.styleable.AvlwProgressBar_avlwShowProgressType,
-                PROGRESS_TYPE_1)) {
+        switch (attributes.getInt(R.styleable.AvlwProgressBar_avlwShowProgressType, -1)) {
             case PROGRESS_TYPE_2:
                 avlwProgressBarBase = new AvlwProgressBarScroll();
                 break;
             case PROGRESS_TYPE_1:
-            default:
                 avlwProgressBarBase = new AvlwProgressBarVideoPlay();
+                break;
+            case PROGRESS_TYPE_3:
+            default:
+                avlwProgressBarBase = new AvlwProgressBarDefault();
                 break;
         }
         this.avlwProgressBarBase.init(context, this, attributes);
@@ -70,14 +73,12 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(avlwProgressBarBase.getMeasureWidth(widthMeasureSpec),
-                avlwProgressBarBase.getMeasureHeight(heightMeasureSpec));
+        setMeasuredDimension(avlwProgressBarBase.getMeasureWidth(widthMeasureSpec), avlwProgressBarBase.getMeasureHeight(heightMeasureSpec));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        avlwProgressBarBase.onDrawRegion(canvas, getPaddingLeft(), getPaddingTop(),
-                getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
+        avlwProgressBarBase.onDrawRegion(canvas, getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
     }
 
     @SuppressLint("ClickableViewAccessibility")

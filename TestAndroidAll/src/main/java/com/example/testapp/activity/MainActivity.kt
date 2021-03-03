@@ -45,8 +45,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnImageListBitmap?.performClick()
-
+        btnProgress?.performClick()
     }
 
     fun mainClick(view: View?) {
