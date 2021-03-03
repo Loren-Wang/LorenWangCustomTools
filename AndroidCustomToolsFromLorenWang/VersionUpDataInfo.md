@@ -1,3 +1,8 @@
+**V3.1.1**
+
+    AtlwResourseUtil---（资源相关工具类）
+        获取浮点资源数据--getFloat(resId) 
+    
 **V3.0.9**
 
     AtlwSpannableUtil--新增Spannable文本处理工具类

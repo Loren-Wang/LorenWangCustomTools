@@ -90,6 +90,9 @@
     格式化消息数据--paramsTagMessage(message,AvlwSpannableTagBean...)
     textview设置字符串，保证spannable的click生效--setSpannableString(textView,SpannableString...)
     
+<h3>AtlwResourseUtil---（资源相关工具类）
+
+    获取浮点资源数据--getFloat(resId) 
      
 
 <h3>二、AtlwSharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>
