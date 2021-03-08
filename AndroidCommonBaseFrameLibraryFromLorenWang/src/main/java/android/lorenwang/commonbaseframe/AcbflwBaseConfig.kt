@@ -94,12 +94,12 @@ object AcbflwBaseConfig {
      * @param imageLoadingFailResId                加载失败图片
      * @param imageLoadingLoadResId                加载中图片
      */
-    fun initBaseConfig(applicationIdPackageNameCurrent: String, apiResponseCodeSuccess: String?, apiResponseCodeLoginStatusError: String?,
+    fun initBaseConfig(applicationIdPackageNameCurrent: String, apiResponseCodeSuccess: String?, apiResponseCodeLoginStatusErrorList: List<String>?,
         apiResponseCodeCurrentLimitingBaffle: List<String?>?, @DrawableRes imageLoadingFailResId: Int?, @DrawableRes imageLoadingLoadResId: Int?) {
         this.applicationIdPackageNameCurrent = applicationIdPackageNameCurrent
         AcbflwNetRepCode.repCodeSuccess = apiResponseCodeSuccess
         AcbflwNetRepCode.repCodeLoginStatusError.clear()
-        apiResponseCodeLoginStatusError?.let { AcbflwNetRepCode.repCodeLoginStatusError.add(it) }
+        apiResponseCodeLoginStatusErrorList?.let { AcbflwNetRepCode.repCodeLoginStatusError.addAll(it) }
         if (imageLoadingFailResId != null) {
             AtlwConfig.imageLoadingFailResId = imageLoadingFailResId
         }
