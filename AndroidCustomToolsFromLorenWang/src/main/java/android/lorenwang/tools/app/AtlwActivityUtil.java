@@ -372,13 +372,13 @@ public class AtlwActivityUtil {
     }
 
     /**
-     * 是否有服务在运行
+     * 是否有服务在运行,Android O 被弃用，但是仍然会返回，注意
      *
      * @param <T> 服务泛型
      * @param cls 服务cls
      * @return true，代表有运行
      */
-    private <T> boolean isRunSercice(@NotNull Class<T> cls) {
+    public <T> boolean isRunSercice(@NotNull Class<T> cls) {
         // 获取Activity管理器
         ActivityManager activityManger = (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
         // 从窗口管理器中获取正在运行的Service
