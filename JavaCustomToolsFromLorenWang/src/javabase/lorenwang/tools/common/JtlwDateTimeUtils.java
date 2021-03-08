@@ -141,7 +141,7 @@ public class JtlwDateTimeUtils {
         if (pattern == null || "".equals(pattern) || date == null) {
             return null;
         } else {
-            SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT));
+            SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
             return sDateFormat.format(date);
         }
     }
@@ -156,7 +156,7 @@ public class JtlwDateTimeUtils {
         if (pattern == null || "".equals(pattern)) {
             return null;
         }
-        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT));
+        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
         return sDateFormat.format(new Date(getMillisecond()));
     }
 
@@ -170,7 +170,7 @@ public class JtlwDateTimeUtils {
         if (pattern == null || "".equals(pattern)) {
             return null;
         }
-        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT));
+        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
         Long time = null;
         try {
             time = sDateFormat.parse(sDateFormat.format(new Date(getMillisecond()))).getTime();
@@ -191,7 +191,7 @@ public class JtlwDateTimeUtils {
         if (dateAndTime == null || "".equals(dateAndTime) || dateAndTimeFormat == null || "".equals(dateAndTimeFormat)) {
             return 0L;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(dateAndTimeFormat, Locale.getDefault(Locale.Category.FORMAT));
+        SimpleDateFormat sdf = new SimpleDateFormat(dateAndTimeFormat, Locale.getDefault());
         long millionSeconds = 0L;
         try {
             //毫秒
