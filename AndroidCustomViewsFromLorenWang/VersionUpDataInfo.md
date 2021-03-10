@@ -1,6 +1,11 @@
+**V3.1.5**
+
+    AvlwSliderValidationView---（滑块验证容器控件）
+    
 **V3.1.4**
 
     AvlwProgressBar--新增水平进度进度条
+    
 **V3.1.3**
 
     AvlwWheelRecyclerView--修改显示处理

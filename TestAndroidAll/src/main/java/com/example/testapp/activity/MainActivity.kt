@@ -22,6 +22,7 @@ import com.example.testapp.activity.textview.CustomDrawableButtonActivity
 import com.example.testapp.activity.textview.ShowPriceTextViewActivity
 import com.example.testapp.activity.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.activity.titlebar.TitleBarHeadViewActivity
+import com.example.testapp.activity.validation.ValidationActivity
 import com.example.testapp.activity.video.VideoPlayActivity
 import com.example.testapp.activity.video.VideoPlayListActivity
 import com.example.testapp.activity.viewpager.BannerActivity
@@ -45,12 +46,15 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnProgress?.performClick()
+        btnValidation?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnValidation -> {
+                    startActivity(Intent(this, ValidationActivity::class.java))
+                }
                 R.id.btnCalendar -> {
                     startActivity(Intent(this, CalendarActivity::class.java))
                 }

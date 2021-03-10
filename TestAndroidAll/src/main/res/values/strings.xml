@@ -35,6 +35,7 @@
     <string name="page_type_image_list_map">图片列表网络位图加载</string>
     <string name="page_type_wheel_recycle_view">滚筒显示</string>
     <string name="page_type_calendar">日历</string>
+    <string name="page_type_validation">滑块验证等验证控件</string>
     <string name="page_type_video_play">视频播放</string>
     <string name="page_type_video_play_list">视频列表播放</string>
     <string name="anim_translate_y">Y轴平移动画</string>
