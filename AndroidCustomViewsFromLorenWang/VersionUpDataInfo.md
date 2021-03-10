@@ -1,5 +1,9 @@
 **V3.1.5**
 
+    AvlwSliderValidationView---（新增重置动画时间）
+    
+**V3.1.5**
+
     AvlwSliderValidationView---（滑块验证容器控件）
     
 **V3.1.4**

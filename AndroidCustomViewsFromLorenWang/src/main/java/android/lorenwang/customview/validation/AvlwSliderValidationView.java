@@ -3,11 +3,12 @@ package android.lorenwang.customview.validation;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.lorenwang.customview.R;
-import android.lorenwang.tools.app.AtlwThreadUtil;
 import android.lorenwang.tools.base.AtlwLogUtil;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Interpolator;
+import android.view.animation.TranslateAnimation;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -70,38 +71,19 @@ public class AvlwSliderValidationView extends ConstraintLayout {
     private OnResultCallback onResultCallback;
 
     /**
-     * 重置线程每次延迟时间
+     * 重置需要的时间
      */
-    private final long resetRunnableDelayMillis = 5;
+    private long resetMaxSumDuration = 500;
     /**
-     * 重置线程
+     * 重置时间监听
      */
-    private final Runnable resetRunnable = new Runnable() {
-        private int change = 0;
-
-        @Override
-        public void run() {
-            //修改记录
-            if (change == 0) {
-                change = offset / 50;
-                if (change == 0) {
-                    change = offset / 5;
-                    if (change == 0) {
-                        change = offset;
-                    }
-                }
-            }
-            if (offset > 0) {
-                //开始移动
-                offset -= change;
-                AtlwThreadUtil.getInstance().postOnChildThreadDelayed(this, resetRunnableDelayMillis);
-            } else {
-                offset = 0;
-                isReset = false;
-                AtlwThreadUtil.getInstance().removeRunnable(this);
-            }
-            moveAllView();
+    private final Interpolator resetInterpolator = input -> {
+        moveAllView((int) (offset * (1 - input)));
+        if (input == 1) {
+            isReset = false;
+            offset = 0;
         }
+        return input;
     };
 
     public AvlwSliderValidationView(@NonNull @NotNull Context context) {
@@ -188,7 +170,7 @@ public class AvlwSliderValidationView extends ConstraintLayout {
                         if (offset < 0) {
                             offset = 0;
                         }
-                        moveAllView();
+                        moveAllView(null);
                     }
                     break;
                 case MotionEvent.ACTION_UP:
@@ -250,22 +232,43 @@ public class AvlwSliderValidationView extends ConstraintLayout {
     }
 
     /**
+     * 设置重置动画时间,当前时间是针对于滑动到最大值的时候所需要的时间，当没有滑动到头的时候会按比例缩减
+     *
+     * @param resetMaxSumDuration 重置动画时间
+     */
+    public void setResetMaxSumDuration(long resetMaxSumDuration) {
+        this.resetMaxSumDuration = resetMaxSumDuration;
+    }
+
+    /**
      * 重置
      */
     public void reset() {
         if (!isReset) {
             isReset = true;
-            AtlwThreadUtil.getInstance().postOnChildThreadDelayed(resetRunnable, resetRunnableDelayMillis);
+            TranslateAnimation animation = new TranslateAnimation(0, 0, 0, 0);
+            if (moveMaxWidth > 0) {
+                animation.setDuration((long) (resetMaxSumDuration * offset * 1.0f / moveMaxWidth));
+            } else {
+                animation.setDuration((long) (resetMaxSumDuration * offset * 1.0f / getWidth()));
+            }
+            animation.setInterpolator(resetInterpolator);
+            this.startAnimation(animation);
         }
     }
 
     /**
      * 移动所有控件
+     *
+     * @param move 移动位移
      */
-    private void moveAllView() {
-        touchView.setTranslationX(offset);
+    private void moveAllView(Integer move) {
+        if (move == null) {
+            move = offset;
+        }
+        touchView.setTranslationX(move);
         if (moveView != null) {
-            moveView.setTranslationX(offset);
+            moveView.setTranslationX(move);
         }
     }
 
