@@ -93,6 +93,7 @@
 <h3>AtlwResourseUtil---（资源相关工具类）
 
     获取浮点资源数据--getFloat(resId) 
+    获取资源字节--getAssets(assetsName)
      
 
 <h3>二、AtlwSharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>

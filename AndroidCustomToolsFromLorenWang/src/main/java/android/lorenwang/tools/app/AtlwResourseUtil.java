@@ -3,7 +3,12 @@ package android.lorenwang.tools.app;
 import android.lorenwang.tools.AtlwConfig;
 import android.util.TypedValue;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
 import androidx.annotation.IntegerRes;
+import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
 /**
  * 功能作用：资源相关工具类
@@ -12,6 +17,7 @@ import androidx.annotation.IntegerRes;
  * 思路：
  * 方法：
  * 获取浮点资源数据--getFloat(resId)
+ * 获取资源字节--getAssets(assetsName)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -49,5 +55,20 @@ public class AtlwResourseUtil {
             return value.getFloat();
         }
         return 0F;
+    }
+
+    /**
+     * 获取资源字节
+     *
+     * @param assetsName 资源名称，包含路径
+     * @return 文件内容字节
+     */
+    public byte[] getAssets(@NotNull String assetsName) {
+        try {
+            return JtlwFileOptionUtils.getInstance().readBytes(AtlwConfig.nowApplication.getResources().getAssets().open(assetsName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new byte[]{};
     }
 }

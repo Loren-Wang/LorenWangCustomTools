@@ -1,3 +1,8 @@
+**V3.1.3**
+
+    AtlwResourseUtil---（资源相关工具类）
+        获取资源字节--getAssets(assetsName)
+    
 **V3.1.1**
 
     AtlwResourseUtil---（资源相关工具类）
