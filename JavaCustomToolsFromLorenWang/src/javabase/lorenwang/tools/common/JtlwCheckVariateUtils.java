@@ -31,7 +31,8 @@ import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
  * 检查传入的路径是否是视频--checkIsVideo(path)
  * 检查文件是否存在--checkFileIsExit(filePath)
  * 检测文件是否是图片--checkFileIsImage(filePath)
- * 检测国内身份证号是否正确，支持15位至18位--checkChineseIdCard(idCard)
+ * 检测国内身份证号是否正确，支持15位至18位--checkChineseIdCard(idCard)\
+ * 通过身份证号检测年龄是否超过限制--checkAgeMoreThanLimitByIdCard(idCard,limit, judgeYear)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -367,4 +368,61 @@ public class JtlwCheckVariateUtils {
         return 0;
     }
 
+    /**
+     * 通过身份证号检测年龄是否超过限制
+     *
+     * @param idCard    身份证号
+     * @param limit     限制
+     * @param judgeYear 是否单纯按照年份判断
+     * @return 是则是超过限制
+     */
+    public boolean checkAgeMoreThanLimitByIdCard(@NotNull String idCard, int limit, boolean judgeYear) {
+        if (checkChineseIdCard(idCard) == 0) {
+            //身份证是正常的，获取年龄
+            int idTime = 0;
+            int currentTime = Integer.parseInt(JtlwDateTimeUtils.getInstance().getFormatDateNowTime(JtlwDateTimeUtils.YEAR_PATTERN));
+            if (idCard.length() == 18) {
+                idTime = Integer.parseInt(idCard.substring(6, 10));
+            } else if (idCard.length() == 15) {
+                idTime = Integer.parseInt("19" + idCard.substring(6, 8));
+            }
+            if (judgeYear) {
+                //只按照年份判断
+                return currentTime - idTime >= limit;
+            } else {
+                //不单纯按照年份判断，是按照实际判断，先判断年份
+                if (currentTime - idTime > limit) {
+                    return true;
+                } else if (currentTime - idTime < limit) {
+                    return false;
+                } else {
+                    //判断月份
+                    idTime = 0;
+                    currentTime = Integer.parseInt(JtlwDateTimeUtils.getInstance().getFormatDateNowTime(JtlwDateTimeUtils.MONTH_PATTERN));
+                    if (idCard.length() == 18) {
+                        idTime = Integer.parseInt(idCard.substring(10, 12));
+                    } else if (idCard.length() == 15) {
+                        idTime = Integer.parseInt(idCard.substring(8, 10));
+                    }
+                    //判断月份是否满足
+                    if (currentTime - idTime > 0) {
+                        return true;
+                    } else if (currentTime - idTime < 0) {
+                        return false;
+                    } else {
+                        //月份相同，判断时间
+                        idTime = 0;
+                        currentTime = Integer.parseInt(JtlwDateTimeUtils.getInstance().getFormatDateNowTime(JtlwDateTimeUtils.DAY_PATTERN));
+                        if (idCard.length() == 18) {
+                            idTime = Integer.parseInt(idCard.substring(12, 14));
+                        } else if (idCard.length() == 15) {
+                            idTime = Integer.parseInt(idCard.substring(10, 12));
+                        }
+                        return currentTime - idTime >= 0;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

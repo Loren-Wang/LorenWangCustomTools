@@ -1,6 +1,7 @@
-**V2.2.6**
+**V2.2.7**
 
     检测国内身份证号是否正确，支持15位至18位--JtlwCheckVariateUtils.checkChineseIdCard(idCard)
+    通过身份证号检测年龄是否超过限制--JtlwCheckVariateUtils.checkAgeMoreThanLimitByIdCard(idCard,limit, judgeYear)
     国内身份证号正则，强校验--JtlwMatchesRegularCommon.ID_CARD_CHINESE
     
 **V2.2.4**

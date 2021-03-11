@@ -50,6 +50,7 @@ Java自定义工具类
     检查文件是否存在--checkFileIsExit(filePath)
     检测文件是否是图片--checkFileIsImage(filePath)
     检测国内身份证号是否正确，支持15位至18位--checkChineseIdCard(idCard)
+    通过身份证号检测年龄是否超过限制--checkAgeMoreThanLimitByIdCard(idCard,limit, judgeYear)
     
 <h3>JtlwMatchesRegularCommon---(常用正则表达式)
 

@@ -21,6 +21,9 @@ public class JtlwCheckVariateUtilsTest {
 
     @Test
     public void checkChineseIdCard() {
-        System.out.println(JtlwCheckVariateUtils.getInstance().checkChineseIdCard("41302619901008541x"));
+    }
+
+    @Test
+    public void checkAgeMoreThanLimitByIdCard() {
     }
 }
