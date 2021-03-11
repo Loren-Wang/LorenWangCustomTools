@@ -1,3 +1,8 @@
+**V2.2.6**
+
+    检测国内身份证号是否正确，支持15位至18位--JtlwCheckVariateUtils.checkChineseIdCard(idCard)
+    国内身份证号正则，强校验--JtlwMatchesRegularCommon.ID_CARD_CHINESE
+    
 **V2.2.4**
 
     新增时间处理工具函数，
