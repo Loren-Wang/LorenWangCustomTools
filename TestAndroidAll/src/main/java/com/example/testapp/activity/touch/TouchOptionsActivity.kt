@@ -36,5 +36,6 @@ class TouchOptionsActivity : BaseActivity() {
         toTouch?.setTouchListener {
             AtlwToastHintUtil.getInstance().toastMsg(it.tag.toString())
         }
+        toTouch?.setDrawTouch(true,null)
     }
 }

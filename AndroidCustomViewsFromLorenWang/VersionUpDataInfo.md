@@ -1,3 +1,8 @@
+**V3.1.8**
+
+    <h3>AvlwTouchOptionsView---（新增操作区域显示处理）
+
+    
 **V3.1.7**
 
     <h3>AvlwTouchOptionsView---（触摸操作控件，和热区功能差不多，点击某个位置手指抬起触发操作）

@@ -1,6 +1,9 @@
 package android.lorenwang.customview.touchs;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,16 +52,35 @@ public class AvlwTouchOptionsView extends View {
      */
     private TouchListener touchListener;
 
+    /**
+     * 绘制触摸操作区域
+     */
+    private boolean drawTouchOptions;
+    /**
+     * 绘制触摸区域颜色
+     */
+    private int drawTouchColor = Color.RED;
+    /**
+     * 绘制区域画笔
+     */
+    private final Paint drawTouchPaint = new Paint();
+
     public AvlwTouchOptionsView(Context context) {
         super(context);
+        drawTouchPaint.setColor(drawTouchColor);
+        drawTouchPaint.setAntiAlias(true);
     }
 
     public AvlwTouchOptionsView(Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
         super(context, attrs);
+        drawTouchPaint.setColor(drawTouchColor);
+        drawTouchPaint.setAntiAlias(true);
     }
 
     public AvlwTouchOptionsView(Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        drawTouchPaint.setColor(drawTouchColor);
+        drawTouchPaint.setAntiAlias(true);
     }
 
     @Override
@@ -86,6 +108,16 @@ public class AvlwTouchOptionsView extends View {
         return super.dispatchTouchEvent(event);
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (drawTouchOptions && !realUseDataList.isEmpty()) {
+            for (TouchRangBean bean : realUseDataList) {
+                canvas.drawRect(bean.startX, bean.startY, bean.startX + bean.width, bean.startY + bean.height, drawTouchPaint);
+            }
+        }
+    }
+
     /**
      * 设置原始使用数据,会按照当前控件的宽高缩放
      *
@@ -101,8 +133,28 @@ public class AvlwTouchOptionsView extends View {
         initRealUserData();
     }
 
+    /**
+     * 设置触摸监听
+     *
+     * @param touchListener 触摸监听
+     */
     public void setTouchListener(TouchListener touchListener) {
         this.touchListener = touchListener;
+    }
+
+    /**
+     * 设置绘制触摸区域
+     *
+     * @param drawTouch      是否绘制
+     * @param drawTouchColor 绘制区域颜色
+     */
+    public void setDrawTouch(boolean drawTouch, Integer drawTouchColor) {
+        this.drawTouchOptions = drawTouch;
+        if (drawTouchColor != null) {
+            this.drawTouchColor = drawTouchColor;
+            drawTouchPaint.setColor(drawTouchColor);
+        }
+        invalidate();
     }
 
     /**
