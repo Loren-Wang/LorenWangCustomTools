@@ -21,6 +21,7 @@ public class JtlwCheckVariateUtilsTest {
 
     @Test
     public void checkChineseIdCard() {
+        System.out.println(JtlwCheckVariateUtils.getInstance().checkChineseIdCard("150123201012129906"));
     }
 
     @Test

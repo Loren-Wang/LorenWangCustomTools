@@ -1,3 +1,8 @@
+**V3.1.7**
+
+    <h3>AvlwTouchOptionsView---（触摸操作控件，和热区功能差不多，点击某个位置手指抬起触发操作）
+
+    
 **V3.1.5**
 
     AvlwSliderValidationView---（新增重置动画时间）

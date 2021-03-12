@@ -22,6 +22,7 @@ import com.example.testapp.activity.textview.CustomDrawableButtonActivity
 import com.example.testapp.activity.textview.ShowPriceTextViewActivity
 import com.example.testapp.activity.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.activity.titlebar.TitleBarHeadViewActivity
+import com.example.testapp.activity.touch.TouchOptionsActivity
 import com.example.testapp.activity.validation.ValidationActivity
 import com.example.testapp.activity.video.VideoPlayActivity
 import com.example.testapp.activity.video.VideoPlayListActivity
@@ -46,12 +47,15 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnValidation?.performClick()
+        btnTouchOptions?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnTouchOptions -> {
+                    startActivity(Intent(this, TouchOptionsActivity::class.java))
+                }
                 R.id.btnValidation -> {
                     startActivity(Intent(this, ValidationActivity::class.java))
                 }
