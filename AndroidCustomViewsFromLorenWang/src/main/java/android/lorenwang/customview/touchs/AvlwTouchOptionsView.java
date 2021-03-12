@@ -97,8 +97,8 @@ public class AvlwTouchOptionsView extends View {
             }
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 for (TouchRangBean bean : realUseDataList) {
-                    if (bean.startX < event.getRawX() && bean.startX + bean.width > event.getRawX() && bean.startY < event.getRawY() &&
-                            bean.startY + bean.height < event.getRawY()) {
+                    if (bean.startX < event.getX() && bean.startX + bean.width > event.getX() && bean.startY < event.getY() &&
+                            bean.startY + bean.height > event.getY()) {
                         touchListener.touchRang(bean);
                         return true;
                     }

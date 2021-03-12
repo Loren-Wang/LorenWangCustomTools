@@ -1,3 +1,8 @@
+**V3.1.9**
+
+    <h3>AvlwTouchOptionsView---（修复点击触摸判定错误问题）
+
+    
 **V3.1.8**
 
     <h3>AvlwTouchOptionsView---（新增操作区域显示处理）
