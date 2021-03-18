@@ -10,6 +10,7 @@ import com.example.testapp.activity.androidTools.MobileSmsActivity
 import com.example.testapp.activity.anim.AnimActivity
 import com.example.testapp.activity.bluetooth.BluetoothActivity
 import com.example.testapp.activity.calendar.CalendarActivity
+import com.example.testapp.activity.carousel.CarouselActivity
 import com.example.testapp.activity.dialog.DialogsActivity
 import com.example.testapp.activity.graphicCodeScan.CodeGenerateActivity
 import com.example.testapp.activity.graphicCodeScan.ScanCodeActivity
@@ -47,12 +48,15 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnTouchOptions?.performClick()
+        btnCarousel?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnCarousel -> {
+                    startActivity(Intent(this, CarouselActivity::class.java))
+                }
                 R.id.btnTouchOptions -> {
                     startActivity(Intent(this, TouchOptionsActivity::class.java))
                 }

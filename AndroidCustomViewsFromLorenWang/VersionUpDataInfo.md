@@ -1,3 +1,8 @@
+**V3.2.0**
+
+    新增AvlwCoverRecycleView---（层叠画廊recycleview）
+
+    
 **V3.1.9**
 
     <h3>AvlwTouchOptionsView---（修复点击触摸判定错误问题）

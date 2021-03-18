@@ -36,6 +36,7 @@
     <string name="page_type_wheel_recycle_view">滚筒显示</string>
     <string name="page_type_calendar">日历</string>
     <string name="page_type_touch_options">触摸操作控件</string>
+    <string name="page_type_carousel">层叠视图</string>
     <string name="page_type_validation">滑块验证等验证控件</string>
     <string name="page_type_video_play">视频播放</string>
     <string name="page_type_video_play_list">视频列表播放</string>

@@ -68,8 +68,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
 
-
-
     //从上至下依赖关系
     implementation project(':JavaCustomToolsFromLorenWang')
     implementation project(':AndroidCustomToolsFromLorenWang')
@@ -140,6 +138,9 @@ dependencies {
 
     //阿里云视频播放器库
     api 'com.shuyu:GSYVideoPlayer:7.1.5'
+
+    //层叠画廊显示
+    api 'com.chenlittleping:recyclercoverflow:1.1.0'
 
 }
 repositories {

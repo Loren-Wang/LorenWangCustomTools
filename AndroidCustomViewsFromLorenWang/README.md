@@ -40,3 +40,5 @@ ps：不支持使用代码控制图片边框以及各个角度，如果定义了
 
 <h3>AvlwTouchOptionsView---（触摸操作控件，和热区功能差不多，点击某个位置手指抬起触发操作）
 
+<h3>AvlwCoverRecycleView---（层叠画廊recycleview）
+
