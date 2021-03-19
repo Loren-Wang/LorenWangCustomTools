@@ -35,9 +35,9 @@ class CarouselActivity : BaseListActivity<String>() {
     override fun initView(savedInstanceState: Bundle?) {
         addContentView(R.layout.activity_carousel)
         recyList.adapter = adapter
-        recyList.setLayoutManagerConfig(0.5F,0.9F,0.2F)
-        recyList.setOnItemSelectedListener { position ->
-        }
+        recyList.setLayoutManagerConfig(0.5F, 0.9F, 0.2F)
+        recyList2.adapter = adapter
+        recyList2.setLayoutManagerCircleConfig(0, 280)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

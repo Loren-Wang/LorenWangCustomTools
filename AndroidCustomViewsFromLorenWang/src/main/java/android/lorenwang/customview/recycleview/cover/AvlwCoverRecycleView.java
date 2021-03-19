@@ -110,6 +110,39 @@ public class AvlwCoverRecycleView extends RecyclerView {
                         scalePercent));
     }
 
+    /**
+     * 设置圆形轮盘布局管理器
+     *
+     * @param scalePercent        缩放倍数
+     * @param mIsCircle           是否是圆形轮盘
+     * @param itemCircleYDistance y轴偏移
+     * @param itemCircleYHeight   y轴总高度
+     */
+    public void setLayoutManagerCircleConfig(float scalePercent, boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(scalePercent, mIsCircle, itemCircleYDistance, itemCircleYHeight));
+    }
+
+    /**
+     * 设置圆形轮盘布局管理器
+     *
+     * @param mIsCircle           是否是圆形轮盘
+     * @param itemCircleYDistance y轴偏移
+     * @param itemCircleYHeight   y轴总高度
+     */
+    public void setLayoutManagerCircleConfig(boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(mIsCircle, itemCircleYDistance, itemCircleYHeight));
+    }
+
+    /**
+     * 设置圆形轮盘布局管理器
+     *
+     * @param itemCircleYDistance y轴偏移
+     * @param itemCircleYHeight   y轴总高度
+     */
+    public void setLayoutManagerCircleConfig(int itemCircleYDistance, int itemCircleYHeight) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(itemCircleYDistance, itemCircleYHeight));
+    }
+
     @Override
     public void setLayoutManager(LayoutManager layout) {
     }

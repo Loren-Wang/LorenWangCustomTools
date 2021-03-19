@@ -6,6 +6,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.lorenwang.tools.app.AtlwScreenUtil;
 import android.os.Build;
 import android.util.Log;
 import android.util.SparseArray;
@@ -132,6 +133,20 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      */
     private final float scalePercent;
 
+    /**
+     * 是否是圆形轮盘
+     */
+    private final boolean mIsCircle;
+    /**
+     * 控件在y轴的偏移量
+     */
+    private final int itemCircleYDistance;
+    /**
+     * 圆弧的纵向总长度
+     */
+    private final int itemCircleYHeight;
+
+
     public AvlwCoverFlowLayoutManger() {
         this(false, false, false, false, false, 0.5F, 0.5F, 0.5F);
     }
@@ -146,6 +161,11 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
 
     public AvlwCoverFlowLayoutManger(boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D,
             float widthOffsetPercent, float alphaPercent, float scalePercent) {
+        this(mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D, widthOffsetPercent, alphaPercent, scalePercent, false, 0, 0);
+    }
+
+    public AvlwCoverFlowLayoutManger(boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D,
+            float widthOffsetPercent, float alphaPercent, float scalePercent, boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
         this.mIsFlatFlow = mIsFlatFlow;
         this.mItemGradualGrey = mItemGradualGrey;
         this.mItemGradualAlpha = mItemGradualAlpha;
@@ -154,6 +174,21 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
         this.widthOffsetPercent = widthOffsetPercent;
         this.alphaPercent = alphaPercent;
         this.scalePercent = scalePercent;
+        this.mIsCircle = mIsCircle;
+        this.itemCircleYDistance = itemCircleYDistance;
+        this.itemCircleYHeight = itemCircleYHeight;
+    }
+
+    public AvlwCoverFlowLayoutManger(float scalePercent, boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
+        this(false, false, false, false, false, 0.5F, 0.5F, scalePercent, mIsCircle, itemCircleYDistance, itemCircleYHeight);
+    }
+
+    public AvlwCoverFlowLayoutManger(boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
+        this(false, false, false, false, false, 0.5F, 0.5F, 0.5F, mIsCircle, itemCircleYDistance, itemCircleYHeight);
+    }
+
+    public AvlwCoverFlowLayoutManger(int itemCircleYDistance, int itemCircleYHeight) {
+        this(false, false, false, false, false, 0.5F, 0.5F, 0.5F, true, itemCircleYDistance, itemCircleYHeight);
     }
 
     @Override
@@ -181,7 +216,12 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
         mDecoratedChildWidth = getDecoratedMeasuredWidth(scrap);
         mDecoratedChildHeight = getDecoratedMeasuredHeight(scrap);
         mStartX = Math.round((getHorizontalSpace() - mDecoratedChildWidth) * 1.0f / 2);
-        mStartY = Math.round((getVerticalSpace() - mDecoratedChildHeight) * 1.0f / 2);
+        //圆形轮盘时要向下偏移
+        if (mIsCircle) {
+            mStartY = Math.round((getVerticalSpace() - mDecoratedChildHeight));
+        } else {
+            mStartY = Math.round((getVerticalSpace() - mDecoratedChildHeight) * 1.0f / 2);
+        }
 
         float offset = mStartX;
 
@@ -255,7 +295,12 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
                 } else {
                     position = getPosition(child);
                 }
-                Rect rect = getFrame(position);
+                Rect rect;
+                if (mIsCircle) {
+                    rect = getFrameFaker(position);
+                } else {
+                    rect = getFrame(position);
+                }
                 if (!Rect.intersects(displayFrame, rect)) {//Item没有在显示区域，就说明需要回收
                     removeAndRecycleView(child, recycler); //回收滑出屏幕的View
                     mHasAttachedItems.delete(position);
@@ -285,7 +330,8 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
 
         for (int i = min; i < max; i++) {
             Rect rect = getFrame(i);
-            if (Rect.intersects(displayFrame, rect) && !mHasAttachedItems.get(i)) { //重新加载可见范围内的Item
+            if (Rect.intersects(displayFrame, rect) && !mHasAttachedItems.get(i)) {
+                //重新加载可见范围内的Item
                 // 循环滚动时，计算实际的 item 位置
                 int actualPos = i % getItemCount();
                 // 循环滚动时，位置可能是负值，需要将其转换为对应的 item 的值
@@ -298,9 +344,11 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
                     scrap.setTag(i);
 
                     measureChildWithMargins(scrap, 0, 0);
-                    if (scrollDirection == SCROLL_TO_RIGHT) { //item 向右滚动，新增的Item需要添加在最前面
+                    if (scrollDirection == SCROLL_TO_RIGHT) {
+                        //item 向右滚动，新增的Item需要添加在最前面
                         addView(scrap, 0);
-                    } else { //item 向左滚动，新增的item要添加在最后面
+                    } else {
+                        //item 向左滚动，新增的item要添加在最后面
                         addView(scrap);
                     }
                     layoutItem(scrap, rect); //将这个Item布局出来
@@ -320,25 +368,59 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void layoutItem(View child, Rect frame) {
-        layoutDecorated(child, frame.left - mOffsetAll, frame.top, frame.right - mOffsetAll, frame.bottom);
-        //不是平面普通滚动的情况下才进行缩放
-        if (mIsFlatFlow) {
-            Log.e("SCALE_ITEM", computeScale(frame.left - mOffsetAll) + "");
-            Log.e("SCALE_X", (frame.left - mOffsetAll) + "");
-            child.setScaleX(computeScale(frame.left - mOffsetAll)); //缩放
-            child.setScaleY(computeScale(frame.left - mOffsetAll)); //缩放
-        }
+        //圆形轮盘单独处理
+        if (mIsCircle) {
+            int leftLimit = (int) (0.5f * getHorizontalSpace() - 200 - 1.5f * frame.width() + (1 - Math.max(
+                    computeScale((int) (0.5f * getHorizontalSpace() - 1.5f * frame.width())), 0.4F)) * frame.width() / 2f);
+            int rightLimit = (int) (0.5f * getHorizontalSpace() + 200 + 0.5f * frame.width() - (1 - Math.max(
+                    computeScale((int) (0.5f * getHorizontalSpace() + 0.5f * frame.width())), 0.4F)) * frame.width() / 2f);
 
-        if (mItemGradualAlpha) {
-            child.setAlpha(computeAlpha(frame.left - mOffsetAll));
-        }
+            if (frame.left - mOffsetAll < leftLimit) {
+                layoutDecorated(child, leftLimit + (leftLimit - (frame.left - mOffsetAll)), frame.top + itemCircleYDistance,
+                        leftLimit + (leftLimit - (frame.left - mOffsetAll)) + (frame.right - frame.left), frame.bottom + itemCircleYDistance);
+            } else if (frame.left - mOffsetAll > rightLimit) {
+                layoutDecorated(child, rightLimit - (frame.left - mOffsetAll - rightLimit), frame.top + itemCircleYDistance,
+                        rightLimit - (frame.left - mOffsetAll - rightLimit) + (frame.right - frame.left), frame.bottom + itemCircleYDistance);
+            } else {
+                layoutDecorated(child, frame.left - mOffsetAll, frame.top + itemCircleYDistance, frame.right - mOffsetAll,
+                        frame.bottom + itemCircleYDistance);
+            }
 
-        if (mItemGradualGrey) {
-            greyItem(child, frame);
-        }
+            //不是平面普通滚动的情况下才进行缩放
+            child.setScaleX(Math.max(computeScale(frame.left - mOffsetAll), 0.5F)); //缩放
+            child.setScaleY(Math.max(computeScale(frame.left - mOffsetAll), 0.5F)); //缩放
 
-        if (mItem3D) {
-            item3D(child, frame);
+            if (frame.left - mOffsetAll < leftLimit) {
+                child.setTranslationX(-(float) ((leftLimit - (frame.left - mOffsetAll)) * 0.15));
+            } else if (frame.left - mOffsetAll > rightLimit) {
+                child.setTranslationX((float) (((frame.left - mOffsetAll - rightLimit)) * 0.15));
+            } else {
+                child.setTranslationX(0);
+            }
+
+            child.setTranslationY(-AtlwScreenUtil.getInstance().dip2px(itemCircleYHeight) * (1 - computeScale(frame.left - mOffsetAll)));
+
+        } else {
+            layoutDecorated(child, frame.left - mOffsetAll, frame.top, frame.right - mOffsetAll, frame.bottom);
+            //不是平面普通滚动的情况下才进行缩放
+            if (mIsFlatFlow) {
+                Log.e("SCALE_ITEM", computeScale(frame.left - mOffsetAll) + "");
+                Log.e("SCALE_X", (frame.left - mOffsetAll) + "");
+                child.setScaleX(computeScale(frame.left - mOffsetAll)); //缩放
+                child.setScaleY(computeScale(frame.left - mOffsetAll)); //缩放
+            }
+
+            if (mItemGradualAlpha) {
+                child.setAlpha(computeAlpha(frame.left - mOffsetAll));
+            }
+
+            if (mItemGradualGrey) {
+                greyItem(child, frame);
+            }
+
+            if (mItem3D) {
+                item3D(child, frame);
+            }
         }
     }
 
@@ -356,6 +438,23 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
             frame.set(Math.round(offset), mStartY, Math.round(offset + mDecoratedChildWidth), mStartY + mDecoratedChildHeight);
         }
 
+        return frame;
+    }
+
+    /**
+     * 动态获取Item的位置信息
+     *
+     * @param index item位置
+     * @return item的Rect信息
+     */
+    private Rect getFrameFaker(int index) {
+        Rect frame = mAllItemFrames.get(index);
+        if (frame == null) {
+            frame = new Rect();
+            float offset = mStartX + getIntervalDistance() * index; //原始位置累加（即累计间隔距离）
+            frame.set(Math.round(offset), mStartY, Math.round(offset + mDecoratedChildWidth - AtlwScreenUtil.getInstance().dip2px(10)),
+                    mStartY + mDecoratedChildHeight);
+        }
         return frame;
     }
 

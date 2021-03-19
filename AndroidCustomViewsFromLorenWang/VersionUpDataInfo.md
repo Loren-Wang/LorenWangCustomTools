@@ -1,7 +1,10 @@
+**V3.2.1**
+
+    新增AvlwCoverRecycleView轮盘样式
+    
 **V3.2.0**
 
     新增AvlwCoverRecycleView---（层叠画廊recycleview）
-
     
 **V3.1.9**
 
