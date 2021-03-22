@@ -1,6 +1,6 @@
 package com.example.testapp.activity.anim
 
-import android.lorenwang.anims.AalwAnimUtils
+import android.lorenwang.anims.AalwAnimUtil
 import android.os.Bundle
 import android.view.View
 import com.example.testapp.base.BaseActivity
@@ -34,61 +34,63 @@ class AnimActivity : BaseActivity() {
     fun animClick(v: View) {
         when (v.id) {
             R.id.btnTranslateY -> {
-                AalwAnimUtils.getInstance().startTranslateYAnim(btnTranslateY, 0F, -300F, 1000L)
+                AalwAnimUtil.getInstance().startTranslateYAnim(btnTranslateY, 0F, -300F, 1000L)
             }
             R.id.btnTranslateX -> {
-                AalwAnimUtils.getInstance().startTranslateXAnim(btnTranslateX, 0F, 300F, 1000L)
+                AalwAnimUtil.getInstance().startTranslateXAnim(btnTranslateX, 0F, 300F, 1000L)
             }
             R.id.btnTranslateXY -> {
-                AalwAnimUtils.getInstance().startTranslateAnimation(btnTranslateXY, 0F, 0F, 300F, -300F, 1000L, null)
+                AalwAnimUtil.getInstance().startTranslateAnimation(btnTranslateXY, 0F, 0F, 300F, -300F, 1000L, null)
             }
             R.id.btnScaleY -> {
-                AalwAnimUtils.getInstance().startScaleYAnim(btnScaleY, 1F, 0.2F, 1000L)
+                AalwAnimUtil.getInstance().startScaleYAnim(btnScaleY, 1F, 0.2F, 1000L)
             }
             R.id.btnScaleX -> {
-                AalwAnimUtils.getInstance().startScaleXAnim(btnScaleX, 1F, 0.2F, 1000L)
+                AalwAnimUtil.getInstance().startScaleXAnim(btnScaleX, 1F, 0.2F, 1000L)
             }
             R.id.btnScaleXY -> {
-                AalwAnimUtils.getInstance().startScaleAnimation(btnScaleXY, 1F, 1F, 0.2F, 0.2F, 1000L, null)
+                AalwAnimUtil.getInstance().startScaleAnimation(btnScaleXY, 1F, 1F, 0.2F, 0.2F, 1000L, null)
             }
             R.id.btnRotateFrom -> {
-                AalwAnimUtils.getInstance().startRotateAnimation(btnRotateFrom, 0F, 90F, 1000L)
+                AalwAnimUtil.getInstance().startRotateAnimation(btnRotateFrom, 0F, 90F, 1000L)
             }
             R.id.btnRotate -> {
-                AalwAnimUtils.getInstance().startRotateAnimation(btnRotate, 0F, -90F, 400F, 200F, 1000L, null)
+                AalwAnimUtil.getInstance().startRotateAnimation(btnRotate, 0F, -90F, 400F, 200F, 1000L, null)
             }
             R.id.btnAlpha -> {
-                AalwAnimUtils.getInstance().startAlphaAnimation(btnAlpha, 1F, 0.2F, 2000L)
+                AalwAnimUtil.getInstance().startAlphaAnimation(btnAlpha, 1F, 0.2F, 2000L)
             }
             R.id.btnTranslateYObj -> {
-                AalwAnimUtils.getInstance().getTranslateYAnimator(btnTranslateYObj, 0F, -300F, 1000L, null).start()
+                AalwAnimUtil.getInstance().getTranslateYAnimator(btnTranslateYObj, 0F, -300F, 1000L, null).start()
             }
             R.id.btnTranslateXObj -> {
-                AalwAnimUtils.getInstance().getTranslateXAnimator(btnTranslateXObj, 0F, 300F, 1000L, null).start()
+                AalwAnimUtil.getInstance().getTranslateXAnimator(btnTranslateXObj, 0F, 300F, 1000L, null).start()
             }
             R.id.btnTranslateXYObj -> {
-                btnTranslateXYObj.startAnimation(AalwAnimUtils.getInstance().getTranslateAnimator(0F, 300F, 0F, -300F, 1000L, null))
+                btnTranslateXYObj.startAnimation(
+                    AalwAnimUtil.getInstance().getTranslateAnimator(0F, 300F, 0F, -300F, 1000L, null))
             }
             R.id.btnScaleYObj -> {
-                AalwAnimUtils.getInstance().getScaleYAnimator(btnScaleYObj, 1F, 0.2F, 1000L, null).start()
+                AalwAnimUtil.getInstance().getScaleYAnimator(btnScaleYObj, 1F, 0.2F, 1000L, null).start()
             }
             R.id.btnScaleXObj -> {
-                AalwAnimUtils.getInstance().getScaleXAnimator(btnScaleXObj, 1F, 0.2F, 1000L, null).start()
+                AalwAnimUtil.getInstance().getScaleXAnimator(btnScaleXObj, 1F, 0.2F, 1000L, null).start()
             }
             R.id.btnScaleXYObj -> {
-                btnScaleXYObj.startAnimation(AalwAnimUtils.getInstance().getScaleAnimator(1F, 0.2F, 1F, 0.2F, 200F, 0F, 1000L, null))
+                btnScaleXYObj.startAnimation(
+                    AalwAnimUtil.getInstance().getScaleAnimator(1F, 0.2F, 1F, 0.2F, 200F, 0F, 1000L, null))
             }
             R.id.btnRotateXObj -> {
-                AalwAnimUtils.getInstance().getRotateXAnimator(btnRotateXObj, 0F, 20F, 1000L, null).start()
+                AalwAnimUtil.getInstance().getRotateXAnimator(btnRotateXObj, 0F, 20F, 1000L, null).start()
             }
             R.id.btnRotateYObj -> {
-                AalwAnimUtils.getInstance().getRotateYAnimator(btnRotateYObj, 0F, 20F, 1000L, null).start()
+                AalwAnimUtil.getInstance().getRotateYAnimator(btnRotateYObj, 0F, 20F, 1000L, null).start()
             }
             R.id.btnRotateXYObj -> {
-                AalwAnimUtils.getInstance().getRotateAnimator(btnRotateXYObj, 0F, 20F, 1000L, null).start()
+                AalwAnimUtil.getInstance().getRotateAnimator(btnRotateXYObj, 0F, 20F, 1000L, null).start()
             }
             R.id.btnAlphaObj -> {
-                AalwAnimUtils.getInstance().getAlphaAnimator(btnAlphaObj, 1F, 0.2F, 1000L, null).start()
+                AalwAnimUtil.getInstance().getAlphaAnimator(btnAlphaObj, 1F, 0.2F, 1000L, null).start()
             }
             else -> {
 

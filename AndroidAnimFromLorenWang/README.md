@@ -1,1 +1,28 @@
 安卓动画相关框架库
+
+
+<h3>AalwAnimUtil---(动画单例)
+
+    开启y轴平移动画--startTranslateYAnim(view, from, to, duration)
+    开启x轴平移动画--startTranslateXAnim(view, from, to, duration)
+    开启平移动画--startTranslateAnimation(View view,fromX,fromY,toX,toY,duration,interpolator)
+    开启y轴缩放动画--startScaleYAnim(view,from,to,duration)
+    开启x轴缩放动画--startScaleXAnim(view,from,to,duration)
+    开启缩放动画--startScaleAnimation(view,fromX,fromY,toX,toY,duration,interpolator)
+    开启旋转动画--startRotateAnimation(view,fromDegrees,toDegrees,duration)
+    开启旋转动画--startRotateAnimation(view,fromDegrees,toDegrees,pivotX,pivotY,duration,interpolator)
+    开启透明动画--startAlphaAnimation(view,fromAlpha,toAlpha,duration)
+    开启透明动画--startAlphaAnimation(view,fromAlpha,toAlpha,duration,interpolator)
+    获取x轴平移动画（属性动画）--getTranslateYAnimator(view,from,to,duration,interpolator)
+    获取y轴平移动画（属性动画）--getTranslateXAnimator(view,from,to,duration,interpolator)
+    获取xy轴平移动画（属性动画）--getTranslateAnimator(float fromX,toX,fromY,toY,duration,interpolator)
+    获取x轴缩放动画（属性动画）--getScaleXAnimator(view,from,to,duration,interpolator)
+    获取y轴缩放动画（属性动画）--getScaleYAnimator(view,from,to,duration,interpolator)
+    获取缩放动画（属性动画）--getScaleAnimator(float fromX,toX,fromY,toY,pivotX,pivotY,duration,interpolator)
+    获取X轴旋转动画（属性动画）--getRotateXAnimator(view,from,to,duration,interpolator)
+    获取Y轴旋转动画（属性动画）--getRotateYAnimator(view,from,to,duration,interpolator)
+    获取旋转动画（属性动画）--getRotateAnimator(view,fromDegrees,toDegrees,duration,interpolator)
+    获取透明动画（属性动画）--getAlphaAnimator(view,from,to,duration,interpolator)
+    获取动画（属性动画）--getValueAnimator(float from,to,duration)
+    开启翻转动画（属性动画）--startFlipAnim(viewFront, viewBack,duration,isX,useAlpha,interpolator)
+    获取动画（属性动画）--getValueAnimator(view, String property,from,to,duration,interpolator,listener)

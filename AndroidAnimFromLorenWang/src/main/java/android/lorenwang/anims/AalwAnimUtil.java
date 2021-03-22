@@ -1,5 +1,6 @@
 package android.lorenwang.anims;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.View;
@@ -13,18 +14,42 @@ import android.view.animation.TranslateAnimation;
 
 /**
  * 功能作用：动画单例
- * 创建时间：2020-01-07 13:48
- * 创建人：王亮（Loren wang）
+ * 初始注释时间： 2021/3/22 09:54
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
+ * 开启y轴平移动画--startTranslateYAnim(view, from, to, duration)
+ * 开启x轴平移动画--startTranslateXAnim(view, from, to, duration)
+ * 开启平移动画--startTranslateAnimation(View view,fromX,fromY,toX,toY,duration,interpolator)
+ * 开启y轴缩放动画--startScaleYAnim(view,from,to,duration)
+ * 开启x轴缩放动画--startScaleXAnim(view,from,to,duration)
+ * 开启缩放动画--startScaleAnimation(view,fromX,fromY,toX,toY,duration,interpolator)
+ * 开启旋转动画--startRotateAnimation(view,fromDegrees,toDegrees,duration)
+ * 开启旋转动画--startRotateAnimation(view,fromDegrees,toDegrees,pivotX,pivotY,duration,interpolator)
+ * 开启透明动画--startAlphaAnimation(view,fromAlpha,toAlpha,duration)
+ * 开启透明动画--startAlphaAnimation(view,fromAlpha,toAlpha,duration,interpolator)
+ * 获取x轴平移动画（属性动画）--getTranslateYAnimator(view,from,to,duration,interpolator)
+ * 获取y轴平移动画（属性动画）--getTranslateXAnimator(view,from,to,duration,interpolator)
+ * 获取xy轴平移动画（属性动画）--getTranslateAnimator(float fromX,toX,fromY,toY,duration,interpolator)
+ * 获取x轴缩放动画（属性动画）--getScaleXAnimator(view,from,to,duration,interpolator)
+ * 获取y轴缩放动画（属性动画）--getScaleYAnimator(view,from,to,duration,interpolator)
+ * 获取缩放动画（属性动画）--getScaleAnimator(float fromX,toX,fromY,toY,pivotX,pivotY,duration,interpolator)
+ * 获取X轴旋转动画（属性动画）--getRotateXAnimator(view,from,to,duration,interpolator)
+ * 获取Y轴旋转动画（属性动画）--getRotateYAnimator(view,from,to,duration,interpolator)
+ * 获取旋转动画（属性动画）--getRotateAnimator(view,fromDegrees,toDegrees,duration,interpolator)
+ * 获取透明动画（属性动画）--getAlphaAnimator(view,from,to,duration,interpolator)
+ * 获取动画（属性动画）--getValueAnimator(float from,to,duration)
+ * 开启翻转动画（属性动画）--startFlipAnim(viewFront, viewBack,duration,isX,useAlpha,interpolator)
+ * 获取动画（属性动画）--getValueAnimator(view, String property,from,to,duration,interpolator,listener)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
-public class AalwAnimUtils {
-    private static volatile AalwAnimUtils optionsInstance;
+public class AalwAnimUtil {
+    private static volatile AalwAnimUtil optionsInstance;
     /**
      * 平移动画
      */
@@ -42,14 +67,14 @@ public class AalwAnimUtils {
      */
     private final int ANIM_TYPE_ALPHA = 3;
 
-    private AalwAnimUtils() {
+    private AalwAnimUtil() {
     }
 
-    public static AalwAnimUtils getInstance() {
+    public static AalwAnimUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AalwAnimUtils.class) {
+            synchronized (AalwAnimUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AalwAnimUtils();
+                    optionsInstance = new AalwAnimUtil();
                 }
             }
         }
@@ -161,7 +186,8 @@ public class AalwAnimUtils {
      * @param interpolator 动画拦截器
      * @return 动画执行的anim
      */
-    public Animation startRotateAnimation(View view, float fromDegrees, float toDegrees, float pivotX, float pivotY, long duration, Interpolator interpolator) {
+    public Animation startRotateAnimation(View view, float fromDegrees, float toDegrees, float pivotX, float pivotY, long duration,
+            Interpolator interpolator) {
         return startAnimation(ANIM_TYPE_ROTATE, view, fromDegrees, toDegrees, pivotX, pivotY, duration, interpolator);
     }
 
@@ -198,14 +224,15 @@ public class AalwAnimUtils {
      * @param animType     执行动画类型
      * @param view         动画view
      * @param value1       动画起始点X、旋转动画起始旋转角度、透明动画的起始透明度
-     * @param value2       东湖起始点Y、旋转动画结束选中角度、透明动画的结束透明度
+     * @param value2       动画起始点Y、旋转动画结束选中角度、透明动画的结束透明度
      * @param value3       动画结束的X、旋转动画旋转点X
      * @param value4       动画结束点Y、旋转动画旋转点Y
      * @param duration     动画执行时间
      * @param interpolator 动画拦截器
      * @return 动画执行的anim
      */
-    private Animation startAnimation(int animType, View view, float value1, float value2, float value3, float value4, long duration, Interpolator interpolator) {
+    private Animation startAnimation(int animType, View view, float value1, float value2, float value3, float value4, long duration,
+            Interpolator interpolator) {
         Animation animation = null;
         switch (animType) {
             case ANIM_TYPE_TRANSLATE:
@@ -236,7 +263,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取x轴平移动画
+     * 获取x轴平移动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -250,7 +277,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取y轴平移动画
+     * 获取y轴平移动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -264,7 +291,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取xy轴平移动画
+     * 获取xy轴平移动画（属性动画）
      *
      * @param fromX        动画起点X
      * @param fromY        动画起点Y
@@ -291,7 +318,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取x轴缩放动画
+     * 获取x轴缩放动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -305,7 +332,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取y轴缩放动画
+     * 获取y轴缩放动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -319,7 +346,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取缩放动画
+     * 获取缩放动画（属性动画）
      *
      * @param fromX        动画起点X
      * @param fromY        动画起点Y
@@ -331,12 +358,12 @@ public class AalwAnimUtils {
      * @param interpolator 动画拦截器
      * @return 动画
      */
-    public AnimationSet getScaleAnimator(float fromX, float toX, float fromY, float toY,
-                                         float pivotX, float pivotY, long duration, Interpolator interpolator) {
+    public AnimationSet getScaleAnimator(float fromX, float toX, float fromY, float toY, float pivotX, float pivotY, long duration,
+            Interpolator interpolator) {
         AnimationSet animationSet = new AnimationSet(true);
         animationSet.setInterpolator(interpolator);
         //添加动画
-        animationSet.addAnimation(new ScaleAnimation(fromX, toX, fromY, toY,pivotX,pivotY));
+        animationSet.addAnimation(new ScaleAnimation(fromX, toX, fromY, toY, pivotX, pivotY));
         //设置插值器
         animationSet.setInterpolator(interpolator);
         //设置动画持续时长
@@ -349,7 +376,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取X轴旋转动画
+     * 获取X轴旋转动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -363,7 +390,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取Y轴旋转动画
+     * 获取Y轴旋转动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -377,7 +404,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取旋转动画
+     * 获取旋转动画（属性动画）
      *
      * @param fromDegrees  动画起点角度
      * @param toDegrees    动画结束角度
@@ -390,7 +417,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取透明动画
+     * 获取透明动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -404,7 +431,7 @@ public class AalwAnimUtils {
     }
 
     /**
-     * 获取动画
+     * 获取动画（属性动画）
      *
      * @param from     起始
      * @param to       结束
@@ -415,9 +442,37 @@ public class AalwAnimUtils {
         return getValueAnimator(null, null, from, to, duration, null, null);
     }
 
+    /**
+     * 开启翻转动画（属性动画）
+     *
+     * @param viewFront    动画正面
+     * @param viewBack     动画反面
+     * @param duration     动画时间
+     * @param isX          是否是x轴翻转，否则的话就是y轴翻转
+     * @param useAlpha     是否使用透明
+     * @param interpolator 拦截处理
+     */
+    public void startFlipAnim(View viewFront, View viewBack, long duration, boolean isX, boolean useAlpha, Interpolator interpolator) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        //xy翻转判断处理
+        if (isX) {
+            animatorSet.play(getRotateXAnimator(viewFront, 0F, 180F, duration, interpolator)).with(
+                    getRotateXAnimator(viewBack, -180F, 0F, duration, interpolator));
+        } else {
+            animatorSet.play(getRotateYAnimator(viewFront, 0F, 180F, duration, interpolator)).with(
+                    getRotateYAnimator(viewBack, -180F, 0F, duration, interpolator));
+        }
+        //透明处理
+        if (useAlpha) {
+            animatorSet.play(getAlphaAnimator(viewFront, 1F, 0F, duration, interpolator)).with(
+                    getAlphaAnimator(viewBack, 0F, 1F, duration, interpolator));
+        }
+        animatorSet.start();
+    }
+
 
     /**
-     * 获取动画
+     * 获取动画（属性动画）
      *
      * @param from         起始
      * @param to           结束
@@ -426,7 +481,8 @@ public class AalwAnimUtils {
      * @param listener     监听
      * @return 动画实体
      */
-    private ValueAnimator getValueAnimator(View view, String property, float from, float to, long duration, Interpolator interpolator, ValueAnimator.AnimatorUpdateListener listener) {
+    public ValueAnimator getValueAnimator(View view, String property, float from, float to, long duration, Interpolator interpolator,
+            ValueAnimator.AnimatorUpdateListener listener) {
         ValueAnimator animator = ObjectAnimator.ofFloat(view, property, from, to);
         if (interpolator != null) {
             animator.setInterpolator(interpolator);
