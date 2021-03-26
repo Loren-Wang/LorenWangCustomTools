@@ -34,6 +34,8 @@
             <flag name="center" value="11" />
             <flag name="right_bottom" value="12" />
         </attr>
+        <!--图片是否占用padding位置-->
+        <attr name="avlwDrawableUsePadding" format="boolean" />
     </declare-styleable>
 
 </resources>

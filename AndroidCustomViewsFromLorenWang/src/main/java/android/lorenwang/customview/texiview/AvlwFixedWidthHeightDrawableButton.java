@@ -36,11 +36,11 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
     /**
      * 取值为none的时候代表着不显示图片
      */
-    private final int DRAWABLE_POSITION_NONE = 0;
-    private final int DRAWABLE_POSITION_LEFT = 1;
-    private final int DRAWABLE_POSITION_TOP = 2;
-    private final int DRAWABLE_POSITION_RIGHT = 3;
-    private final int DRAWABLE_POSITION_BOTTOM = 4;
+    public final int DRAWABLE_POSITION_NONE = 0;
+    public final int DRAWABLE_POSITION_LEFT = 1;
+    public final int DRAWABLE_POSITION_TOP = 2;
+    public final int DRAWABLE_POSITION_RIGHT = 3;
+    public final int DRAWABLE_POSITION_BOTTOM = 4;
 
     /**
      * 文本显示区域类型
@@ -82,6 +82,10 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
      * 图片资源id
      */
     private int drawableResId;
+    /**
+     * 图片是否占用内边距，默认占用
+     */
+    private boolean drawableUsePadding = true;
     /**
      * 要绘制的图片
      */
@@ -128,6 +132,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
         drawableHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableHeight, drawableHeight);
         drawableTextDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableTextDistance,
                 drawableTextDistance);
+        drawableUsePadding = attributes.getBoolean(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableUsePadding, drawableUsePadding);
         drawableResId = attributes.getResourceId(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableResId, -1);
         textShowGravity = attributes.getInt(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwTextGravity, textShowGravity);
         if (Integer.MAX_VALUE != attributes.getColor(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableTint, Integer.MAX_VALUE)) {
@@ -326,55 +331,55 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
             switch (drawablePosition) {
                 case DRAWABLE_POSITION_LEFT:
                     if (textShowRect.left < drawableWidth + drawableTextDistance) {
-                        left = drawableWidth + drawableTextDistance;
+                        left = getPaddingValue(left, drawableWidth + drawableTextDistance);
                     }
                     if (textShowRect.height() < drawableHeight) {
                         float more = Math.max((drawableHeight - textShowRect.height()) / 2, 0);
                         if (bitmapShowRect.top < more) {
-                            top = more;
+                            top = getPaddingValue(top, more);
                         }
                         if (bitmapShowRect.bottom > viewHeight - more) {
-                            bottom = more;
+                            bottom = getPaddingValue(bottom, more);
                         }
                     }
                     break;
                 case DRAWABLE_POSITION_RIGHT:
                     if ((viewWidth - textShowRect.right) < drawableWidth + drawableTextDistance) {
-                        right = drawableWidth + drawableTextDistance;
+                        right = getPaddingValue(right, drawableWidth + drawableTextDistance);
                     }
                     if (textShowRect.height() < drawableHeight) {
                         float more = Math.max((drawableHeight - textShowRect.height()) / 2, 0);
                         if (bitmapShowRect.top < more) {
-                            top = more;
+                            top = getPaddingValue(top, more);
                         }
                         if (bitmapShowRect.bottom > viewHeight - more) {
-                            bottom = more;
+                            bottom = getPaddingValue(bottom, more);
                         }
                     }
                     break;
                 case DRAWABLE_POSITION_TOP:
-                    top = bitmapShowRect.bottom + drawableTextDistance;
-                    bottom = viewHeight - top - textShowRect.height();
+                    top = getPaddingValue(top, bitmapShowRect.bottom + drawableTextDistance);
+                    bottom = getPaddingValue(bottom, viewHeight - top - textShowRect.height());
                     if (textShowRect.width() < drawableWidth) {
                         float more = Math.max((drawableWidth - textShowRect.width()) / 2, 0);
                         if (bitmapShowRect.left < more) {
-                            left = more;
+                            left = getPaddingValue(left, more);
                         }
                         if (bitmapShowRect.right > viewWidth - more) {
-                            right = more;
+                            right = getPaddingValue(right, more);
                         }
                     }
                     break;
                 case DRAWABLE_POSITION_BOTTOM:
-                    top = bitmapShowRect.top - drawableTextDistance - textShowRect.height();
-                    bottom = viewHeight - top - textShowRect.height();
+                    top = getPaddingValue(top, bitmapShowRect.top - drawableTextDistance - textShowRect.height());
+                    bottom = getPaddingValue(bottom, viewHeight - top - textShowRect.height());
                     if (textShowRect.width() < drawableWidth) {
                         float more = Math.max((drawableWidth - textShowRect.width()) / 2, 0);
                         if (bitmapShowRect.left < more) {
-                            left = more;
+                            left = getPaddingValue(left, more);
                         }
                         if (bitmapShowRect.right > viewWidth - more) {
-                            right = more;
+                            right = getPaddingValue(right, more);
                         }
                     }
                     break;
@@ -388,6 +393,17 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
         }
         //边距修改后一定要重新计算位图数据
         drawBitmapDstRect = getBitmapShowRect();
+    }
+
+    /**
+     * 获取内边距不同状态值
+     */
+    private float getPaddingValue(float origin, float change) {
+        if (drawableUsePadding) {
+            return origin;
+        } else {
+            return origin + change;
+        }
     }
 
     /**
@@ -479,6 +495,10 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
         float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(getPaint(), getText().toString());
         float textHeight = Math.max(AtlwViewUtil.getInstance().getStrTextHeight(getPaint()), getLineHeight());
         int lineCount;
+        int paddingLeft = drawableUsePadding ? this.paddingLeft : getPaddingLeft();
+        int paddingRight = drawableUsePadding ? this.paddingRight : getPaddingRight();
+        int paddingTop = drawableUsePadding ? this.paddingTop : getPaddingTop();
+        int paddingBottom = drawableUsePadding ? this.paddingBottom : getPaddingBottom();
         float more = textWidth % (viewWidth - paddingRight - paddingLeft);
         if (more > 0) {
             lineCount = (int) (textWidth / (viewWidth - paddingRight - paddingLeft) + 1);
