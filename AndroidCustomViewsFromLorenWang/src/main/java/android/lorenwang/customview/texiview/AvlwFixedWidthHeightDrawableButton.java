@@ -36,11 +36,11 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
     /**
      * 取值为none的时候代表着不显示图片
      */
-    private final int DRAWABLE_POSITION_NONE = 0;
-    private final int DRAWABLE_POSITION_LEFT = 1;
-    private final int DRAWABLE_POSITION_TOP = 2;
-    private final int DRAWABLE_POSITION_RIGHT = 3;
-    private final int DRAWABLE_POSITION_BOTTOM = 4;
+    public final int DRAWABLE_POSITION_NONE = 0;
+    public final int DRAWABLE_POSITION_LEFT = 1;
+    public final int DRAWABLE_POSITION_TOP = 2;
+    public final int DRAWABLE_POSITION_RIGHT = 3;
+    public final int DRAWABLE_POSITION_BOTTOM = 4;
 
     /**
      * 文本显示区域类型
@@ -326,55 +326,55 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
             switch (drawablePosition) {
                 case DRAWABLE_POSITION_LEFT:
                     if (textShowRect.left < drawableWidth + drawableTextDistance) {
-                        left = drawableWidth + drawableTextDistance;
+                        left += drawableWidth + drawableTextDistance;
                     }
                     if (textShowRect.height() < drawableHeight) {
                         float more = Math.max((drawableHeight - textShowRect.height()) / 2, 0);
                         if (bitmapShowRect.top < more) {
-                            top = more;
+                            top += more;
                         }
                         if (bitmapShowRect.bottom > viewHeight - more) {
-                            bottom = more;
+                            bottom += more;
                         }
                     }
                     break;
                 case DRAWABLE_POSITION_RIGHT:
                     if ((viewWidth - textShowRect.right) < drawableWidth + drawableTextDistance) {
-                        right = drawableWidth + drawableTextDistance;
+                        right += drawableWidth + drawableTextDistance;
                     }
                     if (textShowRect.height() < drawableHeight) {
                         float more = Math.max((drawableHeight - textShowRect.height()) / 2, 0);
                         if (bitmapShowRect.top < more) {
-                            top = more;
+                            top += more;
                         }
                         if (bitmapShowRect.bottom > viewHeight - more) {
-                            bottom = more;
+                            bottom += more;
                         }
                     }
                     break;
                 case DRAWABLE_POSITION_TOP:
-                    top = bitmapShowRect.bottom + drawableTextDistance;
-                    bottom = viewHeight - top - textShowRect.height();
+                    top += bitmapShowRect.bottom + drawableTextDistance;
+                    bottom += viewHeight - top - textShowRect.height();
                     if (textShowRect.width() < drawableWidth) {
                         float more = Math.max((drawableWidth - textShowRect.width()) / 2, 0);
                         if (bitmapShowRect.left < more) {
-                            left = more;
+                            left += more;
                         }
                         if (bitmapShowRect.right > viewWidth - more) {
-                            right = more;
+                            right += more;
                         }
                     }
                     break;
                 case DRAWABLE_POSITION_BOTTOM:
-                    top = bitmapShowRect.top - drawableTextDistance - textShowRect.height();
-                    bottom = viewHeight - top - textShowRect.height();
+                    top += bitmapShowRect.top - drawableTextDistance - textShowRect.height();
+                    bottom += viewHeight - top - textShowRect.height();
                     if (textShowRect.width() < drawableWidth) {
                         float more = Math.max((drawableWidth - textShowRect.width()) / 2, 0);
                         if (bitmapShowRect.left < more) {
-                            left = more;
+                            left += more;
                         }
                         if (bitmapShowRect.right > viewWidth - more) {
-                            right = more;
+                            right += more;
                         }
                     }
                     break;
@@ -479,6 +479,10 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
         float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(getPaint(), getText().toString());
         float textHeight = Math.max(AtlwViewUtil.getInstance().getStrTextHeight(getPaint()), getLineHeight());
         int lineCount;
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+        int paddingTop = getPaddingTop();
+        int paddingBottom = getPaddingBottom();
         float more = textWidth % (viewWidth - paddingRight - paddingLeft);
         if (more > 0) {
             lineCount = (int) (textWidth / (viewWidth - paddingRight - paddingLeft) + 1);

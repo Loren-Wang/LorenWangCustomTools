@@ -48,7 +48,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnCarousel?.performClick()
+        btnCustomDrawableButton?.performClick()
     }
 
     fun mainClick(view: View?) {

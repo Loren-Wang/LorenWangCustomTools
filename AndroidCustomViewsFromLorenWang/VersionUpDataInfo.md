@@ -1,3 +1,7 @@
+**V3.2.2**
+
+    AvlwFixedWidthHeightDrawableButton修改padding处理方式
+    
 **V3.2.1**
 
     新增AvlwCoverRecycleView轮盘样式
