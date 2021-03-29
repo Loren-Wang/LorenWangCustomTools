@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'com.jfrog.bintray'
-    id 'com.github.dcendents.android-maven'
+    id 'maven'
+    id 'signing'
 }
 apply plugin: 'kotlin'
 sourceSets {
@@ -9,12 +9,20 @@ sourceSets {
         java.srcDirs = ['src']
     }
 }
-
-
+sourceCompatibility = 1.8
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
 repositories {
     mavenCentral()
 }
-
 
 //    //可以使用外置tomcat的配置
 //    apply plugin: 'war'
@@ -67,64 +75,10 @@ dependencies {
 
 def moduleName = "SpringBootCommonBaseFrameLibraryFromLorenWang"
 def moduleDescription = "SpringBoot通用基础框架包"
-version '1.6.0'
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def bintrayUser = properties.getProperty("bintray.user")
-def bintrayKey = properties.getProperty("bintray.apikey")
-def bintrayGpgPwd = properties.getProperty("bintray.gpg.password")
-def userId = properties.getProperty("userinfo.userId")
-def userName = properties.getProperty("userinfo.userName")
-def userEmail = properties.getProperty("userinfo.userEmail")
-def projectGitUrl = properties.getProperty("project.gitUrl")
-def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
-def projectGroupId = properties.getProperty("project.groupId")
-def moduleVersion = version
-
-install {
-    repositories.mavenInstaller {
-        // 生成pom.xml和参数
-        pom {
-            project {
-                packaging 'aar'
-                // 项目描述，复制我的话，这里需要修改。
-                name moduleName// 可选，项目名称。
-                description moduleDescription// 可选，项目描述。
-                url projectWebsiteUrl // 项目主页，这里是引用上面定义好。
-
-                // 软件开源协议，现在一般都是Apache License2.0吧，复制我的，这里不需要修改。
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                //填写开发者基本信息，复制我的，这里需要修改。
-                developers {
-                    developer {
-                        id userId// 开发者的id。
-                        name userName // 开发者名字。
-                        email userEmail // 开发者邮箱。
-                    }
-                }
-
-                // SCM，复制我的，这里不需要修改。
-                scm {
-                    connection projectGitUrl // Git仓库地址。
-                    developerConnection projectGitUrl // Git仓库地址。
-                    url projectWebsiteUrl // 项目主页。
-                }
-                dependencies {
-                    dependency {
-                        groupId projectGroupId
-                        version moduleVersion
-                        artifactId moduleName
-                    }
-                }
-            }
-        }
-    }
+def moduleVersion = '1.6.0'
+// 编译版本和编码配置
+repositories {
+    mavenCentral()
 }
 task sourcesJar(type: Jar) {
     from sourceSets.main.java.srcDirs
@@ -148,36 +102,47 @@ artifacts {
     archives javadocJar
     archives sourcesJar
 }
-bintray {
-    user = bintrayUser
-    key = bintrayKey
-    configurations = ['archives']
-    group = projectGroupId
-    version = moduleVersion
+//上传
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatype_account, password: sonatype_password)
+            }
 
-    pkg {
-        repo = "maven"
-        name = moduleName
-        websiteUrl = projectWebsiteUrl
-        vcsUrl = projectGitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-        version {
-            gpg {
-                sign = true
-                passphrase = bintrayGpgPwd
+            pom.project {
+                name moduleName
+                version moduleVersion
+                groupId project_groupId
+                description moduleDescription
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description moduleDescription
+                url project_webSiteUrl
+                scm {
+                    connection project_gitUrl // Git仓库地址。
+                    developerConnection project_gitUrl // Git仓库地址。
+                    url project_webSiteUrl // 项目主页。
+                }
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = userInfo_userId
+                        name = userInfo_userName
+                        email = userInfo_userEmail
+                    }
+                }
             }
         }
     }
 }
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+//签名配置
+signing {
+    sign configurations.archives
 }

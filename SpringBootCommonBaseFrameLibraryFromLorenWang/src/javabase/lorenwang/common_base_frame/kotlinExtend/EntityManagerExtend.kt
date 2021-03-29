@@ -1,6 +1,5 @@
 package javabase.lorenwang.common_base_frame.kotlinExtend
 
-import com.sun.xml.internal.bind.v2.model.core.ID
 import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn.RANK
 import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
 import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
@@ -109,7 +108,7 @@ fun EntityManager.sbcbflwRemoveRank(tableName : String, primaryKeyColumn : Strin
  * @param id 要删除的id
  * @param rankColumn 该字段不为空则代表着要移动指定的排行信息
  */
-fun <Id> EntityManager.sbcbflwDeleteTableInfo(tableName : String, primaryKeyColumn : String, rankColumn : String?, id : ID) : Boolean {
+fun <ID> EntityManager.sbcbflwDeleteTableInfo(tableName : String, primaryKeyColumn : String, rankColumn : String?, id : ID) : Boolean {
     var deleteRank : BigInteger? = null
     if (rankColumn.kttlwIsNotNullOrEmpty()) {
         //需要更新排行则先查询原始数据
