@@ -58,14 +58,15 @@
                     tools:ignore="MissingPrefix,RtlSymmetry" />
                 <!--文本左侧顶部-->
                 <android.lorenwang.customview.texiview.AvlwFixedWidthHeightDrawableButton
+                    android:id="@+id/btnChange"
                     style="@style/FixedWidthHeightDrawableButton"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:paddingStart="10dp"
+                    android:paddingStart="7dp"
                     android:text="左侧顶部"
-                    app:avlwDrawablePosition="left"
                     app:avlwDrawableUsePadding="false"
                     app:avlwTextGravity="left"
+                    app:avlwDrawablePosition="left"
                     android:gravity="left"
                     android:visibility="visible"
                     tools:ignore="MissingPrefix,RtlHardcoded,RtlSymmetry" />

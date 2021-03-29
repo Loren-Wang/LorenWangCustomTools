@@ -384,6 +384,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
                     }
                     break;
                 default:
+                    super.setPadding((int) left, (int) top, (int) right, (int) bottom);
                     break;
             }
 
@@ -400,7 +401,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
      */
     private float getPaddingValue(float origin, float change) {
         if (drawableUsePadding) {
-            return origin;
+            return change;
         } else {
             return origin + change;
         }
@@ -447,6 +448,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
             drawBitmapSrcRect = null;
         }
 
+        changePadding();
         postInvalidate();
         return this;
     }
