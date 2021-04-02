@@ -1,3 +1,7 @@
+**V2.2.8**
+
+    新增是否是图片检测类型：heic图片检测
+    
 **V2.2.7**
 
     检测国内身份证号是否正确，支持15位至18位--JtlwCheckVariateUtils.checkChineseIdCard(idCard)

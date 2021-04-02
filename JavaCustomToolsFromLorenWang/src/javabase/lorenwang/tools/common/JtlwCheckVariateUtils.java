@@ -250,7 +250,7 @@ public class JtlwCheckVariateUtils {
                     return true;
                 } else if (path.length() > 5) {
                     start = path.toLowerCase().substring(path.length() - 5);
-                    return start.contains(".jpeg") || start.contains(".tiff");
+                    return start.contains(".jpeg") || start.contains(".tiff") || start.contains(".heic");
                 }
             }
         }
