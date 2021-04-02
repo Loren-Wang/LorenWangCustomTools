@@ -24,6 +24,7 @@ import android.util.Base64;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -59,6 +60,12 @@ import androidx.annotation.NonNull;
  * 图片设置背景--setBitmapBg(bitmap,bgColor,bgContentPadding)
  * 获取两个位图重叠部分位图--getOverlapBitmap(bottomBitmap,topBitmap,showWidth,showHeight)
  * 释放bitmap--releaseBitmap(bitmap)
+ * 添加水印到位图中--addWatermarkBitmap(bitmap,textSize,textColor,text,width,height,rotationAngle)
+ * 生成水印--generateWatermarkBitmap(textSize,textColor,text,width,height,rotationAngle)
+ * 在画布上绘制水印--addWatermarkBitmap(canvas,textSize,textColor,text,width,height,rotationAngle)
+ * 在画布上绘制水印--addWatermarkBitmap(canvas,paint,text,width,height,rotationAngle)
+ * 图片格式转换--coverImage(path,savePath,format)
+ * <p>
  * 注意：
  * 修改人：
  * 修改时间：
@@ -911,6 +918,29 @@ public class AtlwImageCommonUtil {
             useWidth += textWidth;
         }
         canvas.drawBitmap(toTurnPicture(newBitmap, -rotationAngle), -width * 2, -height * 2, null);
+    }
+
+    /**
+     * 图片格式转换
+     *
+     * @param path   原始图片地址
+     * @param format 目标转换格式
+     * @return 转换后地址
+     */
+    public String coverImage(@NotNull String path, @NotNull String savePath, Bitmap.CompressFormat format) {
+        try {
+            if (AtlwCheckUtil.getInstance().checkFileIsImage(path)) {
+                if (AtlwFileOptionUtil.getInstance().writeToFile(true, new File(savePath), BitmapFactory.decodeFile(path), format)) {
+                    return path;
+                } else {
+                    return savePath;
+                }
+            } else {
+                return path;
+            }
+        } catch (Exception e) {
+            return path;
+        }
     }
 
 }

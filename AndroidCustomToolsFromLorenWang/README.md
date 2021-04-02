@@ -70,6 +70,11 @@
     图片设置背景--setBitmapBg(bitmap,bgColor,bgContentPadding)
     获取两个位图重叠部分位图--getOverlapBitmap(bottomBitmap,topBitmap,showWidth,showHeight)
     释放bitmap--releaseBitmap(bitmap)
+    添加水印到位图中--addWatermarkBitmap(bitmap,textSize,textColor,text,width,height,rotationAngle)
+    生成水印--generateWatermarkBitmap(textSize,textColor,text,width,height,rotationAngle)
+    在画布上绘制水印--addWatermarkBitmap(canvas,textSize,textColor,text,width,height,rotationAngle)
+    在画布上绘制水印--addWatermarkBitmap(canvas,paint,text,width,height,rotationAngle)
+    图片格式转换--coverImage(path,savePath,format)
 
 <h3>AtlwScreenUtil---（屏幕相关处理类）
 

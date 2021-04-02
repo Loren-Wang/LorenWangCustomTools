@@ -1,3 +1,12 @@
+**V3.1.4**
+
+    AtlwImageCommonUtils---（新增函数）
+        添加水印到位图中--addWatermarkBitmap(bitmap,textSize,textColor,text,width,height,rotationAngle)
+        生成水印--generateWatermarkBitmap(textSize,textColor,text,width,height,rotationAngle)
+        在画布上绘制水印--addWatermarkBitmap(canvas,textSize,textColor,text,width,height,rotationAngle)
+        在画布上绘制水印--addWatermarkBitmap(canvas,paint,text,width,height,rotationAngle)
+        图片格式转换--coverImage(path,savePath,format)
+        
 **V3.1.3**
 
     AtlwResourseUtil---（资源相关工具类）
