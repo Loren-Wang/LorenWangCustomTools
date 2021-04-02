@@ -931,16 +931,12 @@ public class AtlwImageCommonUtil {
         try {
             if (AtlwCheckUtil.getInstance().checkFileIsImage(path)) {
                 if (AtlwFileOptionUtil.getInstance().writeToFile(true, new File(savePath), BitmapFactory.decodeFile(path), format)) {
-                    return path;
-                } else {
                     return savePath;
                 }
-            } else {
-                return path;
             }
-        } catch (Exception e) {
-            return path;
+        } catch (Exception ignored) {
         }
+        return path;
     }
 
 }

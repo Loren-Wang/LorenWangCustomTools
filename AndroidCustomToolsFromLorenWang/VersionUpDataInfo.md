@@ -1,3 +1,7 @@
+**V3.1.5**
+
+    AtlwImageCommonUtils---（修复异常函数）
+        
 **V3.1.4**
 
     AtlwImageCommonUtils---（新增函数）
