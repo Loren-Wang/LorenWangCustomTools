@@ -22,9 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class AvlwCoverRecycleView extends RecyclerView {
 
-    //速度因子
-    public double sppedScale;
-
     /**
      * 按下的X轴坐标
      */
@@ -149,6 +146,9 @@ public class AvlwCoverRecycleView extends RecyclerView {
 
     @Override
     protected int getChildDrawingOrder(int childCount, int i) {
+        if(getCoverLayoutManager().getItemCount() <= 0){
+            return 0;
+        }
         int center = getCoverLayoutManager().getCenterPosition();
         // 获取 RecyclerView 中第 i 个 子 view 的实际位置
         int actualPos = getCoverLayoutManager().getChildActualPos(i);
@@ -189,17 +189,19 @@ public class AvlwCoverRecycleView extends RecyclerView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mDownX = ev.getX();
-                getParent().requestDisallowInterceptTouchEvent(true); //设置父类不拦截滑动事件
-                break;
-            case MotionEvent.ACTION_MOVE:
-                //如果是滑动到了最前和最后，开放父类滑动事件拦截
-                //滑动到中间，设置父类不拦截滑动事件
-                getParent().requestDisallowInterceptTouchEvent((!(ev.getX() > mDownX) || getCoverLayoutManager().getCenterPosition() != 0) &&
-                        (!(ev.getX() < mDownX) || getCoverLayoutManager().getCenterPosition() != getCoverLayoutManager().getItemCount() - 1));
-                break;
+        if(getCoverLayoutManager().getItemCount()> 0) {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mDownX = ev.getX();
+                    getParent().requestDisallowInterceptTouchEvent(true); //设置父类不拦截滑动事件
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    //如果是滑动到了最前和最后，开放父类滑动事件拦截
+                    //滑动到中间，设置父类不拦截滑动事件
+                    getParent().requestDisallowInterceptTouchEvent((!(ev.getX() > mDownX) || getCoverLayoutManager().getCenterPosition() != 0) &&
+                            (!(ev.getX() < mDownX) || getCoverLayoutManager().getCenterPosition() != getCoverLayoutManager().getItemCount() - 1));
+                    break;
+            }
         }
         return super.dispatchTouchEvent(ev);
     }
