@@ -67,30 +67,34 @@ public class AvlwCoverRecycleView extends RecyclerView {
     /**
      * 设置布局管理器
      *
+     * @param maxShowItemCount  最大显示的item数量，奇数值，但是极限是屏幕最大能显示的数量，所以可能达不到该值
      * @param mIsFlatFlow       是否使用平滑滚动，也就是说是否使用缩放
      * @param mItemGradualGrey  是否使用灰度渐变
      * @param mItemGradualAlpha 是否使用透明渐变
      * @param mIsLoop           是否循环
      * @param mItem3D           是否使用3d样式
      */
-    public void setLayoutManagerConfig(boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D) {
-        super.setLayoutManager(new AvlwCoverFlowLayoutManger(mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D));
+    public void setLayoutManagerConfig(int maxShowItemCount, boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha,
+            boolean mIsLoop, boolean mItem3D) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(maxShowItemCount, mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D));
     }
 
     /**
      * 设置布局管理器
      *
+     * @param maxShowItemCount   最大显示的item数量，奇数值，但是极限是屏幕最大能显示的数量，所以可能达不到该值
      * @param widthOffsetPercent 宽度偏移百分比
      * @param alphaPercent       透明百分比
      * @param scalePercent       缩放百分比
      */
-    public void setLayoutManagerConfig(float widthOffsetPercent, float alphaPercent, float scalePercent) {
-        super.setLayoutManager(new AvlwCoverFlowLayoutManger(widthOffsetPercent, alphaPercent, scalePercent));
+    public void setLayoutManagerConfig(int maxShowItemCount, float widthOffsetPercent, float alphaPercent, float scalePercent) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(maxShowItemCount, widthOffsetPercent, alphaPercent, scalePercent));
     }
 
     /**
      * 设置布局管理器
      *
+     * @param maxShowItemCount   最大显示的item数量，奇数值，但是极限是屏幕最大能显示的数量，所以可能达不到该值
      * @param mIsFlatFlow        是否使用平滑滚动，也就是说是否使用缩放
      * @param mItemGradualGrey   是否使用灰度渐变
      * @param mItemGradualAlpha  是否使用透明渐变
@@ -100,44 +104,47 @@ public class AvlwCoverRecycleView extends RecyclerView {
      * @param alphaPercent       透明百分比
      * @param scalePercent       缩放百分比
      */
-    public void setLayoutManagerConfig(boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D,
-            float widthOffsetPercent, float alphaPercent, float scalePercent) {
-        super.setLayoutManager(
-                new AvlwCoverFlowLayoutManger(mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D, widthOffsetPercent, alphaPercent,
-                        scalePercent));
+    public void setLayoutManagerConfig(int maxShowItemCount, boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha,
+            boolean mIsLoop, boolean mItem3D, float widthOffsetPercent, float alphaPercent, float scalePercent) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(maxShowItemCount, mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D,
+                widthOffsetPercent, alphaPercent, scalePercent));
     }
 
     /**
      * 设置圆形轮盘布局管理器
      *
+     * @param maxShowItemCount    最大显示的item数量，奇数值，但是极限是屏幕最大能显示的数量，所以可能达不到该值
      * @param scalePercent        缩放倍数
      * @param mIsCircle           是否是圆形轮盘
      * @param itemCircleYDistance y轴偏移
      * @param itemCircleYHeight   y轴总高度
      */
-    public void setLayoutManagerCircleConfig(float scalePercent, boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
-        super.setLayoutManager(new AvlwCoverFlowLayoutManger(scalePercent, mIsCircle, itemCircleYDistance, itemCircleYHeight));
+    public void setLayoutManagerCircleConfig(int maxShowItemCount, float scalePercent, boolean mIsCircle, int itemCircleYDistance,
+            int itemCircleYHeight) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(maxShowItemCount, scalePercent, mIsCircle, itemCircleYDistance, itemCircleYHeight));
     }
 
     /**
      * 设置圆形轮盘布局管理器
      *
+     * @param maxShowItemCount    最大显示的item数量，奇数值，但是极限是屏幕最大能显示的数量，所以可能达不到该值
      * @param mIsCircle           是否是圆形轮盘
      * @param itemCircleYDistance y轴偏移
      * @param itemCircleYHeight   y轴总高度
      */
-    public void setLayoutManagerCircleConfig(boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
-        super.setLayoutManager(new AvlwCoverFlowLayoutManger(mIsCircle, itemCircleYDistance, itemCircleYHeight));
+    public void setLayoutManagerCircleConfig(int maxShowItemCount, boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(maxShowItemCount, mIsCircle, itemCircleYDistance, itemCircleYHeight));
     }
 
     /**
      * 设置圆形轮盘布局管理器
      *
+     * @param maxShowItemCount    最大显示的item数量，奇数值，但是极限是屏幕最大能显示的数量，所以可能达不到该值
      * @param itemCircleYDistance y轴偏移
      * @param itemCircleYHeight   y轴总高度
      */
-    public void setLayoutManagerCircleConfig(int itemCircleYDistance, int itemCircleYHeight) {
-        super.setLayoutManager(new AvlwCoverFlowLayoutManger(itemCircleYDistance, itemCircleYHeight));
+    public void setLayoutManagerCircleConfig(int maxShowItemCount, int itemCircleYDistance, int itemCircleYHeight) {
+        super.setLayoutManager(new AvlwCoverFlowLayoutManger(maxShowItemCount, itemCircleYDistance, itemCircleYHeight));
     }
 
     @Override
@@ -146,7 +153,7 @@ public class AvlwCoverRecycleView extends RecyclerView {
 
     @Override
     protected int getChildDrawingOrder(int childCount, int i) {
-        if(getCoverLayoutManager().getItemCount() <= 0){
+        if (getCoverLayoutManager().getItemCount() <= 0) {
             return 0;
         }
         int center = getCoverLayoutManager().getCenterPosition();
@@ -189,7 +196,7 @@ public class AvlwCoverRecycleView extends RecyclerView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if(getCoverLayoutManager().getItemCount()> 0) {
+        if (getCoverLayoutManager().getItemCount() > 0) {
             switch (ev.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     mDownX = ev.getX();

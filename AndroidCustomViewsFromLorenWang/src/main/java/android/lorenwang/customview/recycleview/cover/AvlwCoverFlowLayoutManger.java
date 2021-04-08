@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
+import java.util.Objects;
+
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -145,26 +147,30 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      * 圆弧的纵向总长度
      */
     private final int itemCircleYHeight;
+    /**
+     * 最大显示数量
+     */
+    private int maxShowItemCount;
 
 
     public AvlwCoverFlowLayoutManger() {
-        this(false, false, false, false, false, 0.5F, 0.5F, 0.5F);
+        this(7,false, false, false, false, false, 0.5F, 0.5F, 0.5F);
     }
 
-    public AvlwCoverFlowLayoutManger(boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D) {
-        this(mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D, 0.5F, 0.5F, 0.5F);
+    public AvlwCoverFlowLayoutManger(int maxShowItemCount,boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D) {
+        this(maxShowItemCount,mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D, 0.5F, 0.5F, 0.5F);
     }
 
-    public AvlwCoverFlowLayoutManger(float widthOffsetPercent, float alphaPercent, float scalePercent) {
-        this(scalePercent != 1, false, alphaPercent != 1, false, false, widthOffsetPercent, alphaPercent, scalePercent);
+    public AvlwCoverFlowLayoutManger(int maxShowItemCount,float widthOffsetPercent, float alphaPercent, float scalePercent) {
+        this(maxShowItemCount,scalePercent != 1, false, alphaPercent != 1, false, false, widthOffsetPercent, alphaPercent, scalePercent);
     }
 
-    public AvlwCoverFlowLayoutManger(boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D,
+    public AvlwCoverFlowLayoutManger(int maxShowItemCount,boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D,
             float widthOffsetPercent, float alphaPercent, float scalePercent) {
-        this(mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D, widthOffsetPercent, alphaPercent, scalePercent, false, 0, 0);
+        this(maxShowItemCount,mIsFlatFlow, mItemGradualGrey, mItemGradualAlpha, mIsLoop, mItem3D, widthOffsetPercent, alphaPercent, scalePercent, false, 0, 0);
     }
 
-    public AvlwCoverFlowLayoutManger(boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D,
+    public AvlwCoverFlowLayoutManger(int maxShowItemCount,boolean mIsFlatFlow, boolean mItemGradualGrey, boolean mItemGradualAlpha, boolean mIsLoop, boolean mItem3D,
             float widthOffsetPercent, float alphaPercent, float scalePercent, boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
         this.mIsFlatFlow = mIsFlatFlow;
         this.mItemGradualGrey = mItemGradualGrey;
@@ -177,18 +183,19 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
         this.mIsCircle = mIsCircle;
         this.itemCircleYDistance = itemCircleYDistance;
         this.itemCircleYHeight = itemCircleYHeight;
+        this.maxShowItemCount = maxShowItemCount / 2 * 2 + 1;
     }
 
-    public AvlwCoverFlowLayoutManger(float scalePercent, boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
-        this(false, false, false, false, false, 0.5F, 0.5F, scalePercent, mIsCircle, itemCircleYDistance, itemCircleYHeight);
+    public AvlwCoverFlowLayoutManger(int maxShowItemCount,float scalePercent, boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
+        this(maxShowItemCount,false, false, false, false, false, 0.5F, 0.5F, scalePercent, mIsCircle, itemCircleYDistance, itemCircleYHeight);
     }
 
-    public AvlwCoverFlowLayoutManger(boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
-        this(false, false, false, false, false, 0.5F, 0.5F, 0.5F, mIsCircle, itemCircleYDistance, itemCircleYHeight);
+    public AvlwCoverFlowLayoutManger(int maxShowItemCount,boolean mIsCircle, int itemCircleYDistance, int itemCircleYHeight) {
+        this(maxShowItemCount,false, false, false, false, false, 0.5F, 0.5F, 0.5F, mIsCircle, itemCircleYDistance, itemCircleYHeight);
     }
 
-    public AvlwCoverFlowLayoutManger(int itemCircleYDistance, int itemCircleYHeight) {
-        this(false, false, false, false, false, 0.5F, 0.5F, 0.5F, true, itemCircleYDistance, itemCircleYHeight);
+    public AvlwCoverFlowLayoutManger(int maxShowItemCount,int itemCircleYDistance, int itemCircleYHeight) {
+        this(maxShowItemCount,false, false, false, false, false, 0.5F, 0.5F, 0.5F, true, itemCircleYDistance, itemCircleYHeight);
     }
 
     @Override
@@ -256,7 +263,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
         //限制滑动速度
         int travel = (int) (dx * 0.9);
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return travel;
         }
 
@@ -284,7 +291,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void layoutItems(RecyclerView.Recycler recycler, RecyclerView.State state, int scrollDirection) {
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return;
         }
         if (state == null || state.isPreLayout()) {
@@ -318,13 +325,35 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
             }
         }
 
-        if (position == 0) {
-            position = getCenterPosition();
-        }
 
-        // 检查前后 20 个 item 是否需要绘制
-        int min = position - 20;
-        int max = position + 20;
+        int centerPosition = getCenterPosition();
+        int min = centerPosition - maxShowItemCount / 2 + (scrollDirection == SCROLL_TO_RIGHT ? 0 : 1);
+        int max = centerPosition + maxShowItemCount / 2 + (scrollDirection == SCROLL_TO_RIGHT ? 0 : 1);
+        int currentMaxShowItemCount = maxShowItemCount + Math.min(0, min) + Math.min(0, getItemCount() - max);
+
+        //移除左侧超过最大的显示
+        if (min < 0) {
+            int end = getChildCount() - currentMaxShowItemCount;
+            for (int i = end - 1; i >= 0; i--) {
+                if (getChildAt(i) != null) {
+                    mHasAttachedItems.delete(getChildActualPos(i));
+                    if(getChildAt(i) != null) {
+                        removeAndRecycleView(Objects.requireNonNull(getChildAt(i)), recycler);
+                    }
+                }
+            }
+        }
+        //移除右侧超过最大的显示
+        if (max >= getItemCount()) {
+            int end = getChildCount() - currentMaxShowItemCount;
+            for (int i = 0; i < end; i++) {
+                if (getChildAt(i) != null) {
+                    mHasAttachedItems.delete(getChildActualPos(i));
+                    removeAndRecycleView(Objects.requireNonNull(getChildAt(i)), recycler);
+                }
+            }
+
+        }
 
         if (!mIsLoop) {
             if (min < 0) {
@@ -354,9 +383,17 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
                     if (scrollDirection == SCROLL_TO_RIGHT) {
                         //item 向右滚动，新增的Item需要添加在最前面
                         addView(scrap, 0);
+                        if (getChildCount() > currentMaxShowItemCount && getChildAt(currentMaxShowItemCount) != null) {
+                            mHasAttachedItems.delete(getChildActualPos(currentMaxShowItemCount));
+                            removeAndRecycleView(Objects.requireNonNull(getChildAt(currentMaxShowItemCount)), recycler);
+                        }
                     } else {
                         //item 向左滚动，新增的item要添加在最后面
                         addView(scrap);
+                        if (getChildCount() > currentMaxShowItemCount && getChildAt(0) != null) {
+                            mHasAttachedItems.delete(getChildActualPos(0));
+                            removeAndRecycleView(Objects.requireNonNull(getChildAt(0)), recycler);
+                        }
                     }
                     layoutItem(scrap, rect); //将这个Item布局出来
                     mHasAttachedItems.put(i, true);
@@ -375,7 +412,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void layoutItem(View child, Rect frame) {
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return;
         }
         //圆形轮盘单独处理
@@ -505,7 +542,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return;
         }
         switch (state) {
@@ -525,7 +562,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void scrollToPosition(int position) {
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return;
         }
         if (position < 0 || position > getItemCount() - 1) {
@@ -542,7 +579,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
 
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return;
         }
         // TODO 循环模式暂不支持平滑滚动
@@ -579,7 +616,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      * <p>Note:该Item为绘制在可见区域的第一个Item，有可能被第二个Item遮挡
      */
     public int getFirstVisiblePosition() {
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return -1;
         }
         Rect displayFrame = new Rect(mOffsetAll, 0, mOffsetAll + getHorizontalSpace(), getVerticalSpace());
@@ -597,7 +634,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      * <p>Note:该Item为绘制在可见区域的最后一个Item，有可能被倒数第二个Item遮挡
      */
     public int getLastVisiblePosition() {
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return -1;
         }
         Rect displayFrame = new Rect(mOffsetAll, 0, mOffsetAll + getHorizontalSpace(), getVerticalSpace());
@@ -614,7 +651,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      * 获取可见范围内最大的显示Item个数
      */
     public int getMaxVisibleCount() {
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return 0;
         }
         int oneSide = (getHorizontalSpace() - mStartX) / (getIntervalDistance());
@@ -643,8 +680,8 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      * <p>如果需要获取被选中的Item位置，调用{@link #getSelectedPos()}
      */
     public int getCenterPosition() {
-        if(getItemCount() <= 0){
-            return -1 ;
+        if (getItemCount() <= 0) {
+            return -1;
         }
         int pos = mOffsetAll / getIntervalDistance();
         int more = mOffsetAll % getIntervalDistance();
@@ -665,7 +702,7 @@ class AvlwCoverFlowLayoutManger extends RecyclerView.LayoutManager {
      * @return child 的实际位置，如果 {@link #mIsLoop} 为 true ，返回结果可能为负值
      */
     public int getChildActualPos(int index) {
-        if(getItemCount() <= 0){
+        if (getItemCount() <= 0) {
             return -1;
         }
         View child = getChildAt(index);

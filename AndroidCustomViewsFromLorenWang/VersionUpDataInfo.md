@@ -1,3 +1,7 @@
+**V3.2.4**
+
+    AvlwCoverRecycleView--修改最大显示数量配置
+
 **V3.2.2**
 
     AvlwFixedWidthHeightDrawableButton修改padding处理方式
