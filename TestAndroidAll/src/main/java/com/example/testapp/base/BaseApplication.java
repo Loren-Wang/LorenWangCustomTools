@@ -31,7 +31,7 @@ public class BaseApplication extends AcbflwBaseApplication {
 
     @Override
     public boolean isUseVideoPlayLibrary() {
-        return true;
+        return false;
     }
 
     @Override

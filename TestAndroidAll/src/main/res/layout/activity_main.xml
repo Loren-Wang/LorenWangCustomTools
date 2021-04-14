@@ -10,6 +10,11 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnImageSelect"
+            style="@style/MainButtons"
+            android:text="@string/page_type_image_select" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCarousel"
             style="@style/MainButtons"
             android:text="@string/page_type_carousel" />

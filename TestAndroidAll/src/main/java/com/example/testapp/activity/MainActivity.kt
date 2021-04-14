@@ -15,6 +15,7 @@ import com.example.testapp.activity.dialog.DialogsActivity
 import com.example.testapp.activity.graphicCodeScan.CodeGenerateActivity
 import com.example.testapp.activity.graphicCodeScan.ScanCodeActivity
 import com.example.testapp.activity.image.ImageListBitmapActivity
+import com.example.testapp.activity.image.ImageSelectActivity
 import com.example.testapp.activity.image.ImageViewActivity
 import com.example.testapp.activity.image.ZoomableImageViewActivity
 import com.example.testapp.activity.location.LocationActivity
@@ -48,12 +49,15 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnCarousel?.performClick()
+        btnImageSelect?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnImageSelect -> {
+                    startActivity(Intent(this, ImageSelectActivity::class.java))
+                }
                 R.id.btnCarousel -> {
                     startActivity(Intent(this, CarouselActivity::class.java))
                 }

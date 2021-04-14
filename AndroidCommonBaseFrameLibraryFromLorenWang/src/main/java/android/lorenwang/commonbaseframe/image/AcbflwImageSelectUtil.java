@@ -7,11 +7,13 @@ import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
 import android.lorenwang.commonbaseframe.AcbflwBaseCommonKey;
 import android.os.Build;
 
+import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.luck.picture.lib.thread.PictureThreadUtils;
 import com.luck.picture.lib.tools.PictureFileUtils;
 
@@ -132,8 +134,7 @@ public class AcbflwImageSelectUtil {
      * @param requestCode 请求code
      */
     public void openSelectImageCamera(Activity activity, int requestCode) {
-        PictureSelector.create(activity)
-                .openCamera(PictureMimeType.ofImage())
+        PictureSelector.create(activity).openCamera(PictureMimeType.ofImage())
                 // 外部传入图片加载引擎，必传项
                 .imageEngine(GlideEngine.getInstance())
                 //结果回调onActivityResult code
@@ -162,62 +163,59 @@ public class AcbflwImageSelectUtil {
      * @param requestCode  请求code
      * @param useTakePhoto 是否使用拍照
      */
-    public void openSelectImage(Activity activity, int maxSelectNum, List<AcbflwLocalImageSelectBean> selectList, boolean useTakePhoto, int requestCode) {
-        // 进入相册 以下是例子：用不到的api可以不写
-        PictureSelector.create(activity)
-                //全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .openGallery(PictureMimeType.ofImage())
-                // 外部传入图片加载引擎，必传项
-                .imageEngine(GlideEngine.getInstance())
-                // 是否显示原图控制按钮，如果用户勾选了 压缩、裁剪功能将会失效
-                .isOriginalImageControl(false)
-                // 是否开启微信图片选择风格，此开关开启了才可使用微信主题！！！
-                .isWeChatStyle(true)
-                // 是否需要处理Android Q 拷贝至应用沙盒的操作，只针对isCompress(false); && isEnableCrop(false);有效
-                .isAndroidQTransform(false)
-                // 最大图片选择数量 int
-                .maxSelectNum(maxSelectNum)
-                // 最小选择数量 int
-                .minSelectNum(1)
-                // 每行显示个数 int
-                .imageSpanCount(4)
-                // 设置相册Activity方向，不设置默认使用系统
-                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                // 预览图片长按是否可以下载
-                .isNotPreviewDownload(false)
-                // 只查多少M以内的图片、视频、音频  单位M
-                .queryMaxFileSize(10)
-                // 单选模式下是否直接返回，PictureConfig.SINGLE模式下有效
-                .isSingleDirectReturn(false)
-                // 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig
-                .selectionMode(maxSelectNum > 0 ? PictureConfig.MULTIPLE : PictureConfig.SINGLE)
-                // .SINGLE
-                // 是否可预览图片 true or false
-                .isPreviewImage(true)
-                // 是否显示拍照按钮 true or false
-                .isCamera(useTakePhoto)
-                // 图片列表点击 缩放效果 默认true
-                .isZoomAnim(true)
-                // 是否裁剪 true or false
-                .isEnableCrop(false)
-                // 是否压缩 true or false
-                .isCompress(false)
-                // 是否显示gif图片 true or false
-                .isGif(false)
-                // 是否开启点击声音 true or false
-                .isOpenClickSound(false)
-                // 是否传入已选图片 List<LocalMedia> list
-                .selectionData(imageSelectBeanToLocalMedia(selectList))
-                // 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
-                .isPreviewEggs(true)
-                // 裁剪输出质量 默认100
-                .cutOutQuality(90)
-                // 小于100kb的图片不压缩
-                .minimumCompressSize(100)
-                // 是否可拖动裁剪框(固定)
-                .isDragFrame(false)
-                //结果回调onActivityResult code
-                .forResult(requestCode);
+    public void openSelectImage(Activity activity, int maxSelectNum, List<AcbflwLocalImageSelectBean> selectList, boolean useTakePhoto,
+            int requestCode) {
+        getBasePictureSelectionModel(activity, PictureMimeType.ofImage(), maxSelectNum, 10, 0, 0, 0, selectList, useTakePhoto).forResult(requestCode);
+    }
+
+    /**
+     * 开启图片选择
+     *
+     * @param activity     activity实例
+     * @param maxSelectNum 最大选择数量
+     * @param selectList   已选择列表
+     * @param requestCode  请求code
+     * @param useTakePhoto 是否使用拍照
+     * @param maxFileSize  最大文件大小，单位M
+     */
+    public void openSelectImage(Activity activity, int maxSelectNum, int maxFileSize, List<AcbflwLocalImageSelectBean> selectList,
+            boolean useTakePhoto, int requestCode) {
+        getBasePictureSelectionModel(activity, PictureMimeType.ofImage(), maxSelectNum, maxFileSize, 0, 0, 0, selectList, useTakePhoto).forResult(
+                requestCode);
+    }
+
+    /**
+     * 开启视频选择
+     *
+     * @param activity       页面实例
+     * @param maxFileSize    最大文件大小
+     * @param minVideoSecond 最小视频时间
+     * @param maxVideoSecond 最大视频时间
+     * @param selectBean     已选择实例
+     * @param callback       回调监听
+     */
+    public void openSelectVideo(Activity activity, int maxFileSize, int minVideoSecond, int maxVideoSecond, AcbflwLocalImageSelectBean selectBean,
+            AcbflwFileSelectCallback callback) {
+        List<AcbflwLocalImageSelectBean> selectList = new ArrayList<>();
+        if (selectBean != null) {
+            selectList.add(selectBean);
+        }
+        getBasePictureSelectionModel(activity, PictureMimeType.ofVideo(), 1, maxFileSize, 1, minVideoSecond, maxVideoSecond, selectList, false)
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
+                    @Override
+                    public void onResult(List<LocalMedia> result) {
+                        if (callback != null) {
+                            callback.onResult(localMediaToImageSelectBean(result));
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        if (callback != null) {
+                            callback.onCancel();
+                        }
+                    }
+                });
     }
 
     /**
@@ -257,11 +255,12 @@ public class AcbflwImageSelectUtil {
      *
      * @param list 要压缩的列表
      */
-    public void openCompressImage(@NotNull final List<AcbflwLocalImageSelectBean> list, final int maxSize, @NotNull final AcbflwFileCompressCallback callback) {
+    public void openCompressImage(@NotNull final List<AcbflwLocalImageSelectBean> list, final int maxSize,
+            @NotNull final AcbflwFileCompressCallback callback) {
         PictureThreadUtils.executeByIo(new PictureThreadUtils.SimpleTask<List<File>>() {
             @Override
             public List<File> doInBackground() throws Exception {
-                return compressImage(list, maxSize,100);
+                return compressImage(list, maxSize, 100);
             }
 
             @Override
@@ -312,7 +311,8 @@ public class AcbflwImageSelectUtil {
             PictureFileUtils.deleteCacheDirFile(activity, PictureMimeType.ofAll());
             PictureFileUtils.deleteCacheDirFile(activity, PictureMimeType.ofImage());
             PictureFileUtils.deleteAllCacheDirFile(activity);
-        }catch (Exception ignore){}
+        } catch (Exception ignore) {
+        }
     }
 
     /**
@@ -366,12 +366,8 @@ public class AcbflwImageSelectUtil {
      * @return 压缩后文件列表
      */
     private List<File> compressImage(@NotNull List<AcbflwLocalImageSelectBean> list, int maxSize, int compressQuality) throws Exception {
-        List<File> files = Luban.with(AcbflwBaseApplication.getAppContext())
-                .loadMediaData(imageSelectBeanToLocalMedia(list))
-                .isCamera(false)
-                .setFocusAlpha(false)
-                .setCompressQuality(compressQuality)
-                .ignoreBy(100).get();
+        List<File> files = Luban.with(AcbflwBaseApplication.getAppContext()).loadMediaData(imageSelectBeanToLocalMedia(list)).isCamera(false)
+                .setFocusAlpha(false).setCompressQuality(compressQuality).ignoreBy(100).get();
         List<File> returnFileList = new ArrayList<>(list.size());
         List<AcbflwLocalImageSelectBean> reloadCompressList = new ArrayList<>(list.size());
         File file;
@@ -389,5 +385,88 @@ public class AcbflwImageSelectUtil {
             returnFileList.addAll(compressImage(reloadCompressList, maxSize, compressQuality - 10));
         }
         return returnFileList;
+    }
+
+    /**
+     * 获取基础配置
+     *
+     * @param activity       页面实例
+     * @param chooseMode     选择模式
+     * @param maxSelectNum   最大选择数量
+     * @param maxFileSize    最大选择文件大小
+     * @param maxVideoSelect 最大的视频选择数量
+     * @param minVideoSecond 最小选择的视频时间
+     * @param maxVideoSecond 最大选择的视频时间
+     * @param selectList     已选择列表
+     * @param useTakePhoto   是否可以拍照
+     * @return 基础配置model
+     */
+    private PictureSelectionModel getBasePictureSelectionModel(Activity activity, int chooseMode, int maxSelectNum, int maxFileSize,
+            int maxVideoSelect, int minVideoSecond, int maxVideoSecond, List<AcbflwLocalImageSelectBean> selectList, boolean useTakePhoto) {
+        // 进入相册 以下是例子：用不到的api可以不写
+        return PictureSelector.create(activity)
+                //全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .openGallery(chooseMode)
+                // 外部传入图片加载引擎，必传项
+                .imageEngine(GlideEngine.getInstance())
+                // 是否显示原图控制按钮，如果用户勾选了 压缩、裁剪功能将会失效
+                .isOriginalImageControl(false)
+                // 是否开启微信图片选择风格，此开关开启了才可使用微信主题！！！
+                .isWeChatStyle(true)
+                // 是否需要处理Android Q 拷贝至应用沙盒的操作，只针对isCompress(false); && isEnableCrop(false);有效
+                .isAndroidQTransform(false)
+                // 最大图片选择数量 int
+                .maxSelectNum(maxSelectNum)
+                // 最小选择数量 int
+                .minSelectNum(1)
+                // 每行显示个数 int
+                .imageSpanCount(4)
+                // 设置相册Activity方向，不设置默认使用系统
+                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                // 预览图片长按是否可以下载
+                .isNotPreviewDownload(false)
+                // 只查多少M以内的图片、视频、音频  单位M
+                .queryMaxFileSize(maxFileSize)
+                // 单选模式下是否直接返回，PictureConfig.SINGLE模式下有效
+                .isSingleDirectReturn(false)
+                // 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig
+                .selectionMode(maxSelectNum > 0 ? PictureConfig.MULTIPLE : PictureConfig.SINGLE)
+                // .SINGLE
+                // 是否可预览图片 true or false
+                .isPreviewImage(true)
+                // 是否显示拍照按钮 true or false
+                .isCamera(useTakePhoto)
+                // 图片列表点击 缩放效果 默认true
+                .isZoomAnim(true)
+                // 是否裁剪 true or false
+                .isEnableCrop(false)
+                // 是否压缩 true or false
+                .isCompress(false)
+                // 是否显示gif图片 true or false
+                .isGif(false)
+                // 是否开启点击声音 true or false
+                .isOpenClickSound(false)
+                // 是否传入已选图片 List<LocalMedia> list
+                .selectionData(imageSelectBeanToLocalMedia(selectList))
+                // 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                .isPreviewEggs(true)
+                // 裁剪输出质量 默认100
+                .cutOutQuality(90)
+                // 小于100kb的图片不压缩
+                .minimumCompressSize(100)
+                //视频最大选择数量
+                .maxVideoSelectNum(maxVideoSelect)
+                //视频最小选择数量
+                .minVideoSelectNum(0)
+                // 查询多少秒以内的视频
+                .videoMaxSecond(maxVideoSecond)
+                // 查询多少秒以内的视频
+                .videoMinSecond(minVideoSecond)
+                //录制视频秒数 默认60s
+                .recordVideoSecond(maxVideoSecond)
+                //是否预览视频
+                .isPreviewVideo(true)
+                // 是否可拖动裁剪框(固定)
+                .isDragFrame(false);
     }
 }

@@ -39,6 +39,8 @@ class ImageListBitmapActivity : BaseListActivity<Bitmap?>() {
     override fun initView(savedInstanceState: Bundle?) {
         addDefaultContentView(null)
         initBaseList(false, false, false)
+
+        
     }
 
     override fun initData(savedInstanceState: Bundle?) {
