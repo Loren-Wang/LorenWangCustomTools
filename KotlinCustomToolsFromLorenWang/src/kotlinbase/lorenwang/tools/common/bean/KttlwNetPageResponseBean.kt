@@ -20,24 +20,36 @@ import io.swagger.annotations.ApiModelProperty
  */
 open class KttlwNetPageResponseBean<T> {
     @ApiModelProperty(value = "分页的页码，由传递进来的数据决定", required = true)
-    @SerializedName(value = "index", alternate = ["current", "pageIndex"])
+    @SerializedName(value = "index", alternate = ["current", "pageIndex", "currentPage"])
     var pageIndex: Int? = null
 
     @ApiModelProperty(value = "分页的每页请求数量，为实际数量而不是请求数量", required = true)
-    @SerializedName(value = "size", alternate = ["pageSize", "count", "pageCount"])
+    @SerializedName(value = "size", alternate = ["pageSize", "count", "pageCount", "everyPage"])
     var pageSize: Int? = null
 
     @ApiModelProperty(value = "当前条件下的取到的数据总数", required = true)
-    @SerializedName(value = "total", alternate = ["sumDataCount"])
+    @SerializedName(value = "total", alternate = ["sumDataCount", "totalCount"])
     var sumDataCount: Int? = null
 
     @ApiModelProperty(value = "数据总页数")
-    @SerializedName(value = "pages", alternate = ["sumPageCount"])
+    @SerializedName(value = "pages", alternate = ["sumPageCount", "totalPage"])
     var sumPageCount: Int? = null
 
     @ApiModelProperty(value = "列表数据实体，不能为空，但是可以为空数组", required = true)
-    @SerializedName(value = "list", alternate = ["result", "records", "data", "dataList"])
+    @SerializedName(value = "list", alternate = ["result", "records", "data", "dataList", "resultList"])
     var dataList: ArrayList<T>? = null
+
+    /**
+     * 是否有下一页
+     */
+    @SerializedName(value = "hasNextPage")
+    var hasNextPage: Boolean? = null
+
+    /**
+     * 是否有上一页
+     */
+    @SerializedName(value = "hasPrePage")
+    var hasPrePage: Boolean? = null
 
     constructor()
     constructor(pageIndex: Int, pageSize: Int, sumDataCount: Int, sumPageCount: Int) : this(pageIndex, pageSize, sumDataCount, sumPageCount,
