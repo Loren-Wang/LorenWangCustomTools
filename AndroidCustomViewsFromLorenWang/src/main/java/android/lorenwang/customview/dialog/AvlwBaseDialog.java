@@ -59,10 +59,8 @@ public class AvlwBaseDialog extends AlertDialog {
         this.activity = context;
     }
 
-    public AvlwBaseDialog(final Activity context, @LayoutRes int dialogViewLayoutResId,
-                          @StyleRes int modelStyleResId, @StyleRes int dialogAnim,
-                          boolean isOutSideCancel, Integer showDialogWidth,
-                          Integer showDialogHeight,Integer windowGravity) {
+    public AvlwBaseDialog(final Activity context, @LayoutRes int dialogViewLayoutResId, @StyleRes int modelStyleResId, @StyleRes int dialogAnim,
+            boolean isOutSideCancel, Integer showDialogWidth, Integer showDialogHeight, Integer windowGravity) {
         super(context, modelStyleResId);
         this.activity = context;
         this.windowGravity = windowGravity != null ? windowGravity : this.windowGravity;
@@ -128,7 +126,7 @@ public class AvlwBaseDialog extends AlertDialog {
 
     @Override
     public void show() {
-        if(isShowing()){
+        if (isShowing() || (activity != null && activity.isFinishing())) {
             return;
         }
         super.show();
