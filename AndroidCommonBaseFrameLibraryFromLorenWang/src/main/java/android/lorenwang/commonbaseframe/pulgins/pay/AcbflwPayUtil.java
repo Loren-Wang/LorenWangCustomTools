@@ -99,7 +99,7 @@ public class AcbflwPayUtil {
             AcbflwPluginUtil.getInstance().getApi().sendReq(request);
             //记录回调
             if (!JtlwCheckVariateUtils.getInstance().isEmpty(payDataBean.getPayCallBack())) {
-                AcbflwPluginUtil.getInstance().addCallBack(request.nonceStr, payDataBean.getPayCallBack());
+                AcbflwPluginUtil.getInstance().addCallBack(request.prepayId, payDataBean.getPayCallBack());
             }
         } else {
             AtlwLogUtil.logUtils.logI(TAG, "微信应用未安装");

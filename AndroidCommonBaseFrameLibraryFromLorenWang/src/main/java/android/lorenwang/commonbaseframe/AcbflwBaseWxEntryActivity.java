@@ -95,18 +95,18 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
                     case BaseResp.ErrCode.ERR_OK:
                         AtlwLogUtil.logUtils.logI(TAG, "微信支付成功");
                         AcbflwPluginUtil.getInstance().callBackInfo(
-                                ((PayResp) baseResp).returnKey);
+                                ((PayResp) baseResp).prepayId);
                         break;
                     case BaseResp.ErrCode.ERR_COMM:
                         AtlwLogUtil.logUtils.logI(TAG, "微信支付未知错误");
                         AcbflwPluginUtil.getInstance().callBackError(
-                                ((PayResp) baseResp).returnKey,
+                                ((PayResp) baseResp).prepayId,
                                 AcbflwPluginErrorTypeEnum.WECHAT_PAY_UNKNOW_ERROR);
                         break;
                     case BaseResp.ErrCode.ERR_USER_CANCEL:
                         AtlwLogUtil.logUtils.logI(TAG, "微信支付用户取消支付");
                         AcbflwPluginUtil.getInstance().callBackError(
-                                ((PayResp) baseResp).returnKey,
+                                ((PayResp) baseResp).prepayId,
                                 AcbflwPluginErrorTypeEnum.WECHAT_PAY_CANCEL);
                         break;
                     default:
