@@ -83,10 +83,15 @@ public class AcbflwPayUtil {
             //扩展字段
             request.packageValue = payDataBean.getPackageValue();
             //时间戳
-            request.timeStamp = payDataBean.getTimeStamp() != null ? payDataBean.getTimeStamp() : String.valueOf(JtlwDateTimeUtils.getInstance().getSecond());
+            request.timeStamp = payDataBean.getTimeStamp() != null ? payDataBean.getTimeStamp() : String.valueOf(
+                    JtlwDateTimeUtils.getInstance().getSecond());
             //随机字符串，不长于32位。
-            String str = payDataBean.getTimeStamp() != null ? payDataBean.getTimeStamp() : request.timeStamp;
-            request.nonceStr = str.substring(0, Math.min(str.length(), 32));
+            if (JtlwCheckVariateUtils.getInstance().isEmpty(payDataBean.getNonceStr())) {
+                String str = payDataBean.getTimeStamp() != null ? payDataBean.getTimeStamp() : request.timeStamp;
+                request.nonceStr = str.substring(0, Math.min(str.length(), 32));
+            } else {
+                request.nonceStr = payDataBean.getNonceStr();
+            }
             //签名
             request.sign = payDataBean.getSign();
             AtlwLogUtil.logUtils.logI(TAG, "微信支付请求实体初始化完成，向微信发送支付请求");
@@ -122,16 +127,15 @@ public class AcbflwPayUtil {
                 AtlwLogUtil.logUtils.logI(TAG, "支付宝请求实体初始化完成，向支付宝发送支付请求");
                 Map<String, String> result = alipay.payV2(payDataBean.getaLiPayBody(), true);
                 String resultStatus = result.get("resultStatus");
-                if (JtlwCheckVariateUtils.getInstance().isEmpty(resultStatus)
-                        && payDataBean.getPayCallBack() != null) {
-//                    9000	订单支付成功
-//                    8000	正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
-//                    4000	订单支付失败
-//                    5000	重复请求
-//                    6001	用户中途取消
-//                    6002	网络连接出错
-//                    6004	支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
-//                    其它	其它支付错误
+                if (JtlwCheckVariateUtils.getInstance().isEmpty(resultStatus) && payDataBean.getPayCallBack() != null) {
+                    //                    9000	订单支付成功
+                    //                    8000	正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+                    //                    4000	订单支付失败
+                    //                    5000	重复请求
+                    //                    6001	用户中途取消
+                    //                    6002	网络连接出错
+                    //                    6004	支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+                    //                    其它	其它支付错误
                     switch (resultStatus) {
                         case "9000":
                             AtlwLogUtil.logUtils.logI(TAG, "支付宝支付成功");
