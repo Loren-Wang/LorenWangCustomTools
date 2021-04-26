@@ -49,7 +49,7 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnImageSelect?.performClick()
+        btnZoomableImageView?.performClick()
     }
 
     fun mainClick(view: View?) {

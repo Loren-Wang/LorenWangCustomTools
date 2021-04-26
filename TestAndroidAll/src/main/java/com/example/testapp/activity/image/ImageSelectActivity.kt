@@ -2,13 +2,11 @@ package com.example.testapp.activity.image
 
 import android.lorenwang.commonbaseframe.image.AcbflwFileSelectCallback
 import android.lorenwang.commonbaseframe.image.AcbflwImageSelectUtil
-import androidx.appcompat.app.AppCompatActivity
+import android.lorenwang.commonbaseframe.image.AcbflwLocalImageSelectBean
 import android.os.Bundle
 import android.widget.Toast
 import com.example.testapp.R
 import com.example.testapp.base.BaseActivity
-import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.tools.ToastUtils
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import kotlinbase.lorenwang.tools.extend.kttlwThrottleClick
 import kotlinx.android.synthetic.main.activity_image_select.*
@@ -35,7 +33,7 @@ class ImageSelectActivity : BaseActivity() {
         super.initListener(savedInstanceState)
         btnSelectVideoOnly.kttlwThrottleClick {
             AcbflwImageSelectUtil.getInstance().openSelectVideo(this, 10, 0, 90, null, object : AcbflwFileSelectCallback {
-                override fun onResult(result: MutableList<LocalMedia>?) {
+                override fun onResult(result: MutableList<AcbflwLocalImageSelectBean>?) {
                     Toast.makeText(this@ImageSelectActivity, result.kttlwGetNotEmptyData(arrayListOf()).size.toString(), Toast.LENGTH_LONG).show()
                 }
 

@@ -36,6 +36,7 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
  * 打开相机选择图片--openSelectImageCamera(activity,requestCode)
  * 开启图片选择--openSelectImage（activity，maxSelectNum，selectList，requestCode）
  * 开启图片选择--openSelectImage（activity，maxSelectNum，selectList,useTakePhoto，requestCode）
+ * 开启图片选择--openSelectImage(activity, maxSelectNum, maxFileSize,selectList,useTakePhoto, callback)
  * 开启图片裁剪--openCropImage（activity，path，requestCode）
  * 开启图片压缩--openCompressImage(list, maxSize, callback)
  * 从intent中获取图片列表--getList（intent）
@@ -166,6 +167,36 @@ public class AcbflwImageSelectUtil {
     public void openSelectImage(Activity activity, int maxSelectNum, List<AcbflwLocalImageSelectBean> selectList, boolean useTakePhoto,
             int requestCode) {
         getBasePictureSelectionModel(activity, PictureMimeType.ofImage(), maxSelectNum, 10, 0, 0, 0, selectList, useTakePhoto).forResult(requestCode);
+    }
+
+    /**
+     * 开启图片选择
+     *
+     * @param activity     activity实例
+     * @param maxSelectNum 最大选择数量
+     * @param selectList   已选择列表
+     * @param callback     请求code
+     * @param useTakePhoto 是否使用拍照
+     * @param maxFileSize  最大文件大小，单位M
+     */
+    public void openSelectImage(Activity activity, int maxSelectNum, int maxFileSize, List<AcbflwLocalImageSelectBean> selectList,
+            boolean useTakePhoto, AcbflwFileSelectCallback callback) {
+        getBasePictureSelectionModel(activity, PictureMimeType.ofImage(), maxSelectNum, maxFileSize, 0, 0, 0, selectList, useTakePhoto).forResult(
+                new OnResultCallbackListener<LocalMedia>() {
+                    @Override
+                    public void onResult(List<LocalMedia> result) {
+                        if (callback != null) {
+                            callback.onResult(localMediaToImageSelectBean(result));
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        if (callback != null) {
+                            callback.onCancel();
+                        }
+                    }
+                });
     }
 
     /**
