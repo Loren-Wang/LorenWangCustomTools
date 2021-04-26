@@ -75,6 +75,7 @@
     在画布上绘制水印--addWatermarkBitmap(canvas,textSize,textColor,text,width,height,rotationAngle)
     在画布上绘制水印--addWatermarkBitmap(canvas,paint,text,width,height,rotationAngle)
     图片格式转换--coverImage(path,savePath,format)
+    根据比例填充背景图片--fillBgAspectRatio(bitmap, ratio, color)
 
 <h3>AtlwScreenUtil---（屏幕相关处理类）
 

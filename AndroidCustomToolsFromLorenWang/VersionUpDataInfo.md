@@ -1,3 +1,7 @@
+**V3.1.6**
+
+    AtlwImageCommonUtils---新增根据比例填充背景图片--fillBgAspectRatio(bitmap, ratio, color)
+        
 **V3.1.5**
 
     AtlwImageCommonUtils---（修复异常函数）

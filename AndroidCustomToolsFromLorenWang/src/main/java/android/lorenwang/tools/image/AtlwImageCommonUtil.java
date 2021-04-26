@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.tools.app.AtlwScreenUtil;
 import android.lorenwang.tools.app.AtlwViewUtil;
@@ -28,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 
@@ -65,6 +67,7 @@ import androidx.annotation.NonNull;
  * 在画布上绘制水印--addWatermarkBitmap(canvas,textSize,textColor,text,width,height,rotationAngle)
  * 在画布上绘制水印--addWatermarkBitmap(canvas,paint,text,width,height,rotationAngle)
  * 图片格式转换--coverImage(path,savePath,format)
+ * 根据比例填充背景图片--fillBgAspectRatio(bitmap, ratio, color)
  * <p>
  * 注意：
  * 修改人：
@@ -937,6 +940,47 @@ public class AtlwImageCommonUtil {
         } catch (Exception ignored) {
         }
         return path;
+    }
+
+    /**
+     * 根据比例填充背景图片
+     *
+     * @param bitmap 图片位图
+     * @param ratio  比例,宽比高
+     * @param color  背景颜色
+     * @return 处理后图片
+     */
+    public Bitmap fillBgAspectRatio(@NotNull Bitmap bitmap, float ratio, @ColorInt int color) {
+        if (bitmap.isRecycled()) {
+            return null;
+        }
+        ColorDrawable colorDrawable = new ColorDrawable(color);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float originRatio = width * 1.0F / height;
+        int colorWidth;
+        int colorHeight;
+        float leftPercent;
+        float topPercent;
+        float bottomPercent;
+        if (originRatio > ratio) {
+            colorWidth = width;
+            colorHeight = (int) (width / ratio);
+            topPercent = bottomPercent = (colorHeight - height) / 2F / colorHeight;
+            leftPercent = 0;
+        } else if (originRatio < ratio) {
+            colorHeight = height;
+            colorWidth = (int) (height * ratio);
+            topPercent = bottomPercent = 0F;
+            leftPercent = (colorWidth - width) / 2F / colorWidth;
+        } else {
+            colorHeight = height;
+            colorWidth = width;
+            topPercent = bottomPercent = leftPercent = 0;
+        }
+
+        return mergeBitmap(drawableToBitmap(colorDrawable, colorWidth, colorHeight), bitmap, bitmap.getWidth(), bitmap.getHeight(), leftPercent,
+                topPercent, bottomPercent);
     }
 
 }
