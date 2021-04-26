@@ -42,3 +42,7 @@ ps：不支持使用代码控制图片边框以及各个角度，如果定义了
 
 <h3>AvlwCoverRecycleView---（层叠画廊recycleview）
 
+<h3>AvlwBitmapCropView---（位图裁剪控件）
+
+<h3>AvlwZoomableImageView---（缩放控件）
+

@@ -1,3 +1,8 @@
+**V3.2.6**
+
+    AvlwBitmapCropView---（位图裁剪控件）
+    AvlwZoomableImageView---（缩放控件）
+
 **V3.2.4**
 
     AvlwCoverRecycleView--修改最大显示数量配置
