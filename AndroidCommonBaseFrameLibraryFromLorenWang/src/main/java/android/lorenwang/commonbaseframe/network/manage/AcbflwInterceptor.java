@@ -50,13 +50,14 @@ public class AcbflwInterceptor implements Interceptor {
         if (!AcbflwBaseConfig.appCompileTypeIsRelease(appCompileType)) {
             StringBuilder logBuilder = new StringBuilder("*\n\n****  Network_options_start  ****\n\n");
             //请求url
-            logBuilder.append("***request_url:").append(request.url().toString()).append('\n');
+            logBuilder.append("***request_url:").append(originalRequest.url().toString()).append('\n');
             //请求方式
-            logBuilder.append("***request_method:").append(request.method()).append("\n");
+            logBuilder.append("***request_method:").append(originalRequest.method()).append("\n");
             //请求头
-            logBuilder.append("***request_heads:\n").append(request.headers().toMultimap()).append("\n");
+            logBuilder.append("***request_heads:\n").append(originalRequest.headers().toMultimap()).append("\n")
+                    .append(request.headers().toMultimap()).append("\n");
             //请求体
-            RequestBody requestBody = request.body();
+            RequestBody requestBody = originalRequest.body();
             if (requestBody != null) {
                 if (requestBody.contentType() != null && TextUtils.equals(requestBody.contentType().subtype(), "json")) {
                     logBuilder.append("***request_body:\n").append(bodyToString(requestBody)).append("\n");
