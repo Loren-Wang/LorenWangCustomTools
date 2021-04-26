@@ -1,18 +1,17 @@
 package com.example.testapp.activity.viewpager
 
 import android.app.Activity
+import android.lorenwang.commonbaseframe.adapter.AcbflwBaseBindingRecyclerViewHolder
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerAdapter
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
+import android.lorenwang.commonbaseframe.extension.acbflwLoadNetImageConfig
 import android.lorenwang.customview.viewpager.banner.AvlwBannerView
-import android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE
 import android.lorenwang.tools.image.loading.AtlwImageLoadConfig
-import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import com.example.testapp.base.BaseActivity
 import com.example.testapp.R
-import java.util.*
+import com.example.testapp.base.BaseActivity
+import com.example.testapp.databinding.ItemListOnlyImageviewTwoBinding
 
 class BannerActivity : BaseActivity() {
     override fun initView(savedInstanceState: Bundle?) {
@@ -40,10 +39,11 @@ class BannerActivity : BaseActivity() {
     private fun showBanner(vpgList: AvlwBannerView, list: List<String>, itemCount: Int) {
         val adapter: AcbflwBaseRecyclerAdapter<String?> = object : AcbflwBaseRecyclerAdapter<String?>(this) {
             override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?> {
-                return object : AcbflwBaseRecyclerViewHolder<String?>(itemView) {
+                return object : AcbflwBaseBindingRecyclerViewHolder<String?, ItemListOnlyImageviewTwoBinding>(itemView) {
                     override fun setViewData(activity: Activity, model: String?, position: Int) {
-                        AtlwImageLoadingFactory.getImageLoading(IMAGE_LOAD_LIBRARY_TYPE_GLIDE).loadingNetImage(model, itemView as AppCompatImageView,
-                                AtlwImageLoadConfig.Build().setShowViewHeight(itemView.height).setShowViewWidth(itemView.width).build())
+                        binding?.imgPic.acbflwLoadNetImageConfig(model, false, AtlwImageLoadConfig.Build())
+//                        AtlwImageLoadingFactory.getImageLoading(IMAGE_LOAD_LIBRARY_TYPE_GLIDE).loadingNetImage(model, itemView as AppCompatImageView,
+//                                AtlwImageLoadConfig.Build().setShowViewHeight(itemView.height).setShowViewWidth(itemView.width).build())
                     }
                 }
             }
@@ -52,7 +52,7 @@ class BannerActivity : BaseActivity() {
                 return itemCount
             }
         }
-        adapter.singleTypeRefresh(list, R.layout.item_imageview, false)
+        adapter.singleTypeRefresh(list, R.layout.item_list_only_imageview_two, false)
         vpgList.setViewData(list.size, adapter)
     }
 }

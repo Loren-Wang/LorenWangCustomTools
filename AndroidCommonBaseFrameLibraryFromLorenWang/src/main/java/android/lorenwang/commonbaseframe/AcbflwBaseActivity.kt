@@ -158,7 +158,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         if (addBaseLayout && findViewById<View>(R.id.lnAcbflwBase) == null) {
             useBaseLayout()
         }
-        if(binding == null){
+        if (binding == null) {
             return null
         }
         val vsbAcbflwContent = findViewById<ViewStub>(R.id.vsbAcbflwContent)
@@ -171,9 +171,20 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     }
 
     /**
+     * 使用基础布局
+     */
+    protected open fun useBaseLayout() {
+        setContentView(R.layout.acbflw_page_base)
+        //初始化刷新控件
+        swipeAcbflwRefresh = findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
+        swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
+        swipeAcbflwRefresh?.isEnabled = false
+    }
+
+    /**
      * 设置viewStub
      */
-    private fun setViewStub(view: ViewStub, parent: ViewGroup, binding: ViewDataBinding) {
+    protected fun setViewStub(view: ViewStub, parent: ViewGroup, binding: ViewDataBinding) {
         val index: Int = parent.indexOfChild(view)
         parent.removeViewInLayout(view)
         val layoutParams: ViewGroup.LayoutParams = view.layoutParams
@@ -181,16 +192,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
 
     }
 
-    /**
-     * 使用基础布局
-     */
-    protected fun useBaseLayout() {
-        setContentView(R.layout.acbflw_page_base)
-        //初始化刷新控件
-        swipeAcbflwRefresh = findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
-        swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
-        swipeAcbflwRefresh?.isEnabled = false
-    }
 
     /**
      * 显示内容数据，隐藏空数据

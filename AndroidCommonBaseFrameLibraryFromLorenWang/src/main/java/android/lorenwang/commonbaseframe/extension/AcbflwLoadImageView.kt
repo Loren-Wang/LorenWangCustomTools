@@ -31,7 +31,7 @@ import androidx.annotation.DrawableRes
  * @param loadHeight 图片加载高度
  * @param config 图片加载配置信息
  */
-fun ImageView?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean = false, loadWidth: Int? = null, loadHeight: Int? = null,
+fun <V : ImageView> V?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean = false, loadWidth: Int? = null, loadHeight: Int? = null,
     config: AtlwImageLoadConfig?) {
     if (this != null && !urlPath.isNullOrEmpty()) {
         //显示控件
@@ -61,7 +61,7 @@ fun ImageView?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean 
  * @param emptyUrlGone 当地址为空时是否隐藏,也就是不为空要显示，默认情况下为空不处理
  * @param build 图片加载配置信息
  */
-fun ImageView?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean = false,
+fun <V : ImageView> V?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean = false,
     build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
     if (this != null && !urlPath.isNullOrEmpty()) {
         //显示控件
@@ -80,7 +80,7 @@ fun ImageView?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: Boolean 
  * @param resId 资源图片地址,可以直接为接口返回参数
  * @param config 图片加载配置信息
  */
-fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, config: AtlwImageLoadConfig = AtlwImageLoadConfig.Build().build()) {
+fun <V : ImageView> V?.acbflwLoadResImageConfig(@DrawableRes resId: Int, config: AtlwImageLoadConfig = AtlwImageLoadConfig.Build().build()) {
     if (this != null) {
         AtlwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingResImage(resId, this, config)
     }
@@ -91,7 +91,7 @@ fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, config: AtlwIma
  * @param resId 资源图片地址,可以直接为接口返回参数
  * @param build 图片加载配置信息
  */
-fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
+fun <V : ImageView> V?.acbflwLoadResImageConfig(@DrawableRes resId: Int, build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
     if (this != null) {
         AtlwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingResImage(resId, this, build.build())
     }
@@ -100,7 +100,7 @@ fun ImageView?.acbflwLoadResImageConfig(@DrawableRes resId: Int, build: AtlwImag
 /**
  * 加载网络原始图片
  */
-fun ImageView?.acbflwLoadNetOriginImageConfig(urlPath: String?, emptyUrlGone: Boolean = false,
+fun <V : ImageView> V?.acbflwLoadNetOriginImageConfig(urlPath: String?, emptyUrlGone: Boolean = false,
     build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
     if (this != null && !urlPath.isNullOrEmpty()) {
         //显示控件
