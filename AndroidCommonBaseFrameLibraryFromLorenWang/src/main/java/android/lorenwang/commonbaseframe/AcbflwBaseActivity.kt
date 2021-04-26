@@ -8,9 +8,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
+import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.ViewDataBinding
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinbase.lorenwang.tools.extend.kttlwToVisible
 
 /**
  * 功能作用：基础activity
@@ -121,14 +124,9 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      * @param titleBarHeadViewLayoutResId 标题栏视图资源id
      * @param bottomViewResId 底部操作栏资源id
      */
-    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?,
-        @LayoutRes bottomViewResId: Int?) { //设置view
-        setContentView(R.layout.acbflw_page_base)
-
-        //初始化刷新控件
-        swipeAcbflwRefresh = findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
-        swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
-        swipeAcbflwRefresh?.isEnabled = false
+    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?, @LayoutRes bottomViewResId: Int?) {
+        //使用基础布局
+        useBaseLayout()
 
         //内容视图
         val vsbContent = findViewById<ViewStub>(R.id.vsbAcbflwContent)
@@ -154,6 +152,47 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     }
 
     /**
+     * 添加显示的内容视图绑定
+     */
+    protected fun <T : ViewDataBinding> addShowContentView(addBaseLayout: Boolean, binding: T?): T? {
+        if (addBaseLayout && findViewById<View>(R.id.lnAcbflwBase) == null) {
+            useBaseLayout()
+        }
+        if(binding == null){
+            return null
+        }
+        val vsbAcbflwContent = findViewById<ViewStub>(R.id.vsbAcbflwContent)
+        val flAcbflwContent = findViewById<FrameLayout>(R.id.flAcbflwContent)
+        //内容视图
+        if (vsbAcbflwContent != null && flAcbflwContent != null) {
+            setViewStub(vsbAcbflwContent, flAcbflwContent, binding)
+        }
+        return binding
+    }
+
+    /**
+     * 设置viewStub
+     */
+    private fun setViewStub(view: ViewStub, parent: ViewGroup, binding: ViewDataBinding) {
+        val index: Int = parent.indexOfChild(view)
+        parent.removeViewInLayout(view)
+        val layoutParams: ViewGroup.LayoutParams = view.layoutParams
+        parent.addView(binding.root, index, layoutParams)
+
+    }
+
+    /**
+     * 使用基础布局
+     */
+    protected fun useBaseLayout() {
+        setContentView(R.layout.acbflw_page_base)
+        //初始化刷新控件
+        swipeAcbflwRefresh = findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
+        swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
+        swipeAcbflwRefresh?.isEnabled = false
+    }
+
+    /**
      * 显示内容数据，隐藏空数据
      */
     protected open fun showContentData() {
@@ -170,7 +209,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
             emptyView?.setOnClickListener { _: View? -> onRefreshData() }
             initEmptyView(emptyView, emptyResId, data)
         } else {
-            emptyView!!.visibility = 0
+            emptyView.kttlwToVisible()
         }
     }
 

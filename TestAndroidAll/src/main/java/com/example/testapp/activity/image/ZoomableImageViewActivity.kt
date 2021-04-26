@@ -12,27 +12,35 @@ import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import com.example.testapp.R
 import com.example.testapp.base.BaseActivity
+import com.example.testapp.databinding.ActivityZoomableImageViewBinding
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import kotlinbase.lorenwang.tools.extend.kttlwThrottleClick
-import kotlinx.android.synthetic.main.activity_zoomable_image_view.*
 
 class ZoomableImageViewActivity : BaseActivity() {
+
+    private var binding: ActivityZoomableImageViewBinding? = null
+        get() {
+            field = field.kttlwGetNotEmptyData(ActivityZoomableImageViewBinding.inflate(layoutInflater))
+            return field
+        }
+
     override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_zoomable_image_view)
+        addShowContentView(true, binding!!)
     }
 
     override fun initListener(savedInstanceState: Bundle?) {
         super.initListener(savedInstanceState)
-        btnDialog.setOnClickListener {
+        binding?.btnDialog?.setOnClickListener {
             val dialog = AvlwZoomablePreviewDialog(this)
             dialog.setImagePath(R.drawable.ic_launcher_background, R.drawable.icon_empty_add_unable,
                 "https://qcampfile.oss-cn-shanghai.aliyuncs.com/qcamp/answerConfig/1910/28/1572252438644_1204x8193.png")
             dialog.show()
         }
-        btnConfirmCrop.kttlwThrottleClick {
-            val fl1 = imgZoom.width * 0.6F
-            val fl = (1 - fl1 / imgZoom.height) / 2
-            val cropBitmap = imgZoom.getCenterBitmap(0.6F,true)
-            imgZoom.setBgImageViewBitmap(cropBitmap)
+        binding?.btnConfirmCrop?.kttlwThrottleClick {
+            val fl1 = binding?.imgZoom!!.width * 0.6F
+            val fl = (1 - fl1 / binding?.imgZoom!!.height) / 2
+            val cropBitmap = binding?.imgZoom!!.getCenterBitmap(0.6F, true)
+            binding?.imgZoom?.setBgImageViewBitmap(cropBitmap)
         }
     }
 
@@ -48,7 +56,7 @@ class ZoomableImageViewActivity : BaseActivity() {
                         }
 
                         override fun onSuccess(bitmap: Bitmap?, width: Int, height: Int) {
-                            imgZoom.setBgImageViewBitmap(bitmap)
+                            binding?.imgZoom!!.setBgImageViewBitmap(bitmap)
                         }
                     }).build())
             }
