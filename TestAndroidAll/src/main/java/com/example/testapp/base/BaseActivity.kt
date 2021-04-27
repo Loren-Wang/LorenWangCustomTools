@@ -5,6 +5,7 @@ import android.lorenwang.commonbaseframe.AcbflwBaseActivity
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
 import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.view.ViewStub
+import androidx.databinding.ViewDataBinding
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
@@ -53,6 +54,10 @@ abstract class BaseActivity : AcbflwBaseActivity() {
      * @param netOptionReqCode 网络操作请求code
      */
     override fun <T> netReqSuccess(netOptionReqCode: Int, data: T) {
+    }
+
+    override fun <T : ViewDataBinding> addShowContentView(addBaseLayout: Boolean, binding: T?): T? {
+        return super.addShowContentView(addBaseLayout, binding)
     }
 
     /**

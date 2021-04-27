@@ -9,7 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
+import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinbase.lorenwang.tools.extend.kttlwToGone
@@ -130,6 +133,86 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
             AtlwViewUtil.getInstance().setViewWidthHeight(vsbBottomView, ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
             showBottomOptionsView = vsbBottomView.inflate()
         }
+    }
+
+    /**
+     * 添加显示的内容视图绑定
+     */
+    protected open fun <T : ViewDataBinding> addShowContentView(addBaseLayout: Boolean, binding: T?): T? {
+        if (addBaseLayout && fragmentView?.findViewById<View>(R.id.lnAcbflwBase) == null) {
+            useBaseLayout()
+        }
+        if (binding == null) {
+            return null
+        }
+        val vsbAcbflwContent = fragmentView?.findViewById<ViewStub>(R.id.vsbAcbflwContent)
+        val flAcbflwContent = fragmentView?.findViewById<FrameLayout>(R.id.flAcbflwContent)
+        //内容视图
+        if (vsbAcbflwContent != null && flAcbflwContent != null) {
+            setViewStub(vsbAcbflwContent, flAcbflwContent, binding)
+            showContentView = binding.root
+        }
+        return binding
+    }
+
+    /**
+     * 添加显示的标题视图绑定
+     */
+    protected open fun <T : ViewDataBinding> addShowTitleView(addBaseLayout: Boolean, binding: T?): T? {
+        if (addBaseLayout && fragmentView?.findViewById<View>(R.id.lnAcbflwBase) == null) {
+            useBaseLayout()
+        }
+        if (binding == null) {
+            return null
+        }
+        val vsbTitleBarHeadView = fragmentView?.findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
+        val lnAcbflwBase = fragmentView?.findViewById<LinearLayoutCompat>(R.id.lnAcbflwBase)
+        //内容视图
+        if (vsbTitleBarHeadView != null && lnAcbflwBase != null) {
+            setViewStub(vsbTitleBarHeadView, lnAcbflwBase, binding)
+            showTitleBarView = binding.root
+        }
+        return binding
+    }
+
+    /**
+     * 添加显示的底部操作视图绑定
+     */
+    protected open fun <T : ViewDataBinding> addShowBottomOptionsView(addBaseLayout: Boolean, binding: T?): T? {
+        if (addBaseLayout && fragmentView?.findViewById<View>(R.id.lnAcbflwBase) == null) {
+            useBaseLayout()
+        }
+        if (binding == null) {
+            return null
+        }
+        val vsbAcbflwBottomView = fragmentView?.findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
+        val lnAcbflwBase = fragmentView?.findViewById<LinearLayoutCompat>(R.id.lnAcbflwBase)
+        //内容视图
+        if (vsbAcbflwBottomView != null && lnAcbflwBase != null) {
+            setViewStub(vsbAcbflwBottomView, lnAcbflwBase, binding)
+            showBottomOptionsView = binding.root
+        }
+        return binding
+    }
+
+    /**
+     * 使用基础布局
+     */
+    protected open fun useBaseLayout() {
+        //初始化刷新控件
+        swipeAcbflwRefresh = fragmentView!!.findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
+        swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
+        swipeAcbflwRefresh?.isEnabled = false
+    }
+
+    /**
+     * 设置viewStub
+     */
+    protected fun setViewStub(view: ViewStub, parent: ViewGroup, binding: ViewDataBinding) {
+        val index: Int = parent.indexOfChild(view)
+        parent.removeViewInLayout(view)
+        val layoutParams: ViewGroup.LayoutParams = view.layoutParams
+        parent.addView(binding.root, index, layoutParams)
     }
 
     /**

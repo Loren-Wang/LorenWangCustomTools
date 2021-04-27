@@ -11,6 +11,7 @@ import android.view.ViewStub
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.ViewDataBinding
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinbase.lorenwang.tools.extend.kttlwToVisible
@@ -154,7 +155,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     /**
      * 添加显示的内容视图绑定
      */
-    protected fun <T : ViewDataBinding> addShowContentView(addBaseLayout: Boolean, binding: T?): T? {
+    protected open fun <T : ViewDataBinding> addShowContentView(addBaseLayout: Boolean, binding: T?): T? {
         if (addBaseLayout && findViewById<View>(R.id.lnAcbflwBase) == null) {
             useBaseLayout()
         }
@@ -166,6 +167,47 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         //内容视图
         if (vsbAcbflwContent != null && flAcbflwContent != null) {
             setViewStub(vsbAcbflwContent, flAcbflwContent, binding)
+            showContentView = binding.root
+        }
+        return binding
+    }
+
+    /**
+     * 添加显示的标题视图绑定
+     */
+    protected open fun <T : ViewDataBinding> addShowTitleView(addBaseLayout: Boolean, binding: T?): T? {
+        if (addBaseLayout && findViewById<View>(R.id.lnAcbflwBase) == null) {
+            useBaseLayout()
+        }
+        if (binding == null) {
+            return null
+        }
+        val vsbTitleBarHeadView = findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
+        val lnAcbflwBase = findViewById<LinearLayoutCompat>(R.id.lnAcbflwBase)
+        //内容视图
+        if (vsbTitleBarHeadView != null && lnAcbflwBase != null) {
+            setViewStub(vsbTitleBarHeadView, lnAcbflwBase, binding)
+            showTitleBarView = binding.root
+        }
+        return binding
+    }
+
+    /**
+     * 添加显示的底部操作视图绑定
+     */
+    protected open fun <T : ViewDataBinding> addShowBottomOptionsView(addBaseLayout: Boolean, binding: T?): T? {
+        if (addBaseLayout && findViewById<View>(R.id.lnAcbflwBase) == null) {
+            useBaseLayout()
+        }
+        if (binding == null) {
+            return null
+        }
+        val vsbAcbflwBottomView = findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
+        val lnAcbflwBase = findViewById<LinearLayoutCompat>(R.id.lnAcbflwBase)
+        //内容视图
+        if (vsbAcbflwBottomView != null && lnAcbflwBase != null) {
+            setViewStub(vsbAcbflwBottomView, lnAcbflwBase, binding)
+            showBottomOptionsView = binding.root
         }
         return binding
     }
@@ -189,7 +231,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         parent.removeViewInLayout(view)
         val layoutParams: ViewGroup.LayoutParams = view.layoutParams
         parent.addView(binding.root, index, layoutParams)
-
     }
 
 
