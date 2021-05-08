@@ -2,10 +2,12 @@ package android.lorenwang.customview.imageview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -193,6 +195,26 @@ public class AvlwZoomableImageView extends AppCompatImageView {
      */
     public float getCurrentScale() {
         return mCurrentScale;
+    }
+
+    /**
+     * 获取当前显示位图
+     *
+     * @return 位图，可能为空
+     */
+    public Bitmap getCurrentBitmap() {
+        Bitmap bitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(getDrawable());
+        RectF rectF = new RectF(getLeft(), getTop(), getRight(), getBottom());
+        mCurrentMatrix.mapRect(rectF);
+        if (bitmap != null) {
+            float viewLeft = Math.abs(rectF.left) / rectF.width();
+            float viewTop = Math.abs(rectF.top) / rectF.height();
+            float viewRight = (Math.abs(rectF.right) - getWidth()) / rectF.width();
+            float viewBottom = (Math.abs(rectF.bottom) - getHeight()) / rectF.height();
+            return AtlwImageCommonUtil.getInstance().cropBitmap(bitmap, (int) (viewLeft * 100), (int) (viewTop * 100), (int) (viewRight * 100),
+                    (int) (viewBottom * 100));
+        }
+        return null;
     }
 
     /**

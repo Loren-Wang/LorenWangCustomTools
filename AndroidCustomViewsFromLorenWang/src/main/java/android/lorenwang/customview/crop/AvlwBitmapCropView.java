@@ -77,12 +77,11 @@ public class AvlwBitmapCropView extends ConstraintLayout {
      */
     public Bitmap getCropBitmap(@FloatRange(from = 0, to = 1) float leftPercent, @FloatRange(from = 0, to = 1) float topPercent,
             @FloatRange(from = 0, to = 1) float rightPercent, @FloatRange(from = 0, to = 1) float bottomPercent, int cropRadius) {
-        Bitmap bgImageViewBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(bgImageView.getDrawable());
-        if (bgImageViewBitmap != null && !bgImageViewBitmap.isRecycled()) {
-            float scale = bgImageView.getCurrentScale();
-            Bitmap bitmap = AtlwImageCommonUtil.getInstance().cropBitmap(bgImageViewBitmap, (int) (leftPercent * scale * 100),
-                    (int) (topPercent * scale * 100), (int) (rightPercent * scale * 100), (int) (bottomPercent * scale * 100));
-            if (cropRadius > 0) {
+        Bitmap currentBitmap = bgImageView.getCurrentBitmap();
+        if (currentBitmap != null && !currentBitmap.isRecycled()) {
+            Bitmap bitmap = AtlwImageCommonUtil.getInstance().cropBitmap(currentBitmap, (int) (leftPercent * 100), (int) (topPercent * 100),
+                    (int) (rightPercent * 100), (int) (bottomPercent * 100));
+            if (cropRadius > 0 && bitmap != null) {
                 return AtlwImageCommonUtil.getInstance().getRoundedCornerBitmap(bitmap, cropRadius);
             } else {
                 return bitmap;
