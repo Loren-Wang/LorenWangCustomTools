@@ -113,11 +113,13 @@ open class AcbflwNetworkManager private constructor() {
         //构造okhttp
         var builder = OkHttpClient.Builder() //防止无法进行http请求
         builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT)) //设置超时时间
-        builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS) //添加默认日志拦截器
-        builder = builder.addInterceptor(AcbflwInterceptor(appCompileType)) //添加拦截器
+        builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS)
+        //添加拦截器
         interceptor?.forEach {
             builder = builder.addInterceptor(it)
         }
+        //添加默认日志拦截器,后加
+        builder = builder.addInterceptor(AcbflwInterceptor(appCompileType))
         lwRetrofit = Retrofit.Builder().baseUrl(baseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(converterFactory ?: AcbflwResponseGsonConverterFactory.create()) //使用自定义的gson数据解析器，部分代码取自源码当中的gson解析器
             .build() //下载请求实例不使用Gson解析器
@@ -199,8 +201,7 @@ open class AcbflwNetworkManager private constructor() {
      * @return 二维数组，一级数组中的每一个元素内的数据从头至尾分别代表着基础URl，h5基础Url，分享基础Url
      */
     fun getRecordUrls(): Array<Array<String>> {
-        return JdplwJsonUtils.fromJson(
-            AtlwSharedPrefUtil.getInstance().getString(KEY_BASE_URL_RECORDS, ""), Array<Array<String>>::class.java)
+        return JdplwJsonUtils.fromJson(AtlwSharedPrefUtil.getInstance().getString(KEY_BASE_URL_RECORDS, ""), Array<Array<String>>::class.java)
             ?: arrayOf()
     }
 }

@@ -27,7 +27,7 @@ import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
  */
 
 public class AcbflwPayUtil {
-    private final String TAG = "AcbflwPayUtils";
+    private final String TAG = "AcbflwPayUtil";
     private static volatile AcbflwPayUtil optionsInstance;
 
     private AcbflwPayUtil() {
@@ -127,7 +127,7 @@ public class AcbflwPayUtil {
                 AtlwLogUtil.logUtils.logI(TAG, "支付宝请求实体初始化完成，向支付宝发送支付请求");
                 Map<String, String> result = alipay.payV2(payDataBean.getaLiPayBody(), true);
                 String resultStatus = result.get("resultStatus");
-                if (JtlwCheckVariateUtils.getInstance().isEmpty(resultStatus) && payDataBean.getPayCallBack() != null) {
+                if (JtlwCheckVariateUtils.getInstance().isNotEmpty(resultStatus)) {
                     //                    9000	订单支付成功
                     //                    8000	正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
                     //                    4000	订单支付失败
@@ -139,11 +139,15 @@ public class AcbflwPayUtil {
                     switch (resultStatus) {
                         case "9000":
                             AtlwLogUtil.logUtils.logI(TAG, "支付宝支付成功");
-                            payDataBean.getPayCallBack().info();
+                            if (payDataBean.getPayCallBack() != null) {
+                                payDataBean.getPayCallBack().info();
+                            }
                             break;
                         case "4000":
                             AtlwLogUtil.logUtils.logI(TAG, "支付宝支付失败");
-                            payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_FAIL);
+                            if (payDataBean.getPayCallBack() != null) {
+                                payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_FAIL);
+                            }
                             break;
                         case "5000":
                             AtlwLogUtil.logUtils.logI(TAG, "支付宝支付错误：发起了重复请求");
@@ -151,15 +155,21 @@ public class AcbflwPayUtil {
                             break;
                         case "6001":
                             AtlwLogUtil.logUtils.logI(TAG, "支付宝支付错误：用户中途取消");
-                            payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_CANCEL);
+                            if (payDataBean.getPayCallBack() != null) {
+                                payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_CANCEL);
+                            }
                             break;
                         case "6002":
                             AtlwLogUtil.logUtils.logI(TAG, "支付宝支付错误：网络连接出错");
-                            payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_ERROR_CONNECT);
+                            if (payDataBean.getPayCallBack() != null) {
+                                payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_ERROR_CONNECT);
+                            }
                             break;
                         default:
                             AtlwLogUtil.logUtils.logI(TAG, "支付宝支付错误：其它支付错误");
-                            payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_ERROR_OTHER);
+                            if (payDataBean.getPayCallBack() != null) {
+                                payDataBean.getPayCallBack().error(AcbflwPluginErrorTypeEnum.ALI_PAY_ERROR_OTHER);
+                            }
                             break;
                     }
                 } else {
