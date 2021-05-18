@@ -35,6 +35,10 @@ public enum AcbflwPluginTargetTypeEnum {
      */
     SHARE_SAVE_LOCAL_IMAGE(4, "Share Image"),
     /**
+     * 新浪微博分享
+     */
+    SHARE_SINA(5,"Sina Text"),
+    /**
      * 微信支付
      */
     PAY_WE_CHAT(5, "WeChat Pay"),
@@ -43,8 +47,8 @@ public enum AcbflwPluginTargetTypeEnum {
      */
     PAY_ALI(6, "ALiPay");
 
-    private int type;
-    private String des;
+    private final int type;
+    private final String des;
 
     AcbflwPluginTargetTypeEnum(int type, String des) {
         this.type = type;

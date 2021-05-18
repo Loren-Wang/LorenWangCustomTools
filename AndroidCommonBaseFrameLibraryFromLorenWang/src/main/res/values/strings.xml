@@ -6,6 +6,10 @@
     <string name="share_title_is_too_long" translatable="false">分享标题过长</string>
     <string name="share_description_is_too_long" translatable="false">描述内容过长</string>
     <string name="share_text_is_too_long" translatable="false">文本内容过长</string>
+    <string name="share_text_empty" translatable="false">文本内容为空</string>
+    <string name="share_activity_empty" translatable="false">分享实例</string>
+    <string name="share_title_empty" translatable="false">分享标题为空</string>
+    <string name="share_description_empty" translatable="false">分享描述为空</string>
     <string name="share_music_url_empty_or_is_too_long" translatable="false">音频链接为空或长度过长</string>
     <string name="share_video_url_empty_or_is_too_long" translatable="false">视频链接为空或长度过长</string>
     <string name="share_web_page_url_empty_or_is_too_long" translatable="false">网页链接为空或长度过长</string>
@@ -15,11 +19,17 @@
     <string name="share_image_error" translatable="false">图片异常</string>
     <string name="share_file_is_too_long" translatable="false">文件过大</string>
     <string name="share_file_empty" translatable="false">文件为空</string>
+    <string name="share_cancel" translatable="false">分享取消</string>
+    <string name="share_fail" translatable="false">分享失败</string>
     <string name="wechat_not_init" translatable="false">微信未初始化</string>
     <string name="wechat_not_install" translatable="false">微信未安装</string>
     <string name="wechat_login_auth_denied" translatable="false">微信用户拒绝授权认证</string>
     <string name="wechat_login_auth_cancel" translatable="false">微信用户取消授权认证</string>
-    <string name="wechat_login_auth_unknow_error" translatable="false">微信用户授权认证未知错误</string>
+    <string name="wechat_login_auth_un_know_error" translatable="false">微信用户授权认证未知错误</string>
+    <string name="sina_login_auth_cancel" translatable="false">微博用户取消授权认证</string>
+    <string name="sina_login_auth_un_know_error" translatable="false">微博用户授权认证未知错误</string>
+    <string name="qq_login_auth_cancel" translatable="false">QQ用户取消授权认证</string>
+    <string name="qq_login_auth_un_know_error" translatable="false">QQ用户授权认证未知错误</string>
     <string name="wechat_share_unknow_error" translatable="false">微信分享未知错误</string>
     <string name="wechat_pay_unknow_error" translatable="false">微信支付未知错误</string>
     <string name="wechat_pay_cancel" translatable="false">微信支付用户取消</string>

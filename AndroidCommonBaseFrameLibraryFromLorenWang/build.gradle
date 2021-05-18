@@ -16,7 +16,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "3.1.4"
+        versionName "3.1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -53,10 +53,11 @@ repositories {
     }
 }
 dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.18'
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compileOnly 'androidx.appcompat:appcompat:1.2.0'
-    compileOnly 'androidx.recyclerview:recyclerview:1.1.0'
+    compileOnly 'androidx.recyclerview:recyclerview:1.2.0'
     //安卓自定义组件框架库
     compileOnly project(':AndroidCustomViewsFromLorenWang')
     //安卓自定义工具框架库
@@ -88,8 +89,12 @@ dependencies {
     //微信开放平台
     //noinspection GradleDynamicVersion
     compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
-    // 支付宝支付
+    //支付宝支付
     compileOnly(name: 'alipaySdk', ext: 'aar')
+    //微博相关
+    compileOnly(name: 'openDefault-10.10.0', ext: 'aar')
+    //qq相关
+    compileOnly 'com.tencent.tauth:qqopensdk:3.52.0'
     //安卓下拉刷新库
     compileOnly 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 

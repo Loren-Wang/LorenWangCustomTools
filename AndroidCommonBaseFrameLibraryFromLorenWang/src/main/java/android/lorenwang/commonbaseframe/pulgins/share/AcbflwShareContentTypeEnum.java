@@ -49,10 +49,14 @@ public enum AcbflwShareContentTypeEnum {
     /**
      * 小程序分享
      */
-    MINI_PROGRAM(8, "MiniProgram");
+    MINI_PROGRAM(8, "MiniProgram"),
+    /**
+     * 图片列表
+     */
+    IMAGE_LIST(9,"image list");
 
-    private int type;
-    private String des;
+    private final int type;
+    private final String des;
 
     AcbflwShareContentTypeEnum(int type, String des) {
         this.type = type;

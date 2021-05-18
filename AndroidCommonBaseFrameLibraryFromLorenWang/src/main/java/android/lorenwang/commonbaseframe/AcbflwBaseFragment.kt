@@ -139,7 +139,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      * 添加显示的内容视图绑定
      */
     protected open fun <T : ViewDataBinding> addShowContentView(addBaseLayout: Boolean, binding: T?): T? {
-        if (addBaseLayout && fragmentView?.findViewById<View>(R.id.lnAcbflwBase) == null) {
+        if (addBaseLayout && fragmentView != null) {
             useBaseLayout()
         }
         if (binding == null) {
@@ -159,7 +159,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      * 添加显示的标题视图绑定
      */
     protected open fun <T : ViewDataBinding> addShowTitleView(addBaseLayout: Boolean, binding: T?): T? {
-        if (addBaseLayout && fragmentView?.findViewById<View>(R.id.lnAcbflwBase) == null) {
+        if (addBaseLayout && fragmentView != null) {
             useBaseLayout()
         }
         if (binding == null) {
@@ -179,7 +179,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      * 添加显示的底部操作视图绑定
      */
     protected open fun <T : ViewDataBinding> addShowBottomOptionsView(addBaseLayout: Boolean, binding: T?): T? {
-        if (addBaseLayout && fragmentView?.findViewById<View>(R.id.lnAcbflwBase) == null) {
+        if (addBaseLayout && fragmentView != null) {
             useBaseLayout()
         }
         if (binding == null) {

@@ -35,6 +35,7 @@ import java.util.List;
  * 修改人：
  * 修改时间：
  * 备注：
+ *
  * @author wangliang
  */
 
@@ -45,6 +46,11 @@ public class AcbflwShareUtil {
      * 微信分享实例
      */
     private AcbflwWeChatShare weChatShare;
+
+    /**
+     * 微博分享实例
+     */
+    private AcbflwSinaShare sinaShare;
 
     private AcbflwShareUtil() {
     }
@@ -77,14 +83,15 @@ public class AcbflwShareUtil {
      * @param targetType    分享目标类型
      * @param contentType   分享内容类型
      */
-    private void sendShareData(final AcbflwShareDataBean shareDataBean, AcbflwPluginTargetTypeEnum targetType, AcbflwShareContentTypeEnum contentType) {
+    private void sendShareData(final AcbflwShareDataBean shareDataBean, AcbflwPluginTargetTypeEnum targetType,
+            AcbflwShareContentTypeEnum contentType) {
         AtlwLogUtil.logUtils.logI(TAG, "准备发起分享数据");
         assert targetType != null;
         assert contentType != null;
         assert shareDataBean.getShareCallBack() != null;
         AtlwLogUtil.logUtils.logI(TAG, "分享目标：" + targetType.getDes() + " 分享内容类型：" + contentType.getDes());
         switch (targetType) {
-            //好友
+                //好友
             case SHARE_WE_CHAT_SESSION:
                 //收藏
             case SHARE_WE_CHAT_FAVORITE:
@@ -138,18 +145,14 @@ public class AcbflwShareUtil {
                 if (shareDataBean.getSaveLocalImageBitmap() == null) {
                     shareDataBean.getShareCallBack().error(AcbflwPluginErrorTypeEnum.SHARE_IMAGE_EMPTY);
                 } else {
-                    String dirPath =
-                            AtlwConfig.nowApplication.getExternalFilesDir(null).getAbsolutePath();
+                    String dirPath = AtlwConfig.nowApplication.getExternalFilesDir(null).getAbsolutePath();
                     final File file = new File(
-                            dirPath.substring(0, dirPath.toLowerCase().indexOf("/android"))
-                                    + "/" + AtlwActivityUtil.getInstance().getAppName() + "/" +
-                                    (shareDataBean.getSaveLocalImageName() == null ?
-                                            System.currentTimeMillis() + ".png" :
-                                            shareDataBean.getSaveLocalImageName()));
+                            dirPath.substring(0, dirPath.toLowerCase().indexOf("/android")) + "/" + AtlwActivityUtil.getInstance().getAppName() +
+                                    "/" + (shareDataBean.getSaveLocalImageName() == null ? System.currentTimeMillis() + ".png" :
+                                    shareDataBean.getSaveLocalImageName()));
                     final int code = hashCode() % 10000;
                     AtlwActivityUtil.getInstance().goToRequestPermissions(AcbflwBaseApplication.getCurrentShowActivity(),
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, code,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, code,
                             new AtlwPermissionRequestCallback() {
 
                                 /**
@@ -162,8 +165,7 @@ public class AcbflwShareUtil {
                                 public void permissionRequestSuccessCallback(List<String> permissionList, int permissionsRequestCode) {
                                     if (permissionsRequestCode == code) {
                                         //保存图片
-                                        if (AtlwFileOptionUtil.getInstance().writeToFile(true, file,
-                                                shareDataBean.getSaveLocalImageBitmap(),
+                                        if (AtlwFileOptionUtil.getInstance().writeToFile(true, file, shareDataBean.getSaveLocalImageBitmap(),
                                                 Bitmap.CompressFormat.PNG)) {
                                             //保存图片后发送广播通知更新数据库
                                             Uri uri = Uri.fromFile(file);
@@ -190,6 +192,32 @@ public class AcbflwShareUtil {
 
                 }
                 break;
+            case SHARE_SINA:
+                switch (contentType) {
+                    //文本
+                    case TEXT:
+                        getSinaShare().shareText(shareDataBean);
+                        break;
+                    //图片
+                    case IMAGE:
+                        getSinaShare().shareImageBitmap(shareDataBean);
+                        break;
+                    //图片列表
+                    case IMAGE_LIST:
+                        getSinaShare().shareImageList(shareDataBean);
+                        break;
+                    //视频
+                    case VIDEO:
+                        getSinaShare().shareVideo(shareDataBean);
+                        break;
+                    //网页分享
+                    case WEB_PAGE:
+                        getSinaShare().shareWeb(shareDataBean);
+                        break;
+                    default:
+                        break;
+                }
+                break;
             default:
                 break;
         }
@@ -209,5 +237,21 @@ public class AcbflwShareUtil {
             }
         }
         return weChatShare;
+    }
+
+    /**
+     * 获取微博分享实例
+     *
+     * @return 微博分享实例
+     */
+    private AcbflwSinaShare getSinaShare() {
+        if (sinaShare == null) {
+            synchronized (AcbflwWeChatShare.class) {
+                if (sinaShare == null) {
+                    sinaShare = new AcbflwSinaShare();
+                }
+            }
+        }
+        return sinaShare;
     }
 }

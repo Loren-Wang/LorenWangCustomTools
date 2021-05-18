@@ -7,6 +7,7 @@ import android.lorenwang.commonbaseframe.image.AcbflwImageSelectUtil;
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseModel;
 import android.lorenwang.commonbaseframe.mvp.AcbflwBasePresenter;
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView;
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
 import android.lorenwang.customview.video.AvlwVideoPlayManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.os.Bundle;
@@ -131,6 +132,8 @@ public abstract class AcbflwBaseApplication extends Application {
                 if (isUseVideoPlayLibrary()) {
                     AvlwVideoPlayManager.getInstance().removePlayVideoViews(activity);
                 }
+                //移除相关微博实例
+                AcbflwPluginUtil.getInstance().removeSinaApi(activity);
             }
         });
         //基础包初始化配置

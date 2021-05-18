@@ -1,8 +1,12 @@
 package android.lorenwang.commonbaseframe
 
+import android.content.Intent
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil
 import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwViewUtil
+import android.lorenwang.tools.base.AtlwLogUtil
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.view.View
@@ -14,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.ViewDataBinding
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.sina.weibo.sdk.common.UiError
+import com.sina.weibo.sdk.share.WbShareCallback
+import javabase.lorenwang.dataparse.JdplwJsonUtils
 import kotlinbase.lorenwang.tools.extend.kttlwToVisible
 
 /**
@@ -233,7 +240,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         parent.addView(binding.root, index, layoutParams)
     }
 
-
     /**
      * 显示内容数据，隐藏空数据
      */
@@ -268,6 +274,30 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         AtlwActivityUtil.getInstance().receivePermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //新浪微博相关回调
+        if (AcbflwPluginUtil.getInstance().getSinaApi(this) != null) {
+            AcbflwPluginUtil.getInstance().getSinaApi(this).doResultIntent(data, object : WbShareCallback {
+                override fun onComplete() {
+                    AcbflwPluginUtil.getInstance().callBackInfo(AcbflwPluginUtil.getInstance().sinaKey(this@AcbflwBaseActivity))
+                }
+
+                override fun onError(p0: UiError?) {
+                    AtlwLogUtil.logUtils.logI("shareToSina", JdplwJsonUtils.toJson(p0))
+                    AcbflwPluginUtil.getInstance()
+                        .callBackError(AcbflwPluginUtil.getInstance().sinaKey(this@AcbflwBaseActivity), AcbflwPluginErrorTypeEnum.SHARE_FAIL)
+                }
+
+                override fun onCancel() {
+                    AcbflwPluginUtil.getInstance()
+                        .callBackError(AcbflwPluginUtil.getInstance().sinaKey(this@AcbflwBaseActivity), AcbflwPluginErrorTypeEnum.SHARE_CANCEL)
+                }
+            })
+            AcbflwPluginUtil.getInstance().getSinaApi(this).authorizeCallback(requestCode, resultCode, data);
+        }
     }
 
 }

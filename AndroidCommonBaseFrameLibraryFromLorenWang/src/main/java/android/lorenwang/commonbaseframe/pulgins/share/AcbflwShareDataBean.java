@@ -1,10 +1,16 @@
 package android.lorenwang.commonbaseframe.pulgins.share;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginCallBack;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTargetTypeEnum;
 
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
+
+import java.util.List;
+
+import lombok.Builder;
+import lombok.Getter;
 
 /**
  * 功能作用：分享数据实体
@@ -37,7 +43,8 @@ import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
  * 配置参数19：是否使用带 shareTicket 的分享---withShareTicket---（通常开发者希望分享出去的小程序被二次打开时可以获取到更多信息，例如群的标识。可以设置 withShareTicket 为 true，当分享卡片在群聊中被其他用户打开时，可以获取到 shareTicket，用于获取更多分享信息。详见小程序获取更多分享信息 ，最低客户端版本要求：6.5.13）
  * 配置参数20：小程序的类型，默认正式版---miniProgramType---（默认正式版 正式版: WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE; 测试版: WXMiniProgramObject.MINIPROGRAM_TYPE_TEST;预览版: WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW）
  */
-
+@Builder
+@Getter
 public class AcbflwShareDataBean {
     /**
      * 分享回调
@@ -51,6 +58,10 @@ public class AcbflwShareDataBean {
      * 分享内容类型
      */
     AcbflwShareContentTypeEnum contentType;
+    /**
+     * 页面实例
+     */
+    private Activity activity;
 
     /**
      * 微信分享描述
@@ -137,330 +148,38 @@ public class AcbflwShareDataBean {
      */
     private byte[] wxFileData;
 
-    public AcbflwPluginCallBack getShareCallBack() {
-        return shareCallBack;
-    }
+    /**
+     * 微博分享文本
+     */
+    private String sinaText;
+    /**
+     * 微博分享的图片
+     */
+    private Bitmap sinaImageViewBitmap;
+    /**
+     * 新浪分享标题
+     */
+    private String sinaTitle;
+    /**
+     * 新浪分享描述
+     */
+    private String sinaDes;
+    /**
+     * 分享的网址
+     */
+    private String sinaWebUrl;
+    /**
+     * 分享的图片列表
+     */
+    private List<String> sinaImagePathList;
+    /**
+     * 分享视频路径
+     */
+    private String sinaVideoPath;
 
-    public AcbflwPluginTargetTypeEnum getTargetType() {
-        return targetType;
-    }
-
-    public AcbflwShareContentTypeEnum getContentType() {
-        return contentType;
-    }
-
-    public String getWxBaseDescription() {
-        return wxBaseDescription;
-    }
-
-    public String getWxText() {
-        return wxText;
-    }
-
-    public Bitmap getWxImageViewBitmap() {
-        return wxImageViewBitmap;
-    }
-
-    public String getWxMiniProgramWebpageUrl() {
-        return wxMiniProgramWebpageUrl;
-    }
-
-    public String getWxMiniProgramPath() {
-        return wxMiniProgramPath;
-    }
-
-    public String getWxMiniProgramTitle() {
-        return wxMiniProgramTitle;
-    }
-
-    public Bitmap getWxMiniProgramThumbBitmap() {
-        return wxMiniProgramThumbBitmap;
-    }
-
-    public int getWxMiniProgramType() {
-        return wxMiniProgramType;
-    }
-
-    public Bitmap getSaveLocalImageBitmap() {
-        return saveLocalImageBitmap;
-    }
-
-    public String getSaveLocalImageName() {
-        return saveLocalImageName;
-    }
-
-    public String getWxMusicUrl() {
-        return wxMusicUrl;
-    }
-
-    public String getWxMusicLowBandUrl() {
-        return wxMusicLowBandUrl;
-    }
-
-    public String getWxMusicDataUrl() {
-        return wxMusicDataUrl;
-    }
-
-    public String getWxMusicLowBandDataUrl() {
-        return wxMusicLowBandDataUrl;
-    }
-
-    public String getWxVideoUrl() {
-        return wxVideoUrl;
-    }
-
-    public String getWxVideoLowBandUrl() {
-        return wxVideoLowBandUrl;
-    }
-
-    public String getWxFilePath() {
-        return wxFilePath;
-    }
-
-    public byte[] getWxFileData() {
-        return wxFileData;
-    }
-
-    public String getWxWebPageUrl() {
-        return wxWebPageUrl;
-    }
-
-    public static class Build {
-        /**
-         * 分享回调
-         */
-        private AcbflwPluginCallBack shareCallBack;
-        /**
-         * 分享目标
-         */
-        AcbflwPluginTargetTypeEnum targetType;
-        /**
-         * 分享内容类型
-         */
-        AcbflwShareContentTypeEnum contentType;
-
-        /**
-         * 微信分享描述
-         */
-        private String wxBaseDescription;
-        /**
-         * 微信文本分享文本
-         */
-        private String wxText;
-        /**
-         * 微信分享的图片
-         */
-        private Bitmap wxImageViewBitmap;
-        /**
-         * 微信小程序分享地址
-         */
-        private String wxMiniProgramWebpageUrl;
-        /**
-         * 微信小程序分享小程序路径
-         */
-        private String wxMiniProgramPath;
-        /**
-         * 微信小程序分享的小程序消息标题
-         */
-        private String wxMiniProgramTitle;
-        /**
-         * 微信小程序缩略图
-         */
-        private Bitmap wxMiniProgramThumbBitmap;
-        /**
-         * 小程序的类型，默认正式版
-         * 正式版: WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
-         * 测试版: WXMiniProgramObject.MINIPROGRAM_TYPE_TEST;
-         * 预览版: WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW
-         */
-        private int wxMiniProgramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
-
-        /**
-         * 保存到本地的图片位图
-         */
-        private Bitmap saveLocalImageBitmap;
-        /**
-         * 保存到本地的图片名称
-         */
-        private String saveLocalImageName;
-
-        /**
-         * 音频网页的 URL 地址	限制长度不超过 10KB
-         */
-        private String wxMusicUrl;
-        /**
-         * 供低带宽环境下使用的音频网页 URL 地址	限制长度不超过 10KB
-         */
-        private String wxMusicLowBandUrl;
-        /**
-         * 音频数据的 URL 地址	限制长度不超过 10KB
-         */
-        private String wxMusicDataUrl;
-        /**
-         * 供低带宽环境下使用的音频数据 URL 地址	限制长度不超过 10KB
-         */
-        private String wxMusicLowBandDataUrl;
-
-        /**
-         * 视频链接	限制长度不超过 10KB
-         */
-        private String wxVideoUrl;
-        /**
-         * 供低带宽的环境下使用的视频链接	限制长度不超过 10KB
-         */
-        private String wxVideoLowBandUrl;
-
-        /**
-         * html 链接	限制长度不超过 10KB
-         */
-        private String wxWebPageUrl;
-
-        /**
-         * 文件地址
-         */
-        private String wxFilePath;
-        /**
-         * 文件数据
-         */
-        private byte[] wxFileData;
-
-        public Build setShareCallBack(AcbflwPluginCallBack shareCallBack) {
-            this.shareCallBack = shareCallBack;
-            return this;
-        }
-
-        public Build setTargetType(AcbflwPluginTargetTypeEnum targetType) {
-            this.targetType = targetType;
-            return this;
-        }
-
-        public Build setContentType(AcbflwShareContentTypeEnum contentType) {
-            this.contentType = contentType;
-            return this;
-        }
-
-        public Build setWxBaseDescription(String wxBaseDescription) {
-            this.wxBaseDescription = wxBaseDescription;
-            return this;
-        }
-
-        public Build setWxText(String wxText) {
-            this.wxText = wxText;
-            return this;
-        }
-
-        public Build setWxImageViewBitmap(Bitmap wxImageViewBitmap) {
-            this.wxImageViewBitmap = wxImageViewBitmap;
-            return this;
-        }
-
-        public Build setWxMiniProgramWebpageUrl(String wxMiniProgramWebpageUrl) {
-            this.wxMiniProgramWebpageUrl = wxMiniProgramWebpageUrl;
-            return this;
-        }
-
-        public Build setWxMiniProgramPath(String wxMiniProgramPath) {
-            this.wxMiniProgramPath = wxMiniProgramPath;
-            return this;
-        }
-
-        public Build setWxMiniProgramTitle(String wxMiniProgramTitle) {
-            this.wxMiniProgramTitle = wxMiniProgramTitle;
-            return this;
-        }
-
-        public Build setWxMiniProgramThumbBitmap(Bitmap wxMiniProgramThumbBitmap) {
-            this.wxMiniProgramThumbBitmap = wxMiniProgramThumbBitmap;
-            return this;
-        }
-
-        public Build setWxMiniProgramType(int wxMiniProgramType) {
-            this.wxMiniProgramType = wxMiniProgramType;
-            return this;
-        }
-
-        public Build setSaveLocalImageBitmap(Bitmap saveLocalImageBitmap) {
-            this.saveLocalImageBitmap = saveLocalImageBitmap;
-            return this;
-        }
-
-        public Build setSaveLocalImageName(String saveLocalImageName) {
-            this.saveLocalImageName = saveLocalImageName;
-            return this;
-        }
-
-        public Build setWxMusicUrl(String wxMusicUrl) {
-            this.wxMusicUrl = wxMusicUrl;
-            return this;
-        }
-
-        public Build setWxMusicLowBandUrl(String wxMusicLowBandUrl) {
-            this.wxMusicLowBandUrl = wxMusicLowBandUrl;
-            return this;
-        }
-
-        public Build setWxMusicDataUrl(String wxMusicDataUrl) {
-            this.wxMusicDataUrl = wxMusicDataUrl;
-            return this;
-        }
-
-        public Build setWxMusicLowBandDataUrl(String wxMusicLowBandDataUrl) {
-            this.wxMusicLowBandDataUrl = wxMusicLowBandDataUrl;
-            return this;
-        }
-
-        public Build setWxVideoUrl(String wxVideoUrl) {
-            this.wxVideoUrl = wxVideoUrl;
-            return this;
-        }
-
-        public Build setWxVideoLowBandUrl(String wxVideoLowBandUrl) {
-            this.wxVideoLowBandUrl = wxVideoLowBandUrl;
-            return this;
-        }
-
-        public Build setWxFilePath(String wxFilePath) {
-            this.wxFilePath = wxFilePath;
-            return this;
-        }
-
-        public Build setWxFileData(byte[] wxFileData) {
-            this.wxFileData = wxFileData;
-            return this;
-        }
-
-        public Build setWxWebPageUrl(String wxWebPageUrl) {
-            this.wxWebPageUrl = wxWebPageUrl;
-            return this;
-        }
-
-        public AcbflwShareDataBean build() {
-            AcbflwShareDataBean bean = new AcbflwShareDataBean();
-            bean.shareCallBack = this.shareCallBack;
-            bean.targetType = this.targetType;
-            bean.contentType = this.contentType;
-            bean.wxBaseDescription = this.wxBaseDescription;
-            bean.wxText = this.wxText;
-            bean.wxImageViewBitmap = this.wxImageViewBitmap;
-            bean.wxMiniProgramWebpageUrl = this.wxMiniProgramWebpageUrl;
-            bean.wxMiniProgramPath = this.wxMiniProgramPath;
-            bean.wxMiniProgramTitle = this.wxMiniProgramTitle;
-            bean.wxMiniProgramThumbBitmap = this.wxMiniProgramThumbBitmap;
-            bean.wxMiniProgramType =  this.wxMiniProgramType;
-            bean.saveLocalImageBitmap = this.saveLocalImageBitmap;
-            bean.saveLocalImageName = this.saveLocalImageName;
-            bean.wxMusicUrl = this.wxMusicUrl;
-            bean.wxMusicLowBandUrl = this.wxMusicLowBandUrl;
-            bean.wxMusicDataUrl = this.wxMusicDataUrl;
-            bean.wxMusicLowBandDataUrl = this.wxMusicLowBandDataUrl;
-            bean.wxVideoUrl = this.wxVideoUrl;
-            bean.wxVideoLowBandUrl = this.wxVideoLowBandUrl;
-            bean.wxFilePath = this.wxFilePath;
-            bean.wxFileData = this.wxFileData;
-            bean.wxWebPageUrl = this.wxWebPageUrl;
-            return bean;
-        }
-
-    }
+    /**
+     * qq分享图片本地地址
+     */
+    private final String qqImageLocalPath;
 
 }
