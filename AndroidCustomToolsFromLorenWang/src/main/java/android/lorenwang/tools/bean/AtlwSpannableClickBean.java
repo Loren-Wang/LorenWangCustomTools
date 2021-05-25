@@ -42,6 +42,8 @@ public class AtlwSpannableClickBean extends ClickableSpan {
      */
     private final Integer textSize;
 
+    private Boolean bold;
+
     /**
      * 实例化
      *
@@ -65,6 +67,21 @@ public class AtlwSpannableClickBean extends ClickableSpan {
         this.textSize = textSize;
         this.color = color;
         this.onClickListener = onClickListener;
+    }
+
+    /**
+     * 实例化
+     *
+     * @param paramsMsg       要改变颜色的数据
+     * @param color           要改变后的颜色
+     * @param onClickListener 点击事件
+     */
+    public AtlwSpannableClickBean(@NonNull String paramsMsg, Integer color, Integer textSize, boolean bold, View.OnClickListener onClickListener) {
+        this.paramsMsg = paramsMsg;
+        this.textSize = textSize;
+        this.color = color;
+        this.onClickListener = onClickListener;
+        this.bold = bold;
     }
 
     /**
@@ -95,6 +112,9 @@ public class AtlwSpannableClickBean extends ClickableSpan {
     @Override
     public void updateDrawState(@NotNull TextPaint ds) {
         super.updateDrawState(ds);
+        if (bold != null) {
+            ds.setFakeBoldText(bold);
+        }
         if (textSize != null) {
             ds.setTextSize(textSize);
         }

@@ -27,16 +27,6 @@ dependencies {
 def moduleName = "JavaCustomToolsFromLorenWang"
 def moduleDescription = "java自定义工具库"
 def moduleVersion = '2.2.8'
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def userId = properties.getProperty("userinfo.userId")
-def userName = properties.getProperty("userinfo.userName")
-def userEmail = properties.getProperty("userinfo.userEmail")
-def projectGitUrl = properties.getProperty("project.gitUrl")
-def projectWebsiteUrl = properties.getProperty("project.webSiteUrl")
-def sonatypeAccount = properties.getProperty("sonatype.account")
-def sonatypePassword = properties.getProperty("sonatype.password")
-def projectGroupId = properties.getProperty("project.groupId")
 // 编译版本和编码配置
 repositories {
     mavenCentral()
@@ -69,22 +59,22 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
             repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: sonatypeAccount, password: sonatypePassword)
+                authentication(userName: sonatype_account, password: sonatype_password)
             }
 
             pom.project {
                 name moduleName
                 version moduleVersion
-                groupId projectGroupId
+                groupId project_groupId
                 description moduleDescription
                 packaging 'jar'
                 // optionally artifactId can be defined here
                 description moduleDescription
-                url projectWebsiteUrl
+                url project_webSiteUrl
                 scm {
-                    connection projectGitUrl // Git仓库地址。
-                    developerConnection projectGitUrl // Git仓库地址。
-                    url projectWebsiteUrl // 项目主页。
+                    connection project_gitUrl // Git仓库地址。
+                    developerConnection project_gitUrl // Git仓库地址。
+                    url project_webSiteUrl // 项目主页。
                 }
                 licenses {
                     license {
@@ -94,9 +84,9 @@ uploadArchives {
                 }
                 developers {
                     developer {
-                        id = userId
-                        name = userName
-                        email = userEmail
+                        id = userInfo_userId
+                        name = userInfo_userName
+                        email = userInfo_userEmail
                     }
                 }
             }

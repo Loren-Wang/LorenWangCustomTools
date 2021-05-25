@@ -54,6 +54,7 @@ repositories {
 }
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compileOnly 'androidx.appcompat:appcompat:1.2.0'
