@@ -16,8 +16,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.TextView
 import android.widget.Toast
-import com.example.testapp.R
 import com.example.testapp.base.BaseActivity
+import com.example.testapp.R
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils
 import kotlinx.android.synthetic.main.activity_scan_code.*
 import java.io.File
@@ -42,7 +42,7 @@ class ScanCodeActivity : BaseActivity() {
 //                        scan.setScanCropView(viewScan)
                         surfaceView.setAgcslwScan(scan)
                         //开启扫描
-                        scan.startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true,0)
+                        scan.startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true)
                         //扫描结果回调
                         scan.setScanResultCallback(object : AgcslwScanResultCallback {
                             private var toast: Toast? = null

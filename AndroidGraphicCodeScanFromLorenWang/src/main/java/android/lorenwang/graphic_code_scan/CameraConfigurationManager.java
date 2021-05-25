@@ -91,7 +91,7 @@ final class CameraConfigurationManager {
 		return point;
 	}
 
-	public void setDesiredCameraParameters(Camera camera, boolean safeMode,int degrees) {
+	public void setDesiredCameraParameters(Camera camera, boolean safeMode) {
 		Camera.Parameters parameters = camera.getParameters();
 
 		if (parameters == null) {
@@ -116,8 +116,8 @@ final class CameraConfigurationManager {
 			cameraResolution.y = afterSize.height;
 		}
 
-		/* 设置相机预览为竖*/
-		camera.setDisplayOrientation(degrees);
+		/** 设置相机预览为竖�?*/
+		camera.setDisplayOrientation(90);
 	}
 
 	public Point getCameraResolution() {
@@ -130,6 +130,9 @@ final class CameraConfigurationManager {
 
 	/**
 	 * 从相机支持的分辨率中计算出最适合的预览界面尺�?	 *
+	 * @param parameters
+	 * @param screenResolution
+	 * @return
 	 */
 	private Point findBestPreviewSizeValue(Camera.Parameters parameters, Point screenResolution) {
 		List<Camera.Size> rawSupportedSizes = parameters.getSupportedPreviewSizes();
