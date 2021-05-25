@@ -125,8 +125,7 @@ class AcbflwWeChatShare {
             //压缩图片
             try {
                 sendMessage(shareDataBean, new WXImageObject(AtlwImageCommonUtil.getInstance()
-                        .bitmapCompressToByte(shareDataBean.getWxImageViewBitmap(),
-                                Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE)), shareTargetType);
+                        .bitmapCompressToByte(shareDataBean.getWxImageViewBitmap(), Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE)), shareTargetType);
             } catch (Exception e) {
                 //回调异常
                 callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
@@ -252,8 +251,7 @@ class AcbflwWeChatShare {
     public void sendMiniProgramShare(AcbflwShareDataBean shareDataBean) {
         //判断分享链接
         if (!checkStrSize(shareDataBean.getWxMiniProgramWebpageUrl(), MAX_SIZE_WEB_PAGE_URL)) {
-            callBackError(shareDataBean,
-                    AcbflwPluginErrorTypeEnum.SHARE_WEB_PAGE_URL_EMPTY_OR_IS_TOO_LONG);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_WEB_PAGE_URL_EMPTY_OR_IS_TOO_LONG);
             return;
         }
         //判断缩略图
@@ -263,8 +261,7 @@ class AcbflwWeChatShare {
         }
         //小程序id检测
         if (JtlwCheckVariateUtils.getInstance().isEmpty(AcbflwPluginUtil.getInstance().getWeChatId())) {
-            callBackError(shareDataBean,
-                    AcbflwPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_USER_NAME_EMPTY);
+            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_APPLET_OF_WECHAT_USER_NAME_EMPTY);
             return;
         }
         //小程序页面路径检测
@@ -279,14 +276,14 @@ class AcbflwWeChatShare {
         // 兼容低版本的网页链接
         miniProgramObj.webpageUrl = shareDataBean.getWxMiniProgramWebpageUrl();
         // 正式版:0，测试版:1，体验版:2
-        miniProgramObj.miniprogramType = shareDataBean.getWxMiniProgramType();
+        miniProgramObj.miniprogramType =
+                shareDataBean.getWxMiniProgramType() == null ? WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE : shareDataBean.getWxMiniProgramType();
         // 小程序原始id
         miniProgramObj.userName = AcbflwPluginUtil.getInstance().getWeChatApplyId();
         //小程序页面路径；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "
         miniProgramObj.path = shareDataBean.getWxMiniProgramPath();
         //发送分享
-        sendMessage(shareDataBean, miniProgramObj,
-                AcbflwPluginTargetTypeEnum.getShareTargetType(AcbflwPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION));
+        sendMessage(shareDataBean, miniProgramObj, AcbflwPluginTargetTypeEnum.getShareTargetType(AcbflwPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION));
     }
 
     /**
@@ -323,9 +320,8 @@ class AcbflwWeChatShare {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getWxMiniProgramThumbBitmap())) {
             //压缩图片
             try {
-                msg.thumbData = AtlwImageCommonUtil.getInstance()
-                        .bitmapCompressToByte(shareDataBean.getWxMiniProgramThumbBitmap(),
-                                Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE);
+                msg.thumbData = AtlwImageCommonUtil.getInstance().bitmapCompressToByte(shareDataBean.getWxMiniProgramThumbBitmap(),
+                        Bitmap.CompressFormat.JPEG, MAX_SIZE_IMAGE);
             } catch (Exception e) {
                 //回调异常
                 callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);

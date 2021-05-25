@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginCallBack;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTargetTypeEnum;
 
-import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
-
 import java.util.List;
 
 import lombok.Builder;
@@ -49,7 +47,7 @@ public class AcbflwShareDataBean {
     /**
      * 分享回调
      */
-    private AcbflwPluginCallBack shareCallBack;
+    private final AcbflwPluginCallBack shareCallBack;
     /**
      * 分享目标
      */
@@ -61,121 +59,121 @@ public class AcbflwShareDataBean {
     /**
      * 页面实例
      */
-    private Activity activity;
+    private final Activity activity;
 
     /**
      * 微信分享描述
      */
-    private String wxBaseDescription;
+    private final String wxBaseDescription;
     /**
      * 微信文本分享文本
      */
-    private String wxText;
+    private final String wxText;
     /**
      * 微信分享的图片
      */
-    private Bitmap wxImageViewBitmap;
+    private final Bitmap wxImageViewBitmap;
     /**
      * 微信小程序分享地址
      */
-    private String wxMiniProgramWebpageUrl;
+    private final String wxMiniProgramWebpageUrl;
     /**
      * 微信小程序分享小程序路径
      */
-    private String wxMiniProgramPath;
+    private final String wxMiniProgramPath;
     /**
      * 微信小程序分享的小程序消息标题
      */
-    private String wxMiniProgramTitle;
+    private final String wxMiniProgramTitle;
     /**
      * 微信小程序缩略图
      */
-    private Bitmap wxMiniProgramThumbBitmap;
+    private final Bitmap wxMiniProgramThumbBitmap;
     /**
      * 小程序的类型，默认正式版
      * 正式版: WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
      * 测试版: WXMiniProgramObject.MINIPROGRAM_TYPE_TEST;
      * 预览版: WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW
      */
-    private int wxMiniProgramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
+    private final Integer wxMiniProgramType;
 
     /**
      * 保存到本地的图片位图
      */
-    private Bitmap saveLocalImageBitmap;
+    private final Bitmap saveLocalImageBitmap;
     /**
      * 保存到本地的图片名称
      */
-    private String saveLocalImageName;
+    private final String saveLocalImageName;
 
     /**
      * 音频网页的 URL 地址	限制长度不超过 10KB
      */
-    private String wxMusicUrl;
+    private final String wxMusicUrl;
     /**
      * 供低带宽环境下使用的音频网页 URL 地址	限制长度不超过 10KB
      */
-    private String wxMusicLowBandUrl;
+    private final String wxMusicLowBandUrl;
     /**
      * 音频数据的 URL 地址	限制长度不超过 10KB
      */
-    private String wxMusicDataUrl;
+    private final String wxMusicDataUrl;
     /**
      * 供低带宽环境下使用的音频数据 URL 地址	限制长度不超过 10KB
      */
-    private String wxMusicLowBandDataUrl;
+    private final String wxMusicLowBandDataUrl;
 
     /**
      * 视频链接	限制长度不超过 10KB
      */
-    private String wxVideoUrl;
+    private final String wxVideoUrl;
     /**
      * 供低带宽的环境下使用的视频链接	限制长度不超过 10KB
      */
-    private String wxVideoLowBandUrl;
+    private final String wxVideoLowBandUrl;
 
     /**
      * html 链接	限制长度不超过 10KB
      */
-    private String wxWebPageUrl;
+    private final String wxWebPageUrl;
 
     /**
      * 文件地址
      */
-    private String wxFilePath;
+    private final String wxFilePath;
     /**
      * 文件数据
      */
-    private byte[] wxFileData;
+    private final byte[] wxFileData;
 
     /**
      * 微博分享文本
      */
-    private String sinaText;
+    private final String sinaText;
     /**
      * 微博分享的图片
      */
-    private Bitmap sinaImageViewBitmap;
+    private final Bitmap sinaImageViewBitmap;
     /**
      * 新浪分享标题
      */
-    private String sinaTitle;
+    private final String sinaTitle;
     /**
      * 新浪分享描述
      */
-    private String sinaDes;
+    private final String sinaDes;
     /**
      * 分享的网址
      */
-    private String sinaWebUrl;
+    private final String sinaWebUrl;
     /**
      * 分享的图片列表
      */
-    private List<String> sinaImagePathList;
+    private final List<String> sinaImagePathList;
     /**
      * 分享视频路径
      */
-    private String sinaVideoPath;
+    private final String sinaVideoPath;
 
     /**
      * qq分享图片本地地址
