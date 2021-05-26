@@ -38,7 +38,8 @@
         <activity android:name=".activity.textview.ShowQuantityOfCommodityActivity" />
         <activity android:name=".activity.RecycleViewPageActivity" />
         <activity android:name=".activity.TabLayoutActivity" />
-        <activity android:name=".activity.graphicCodeScan.ScanCodeActivity" />
+        <activity android:name=".activity.graphicCodeScan.ScanCodeActivity"
+           android:screenOrientation="landscape" />
         <activity android:name=".activity.DataParseActivity" />
         <activity android:name=".activity.ToastActivity" />
         <activity android:name=".activity.FileOptionsActivity" />

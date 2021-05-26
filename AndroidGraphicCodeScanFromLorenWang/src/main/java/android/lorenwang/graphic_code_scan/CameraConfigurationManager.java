@@ -48,9 +48,14 @@ final class CameraConfigurationManager {
 	private Point screenResolution;
 	// 相机分辨率
 	private Point cameraResolution;
+	/**
+	 * 屏幕方向
+	 */
+	private final int degree;
 
-	public CameraConfigurationManager(Context context) {
+	public CameraConfigurationManager(Context context,int degree) {
 		this.context = context;
+		this.degree = degree;
 	}
 
 	public void initFromCameraParameters(Camera camera) {
@@ -68,9 +73,11 @@ final class CameraConfigurationManager {
 		screenResolutionForCamera.x = screenResolution.x;
 		screenResolutionForCamera.y = screenResolution.y;
 
-		if (screenResolution.x < screenResolution.y) {
-			screenResolutionForCamera.x = screenResolution.y;
-			screenResolutionForCamera.y = screenResolution.x;
+		if(degree / 90 % 2 != 0){
+			if (screenResolution.x < screenResolution.y) {
+				screenResolutionForCamera.x = screenResolution.y;
+				screenResolutionForCamera.y = screenResolution.x;
+			}
 		}
 
 		cameraResolution = findBestPreviewSizeValue(parameters, screenResolutionForCamera);
@@ -117,7 +124,7 @@ final class CameraConfigurationManager {
 		}
 
 		/** 设置相机预览为竖�?*/
-		camera.setDisplayOrientation(90);
+		camera.setDisplayOrientation(degree);
 	}
 
 	public Point getCameraResolution() {

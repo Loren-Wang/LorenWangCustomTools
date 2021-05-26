@@ -16,8 +16,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.TextView
 import android.widget.Toast
-import com.example.testapp.base.BaseActivity
 import com.example.testapp.R
+import com.example.testapp.base.BaseActivity
 import javabase.lorenwang.tools.file.JtlwFileOptionUtils
 import kotlinx.android.synthetic.main.activity_scan_code.*
 import java.io.File
@@ -29,58 +29,60 @@ class ScanCodeActivity : BaseActivity() {
         addContentView(R.layout.activity_scan_code)
         //请求权限
         AtlwActivityUtil.getInstance().goToRequestPermissions(this,
-                arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0,
-                object : AtlwPermissionRequestCallback {
-                    override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
-                    }
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0,
+            object : AtlwPermissionRequestCallback {
+                override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                }
 
-                    @SuppressLint("MissingPermission")
-                    override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
-                        AtlwLogUtil.logUtils.logD("sssss","扫描权限获取成功")
-                        JtlwFileOptionUtils.getInstance().writeToFile(File(""), byteArrayOf())
-                        //设置裁剪扫描区域
+                @SuppressLint("MissingPermission")
+                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                    AtlwLogUtil.logUtils.logD("sssss", "扫描权限获取成功")
+                    JtlwFileOptionUtils.getInstance().writeToFile(File(""), byteArrayOf())
+                    //设置裁剪扫描区域
 //                        scan.setScanCropView(viewScan)
-                        surfaceView.setAgcslwScan(scan)
-                        //开启扫描
-                        scan.startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true)
-                        //扫描结果回调
-                        scan.setScanResultCallback(object : AgcslwScanResultCallback {
-                            private var toast: Toast? = null
-                            override fun scanViewCropRectChange(cropRect: Rect) {
-                                findViewById<TextView>(R.id.tvTest).setPadding(0, cropRect.bottom, 0, 0)
-                            }
+                    surfaceView.setAgcslwScan(scan)
+                    //开启扫描
+                    scan.startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true, 0)
+                    //扫描结果回调
+                    scan.setScanResultCallback(object : AgcslwScanResultCallback {
+                        private var toast: Toast? = null
+                        override fun scanViewCropRectChange(cropRect: Rect) {
+                            findViewById<TextView>(R.id.tvTest).setPadding(0, cropRect.bottom, 0, 0)
+                        }
 
-                            override fun scanResult(result: String?) {
-                                scan.restartPreviewAfterDelay()
-                                toast?.cancel()
-                                toast = Toast.makeText(this@ScanCodeActivity, result, Toast.LENGTH_LONG)
-                                toast?.show()
-                            }
+                        override fun scanResult(result: String?) {
+                            scan.restartPreviewAfterDelay()
+                            toast?.cancel()
+                            toast = Toast.makeText(this@ScanCodeActivity, result, Toast.LENGTH_LONG)
+                            toast?.show()
+                        }
 
-                            override fun scanResultBitmap(bitmap: Bitmap?) {
+                        override fun scanResultBitmap(bitmap: Bitmap?) {
+                            runOnUiThread {
                                 bitmap?.let {
                                     viewScan.setImageBitmap(it)
                                 }
                             }
+                        }
 
-                            override fun notPermissions(shouldShowRequestPermissionRationale: Boolean, vararg permissions: String?) {
-                            }
+                        override fun notPermissions(shouldShowRequestPermissionRationale: Boolean, vararg permissions: String?) {
+                        }
 
-                            override fun scanDecodeError() {
-                            }
+                        override fun scanDecodeError() {
+                        }
 
-                            override fun permissionRequestFail(vararg permissions: String?) {
-                            }
+                        override fun permissionRequestFail(vararg permissions: String?) {
+                        }
 
-                            override fun scanPhotoAlbumImageError(path: String?, isPathNotExists: Boolean, isScanDecodeError: Boolean) {
-                            }
+                        override fun scanPhotoAlbumImageError(path: String?, isPathNotExists: Boolean, isScanDecodeError: Boolean) {
+                        }
 
-                            override fun cameraInitError() {
-                            }
-                        })
-                    }
+                        override fun cameraInitError() {
+                        }
+                    })
+                }
 
-                })
+            })
         viewScan.setOnClickListener {
             //            AgcslwScanUtils.getInstance().manualFocus()
             val intent = Intent(Intent.ACTION_PICK)

@@ -53,9 +53,9 @@ class CameraManager {
     private PreviewCallback previewCallback;
     private boolean isFlashlightOpen;
 
-    public CameraManager(Context context) {
+    public CameraManager(Context context,int degree) {
         this.context = context;
-        this.configManager = new CameraConfigurationManager(context);
+        this.configManager = new CameraConfigurationManager(context,degree);
         previewCallback = new PreviewCallback(configManager);
     }
 
