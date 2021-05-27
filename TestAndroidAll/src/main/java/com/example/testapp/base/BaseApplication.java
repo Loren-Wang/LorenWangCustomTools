@@ -37,9 +37,9 @@ public class BaseApplication extends AcbflwBaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        AtlwLogUtil.logUtils = new AtlwLogUtil();
         AtlwConfig.initAndroidCustomTools(this, AcbflwBaseConfig.appCompileTypeIsDebug(BuildConfig.APP_COMPILE_TYPE),
                 Objects.requireNonNull(this.getExternalFilesDir("logInfo")).getAbsolutePath());
 
-        AtlwLogUtil.logUtils = new AtlwLogUtil();
     }
 }

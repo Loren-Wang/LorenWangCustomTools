@@ -10,6 +10,16 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCache"
+            style="@style/MainButtons"
+            android:text="Cache" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAllEdittext"
+            style="@style/MainButtons"
+            android:text="@string/page_type_edittext" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnImageSelect"
             style="@style/MainButtons"
             android:text="@string/page_type_image_select" />

@@ -2,8 +2,11 @@ package com.example.testapp.activity
 
 import android.content.Intent
 import android.lorenwang.tools.app.AtlwActivityJumpUtil
+import android.lorenwang.tools.app.AtlwToastHintUtil
+import android.lorenwang.tools.file.AtlwFileOptionUtil
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.AppCompatButton
 import com.example.testapp.R
 import com.example.testapp.activity.androidTools.MobileContactsActivity
 import com.example.testapp.activity.androidTools.MobileSmsActivity
@@ -21,6 +24,7 @@ import com.example.testapp.activity.image.ZoomableImageViewActivity
 import com.example.testapp.activity.location.LocationActivity
 import com.example.testapp.activity.recycleView.WheelRecycleViewActivity
 import com.example.testapp.activity.textview.CustomDrawableButtonActivity
+import com.example.testapp.activity.textview.EdittextActivity
 import com.example.testapp.activity.textview.ShowPriceTextViewActivity
 import com.example.testapp.activity.textview.ShowQuantityOfCommodityActivity
 import com.example.testapp.activity.titlebar.TitleBarHeadViewActivity
@@ -49,12 +53,24 @@ class MainActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        btnScanCode?.performClick()
+        btnCache.text = AtlwFileOptionUtil.getInstance().getAppCacheFileSize(false).toString()
+//        btnAllEdittext?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnCache -> {
+                    if (AtlwFileOptionUtil.getInstance().clearAppCacheFile(false)) {
+                        AtlwToastHintUtil.getInstance().toastMsg("清除成功")
+                        btnCache.text = AtlwFileOptionUtil.getInstance().getAppCacheFileSize(false).toString()
+                    } else {
+                        AtlwToastHintUtil.getInstance().toastMsg("清除失败")
+                    }
+                }
+                R.id.btnAllEdittext -> {
+                    startActivity(Intent(this, EdittextActivity::class.java))
+                }
                 R.id.btnImageSelect -> {
                     startActivity(Intent(this, ImageSelectActivity::class.java))
                 }
