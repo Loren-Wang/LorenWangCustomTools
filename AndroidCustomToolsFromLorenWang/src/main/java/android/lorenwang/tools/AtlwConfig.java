@@ -185,10 +185,10 @@ public class AtlwConfig {
                                               String debugLogFileDirSavePath) {
         AtlwConfig.nowApplication = nowApplication;
         AtlwConfig.isDebug = isDebug;
-        JtlwLogUtils.logUtils = new AtlwLogUtil();
-        JtlwLogUtils.logUtils.setShowLog(isDebug);
+        AtlwLogUtil.logUtils = new AtlwLogUtil();
+        AtlwLogUtil.logUtils.setShowLog(isDebug);
         if (debugLogFileDirSavePath != null) {
-            JtlwLogUtils.logUtils.setLogSaveFileDirPath(debugLogFileDirSavePath);
+            AtlwLogUtil.logUtils.setLogSaveFileDirPath(debugLogFileDirSavePath);
         }
     }
 }

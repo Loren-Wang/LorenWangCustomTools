@@ -1,3 +1,10 @@
+**V3.1.8**
+
+    AtlwResourcesUtil---获取字体文件的typeFace--getTypeFace(typeFacePath)
+    AtlwMobileSystemInfoUtil---获取wifi的mac地址，适配到android Q--getMac()
+    AtlwFileOptionUtil---获取app缓存文件大小--getAppCacheFileSize(isCheckPermission)
+    AtlwFileOptionUtil---清除app缓存--clearAppCacheFile(isCheckPermission)
+
 **V3.1.7**
 
     AtlwMobileOptionsUtil---复制内容到剪贴板--copyContentToClipboard(label,content)

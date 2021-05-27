@@ -1,5 +1,6 @@
 package android.lorenwang.tools.app;
 
+import android.graphics.Typeface;
 import android.lorenwang.tools.AtlwConfig;
 import android.util.TypedValue;
 
@@ -18,6 +19,7 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
  * 方法：
  * 获取浮点资源数据--getFloat(resId)
  * 获取资源字节--getAssets(assetsName)
+ * 获取字体文件的typeFace--getTypeFace(typeFacePath)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -25,18 +27,18 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
  *
  * @author 王亮（Loren）
  */
-public class AtlwResourseUtil {
+public class AtlwResourcesUtil {
     private final String TAG = getClass().getName();
-    private static volatile AtlwResourseUtil optionsInstance;
+    private static volatile AtlwResourcesUtil optionsInstance;
 
-    private AtlwResourseUtil() {
+    private AtlwResourcesUtil() {
     }
 
-    public static AtlwResourseUtil getInstance() {
+    public static AtlwResourcesUtil getInstance() {
         if (optionsInstance == null) {
-            synchronized (AtlwResourseUtil.class) {
+            synchronized (AtlwResourcesUtil.class) {
                 if (optionsInstance == null) {
-                    optionsInstance = new AtlwResourseUtil();
+                    optionsInstance = new AtlwResourcesUtil();
                 }
             }
         }
@@ -71,4 +73,15 @@ public class AtlwResourseUtil {
         }
         return new byte[]{};
     }
+
+    /**
+     * 获取字体文件的typeFace
+     *
+     * @param typeFacePath 例如"fonts/HelveticaNeueLTPro-UltLt.otf"
+     * @return 字体文件的typeface
+     */
+    public Typeface getTypeFace(@NotNull String typeFacePath) {
+        return Typeface.createFromAsset(AtlwConfig.nowApplication.getAssets(), typeFacePath);
+    }
+
 }

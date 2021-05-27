@@ -45,6 +45,8 @@
     获取根目录文件夹地址--getBaseStorageDirPath()
     获取App系统文件夹地址--getAppSystemStorageDirPath(applicationId)
     根据uri获取图片文件地址--getUriPath(uri, dbKey)
+    获取app缓存文件大小--getAppCacheFileSize(isCheckPermission)
+    清除app缓存--clearAppCacheFile(isCheckPermission)
 
 <h3>AtlwImageCommonUtils---（图片处理通用类）
 
@@ -96,11 +98,23 @@
     格式化消息数据--paramsTagMessage(message,AvlwSpannableTagBean...)
     textview设置字符串，保证spannable的click生效--setSpannableString(textView,SpannableString...)
     
-<h3>AtlwResourseUtil---（资源相关工具类）
+<h3>AtlwResourcesUtil---（资源相关工具类）
 
     获取浮点资源数据--getFloat(resId) 
     获取资源字节--getAssets(assetsName)
-     
+    获取字体文件的typeFace--getTypeFace(typeFacePath)
+
+<h3>AtlwMobileSystemInfoUtil---（手机系统信息工具类）
+
+    获取当前手机系统语言--getSystemLanguage()（返回当前系统语言。例如：当前设置的是“中文-中国”，则返回“zh-CN”）
+    获取当前系统上的语言列表(Locale列表)--getSystemLanguageList()
+    获取当前手机系统版本号--getSystemVersion()
+    获取手机型号--getSystemModel()
+    获取手机厂商--getDeviceBrand()
+    获取手机系统sdk版本号--getSystemSdkVersion()
+    获取手机品牌信息--getMobileBrand()
+    获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)--getIMEIInfo()
+    获取wifi的mac地址，适配到android Q--getMac()
 
 <h3>二、AtlwSharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>
 
@@ -185,16 +199,8 @@
     8、是否是Sony手机
     9、是否是LG手机
    
-   <h3>十五、AtlwMobileSystemInfoUtils---（手机系统信息工具类）
+
    
-    1、获取当前手机系统语言
-    2、获取当前系统上的语言列表(Locale列表)
-    3、获取当前手机系统版本号
-    4、获取手机型号
-    5、获取手机厂商
-    6、获取手机系统sdk版本号
-    7、获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)
-    8、获取当前网络类型  return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
 
 
 <h3>十七、AtlwBrightnessChangeUtils---（亮度相关工具类）
