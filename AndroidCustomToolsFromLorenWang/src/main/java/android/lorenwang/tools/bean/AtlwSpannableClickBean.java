@@ -42,6 +42,9 @@ public class AtlwSpannableClickBean extends ClickableSpan {
      */
     private final Integer textSize;
 
+    /**
+     * 加粗
+     */
     private Boolean bold;
 
     /**

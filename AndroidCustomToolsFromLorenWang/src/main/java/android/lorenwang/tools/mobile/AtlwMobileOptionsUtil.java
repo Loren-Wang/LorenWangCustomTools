@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -64,6 +66,7 @@ import static android.media.AudioManager.STREAM_VOICE_CALL;
  * 5.1、获取系统级别音频管理器
  * 5.2、使用听筒播放正在播放的音频
  * 5.3、使用扬声器播放正在播放的音频
+ * 复制内容到剪贴板--copyContentToClipboard(label,content)
  * 思路：
  * 修改人：
  * 修改时间：
@@ -117,8 +120,7 @@ public final class AtlwMobileOptionsUtil {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(new File(installAppFilePath)),
-                        "application/vnd.android.package-archive");
+                intent.setDataAndType(Uri.fromFile(new File(installAppFilePath)), "application/vnd.android.package-archive");
             } else {
                 intent = new Intent(Intent.ACTION_VIEW);
                 File file = (new File(installAppFilePath));
@@ -180,6 +182,20 @@ public final class AtlwMobileOptionsUtil {
     }
 
     /**
+     * 复制内容到剪贴板
+     *
+     * @param content 内容
+     */
+    public void copyContentToClipboard(String label, String content) {
+        //获取剪贴板管理器：
+        ClipboardManager cm = (ClipboardManager) AtlwConfig.nowApplication.getSystemService(Context.CLIPBOARD_SERVICE);
+        // 创建普通字符型ClipData
+        ClipData mClipData = ClipData.newPlainText(label, content);
+        // 将ClipData内容放到系统剪贴板里。
+        cm.setPrimaryClip(mClipData);
+    }
+
+    /**
      * 获取小米手机的MIUI版本号
      *
      * @return 小米miui版本号
@@ -190,8 +206,7 @@ public final class AtlwMobileOptionsUtil {
         BufferedReader input = null;
         try {
             Process p = Runtime.getRuntime().exec("getprop " + propName);
-            input = new BufferedReader(
-                    new InputStreamReader(p.getInputStream()), 1024);
+            input = new BufferedReader(new InputStreamReader(p.getInputStream()), 1024);
             line = input.readLine();
             input.close();
         } catch (IOException ex) {
@@ -219,13 +234,11 @@ public final class AtlwMobileOptionsUtil {
         Intent intent = new Intent();
         if ("V6".equals(rom) || "V7".equals(rom)) {
             intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions" +
-                    ".AppPermissionsEditorActivity");
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions" + ".AppPermissionsEditorActivity");
             intent.putExtra("extra_pkgname", packageName);
         } else if ("V8".equals(rom) || "V9".equals(rom)) {
             intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions" +
-                    ".PermissionsEditorActivity");
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions" + ".PermissionsEditorActivity");
             intent.putExtra("extra_pkgname", packageName);
         } else {
             jumpToDefaultAppPermissionSettingPage(activity, packageName);
@@ -277,8 +290,7 @@ public final class AtlwMobileOptionsUtil {
     @RequiresPermission(Manifest.permission.VIBRATE)
     public void vibrate(long milliseconds) {
         try {
-            Vibrator vibrator = (Vibrator) AtlwConfig.nowApplication
-                    .getSystemService(Context.VIBRATOR_SERVICE);
+            Vibrator vibrator = (Vibrator) AtlwConfig.nowApplication.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(milliseconds);
         } catch (Exception e) {
             AtlwLogUtil.logUtils.logE(e);
@@ -292,15 +304,12 @@ public final class AtlwMobileOptionsUtil {
      * @param savePath    照片保存地址
      * @param requestCode 请求码
      */
-    @RequiresPermission(allOf = {Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void openCamera(Activity activity, String savePath, int requestCode) {
         //检查相机权限
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             //检测保存路径
             File imagePathFile = new File(savePath);
             if (imagePathFile.isDirectory()) {
@@ -314,8 +323,7 @@ public final class AtlwMobileOptionsUtil {
 
                 ContentValues contentValues = new ContentValues(1);
                 contentValues.put(MediaStore.Images.Media.DATA, savePath);
-                Uri uri =
-                        activity.getApplication().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                Uri uri = activity.getApplication().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             } else {
                 Uri imageUri = Uri.fromFile(imagePathFile);
@@ -352,16 +360,12 @@ public final class AtlwMobileOptionsUtil {
      * @param activity    上下文
      * @param requestCode 请求码
      */
-    @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void openImagePhotoAlbum(Activity activity, int requestCode) {
         //检查存储卡权限
-        if (ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             activity.startActivityForResult(intent, requestCode);
@@ -388,8 +392,7 @@ public final class AtlwMobileOptionsUtil {
         if (powerLocalWakeLock == null) {
             try {
                 //获取系统服务POWER_SERVICE，返回一个PowerManager对象
-                powerLocalWakeLock =
-                        ((PowerManager) AtlwConfig.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
+                powerLocalWakeLock = ((PowerManager) AtlwConfig.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
             } catch (Exception ignored) {
             }
 
@@ -453,8 +456,7 @@ public final class AtlwMobileOptionsUtil {
      */
     public SensorManager getSensorManager() {
         if (sensorManager == null) {
-            sensorManager =
-                    (SensorManager) AtlwConfig.nowApplication.getSystemService(Context.SENSOR_SERVICE);
+            sensorManager = (SensorManager) AtlwConfig.nowApplication.getSystemService(Context.SENSOR_SERVICE);
         }
         return sensorManager;
     }
@@ -467,8 +469,7 @@ public final class AtlwMobileOptionsUtil {
     public void registProximitySensorListener(SensorEventListener listener) {
         synchronized (proximityListenerList) {
             if (listener != null && !proximityListenerList.contains(listener)) {
-                getSensorManager().registerListener(listener, getSensorManager()
-                        .getDefaultSensor(Sensor.TYPE_PROXIMITY),
+                getSensorManager().registerListener(listener, getSensorManager().getDefaultSensor(Sensor.TYPE_PROXIMITY),
                         SensorManager.SENSOR_DELAY_NORMAL);
                 proximityListenerList.add(listener);
             }
@@ -504,8 +505,7 @@ public final class AtlwMobileOptionsUtil {
      */
     public AudioManager getAudioManager() {
         if (audioManager == null) {
-            audioManager =
-                    (AudioManager) AtlwConfig.nowApplication.getSystemService(Context.AUDIO_SERVICE);
+            audioManager = (AudioManager) AtlwConfig.nowApplication.getSystemService(Context.AUDIO_SERVICE);
         }
         return audioManager;
     }
@@ -520,8 +520,7 @@ public final class AtlwMobileOptionsUtil {
             AtlwLogUtil.logUtils.logD(TAG, "切换到手机听筒播放");
             activity.setVolumeControlStream(STREAM_VOICE_CALL);
             getAudioManager().setSpeakerphoneOn(false);//关闭扬声器
-            getAudioManager().setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE,
-                    AudioManager.ROUTE_ALL);
+            getAudioManager().setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE, AudioManager.ROUTE_ALL);
             //把声音设定成Earpiece（听筒）出来，设定为正在通话中
             getAudioManager().setMode(AudioManager.MODE_IN_CALL);
         }

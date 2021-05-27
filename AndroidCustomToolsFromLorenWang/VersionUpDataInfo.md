@@ -1,3 +1,8 @@
+**V3.1.7**
+
+    AtlwMobileOptionsUtil---复制内容到剪贴板--copyContentToClipboard(label,content)
+    AtlwSpannableClickBean---新增字体加粗处理
+        
 **V3.1.6**
 
     AtlwImageCommonUtils---新增根据比例填充背景图片--fillBgAspectRatio(bitmap, ratio, color)

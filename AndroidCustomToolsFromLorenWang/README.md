@@ -172,6 +172,7 @@
       5.1、获取系统级别音频管理器
       5.2、使用听筒播放正在播放的音频
       5.3、使用扬声器播放正在播放的音频
+      复制内容到剪贴板--copyContentToClipboard(label,content)
   
  <h3> 十四、AtlwMobilePhoneBrandUtils---（手机品牌判断工具类）  
     1、是否是小米手机
