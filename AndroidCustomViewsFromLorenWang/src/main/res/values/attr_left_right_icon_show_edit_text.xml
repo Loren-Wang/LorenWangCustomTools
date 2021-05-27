@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvlwLeftRightIconShowEditText">
+        <!--左侧icon-->
+        <attr name="avlwLeftIconRes" format="reference" />
+        <!--左侧icon宽-->
+        <attr name="avlwLeftIconWidth" format="dimension" />
+        <!--左侧icon高-->
+        <attr name="avlwLeftIconHeight" format="dimension" />
+        <!--右侧icon-->
+        <attr name="avlwRightIconRes" format="reference" />
+        <!--右侧icon宽-->
+        <attr name="avlwRightIconWidth" format="dimension" />
+        <!--右侧icon高-->
+        <attr name="avlwRightIconHeight" format="dimension" />
+        <!--右侧图标点击是否是清除文本-->
+        <attr name="avlwRightIconClickClearText" format="boolean" />
+    </declare-styleable>
+</resources>

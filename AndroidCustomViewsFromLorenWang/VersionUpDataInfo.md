@@ -1,3 +1,7 @@
+**V3.2.7**
+
+    AvlwLeftRightIconShowEditText---（左右icon设置显示控件，包含icon点击）
+
 **V3.2.6**
 
     AvlwBitmapCropView---（位图裁剪控件）
@@ -10,42 +14,39 @@
 **V3.2.2**
 
     AvlwFixedWidthHeightDrawableButton修改padding处理方式
-    
+
 **V3.2.1**
 
     新增AvlwCoverRecycleView轮盘样式
-    
+
 **V3.2.0**
 
     新增AvlwCoverRecycleView---（层叠画廊recycleview）
-    
+
 **V3.1.9**
 
     <h3>AvlwTouchOptionsView---（修复点击触摸判定错误问题）
 
-    
 **V3.1.8**
 
     <h3>AvlwTouchOptionsView---（新增操作区域显示处理）
 
-    
 **V3.1.7**
 
     <h3>AvlwTouchOptionsView---（触摸操作控件，和热区功能差不多，点击某个位置手指抬起触发操作）
 
-    
 **V3.1.5**
 
     AvlwSliderValidationView---（新增重置动画时间）
-    
+
 **V3.1.5**
 
     AvlwSliderValidationView---（滑块验证容器控件）
-    
+
 **V3.1.4**
 
     AvlwProgressBar--新增水平进度进度条
-    
+
 **V3.1.3**
 
     AvlwWheelRecyclerView--修改显示处理
@@ -61,7 +62,6 @@
 **V3.0.9**
 
     AvlwCalendarView--日历控件修改高度处理逻辑
-
 
 **V3.0.9**
 
@@ -88,14 +88,10 @@
 
 1、AvlwFixedWidthHeightDrawableButton修改参数设置逻辑以及渲染逻辑
 
-
 **V3.0.2**
 
-1、AvlwQuantityOfCommodityEditText显示逻辑修改
-2、AvlwFixedWidthHeightDrawableButton修改图片渲染
+1、AvlwQuantityOfCommodityEditText显示逻辑修改 2、AvlwFixedWidthHeightDrawableButton修改图片渲染
 
-
-    
 **V3.0.0**
 
 1、所有工具类名称修改

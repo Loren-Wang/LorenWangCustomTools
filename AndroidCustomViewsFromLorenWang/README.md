@@ -46,3 +46,5 @@ ps：不支持使用代码控制图片边框以及各个角度，如果定义了
 
 <h3>AvlwZoomableImageView---（缩放控件）
 
+<h3>AvlwLeftRightIconShowEditText---（左右icon设置显示控件，包含icon点击）
+
