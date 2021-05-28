@@ -6,9 +6,9 @@ import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.lorenwang.tools.file.AtlwFileOptionUtil
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.AppCompatButton
 import com.example.testapp.R
 import com.example.testapp.activity.androidTools.MobileContactsActivity
+import com.example.testapp.activity.androidTools.MobileNotificationActivity
 import com.example.testapp.activity.androidTools.MobileSmsActivity
 import com.example.testapp.activity.anim.AnimActivity
 import com.example.testapp.activity.bluetooth.BluetoothActivity
@@ -54,12 +54,15 @@ class MainActivity : BaseActivity() {
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
         btnCache.text = AtlwFileOptionUtil.getInstance().getAppCacheFileSize(false).toString()
-//        btnAllEdittext?.performClick()
+        btnNotification?.performClick()
     }
 
     fun mainClick(view: View?) {
         if (view != null) {
             when (view.id) {
+                R.id.btnNotification -> {
+                    startActivity(Intent(this, MobileNotificationActivity::class.java))
+                }
                 R.id.btnCache -> {
                     if (AtlwFileOptionUtil.getInstance().clearAppCacheFile(false)) {
                         AtlwToastHintUtil.getInstance().toastMsg("清除成功")

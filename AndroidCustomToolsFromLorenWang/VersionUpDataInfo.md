@@ -1,3 +1,10 @@
+**V3.1.9**
+
+    AtlwNotificationUtil---创建通知渠道--createNotificationChannel(channelId,name,desc,importance)
+    AtlwNotificationUtil---设置进度--setProgress(channelId,notificationId,title,content,smallIconRes,maxProgress,currentProgress,intent)
+    AtlwNotificationUtil---移除指定的通知--removeNotification(notificationId)
+    AtlwNotificationUtil---移除全部的通知--removeAllNotification()
+
 **V3.1.8**
 
     AtlwResourcesUtil---获取字体文件的typeFace--getTypeFace(typeFacePath)

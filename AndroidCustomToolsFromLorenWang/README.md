@@ -116,6 +116,13 @@
     获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)--getIMEIInfo()
     获取wifi的mac地址，适配到android Q--getMac()
 
+<h3>AtlwNotificationUtil---（通知工具类）
+
+    创建通知渠道--createNotificationChannel(channelId,name,desc,importance)
+    设置进度--setProgress(channelId,notificationId,title,content,smallIconRes,maxProgress,currentProgress,intent)
+    移除指定的通知--removeNotification(notificationId)
+    移除全部的通知--removeAllNotification()
+
 <h3>二、AtlwSharedPrefUtils---(ndroid prefence文件读写操作工具类)</h3>
 
 <h3>三、AtlwThreadUtils---(线程工具类)

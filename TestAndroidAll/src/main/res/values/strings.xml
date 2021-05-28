@@ -39,6 +39,7 @@
     <string name="page_type_carousel">层叠视图</string>
     <string name="page_type_image_select">图片视频选择</string>
     <string name="page_type_edittext">所有编辑控件</string>
+    <string name="page_type_notification">通知相关</string>
     <string name="page_type_validation">滑块验证等验证控件</string>
     <string name="page_type_video_play">视频播放</string>
     <string name="page_type_video_play_list">视频列表播放</string>
