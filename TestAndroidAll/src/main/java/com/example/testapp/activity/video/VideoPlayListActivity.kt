@@ -39,7 +39,7 @@ class VideoPlayListActivity : BaseActivity() {
         }
     private var adapter: VideoPlayAdapter? = null
         get() {
-            field = field.kttlwGetNotEmptyData(VideoPlayAdapter(this))
+            field = field.kttlwGetNotEmptyData{VideoPlayAdapter(this)}
             return field
         }
 

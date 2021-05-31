@@ -20,7 +20,7 @@ class ZoomableImageViewActivity : BaseActivity() {
 
     private var binding: ActivityZoomableImageViewBinding? = null
         get() {
-            field = field.kttlwGetNotEmptyData(ActivityZoomableImageViewBinding.inflate(layoutInflater))
+            field = field.kttlwGetNotEmptyData{ActivityZoomableImageViewBinding.inflate(layoutInflater)}
             return field
         }
 

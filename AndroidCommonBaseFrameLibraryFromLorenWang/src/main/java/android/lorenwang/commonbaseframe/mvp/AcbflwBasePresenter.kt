@@ -103,8 +103,8 @@ abstract class AcbflwBasePresenter<V : AcbflwBaseView>(var baseView: V) {
      */
     fun <T, R : KttlwNetPageResponseBean<T>, PD : AcbflwPageShowViewDataBean<T>, DATA : KttlwBaseNetResponseBean<R>> paramsListData(page: Int?,
         count: Int?, body: DATA): PD {
-        val pageIndex = getPageIndex(body.data?.pageIndex.kttlwGetNotEmptyData(page))
-        val pageCount = getPageCount(body.data?.pageSize.kttlwGetNotEmptyData(count))
+        val pageIndex = getPageIndex(body.data?.pageIndex.kttlwGetNotEmptyData(page.kttlwGetNotEmptyData(defaultFirstPageIndex)))
+        val pageCount = getPageCount(body.data?.pageSize.kttlwGetNotEmptyData(count.kttlwGetNotEmptyData(defaultPageCount)))
         val entity = getPageShowDataBean<T, PD>()
         entity.isLastPageData =
             judgeLastPage(pageIndex, body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.sumDataCount.kttlwGetNotEmptyData(0))
@@ -122,8 +122,8 @@ abstract class AcbflwBasePresenter<V : AcbflwBaseView>(var baseView: V) {
      */
     fun <T, R, P : KttlwNetPageResponseBean<T>, PD : AcbflwPageShowViewDataBean<R>, DATA : KttlwBaseNetResponseBean<P>> paramsListBaseData(page: Int?,
         count: Int?, body: DATA): PD {
-        val pageIndex = getPageIndex(body.data?.pageIndex.kttlwGetNotEmptyData(page))
-        val pageCount = getPageCount(body.data?.pageSize.kttlwGetNotEmptyData(count))
+        val pageIndex = getPageIndex(body.data?.pageIndex.kttlwGetNotEmptyData(page.kttlwGetNotEmptyData(defaultFirstPageIndex)))
+        val pageCount = getPageCount(body.data?.pageSize.kttlwGetNotEmptyData(count.kttlwGetNotEmptyData(defaultPageCount)))
         val entity = getPageShowDataBean<R, PD>()
         entity.isLastPageData =
             judgeLastPage(pageIndex, body.data?.sumPageCount.kttlwGetNotEmptyData(0), body.data?.sumDataCount.kttlwGetNotEmptyData(0))

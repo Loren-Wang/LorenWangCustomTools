@@ -223,9 +223,9 @@ fun <P> kttlwAllNullCheck(vararg params: P): Boolean {
 /**
  * 获取非空数据
  */
-fun <T> T?.kttlwGetNotEmptyData(defaultData: T): T {
+fun <T> T?.kttlwGetNotEmptyData(getDefaultData: () -> T): T {
     return if (this.kttlwIsEmpty()) {
-        defaultData
+        getDefaultData()
     } else {
         this!!
     }

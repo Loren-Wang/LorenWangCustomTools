@@ -56,7 +56,7 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
     }
 
     override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T> {
-        return decorator?.getListViewHolder(viewType, itemView).kttlwGetNotEmptyData(AcbflwEmptyViewHolder(itemView))
+        return decorator?.getListViewHolder(viewType, itemView).kttlwGetNotEmptyData { AcbflwEmptyViewHolder(itemView) }
     }
 
     override fun clear() {

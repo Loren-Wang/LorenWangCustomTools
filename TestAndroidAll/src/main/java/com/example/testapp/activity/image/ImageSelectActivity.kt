@@ -34,7 +34,7 @@ class ImageSelectActivity : BaseActivity() {
         btnSelectVideoOnly.kttlwThrottleClick {
             AcbflwImageSelectUtil.getInstance().openSelectVideo(this, 10, 0, 90, null, object : AcbflwFileSelectCallback {
                 override fun onResult(result: MutableList<AcbflwLocalImageSelectBean>?) {
-                    Toast.makeText(this@ImageSelectActivity, result.kttlwGetNotEmptyData(arrayListOf()).size.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@ImageSelectActivity, result.kttlwGetNotEmptyData{arrayListOf()}.size.toString(), Toast.LENGTH_LONG).show()
                 }
 
                 override fun onCancel() {
