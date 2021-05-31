@@ -132,7 +132,8 @@ open class AcbflwNetworkManager private constructor() {
         builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))
         //设置超时时间
         builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS)
-        lwDownloadRetrofit = Retrofit.Builder().client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+        lwDownloadRetrofit =
+            Retrofit.Builder().baseUrl(baseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
     }
 
     /**
