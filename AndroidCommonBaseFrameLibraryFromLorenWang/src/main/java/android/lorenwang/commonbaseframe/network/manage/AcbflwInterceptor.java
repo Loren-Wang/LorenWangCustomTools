@@ -2,11 +2,11 @@ package android.lorenwang.commonbaseframe.network.manage;
 
 import android.lorenwang.commonbaseframe.AcbflwBaseConfig;
 import android.lorenwang.tools.base.AtlwLogUtil;
-import android.text.TextUtils;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import androidx.annotation.NonNull;
 import javabase.lorenwang.dataparse.JdplwJsonUtils;
@@ -54,16 +54,12 @@ public class AcbflwInterceptor implements Interceptor {
             //请求方式
             logBuilder.append("***request_method:").append(originalRequest.method()).append("\n");
             //请求头
-            logBuilder.append("***request_heads:\n").append(originalRequest.headers().toMultimap()).append("\n")
-                    .append(request.headers().toMultimap()).append("\n");
+            logBuilder.append("***request_heads:\n").append(originalRequest.headers().toMultimap()).append("\n").append(
+                    request.headers().toMultimap()).append("\n");
             //请求体
             RequestBody requestBody = originalRequest.body();
             if (requestBody != null) {
-                if (requestBody.contentType() != null && TextUtils.equals(requestBody.contentType().subtype(), "json")) {
-                    logBuilder.append("***request_body:\n").append(bodyToString(requestBody)).append("\n");
-                } else {
-                    logBuilder.append("***request_body:\n").append(JdplwJsonUtils.toJson(bodyToString(requestBody))).append("\n");
-                }
+                logBuilder.append("***request_body:\n").append(bodyToString(requestBody)).append("\n");
             }
             //响应体
             Response response = chain.proceed(request);
@@ -100,7 +96,7 @@ public class AcbflwInterceptor implements Interceptor {
             } else {
                 return "";
             }
-            return buffer.readUtf8();
+            return URLDecoder.decode(buffer.readUtf8(), "UTF-8");
         } catch (final IOException e) {
             return "";
         }

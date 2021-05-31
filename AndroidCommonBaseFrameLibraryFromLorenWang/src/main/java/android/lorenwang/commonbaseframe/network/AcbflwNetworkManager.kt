@@ -99,7 +99,8 @@ open class AcbflwNetworkManager private constructor() {
     fun initRetrofit(appCompileType: Int, baseUrl: String, shareBaseUrl: String?, h5BaseUrl: String?, timeout: Long?,
         converterFactory: Converter.Factory?, interceptor: Array<Interceptor>?) {
         this.converterFactory = converterFactory
-        this.interceptors = interceptor //正式情况下设置什么地址就是什么地址，不允许读取缓存数据
+        this.interceptors = interceptor
+        //正式情况下设置什么地址就是什么地址，不允许读取缓存数据
         if (AcbflwBaseConfig.appCompileTypeIsRelease(appCompileType)) {
             this.apiBaseUrl = baseUrl.kttlwGetNotEmptyData()
             this.shareBaseUrl = shareBaseUrl.kttlwGetNotEmptyData()
@@ -111,8 +112,10 @@ open class AcbflwNetworkManager private constructor() {
         }
 
         //构造okhttp
-        var builder = OkHttpClient.Builder() //防止无法进行http请求
-        builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT)) //设置超时时间
+        var builder = OkHttpClient.Builder()
+        //防止无法进行http请求
+        builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))
+        //设置超时时间
         builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS)
         //添加拦截器
         interceptor?.forEach {
@@ -122,9 +125,14 @@ open class AcbflwNetworkManager private constructor() {
         builder = builder.addInterceptor(AcbflwInterceptor(appCompileType))
         lwRetrofit = Retrofit.Builder().baseUrl(baseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(converterFactory ?: AcbflwResponseGsonConverterFactory.create()) //使用自定义的gson数据解析器，部分代码取自源码当中的gson解析器
-            .build() //下载请求实例不使用Gson解析器
-        lwDownloadRetrofit =
-            Retrofit.Builder().baseUrl(baseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+            .build()
+        //下载请求实例不使用Gson解析器，同时不需要拦截器
+        builder = OkHttpClient.Builder()
+        //防止无法进行http请求
+        builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))
+        //设置超时时间
+        builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS)
+        lwDownloadRetrofit = Retrofit.Builder().client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
     }
 
     /**
