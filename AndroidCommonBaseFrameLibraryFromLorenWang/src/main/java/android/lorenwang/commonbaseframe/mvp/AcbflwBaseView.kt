@@ -1,7 +1,5 @@
 package android.lorenwang.commonbaseframe.mvp
 
-import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
-
 /**
  * 创建时间：2019-07-15 上午 11:09:20
  * 创建人：王亮（Loren wang）
@@ -18,8 +16,9 @@ interface AcbflwBaseView {
     /**
      * 显示加载中
      * @param allowLoadingBackFinishPage 是否允许后退结束当前页面
+     * @param data 加载中显示数据，可能为json字符串
      */
-    fun showBaseLoading(allowLoadingBackFinishPage: Boolean)
+    fun showBaseLoading(allowLoadingBackFinishPage: Boolean, data: String? = null)
 
     /**
      * 隐藏加载中

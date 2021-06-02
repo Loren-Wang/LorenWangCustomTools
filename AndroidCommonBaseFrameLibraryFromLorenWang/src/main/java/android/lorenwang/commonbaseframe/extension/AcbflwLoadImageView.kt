@@ -7,6 +7,7 @@ import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 
 /**
  * 功能作用：图片加载扩展类
@@ -78,17 +79,6 @@ fun <V : ImageView> V?.acbflwLoadNetImageConfig(urlPath: String?, emptyUrlGone: 
 /**
  * 加载网络图片
  * @param resId 资源图片地址,可以直接为接口返回参数
- * @param config 图片加载配置信息
- */
-fun <V : ImageView> V?.acbflwLoadResImageConfig(@DrawableRes resId: Int, config: AtlwImageLoadConfig = AtlwImageLoadConfig.Build().build()) {
-    if (this != null) {
-        AtlwImageLoadingFactory.getImageLoading(defaultImageLoadingLibrary).loadingResImage(resId, this, config)
-    }
-}
-
-/**
- * 加载网络图片
- * @param resId 资源图片地址,可以直接为接口返回参数
  * @param build 图片加载配置信息
  */
 fun <V : ImageView> V?.acbflwLoadResImageConfig(@DrawableRes resId: Int, build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
@@ -112,4 +102,37 @@ fun <V : ImageView> V?.acbflwLoadNetOriginImageConfig(urlPath: String?, emptyUrl
             this?.visibility = View.GONE
         }
     }
+}
+
+/**
+ * 加载图片压缩图片
+ * @param urlPath 图片原始地址
+ * @param aliOSSImage 是否是阿里oss文件源
+ * @param compressWidth 加载的压缩宽度
+ * @param compressHeight 加载的压缩高度
+ * @param emptyUrlGone 空图片是否隐藏
+ * @param build 加载构造体
+ */
+fun <V : ImageView> V?.acbflwLoadNetCompressImageConfig(urlPath: String?, aliOSSImage: Boolean, compressWidth: Int?, compressHeight: Int?,
+    emptyUrlGone: Boolean = false, build: AtlwImageLoadConfig.Build = AtlwImageLoadConfig.Build()) {
+    if (aliOSSImage) {
+        acbflwLoadNetImageConfig(getAliCompressImageLoadPath(urlPath, compressWidth, compressHeight), emptyUrlGone, build)
+    }
+}
+
+/**
+ * 获取图片加载地址
+ */
+fun getAliCompressImageLoadPath(urlPath: String?, compressWidth: Int?, compressHeight: Int?): String? {
+    return urlPath.kttlwEmptyCheck({ null }, {
+        return if (compressWidth != null && compressHeight != null) {
+            "${it}?x-oss-process=image/resize,m_fixed,h_${compressWidth},w_${compressHeight}"
+        } else if (compressWidth != null) {
+            "${it}?x-oss-process=image/resize,w_${compressWidth},m_lfit"
+        } else if (compressHeight != null) {
+            "${it}?x-oss-process=image/resize,h_${compressHeight},m_lfit"
+        } else {
+            it
+        }
+    })
 }

@@ -1,10 +1,13 @@
 package android.lorenwang.commonbaseframe.adapter
 
 import android.app.Activity
+import android.lorenwang.commonbaseframe.R
+import android.lorenwang.commonbaseframe.bean.AcbflwPageShowViewDataBean
 import android.lorenwang.commonbaseframe.list.AcbflwBaseListDataOptionsDecorator
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 
 /**
  * Created by Machenike on 2018/4/4.
@@ -61,6 +64,12 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      */
     override val adapterDataList: ArrayList<AcbflwBaseType<T>>
         get() = dataList
+
+    /**
+     * 当前页码
+     */
+    var currentPageIndex: Int? = null
+        private set
 
     constructor(activity: Activity) : this(activity, false)
 
@@ -162,6 +171,58 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
             dataList.addAll(list)
             notifyDataSetChanged()
         }
+    }
+
+    /**
+     * 设置显示内容
+     */
+    override fun showContentData() {
+        dataList.clear()
+        notifyDataSetChanged()
+    }
+
+    /**
+     * 设置列表显示数据
+     * @param data 列表通用数据加载
+     * @param itemLayoutRes 列表item布局资源
+     * @param showScrollEnd 是否显示滑动结束
+     */
+    override fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean) {
+        data.kttlwEmptyCheck({
+            showEmptyView(R.layout.acbflw_empty_view_data, null, false)
+        }, {
+            currentPageIndex = it.currentPageIndex
+            if (it.isFirstPageData) {
+                if (!it.list.isNullOrEmpty()) {
+                    showContentData()
+                }
+                multiTypeRefresh(it.list, !it.isLastPageData)
+            } else {
+                multiTypeLoad(it.list, !it.isLastPageData)
+            }
+        })
+    }
+
+    /**
+     * 设置列表显示数据
+     * @param data 列表通用数据加载
+     * @param itemLayoutRes 列表item布局资源
+     * @param showScrollEnd 是否显示滑动结束
+     */
+    override fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, itemLayoutRes: Int, showScrollEnd: Boolean) {
+        data.kttlwEmptyCheck({
+            showEmptyView(R.layout.acbflw_empty_view_data, null, false)
+        }, {
+            currentPageIndex = it.currentPageIndex
+            if (it.isFirstPageData) {
+                if (!it.list.isNullOrEmpty()) {
+                    showContentData()
+                }
+                singleTypeRefresh(it.list, itemLayoutRes, !it.isLastPageData)
+            } else {
+                singleTypeLoad(it.list, itemLayoutRes, !it.isLastPageData)
+            }
+        })
     }
 
     /**

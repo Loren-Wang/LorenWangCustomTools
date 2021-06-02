@@ -5,8 +5,10 @@ import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerAdapter
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseType
 import android.lorenwang.commonbaseframe.adapter.AcbflwEmptyViewHolder
+import android.lorenwang.commonbaseframe.bean.AcbflwPageShowViewDataBean
 import android.lorenwang.commonbaseframe.refresh.AcbflwBaseRefreshDataOptions
 import android.view.View
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
@@ -42,6 +44,7 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
      * 数据列表
      */
     private var list: ArrayList<AcbflwBaseType<T>> = arrayListOf()
+
 
     /**
      * 适配器数据
@@ -97,10 +100,40 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
         }
     }
 
+    /**
+     * 设置列表显示数据
+     * @param data 列表通用数据加载
+     * @param itemLayoutRes 列表item布局资源
+     * @param showScrollEnd 是否显示滑动结束
+     */
+    override fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, @LayoutRes itemLayoutRes: Int, showScrollEnd: Boolean) {
+        adapter.setListShowData(data, itemLayoutRes, showScrollEnd)
+        this.list = adapter.adapterDataList
+        refreshDataOptions?.setAllowLoadMore(!data?.isLastPageData.kttlwGetNotEmptyData(true))
+    }
+
+    /**
+     * 设置列表显示数据
+     * @param data 列表通用数据加载
+     * @param itemLayoutRes 列表item布局资源
+     * @param showScrollEnd 是否显示滑动结束
+     */
+    override fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean) {
+        adapter.setListShowData(data, showScrollEnd)
+        this.list = adapter.adapterDataList
+        refreshDataOptions?.setAllowLoadMore(!data?.isLastPageData.kttlwGetNotEmptyData(true))
+    }
+
     override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean) {
         adapter.showEmptyView(layoutId, desc, haveMoreData)
         list = adapter.adapterDataList
         refreshDataOptions?.setAllowLoadMore(haveMoreData)
+    }
+
+    override fun showContentData() {
+        adapter.showContentData()
+        this.list = adapter.adapterDataList
+        refreshDataOptions?.setAllowLoadMore(false)
     }
 
     /**

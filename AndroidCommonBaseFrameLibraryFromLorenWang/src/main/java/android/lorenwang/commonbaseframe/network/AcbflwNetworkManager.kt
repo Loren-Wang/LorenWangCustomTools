@@ -123,7 +123,7 @@ open class AcbflwNetworkManager private constructor() {
         }
         //添加默认日志拦截器,后加
         builder = builder.addInterceptor(AcbflwInterceptor(appCompileType))
-        lwRetrofit = Retrofit.Builder().baseUrl(baseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        lwRetrofit = Retrofit.Builder().baseUrl(this.apiBaseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(converterFactory ?: AcbflwResponseGsonConverterFactory.create()) //使用自定义的gson数据解析器，部分代码取自源码当中的gson解析器
             .build()
         //下载请求实例不使用Gson解析器，同时不需要拦截器

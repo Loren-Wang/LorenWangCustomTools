@@ -3,16 +3,24 @@ package android.lorenwang.commonbaseframe.mvp
 import android.app.Activity
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication
 import android.lorenwang.commonbaseframe.R
+import android.lorenwang.commonbaseframe.network.AcbflwNetworkManager
+import android.lorenwang.commonbaseframe.network.callback.AcbflwFileDownLoadCallback
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
+import android.lorenwang.commonbaseframe.network.file.AcbflwFileDownLoadBean
+import android.lorenwang.tools.file.AtlwFileOptionUtil
 import android.lorenwang.tools.mobile.AtlwMobileSystemInfoUtil
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javabase.lorenwang.dataparse.JdplwJsonUtils
 import javabase.lorenwang.tools.JtlwLogUtils
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
+import okhttp3.ResponseBody
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.net.ssl.SSLException
@@ -149,5 +157,53 @@ open class AcbflwBaseModel {
                 netOptionsCallback.pageCount = pageCount
             }
         }
+    }
+
+    /**
+     * 文件下载
+     */
+    fun downloadFile(bean: AcbflwFileDownLoadBean, callback: AcbflwFileDownLoadCallback) {
+        AcbflwNetworkManager.instance.createDownload(AcbflwBaseApi::class.java)?.downloadFile(bean.fileUrlPath)?.subscribeOn(Schedulers.io())
+            ?.subscribe(object : Observer<Response<ResponseBody>> {
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onNext(body: Response<ResponseBody>) {
+                    val inputStream = body.body()?.byteStream()
+                    val contentLength = body.body()?.contentLength()
+                    if (inputStream == null || contentLength == null) {
+                        callback.downloadFail(bean)
+                        return
+                    }
+
+                    val localFile = File("${bean.fileDirPath}/${bean.saveFileName}")
+                    AtlwFileOptionUtil.getInstance().createDirectory(true, localFile.absolutePath, true)
+                    val fileOutputStream = FileOutputStream(localFile)
+                    try {
+                        val bytes = ByteArray(1024)
+                        var rendLength = 0
+                        var currLength: Long = 0
+                        while (rendLength.let { rendLength = inputStream.read(bytes);rendLength } != -1) {
+                            fileOutputStream.write(bytes, 0, rendLength)
+                            fileOutputStream.flush()
+                            currLength += rendLength
+                            callback.updateProgress((currLength * 100.0 / contentLength).toInt())
+                        }
+                        callback.downloadSuccess(bean, localFile.absolutePath)
+                    } catch (ignore: Exception) {
+                        callback.downloadFail(bean)
+                    } finally {
+                        fileOutputStream.close()
+                        inputStream.close()
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    callback.downloadFail(bean)
+                }
+
+                override fun onComplete() {
+                }
+            })
     }
 }

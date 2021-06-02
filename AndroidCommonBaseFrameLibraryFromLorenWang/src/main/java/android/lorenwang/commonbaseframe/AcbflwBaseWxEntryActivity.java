@@ -52,7 +52,8 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
 
     }
 
-    @Override public void showBaseLoading(boolean allowLoadingBackFinishPage) {
+    @Override
+    public void showBaseLoading(boolean allowLoadingBackFinishPage, @Nullable String data) {
 
     }
 

@@ -1,13 +1,19 @@
 package android.lorenwang.commonbaseframe.mvp
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication
 import android.lorenwang.commonbaseframe.R
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseType
 import android.lorenwang.commonbaseframe.bean.AcbflwPageShowViewDataBean
+import android.lorenwang.commonbaseframe.network.callback.AcbflwFileDownLoadCallback
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
 import android.lorenwang.commonbaseframe.network.callback.AcbflwRepOptionsByPresenterCallback
+import android.lorenwang.commonbaseframe.network.file.AcbflwFileDownLoadBean
 import android.lorenwang.tools.AtlwConfig
+import android.lorenwang.tools.app.AtlwActivityUtil
+import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import androidx.annotation.LayoutRes
 import javabase.lorenwang.tools.common.JtlwClassUtils
 import kotlinbase.lorenwang.tools.KttlwConfig
@@ -95,6 +101,24 @@ abstract class AcbflwBasePresenter<V : AcbflwBaseView>(var baseView: V) {
      */
     fun judgeFirstPage(currentPage: Int?): Boolean {
         return currentPage == null || Integer.compare(currentPage, defaultFirstPageIndex) == 0
+    }
+
+    /**
+     * 文件下载
+     */
+    fun downLoadFile(requestCode: Int, context: Context, downLoadFile: AcbflwFileDownLoadBean, callback: AcbflwFileDownLoadCallback) {
+        AtlwActivityUtil.getInstance()
+            .goToRequestPermissions(context, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+                requestCode, object : AtlwPermissionRequestCallback {
+                    override fun permissionRequestSuccessCallback(p0: MutableList<String>?, p1: Int) {
+                        //权限申请通过，开始下载文件
+                        getModel(AcbflwBaseModel::class.java).downloadFile(downLoadFile, callback)
+                    }
+
+                    override fun permissionRequestFailCallback(p0: MutableList<String>?, p1: Int) {
+                        callback.downloadFail(downLoadFile)
+                    }
+                })
     }
 
 

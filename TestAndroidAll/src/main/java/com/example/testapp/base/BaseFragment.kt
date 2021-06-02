@@ -24,7 +24,7 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 abstract class BaseFragment : AcbflwBaseFragment() {
     private var loadingDialog: AvlwLoadingDialogType1? = null//加载中弹窗
 
-    override fun showBaseLoading(allowLoadingBackFinishPage: Boolean) {
+    override fun showBaseLoading(allowLoadingBackFinishPage: Boolean, data: String?) {
         if (loadingDialog == null) {
             loadingDialog = AvlwLoadingDialogType1(activity)
             loadingDialog?.setProgressBarColor(Color.BLUE);

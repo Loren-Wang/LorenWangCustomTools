@@ -25,7 +25,7 @@ abstract class BaseActivity : AcbflwBaseActivity() {
     private var loadingDialog: AvlwLoadingDialogType1? = null//加载中弹窗
     private lateinit var vsbContent: ViewStub
 
-    override fun showBaseLoading(allowLoadingBackFinishPage: Boolean) {
+    override fun showBaseLoading(allowLoadingBackFinishPage: Boolean, data: String?) {
         if (loadingDialog == null) {
             loadingDialog = AvlwLoadingDialogType1(this)
             loadingDialog?.setProgressBarColor(Color.BLUE);

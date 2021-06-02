@@ -23,5 +23,4 @@ abstract class AcbflwBaseBindingRecyclerViewHolder<T, VB : ViewDataBinding>(item
     init {
         binding = DataBindingUtil.bind(itemView)
     }
-
 }

@@ -3,13 +3,13 @@ package com.example.testapp.base;
 import android.app.Activity;
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder;
 import android.lorenwang.commonbaseframe.adapter.AcbflwBaseType;
+import android.lorenwang.commonbaseframe.bean.AcbflwPageShowViewDataBean;
 import android.lorenwang.commonbaseframe.list.AcbflwBaseListDataOptions;
 import android.lorenwang.commonbaseframe.list.AcbflwBaseListDataOptionsDecorator;
 import android.lorenwang.commonbaseframe.refresh.AcbflwBaseRefreshDataOptions;
 import android.lorenwang.commonbaseframe.refresh.AcbflwBaseRefreshDataOptionsDecorator;
 import android.lorenwang.commonbaseframe.refresh.AcbflwRefreshView;
 import android.view.View;
-
 
 import com.example.testapp.R;
 
@@ -54,6 +54,24 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
      */
     protected Integer currentPageIndex;
 
+    @Override
+    public void setListShowData(@Nullable AcbflwPageShowViewDataBean<T> data, int itemLayoutRes, boolean showScrollEnd) {
+        listDataOptions.setListShowData(data, itemLayoutRes, showScrollEnd);
+        loadingAllFinish();
+    }
+
+    @Override
+    public void setListShowData(@Nullable AcbflwPageShowViewDataBean<AcbflwBaseType<T>> data, boolean showScrollEnd) {
+        listDataOptions.setListShowData(data, showScrollEnd);
+        loadingAllFinish();
+    }
+
+    @Override
+    public void showContentData() {
+        listDataOptions.showContentData();
+        loadingAllFinish();
+    }
+
     /**
      * 添加默认视图控件
      *
@@ -70,8 +88,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
      * @param enableRefresh   是否开启刷新
      * @param enableLoad      是否开启加载更多
      */
-    protected void initBaseList(Boolean useSwipeRefresh, Boolean enableRefresh,
-                                Boolean enableLoad) {
+    protected void initBaseList(Boolean useSwipeRefresh, Boolean enableRefresh, Boolean enableLoad) {
         if (useSwipeRefresh == null) {
             useSwipeRefresh = true;
         }
@@ -82,17 +99,14 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
             enableLoad = false;
         }
         refreshDataOptions = new AcbflwBaseRefreshDataOptions(this, this, getRefreshView(), this);
-        listDataOptions = new AcbflwBaseListDataOptions<T>(this, this,
-                refreshDataOptions, getRecycleView()) {
+        listDataOptions = new AcbflwBaseListDataOptions<T>(this, this, refreshDataOptions, getRecycleView()) {
             @Override
-            public AcbflwBaseRecyclerViewHolder<T> getListViewHolder(int viewType,
-                                                                     @NotNull final View itemView) {
+            public AcbflwBaseRecyclerViewHolder<T> getListViewHolder(int viewType, @NotNull final View itemView) {
                 if (viewType == R.layout.empty_data_default) {
                     return new AcbflwBaseRecyclerViewHolder<T>(itemView) {
                         @Override
-                        public void setViewData(@Nullable Activity activity, @Nullable T model,
-                                                int position) {
-                            initEmptyView(itemView, R.layout.empty_data_default,null);
+                        public void setViewData(@Nullable Activity activity, @Nullable T model, int position) {
+                            initEmptyView(itemView, R.layout.empty_data_default, null);
                         }
                     };
                 }
@@ -143,15 +157,13 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
     }
 
     @Override
-    public void multiTypeLoad(@Nullable List<? extends AcbflwBaseType<T>> list,
-                              boolean haveMoreData) {
+    public void multiTypeLoad(@Nullable List<? extends AcbflwBaseType<T>> list, boolean haveMoreData) {
         listDataOptions.multiTypeLoad(list, haveMoreData);
         loadingAllFinish();
     }
 
     @Override
-    public void multiTypeRefresh(List<? extends AcbflwBaseType<T>> list,
-                                 boolean haveMoreData) {
+    public void multiTypeRefresh(List<? extends AcbflwBaseType<T>> list, boolean haveMoreData) {
         if (list == null || list.isEmpty()) {
             showListDefaultEmptyView(haveMoreData);
         } else {
@@ -167,15 +179,13 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
     }
 
     @Override
-    public void singleTypeLoad(@Nullable List<? extends T> list, int layoutId,
-                               boolean haveMoreData) {
+    public void singleTypeLoad(@Nullable List<? extends T> list, int layoutId, boolean haveMoreData) {
         listDataOptions.singleTypeLoad(list, layoutId, haveMoreData);
         loadingAllFinish();
     }
 
     @Override
-    public void singleTypeRefresh(@Nullable List<? extends T> list, int layoutId,
-                                  boolean haveMoreData) {
+    public void singleTypeRefresh(@Nullable List<? extends T> list, int layoutId, boolean haveMoreData) {
         if (list == null || list.isEmpty()) {
             showListDefaultEmptyView(haveMoreData);
         } else {
@@ -215,7 +225,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
     }
 
     @Override
-    public void netReqFail(int netOptionReqCode,  @Nullable String message) {
+    public void netReqFail(int netOptionReqCode, @Nullable String message) {
         super.netReqFail(netOptionReqCode, message);
         //结束刷新
         loadingAllFinish();
