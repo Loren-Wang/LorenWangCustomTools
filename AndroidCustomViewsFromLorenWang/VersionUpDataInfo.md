@@ -1,3 +1,7 @@
+**V3.2.9**
+
+    AvlwCalendarView---（新增变量回调）
+
 **V3.2.7**
 
     AvlwLeftRightIconShowEditText---（左右icon设置显示控件，包含icon点击）

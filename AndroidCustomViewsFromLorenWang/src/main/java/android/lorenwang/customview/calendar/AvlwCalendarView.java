@@ -143,20 +143,20 @@ public class AvlwCalendarView extends LinearLayoutCompat {
 
     public AvlwCalendarView(@NonNull @NotNull Context context) {
         super(context);
-        init(context, null, -1);
+        init(context, null);
     }
 
     public AvlwCalendarView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs, -1);
+        init(context, attrs);
     }
 
     public AvlwCalendarView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
+        init(context, attrs);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void init(Context context, AttributeSet attrs) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwCalendarView);
         caledarWeekFirst = attributes.getInt(R.styleable.AvlwCalendarView_avlwCaledarWeekFirst, caledarWeekFirst);
         showOnlyMonth = attributes.getBoolean(R.styleable.AvlwCalendarView_avlwCaledarShowOnlyMonth, showOnlyMonth);
@@ -186,16 +186,9 @@ public class AvlwCalendarView extends LinearLayoutCompat {
                 if (useAutoHeight) {
                     RecyclerView view = vpgViewList.get(position);
                     if (view != null && view.getAdapter() != null) {
-                        int count = view.getAdapter().getItemCount();
-                        int rows;
-                        if (count % 7 == 0) {
-                            rows = count / 7;
-                        } else {
-                            rows = count / 7 + 1;
-                        }
                         //重新修改高度
-                        contentShowContainer.setLayoutParams(
-                                new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, calendarViewGetChild.getWeekDayViewHeight() * rows));
+                        contentShowContainer.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                calendarViewGetChild.getWeekDayViewHeight() * getDayRowCount()));
                     }
                 }
             }
@@ -291,6 +284,44 @@ public class AvlwCalendarView extends LinearLayoutCompat {
      */
     public Long getSelectTimeTwo() {
         return selectTimeTwo;
+    }
+
+    /**
+     * 获取每周的第一天
+     *
+     * @return 每周的第一天是周几，默认周日，0代表周日，1代表周一，后续依次累加
+     */
+    public int getCaledarWeekFirst() {
+        return caledarWeekFirst;
+    }
+
+    /**
+     * 获取当前显示的数据列表
+     *
+     * @return 当前显示的数据列表控件
+     */
+    public RecyclerView getCurrentShowRecycleView() {
+        return vpgViewList.get(contentShowContainer.getCurrentItem());
+    }
+
+    /**
+     * 获取日期显示的行数
+     *
+     * @return 日期显示的行数
+     */
+    public int getDayRowCount() {
+        RecyclerView view = getCurrentShowRecycleView();
+        if (view != null && view.getAdapter() != null) {
+            int count = view.getAdapter().getItemCount();
+            int rows;
+            if (count % 7 == 0) {
+                rows = count / 7;
+            } else {
+                rows = count / 7 + 1;
+            }
+            return rows;
+        }
+        return 0;
     }
 
     /**

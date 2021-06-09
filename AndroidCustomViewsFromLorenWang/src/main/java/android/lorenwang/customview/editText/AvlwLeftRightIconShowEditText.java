@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.lorenwang.customview.R;
+import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwLogUtil;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -11,9 +12,11 @@ import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.content.ContextCompat;
 
 /**
  * 功能作用：左右图标显示的编辑控件
@@ -145,6 +148,42 @@ public class AvlwLeftRightIconShowEditText extends AppCompatEditText {
     }
 
     /**
+     * 设置左侧图标
+     *
+     * @param drawableRes 图标资源
+     * @param width       宽
+     * @param height      高
+     */
+    public void setLeftIconDrawable(@DrawableRes int drawableRes, Integer width, Integer height) {
+        leftIconDrawable = ContextCompat.getDrawable(AtlwConfig.nowApplication, drawableRes);
+        if (width != null) {
+            leftIconWidth = width;
+        }
+        if (height != null) {
+            leftIconHeight = height;
+        }
+        updateIconDrawable();
+    }
+
+    /**
+     * 设置右侧图标
+     *
+     * @param drawableRes 图标资源
+     * @param width       宽
+     * @param height      高
+     */
+    public void setRightIconDrawable(@DrawableRes int drawableRes, Integer width, Integer height) {
+        rightIconDrawable = ContextCompat.getDrawable(AtlwConfig.nowApplication, drawableRes);
+        if (width != null) {
+            rightIconWidth = width;
+        }
+        if (height != null) {
+            rightIconHeight = height;
+        }
+        updateIconDrawable();
+    }
+
+    /**
      * 更新图标
      */
     private void updateIconDrawable() {
@@ -154,7 +193,6 @@ public class AvlwLeftRightIconShowEditText extends AppCompatEditText {
         if (rightIconDrawable != null) {
             rightIconDrawable.setBounds(0, 0, rightIconWidth, rightIconHeight);
         }
-
         if (rightIconClickClearText && rightIconDrawable != null) {
             if (length() > 0) {
                 if (getCompoundDrawables()[2] == null) {
