@@ -38,9 +38,21 @@ import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
  * 6、清空数据列表
  */
 abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRecyclerViewHolder<T>>, AcbflwBaseListDataOptionsDecorator<T> {
+    /**
+     * 显示的数据列表，内部使用
+     */
     var dataList: ArrayList<AcbflwBaseType<T>> = arrayListOf()
         private set
+
+    /**
+     * 页面实例
+     */
     var activity: Activity
+
+    /**
+     * 结束的数据显示
+     */
+    var scrollEndData: AcbflwBaseType<T>? = null
 
     /**
      * 是否显示最大数量
@@ -71,13 +83,25 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
     var currentPageIndex: Int? = null
         private set
 
+    /**
+     * @param activity 页面实例
+     */
     constructor(activity: Activity) : this(activity, false)
 
+    /**
+     * @param activity 页面实例
+     * @param showWhetherTheCycle 是否轮播
+     */
     constructor(activity: Activity, showWhetherTheCycle: Boolean) {
         this.activity = activity
         this.showWhetherTheCycle = showWhetherTheCycle
     }
 
+    /**
+     * @param activity 页面实例
+     * @param showWhetherTheCycle 是否轮播
+     * @param onlyShowCycle 单张的适合是否轮播
+     */
     constructor(activity: Activity, showWhetherTheCycle: Boolean, onlyShowCycle: Boolean) {
         this.activity = activity
         this.showWhetherTheCycle = showWhetherTheCycle
@@ -111,6 +135,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      */
     override fun clear() {
         dataList.clear()
+        notifyDataSetChanged()
     }
 
     /**
@@ -119,7 +144,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param list     数据列表
      * @param layoutId 布局id
      */
-    override fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean) {
+    override fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
             for (t in list) {
                 if (t != null) {
@@ -128,7 +153,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
                     return
                 }
             }
-            notifyDataSetChanged()
+            loadFinish(showScrollEnd)
         }
     }
 
@@ -137,10 +162,10 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      *
      * @param list basetype数据列表
      */
-    override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
+    override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
             this.dataList.addAll(list)
-            notifyDataSetChanged()
+            loadFinish(showScrollEnd)
         }
     }
 
@@ -150,13 +175,13 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param list     数据列表
      * @param layoutId 布局id
      */
-    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean) {
+    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
             dataList.clear()
             for (t in list) {
                 dataList.add(AcbflwBaseType(layoutId, t))
             }
-            notifyDataSetChanged()
+            loadFinish(showScrollEnd)
         }
     }
 
@@ -165,11 +190,11 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      *
      * @param list basetype数据列表
      */
-    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
+    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
         if (list != null && list.isNotEmpty()) {
             dataList.clear()
             dataList.addAll(list)
-            notifyDataSetChanged()
+            loadFinish(showScrollEnd)
         }
     }
 
@@ -184,7 +209,6 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
     /**
      * 设置列表显示数据
      * @param data 列表通用数据加载
-     * @param itemLayoutRes 列表item布局资源
      * @param showScrollEnd 是否显示滑动结束
      */
     override fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean) {
@@ -196,9 +220,9 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
                 if (!it.list.isNullOrEmpty()) {
                     showContentData()
                 }
-                multiTypeRefresh(it.list, !it.isLastPageData)
+                multiTypeRefresh(it.list, !it.isLastPageData, showScrollEnd)
             } else {
-                multiTypeLoad(it.list, !it.isLastPageData)
+                multiTypeLoad(it.list, !it.isLastPageData, showScrollEnd)
             }
         })
     }
@@ -218,9 +242,9 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
                 if (!it.list.isNullOrEmpty()) {
                     showContentData()
                 }
-                singleTypeRefresh(it.list, itemLayoutRes, !it.isLastPageData)
+                singleTypeRefresh(it.list, itemLayoutRes, !it.isLastPageData, showScrollEnd)
             } else {
-                singleTypeLoad(it.list, itemLayoutRes, !it.isLastPageData)
+                singleTypeLoad(it.list, itemLayoutRes, !it.isLastPageData, showScrollEnd)
             }
         })
     }
@@ -234,6 +258,25 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
     override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean) {
         dataList.clear()
         dataList.add(AcbflwBaseType(layoutId, desc))
+        notifyDataSetChanged()
+    }
+
+    /**
+     * 加载结束处理
+     */
+    private fun loadFinish(showScrollEnd: Boolean) {
+        if (showScrollEnd && scrollEndData != null) {
+            var haveData = false
+            for (item in dataList) {
+                if (item == scrollEndData) {
+                    haveData = true
+                    break
+                }
+            }
+            if (!haveData) {
+                dataList.add(scrollEndData!!)
+            }
+        }
         notifyDataSetChanged()
     }
 }

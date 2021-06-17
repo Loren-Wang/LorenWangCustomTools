@@ -133,7 +133,7 @@ open class AcbflwNetworkManager private constructor() {
         //设置超时时间
         builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS)
         lwDownloadRetrofit =
-            Retrofit.Builder().baseUrl(baseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+            Retrofit.Builder().baseUrl(this.apiBaseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
     }
 
     /**
@@ -176,7 +176,7 @@ open class AcbflwNetworkManager private constructor() {
             }
             if (!haveApiUrl) {
                 val urls = arrayOfNulls<Array<String>>(recodeUrls.size + 1)
-                urls[recodeUrls.size] = arrayOf(this.apiBaseUrl, this.h5BaseUrl, this.shareBaseUrl)
+                urls[recodeUrls.size] = arrayOf(baseUrl, h5BaseUrl.kttlwGetNotEmptyData(), shareBaseUrl.kttlwGetNotEmptyData())
                 System.arraycopy(recodeUrls, 0, urls, 0, recodeUrls.size)
                 AtlwSharedPrefUtil.getInstance().putString(KEY_BASE_URL_RECORDS, JdplwJsonUtils.toJson(urls))
             }

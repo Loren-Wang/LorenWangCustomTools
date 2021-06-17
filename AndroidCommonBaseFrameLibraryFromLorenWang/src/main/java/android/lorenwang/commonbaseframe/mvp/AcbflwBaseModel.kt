@@ -108,7 +108,7 @@ open class AcbflwBaseModel {
                     is HttpException, is UnknownHostException -> {
                         //判断是无网络还是其他问题
                         try {
-                            if (AtlwMobileSystemInfoUtil.getNetworkType() == 0) {
+                            if (AtlwMobileSystemInfoUtil.getInstance().networkType == 0) {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
@@ -120,7 +120,7 @@ open class AcbflwBaseModel {
                     is SocketTimeoutException -> {
                         //判断是无网络还是其他问题
                         try {
-                            if (AtlwMobileSystemInfoUtil.getNetworkType() == 0) {
+                            if (AtlwMobileSystemInfoUtil.getInstance().networkType == 0) {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
@@ -132,7 +132,7 @@ open class AcbflwBaseModel {
                     is SSLException -> {
                         //判断是无网络还是其他问题
                         try {
-                            if (AtlwMobileSystemInfoUtil.getNetworkType() == 0) {
+                            if (AtlwMobileSystemInfoUtil.getInstance().networkType == 0) {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
                                 JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))

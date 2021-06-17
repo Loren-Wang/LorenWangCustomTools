@@ -68,33 +68,33 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
         refreshDataOptions?.setAllowLoadMore(false)
     }
 
-    override fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean) {
+    override fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
-            adapter.singleTypeLoad(list, layoutId, haveMoreData)
+            adapter.singleTypeLoad(list, layoutId, haveMoreData,showScrollEnd)
             this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
     }
 
-    override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
+    override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
-            adapter.multiTypeLoad(list, haveMoreData)
+            adapter.multiTypeLoad(list, haveMoreData,showScrollEnd)
             this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
     }
 
-    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean) {
+    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
-            adapter.singleTypeRefresh(list, layoutId, haveMoreData)
+            adapter.singleTypeRefresh(list, layoutId, haveMoreData,showScrollEnd)
             this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
     }
 
-    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean) {
+    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
-            adapter.multiTypeRefresh(list, haveMoreData)
+            adapter.multiTypeRefresh(list, haveMoreData,showScrollEnd)
             this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }

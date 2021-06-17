@@ -36,14 +36,14 @@ interface AcbflwBaseListDataOptionsDecorator<T> {
      * @param list     数据列表
      * @param layoutId 布局id
      */
-    fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean)
+    fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean = false)
 
     /**
      * 添加转换后的basetype数据
      *
      * @param list basetype数据列表
      */
-    fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean)
+    fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean = false)
 
     /**
      * 清除旧数据并添加新数据和布局id
@@ -51,21 +51,19 @@ interface AcbflwBaseListDataOptionsDecorator<T> {
      * @param list     数据列表
      * @param layoutId 布局id
      */
-    fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean)
+    fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean = false)
 
     /**
      * 清除旧数据并添加转换后的basetype数据
      *
      * @param list basetype数据列表
      */
-    fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean)
-
+    fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean = false)
 
     /**
      * 设置列表显示数据
      */
     fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, @LayoutRes itemLayoutRes: Int, showScrollEnd: Boolean)
-
 
     /**
      * 设置列表显示数据
