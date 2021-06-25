@@ -227,6 +227,22 @@ public class AcbflwImageSelectUtil {
      */
     public void openSelectVideo(Activity activity, int maxFileSize, int minVideoSecond, int maxVideoSecond, AcbflwLocalImageSelectBean selectBean,
             AcbflwFileSelectCallback callback) {
+        openSelectVideo(activity, maxFileSize, minVideoSecond, maxVideoSecond, selectBean, false, callback);
+    }
+
+    /**
+     * 开启视频选择
+     *
+     * @param activity       页面实例
+     * @param maxFileSize    最大文件大小
+     * @param minVideoSecond 最小视频时间
+     * @param maxVideoSecond 最大视频时间
+     * @param selectBean     已选择实例
+     * @param useTakePhoto   是否显示拍照按钮
+     * @param callback       回调监听
+     */
+    public void openSelectVideo(Activity activity, int maxFileSize, int minVideoSecond, int maxVideoSecond, AcbflwLocalImageSelectBean selectBean,
+            boolean useTakePhoto, AcbflwFileSelectCallback callback) {
         List<AcbflwLocalImageSelectBean> selectList = new ArrayList<>();
         if (selectBean != null) {
             selectList.add(selectBean);
