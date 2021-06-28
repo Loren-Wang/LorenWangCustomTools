@@ -243,26 +243,43 @@ public class AcbflwImageSelectUtil {
      */
     public void openSelectVideo(Activity activity, int maxFileSize, int minVideoSecond, int maxVideoSecond, AcbflwLocalImageSelectBean selectBean,
             boolean useTakePhoto, AcbflwFileSelectCallback callback) {
+        openSelectVideo(activity, 1, maxFileSize, minVideoSecond, maxVideoSecond, selectBean, useTakePhoto, callback);
+    }
+
+    /**
+     * 开启视频选择
+     *
+     * @param activity       页面实例
+     * @param maxFileSize    最大文件大小
+     * @param minVideoSecond 最小视频时间
+     * @param maxVideoSecond 最大视频时间
+     * @param maxVideoSelect 最大视频选择数量
+     * @param selectBean     已选择实例
+     * @param useTakePhoto   是否显示拍照按钮
+     * @param callback       回调监听
+     */
+    public void openSelectVideo(Activity activity, int maxVideoSelect, int maxFileSize, int minVideoSecond, int maxVideoSecond,
+            AcbflwLocalImageSelectBean selectBean, boolean useTakePhoto, AcbflwFileSelectCallback callback) {
         List<AcbflwLocalImageSelectBean> selectList = new ArrayList<>();
         if (selectBean != null) {
             selectList.add(selectBean);
         }
-        getBasePictureSelectionModel(activity, PictureMimeType.ofVideo(), 1, maxFileSize, 1, minVideoSecond, maxVideoSecond, selectList, false)
-                .forResult(new OnResultCallbackListener<LocalMedia>() {
-                    @Override
-                    public void onResult(List<LocalMedia> result) {
-                        if (callback != null) {
-                            callback.onResult(localMediaToImageSelectBean(result));
-                        }
-                    }
+        getBasePictureSelectionModel(activity, PictureMimeType.ofVideo(), 1, maxFileSize, maxVideoSelect, minVideoSecond, maxVideoSecond, selectList,
+                useTakePhoto).forResult(new OnResultCallbackListener<LocalMedia>() {
+            @Override
+            public void onResult(List<LocalMedia> result) {
+                if (callback != null) {
+                    callback.onResult(localMediaToImageSelectBean(result));
+                }
+            }
 
-                    @Override
-                    public void onCancel() {
-                        if (callback != null) {
-                            callback.onCancel();
-                        }
-                    }
-                });
+            @Override
+            public void onCancel() {
+                if (callback != null) {
+                    callback.onCancel();
+                }
+            }
+        });
     }
 
     /**
@@ -448,7 +465,7 @@ public class AcbflwImageSelectUtil {
      * @param useTakePhoto   是否可以拍照
      * @return 基础配置model
      */
-    private PictureSelectionModel getBasePictureSelectionModel(Activity activity, int chooseMode, int maxSelectNum, int maxFileSize,
+    public PictureSelectionModel getBasePictureSelectionModel(Activity activity, int chooseMode, int maxSelectNum, int maxFileSize,
             int maxVideoSelect, int minVideoSecond, int maxVideoSecond, List<AcbflwLocalImageSelectBean> selectList, boolean useTakePhoto) {
         // 进入相册 以下是例子：用不到的api可以不写
         return PictureSelector.create(activity)
