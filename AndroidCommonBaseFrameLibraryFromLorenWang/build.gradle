@@ -16,7 +16,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "3.2.2"
+        versionName "3.2.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -80,7 +80,7 @@ dependencies {
     compileOnly 'com.squareup.retrofit2:converter-gson:2.6.0'
     compileOnly 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     //图片选择框架
-    compileOnly 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
+    compileOnly 'io.github.lucksiege:pictureselector:v2.7.3-rc03'
     //glide图片加载
     compileOnly 'com.github.bumptech.glide:glide:4.10.0'
     //Toast提示框架

@@ -3,8 +3,8 @@ package android.lorenwang.commonbaseframe.image;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
 import android.lorenwang.commonbaseframe.AcbflwBaseCommonKey;
+import android.lorenwang.tools.AtlwConfig;
 import android.os.Build;
 
 import com.luck.picture.lib.PictureSelectionModel;
@@ -19,13 +19,11 @@ import com.luck.picture.lib.tools.PictureFileUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
 
 /**
  * 功能作用：图片选择器工具
@@ -321,9 +319,9 @@ public class AcbflwImageSelectUtil {
      */
     public void openCompressImage(@NotNull final List<AcbflwLocalImageSelectBean> list, final int maxSize,
             @NotNull final AcbflwFileCompressCallback callback) {
-        PictureThreadUtils.executeByIo(new PictureThreadUtils.SimpleTask<List<File>>() {
+        PictureThreadUtils.executeByIo(new PictureThreadUtils.SimpleTask<List<AcbflwLocalImageSelectBean>>() {
             @Override
-            public List<File> doInBackground() throws Exception {
+            public List<AcbflwLocalImageSelectBean> doInBackground() throws Exception {
                 return compressImage(list, maxSize, 100);
             }
 
@@ -334,7 +332,7 @@ public class AcbflwImageSelectUtil {
             }
 
             @Override
-            public void onSuccess(List<File> files) {
+            public void onSuccess(List<AcbflwLocalImageSelectBean> files) {
                 if (files != null && files.size() > 0 && files.size() == list.size()) {
                     callback.success(files);
                 } else {
@@ -429,19 +427,20 @@ public class AcbflwImageSelectUtil {
      * @param maxSize 压缩最大文件大小，单位kb
      * @return 压缩后文件列表
      */
-    private List<File> compressImage(@NotNull List<AcbflwLocalImageSelectBean> list, int maxSize, int compressQuality) throws Exception {
-        List<File> files = Luban.with(AcbflwBaseApplication.getAppContext()).loadMediaData(imageSelectBeanToLocalMedia(list)).isCamera(false)
-                .setFocusAlpha(false).setCompressQuality(compressQuality).ignoreBy(100).get();
-        List<File> returnFileList = new ArrayList<>(list.size());
+    private List<AcbflwLocalImageSelectBean> compressImage(@NotNull List<AcbflwLocalImageSelectBean> list, int maxSize,
+            int compressQuality) throws Exception {
+        List<LocalMedia> files = Luban.with(AtlwConfig.nowApplication).loadMediaData(imageSelectBeanToLocalMedia(list)).isCamera(false).setFocusAlpha(
+                false).setCompressQuality(compressQuality).ignoreBy(100).get();
+        List<AcbflwLocalImageSelectBean> returnFileList = new ArrayList<>(list.size());
         List<AcbflwLocalImageSelectBean> reloadCompressList = new ArrayList<>(list.size());
-        File file;
+        LocalMedia file;
         for (int i = 0; i < files.size(); i++) {
             file = files.get(i);
-            if (JtlwFileOptionUtils.getInstance().getFileSize(file, null) > (long) maxSize << 10) {
+            if (file.getSize() > (long) maxSize << 10) {
                 //压缩前后对应关系、位置下标一样
-                reloadCompressList.add(list.get(i));
+                reloadCompressList.add(new AcbflwLocalImageSelectBean().copyToLocalCurrent(list.get(i)));
             } else {
-                returnFileList.add(file);
+                returnFileList.add(new AcbflwLocalImageSelectBean().copyToLocalCurrent(file));
             }
         }
         //加入重新压缩的数据

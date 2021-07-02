@@ -175,14 +175,22 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param list     数据列表
      * @param layoutId 布局id
      */
-    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
+    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
+        var status = false
         list?.let {
             dataList.clear()
-            for (t in list) {
-                dataList.add(AcbflwBaseType(layoutId, t))
+            if (list.isNullOrEmpty()) {
+                showEmptyView(R.layout.acbflw_empty_view_data, null, false)
+            } else {
+                showContentData()
+                status = true
+                for (t in list) {
+                    dataList.add(AcbflwBaseType(layoutId, t))
+                }
             }
             loadFinish(showScrollEnd)
         }
+        return status
     }
 
     /**
@@ -190,20 +198,29 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      *
      * @param list basetype数据列表
      */
-    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
+    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
+        var status = false
         if (list != null && list.isNotEmpty()) {
             dataList.clear()
-            dataList.addAll(list)
+            if (list.isNullOrEmpty()) {
+                showEmptyView(R.layout.acbflw_empty_view_data, null, false)
+            } else {
+                showContentData()
+                status = true
+                dataList.addAll(list)
+            }
             loadFinish(showScrollEnd)
         }
+        return status
     }
 
     /**
      * 设置显示内容
      */
-    override fun showContentData() {
+    override fun showContentData(): Boolean {
         dataList.clear()
         notifyDataSetChanged()
+        return true
     }
 
     /**
@@ -211,7 +228,8 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param data 列表通用数据加载
      * @param showScrollEnd 是否显示滑动结束
      */
-    override fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean) {
+    override fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean): Boolean {
+        var status = false
         data.kttlwEmptyCheck({
             showEmptyView(R.layout.acbflw_empty_view_data, null, false)
         }, {
@@ -219,12 +237,17 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
             if (it.isFirstPageData) {
                 if (!it.list.isNullOrEmpty()) {
                     showContentData()
+                    status = true
+                } else {
+                    showEmptyView(R.layout.acbflw_empty_view_data, null, false)
                 }
                 multiTypeRefresh(it.list, !it.isLastPageData, showScrollEnd)
             } else {
                 multiTypeLoad(it.list, !it.isLastPageData, showScrollEnd)
             }
+            null
         })
+        return status
     }
 
     /**
@@ -233,7 +256,8 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param itemLayoutRes 列表item布局资源
      * @param showScrollEnd 是否显示滑动结束
      */
-    override fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, itemLayoutRes: Int, showScrollEnd: Boolean) {
+    override fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, itemLayoutRes: Int, showScrollEnd: Boolean): Boolean {
+        var status = false
         data.kttlwEmptyCheck({
             showEmptyView(R.layout.acbflw_empty_view_data, null, false)
         }, {
@@ -241,12 +265,17 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
             if (it.isFirstPageData) {
                 if (!it.list.isNullOrEmpty()) {
                     showContentData()
+                    status = true
+                } else {
+                    showEmptyView(R.layout.acbflw_empty_view_data, null, false)
                 }
                 singleTypeRefresh(it.list, itemLayoutRes, !it.isLastPageData, showScrollEnd)
             } else {
                 singleTypeLoad(it.list, itemLayoutRes, !it.isLastPageData, showScrollEnd)
             }
+            null
         })
+        return status
     }
 
     /**
@@ -255,10 +284,11 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param layoutId 布局资源id
      * @param desc     空视图实例
      */
-    override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean) {
+    override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean): Boolean {
         dataList.clear()
         dataList.add(AcbflwBaseType(layoutId, desc))
         notifyDataSetChanged()
+        return true
     }
 
     /**

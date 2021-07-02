@@ -243,12 +243,13 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     /**
      * 显示内容数据，隐藏空数据
      */
-    protected open fun showContentData() {
+    protected open fun showContentData(): Boolean {
         emptyView?.visibility = View.GONE
         showContentView?.visibility = View.VISIBLE
+        return true
     }
 
-    protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T) {
+    protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T): Boolean {
         showContentView?.visibility = View.GONE
         if (emptyView == null) {
             val vsbQtEmpty = findViewById<ViewStub>(R.id.vsbAcbflwEmpty)
@@ -259,6 +260,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         } else {
             emptyView.kttlwToVisible()
         }
+        return true
     }
 
     override fun onPause() {

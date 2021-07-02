@@ -50,40 +50,46 @@ interface AcbflwBaseListDataOptionsDecorator<T> {
      *
      * @param list     数据列表
      * @param layoutId 布局id
+     * @return true 表示已使用,切数据不为空
      */
-    fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean = false)
+    fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean = false): Boolean
 
     /**
      * 清除旧数据并添加转换后的basetype数据
      *
      * @param list basetype数据列表
+     * @return true 表示已使用,切数据不为空
      */
-    fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean = false)
+    fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean = false): Boolean
 
     /**
      * 设置列表显示数据
+     * @return true 表示已使用,切数据不为空
      */
-    fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, @LayoutRes itemLayoutRes: Int, showScrollEnd: Boolean)
+    fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, @LayoutRes itemLayoutRes: Int, showScrollEnd: Boolean): Boolean
 
     /**
      * 设置列表显示数据
      * @param data 列表通用数据加载
      * @param showScrollEnd 是否显示滑动结束
+     * @return true 表示已使用,切数据不为空
      */
-    fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean)
+    fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean): Boolean
 
     /**
      * 显示空视图
      *
      * @param layoutId 布局资源id
      * @param desc     空视图实例
+     * @return true 表示已使用
      */
-    fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean)
+    fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean): Boolean
 
     /**
      * 显示内容数据
+     * @return true 表示已使用
      */
-    fun showContentData()
+    fun showContentData(): Boolean
 
     /**
      * 获取适配器数据

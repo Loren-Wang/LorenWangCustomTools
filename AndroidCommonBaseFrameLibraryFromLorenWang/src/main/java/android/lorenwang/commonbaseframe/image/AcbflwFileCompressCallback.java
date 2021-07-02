@@ -21,7 +21,7 @@ public interface AcbflwFileCompressCallback {
      * 压缩成功
      * @param files 压缩后文件列表
      */
-    void success(List<File> files);
+    void success(List<AcbflwLocalImageSelectBean> files);
 
     /**
      * 压缩失败

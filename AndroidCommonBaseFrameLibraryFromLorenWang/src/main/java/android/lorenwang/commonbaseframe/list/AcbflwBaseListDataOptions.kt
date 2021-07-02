@@ -70,34 +70,42 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
 
     override fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
-            adapter.singleTypeLoad(list, layoutId, haveMoreData,showScrollEnd)
+            adapter.singleTypeLoad(list, layoutId, haveMoreData, showScrollEnd)
             this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
+        refreshDataOptions?.finishAll()
     }
 
     override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
-            adapter.multiTypeLoad(list, haveMoreData,showScrollEnd)
+            adapter.multiTypeLoad(list, haveMoreData, showScrollEnd)
             this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
+        refreshDataOptions?.finishAll()
     }
 
-    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
+    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
+        var status = false
         list?.let {
-            adapter.singleTypeRefresh(list, layoutId, haveMoreData,showScrollEnd)
+            status = adapter.singleTypeRefresh(list, layoutId, haveMoreData, showScrollEnd)
             this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
+        refreshDataOptions?.finishAll()
+        return status
     }
 
-    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
+    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
+        var status = false
         list?.let {
-            adapter.multiTypeRefresh(list, haveMoreData,showScrollEnd)
+            status = adapter.multiTypeRefresh(list, haveMoreData, showScrollEnd)
             this.list = adapter.adapterDataList
             refreshDataOptions?.setAllowLoadMore(haveMoreData)
         }
+        refreshDataOptions?.finishAll()
+        return status
     }
 
     /**
@@ -106,34 +114,37 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
      * @param itemLayoutRes 列表item布局资源
      * @param showScrollEnd 是否显示滑动结束
      */
-    override fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, @LayoutRes itemLayoutRes: Int, showScrollEnd: Boolean) {
-        adapter.setListShowData(data, itemLayoutRes, showScrollEnd)
+    override fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, @LayoutRes itemLayoutRes: Int, showScrollEnd: Boolean): Boolean {
+        val status = adapter.setListShowData(data, itemLayoutRes, showScrollEnd)
         this.list = adapter.adapterDataList
         refreshDataOptions?.setAllowLoadMore(!data?.isLastPageData.kttlwGetNotEmptyData(true))
+        return status
     }
 
     /**
      * 设置列表显示数据
      * @param data 列表通用数据加载
-     * @param itemLayoutRes 列表item布局资源
      * @param showScrollEnd 是否显示滑动结束
      */
-    override fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean) {
-        adapter.setListShowData(data, showScrollEnd)
+    override fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean): Boolean {
+        val status = adapter.setListShowData(data, showScrollEnd)
         this.list = adapter.adapterDataList
         refreshDataOptions?.setAllowLoadMore(!data?.isLastPageData.kttlwGetNotEmptyData(true))
+        return status
     }
 
-    override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean) {
+    override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean): Boolean {
         adapter.showEmptyView(layoutId, desc, haveMoreData)
         list = adapter.adapterDataList
         refreshDataOptions?.setAllowLoadMore(haveMoreData)
+        return true
     }
 
-    override fun showContentData() {
+    override fun showContentData(): Boolean {
         adapter.showContentData()
         this.list = adapter.adapterDataList
         refreshDataOptions?.setAllowLoadMore(false)
+        return true
     }
 
     /**
@@ -142,15 +153,17 @@ open class AcbflwBaseListDataOptions<T>(val activity: Activity?, private val dec
      * @param recyclerView  列表控件
      * @param layoutManager 布局管理器
      */
-    fun setRecycle(recyclerView: RecyclerView?, layoutManager: RecyclerView.LayoutManager?) {
+    fun setRecycle(recyclerView: RecyclerView?, layoutManager: RecyclerView.LayoutManager?, useAdapter: AcbflwBaseRecyclerAdapter<T>? = null) {
         if (recyclerView != null && activity != null) {
             this.recyclerView = recyclerView
             this.layoutManager = layoutManager ?: this.layoutManager
             this.recyclerView?.layoutManager = this.layoutManager
             this.recyclerView?.layoutManager = layoutManager
-            adapter = object : AcbflwBaseRecyclerAdapter<T>(activity) {
-                override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T> {
-                    return this@AcbflwBaseListDataOptions.getListViewHolder(viewType, itemView)
+            adapter = useAdapter.kttlwGetNotEmptyData {
+                object : AcbflwBaseRecyclerAdapter<T>(activity) {
+                    override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T> {
+                        return this@AcbflwBaseListDataOptions.getListViewHolder(viewType, itemView)
+                    }
                 }
             }
             this.recyclerView?.adapter = adapter
