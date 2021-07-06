@@ -71,6 +71,7 @@ Java自定义工具类
     匹配所有的BigDecimal--EXP_BIGDECIMAL
     匹配所有的字母--EXP_a_z_A_Z
     匹配所有的数字--EXP_0_9
+    所有的标点符号（包含空格）--EXP_PUNCTUATION
     匹配所有的数字(不包含0)--EXP_ALL_INTEGET_NOT_AND_ZERO
     数字和小写字母--EXP_0_9_a_z
     数字和大小写字母--EXP_0_9_a_z_A_Z
@@ -95,7 +96,13 @@ Java自定义工具类
     unicode编码正则--EXP_CODE_CONVERSION_UNICODE
     获取符合正则的内容的数组--getRegexResultList(str,regex,whetherToHeavy)
 
+<h3>JtlwBeanUtil---(实体类相关单例)
 
+    复制相同参数数据--copyWithTheParameters(origin,target)
+    复制相同参数数据--copyWithTheParameters(origin,target,filterNull)
+    复制相同参数数据--copyWithTheParameters(originList,target,filterNull)
+    获取实体类所有参数map集合--getBeanParameters(data)
+    获取实体类痛的参数以及对应返回值--getBeanFieldsAndReturnType(beanClass)
 
 <h3>一、FileOptionUtils---（文件操作工具类）</h3>
       

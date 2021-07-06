@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
  * 数字和小写字母--EXP_0_9_a_z
  * 数字和大小写字母--EXP_0_9_a_z_A_Z
  * 数字小写字母下划线--EXP_0_9_a_z__
+ * 所有的标点符号（包含空格）--EXP_PUNCTUATION
  * EMAIL--EXP_EMAIL
  * 金额，2位小数--EXP_PRICE
  * 11位数的手机号码--EXP_MOBILE
@@ -162,6 +163,10 @@ public class JtlwMatchesRegularCommon {
      * 11位数的手机号码
      */
     public static final String EXP_MOBILE = "[1]{1}[0-9]{10}";
+    /**
+     * 所有的标点符号(包含空格)
+     */
+    public static final String EXP_PUNCTUATION = "[~!@#$%^&*()_+=-^=……￥·`「」【】\\{\\}\\[\\]\\  、|；;：:\"'“‘《》<>，。,.?、/？]*";
     /**
      * 6位数的邮编
      */

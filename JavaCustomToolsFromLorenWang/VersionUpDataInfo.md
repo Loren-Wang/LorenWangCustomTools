@@ -1,3 +1,14 @@
+**V2.2.9**
+
+    新增正则---所有的标点符号（包含空格）--EXP_PUNCTUATION
+    JtlwBeanUtil---(实体类相关单例)
+      -复制相同参数数据--copyWithTheParameters(origin,target)
+      -复制相同参数数据--copyWithTheParameters(origin,target,filterNull)
+      -复制相同参数数据--copyWithTheParameters(originList,target,filterNull)
+      -获取实体类所有参数map集合--getBeanParameters(data)
+      -获取实体类痛的参数以及对应返回值--getBeanFieldsAndReturnType(beanClass)
+
+
 **V2.2.8**
 
     新增是否是图片检测类型：heic图片检测

@@ -165,7 +165,6 @@ public class JtlwVariateDataParamUtils {
         return list;
     }
 
-
     /**
      * 生成一个范围随机数
      *
@@ -176,7 +175,6 @@ public class JtlwVariateDataParamUtils {
     public long generateRandom(long min, long max) {
         return min + (((long) (new Random().nextDouble() * (max - min))));
     }
-
 
     /**
      * 获取首字母的拼音
@@ -236,6 +234,5 @@ public class JtlwVariateDataParamUtils {
     public int booleanToInt(Boolean value) {
         return (value == null || !value) ? 0 : 1;
     }
-
 
 }
