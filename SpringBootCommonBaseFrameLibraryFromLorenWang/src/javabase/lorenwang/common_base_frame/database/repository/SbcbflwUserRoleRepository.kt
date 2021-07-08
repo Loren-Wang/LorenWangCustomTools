@@ -15,10 +15,10 @@ import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
  * 修改时间：
  * 备注：
  */
-interface SbcbflwUserRoleRepository<P : SbcbflwBaseUserPermissionTb<R>, R : SbcbflwBaseUserRoleTb<P>> : SbcbflwBaseRepository<R> {
+interface SbcbflwUserRoleRepository<P : SbcbflwBaseUserPermissionTb<R>, R : SbcbflwBaseUserRoleTb<P>> : SbcbflwBaseRepository<R, String> {
     /**
      * 获取角色信息
      */
-    fun findByRoleType(type : Int) : R?
+    fun findByRoleType(type: Int): R?
 }
 

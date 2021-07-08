@@ -17,4 +17,4 @@ import org.springframework.data.repository.NoRepositoryBean
  * 备注：
  */
 @NoRepositoryBean
-interface SbcbflwBaseRepository<T : SbcbflwBaseTb> : JpaRepository<T, Long>, JpaSpecificationExecutor<T>
+interface SbcbflwBaseRepository<T : SbcbflwBaseTb,ID> : JpaRepository<T, ID>, JpaSpecificationExecutor<T>

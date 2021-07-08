@@ -97,4 +97,10 @@ open class SbcbflwPropertiesConfig {
     @Value("\${Sbcbflw.haveUserSystem}")
     open var haveUserSystem = true
 
+    /**
+     * 请求头中的用户token用的key名称
+     */
+    @Value("\${Sbcbflw.header.tokenKeyName}")
+    open var headerTokenKeyName = ""
+
 }

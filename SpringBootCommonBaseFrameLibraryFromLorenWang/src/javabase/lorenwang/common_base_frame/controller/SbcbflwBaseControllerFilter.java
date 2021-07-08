@@ -76,12 +76,10 @@ public abstract class SbcbflwBaseControllerFilter<T extends SbcbflwBaseHttpServl
             rep.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
             // Access-Control-Max-Age 用于 CORS 相关配置的缓存
             rep.setHeader("Access-Control-Max-Age", "3600");
-            rep.setHeader("Access-Control-Allow-Headers", "${SbcbflwCommonUtils.instance" +
-                    ".headerKeyUserAccessToken},Origin, X-Requested-With, Content-Type, Accept," +
-                    "Access-Control-Allow-Headers,Origin," +
-                    " X-Requested-With, Content-Type, Accept,WG-App-Version, WG-Device-Id, " +
-                    "WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model," +
-                    " WG-CPU, WG-Sid, WG-App-Id, WG-Token");
+            rep.setHeader("Access-Control-Allow-Headers",
+                    "" + SbcbflwCommon.getInstance().propertiesConfig.getHeaderTokenKeyName() + ",Origin, X-Requested-With, Content-Type, Accept," +
+                            "Access-Control-Allow-Headers,Origin," + " X-Requested-With, Content-Type, Accept,WG-App-Version, WG-Device-Id, " +
+                            "WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model," + " WG-CPU, WG-Sid, WG-App-Id, WG-Token");
             rep.setCharacterEncoding("UTF-8");
 
             //有些web接口会在请求接口之前发生options请求，这个直接通过即可
@@ -95,8 +93,7 @@ public abstract class SbcbflwBaseControllerFilter<T extends SbcbflwBaseHttpServl
             String servletPath = req.getServletPath();
             for (String item : swaggerPathList) {
                 if (servletPath.matches(item)) {
-                    SbcbfBaseAllUtils.getLogUtils().logI(getClass(), "请求的是（$servletPath）接口," +
-                            "正式环境下禁止访问!", false);
+                    SbcbfBaseAllUtils.getLogUtils().logI(getClass(), "请求的是(" + servletPath + ")接口," + "正式环境下禁止访问!", false);
                     return;
                 }
             }
@@ -123,8 +120,8 @@ public abstract class SbcbflwBaseControllerFilter<T extends SbcbflwBaseHttpServl
                 if (userStatus.getStatusResult() && userStatus.getBody() != null && userStatus.getBody() instanceof SbcbflwBaseUserInfoTb) {
                     SbcbfBaseAllUtils.getLogUtils().logD(getClass(), reqUrl + "用户信息校验完毕,当前用户存在并是登录状态", false);
                     //开始进行编码转换
-                    String accessToken =
-                            JtlwCodeConversionUtil.getInstance().unicodeToChinese(((SbcbflwBaseUserInfoTb) userStatus.getBody()).getAccessToken());
+                    String accessToken = JtlwCodeConversionUtil.getInstance().unicodeToChinese(
+                            ((SbcbflwBaseUserInfoTb) userStatus.getBody()).getAccessToken());
                     //获取刷新后token信息
                     String newToken = SbcbflwCommon.getInstance().getUserService().refreshAccessToken(accessToken);
                     //判断刷新后token和当前token是否一致，一致则不进行处理

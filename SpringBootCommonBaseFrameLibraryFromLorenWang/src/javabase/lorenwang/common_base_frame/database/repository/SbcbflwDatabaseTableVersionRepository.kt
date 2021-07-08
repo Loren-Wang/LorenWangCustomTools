@@ -15,6 +15,6 @@ import org.springframework.data.repository.NoRepositoryBean
  * 备注：
  */
 @NoRepositoryBean
-interface SbcbflwDatabaseTableVersionRepository<T : SbcbflwBaseDatabaseTableVersionTb> : SbcbflwBaseRepository<T> {
+interface SbcbflwDatabaseTableVersionRepository<T : SbcbflwBaseDatabaseTableVersionTb> : SbcbflwBaseRepository<T, Long> {
     fun findDatabaseTableVersionTbByVersionCodeAndVersionName(versionCode: Long, versionName: String): T?
 }

@@ -75,7 +75,7 @@ dependencies {
 
 def moduleName = "SpringBootCommonBaseFrameLibraryFromLorenWang"
 def moduleDescription = "SpringBoot通用基础框架包"
-def moduleVersion = '1.6.0'
+def moduleVersion = '1.6.1'
 // 编译版本和编码配置
 repositories {
     mavenCentral()

@@ -15,4 +15,4 @@ import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
  * 修改时间：
  * 备注：
  */
-interface SbcbflwUserPermissionRepository<P : SbcbflwBaseUserPermissionTb<R>, R : SbcbflwBaseUserRoleTb<P>> : SbcbflwBaseRepository<P>
+interface SbcbflwUserPermissionRepository<P : SbcbflwBaseUserPermissionTb<R>, R : SbcbflwBaseUserRoleTb<P>> : SbcbflwBaseRepository<P,String>

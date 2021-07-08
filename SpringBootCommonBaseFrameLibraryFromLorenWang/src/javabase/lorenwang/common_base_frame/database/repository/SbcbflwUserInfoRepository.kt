@@ -1,8 +1,8 @@
 package javabase.lorenwang.common_base_frame.database.repository
 
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
-import org.springframework.data.repository.NoRepositoryBean
 import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
+import org.springframework.data.repository.NoRepositoryBean
 
 /**
  * 功能作用：用户数据库表操作
@@ -16,4 +16,4 @@ import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
  * 备注：
  */
 @NoRepositoryBean
-interface SbcbflwUserInfoRepository<P, ROLE_TB : SbcbflwBaseUserRoleTb<P>, T : SbcbflwBaseUserInfoTb<P, ROLE_TB>> : SbcbflwBaseRepository<T>
+interface SbcbflwUserInfoRepository<P, ROLE_TB : SbcbflwBaseUserRoleTb<P>, T : SbcbflwBaseUserInfoTb<P, ROLE_TB>> : SbcbflwBaseRepository<T, String>
