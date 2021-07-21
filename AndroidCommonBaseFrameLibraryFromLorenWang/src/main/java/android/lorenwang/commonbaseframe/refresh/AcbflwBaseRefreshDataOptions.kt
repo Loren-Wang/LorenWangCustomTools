@@ -2,8 +2,8 @@ package android.lorenwang.commonbaseframe.refresh
 
 import android.content.Context
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
-import com.scwang.smartrefresh.layout.api.RefreshFooter
-import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smart.refresh.layout.api.RefreshFooter
+import com.scwang.smart.refresh.layout.api.RefreshHeader
 
 /**
  * 功能作用：基础列表数据类

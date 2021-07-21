@@ -3,7 +3,8 @@ package android.lorenwang.commonbaseframe.refresh;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+
 
 /**
  * 功能作用：刷新控件

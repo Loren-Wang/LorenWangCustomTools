@@ -218,13 +218,14 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     /**
      * 显示内容数据，隐藏空数据
      */
-    protected open fun showContentData() {
+    protected open fun showContentData(): Boolean {
         if (emptyView != null) {
             emptyView!!.visibility = View.GONE
         }
         if (showContentView != null) {
             showContentView.kttlwToVisible()
         }
+        return true
     }
 
     /**
@@ -232,7 +233,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      *
      * @param emptyResId 空数据视图资源id
      */
-    protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T) {
+    protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T): Boolean {
         showContentView?.kttlwToGone()
         if (emptyView == null) {
             val vsbQtEmpty = fragmentView?.findViewById<ViewStub>(R.id.vsbAcbflwEmpty)
@@ -241,8 +242,9 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
             emptyView?.setOnClickListener { _: View? -> onRefreshData() }
             initEmptyView(emptyView, emptyResId, data)
         } else {
-            emptyView!!.visibility = 0
+            emptyView!!.visibility = View.VISIBLE
         }
+        return true
     }
 
     /**

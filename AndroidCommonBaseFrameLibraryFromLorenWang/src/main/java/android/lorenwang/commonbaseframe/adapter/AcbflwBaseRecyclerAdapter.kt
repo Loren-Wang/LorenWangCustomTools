@@ -177,8 +177,8 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      */
     override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
         var status = false
+        dataList.clear()
         list?.let {
-            dataList.clear()
             if (list.isNullOrEmpty()) {
                 showEmptyView(R.layout.acbflw_empty_view_data, null, false)
             } else {
@@ -200,8 +200,8 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      */
     override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
         var status = false
+        dataList.clear()
         if (list != null && list.isNotEmpty()) {
-            dataList.clear()
             if (list.isNullOrEmpty()) {
                 showEmptyView(R.layout.acbflw_empty_view_data, null, false)
             } else {
