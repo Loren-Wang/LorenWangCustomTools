@@ -41,6 +41,7 @@ import androidx.annotation.NonNull;
  * 思路：
  * 方法：
  * 将图片文件转换为base64字符串--imageFileToBase64String(filePath)
+ * 将图片转换为base64字符串--imageToBase64String(bitmap)
  * 图片drawable转bitmap--drawableToBitmap(drawable,width,htight)
  * 获取drawable的宽度--getDrawableWidth(drawable)
  * 获取drawable的高度--getDrawableHeight(drawable)
@@ -105,6 +106,30 @@ public class AtlwImageCommonUtil {
         if (AtlwCheckUtil.getInstance().checkFileIsExit(filePath) && AtlwCheckUtil.getInstance().checkFileIsImage(filePath)) {
             AtlwLogUtil.logUtils.logI(TAG, "图片文件地址有效性检测成功，开始获取文件字节");
             byte[] bytes = AtlwFileOptionUtil.getInstance().readImageFileGetBytes(false, false, filePath);
+            String base64Str = null;
+            if (bytes != null) {
+                base64Str = Base64.encodeToString(bytes, Base64.DEFAULT);
+                AtlwLogUtil.logUtils.logI(TAG, "图片转换成功，转换后数据：" + base64Str);
+            } else {
+                AtlwLogUtil.logUtils.logI(TAG, "图片转换失败,失败原因：文件读取异常");
+            }
+            return base64Str;
+        } else {
+            AtlwLogUtil.logUtils.logI(TAG, "图片文件转换失败，失败原因可能是以下几点：1、未拥有文件权限；2、文件不存在；3、传输的地址非图片地址");
+            return null;
+        }
+    }
+
+    /**
+     * 将图片转换为base64字符串
+     *
+     * @param bitmap 图片
+     * @return 转换后的字符串
+     */
+    public String imageToBase64String(Bitmap bitmap) {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            AtlwLogUtil.logUtils.logI(TAG, "图片有效，开始获取文件字节");
+            byte[] bytes = getBitmapBytes(bitmap);
             String base64Str = null;
             if (bytes != null) {
                 base64Str = Base64.encodeToString(bytes, Base64.DEFAULT);

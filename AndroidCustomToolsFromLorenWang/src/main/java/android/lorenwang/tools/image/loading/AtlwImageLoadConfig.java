@@ -128,6 +128,30 @@ public class AtlwImageLoadConfig {
      * 加载中图片
      */
     private Integer imageLoadingLoadResId;
+    /**
+     * 高斯模糊迭代次数
+     */
+    private Integer blurIterations = null;
+    /**
+     * 高斯模糊半径
+     */
+    private Integer blurRadius = null;
+    /**
+     * 缩略图缓存地址
+     */
+    private String thumbSavePath = null;
+
+    public String getThumbSavePath() {
+        return thumbSavePath;
+    }
+
+    public Integer getBlurIterations() {
+        return blurIterations;
+    }
+
+    public Integer getBlurRadius() {
+        return blurRadius;
+    }
 
     public int getShowViewHeight() {
         return showViewHeight;
@@ -308,6 +332,33 @@ public class AtlwImageLoadConfig {
          * 加载中图片
          */
         private Integer imageLoadingLoadResId;
+        /**
+         * 高斯模糊迭代次数
+         */
+        private Integer blurIterations = null;
+        /**
+         * 高斯模糊半径
+         */
+        private Integer blurRadius = null;
+        /**
+         * 缩略图缓存地址
+         */
+        private String thumbSavePath = null;
+
+        public Build setThumbSavePath(String thumbSavePath) {
+            this.thumbSavePath = thumbSavePath;
+            return this;
+        }
+
+        public Build setBlurIterations(Integer blurIterations) {
+            this.blurIterations = blurIterations;
+            return this;
+        }
+
+        public Build setBlurRadius(Integer blurRadius) {
+            this.blurRadius = blurRadius;
+            return this;
+        }
 
         public Build setResizeLoadHeight(int resizeLoadHeight) {
             this.resizeLoadHeight = resizeLoadHeight;
@@ -467,6 +518,9 @@ public class AtlwImageLoadConfig {
             config.resizeLoadWidth = this.resizeLoadWidth;
             config.imageLoadingFailResId = this.imageLoadingFailResId;
             config.imageLoadingLoadResId = this.imageLoadingLoadResId;
+            config.blurIterations = this.blurIterations;
+            config.blurRadius = this.blurRadius;
+            config.thumbSavePath = this.thumbSavePath;
             return config;
         }
     }
@@ -498,6 +552,9 @@ public class AtlwImageLoadConfig {
         build.resizeLoadWidth = this.resizeLoadWidth;
         build.imageLoadingFailResId = this.imageLoadingFailResId;
         build.imageLoadingLoadResId = this.imageLoadingLoadResId;
+        build.blurIterations = this.blurIterations;
+        build.blurRadius = this.blurRadius;
+        build.thumbSavePath = this.thumbSavePath;
         return build;
     }
 }

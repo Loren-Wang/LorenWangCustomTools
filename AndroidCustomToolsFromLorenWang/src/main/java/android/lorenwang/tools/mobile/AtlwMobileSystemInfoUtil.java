@@ -145,7 +145,7 @@ public class AtlwMobileSystemInfoUtil {
      * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    public static int getNetworkType() {
+    public int getNetworkType() {
         int netType = 0;
         String netTypeName = null;
         ConnectivityManager connectivityManager = (ConnectivityManager) AtlwConfig.nowApplication.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -180,7 +180,7 @@ public class AtlwMobileSystemInfoUtil {
      * 获取wifi的mac地址，适配到android Q
      */
     @SuppressLint("HardwareIds")
-    public static String getMac() {
+    public String getMac() {
         try {
             if (Build.VERSION.SDK_INT >= 23) {
                 String str = getMacMoreThanM();
@@ -202,7 +202,7 @@ public class AtlwMobileSystemInfoUtil {
     /**
      * android 6.0+获取wifi的mac地址
      */
-    private static String getMacMoreThanM() {
+    private String getMacMoreThanM() {
         try {
             //获取本机器所有的网络接口
             Enumeration<NetworkInterface> enumeration = NetworkInterface.getNetworkInterfaces();

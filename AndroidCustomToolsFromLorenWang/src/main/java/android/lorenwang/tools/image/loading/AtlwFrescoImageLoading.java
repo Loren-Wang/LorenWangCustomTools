@@ -3,6 +3,8 @@ package android.lorenwang.tools.image.loading;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.lorenwang.tools.AtlwConfig;
+import android.lorenwang.tools.file.AtlwFileOptionUtil;
+import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
@@ -25,10 +27,13 @@ import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 
 import androidx.annotation.Nullable;
 import javabase.lorenwang.tools.JtlwLogUtils;
@@ -156,11 +161,19 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(bitmap) && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView) &&
                 imageView instanceof SimpleDraweeView) {
             try {
-                if (bitmap != null) {
-                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwConfig.nowApplication.getContentResolver(), bitmap, null, null));
-                    if (uri != null) {
-                        loadImage(imageView, getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), config), config);
+                if (bitmap != null && JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getThumbSavePath())) {
+                    if(AtlwFileOptionUtil.getInstance().writeToFile(false, new File(config.getThumbSavePath()), bitmap, Bitmap.CompressFormat.JPEG)){
+                        loadingLocalImage(config.getThumbSavePath(),imageView,config);
+                    }else {
+                        JtlwLogUtils.logUtils.logE(TAG, "加载bitmap失败");
                     }
+//
+//                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwConfig.nowApplication.getContentResolver(), bitmap, null, null));
+//                    if (uri != null) {
+//                        getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(
+//                                Uri.parse("data:mime/type;base64," + AtlwImageCommonUtil.getInstance().imageToBase64String(bitmap))),
+//                                loadImage(imageView, getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), config), config);
+//                    }
                 }
             } catch (Exception e) {
                 JtlwLogUtils.logUtils.logE(TAG, "加载bitmap失败");
@@ -246,6 +259,11 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
         //设置是否渐进式加载
         imageRequestBuilder.setProgressiveRenderingEnabled(config.isAllowProgressiveRendering());
 
+        //判断是否使用高斯模糊
+        if (config.getBlurRadius() != null && config.getBlurRadius() > 0) {
+            imageRequestBuilder.setPostprocessor(
+                    new IterativeBoxBlurPostProcessor(config.getBlurIterations() != null ? config.getBlurIterations() : 1, config.getBlurRadius()));
+        }
         return imageRequestBuilder.build();
     }
 

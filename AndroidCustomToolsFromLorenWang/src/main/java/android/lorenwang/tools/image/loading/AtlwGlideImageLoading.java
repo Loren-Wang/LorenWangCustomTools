@@ -140,6 +140,15 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
         }
         //占位图设置
         builder = builder.placeholder(AtlwConfig.imageLoadingLoadResId).error(AtlwConfig.imageLoadingFailResId);
+
+        //高斯模糊处理
+        if (config.getBlurRadius() != null && config.getBlurRadius() > 0) {
+            int size = config.getBlurIterations() != null ? config.getBlurIterations() : 1;
+            for (int i = 0; i < size; i++) {
+                builder = builder.transform(new GlideBlurTransformation(config.getBlurRadius()));
+            }
+        }
+
         return builder;
     }
 
