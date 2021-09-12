@@ -7,7 +7,10 @@ Kotlin自定义工具类
 | 网络操作默认页面数量 | DEFAULT_NET_PAGE_SIZE | Int | 10 | 
 | 网络操作默认页码 | DEFAULT_NET_PAGE_INDEX | Int | 0 | 
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwBaseNetRequestBean---(基础请求体)
 
@@ -18,7 +21,10 @@ Kotlin自定义工具类
 | 每页请求数量 | pageIndex | Int | DEFAULT_NET_PAGE_INDEX | 
 | 响应的状态码 | pageSize | Int | DEFAULT_NET_PAGE_SIZE | 
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwBaseNetResponseBean<T>---(基础响应实例)
 
@@ -28,7 +34,10 @@ Kotlin自定义工具类
 | 响应的状态码 | stateCode | String | "0" | 
 | 响应的状态信息 | stateMessage | String | null | 
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwBaseNetUpDateRankReqBean<T>---(更新排行请求实体,继承：KttlwBaseNetRequestBean)
 
@@ -36,7 +45,10 @@ Kotlin自定义工具类
 | :----: | :----: | :----:| :----: |
 | 要操作的id列表 | ids | Array<T>? | null | 
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwNetPageResponseBean<T>---(列表分页数据请求响应实体)
 
@@ -50,7 +62,10 @@ Kotlin自定义工具类
 | 是否有下一页 | hasNextPage | Boolean | null | 
 | 是否有上一页 | hasPrePage | Boolean | null | 
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwExtendAny---(基础函数扩展)
 
@@ -78,7 +93,10 @@ Kotlin自定义工具类
 | 待检测参数中是否全部是null | kttlwAllNullCheck(vararg params: P) | Boolean | 
 | 获取非空数据 | kttlwGetNotEmptyData(getDefaultData: () -> T) | T | 
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwExtendBigDecimal---(BigDecimal扩展)
 
@@ -86,7 +104,10 @@ Kotlin自定义工具类
 | :----: | :----: | :----: |
 | 获取非空数据 | kttlwGetNotEmptyData(defaultData: BigDecimal = BigDecimal.ZERO) | BigDecimal |
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwExtendBoolean---(布尔型数据扩展)
 
@@ -100,7 +121,10 @@ Kotlin自定义工具类
 | 判断数据值是否是确定状态，默认返回非确定状态也就是默认认定数据为false | kttlwIfTrue() | Boolean |
 | 判断数据值是否是否定状态，默认返回非确定状态也就是默认认定数据为false | kttlwIfFalse() | Boolean |
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwExtendCollection---(集合扩展)
 
@@ -117,7 +141,10 @@ Kotlin自定义工具类
 | :----: | :----: | :----: |
 | 获取非空数据 | kttlwGetNotEmptyData(defaultStr: Int) | Int |
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwExtendMap---(Map函数扩展)
 
@@ -126,7 +153,10 @@ Kotlin自定义工具类
 | 获取实例的json数据 | kttlwParseJsonData(cls: Class<R>) | R? |
 | 获取非空数据 | kttlwGetNotEmptyData(defaultData: Map<K, V> = mapOf()) | Map<K, V> |
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwExtendString---(字符串相关函数扩展)
 
@@ -139,3 +169,8 @@ Kotlin自定义工具类
 | 将字符串分离(以大写字母为分隔添加位置) | kttlwToSeparatedCase(separated: String?) | String? |
 | 清除起始字符串 | kttlwClearFirstString(str: String, zero: Boolean) | String? |
 | 清除结束字符串 | kttlwClearEndString(str: String, last: Boolean) | String? |
+
+<br> 
+
+-----
+<br>
