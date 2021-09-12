@@ -61,3 +61,17 @@ fun Boolean?.kttlwToInt(): Int {
 fun Boolean?.kttlwGetNotEmptyData(defaultData: Boolean = false): Boolean {
     return this ?: defaultData
 }
+
+/**
+ * 判断数据值是否是确定状态，默认返回非确定状态也就是默认认定数据为false
+ */
+fun Boolean?.kttlwIfTrue(): Boolean {
+    return this == true
+}
+
+/**
+ * 判断数据值是否是否定状态，默认返回非确定状态也就是默认认定数据为false
+ */
+fun Boolean?.kttlwIfFalse(): Boolean {
+    return this == false
+}
