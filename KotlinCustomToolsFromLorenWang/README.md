@@ -1,5 +1,18 @@
 Kotlin自定义工具类
 
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'junit:junit:4.12'
+    //java工具类库
+    compileOnly project(':JavaCustomToolsFromLorenWang')
+    //java数据格式化类库
+    compileOnly project(':JavaDataParseFromLorenWang')
+    compileOnly 'com.google.code.gson:gson:2.8.6'
+    //swagger注释
+    compileOnly 'io.springfox:springfox-swagger2:2.6.0'
+    compileOnly 'io.springfox:springfox-swagger-ui:2.6.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
+
+
 <h3>KttlwConfig---(配置文件,使用该库必须配置)
 
 | 参数含义 | 参数名称 | 类型 | 默认值 |
