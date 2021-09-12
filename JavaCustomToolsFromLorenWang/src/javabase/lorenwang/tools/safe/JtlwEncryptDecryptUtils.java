@@ -16,6 +16,8 @@ import javabase.lorenwang.tools.dataConversion.JtlwCodeConversionUtil;
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
+ * 加密字符串--encrypt(srcData,key,ivs)
+ * 解密字符串--decrypt(srcData,key,ivs)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -104,6 +106,5 @@ public class JtlwEncryptDecryptUtils {
             return "";
         }
     }
-
 
 }

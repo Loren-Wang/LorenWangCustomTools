@@ -1,20 +1,26 @@
 package javabase.lorenwang.tools.common;
 
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * 创建时间：2019-01-29 下午 16:15:18
- * 创建人：王亮（Loren wang）
  * 功能作用：通用方法
+ * 初始注释时间： 2019-01-29 下午 16:15:18
+ * 创建人：王亮（Loren）
  * 思路：
- * 方法：1、uuid产生器
- * 2、byte数组转字符串
+ * 方法：
+ * uuid产生器--generateUuid(isRemoveSpecialChar)
+ * byte数组转字符串--bytesToHexString(src)
+ * 字符串转驼峰格式--toCamelCase(data)
+ * 将字符串分离(以大写字母为分隔添加位置)--toSeparatedCase(data,separated)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 public class JtlwCommonUtils {
     private final String TAG = getClass().getName();
     private static volatile JtlwCommonUtils optionUtils;
@@ -40,6 +46,7 @@ public class JtlwCommonUtils {
      * uuid产生器
      * uuid带中划线长度-------36
      * uuid不带中划线长度-----32
+     *
      * @param isRemoveSpecialChar 是否移除特殊字符，中划线
      * @return 返回根据条件处理的uuid字符串
      */
@@ -72,5 +79,46 @@ public class JtlwCommonUtils {
             builder.append(hv);
         }
         return builder.toString();
+    }
+
+    /**
+     * 字符串转驼峰格式
+     *
+     * @param data 字符串数据
+     * @return 驼峰格式字符串
+     */
+    public String toCamelCase(String data) {
+        if (data != null && !data.isEmpty()) {
+            Pattern pattern = Pattern.compile("[-_].");
+            Matcher matcher = pattern.matcher(data);
+            String find;
+            while (matcher.find()) {
+                find = matcher.group();
+                data = data.replace(find, find.substring(1).toUpperCase());
+            }
+            return data;
+        }
+        return null;
+    }
+
+    /**
+     * 将字符串分离(以大写字母为分隔添加位置)
+     *
+     * @param data      驼峰字符串
+     * @param separated 分离字符
+     * @return 分离后字符
+     */
+    public String toSeparatedCase(String data, String separated) {
+        if (data != null && !data.isEmpty() && separated != null && !separated.isEmpty()) {
+            Pattern pattern = Pattern.compile("[A-Z]");
+            Matcher matcher = pattern.matcher(data);
+            String find;
+            while (matcher.find()) {
+                find = matcher.group();
+                data = data.replace(find, separated + find);
+            }
+            return data;
+        }
+        return null;
     }
 }

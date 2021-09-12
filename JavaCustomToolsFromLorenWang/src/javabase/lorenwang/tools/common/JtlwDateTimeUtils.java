@@ -26,7 +26,6 @@ import java.util.Locale;
  * 根据日期时间获得秒数--getSecond(dateAndTime,dateAndTimeFormat)
  * 根据输入的年份判断该年份是否是闰年，是则返回true--isLeapYear(year)
  * 根据输入的年份判断该年份是否是闰年，是则返回true--isLeapYearForTime(yearTime)
- * 根据月日判断星座--getConstellation(time)
  * 根据日期获取 星期--dateToWeek(time)
  * 获取一个月的所有时间列表--getMonthTimeList(monthTime,firstWeek,onlyMonth)
  * 是否是同一天时间--isOneDay(timeOne, timeTwo)
@@ -43,6 +42,7 @@ import java.util.Locale;
  * 获取月份列表--getMonthList(yearTime,asOfCurrent)
  * 获取日期列表--getDayList(monthTime,asOfCurrent)
  * 获取年龄--getAge(birthTime,isReal)
+ * 根据时间获取星座--getConstellation(time)
  * 注意：
  * 修改人：
  * 修改时间：

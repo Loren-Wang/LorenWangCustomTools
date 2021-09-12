@@ -18,12 +18,13 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、获取url域名
- * 2、获取url协议
- * 3、获取url链接地址
- * 4、获取url中指定key的参数
- * 5、添加网址参数
- * 6、获取url端口
+ * 获取url域名--getUrlHost(urlPath)
+ * 获取url协议--getUrlProtocol(urlPath)
+ * 获取url端口--getUrlPort(urlPath)
+ * 获取url链接地址--getUrlLinkPath(urlPath)
+ * 获取url中指定key的参数--getUrlParams(urlPath,key)
+ * 添加网址参数--addUrlParams(urlPath,key,value)
+ * 添加网址参数--addUrlParams(urlPath,keys,values)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -128,7 +129,7 @@ public class JtlwNetUtils {
      * ""：指定的key的参数值为空
      * value：指定的key的参数值
      */
-    public String getUrlparams(@NotNull String urlPath, String key) {
+    public String getUrlParams(@NotNull String urlPath, String key) {
         URL url = paramsUrl(urlPath);
         if (url != null) {
             String query = url.getQuery();
@@ -183,7 +184,7 @@ public class JtlwNetUtils {
     public String addUrlParams(@NotNull String urlPath, @NotNull List<String> keys, @NotNull List<Object> values) {
         if (keys.size() == values.size() && keys.size() > 0 && values.size() > 0) {
             //判断是否有相关参数
-            String oldQuery = getUrlparams(urlPath, null);
+            String oldQuery = getUrlParams(urlPath, null);
             //清除掉原始地址的后缀？和&
             StringBuilder resultUrl = new StringBuilder(urlPath.replaceAll("[?&]+$", ""));
             int size = keys.size();

@@ -5,25 +5,26 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 /**
  * 功能作用：进制转换工具类
  * 创建时间：2019-01-28 下午 14:21:38
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
- * 方法：1、十进制转二进制
- * 2、十进制转八进制
- * 3、十进制转十六进制
- * 4、十进制转三十二进制
- * 5、十进制转六十二进制
- * 6、八进制转二进制
- * 7、八进制转十进制
- * 8、八进制转16进制
- * 9、八进制转三十二进制
- * 10、八进制转六十二进制
- * 11、二进制转八进制
- * 12、二进制转十进制
- * 13、二进制转16进制
- * 14、二进制转三十二进制
- * 15、十六进制转二进制
- * 16、十六进制转八进制
- * 17、十六进制转二进制
+ * 方法：
+ * 十进制转二进制--decimal10To2(num)
+ * 十进制转八进制--decimal10To8(num)
+ * 十进制转十六进制--decimal10To16(num)
+ * 十进制转三十二进制--decimal10To32(num)
+ * 十进制转六十四进制--decimal10To64(num)
+ * 八进制转二进制--decimal8To2(num)
+ * 八进制转十进制--decimal8To10(num)
+ * 八进制转16进制--decimal8To16(num)
+ * 八进制转三十二进制--decimal8To32(num)
+ * 八进制转六十四进制--decimal8To64(num)
+ * 二进制转八进制--decimal2To8(num)
+ * 二进制转十进制--decimal2To10(num)
+ * 二进制转16进制--decimal2To16(num)
+ * 二进制转三十二进制--decimal2To32(num)
+ * 十六进制转二进制--decimal16To2(num)
+ * 十六进制转八进制--decimal16To8(num)
+ * 十六进制转二进制--decimal16To10(num)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -126,14 +127,14 @@ public class JtlwDecimalConvertUtils {
     }
 
     /**
-     * 十进制转六十二进制
+     * 十进制转六十四进制
      *
      * @param num 十进制数据
-     * @return 六十二进制数据
+     * @return 六十四进制数据
      */
-    public String decimal10To62(Integer num) {
+    public String decimal10To64(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
-            return decimalToAssign(num, 62, null);
+            return decimalToAssign(num, 64, null);
         }
         return null;
     }
@@ -214,15 +215,15 @@ public class JtlwDecimalConvertUtils {
     }
 
     /**
-     * 八进制转六十二进制
+     * 八进制转六十四进制
      *
      * @param num 八进制数据
-     * @return 六十二进制数据
+     * @return 六十四进制数据
      */
-    public String decimal8To62(Integer num) {
+    public String decimal8To64(Integer num) {
         if (!JtlwCheckVariateUtils.getInstance().isEmpty(num)) {
             num = decimal8To10(num);
-            return decimal10To62(num);
+            return decimal10To64(num);
         }
         return null;
     }
@@ -529,7 +530,7 @@ public class JtlwDecimalConvertUtils {
                 }
                 result++;
                 return result.toString();
-            case 62://数字 + 小写字母 + 大写字母
+            case 64://数字 + 小写字母 + 大写字母
                 if (strPosition > 26) {
                     return String.valueOf(ALPHABET_UPPER_CASE[strPosition - 26]);
                 } else {

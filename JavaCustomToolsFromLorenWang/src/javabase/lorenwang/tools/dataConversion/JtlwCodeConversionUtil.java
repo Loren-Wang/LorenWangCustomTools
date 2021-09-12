@@ -10,8 +10,8 @@ import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 中文转unicode编码(chineseToUnicode)
- * unicode编码转中文(unicodeToChinese)
+ * 中文转unicode编码--chineseToUnicode(dataStr)
+ * unicode编码转中文--unicodeToChinese(dataStr)
  * 注意：
  * 修改人：
  * 修改时间：

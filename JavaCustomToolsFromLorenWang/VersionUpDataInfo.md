@@ -1,3 +1,11 @@
+**V2.3.0**
+
+    JtlwCommonUtils---(通用方法)
+      -uuid产生器---generateUuid(isRemoveSpecialChar)
+      -byte数组转字符串---bytesToHexString(src)
+      -字符串转驼峰格式---toCamelCase(data)
+      -将字符串分离(以大写字母为分隔添加位置)---toSeparatedCase(data,separated)
+
 **V2.2.9**
 
     新增正则---所有的标点符号（包含空格）--EXP_PUNCTUATION
@@ -7,7 +15,6 @@
       -复制相同参数数据--copyWithTheParameters(originList,target,filterNull)
       -获取实体类所有参数map集合--getBeanParameters(data)
       -获取实体类痛的参数以及对应返回值--getBeanFieldsAndReturnType(beanClass)
-
 
 **V2.2.8**
 

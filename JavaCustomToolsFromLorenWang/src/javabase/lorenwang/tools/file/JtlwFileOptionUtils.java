@@ -36,26 +36,39 @@ import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
 /**
  * 功能作用：文件操作工具类
  * 创建时间：2019-01-28 下午 20:19:47
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
- * 方法：1、读取图片文件并获取字节
- * 2、从指定路径的文件中读取Bytes
- * 3、从File中读取Bytes
- * 4、从InputStream中读取Bytes
- * 5、将InputStream写入File
- * 6、将文本写入文件
- * 7、将文本写入文件，同时决定是否为追加写入
- * 8、复制单个文件
- * 9、删除文件
- * 10、获取文件大小，单位B
- * 11、删除文件夹以及目录下的文件
- * 12、获取绝对路径下最后一个文件夹名称
- * 13、根据正则获取指定目录下的所有文件列表(使用递归扫描方式)
- * 14、根据正则获取指定目录下的所有文件列表(使用队列扫描方式)
- * 15、格式化文件大小
- * 16、创建文件夹
- * 文件夹复制(copyFileDir)
- * <p>
+ * 方法：
+ * 读取图片文件并获取字节--readImageFileGetBytes(isCheckFile,filePath)
+ * 从指定路径的文件中读取Bytes--readBytes(path)
+ * 从File中读取Bytes--readBytes(file)
+ * 从InputStream中读取Bytes--readBytes(inputStream)
+ * 将InputStream写入File--writeToFile(file,inputStream,append)
+ * 将文本写入文件--writeToFile(file,text)
+ * 将文本写入文件，同时决定是否为追加写入--writeToFile(file,text,encoding,append)
+ * 将byte数组写入文件--writeToFile(file,buffer)
+ * 将byte数组写入文件，是否追加--writeToFile(file,buffer,append)
+ * 格式化文件大小--paramsFileSize(fileSize)
+ * 复制单个文件--copyFile(oldPath,newPath)
+ * 文件夹复制--copyFileDir(oldPath,newPath)
+ * 压缩文件夹--compressToZip(sourcePath,outPutPath)
+ * 删除文件--deleteFile(path)
+ * 获取文件大小，单位B--getFileSize(file,filtrationDir)
+ * 删除文件夹以及目录下的文件--deleteDirectory(filePath)
+ * 获取绝对路径下最后一个文件夹名称--getLastDirectoryName(absolutePath)
+ * 创建文件夹--createDirectory(path,nowPathIsFile)
+ * 根据正则获取指定目录下的所有文件列表(使用递归扫描方式)--getFileListForMatchRecursionScan(scanPath,matchRegular)
+ * 根据正则获取指定目录下的所有文件列表(使用队列扫描方式)--getFileListForMatchLinkedQueueScan(scanPath,matchRegular)
+ * 清理指定文件夹下所有的空文件夹--clearEmptyFileDir(dirPath)
+ * 获取文件类型--getFileType(filePath)
+ * 获取文件类型--getFileType(inputStream)
+ * 获取文件编码格式--getFileCodedFormat(filePath)
+ * 修改文件编码格式--changeFileCodedFormat(filePath,oldCodedFormat,newCodedFormat)
+ * 以指定编码方式读取文件，返回文件内容--readFileContent(filePath,codedFormat)
+ * 以指定编码方式写文本文件，存在会覆盖--writeFilContent(filePath,toCharsetName,content)
+ * 获取所有文档相关类型--getDocType()
+ * 获取所有图片的相关类型--getImageType()
+ * 重命名文件--renameFile(oldFile,newFileName)
  * 注意：
  * 修改人：
  * 修改时间：

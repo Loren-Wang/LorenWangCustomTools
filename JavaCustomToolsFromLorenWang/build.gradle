@@ -30,7 +30,7 @@ dependencies {
 
 def moduleName = "JavaCustomToolsFromLorenWang"
 def moduleDescription = "java自定义工具库"
-def moduleVersion = '2.2.9'
+def moduleVersion = '2.3.1'
 // 编译版本和编码配置
 repositories {
     mavenCentral()

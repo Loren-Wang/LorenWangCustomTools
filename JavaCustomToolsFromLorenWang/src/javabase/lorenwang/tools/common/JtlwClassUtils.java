@@ -6,6 +6,7 @@ package javabase.lorenwang.tools.common;
  * 创建人：王亮（Loren wang）
  * 思路：
  * 方法：
+ * 获取指定类的实体--getClassEntity(clazz)
  * 注意：
  * 修改人：
  * 修改时间：

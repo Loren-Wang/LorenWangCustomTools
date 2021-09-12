@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
+import java.util.Locale;
+
 import javabase.lorenwang.tools.common.JtlwCommonUtils;
 
 /**
@@ -21,6 +23,16 @@ public class JtlwCommonUtilsTest {
 
     @After
     public void after() {
+    }
+
+    @Test
+    public void toSeparatedCase() {
+        System.out.println(JtlwCommonUtils.getInstance().toSeparatedCase("aBCD_","_").toLowerCase(Locale.ROOT));
+    }
+
+    @Test
+    public void toCamelCase() {
+        System.out.println(JtlwCommonUtils.getInstance().toCamelCase("a_b_c_d_"));
     }
 
     /**
@@ -51,6 +63,5 @@ public class JtlwCommonUtilsTest {
     @Test
     public void testBytesToHexString() {
     }
-
 
 }

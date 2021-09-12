@@ -15,18 +15,19 @@ import java.util.regex.Pattern;
 /**
  * 功能作用：变量数据格式化
  * 创建时间：2019-01-28 下午 20:02:56
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
- * 方法：1、格式化double变量的小数部分为指定数量  paramsDoubleToNum
- * 2、除去末尾的0字符操作  clearEndZeroAndParamsForDouble
- * 3、去掉回车换行符  clearStringBlank
- * 4、数组转集合  paramesArrayToList
- * 5、将map的所有key值转成集合   paramsHashMapKeyToArrayList
- * 6、格式化长整形到指定位数   paramsLongToNum
- * 7、生成一个范围随机数 generateRandom
- * 8、获取首字母的拼音 getFirstPinYin
- * 9、汉字转为拼音 getPinYin
- * 10、布尔值转int值
+ * 方法：
+ * 格式化double变量的小数部分为指定数量--paramsDoubleToNum(data,num)
+ * 格式化长整形到指定位数--paramsLongToNum(time,num)
+ * 除去末尾的0字符操作--clearEndZeroAndParamsForDouble(time,num)
+ * 去掉回车换行符--clearStringBlank(str)
+ * 数组转集合--paramesArrayToList(arrays)
+ * 将map的所有key值转成集合--paramsHashMapKeyToArrayList(map)
+ * 生成一个范围随机数--generateRandom(min,max)
+ * 获取首字母的拼音--getFirstPinYin(input)
+ * 汉字转为拼音--getPinYin(input)
+ * 布尔值转int值--booleanToInt(value)
  * 注意：
  * 修改人：
  * 修改时间：

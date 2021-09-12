@@ -1,9 +1,7 @@
 package javabase.lorenwang.tools.thread;
 
 import java.util.Map;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -14,12 +12,13 @@ import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
 /**
  * 功能作用：定时任务工具类
  * 创建时间：2020-06-02 5:31 下午
- * 创建人：王亮（Loren wang）
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、开启一个定时器，在制定时间之后执行runnable
- * 2、开启一个定时器，在等待delay后执行第一次任务，第二次（含）之后间隔period时间后再次执行
- * 3、开启一个倒计时任务
+ * 开启一个定时器，在制定时间之后执行runnable--schedule(taskId,runnable,delay)
+ * 开启一个定时器，在等待delay后执行第一次任务，第二次（含）之后间隔period时间后再次执行--schedule(taskId,runnable,delay,period)
+ * 开启一个倒计时任务--countDownTask(taskId,countDownCallback,sumTime,period)
+ * 取消计时器--cancelTimingTask(taskId)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -67,8 +66,7 @@ public class JtlwTimingTaskUtils {
         //先取消旧任务
         cancelTimingTask(taskId);
         //启动新任务
-        ScheduledFuture<?> schedule = threadPoolExecutor.schedule(runnable, delay,
-                TimeUnit.MILLISECONDS);
+        ScheduledFuture<?> schedule = threadPoolExecutor.schedule(runnable, delay, TimeUnit.MILLISECONDS);
         //存储记录
         TIMING_TASK_MAP.put(taskId, runnable);
         TIMING_TASK_MAP_SCHEDULED.put(taskId, schedule);
@@ -90,8 +88,7 @@ public class JtlwTimingTaskUtils {
         //先取消旧任务
         cancelTimingTask(taskId);
         //启动新任务
-        ScheduledFuture<?> schedule = threadPoolExecutor.scheduleAtFixedRate(runnable,
-                delay, period, TimeUnit.MILLISECONDS);
+        ScheduledFuture<?> schedule = threadPoolExecutor.scheduleAtFixedRate(runnable, delay, period, TimeUnit.MILLISECONDS);
         //存储记录
         TIMING_TASK_MAP.put(taskId, runnable);
         TIMING_TASK_MAP_SCHEDULED.put(taskId, schedule);
@@ -105,8 +102,7 @@ public class JtlwTimingTaskUtils {
      * @param sumTime           总时间（必须大于0）
      * @param period            间隔时间（必须大于0）
      */
-    public void countDownTask(int taskId, final CountDownCallback countDownCallback
-            , long sumTime, long period) {
+    public void countDownTask(int taskId, final CountDownCallback countDownCallback, long sumTime, long period) {
         if (countDownCallback == null) {
             return;
         }
@@ -119,8 +115,7 @@ public class JtlwTimingTaskUtils {
 
             @Override
             public void run() {
-                nowTime = sumTime - (JtlwDateTimeUtils.getInstance().getMillisecond()
-                        - START_TIME);
+                nowTime = sumTime - (JtlwDateTimeUtils.getInstance().getMillisecond() - START_TIME);
                 if (nowTime <= 0) {
                     //结束了就取消任务
                     cancelTimingTask(taskId);

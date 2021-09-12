@@ -1,6 +1,8 @@
 package javabase.lorenwang.tools.enums;
 
 
+import java.util.ArrayList;
+
 /**
  * 功能作用：文件类型枚举
  * 创建时间：2019-12-06 16:13
@@ -14,31 +16,19 @@ package javabase.lorenwang.tools.enums;
  */
 
 public enum JtlwFileTypeEnum {
-    OTHER(0, "-------"),
-    // images
-    JPG(1, "FFD8FF"),
-    JPEG(2, "FFD8FF"),
-    PNG(3, "89504E47"),
-    GIF(4, "47494638"),
-    TIF(5, "49492A00"),
-    BMP(6, "424D"),
-    //
+    OTHER(0, "-------"), // images
+    JPG(1, "FFD8FF"), JPEG(2, "FFD8FF"), PNG(3, "89504E47"), GIF(4, "47494638"), TIF(5, "49492A00"), BMP(6, "424D"), //
     DWG(7, "41433130"), // CAD
-    PSD(8, "38425053"),
-    RTF(9, "7B5C727466"), // 日记本
+    PSD(8, "38425053"), RTF(9, "7B5C727466"), // 日记本
     EML(11, "44656C69766572792D646174653A"), // 邮件
     GZ(12, "1F8B08"),
 
     /**
      * 文档
      */
-    DOC(13, "D0CF11E0"),
-    XLS(14, "D0CF11E0"),//EXCEL2003版本文件
-    MDB(15, "5374616E64617264204A"),
-    PS(16, "252150532D41646F6265"),
-    PDF(17, "255044462D312E"),
-    DOCX(18, "504B0304"),
-    XLSX(19, "504B0304"),//EXCEL2007以上版本文件
+    DOC(13, "D0CF11E0"), XLS(14, "D0CF11E0"),//EXCEL2003版本文件
+    MDB(15, "5374616E64617264204A"), PS(16, "252150532D41646F6265"), PDF(17, "255044462D312E"), DOCX(18, "504B0304"), XLSX(19,
+            "504B0304"),//EXCEL2007以上版本文件
     /**
      * Outlook (pst).
      */
@@ -52,8 +42,7 @@ public enum JtlwFileTypeEnum {
      * XLS_DOC:ppt,doc,xls
      * XLSX_DOCX:xlsx
      */
-    XLS_DOC(22, "D0CF11E0"),
-    XLSX_DOCX(23, "504B030414000600080000002100"),
+    XLS_DOC(22, "D0CF11E0"), XLSX_DOCX(23, "504B030414000600080000002100"),
     /**
      * Visio
      */
@@ -103,11 +92,7 @@ public enum JtlwFileTypeEnum {
     /**
      * CHM Archive.
      */
-    CHM(35, "49545346030000006000"),
-    XML(36, "3C3F786D6C"),
-    HTML(37, "68746D6C3E"),
-    CSS(38, "48544D4C207B0D0A0942"),
-    JS(39, "696B2E71623D696B2E71"),
+    CHM(35, "49545346030000006000"), XML(36, "3C3F786D6C"), HTML(37, "68746D6C3E"), CSS(38, "48544D4C207B0D0A0942"), JS(39, "696B2E71623D696B2E71"),
 
     /*------------------------------------ 音视频文件 -----------------------------------*/
     /**
@@ -202,18 +187,42 @@ public enum JtlwFileTypeEnum {
         return start;
     }
 
-//    /**
-//     * 获取所有文档相关类型
-//     */
-//    fun getDocType(): Array<JtlwFileTypeEnum> {
-//        return arrayOf(DOC, XLS, PDF, DOCX, XLSX, MDB, PST, DBX, XLSX_DOCX, XLS_DOC, VSD, WPS,
-//        WPD, EPS, TXT)
-//    }
-//
-//    /**
-//     * 所有文件类型
-//     */
-//    fun getImageType(): Array<JtlwFileTypeEnum> {
-//        return arrayOf(JPG, JPEG, PNG, BMP, GIF, TIF)
-//    }
+    /**
+     * 获取所有文档相关类型
+     * @return 是doc文档的类型列表
+     */
+    public ArrayList<JtlwFileTypeEnum> getDocType() {
+        ArrayList<JtlwFileTypeEnum> list = new ArrayList<>();
+        list.add(DOC);
+        list.add(XLS);
+        list.add(PDF);
+        list.add(DOCX);
+        list.add(XLSX);
+        list.add(MDB);
+        list.add(PST);
+        list.add(DBX);
+        list.add(XLSX_DOCX);
+        list.add(XLS_DOC);
+        list.add(VSD);
+        list.add(WPS);
+        list.add(WPD);
+        list.add(EPS);
+        list.add(TXT);
+        return list;
+    }
+
+    /**
+     * 获取所有图片相关类型
+     * @return 是图片的文件类型列表
+     */
+    public ArrayList<JtlwFileTypeEnum> getImageType() {
+        ArrayList<JtlwFileTypeEnum> list = new ArrayList<>();
+        list.add(JPG);
+        list.add(JPEG);
+        list.add(PNG);
+        list.add(BMP);
+        list.add(GIF);
+        list.add(TIF);
+        return list;
+    }
 }
