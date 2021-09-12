@@ -133,7 +133,10 @@ Kotlin自定义工具类
 | 集合item由原本上下排列转左右排列，以逻辑显示居多 | kttlwItemUpDownToLeftRight(rowCount : Int)  | ArrayList<T> |
 | 集合item由原本上下排列转为水平排列欢唱显示，为空代表着只需要占位 | kttlwItemUpDownToHorizontal(columnCount : Int) | ArrayList<T?> |
 
+<br> 
 
+-----
+<br>
 
 <h3>KttlwExtendInt---(整型相关函数扩展)
 
