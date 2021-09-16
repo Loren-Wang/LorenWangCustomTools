@@ -186,8 +186,7 @@ public class AalwAnimUtil {
      * @param interpolator 动画拦截器
      * @return 动画执行的anim
      */
-    public Animation startRotateAnimation(View view, float fromDegrees, float toDegrees, float pivotX, float pivotY, long duration,
-            Interpolator interpolator) {
+    public Animation startRotateAnimation(View view, float fromDegrees, float toDegrees, float pivotX, float pivotY, long duration, Interpolator interpolator) {
         return startAnimation(ANIM_TYPE_ROTATE, view, fromDegrees, toDegrees, pivotX, pivotY, duration, interpolator);
     }
 
@@ -263,7 +262,7 @@ public class AalwAnimUtil {
     }
 
     /**
-     * 获取x轴平移动画（属性动画）
+     * 获取Y轴平移动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
@@ -277,7 +276,7 @@ public class AalwAnimUtil {
     }
 
     /**
-     * 获取y轴平移动画（属性动画）
+     * 获取X轴平移动画（属性动画）
      *
      * @param view         视图控件
      * @param from         起始位置
