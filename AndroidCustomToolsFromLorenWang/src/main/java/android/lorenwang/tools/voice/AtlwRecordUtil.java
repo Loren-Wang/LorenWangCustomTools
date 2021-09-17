@@ -10,22 +10,24 @@ import android.media.MediaRecorder;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
- * 创建时间：2019-07-19 下午 14:22:28
- * 创建人：王亮（Loren wang）
  * 功能作用：录音工具类
+ * 初始注释时间： 2019/7/19 17:12
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、开始录音
- * 2、结束录音
- * 3、取消录音
- * 4、获取音量值等级级，会根据传递进来的最高等级返回相应的指定等级
- * 5、是否正在录音
+ * 设置录音回调--setRecordCallback(AtlwRecordCallback atlwRecordCallback)
+ * 开启录音--start(Activity activity, String savePath, boolean isCancelLastRecord, boolean isEndPlaying)
+ * 结束录音--stop()
+ * 取消录音--cancel()
+ * 获取音量值等级价，会根据传递进来的最高等级返回相应的指定等级--getVoiceLevel(int level)
+ * 是否正在录音--isRecording()
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 public class AtlwRecordUtil {
     private final String TAG = getClass().getName();
     private static volatile AtlwRecordUtil optionsInstance;
@@ -46,7 +48,6 @@ public class AtlwRecordUtil {
      */
     private AtlwRecordCallback atlwRecordCallback;
 
-
     private AtlwRecordUtil() {
     }
 
@@ -61,6 +62,13 @@ public class AtlwRecordUtil {
         return optionsInstance;
     }
 
+    /**
+     * 设置录音回调
+     * @param atlwRecordCallback 录音回调
+     */
+    public void setRecordCallback(AtlwRecordCallback atlwRecordCallback) {
+        this.atlwRecordCallback = atlwRecordCallback;
+    }
 
     /**
      * 开启录音
@@ -81,8 +89,7 @@ public class AtlwRecordUtil {
         }
 
         //开启录音前首先要检测录音权限
-        if (!AtlwCheckUtil.getInstance().checkAppPermission(Manifest.permission.RECORD_AUDIO
-                , Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (!AtlwCheckUtil.getInstance().checkAppPermission(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             AtlwLogUtil.logUtils.logE(TAG, "Not record and storage permisstions!");
             //回传状态
             recordStart(false);
@@ -132,7 +139,7 @@ public class AtlwRecordUtil {
         }
 
         //检测文件夹是否存在，没有存在则创建文件夹，如果创建失败则返回失败
-        if (!AtlwFileOptionUtil.getInstance().createDirectory(true, savePath,true)) {
+        if (!AtlwFileOptionUtil.getInstance().createDirectory(true, savePath, true)) {
             AtlwLogUtil.logUtils.logE(TAG, "Directory creation failed");
             //回传状态
             recordStart(false);
@@ -203,7 +210,7 @@ public class AtlwRecordUtil {
             if (!JtlwCheckVariateUtils.getInstance().isEmpty(nowRecordSavePath)) {
                 try {
                     //取消录音后删除对应文件
-                    AtlwFileOptionUtil.getInstance().deleteFile(true,nowRecordSavePath);
+                    AtlwFileOptionUtil.getInstance().deleteFile(true, nowRecordSavePath);
                     //回传状态
                     recordCancel(true, nowRecordSavePath);
                     nowRecordSavePath = null;
@@ -228,14 +235,14 @@ public class AtlwRecordUtil {
     /**
      * 获取音量值等级价，会根据传递进来的最高等级返回相应的指定等级
      *
-     * @param maxlevel 最高等级
+     * @param level 最高等级
      * @return 当前等级，会在最高等级内
      */
-    public synchronized int getVoiceLevel(int maxlevel) {
+    public synchronized int getVoiceLevel(int level) {
         if (mediaRecorder != null && recording) {
             try {
                 // getMaxAmplitude返回的数值最大是32767
-                return maxlevel * mediaRecorder.getMaxAmplitude() / 32768 + 1;
+                return level * mediaRecorder.getMaxAmplitude() / 32768 + 1;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -251,7 +258,6 @@ public class AtlwRecordUtil {
     public boolean isRecording() {
         return recording;
     }
-
 
     /**
      * 结束录音

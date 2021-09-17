@@ -24,29 +24,26 @@ import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、未知图片加载---loadingImage（pathOrRes,imageView,width,height）---对于的是不确定是网络图片还是本地图片的情况下使用
- * 2、未知图片加载---loadingImage（pathOrRes,imageView,width,height，config）---对于的是不确定是网络图片还是本地图片的情况下使用
- * 3、未知图片宽高加载---loadingImageAndSetWidthHeight（pathOrRes,imageView,width,
- * height）---对于的是不确定是网络图片还是本地图片以及未初始设置图片宽高的情况下使用
- * 4、未知图片宽高加载---loadingImageAndSetWidthHeight（pathOrRes,imageView,width,
- * height，config）---对于的是不确定是网络图片还是本地图片以及未初始设置图片宽高的情况下使用
- * 5、加载网络图片---loadingNetImage（path,imageView,width,height）
- * 6、加载网络图片---loadingNetImage（path,imageView,width,height，config）
- * 7、加载本地图片---loadingLocalImage（path,imageView,width,height）
- * 8、加载本地图片---loadingLocalImage（path,imageView,width,height，config）
- * 9、加载资源图片---loadingResImage（resId,imageView,width,height）
- * 10、加载资源图片---loadingResImage（resId,imageView,width,height，config）
- * 11、加载bitmap位图---loadingBitmapImage（bitmap,imageView,width,height，config）
- * 12、清除内存缓存---clearMemoryCache()
- * 13、清除本地缓存---clearDiskCache()
- * 14、暂停加载图片---pauseLoading()
- * 15、恢复加载图片---resumeLoading()
+ * 图片加载，对于的是不确定是网络图片还是本地图片的情况下使用--loadingImage(pathOrRes,imageView)
+ * 图片加载，对于的是不确定是网络图片还是本地图片的情况下使用--loadingImage(pathOrRes,imageView,config)
+ * 加载网络图片--loadingNetImage(path,imageView)
+ * 加载本地图片--loadingLocalImage(path,imageView)
+ * 加载资源图片--loadingResImage(resId,imageView)
+ * 加载网络图片--loadingNetImage(path,imageView,config)
+ * 加载本地图片--loadingLocalImage(path,imageView,config)
+ * 加载资源图片--loadingResImage(resId,imageView,config)
+ * 加载bitmap位图--loadingBitmapImage(bitmap,imageView,config)
+ * 获取网络图片位图信息--getNetImageBitmap(path,config)
+ * 获取指定列表的图片位图--getNetImageBitmap(list,config)
+ * 清除内存缓存--clearMemoryCache()
+ * 清除本地缓存--clearDiskCache()
+ * 暂停加载图片--pauseLoading()
+ * 恢复加载图片--resumeLoading()
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
  */
-
 public abstract class AtlwBaseImageLoading {
     protected final String TAG = getClass().getName();
     /**

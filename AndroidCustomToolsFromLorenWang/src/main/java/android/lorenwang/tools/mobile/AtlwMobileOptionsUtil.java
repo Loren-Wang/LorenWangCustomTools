@@ -38,39 +38,37 @@ import androidx.core.content.FileProvider;
 
 import static android.media.AudioManager.STREAM_VOICE_CALL;
 
-
 /**
- * 创建时间： 2019/1/29 0029 下午 16:20:28
- * 创建人：LorenWang
  * 功能作用：手机操作工具类
- * 方法介绍：
- * 1.1、安装应用
- * 1.2、获取App安装的intent
- * 1.3、跳转到权限设置页面
- * 1.4、启动其他应用
- * 1.pri、获取小米手机的MIUI版本号
- * 1.pri、跳转到小米App权限设置
- * 1.pri、跳转到魅族App权限设置
- * 1.pri、跳转到默认App权限设置页面
- * 2.1、使设备震动
- * 2.2、开启相机
- * 2.3、拨打电话
- * 2.4、开启图片相册选择
- * 3.1、获取电源设备锁
- * 3.2、销毁电源设备锁
- * 3.3、申请电源设备锁，关闭屏幕
- * 3.4、释放电源设备锁，唤起屏幕
- * 4.1、获取传感器管理器实例
- * 4.2、注册距离传感器监听
- * 4.3、取消注册距离传感器监听
- * 5.1、获取系统级别音频管理器
- * 5.2、使用听筒播放正在播放的音频
- * 5.3、使用扬声器播放正在播放的音频
- * 复制内容到剪贴板--copyContentToClipboard(label,content)
+ * 初始注释时间： 2019/1/29 16:46
+ * 创建人：王亮（Loren）
  * 思路：
+ * 方法：
+ * 安装应用--installApp(activity,authority,filePath)
+ * 获取App安装的intent--getInstallAppIntent(authority,installAppFilePath)
+ * 跳转到权限设置页面--jumpToAppPermissionSettingPage(activity,packageName)
+ * 启动其他应用--launchApp(packageName,bundle,activity)
+ * 复制内容到剪贴板--copyContentToClipboard(label,content)
+ * 使设备震动--vibrate(long milliseconds)
+ * 开启相机--openCamera(activity,savePath,requestCode)
+ * 拨打电话--makeCall(activity,phoneNo)
+ * 开启图片相册选择--openImagePhotoAlbum(activity,requestCode)
+ * 获取电源设备锁--getPowerLocalWakeLock()
+ * 销毁电源设备锁--destroyPowerLocalWakeLock()
+ * 申请电源设备锁，关闭屏幕--applyForPowerLocalWakeLock()
+ * 释放电源设备锁，唤起屏幕--releasePowerLocalWakeLock()
+ * 获取传感器管理器实例--getSensorManager()
+ * 注册距离传感器监听--registerProximitySensorListener(listener)
+ * 取消注册距离传感器监听--unRegisterProximitySensorListener(listener)
+ * 获取系统级别音频管理器--getAudioManager()
+ * 使用听筒播放正在播放的音频--useHandsetToPlay(activity)
+ * 使用扬声器播放正在播放的音频--useSpeakersToPlay()
+ * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public final class AtlwMobileOptionsUtil {
     private final String TAG = getClass().getName();
@@ -96,7 +94,7 @@ public final class AtlwMobileOptionsUtil {
      * 安装应用
      *
      * @param activity  上下文
-     * @param authority fileprovider 认证字符串
+     * @param authority fileProvider 认证字符串
      * @param filePath  安装包地址
      */
     public void installApp(Activity activity, String authority, String filePath) {
@@ -403,7 +401,7 @@ public final class AtlwMobileOptionsUtil {
     /**
      * 销毁电源设备锁
      */
-    public void destoryPowerLocalWakeLock() {
+    public void destroyPowerLocalWakeLock() {
         if (powerLocalWakeLock != null) {
             powerLocalWakeLock.setReferenceCounted(false);
             powerLocalWakeLock.release();//释放电源锁，如果不释放finish这个acitivity后仍然会有自动锁屏的效果，不信可以试一试
@@ -466,7 +464,7 @@ public final class AtlwMobileOptionsUtil {
      *
      * @param listener 监听回调
      */
-    public void registProximitySensorListener(SensorEventListener listener) {
+    public void registerProximitySensorListener(SensorEventListener listener) {
         synchronized (proximityListenerList) {
             if (listener != null && !proximityListenerList.contains(listener)) {
                 getSensorManager().registerListener(listener, getSensorManager().getDefaultSensor(Sensor.TYPE_PROXIMITY),
@@ -481,7 +479,7 @@ public final class AtlwMobileOptionsUtil {
      *
      * @param listener 监听
      */
-    public void unRegistProximitySensorListener(SensorEventListener listener) {
+    public void unRegisterProximitySensorListener(SensorEventListener listener) {
         synchronized (proximityListenerList) {
             if (listener != null && proximityListenerList.contains(listener)) {
                 getSensorManager().unregisterListener(listener);

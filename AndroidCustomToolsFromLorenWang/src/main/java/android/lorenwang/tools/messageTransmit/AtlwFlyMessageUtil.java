@@ -13,11 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
- * Created by LorenWang on 2018/7/26 0026.
- * 创建时间：2018/7/26 0026 下午 05:28
- * 创建人：王亮（Loren wang）
  * 功能作用：消息传递工具类
- * 思路：初步想法：
+ * 初始注释时间： 2018/7/26 16:31
+ * 创建人：王亮（Loren）
+ * 思路：
  * (1)通过application记录所有activity信息；
  * (2)创建工具类，工具类内新建一个内部类，包含消息类型以及回调；
  * (3)在工具类当中有一个消息类型集合，以及activity同内部类集合对应的map集合；
@@ -26,16 +25,17 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * (6)对于每一个要发送的消息都要做标记，当相同的标记再次发送的时候需要告诉工具类是否要讲以前的消息队列当中的消息移除掉，同时在对一条消息回传结束后需要知道这一条消息是否要从队列中移除掉，也就是是否仅通知一次，同时如果在队列当中没有这条消息那么即使调用回调也不会进行回调
  * 消息队列内部使用一个实体类，实体类中记录着消息类型、消息内容、是否要发送完就移除队列中的元素的方法
  * 方法：
- * 1、取消注册消息回调记录
- * 2、发送消息
- * 3、返回生命周期监听
- * 4、获取记录存储集合的key
- * 5、注册消息回调记录
+ * 注册消息回调记录--registerMsgCallback(Object object, int msgType, FlyMessgeCallback flyMessgeCallback, boolean isOnlyMsgType,boolean isActivity)
+ * 取消注册消息回调记录--unRegisterMsgCallback(Object object)
+ * 发送消息--sendMsg(int msgType, boolean isFinishRemove, Object... msgs)
  * 注意：
+ * 需要在application初始化的时候注册activity监听
+ * 注册回调后，要直接回调，否则部分界面注册可能晚于回调，导致无法获得数据
  * 修改人：
  * 修改时间：
- * 备注：需要在application初始化的时候注册activity监听
- * 注册回调后，要直接回调，否则部分界面注册可能晚于回调，导致无法获得数据
+ * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public class AtlwFlyMessageUtil {
     private final String TAG = getClass().getName();
@@ -63,51 +63,50 @@ public class AtlwFlyMessageUtil {
                     case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
                         break;
                     case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
-//                        nowShowActivity = (Activity) msgs[0];
-//                        //activity获得到焦点，开始循环队列发送
-//                        msgQueListOptions(false, false, true, null, null);
+                        //                        nowShowActivity = (Activity) msgs[0];
+                        //                        //activity获得到焦点，开始循环队列发送
+                        //                        msgQueListOptions(false, false, true, null, null);
                         break;
                     case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
-//                        unregisterBrightObserver(optionsActivity);
+                        //                        unregisterBrightObserver(optionsActivity);
                         break;
                     case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
                         break;
                     case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
                         break;
                     case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
-                        unRegistMsgCallback((Activity) msgs[0]);
+                        unRegisterMsgCallback((Activity) msgs[0]);
                         break;
                     default:
                         break;
                 }
             }
         };
-//       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE, flyMessgeCallback, false, false);
-//       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, flyMessgeCallback, false, false);
-        registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
-//
-//                registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, flyMessgeCallback, false, false);
-//       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED, flyMessgeCallback, false, false);
-//       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, flyMessgeCallback, false, false);
-        registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
+        //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE, flyMessgeCallback, false, false);
+        //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START, flyMessgeCallback, false, false);
+        registerMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
+        //
+        //                registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, flyMessgeCallback, false, false);
+        //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED, flyMessgeCallback, false, false);
+        //       registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, flyMessgeCallback, false, false);
+        registerMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
 
 
     }
 
     private final Map<Integer, List<CallbackRecodeDto>> recodeMsgCallbackMap = new ConcurrentHashMap<>();
     private final Map<String, List<Integer>> recodeMsgTypeMap = new ConcurrentHashMap<>();
-//
-//    //需要回调的集合记录,key:className+hashcode结合，value：回调记录集合
-//    private Map<String, List<CallbackRecodeDto>> recodeMap = new HashMap<>();
-//    //记录非activity的key列表
-//    private List<String> notActivityKeyList = new ArrayList<>();
-//    //记录activity的key列表
-//    private List<String> activityKeyList = new ArrayList<>();
-//    //当前正在显示的activity
-//    private Activity nowShowActivity;
-//    //消息队列实体诶
-//    private List<MessageQueueDto> messageQueueList = new ArrayList<>();
-
+    //
+    //    //需要回调的集合记录,key:className+hashcode结合，value：回调记录集合
+    //    private Map<String, List<CallbackRecodeDto>> recodeMap = new HashMap<>();
+    //    //记录非activity的key列表
+    //    private List<String> notActivityKeyList = new ArrayList<>();
+    //    //记录activity的key列表
+    //    private List<String> activityKeyList = new ArrayList<>();
+    //    //当前正在显示的activity
+    //    private Activity nowShowActivity;
+    //    //消息队列实体诶
+    //    private List<MessageQueueDto> messageQueueList = new ArrayList<>();
 
     /**
      * 注册消息回调记录
@@ -118,8 +117,8 @@ public class AtlwFlyMessageUtil {
      * @param isOnlyMsgType     在这个key的下面是否只有这一个消息实例
      * @param isActivity        是否是activity
      */
-    public synchronized void registMsgCallback(Object object, int msgType, FlyMessgeCallback flyMessgeCallback
-            , boolean isOnlyMsgType, boolean isActivity) {
+    public synchronized void registerMsgCallback(Object object, int msgType, FlyMessgeCallback flyMessgeCallback, boolean isOnlyMsgType,
+            boolean isActivity) {
         if (object == null || flyMessgeCallback == null) {
             return;
         }
@@ -151,7 +150,7 @@ public class AtlwFlyMessageUtil {
      *
      * @param object 实例
      */
-    public void unRegistMsgCallback(Object object) {
+    public void unRegisterMsgCallback(Object object) {
         if (object == null) {
             return;
         }
@@ -191,7 +190,6 @@ public class AtlwFlyMessageUtil {
         callbackMsg(messageQueueDto);
     }
 
-
     /**
      * 获取记录存储集合的key
      *
@@ -201,7 +199,6 @@ public class AtlwFlyMessageUtil {
     private String getKey(Object object) {
         return object.getClass().getName() + object.hashCode();
     }
-
 
     /**
      * 回传消息，先判断当前正在显示的activity当中是否有要回传这个消息的，有就回传，
@@ -242,23 +239,22 @@ public class AtlwFlyMessageUtil {
         }
         try {
             callback.msg(messageQueueDto.msgType, messageQueueDto.msgs);
-//            //如果要移除的话则在队列当中移除
-//            if(messageQueueDto.isFinishRemove && messageQueueList.contains(messageQueueDto)){
-//                msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
-//            }
+            //            //如果要移除的话则在队列当中移除
+            //            if(messageQueueDto.isFinishRemove && messageQueueList.contains(messageQueueDto)){
+            //                msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
+            //            }
         } catch (Exception e) {
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(e)
-                    && JtlwCheckVariateUtils.getInstance().isEmpty(e.getMessage())
-                    && e.getMessage().contains("Only the original thread that created a view hierarchy can touch its views.")) {
+            if (JtlwCheckVariateUtils.getInstance().isEmpty(e) && JtlwCheckVariateUtils.getInstance().isEmpty(e.getMessage()) &&
+                    e.getMessage().contains("Only the original thread that created a view hierarchy can touch its views.")) {
                 AtlwThreadUtil.getInstance().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             callback.msg(messageQueueDto.msgType, messageQueueDto.msgs);
-//                          //如果要移除的话则在队列当中移除
-//                         if(messageQueueDto.isFinishRemove && messageQueueList.contains(messageQueueDto)){
-//                             msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
-//                         }
+                            //                          //如果要移除的话则在队列当中移除
+                            //                         if(messageQueueDto.isFinishRemove && messageQueueList.contains(messageQueueDto)){
+                            //                             msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
+                            //                         }
                         } catch (Exception e) {
                             AtlwLogUtil.logUtils.logE(TAG, "callback msg fail");
                         }
@@ -279,45 +275,44 @@ public class AtlwFlyMessageUtil {
      * @param optionMsgQueDto 添加或删除时要被操作的实体类
      * @param msgType         要移除的消息类型
      */
-    private synchronized void msgQueListOptions(boolean isAdd, boolean isRemove
-            , boolean isCallback, MessageQueueDto optionMsgQueDto, Integer msgType) {
-//        //新增数据
-//        if(isAdd){
-//            if(optionMsgQueDto != null){
-//                messageQueueList.add(optionMsgQueDto);
-//            }
-//            return;
-//        }
-//        //移除数据
-//        if(isRemove){
-//            if(msgType != null){
-//                MessageQueueDto messageQueueDto;
-//                for(int i = 0 ; i < messageQueueList.size() ; i++){
-//                    messageQueueDto = messageQueueList.get(i);
-//                    if(messageQueueDto != null && msgType.compareTo(messageQueueDto.msgType) == 0){
-//                        messageQueueList.remove(messageQueueDto);
-//                    }
-//                }
-//            }
-//            return;
-//        }
-//        //开始进行数据回调
-//        if(isCallback){
-//            try {
-//                MessageQueueDto messageQueueDto;
-//                Iterator<MessageQueueDto> iterator = messageQueueList.iterator();
-//                while (iterator.hasNext()){
-//                    messageQueueDto = iterator.next();
-//                    if(messageQueueDto != null) {
-//                        callbackMsg(messageQueueDto);
-//                    }
-//                }
-//            }catch (Exception e){
-//                LogUtils.logE(TAG,"data callback error");
-//            }
-//        }
+    private synchronized void msgQueListOptions(boolean isAdd, boolean isRemove, boolean isCallback, MessageQueueDto optionMsgQueDto,
+            Integer msgType) {
+        //        //新增数据
+        //        if(isAdd){
+        //            if(optionMsgQueDto != null){
+        //                messageQueueList.add(optionMsgQueDto);
+        //            }
+        //            return;
+        //        }
+        //        //移除数据
+        //        if(isRemove){
+        //            if(msgType != null){
+        //                MessageQueueDto messageQueueDto;
+        //                for(int i = 0 ; i < messageQueueList.size() ; i++){
+        //                    messageQueueDto = messageQueueList.get(i);
+        //                    if(messageQueueDto != null && msgType.compareTo(messageQueueDto.msgType) == 0){
+        //                        messageQueueList.remove(messageQueueDto);
+        //                    }
+        //                }
+        //            }
+        //            return;
+        //        }
+        //        //开始进行数据回调
+        //        if(isCallback){
+        //            try {
+        //                MessageQueueDto messageQueueDto;
+        //                Iterator<MessageQueueDto> iterator = messageQueueList.iterator();
+        //                while (iterator.hasNext()){
+        //                    messageQueueDto = iterator.next();
+        //                    if(messageQueueDto != null) {
+        //                        callbackMsg(messageQueueDto);
+        //                    }
+        //                }
+        //            }catch (Exception e){
+        //                LogUtils.logE(TAG,"data callback error");
+        //            }
+        //        }
     }
-
 
     /**
      * 消息回调

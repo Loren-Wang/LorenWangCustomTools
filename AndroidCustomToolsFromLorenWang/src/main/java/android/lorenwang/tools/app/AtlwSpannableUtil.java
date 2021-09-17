@@ -21,9 +21,12 @@ import androidx.annotation.NonNull;
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 格式化点击消息数据--paramsClickMessage(message,AtlwSpannableClickBean...)
- * 格式化消息数据--paramsTagMessage(message,AvlwSpannableTagBean...)
- * textview设置字符串，保证spannable的click生效--setSpannableString(textView,SpannableString...)
+ * 格式化点击消息数据--paramsClickMessage(msg, AtlwSpannableClickBean... dataBeans)
+ * 格式化点击消息数据--paramsClickMessage(msg, ArrayList<AtlwSpannableClickBean> dataBeans)
+ * 格式化消息数据--paramsTagMessage(msg, AvlwSpannableTagBean... dataBeans)
+ * 格式化消息数据--paramsTagMessage(msg, ArrayList<AvlwSpannableTagBean> dataBeans)
+ * textview设置字符串，保证spannable的click生效--setSpannableString(textView, SpannableString string)
+ * textview设置字符串，保证spannable的click生效--setSpannableString(textView, SpannableStringBuilder string)
  * 注意：
  * 修改人：
  * 修改时间：

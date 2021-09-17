@@ -12,7 +12,6 @@ import java.util.Vector;
 import androidx.annotation.AnimRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.RequiresApi;
-import javabase.lorenwang.tools.JtlwLogUtils;
 
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE;
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED;
@@ -21,17 +20,18 @@ import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACT
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE;
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START;
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED;
-
 /**
- * 创建时间：2019-01-29 下午 15:41:53
- * 创建人：王亮（Loren ）
  * 功能作用：安卓工具类设置
+ * 初始注释时间： 2019/1/29 17:18
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public class AtlwConfig {
     /**
@@ -156,7 +156,7 @@ public class AtlwConfig {
      * @param application App的全局基础上下文实例
      */
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    public static void registActivityLifecycleCallbacks(Application application) {
+    public static void registerActivityLifecycleCallbacks(Application application) {
         synchronized (AtlwConfig.class) {
             if (application != null && !isRegistActivityLifecycleCallback) {
                 isRegistActivityLifecycleCallback = true;
@@ -181,8 +181,7 @@ public class AtlwConfig {
      * @param isDebug                 是否是debug模式
      * @param debugLogFileDirSavePath debug模式下日志存储地址文件夹
      */
-    public static void initAndroidCustomTools(Application nowApplication, boolean isDebug,
-                                              String debugLogFileDirSavePath) {
+    public static void initAndroidCustomTools(Application nowApplication, boolean isDebug, String debugLogFileDirSavePath) {
         AtlwConfig.nowApplication = nowApplication;
         AtlwConfig.isDebug = isDebug;
         AtlwLogUtil.logUtils = new AtlwLogUtil();

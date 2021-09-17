@@ -13,12 +13,14 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Locale;
 
 import androidx.annotation.RequiresPermission;
+import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
 
 /**
  * 功能作用：手机系统信息工具类
@@ -34,7 +36,9 @@ import androidx.annotation.RequiresPermission;
  * 获取手机系统sdk版本号--getSystemSdkVersion()
  * 获取手机品牌信息--getMobileBrand()
  * 获取手机IMEI(需要“android.permission.READ_PHONE_STATE”权限)--getIMEIInfo()
+ * 获取当前网络类型--getNetworkType()
  * 获取wifi的mac地址，适配到android Q--getMac()
+ * 获取手机IP地址--getIpAddress()
  * <p>
  * 注意：
  * 修改人：
@@ -175,7 +179,6 @@ public class AtlwMobileSystemInfoUtil {
         return netType;
     }
 
-
     /**
      * 获取wifi的mac地址，适配到android Q
      */
@@ -235,4 +238,60 @@ public class AtlwMobileSystemInfoUtil {
         return null;
     }
 
+    /**
+     * 获取手机IP地址
+     *
+     * @return ip地址集合，第一位为流量ip地址，第二位为wifi的ip地址
+     */
+    public String[] getIpAddress() {
+        String[] useIps = new String[2];
+        String addressStr;
+        try {
+            //获取本机器所有的网络接口
+            Enumeration<NetworkInterface> enumeration = NetworkInterface.getNetworkInterfaces();
+            NetworkInterface networkInterface;
+            while (enumeration.hasMoreElements()) {
+                networkInterface = enumeration.nextElement();
+                //获取名称，根据名称获取wifi或者流量相关信息
+                String name = networkInterface.getName();
+                if (name.contains("wlan") || name.contains("rmnet")) {
+                    //找到之后遍历地址信息
+                    Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
+                    while (addresses.hasMoreElements()) {
+                        InetAddress address = addresses.nextElement();
+                        //截取地址正则匹配，同时忽略掉local地址
+                        addressStr = address.getHostAddress().replace("%" + name, "").replace("/", "");
+                        if (!"127.0.0.1".equals(addressStr) && addressStr.matches(JtlwMatchesRegularCommon.EXP_IP)) {
+                            if (name.contains("rmnet")) {
+                                useIps[0] = addressStr;
+                                break;
+                            }
+                            if (name.contains("wlan")) {
+                                useIps[1] = addressStr;
+                                break;
+                            }
+                            if (!useIps[0].isEmpty() && !useIps[1].isEmpty()) {
+                                addressStr = null;
+                                address = null;
+                                name = null;
+                                networkInterface = null;
+                                enumeration = null;
+                                addresses = null;
+                                return useIps;
+                            }
+                        }
+                        addressStr = null;
+                        address = null;
+                    }
+                    addresses = null;
+                }
+                name = null;
+                networkInterface = null;
+            }
+            enumeration = null;
+        } catch (SocketException ignored) {
+        }
+        addressStr = null;
+        return useIps;
+    }
 }

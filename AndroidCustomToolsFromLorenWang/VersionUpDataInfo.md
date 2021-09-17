@@ -1,3 +1,7 @@
+**V3.2.0**
+
+    AtlwMobileSystemInfoUtil---获取手机IP地址--getIpAddress()
+
 **V3.1.9**
 
     AtlwNotificationUtil---创建通知渠道--createNotificationChannel(channelId,name,desc,importance)

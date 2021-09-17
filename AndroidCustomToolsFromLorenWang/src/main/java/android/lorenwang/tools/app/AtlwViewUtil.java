@@ -21,24 +21,35 @@ import androidx.recyclerview.widget.RecyclerView;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
- * 创建时间：2019-04-30 下午 15:47:15
- * 创建人：王亮（Loren wang）
  * 功能作用：控件相关工具类
+ * 初始注释时间： 2021/9/17 11:08
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、获取控件的LayoutParams---getViewLayoutParams（view，width，height）
- * 2、设置控件的宽高---setViewWidthHeight（view，width，height）
- * 3、设置控件宽高以及margin属性---setViewWidthHeightMargin（view，width，height，l,t,r,b）
- * 4、对Drawable着色---tintDrawable(drawable,ColorStateList)
- * 5、设置背景图片着色---setBackgroundTint(view,ColorStateList)
- * 6、设置图片控件的src资源的着色---setImageSrcTint(imageView,ColorStateList)
- * 7、设置文本控件的Drawable左上右下图片着色---setTextViewDrawableLRTBTint(textView,ColorStateList)
+ * 获取控件的LayoutParams--getViewLayoutParams(view,width,height)
+ * 获取控件的LayoutParams--getViewLayoutParams(paramsClass,view,width,height)
+ * 设置控件的宽高--setViewWidthHeight(view,width,height)
+ * 设置控件宽高以及margin属性--setViewWidthHeightMargin(view,width,height,left,top,right,bottom)
+ * 设置控件宽高以及margin属性--setViewWidthHeightMargin(view,paramsClass,width,height,left,top,right,bottom)
+ * 设置view的外边距params--setViewMarginParams(view,layoutParams,left,top,right,bottom)
+ * 对Drawable着色--tintDrawable(drawable,colors)
+ * 设置背景图片着色--setBackgroundTint(view,colorStateList)
+ * 设置图片控件的src资源的着色--setImageSrcTint(imageView,colorStateList)
+ * 设置文本控件的Drawable左上右下图片着色--setTextViewDrawableLRTBTint(textView,colorStateList)
+ * 获取文本字符串宽度--getStrTextWidth(paint,text,start,end)
+ * 获取文本字符串宽度--getStrTextWidth(paint,text)
+ * 获取文本字符串宽度--getStrTextWidth(textSize,text,start,end)
+ * 获取文本字符串宽度--getStrTextWidth(textSize,text)
+ * 获取文本高度--getStrTextHeight(paint)
+ * 获取文本高度--getStrTextHeight(textSize)
+ * RecycleView 是否在顶部未向下滑动过--recycleViewIsTheTop(recyclerView)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 public class AtlwViewUtil {
     private final String TAG = getClass().getName();
     private static volatile AtlwViewUtil optionsInstance;
@@ -107,16 +118,13 @@ public class AtlwViewUtil {
                     }
                 }
                 if (view instanceof LinearLayout) {
-                    return getViewLayoutParams(LinearLayout.LayoutParams.class, view, width,
-                            height);
+                    return getViewLayoutParams(LinearLayout.LayoutParams.class, view, width, height);
                 } else if (view instanceof FrameLayout) {
                     return getViewLayoutParams(FrameLayout.LayoutParams.class, view, width, height);
                 } else if (view instanceof RelativeLayout) {
-                    return getViewLayoutParams(RelativeLayout.LayoutParams.class, view, width,
-                            height);
+                    return getViewLayoutParams(RelativeLayout.LayoutParams.class, view, width, height);
                 } else if (view instanceof ConstraintLayout) {
-                    return getViewLayoutParams(ConstraintLayout.LayoutParams.class, view, width,
-                            height);
+                    return getViewLayoutParams(ConstraintLayout.LayoutParams.class, view, width, height);
                 } else if (view instanceof ViewGroup) {
                     return getViewLayoutParams(ViewGroup.LayoutParams.class, view, width, height);
                 }
@@ -133,8 +141,7 @@ public class AtlwViewUtil {
      * @param height      控件显示的高度
      * @return 控件的LayoutParams
      */
-    public <T extends ViewGroup.LayoutParams> T getViewLayoutParams(Class<?> paramsClass, View view,
-                                                                    Integer width, Integer height) {
+    public <T extends ViewGroup.LayoutParams> T getViewLayoutParams(Class<?> paramsClass, View view, Integer width, Integer height) {
         if (paramsClass != null) {
             try {
                 if (width == null) {
@@ -145,8 +152,7 @@ public class AtlwViewUtil {
                 }
                 T params = (T) view.getLayoutParams();
                 if (params == null) {
-                    params =
-                            (T) paramsClass.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
+                    params = (T) paramsClass.getDeclaredConstructor(int.class, int.class).newInstance(width, height);
                 }
                 params.width = width;
                 params.height = height;
@@ -191,8 +197,7 @@ public class AtlwViewUtil {
      * @param right  右外边距
      * @param bottom 下外边距
      */
-    public void setViewWidthHeightMargin(View view, int width, int height, Integer left,
-                                         Integer top, Integer right, Integer bottom) {
+    public void setViewWidthHeightMargin(View view, int width, int height, Integer left, Integer top, Integer right, Integer bottom) {
         if (view != null) {
             ViewGroup.LayoutParams layoutParams = getViewLayoutParams(view, width, height);
             setViewMarginParams(view, layoutParams, left, top, right, bottom);
@@ -210,11 +215,10 @@ public class AtlwViewUtil {
      * @param right  右外边距
      * @param bottom 下外边距
      */
-    public void setViewWidthHeightMargin(View view, Class<?> paramsClass, int width, int height,
-                                         Integer left, Integer top, Integer right, Integer bottom) {
+    public void setViewWidthHeightMargin(View view, Class<?> paramsClass, int width, int height, Integer left, Integer top, Integer right,
+            Integer bottom) {
         if (view != null) {
-            ViewGroup.LayoutParams layoutParams = getViewLayoutParams(paramsClass, view, width,
-                    height);
+            ViewGroup.LayoutParams layoutParams = getViewLayoutParams(paramsClass, view, width, height);
             setViewMarginParams(view, layoutParams, left, top, right, bottom);
         }
     }
@@ -229,15 +233,12 @@ public class AtlwViewUtil {
      * @param right        右外边距
      * @param bottom       下外边距
      */
-    public void setViewMarginParams(View view, ViewGroup.LayoutParams layoutParams, Integer left,
-                                    Integer top, Integer right, Integer bottom) {
+    public void setViewMarginParams(View view, ViewGroup.LayoutParams layoutParams, Integer left, Integer top, Integer right, Integer bottom) {
         if (layoutParams != null) {
             if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) layoutParams;
-                params.setMargins(left == null ? params.leftMargin : left
-                        , top == null ? params.topMargin : top
-                        , right == null ? params.rightMargin : right
-                        , bottom == null ? params.bottomMargin : bottom);
+                params.setMargins(left == null ? params.leftMargin : left, top == null ? params.topMargin : top,
+                        right == null ? params.rightMargin : right, bottom == null ? params.bottomMargin : bottom);
                 view.setLayoutParams(params);
             } else {
                 view.setLayoutParams(layoutParams);
@@ -319,8 +320,7 @@ public class AtlwViewUtil {
                     }
                 }
                 //设置Drawable
-                textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1],
-                        compoundDrawables[2], compoundDrawables[3]);
+                textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
             }
         }
     }

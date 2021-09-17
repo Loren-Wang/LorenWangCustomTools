@@ -18,24 +18,27 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 import static android.content.Context.ACTIVITY_SERVICE;
 
 /**
- * 创建时间：2018-11-16 上午 10:19:49
- * 创建人：王亮（Loren wang）
  * 功能作用：检查工具类，用来检查各种，属于基础工具类
+ * 初始注释时间： 2021/9/17 11:21
+ * 创建人：王亮（Loren）
  * 思路：
- * 方法：1、检查是否有文件操作权限
- * 2、检查文件是否存在
- * 3、检查是否是图片文件
- * 4、根据传递进来的参数判断是否有该权限
- * 5、判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
- * 6、检测App是否安装
- * 7、检查App是否在运行
- * 8、检测一个服务是否在后台运行
- * 9、检查io操作工具类权限以及传入参数
- * <p>
+ * 方法：
+ * 检查是否拥有文件操作权限--checkFileOptionsPermission()
+ * 检查文件是否存在--checkFileIsExit(String filePath)
+ * 检查文件是否存在--checkDirectoryIsExit(String filePath)
+ * 检测文件是否是图片--checkFileIsImage(String filePath)
+ * 检测App权限--checkAppPermission(String... permissions)
+ * 检查io操作工具类权限以及传入参数--checkIOUtilsOptionsPermissionAndObjects(Object... objects)
+ * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的--checkGpsIsOpen()
+ * 检测App是否安装--checkAppIsInstall(String pkgName)
+ * 判断app是否在运行--checkAppIsRunning(String packName)
+ * 判断一个服务是否在后台运行--checkServiceIsRunning(Class<T> judgeService)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public class AtlwCheckUtil {
     private final String TAG = getClass().getName();
@@ -55,15 +58,13 @@ public class AtlwCheckUtil {
         return optionsInstance;
     }
 
-
     /**
      * 检查是否拥有文件操作权限
      *
      * @return 有权限返回true，无权限返回false
      */
     public boolean checkFileOptionsPermission() {
-        return checkAppPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
+        return checkAppPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
     /**
@@ -178,10 +179,9 @@ public class AtlwCheckUtil {
         }
 
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(AtlwConfig.nowApplication
-                    , Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ActivityCompat.checkSelfPermission(AtlwConfig.nowApplication
-                    , Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(AtlwConfig.nowApplication, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                    PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(AtlwConfig.nowApplication,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             } else {
                 return true;
@@ -198,9 +198,7 @@ public class AtlwCheckUtil {
      * @return true 表示开启
      */
     public boolean checkGpsIsOpen() {
-        LocationManager locationManager
-                =
-                (LocationManager) AtlwConfig.nowApplication.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) AtlwConfig.nowApplication.getSystemService(Context.LOCATION_SERVICE);
         // 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         // 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
@@ -219,8 +217,7 @@ public class AtlwCheckUtil {
      */
     public boolean checkAppIsInstall(String pkgName) {
         try {
-            AtlwConfig.nowApplication.getPackageManager().getApplicationInfo(pkgName,
-                    PackageManager.GET_META_DATA);
+            AtlwConfig.nowApplication.getPackageManager().getApplicationInfo(pkgName, PackageManager.GET_META_DATA);
             return true;
         } catch (Exception e) {
             return false;
@@ -234,8 +231,7 @@ public class AtlwCheckUtil {
      * @return 是否在运行
      */
     public boolean checkAppIsRunning(String packName) {
-        ActivityManager am =
-                (ActivityManager) AtlwConfig.nowApplication.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) AtlwConfig.nowApplication.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
         boolean isAppRunning = false;
         for (ActivityManager.RunningTaskInfo info : list) {
@@ -255,10 +251,8 @@ public class AtlwCheckUtil {
      * @return 是否允许
      */
     public <T> boolean checkServiceIsRunning(Class<T> judgeService) {
-        ActivityManager manager =
-                (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service :
-                manager.getRunningServices(Integer.MAX_VALUE)) {
+        ActivityManager manager = (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (judgeService.getName().equals(service.service.getClassName())) {
                 return true;
             }

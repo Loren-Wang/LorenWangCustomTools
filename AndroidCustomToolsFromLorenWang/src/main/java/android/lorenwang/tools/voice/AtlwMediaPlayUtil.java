@@ -20,17 +20,23 @@ import static android.media.AudioManager.STREAM_MUSIC;
 import static android.media.AudioManager.STREAM_VOICE_CALL;
 
 /**
- * 创建时间：2019-07-19 下午 14:32:32
- * 创建人：王亮（Loren wang）
- * 功能作用：
+ * 功能作用：音频播放工具
+ * 初始注释时间： 2019/7/19 17:04
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
+ * 设置音频播放回调--setMediaPlayCallback(atlwMediaPlayCallback)
+ * 开始播放--start(activity,playPath,type,isEndRecord,isCancelLastPlay)
+ * 停止播放，要取消监听器--stop(activity)
+ * 是否在播放--isPlaying()
+ * 设置播放类型--setPlayState(isUsePowerWakeLock,isAllowChangeOutputType)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 public class AtlwMediaPlayUtil {
     private final String TAG = getClass().getName();
     private static volatile AtlwMediaPlayUtil optionsInstance;
@@ -72,7 +78,6 @@ public class AtlwMediaPlayUtil {
      */
     private AtlwMediaPlayCallback atlwMediaPlayCallback;
 
-
     private AtlwMediaPlayUtil() {
     }
 
@@ -85,6 +90,15 @@ public class AtlwMediaPlayUtil {
             }
         }
         return optionsInstance;
+    }
+
+    /**
+     * 设置音频播放回调
+     *
+     * @param atlwMediaPlayCallback 音频播放回调
+     */
+    public void setMediaPlayCallback(AtlwMediaPlayCallback atlwMediaPlayCallback) {
+        this.atlwMediaPlayCallback = atlwMediaPlayCallback;
     }
 
     /**
@@ -286,9 +300,8 @@ public class AtlwMediaPlayUtil {
         this.isAllowChangeOutputType = isAllowChangeOutputType;
     }
 
-
     /**
-     * 获取距离传感器监听,同步锁住方法，使其仅会被初始化一次或者说只有没有的时候才会被初始化
+     * 获取距离传感器监听,同步锁住方法，使其仅会被初始化一次，或者说只有没有的时候才会被初始化
      *
      * @return 距离传感器监听
      */
@@ -349,7 +362,7 @@ public class AtlwMediaPlayUtil {
      */
     private void registProximitySensorListener(Activity activity) {
         if (isUsePowerWakeLock || isAllowChangeOutputType) {
-            AtlwMobileOptionsUtil.getInstance().registProximitySensorListener( getProximityListener(activity));
+            AtlwMobileOptionsUtil.getInstance().registerProximitySensorListener(getProximityListener(activity));
         }
     }
 
@@ -358,7 +371,7 @@ public class AtlwMediaPlayUtil {
      */
     private void unRegistProximitySensorListener(Activity activity) {
         if (proximityListener != null) {
-            AtlwMobileOptionsUtil.getInstance().unRegistProximitySensorListener( getProximityListener(activity));
+            AtlwMobileOptionsUtil.getInstance().unRegisterProximitySensorListener(getProximityListener(activity));
             proximityListener = null;
         }
     }

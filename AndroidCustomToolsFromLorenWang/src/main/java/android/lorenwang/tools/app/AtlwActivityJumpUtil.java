@@ -22,36 +22,40 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
  * 功能作用：activity页面跳转工具类
- * 初始注释时间： 2019/10/28 0028 下午 21:51:35
- * 注释创建人：LorenWang（王亮）
- * 方法介绍：
- * 1.1、普通页面跳转
- * 1.2、带参数页面跳转
- * 1.3、带参数跳转页面并是否清空栈
- * 2.1、无动画跳转页面
- * 2.2、带参数无动画跳转页面
- * 3.1、后退跳转页面
- * 3.2、带参数后退跳转页面
- * 3.3、带参数后退跳转页面并是否清空栈
- * 4.1、需要进行返回的跳转
- * 4.2、带请求码跳转并需要返回
- * 4.3、带参数跳转并需要返回
- * 4.4、带参数以及请求码跳转并需要返回
- * 4.5、带参数以及请求码跳转并需要返回并决定是否需要清空栈
- * 5.1、无动画需要返回跳转页面
- * 5.2、无动画带请求码需要返回的跳转页面
- * 5.3、带参数请求码无动画跳转页面并决定是否需要清空栈
- * 6.1、通用方法-带参数跳转页面并是否清空栈并设置进入退出动画
- * 6.2、通用方法-带参数跳转页面并设置flag以及设置进入退出动画
- * 6.3、通用方法-带参数跳转页面并设置flag以及设置进入退出动画以及请求码是否存在
- * 7.1、初始化所有Activity的唯一代码
- * 7.2、返回Activity的唯一代码
- * 7.3、调用Activity的overridePendingTransition方法
- * 8.1、通过地址跳转到网页
+ * 初始注释时间： 2019/10/28 14:20
+ * 创建人：王亮（Loren）
  * 思路：
+ * 方法：
+ * 普通页面跳转--jump(old,cls)
+ * 带参数页面跳转--jump(old,cls,bundle)
+ * 带参数跳转页面并是否清空栈--jump(old,cls,bundle,clearTop)
+ * 无动画跳转页面--jumpNoAnim(old,cls)
+ * 带参数无动画跳转页面--jumpNoAnim(old,cls,bundle,clearTop)
+ * 后退跳转页面--jumpBack(old,cls)
+ * 带参数后退跳转页面--jumpBack(old,cls,bundle)
+ * 带参数后退跳转页面并是否清空栈--jumpBack(old,cls,bundle,clearTop)
+ * 需要进行返回的跳转--jumpForResult(old,cls)
+ * 带请求码跳转并需要返回--jumpForResult(old,cls,requestCode)
+ * 带参数跳转并需要返回--jumpForResult(old,cls,bundle)
+ * 带参数以及请求码跳转并需要返回--jumpForResult(old,cls,requestCode,bundle)
+ * 带参数以及请求码跳转并需要返回并决定是否需要清空栈--jumpForResult(old,cls,requestCode,bundle,clearTop)
+ * 无动画需要返回跳转页面--jumpForResultNoAnim(old,cls)
+ * 无动画带请求码需要返回的跳转页面--jumpForResultNoAnim(old,cls,requestCode)
+ * 带参数请求码无动画跳转页面并决定是否需要清空栈--jumpForResultNoAnim(old,cls,requestCode,bundle,clearTop)
+ * 通过地址跳转到网页--jumpToWeb(activity,url)
+ * 通用方法-带参数跳转页面并是否清空栈并设置进入退出动画--jump(old,cls,bundle,clearTop, enterAnim, exitAnim)
+ * 通用方法-带参数跳转页面并设置flag以及设置进入退出动画--jump(old,cls,bundle,flag,enterAnim,exitAnim)
+ * 通用方法-带参数跳转页面并设置flag以及设置进入退出动画以及请求码是否存在--jump(old,cls,bundle,flag,requestCode,enterAnim,exitAnim)
+ * 初始化所有Activity的唯一代码--initActivityCode()
+ * 返回Activity的唯一代码--getActivityCode(cls)
+ * 调用Activity的overridePendingTransition方法--overridePendingTransition(activity,enterAnim,exitAnim)
+ * 跳转到应用市场--jumpApplicationMarket(activity,marketPkg,appPkg)
+ * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public class AtlwActivityJumpUtil {
     private final String TAG = getClass().getName();
@@ -106,11 +110,8 @@ public class AtlwActivityJumpUtil {
      * @param bundle   跳转携带的参数
      * @param clearTop 是否在跳转的时候清空栈
      */
-    public void jump(Context old, Class<?> cls, Bundle bundle,
-                     boolean clearTop) {
-        jump(old, cls, bundle, clearTop,
-                AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
-                AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
+    public void jump(Context old, Class<?> cls, Bundle bundle, boolean clearTop) {
+        jump(old, cls, bundle, clearTop, AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM, AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
     }
 
     /*--------------------------------------*无动画跳转******************************************/
@@ -169,11 +170,8 @@ public class AtlwActivityJumpUtil {
      * @param bundle   跳转携带的参数
      * @param clearTop 是否在跳转的时候清空栈
      */
-    public void jumpBack(Context old, Class<?> cls, Bundle bundle,
-                         boolean clearTop) {
-        jump(old, cls, bundle, clearTop,
-                AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM,
-                AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM);
+    public void jumpBack(Context old, Class<?> cls, Bundle bundle, boolean clearTop) {
+        jump(old, cls, bundle, clearTop, AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_ENTER_ANIM, AtlwConfig.ACTIVITY_JUMP_DEFAULT_BACK_EXIT_ANIM);
     }
 
     /*--------------------------------------带参数返回跳转---------------------------------------*/
@@ -218,8 +216,7 @@ public class AtlwActivityJumpUtil {
      * @param requestCode 请求码
      * @param bundle      携带的参数
      */
-    public void jumpForResult(Context old, Class<?> cls,
-                              Integer requestCode, Bundle bundle) {
+    public void jumpForResult(Context old, Class<?> cls, Integer requestCode, Bundle bundle) {
         jumpForResult(old, cls, requestCode, bundle, false);
     }
 
@@ -232,10 +229,8 @@ public class AtlwActivityJumpUtil {
      * @param bundle      携带的参数
      * @param clearTop    是否要清空栈
      */
-    public void jumpForResult(Context old, Class<?> cls,
-                              Integer requestCode, Bundle bundle, boolean clearTop) {
-        jump(old, cls, bundle, clearTop ? Intent.FLAG_ACTIVITY_CLEAR_TOP : null, requestCode,
-                AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
+    public void jumpForResult(Context old, Class<?> cls, Integer requestCode, Bundle bundle, boolean clearTop) {
+        jump(old, cls, bundle, clearTop ? Intent.FLAG_ACTIVITY_CLEAR_TOP : null, requestCode, AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
                 AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
     }
 
@@ -270,8 +265,7 @@ public class AtlwActivityJumpUtil {
      * @param bundle   跳转携带的参数
      * @param clearTop 是否在跳转的时候清空栈
      */
-    public void jumpForResultNoAnim(Context old, Class<?> cls,
-                                    Integer requestCode, Bundle bundle, boolean clearTop) {
+    public void jumpForResultNoAnim(Context old, Class<?> cls, Integer requestCode, Bundle bundle, boolean clearTop) {
         jump(old, cls, bundle, clearTop ? Intent.FLAG_ACTIVITY_CLEAR_TOP : null, requestCode, 0, 0);
     }
 
@@ -289,9 +283,7 @@ public class AtlwActivityJumpUtil {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             activity.startActivity(intent);
-            overridePendingTransition(activity,
-                    AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM,
-                    AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
+            overridePendingTransition(activity, AtlwConfig.ACTIVITY_JUMP_DEFAULT_ENTER_ANIM, AtlwConfig.ACTIVITY_JUMP_DEFAULT_EXIT_ANIM);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -310,8 +302,7 @@ public class AtlwActivityJumpUtil {
      * @param enterAnim 进入新Activity页面动画
      * @param exitAnim  旧的Activity退回动画
      */
-    public void jump(Context old, Class<?> cls, Bundle bundle,
-                     boolean clearTop, @AnimRes Integer enterAnim, @AnimRes Integer exitAnim) {
+    public void jump(Context old, Class<?> cls, Bundle bundle, boolean clearTop, @AnimRes Integer enterAnim, @AnimRes Integer exitAnim) {
         jump(old, cls, bundle, clearTop ? Intent.FLAG_ACTIVITY_CLEAR_TOP : null, enterAnim, exitAnim);
     }
 
@@ -325,8 +316,7 @@ public class AtlwActivityJumpUtil {
      * @param enterAnim 进入新Activity页面动画
      * @param exitAnim  旧的Activity退回动画
      */
-    public void jump(Context old, Class<?> cls, Bundle bundle, Integer flag,
-                     Integer enterAnim, Integer exitAnim) {
+    public void jump(Context old, Class<?> cls, Bundle bundle, Integer flag, Integer enterAnim, Integer exitAnim) {
         jump(old, cls, bundle, flag, null, enterAnim, exitAnim);
     }
 
@@ -340,8 +330,7 @@ public class AtlwActivityJumpUtil {
      * @param enterAnim 进入新Activity页面动画
      * @param exitAnim  旧的Activity退回动画
      */
-    public void jump(Context old, Class<?> cls, Bundle bundle, Integer flag, Integer requestCode,
-                     Integer enterAnim, Integer exitAnim) {
+    public void jump(Context old, Class<?> cls, Bundle bundle, Integer flag, Integer requestCode, Integer enterAnim, Integer exitAnim) {
         try {
             Intent intent = new Intent(old, cls);
             //设置参数
@@ -380,8 +369,7 @@ public class AtlwActivityJumpUtil {
     public void initActivityCode() {
         try {
             PackageManager manager = AtlwConfig.nowApplication.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(AtlwConfig.nowApplication.getPackageName(),
-                    PackageManager.GET_ACTIVITIES);
+            PackageInfo info = manager.getPackageInfo(AtlwConfig.nowApplication.getPackageName(), PackageManager.GET_ACTIVITIES);
             if (info.activities != null && info.activities.length > 0) {
                 for (ActivityInfo actInfo : info.activities) {
                     mActivityCodeMap.put(actInfo.name, actInfo.name.hashCode());
@@ -417,8 +405,7 @@ public class AtlwActivityJumpUtil {
      */
     public void overridePendingTransition(Activity activity, Integer enterAnim, Integer exitAnim) {
         try {
-            Method method = Activity.class.getMethod(
-                    "overridePendingTransition", int.class, int.class);
+            Method method = Activity.class.getMethod("overridePendingTransition", int.class, int.class);
             method.invoke(activity, enterAnim, exitAnim);
         } catch (Exception ignored) {
         }
@@ -440,26 +427,26 @@ public class AtlwActivityJumpUtil {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //如果有传应用市场包则指定包，否则自动选择
         if (JtlwCheckVariateUtils.getInstance().isEmpty(marketPkg)) {
-            if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile()
-                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_XIAO_MI)) {
+            if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile() && AtlwCheckUtil.getInstance().checkAppIsInstall(
+                    AtlwAPKPackageNameList.MARKET_XIAO_MI)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_XIAO_MI);
-            } else if (AtlwMobilePhoneBrandUtil.getInstance().isVivoMobile()
-                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_VIVO)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isVivoMobile() && AtlwCheckUtil.getInstance().checkAppIsInstall(
+                    AtlwAPKPackageNameList.MARKET_VIVO)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_VIVO);
-            } else if (AtlwMobilePhoneBrandUtil.getInstance().isCoolpadMobile()
-                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_COOLPAD)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isCoolpadMobile() && AtlwCheckUtil.getInstance().checkAppIsInstall(
+                    AtlwAPKPackageNameList.MARKET_COOLPAD)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_COOLPAD);
-            } else if (AtlwMobilePhoneBrandUtil.getInstance().isHuaWeiMobile()
-                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_HUA_WEI)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isHuaWeiMobile() && AtlwCheckUtil.getInstance().checkAppIsInstall(
+                    AtlwAPKPackageNameList.MARKET_HUA_WEI)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_HUA_WEI);
-            } else if (AtlwMobilePhoneBrandUtil.getInstance().isMeiZuMobile()
-                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_FLY_ME)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isMeiZuMobile() && AtlwCheckUtil.getInstance().checkAppIsInstall(
+                    AtlwAPKPackageNameList.MARKET_FLY_ME)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_FLY_ME);
-            } else if (AtlwMobilePhoneBrandUtil.getInstance().isOPPOMobile()
-                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_OPPO)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isOPPOMobile() && AtlwCheckUtil.getInstance().checkAppIsInstall(
+                    AtlwAPKPackageNameList.MARKET_OPPO)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_OPPO);
-            } else if (AtlwMobilePhoneBrandUtil.getInstance().isSamsungMobile()
-                    && AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_SAMSUNG)) {
+            } else if (AtlwMobilePhoneBrandUtil.getInstance().isSamsungMobile() && AtlwCheckUtil.getInstance().checkAppIsInstall(
+                    AtlwAPKPackageNameList.MARKET_SAMSUNG)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_SAMSUNG);
             } else {
                 if (AtlwCheckUtil.getInstance().checkAppIsInstall(AtlwAPKPackageNameList.MARKET_APPLICATION_OF_TREASURE)) {

@@ -378,7 +378,7 @@ public class AtlwActivityUtil {
      * @param cls 服务cls
      * @return true，代表有运行
      */
-    public <T> boolean isRunSercice(@NotNull Class<T> cls) {
+    public <T> boolean isRunService(@NotNull Class<T> cls) {
         // 获取Activity管理器
         ActivityManager activityManger = (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
         // 从窗口管理器中获取正在运行的Service

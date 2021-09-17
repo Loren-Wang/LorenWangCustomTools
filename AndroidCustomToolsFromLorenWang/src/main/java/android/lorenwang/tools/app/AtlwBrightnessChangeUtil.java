@@ -19,25 +19,34 @@ import androidx.annotation.ColorInt;
 
 /**
  * 功能作用：安卓端亮度调节工具类
- * 创建时间：2019-04-05 下午 21:38:10
- * 创建人：王亮（Loren wang）
+ * 初始注释时间： 2019/4/5 15:07
+ * 创建人：王亮（Loren）
  * 思路：
- * 方法：1、获取当前屏幕亮度
- * 2、获取当前屏幕亮度
- * 3、更新手机系统亮度模式
- * 4、设置亮度:通过设置 Windows 的 screenBrightness 来修改当前 Windows 的亮度
- * 5、判断Activity界面亮度是否是自动的
- * 6、保存亮度设置状态
- * 7、设置屏幕亮度跟随系统
- * 8、注册亮度观察者
- * 9、解注册亮度观察者
- * 10、获取过滤蓝光后的颜色值
+ * 方法：
+ * 获取当前屏幕亮度(0-1)--getScreenBrightness()
+ * 获取当前屏幕亮度(0-1)--getScreenBrightness(activity)
+ * 更新手机系统亮度模式--updateMobileSystemBrightnessMode(isAuto)
+ * 更新手机系统亮度模式--updateMobileSystemBrightnessMode(activity,isAuto)
+ * 设置亮度--setBrightness(brightness,isCallback)
+ * 设置亮度--setBrightness(activity, brightness, isCallback)
+ * 判断Activity界面亮度是否是自动的--isActivityAutoBrightness()
+ * 判断Activity界面亮度是否是自动的--isActivityAutoBrightness(activity)
+ * 判断是否开启了自动亮度调节--isMobileSystemAutoBrightness()
+ * 判断是否开启了自动亮度调节--isMobileSystemAutoBrightness(activity)
+ * 保存亮度设置状态--saveBrightnessToMobileSystem(brightness)
+ * 保存亮度设置状态--saveBrightnessToMobileSystem(activity,brightness)
+ * 设置屏幕亮度跟随系统--setBrightnessFollowMobileSystem()
+ * 设置屏幕亮度跟随系统--setBrightnessFollowMobileSystem(activity)
+ * 注册亮度观察者--registerBrightObserver(activity,mBrightObserver)
+ * 解注册亮度观察者--unregisterBrightObserver(activity)
+ * 获取过滤蓝光后的颜色值--getColor(blueFilterPercent)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：使用时在application通过getActivityLifecycleCallbacks获取生命周期监听，或者对于单个Activity界面进行注册反注册
+ *
+ * @author 王亮（Loren）
  */
-
 public class AtlwBrightnessChangeUtil {
     private final String TAG = getClass().getName();
     private static volatile AtlwBrightnessChangeUtil optionsInstance;
@@ -65,40 +74,40 @@ public class AtlwBrightnessChangeUtil {
                         registerBrightObserver(optionsActivity, observer);
                     }
                 }
-//                switch (msgType) {
-//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE:
-//                        break;
-//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
-//                        break;
-//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
-//                        optionsActivity = (Activity) msgs[0];
-//                        AtlwBrightnessChangeContentObserver observer = observerMap.get(optionsActivity);
-//                        if (observer != null) {
-//                            registerBrightObserver(optionsActivity, observer);
-//                        }
-//                        break;
-//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
-//                        break;
-//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
-//                        break;
-//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
-//                        break;
-//                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
-//                        break;
-//                    default:
-//                        break;
-//                }
+                //                switch (msgType) {
+                //                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_CREATE:
+                //                        break;
+                //                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_START:
+                //                        break;
+                //                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED:
+                //                        optionsActivity = (Activity) msgs[0];
+                //                        AtlwBrightnessChangeContentObserver observer = observerMap.get(optionsActivity);
+                //                        if (observer != null) {
+                //                            registerBrightObserver(optionsActivity, observer);
+                //                        }
+                //                        break;
+                //                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED:
+                //                        break;
+                //                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED:
+                //                        break;
+                //                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE:
+                //                        break;
+                //                    case AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED:
+                //                        break;
+                //                    default:
+                //                        break;
+                //                }
             }
         };
         AtlwFlyMessageUtil.getInstance().
 
-                registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
+                registerMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_RESUMED, flyMessgeCallback, false, false);
         AtlwFlyMessageUtil.getInstance().
 
-                registMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, flyMessgeCallback, false, false);
-//        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED, flyMessgeCallback, false, false);
-//        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, flyMessgeCallback, false, false);
-//        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
+                registerMsgCallback(this, AtlwFlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_PAUSED, flyMessgeCallback, false, false);
+        //        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_STOPPED, flyMessgeCallback, false, false);
+        //        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_SAVE_INSTANCE_STATE, flyMessgeCallback, false, false);
+        //        FlyMessageUtils.getInstance().registMsgCallback(this, FlyMessageMsgTypes.ACTIVITY_LIFECYCLE_CALLBACKS_ON_DESTROYED, flyMessgeCallback, false, false);
 
 
     }
@@ -109,7 +118,7 @@ public class AtlwBrightnessChangeUtil {
     private Activity optionsActivity;
 
     /**
-     * 获取当前屏幕亮度
+     * 获取当前屏幕亮度(0-1)
      *
      * @return 当前屏幕亮度
      */
@@ -118,7 +127,7 @@ public class AtlwBrightnessChangeUtil {
     }
 
     /**
-     * 获取当前屏幕亮度
+     * 获取当前屏幕亮度(0-1)
      *
      * @param activity 界面实例
      * @return 屏幕高度
@@ -174,8 +183,8 @@ public class AtlwBrightnessChangeUtil {
                     activity.startActivity(intent);
                 } else {
                     //有了权限，具体的动作
-                    Settings.System.putInt(activity.getContentResolver(),
-                            Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+                    Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE,
+                            Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
                 }
                 AtlwLogUtil.logUtils.logI(TAG, "修改手机系统亮度为系统自动亮度" + (isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
             } else {
@@ -186,8 +195,7 @@ public class AtlwBrightnessChangeUtil {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(intent);
                 } else {
-                    Settings.System.putInt(activity.getContentResolver(),
-                            Settings.System.SCREEN_BRIGHTNESS_MODE,
+                    Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE,
                             Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
                 }
                 AtlwLogUtil.logUtils.logI(TAG, "修改手机系统亮度为系统手动调节亮度" + (!isMobileSystemAutoBrightness(activity) ? "成功" : "失败"));
@@ -295,8 +303,8 @@ public class AtlwBrightnessChangeUtil {
         if (activity != null) {
             //判断系统是否是自动的
             try {
-                isAuto = Settings.System.getInt(activity.getContentResolver(),
-                        Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+                isAuto = Settings.System.getInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) ==
+                        Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
                 AtlwLogUtil.logUtils.logI(TAG, "获取到当前系统的亮度模式为：" + (isAuto ? "自动" : "手动修改"));
             } catch (Settings.SettingNotFoundException e) {
                 AtlwLogUtil.logUtils.logI(TAG, "当前系统的亮度模式获取失败");
@@ -370,12 +378,9 @@ public class AtlwBrightnessChangeUtil {
     }
 
     //注册 Brightness 的 uri
-    private final Uri BRIGHTNESS_MODE_URI =
-            Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS_MODE);
-    private final Uri BRIGHTNESS_URI =
-            Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS);
-    private final Uri BRIGHTNESS_ADJ_URI =
-            Settings.System.getUriFor("screen_auto_brightness_adj");
+    private final Uri BRIGHTNESS_MODE_URI = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS_MODE);
+    private final Uri BRIGHTNESS_URI = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS);
+    private final Uri BRIGHTNESS_ADJ_URI = Settings.System.getUriFor("screen_auto_brightness_adj");
 
     /**
      * 亮度观察者集合

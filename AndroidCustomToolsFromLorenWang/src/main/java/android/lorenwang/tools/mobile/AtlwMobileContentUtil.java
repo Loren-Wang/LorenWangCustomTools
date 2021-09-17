@@ -19,17 +19,21 @@ import androidx.annotation.RequiresPermission;
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
 
 /**
- * 功能作用：获取手机各个内容的单例类
- * 创建时间：2019-11-28 下午 15:14:40
- * 创建人：王亮（Loren wang）
+ * 功能作用：获取手机各个内容
+ * 初始注释时间： 2019/11/28 16:40
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
+ * 获取所有的联系人信息，包括手机存储以及sim卡中的--getAllContacts()
+ * 获取系统短消息--getSystemSms()
+ * 获取所有的短信，包括手机存储以及sim卡中的--getAllSms()
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 public class AtlwMobileContentUtil {
     private final String TAG = getClass().getName();
     private static volatile AtlwMobileContentUtil optionsInstance;
@@ -48,15 +52,11 @@ public class AtlwMobileContentUtil {
         return optionsInstance;
     }
 
-    /*---------------------------------------手机通讯录相关---------------------------------------*/
-
     /**
      * 获取库Phon表字段
      **/
-    private static final String[] PHONES_PROJECTION = new String[]{
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-            ContactsContract.CommonDataKinds.Phone.NUMBER,
-            ContactsContract.CommonDataKinds.Photo.PHOTO_ID,
+    private static final String[] PHONES_PROJECTION = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Photo.PHOTO_ID,
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID};
     /**
      * 联系人显示名称
@@ -146,8 +146,7 @@ public class AtlwMobileContentUtil {
         ContentResolver resolver = AtlwConfig.nowApplication.getContentResolver();
         // 获取Sims卡联系人
         Uri uri = Uri.parse("content://icc/adn");
-        Cursor phoneCursor = resolver.query(uri, null, null, null,
-                null);
+        Cursor phoneCursor = resolver.query(uri, null, null, null, null);
 
         if (phoneCursor != null) {
             while (phoneCursor.moveToNext()) {
@@ -160,8 +159,7 @@ public class AtlwMobileContentUtil {
                     phoneNumber = phoneNumber.replace("-", "").replace("+86", "").replace(" ", "");
                 }
                 // 得到联系人名称
-                String contactName = phoneCursor
-                        .getString(PHONES_DISPLAY_NAME_INDEX);
+                String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
                 if ("".equals(contactName)) {
                     //Sim卡中没有联系人头像
                     mContactsName.add("#");
@@ -226,8 +224,6 @@ public class AtlwMobileContentUtil {
         return contactDtoList;
     }
 
-    /*---------------------------------------短信相关---------------------------------------*/
-
     /**
      * 获取库短消息表字段
      * {@link Telephony.TextBasedSmsColumns.TYPE},
@@ -240,10 +236,8 @@ public class AtlwMobileContentUtil {
      * {@link Telephony.TextBasedSmsColumns.BODY},
      * {@link Telephony.TextBasedSmsColumns.PERSON},
      **/
-    private static final String[] SMS_PROJECTION = new String[]{
-            "type", "address", "date", "date_sent",
-            "read", "status", "subject", "body", "person"
-    };
+    private static final String[] SMS_PROJECTION = new String[]{"type", "address", "date", "date_sent", "read", "status", "subject", "body",
+            "person"};
     //以下变量为返回数据在查询语句中的存储返回的位置
     private static final int INDEX_SMS_TYPE = 0;
     private static final int INDEX_SMS_ADDRESS = 1;
@@ -284,8 +278,7 @@ public class AtlwMobileContentUtil {
         List<AtlwMobileSmsInfoBean> list = new ArrayList<>();
         ContentResolver resolver = AtlwConfig.nowApplication.getContentResolver();
         // 获取Sims卡联系人
-        Cursor phoneCursor = resolver.query(Uri.parse("content://icc/adn"), null, null, null,
-                null);
+        Cursor phoneCursor = resolver.query(Uri.parse("content://icc/adn"), null, null, null, null);
         return getAtlwMobileSmsInfoBeans(list, phoneCursor);
     }
 

@@ -6,7 +6,34 @@ import android.os.Looper;
 
 import java.util.concurrent.FutureTask;
 
-
+/**
+ * 功能作用：安卓线程处理单例
+ * 初始注释时间： 2021/9/17 10:53
+ * 创建人：王亮（Loren）
+ * 思路：
+ * 方法：
+ * 获取UI线程handler--getUiThreadHandler()
+ * 获取子线程handler--getChildThreadHandler()
+ * 当前线程是否是主线程--isRunningOnUiThread()
+ * 当前线程是否是子线程--isRunningOnChildThread()
+ * 发送到主线程运行--postOnUiThread(task)
+ * 间隔指定时间后再主线程运行--postOnUiThreadDelayed(task,delayMillis)
+ * 发送到主线程运行--postOnUiThread(task)
+ * 如果当前是主线程则直接运行，否则发送到主线程去运行--runOnUiThread(r)
+ * 发送到子线程运行--postOnChildThread(task)
+ * 间隔指定时间后再子线程运行--postOnChildThreadDelayed(task,delayMillis)
+ * 发送到子线程运行--postOnChildThread(task)
+ * 如果当前是子线程则直接运行，否则发送到子线程去运行--runOnChildThread(r)
+ * 在主、子线程中移除指定的runnable--removeRunnable(runnable)
+ * 在主、子线程中移除指定的runnable--removeRunnableForChild(runnable)
+ * 在主、子线程中移除指定的runnable--removeRunnableForUi(runnable)
+ * 注意：
+ * 修改人：
+ * 修改时间：
+ * 备注：
+ *
+ * @author 王亮（Loren）
+ */
 public class AtlwThreadUtil {
     private static volatile AtlwThreadUtil atlwThreadUtils;
     /**
@@ -36,7 +63,6 @@ public class AtlwThreadUtil {
         childThreadHandler = new Handler(handlerThread.getLooper());
     }
 
-
     public static AtlwThreadUtil getInstance() {
         synchronized (AtlwThreadUtil.class) {
             if (atlwThreadUtils == null) {
@@ -48,6 +74,7 @@ public class AtlwThreadUtil {
 
     /**
      * 获取UI线程handler
+     *
      * @return 返回主线程handler
      */
     public Handler getUiThreadHandler() {
@@ -64,6 +91,7 @@ public class AtlwThreadUtil {
 
     /**
      * 获取子线程handler
+     *
      * @return 返回子线程handler
      */
     public Handler getChildThreadHandler() {
@@ -80,7 +108,7 @@ public class AtlwThreadUtil {
      *
      * @return true iff the current thread is the main (UI) thread.
      */
-    private Boolean isRunningOnUiThread() {
+    private boolean isRunningOnUiThread() {
         return getUiThreadHandler().getLooper() == Looper.myLooper();
     }
 
@@ -89,7 +117,7 @@ public class AtlwThreadUtil {
      *
      * @return true iff the current thread is the main (UI) thread.
      */
-    private Boolean isRunningOnChildThread() {
+    private boolean isRunningOnChildThread() {
         return getChildThreadHandler().getLooper() == Looper.myLooper();
     }
 
@@ -113,7 +141,8 @@ public class AtlwThreadUtil {
     }
 
     /**
-     * @param <T> 泛型
+     * 发送到主线程运行
+     * @param <T>  泛型
      * @param task The FutureTask to run
      * @return The queried task (to aid inline construction)
      */
@@ -135,7 +164,6 @@ public class AtlwThreadUtil {
         }
     }
 
-
     /**
      * 发送到子线程运行
      *
@@ -156,9 +184,11 @@ public class AtlwThreadUtil {
     }
 
     /**
+     * 发送到子线程运行
      * Post the supplied FutureTask to run on the child thread. The method will not block, even if
      * called on the UI thread.
-     * @param <T> 泛型
+     *
+     * @param <T>  泛型
      * @param task The FutureTask to run
      * @return The queried task (to aid inline construction)
      */
@@ -191,6 +221,7 @@ public class AtlwThreadUtil {
             getUiThreadHandler().removeCallbacks(runnable);
         }
     }
+
     /**
      * 在主、子线程中移除指定的runnable
      *
@@ -201,6 +232,7 @@ public class AtlwThreadUtil {
             getChildThreadHandler().removeCallbacks(runnable);
         }
     }
+
     /**
      * 在主、子线程中移除指定的runnable
      *

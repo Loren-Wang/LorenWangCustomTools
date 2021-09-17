@@ -8,20 +8,25 @@ import androidx.annotation.StringRes;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 
 /**
- * 创建时间：2019-04-04 下午 17:49:41
- * 创建人：王亮（Loren wang）
- * 功能作用：
+ * 功能作用：吐司弹窗工具类
+ * 初始注释时间： 2021/9/17 11:02
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
- * 1、提示自定义view消息
- * 2、显示提示信息
- * 3、设置弹窗参数，全局使用，以最后一次变更为准
+ * 提示自定义view消息--toastView(customView)
+ * 提示自定义view消息--toastView(customView,showTime)
+ * 显示提示信息--toastMsg(msg)
+ * 显示吐司提示信息--toastMsg(msgResId)
+ * 显示提示信息--toastMsg(msg,showTime)
+ * 显示吐司提示信息--toastMsg(msgResId,showTime)
+ * 设置弹窗参数，全局使用，以最后一次变更为准--setParams(showTime,gravity,xOffset,yOffset,horizontalMargin,verticalMargin)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-
 public class AtlwToastHintUtil {
     private final String TAG = getClass().getName();
     private static volatile AtlwToastHintUtil optionsInstance;
@@ -162,7 +167,6 @@ public class AtlwToastHintUtil {
         this.horizontalMargin = horizontalMargin;
         this.verticalMargin = verticalMargin;
     }
-
 
     /**
      * 检测msg消息是否为空

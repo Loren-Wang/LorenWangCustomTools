@@ -7,23 +7,26 @@ import android.text.TextUtils;
 import java.lang.reflect.Method;
 
 /**
- * 创建时间： 0026/2018/6/26 下午 3:13
- * 创建人：王亮（Loren wang）
  * 功能作用：手机品牌判断工具类
- * 功能方法：
- * 1、是否是小米手机
- * 2、判断是否是魅族手机
- * 3、是否是华为手机
- * 4、是否是vivo手机
- * 5、是否是oppo手机
- * 6、是否是Coolpad手机
- * 7、是否是samsung手机
- * 8、是否是Sony手机
- * 9、是否是LG手机
+ * 初始注释时间： 2018/6/26 16:52
+ * 创建人：王亮（Loren）
  * 思路：
+ * 方法：
+ * 是否是小米手机--isXiaoMiMobile()
+ * 判断是否是魅族手机--isMeiZuMobile()
+ * 是否是华为手机--isHuaWeiMobile()
+ * 是否是vivo手机--isVivoMobile()
+ * 是否是oppo手机--isOPPOMobile()
+ * 是否是Coolpad手机--isCoolpadMobile()
+ * 是否是samsung手机--isSamsungMobile()
+ * 是否是Sony手机--isSonyMobile()
+ * 是否是LG手机--isLGMobile()
+ * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public class AtlwMobilePhoneBrandUtil {
     private final String TAG = getClass().getName();
@@ -60,9 +63,9 @@ public class AtlwMobilePhoneBrandUtil {
                 try {
                     Class<?> clz = Class.forName("android.os.SystemProperties");
                     Method method = clz.getMethod("get", String.class, String.class);
-                    isXiaoMi = !TextUtils.isEmpty((CharSequence) method.invoke(clz, "ro.miui.ui.version.code", null))
-                            || !TextUtils.isEmpty((CharSequence) method.invoke(clz, "ro.miui.ui.version.name", null))
-                            || !TextUtils.isEmpty((CharSequence) method.invoke(clz, "ro.miui.internal.storage", null));
+                    isXiaoMi = !TextUtils.isEmpty((CharSequence) method.invoke(clz, "ro.miui.ui.version.code", null)) || !TextUtils.isEmpty(
+                            (CharSequence) method.invoke(clz, "ro.miui.ui.version.name", null)) || !TextUtils.isEmpty(
+                            (CharSequence) method.invoke(clz, "ro.miui.internal.storage", null));
                 } catch (Exception e) {
                     isXiaoMi = false;
                 }
@@ -109,9 +112,9 @@ public class AtlwMobilePhoneBrandUtil {
                 try {
                     Class<?> clz = Class.forName("android.os.SystemProperties");
                     Method method = clz.getMethod("get", String.class, String.class);
-                    isHuaWei = !TextUtils.isEmpty((CharSequence) method.invoke(clz, "ro.build.hw_emui_api_level", null))
-                            || !TextUtils.isEmpty((CharSequence) method.invoke(clz, "ro.build.version.emui", null))
-                            || !TextUtils.isEmpty((CharSequence) method.invoke(clz, "ro.confg.hw_systemversion", null));
+                    isHuaWei = !TextUtils.isEmpty((CharSequence) method.invoke(clz, "ro.build.hw_emui_api_level", null)) || !TextUtils.isEmpty(
+                            (CharSequence) method.invoke(clz, "ro.build.version.emui", null)) || !TextUtils.isEmpty(
+                            (CharSequence) method.invoke(clz, "ro.confg.hw_systemversion", null));
                 } catch (Exception e) {
                     isHuaWei = false;
                 }

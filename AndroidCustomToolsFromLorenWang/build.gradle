@@ -51,6 +51,9 @@ dependencies {
     compileOnly 'com.amap.api:location:latest.integration'
     //java工具类库
     compileOnly project(':JavaCustomToolsFromLorenWang')
+    //数据格式化
+    compileOnly project(':JavaDataParseFromLorenWang')
+    compileOnly 'com.google.code.gson:gson:2.8.6'
 }
 def moduleName = 'AndroidCustomToolsFromLorenWang'
 def moduleDescription = "Android自定义工具库"

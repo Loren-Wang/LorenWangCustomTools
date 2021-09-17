@@ -18,17 +18,19 @@ import javabase.lorenwang.tools.common.JtlwCommonUtils;
 
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.DESKTOP_SHORTCUT_CREATE_SUCCESS;
 
-
 /**
- * 创建时间：2018-11-28 上午 11:38:45
- * 创建人：王亮（Loren wang）
- * 功能作用：桌面快捷方式管理类
+ * 功能作用：桌面快捷方式
+ * 初始注释时间： 2021/9/17 13:54
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
+ * 添加桌面快捷方式--addDesktopShortcut(context,openClass,openUrlKey,title,url,bitmap)
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public class AtlwDesktopShortcutUtil {
     private final String TAG = getClass().getName();
@@ -69,9 +71,7 @@ public class AtlwDesktopShortcutUtil {
      * @param url        链接
      * @param bitmap     icon位图
      */
-    public void addDesktopShortcut(
-            Context context, Class openClass, String openUrlKey
-            , String title, String url, Bitmap bitmap) {
+    public <T> void addDesktopShortcut(Context context, Class<T> openClass, String openUrlKey, String title, String url, Bitmap bitmap) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
             Intent intent = new Intent(AtlwConfig.nowApplication, openClass);
             intent.setAction(Intent.ACTION_VIEW); //action必须设置，不然报错
@@ -81,32 +81,23 @@ public class AtlwDesktopShortcutUtil {
             intent.putExtras(bundle);
 
             //设置快捷方式信息
-            ShortcutInfoCompat shortcutInfoCompat =
-                    new ShortcutInfoCompat.Builder(context, JtlwCommonUtils.getInstance().generateUuid(true))
-                            .setIcon(IconCompat.createWithBitmap(bitmap))
-                            .setShortLabel(title)
-                            .setIntent(intent)
-                            .build();
+            ShortcutInfoCompat shortcutInfoCompat = new ShortcutInfoCompat.Builder(context, JtlwCommonUtils.getInstance().generateUuid(true)).setIcon(
+                    IconCompat.createWithBitmap(bitmap)).setShortLabel(title).setIntent(intent).build();
             //快捷方式添加回调
-            PendingIntent shortcutCallbackIntent = PendingIntent.getBroadcast(context
-                    , 0, new Intent(context, DesktopShortcutReceiver.class)
-                    , PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent shortcutCallbackIntent = PendingIntent.getBroadcast(context, 0, new Intent(context, DesktopShortcutReceiver.class),
+                    PendingIntent.FLAG_UPDATE_CURRENT);
 
 
             //请求添加快捷方式
             if (ShortcutManagerCompat.requestPinShortcut(context, shortcutInfoCompat, shortcutCallbackIntent.getIntentSender())) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     //创建消息接收监听
-                    AtlwFlyMessageUtil.getInstance().registMsgCallback(context, DESKTOP_SHORTCUT_CREATE_SUCCESS
-                            , new AtlwFlyMessageUtil.FlyMessgeCallback() {
-                                @Override
-                                public void msg(int msgType, Object... msgs) {
-                                    AtlwLogUtil.logUtils.logI(TAG, "快捷方式添加主屏幕成功");
-                                    if (desktopShortcutOptionsCallback != null) {
-                                        desktopShortcutOptionsCallback.addSuccess();
-                                    }
-                                }
-                            }, true, context instanceof Activity);
+                    AtlwFlyMessageUtil.getInstance().registerMsgCallback(context, DESKTOP_SHORTCUT_CREATE_SUCCESS, (msgType, msgs) -> {
+                        AtlwLogUtil.logUtils.logI(TAG, "快捷方式添加主屏幕成功");
+                        if (desktopShortcutOptionsCallback != null) {
+                            desktopShortcutOptionsCallback.addSuccess();
+                        }
+                    }, true, context instanceof Activity);
                 }
             }
         }

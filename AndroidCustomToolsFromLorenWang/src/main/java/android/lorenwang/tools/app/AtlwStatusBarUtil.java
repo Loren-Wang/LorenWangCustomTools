@@ -16,16 +16,22 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-
 /**
- * 创建时间： 0026/2018/6/26 下午 3:04
- * 创建人：王亮（Loren wang）
  * 功能作用：状态栏操作工具类
- * 功能方法：
+ * 初始注释时间： 2021/9/17 10:50
+ * 创建人：王亮（Loren）
  * 思路：
+ * 方法：
+ * 修改状态栏为全透明--transparencyBar(activity)
+ * 修改状态栏颜色，支持4.4以上版本--setStatusBarColor(activity,color)
+ * 当状态栏背景为亮色的时候需要把状态栏图标以及文字改成黑色--setStatusBarLightMode(activity,isFullscreen)
+ * 当状态栏背景为亮色的时候需要把状态栏图标以及文字改成黑色--setStatusBarDarkMode(activity,isFullscreen)
+ * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
 public class AtlwStatusBarUtil {
     private final String TAG = getClass().getName();

@@ -10,12 +10,15 @@ import static android.lorenwang.tools.AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_IMAGE_L
  * 初始注释时间： 2019/12/19 15:09
  * 注释创建人：Loren（王亮）
  * 方法介绍：
- * 1、获取图片加载实例---getImageLoading（imageLoadLibraryType）
- * 2、获取工具类实例---getInstance（）
- * 3、清除内存缓存,如果参数为空则清除所有相关实例---clearMemoryCache(imageLoadLibraryType)
- * 4、清除本地缓存,如果参数为空则清除所有相关实例---clearDiskCache(imageLoadLibraryType)
- * 5、暂停加载图片---pauseLoading()
- * 6、恢复加载图片---resumeLoading()
+ * IMAGE_LOAD_LIBRARY_TYPE_FRESCO
+ * IMAGE_LOAD_LIBRARY_TYPE_GLIDE
+ * IMAGE_LOAD_LIBRARY_TYPE_IMAGE_LOAD
+ * 获取图片加载实例---getImageLoading（imageLoadLibraryType）
+ * 获取工具类实例---getInstance（）
+ * 清除内存缓存,如果参数为空则清除所有相关实例---clearMemoryCache(imageLoadLibraryType)
+ * 清除本地缓存,如果参数为空则清除所有相关实例---clearDiskCache(imageLoadLibraryType)
+ * 暂停加载图片---pauseLoading()
+ * 恢复加载图片---resumeLoading()
  * 思路：
  * 修改人：
  * 修改时间：
