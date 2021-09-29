@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvlwBubbleLayout">
+        <!--阴影宽度-->
+        <attr name="avlw_bl_shadowWidth" format="dimension" />
+        <!--阴影颜色-->
+        <attr name="avlw_bl_shadowColor" format="color" />
+        <!--箭头宽度-->
+        <attr name="avlw_bl_arrowWidth" format="dimension" />
+        <!--箭头高度-->
+        <attr name="avlw_bl_arrowHeight" format="dimension" />
+        <!--箭头偏移，最终按照箭头方位使用不同数据-->
+        <attr name="avlw_bl_arrowOffsetLeftPercent" format="float" />
+        <attr name="avlw_bl_arrowOffsetTopPercent" format="float" />
+        <attr name="avlw_bl_arrowOffsetRightPercent" format="float" />
+        <attr name="avlw_bl_arrowOffsetBottomPercent" format="float" />
+        <attr name="avlw_bl_arrowOffsetLeft" format="dimension" />
+        <attr name="avlw_bl_arrowOffsetTop" format="dimension" />
+        <attr name="avlw_bl_arrowOffsetRight" format="dimension" />
+        <attr name="avlw_bl_arrowOffsetBottom" format="dimension" />
+        <!--边框宽度-->
+        <attr name="avlw_bl_strokeWidth" format="dimension" />
+        <!--边框圆角角度（直径）-->
+        <attr name="avlw_bl_strokeRadius" format="dimension" />
+        <attr name="avlw_bl_strokeRadiusLeftTop" format="dimension" />
+        <attr name="avlw_bl_strokeRadiusRightTop" format="dimension" />
+        <attr name="avlw_bl_strokeRadiusLeftBottom" format="dimension" />
+        <attr name="avlw_bl_strokeRadiusRightBottom" format="dimension" />
+        <!--边框颜色-->
+        <attr name="avlw_bl_strokeColor" format="color" />
+        <!--箭头方向-->
+        <attr name="avlw_bl_arrowDirection" format="enum">
+            <enum name="left" value="1"/>
+            <enum name="top" value="2" />
+            <enum name="right" value="3" />
+            <enum name="bottom" value="4" />
+        </attr>
+    </declare-styleable>
+</resources>

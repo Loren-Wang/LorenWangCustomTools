@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwScreenUtil;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -264,7 +265,7 @@ public class AvlwWheelRecyclerView extends RecyclerView {
             } else {
                 setText(holder.name, position);
             }
-            setTextShowType((mSelected + 1) == position, holder.name);
+            setTextShowType((mSelected + 1) == position, holder.name, (mSelected + 1) - position);
         }
 
         private void setText(TextView textView, int position) {
@@ -324,7 +325,7 @@ public class AvlwWheelRecyclerView extends RecyclerView {
                 item = (TextView) mLayoutManager.findViewByPosition(firstVisiblePos + i);
             }
             if (item != null) {
-                setTextShowType(i == mOffset, item);
+                setTextShowType(i == mOffset, item, i - mOffset);
             }
         }
 
@@ -346,17 +347,41 @@ public class AvlwWheelRecyclerView extends RecyclerView {
      *
      * @param isSelect 是否是选中的
      * @param textView 文本控件
+     * @param diff
      */
-    private void setTextShowType(boolean isSelect, @NotNull TextView textView) {
+    private void setTextShowType(boolean isSelect, @NotNull TextView textView, int diff) {
+        TextPaint paint = textView.getPaint();
         if (isSelect) {
             textView.setTextColor(mSelectTextColor);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSelectTextSize);
-            textView.getPaint().setFakeBoldText(selectTextIsBold);
+            paint.setFakeBoldText(selectTextIsBold);
+            paint.setTextSkewX(0);
+            paint.setAlpha(1);
         } else {
             textView.setTextColor(mUnselectTextColor);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mUnselectTextSize);
-            textView.getPaint().setFakeBoldText(unSelectTextIsBold);
+            paint.setFakeBoldText(unSelectTextIsBold);
+//            paint.setTextSkewX((float) (diff * 0.5 / mOffset));
+            paint.setAlpha((int) (1 - Math.abs(diff * (1.0 / mOffset))));
         }
+    }
+
+    //设置文字倾斜角度，透明度
+    private void setOutPaintStyle(float offsetCoefficient, float angle) {
+        //        // 控制文字倾斜角度
+        //        float DEFAULT_TEXT_TARGET_SKEW_X = 0.5f;
+        //        int multiplier = 0;
+        //        if (textXOffset > 0) {
+        //            multiplier = 1;
+        //        } else if (textXOffset < 0) {
+        //            multiplier = -1;
+        //        }
+        //        paintOuterText.setTextSkewX(multiplier * (angle > 0 ? -1 : 1) * DEFAULT_TEXT_TARGET_SKEW_X * offsetCoefficient);
+        //
+        //        // 控制透明度
+        //        int alpha = isAlphaGradient ? (int) ((90F - Math.abs(angle)) / 90f * 255) : 255;
+        //        // Log.d("WheelView", "alpha:" + alpha);
+        //        paintOuterText.setAlpha(alpha);
     }
 
     /**

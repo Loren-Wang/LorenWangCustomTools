@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
  * 功能作用：宫格列表通用分隔线
@@ -34,21 +35,13 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
      */
     private final int gridSpanCount;
     /**
-     * 左间距
+     * 水平方向距离
      */
-    private final Float leftDistance;
+    private final Float horizontalDistance;
     /**
-     * 上间距
+     * 垂直方向距离
      */
-    private final Float topDistance;
-    /**
-     * 右间距
-     */
-    private final Float rightDistance;
-    /**
-     * 下间距
-     */
-    private final Float bottomDistance;
+    private final Float verticalDistance;
     /**
      * 顶部行上间距
      */
@@ -68,10 +61,14 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
      * @param rightDistance  右间距
      * @param bottomDistance 下间距
      */
-    public AvlwCommonGridItemDecoration(Integer color, int gridSpanCount,
-                                        float leftDistance, float topDistance,
-                                        float rightDistance, float bottomDistance,
-                                        float rowTopDistance, float rowBottomDistance) {
+    public AvlwCommonGridItemDecoration(Integer color, int gridSpanCount, float leftDistance, float topDistance, float rightDistance,
+            float bottomDistance, float rowTopDistance, float rowBottomDistance) {
+        this(color, gridSpanCount, leftDistance + rightDistance, topDistance + bottomDistance, rowTopDistance, rowBottomDistance);
+    }
+
+    public AvlwCommonGridItemDecoration(Integer color, int gridSpanCount, float horizontalDistance, float verticalDistance, float rowTopDistance,
+            float rowBottomDistance) {
+
         paint.setAntiAlias(true);
         if (color != null) {
             paint.setColor(color);
@@ -79,125 +76,130 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
             paint.setColor(Color.TRANSPARENT);
         }
         this.gridSpanCount = gridSpanCount;
-        this.leftDistance = leftDistance;
-        this.topDistance = topDistance;
-        this.rightDistance = rightDistance;
-        this.bottomDistance = bottomDistance;
+        this.horizontalDistance = horizontalDistance;
+        this.verticalDistance = verticalDistance;
         this.rowTopDistance = rowTopDistance;
         this.rowBottomDistance = rowBottomDistance;
     }
 
     @Override
-    public void getItemOffsets(@NonNull @NotNull Rect outRect, @NonNull @NotNull View view,
-                               @NonNull @NotNull RecyclerView parent,
-                               @NonNull @NotNull RecyclerView.State state) {
+    public void getItemOffsets(@NonNull @NotNull Rect outRect, @NonNull @NotNull View view, @NonNull @NotNull RecyclerView parent,
+            @NonNull @NotNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         int count = parent.getAdapter() == null ? 0 : parent.getAdapter().getItemCount();
         //总行数
-        int sumRows = count % gridSpanCount == 0 ? count / gridSpanCount :
-                (count / gridSpanCount) + 1;
+        int sumRows = count % gridSpanCount == 0 ? count / gridSpanCount : (count / gridSpanCount) + 1;
         //当前位置
-        int position = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
-        int column = position % gridSpanCount;
-        int row = position / gridSpanCount;
-
-        if (row == 0 && column == 0) {
-            outRect.top = rowTopDistance.intValue();
-            outRect.bottom = bottomDistance.intValue();
-            outRect.right = rightDistance.intValue();
-        } else if (row == 0 && column == gridSpanCount - 1) {
-            outRect.top = rowTopDistance.intValue();
-            outRect.bottom = bottomDistance.intValue();
-            outRect.left = leftDistance.intValue();
-        } else if (row == 0) {
-            outRect.top = rowTopDistance.intValue();
-            outRect.bottom = bottomDistance.intValue();
-            outRect.right = rightDistance.intValue();
-            outRect.left = leftDistance.intValue();
-        } else if (row == sumRows - 1 && column == 0) {
-            outRect.bottom = rowBottomDistance.intValue();
-            outRect.top = topDistance.intValue();
-            outRect.right = rightDistance.intValue();
-        } else if (row == sumRows - 1 && column == gridSpanCount - 1) {
-            outRect.bottom = rowBottomDistance.intValue();
-            outRect.top = topDistance.intValue();
-            outRect.left = leftDistance.intValue();
-        } else if (row == sumRows - 1) {
-            outRect.bottom = rowBottomDistance.intValue();
-            outRect.top = topDistance.intValue();
-            outRect.right = rightDistance.intValue();
-            outRect.left = leftDistance.intValue();
-        } else if (column == 0) {
-            outRect.bottom = bottomDistance.intValue();
-            outRect.top = topDistance.intValue();
-            outRect.right = rightDistance.intValue();
-        } else if (column == gridSpanCount - 1) {
-            outRect.bottom = bottomDistance.intValue();
-            outRect.top = topDistance.intValue();
-            outRect.left = leftDistance.intValue();
+        int position;
+        int column;
+        int row;
+        if (view.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
+            position = ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
+            column = position;
+            row = ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition() / gridSpanCount;
         } else {
-            outRect.bottom = bottomDistance.intValue();
-            outRect.top = topDistance.intValue();
-            outRect.right = rightDistance.intValue();
-            outRect.left = leftDistance.intValue();
+            position = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+            column = position % gridSpanCount;
+            row = position / gridSpanCount;
+        }
+
+        float distance = horizontalDistance * (gridSpanCount - 1) / gridSpanCount;
+        outRect.top = (int) (verticalDistance / 2);
+        outRect.bottom = (int) (verticalDistance / 2);
+        if (row == 0 && column == 0) {
+            outRect.top = (int) (verticalDistance / 2 + rowTopDistance);
+            outRect.right = (int) distance;
+        } else if (row == 0 && column == gridSpanCount - 1) {
+            outRect.top = (int) (verticalDistance / 2 + rowTopDistance);
+            outRect.left = (int) distance;
+        } else if (row == 0) {
+            outRect.top = (int) (verticalDistance / 2 + rowTopDistance);
+            outRect.right = (int) (distance / 2);
+            outRect.left = (int) (distance / 2);
+        } else if (row == sumRows - 1 && column == 0) {
+            outRect.bottom = (int) (verticalDistance / 2 + rowBottomDistance);
+            outRect.right = (int) distance;
+        } else if (row == sumRows - 1 && column == gridSpanCount - 1) {
+            outRect.bottom = (int) (verticalDistance / 2 + rowBottomDistance);
+            outRect.left = (int) distance;
+        } else if (row == sumRows - 1) {
+            outRect.bottom = (int) (verticalDistance / 2 + rowBottomDistance);
+            outRect.right = (int) (distance / 2);
+            outRect.left = (int) (distance / 2);
+        } else if (column == 0) {
+            outRect.right = (int) distance;
+        } else if (column == gridSpanCount - 1) {
+            outRect.left = (int) distance;
+        } else {
+            outRect.right = (int) (distance / 2);
+            outRect.left = (int) (distance / 2);
         }
     }
 
     @Override
-    public void onDraw(@NonNull @NotNull Canvas c, @NonNull @NotNull RecyclerView parent,
-                       @NonNull @NotNull RecyclerView.State state) {
+    public void onDraw(@NonNull @NotNull Canvas c, @NonNull @NotNull RecyclerView parent, @NonNull @NotNull RecyclerView.State state) {
 
         int childCount = parent.getAdapter() == null ? 0 : parent.getAdapter().getItemCount();
         //总行数
-        int sumRows = childCount % gridSpanCount == 0 ? childCount / gridSpanCount :
-                (childCount / gridSpanCount) + 1;
+        int sumRows = childCount % gridSpanCount == 0 ? childCount / gridSpanCount : (childCount / gridSpanCount) + 1;
 
+        //当前位置
+        int position;
+        int column;
+        int row;
         for (int i = 0; i < childCount; i++) {
             View view = parent.getChildAt(i);
             if (view == null) {
                 continue;
             }
-            int column = i % gridSpanCount;
-            int row = i / gridSpanCount;
+            if (view.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
+                position = ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
+                column = position;
+                row = ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition() / gridSpanCount;
+            } else {
+                position = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+                column = position % gridSpanCount;
+                row = position / gridSpanCount;
+            }
             if (row == 0 && column == 0) {
                 drawTop(c, view, rowTopDistance);
-                drawBottom(c, view, bottomDistance);
-                drawRight(c, view, true, false, rowTopDistance, bottomDistance);
+                drawBottom(c, view, 0);
+                drawRight(c, view);
             } else if (row == 0 && column == gridSpanCount - 1) {
                 drawTop(c, view, rowTopDistance);
-                drawBottom(c, view, bottomDistance);
-                drawLeft(c, view, true, false, rowTopDistance, bottomDistance);
+                drawBottom(c, view, 0);
+                drawLeft(c, view);
             } else if (row == 0) {
                 drawTop(c, view, rowTopDistance);
-                drawBottom(c, view, bottomDistance);
-                drawRight(c, view, true, false, rowTopDistance, bottomDistance);
-                drawLeft(c, view, true, false, rowTopDistance, bottomDistance);
+                drawBottom(c, view, 0);
+                drawRight(c, view);
+                drawLeft(c, view);
             } else if (row == sumRows - 1 && column == 0) {
-                drawTop(c, view, topDistance);
+                drawTop(c, view, 0);
                 drawBottom(c, view, rowBottomDistance);
-                drawRight(c, view, false, true, topDistance, rowBottomDistance);
+                drawRight(c, view);
             } else if (row == sumRows - 1 && column == gridSpanCount - 1) {
-                drawTop(c, view, topDistance);
+                drawTop(c, view, 0);
                 drawBottom(c, view, rowBottomDistance);
-                drawLeft(c, view, false, true, topDistance, rowBottomDistance);
+                drawLeft(c, view);
             } else if (row == sumRows - 1) {
-                drawTop(c, view, topDistance);
+                drawTop(c, view, 0);
                 drawBottom(c, view, rowBottomDistance);
-                drawLeft(c, view, false, true, topDistance, rowBottomDistance);
-                drawRight(c, view, false, true, topDistance, rowBottomDistance);
+                drawLeft(c, view);
+                drawRight(c, view);
             } else if (column == 0) {
-                drawTop(c, view, topDistance);
-                drawBottom(c, view, bottomDistance);
-                drawRight(c, view, true, true, topDistance, bottomDistance);
+                drawTop(c, view, 0);
+                drawBottom(c, view, 0);
+                drawRight(c, view);
             } else if (column == gridSpanCount - 1) {
-                drawTop(c, view, topDistance);
-                drawBottom(c, view, bottomDistance);
-                drawLeft(c, view, true, true, topDistance, bottomDistance);
+                drawTop(c, view, 0);
+                drawBottom(c, view, 0);
+                drawLeft(c, view);
             } else {
-                drawTop(c, view, topDistance);
-                drawBottom(c, view, bottomDistance);
-                drawLeft(c, view, true, true, topDistance, bottomDistance);
-                drawRight(c, view, true, true, topDistance, bottomDistance);
+                drawTop(c, view, 0);
+                drawBottom(c, view, 0);
+                drawLeft(c, view);
+                drawRight(c, view);
             }
         }
     }
@@ -205,41 +207,21 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * 画右侧
      *
-     * @param c                  画板
-     * @param view               视图控件
-     * @param showBottomDistance 是否要显示底部，要的话要绘制右下角
-     * @param showTopDistance    是否要显示顶部，要的话要绘制右上角
+     * @param c    画板
+     * @param view 视图控件
      */
-    private void drawRight(@NotNull @NonNull Canvas c, View view,
-                           boolean showBottomDistance, boolean showTopDistance,
-                           float topDistance, float bottomDistance) {
-        c.drawRect(view.getRight(),
-                showTopDistance ? view.getTop() - view.getPaddingTop() - topDistance :
-                        view.getTop() - view.getPaddingTop(),
-                view.getRight() + rightDistance,
-                showBottomDistance ? view.getBottom() - view.getPaddingBottom() + bottomDistance :
-                        view.getBottom() - view.getPaddingBottom(),
-                paint);
+    private void drawRight(@NotNull @NonNull Canvas c, View view) {
+        c.drawRect(view.getRight(), view.getTop() - view.getPaddingTop(), view.getRight(), view.getBottom() - view.getPaddingBottom(), paint);
     }
 
     /**
      * 画左侧
      *
-     * @param c                  画板
-     * @param view               视图控件
-     * @param showBottomDistance 是否要显示底部，要的话要绘制左下角
-     * @param showTopDistance    是否要显示顶部，要的话要绘制左上角
+     * @param c    画板
+     * @param view 视图控件
      */
-    private void drawLeft(@NotNull @NonNull Canvas c, View view,
-                          boolean showBottomDistance, boolean showTopDistance,
-                          float topDistance, float bottomDistance) {
-        c.drawRect(view.getLeft() - leftDistance,
-                showTopDistance ? view.getTop() - view.getPaddingTop() - topDistance :
-                        view.getTop() - view.getPaddingTop(),
-                view.getLeft(),
-                showBottomDistance ? view.getBottom() - view.getPaddingBottom() + bottomDistance :
-                        view.getBottom() - view.getPaddingBottom(),
-                paint);
+    private void drawLeft(@NotNull @NonNull Canvas c, View view) {
+        c.drawRect(view.getLeft(), view.getTop() - view.getPaddingTop(), view.getLeft(), view.getBottom() - view.getPaddingBottom(), paint);
     }
 
     /**
@@ -249,10 +231,8 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
      * @param view 视图控件
      */
     private void drawBottom(@NotNull @NonNull Canvas c, View view, float distance) {
-        c.drawRect(view.getLeft() + view.getPaddingLeft(),
-                view.getBottom(),
-                view.getRight() - view.getPaddingRight(),
-                view.getBottom() + distance, paint);
+        c.drawRect(view.getLeft() + view.getPaddingLeft(), view.getTop(), view.getRight() - view.getPaddingRight(), view.getBottom() + distance,
+                paint);
     }
 
     /**
@@ -262,25 +242,6 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
      * @param view 视图控件
      */
     private void drawTop(@NotNull @NonNull Canvas c, View view, float distance) {
-        c.drawRect(view.getLeft() + view.getPaddingLeft(),
-                view.getTop() - distance,
-                view.getRight() - view.getPaddingRight(),
-                view.getTop(), paint);
-    }
-
-    public Float getLeftDistance() {
-        return leftDistance;
-    }
-
-    public Float getTopDistance() {
-        return topDistance;
-    }
-
-    public Float getRightDistance() {
-        return rightDistance;
-    }
-
-    public Float getBottomDistance() {
-        return bottomDistance;
+        c.drawRect(view.getLeft() + view.getPaddingLeft(), view.getTop() - distance, view.getRight() - view.getPaddingRight(), view.getTop(), paint);
     }
 }

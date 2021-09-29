@@ -210,7 +210,7 @@ public class AvlwVideoPlayView extends SurfaceView {
                             @Override
                             public void permissionRequestSuccessCallback(List<String> permissionList, int permissionsRequestCode) {
                                 //自动播放视频逻辑处理，wifi下自动播放
-                                videoPlayer.setAutoPlay(allowPlay = AtlwMobileSystemInfoUtil.getNetworkType() == 1);
+                                videoPlayer.setAutoPlay(allowPlay = AtlwMobileSystemInfoUtil.getInstance().getNetworkType() == 1);
                             }
 
                             @Override
