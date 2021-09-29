@@ -43,7 +43,7 @@ public class AvlwBubbleLayout extends ConstraintLayout {
     /**
      * 阴影路径
      */
-    protected Path shadowPath;
+    private Path shadowPath;
     /**
      * 阴影画笔
      */
@@ -55,11 +55,11 @@ public class AvlwBubbleLayout extends ConstraintLayout {
     /**
      * 阴影颜色
      */
-    protected int shadowColor = Color.TRANSPARENT;
+    private int shadowColor = Color.TRANSPARENT;
     /**
      * 阴影宽度
      */
-    protected int shadowWidth = 0;
+    private int shadowWidth = 0;
     /**
      * 箭头宽度
      */
@@ -122,7 +122,7 @@ public class AvlwBubbleLayout extends ConstraintLayout {
         init(context, attrs);
     }
 
-    protected void init(Context context, @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    private void init(Context context, @org.jetbrains.annotations.Nullable AttributeSet attrs) {
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AvlwBubbleLayout);
         shadowWidth = typedArray.getDimensionPixelOffset(R.styleable.AvlwBubbleLayout_avlw_bl_shadowWidth, shadowWidth);
         shadowColor = typedArray.getColor(R.styleable.AvlwBubbleLayout_avlw_bl_shadowColor, shadowColor);
@@ -155,7 +155,6 @@ public class AvlwBubbleLayout extends ConstraintLayout {
         resetPaint();
         //设置内间距给阴影留空间
         changePadding();
-        setBackgroundColor(Color.RED);
         //默认设置背景是透明的
         super.setBackground(new ColorDrawable(Color.TRANSPARENT));
     }
@@ -163,7 +162,7 @@ public class AvlwBubbleLayout extends ConstraintLayout {
     /**
      * 重新设置画笔
      */
-    protected void resetPaint() {
+    private void resetPaint() {
         shadowPaint.setColor(shadowColor);
         shadowPaint.setAntiAlias(true);
         //内部不绘制，外部绘制
@@ -179,7 +178,7 @@ public class AvlwBubbleLayout extends ConstraintLayout {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
         if (shadowPath != null) {
             //阴影绘制
             if (shadowWidth > 0) {
@@ -201,7 +200,7 @@ public class AvlwBubbleLayout extends ConstraintLayout {
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    public void onLayout(boolean changed, int left, int top, int right, int bottom) {
         shadowPath = getStrokePath();
         super.onLayout(changed, left, top, right, bottom);
     }
@@ -229,60 +228,63 @@ public class AvlwBubbleLayout extends ConstraintLayout {
             final float arrowLeftOffset = getArrowLeftOffset(rightX - leftX);
             switch (arrowDirection) {
                 case BUBBLE_DIRECTION_NONE:
-                    path.moveTo(leftX + strokeRadiusLeftTop / 2.0F, topY);
-                    path.arcTo(rightX - strokeRadiusRightTop, topY, rightX, topY + strokeRadiusRightTop, 270, 90, false);
-                    path.arcTo(rightX - strokeRadiusRightBottom, bottomY - strokeRadiusRightBottom, rightX, bottomY, 0, 90, false);
-                    path.arcTo(leftX, bottomY - strokeRadiusLeftBottom, leftX + strokeRadiusLeftBottom, bottomY, 90, 90, false);
-                    path.arcTo(leftX, topY, leftX + strokeRadiusLeftTop, topY + strokeRadiusLeftTop, 180, 90, false);
+                    path.moveTo(leftX + strokeRadiusLeftTop, topY);
+                    path.arcTo(rightX - strokeRadiusRightTop * 2, topY, rightX, topY + strokeRadiusRightTop * 2, 270, 90, false);
+                    path.arcTo(rightX - strokeRadiusRightBottom * 2, bottomY - strokeRadiusRightBottom * 2, rightX, bottomY, 0, 90, false);
+                    path.arcTo(leftX, bottomY - strokeRadiusLeftBottom * 2, leftX + strokeRadiusLeftBottom * 2, bottomY, 90, 90, false);
+                    path.arcTo(leftX, topY, leftX + strokeRadiusLeftTop * 2, topY + strokeRadiusLeftTop * 2, 180, 90, false);
                     break;
                 case BUBBLE_DIRECTION_LEFT:
                     leftX = leftX - arrowHeight;
-                    path.moveTo(leftX + strokeRadiusLeftTop / 2.0F + arrowHeight, topY);
-                    path.arcTo(rightX - strokeRadiusRightTop, topY, rightX, topY + strokeRadiusRightTop, 270, 90, false);
-                    path.arcTo(rightX - strokeRadiusRightBottom, bottomY - strokeRadiusRightBottom, rightX, bottomY, 0, 90, false);
-                    path.arcTo(leftX + arrowHeight, bottomY - strokeRadiusLeftBottom, leftX + strokeRadiusLeftBottom, bottomY, 90, 90, false);
+                    path.moveTo(leftX + strokeRadiusLeftTop + arrowHeight, topY);
+                    path.arcTo(rightX - strokeRadiusRightTop * 2, topY, rightX, topY + strokeRadiusRightTop * 2, 270, 90, false);
+                    path.arcTo(rightX - strokeRadiusRightBottom * 2, bottomY - strokeRadiusRightBottom * 2, rightX, bottomY, 0, 90, false);
+                    path.arcTo(leftX + arrowHeight, bottomY - strokeRadiusLeftBottom * 2, leftX + strokeRadiusLeftBottom * 2, bottomY, 90, 90, false);
                     path.lineTo(leftX + arrowHeight, topY + arrowTopOffset + arrowWidth);
                     path.lineTo(leftX, topY + arrowTopOffset + arrowWidth / 2.0F);
                     path.lineTo(leftX + arrowHeight, topY + arrowTopOffset);
-                    path.lineTo(leftX + arrowHeight, topY + strokeRadiusLeftTop / 2.0F);
-                    path.arcTo(leftX + arrowHeight, topY, leftX + arrowHeight + strokeRadiusLeftTop, topY + strokeRadiusLeftTop, 180, 90, false);
+                    path.lineTo(leftX + arrowHeight, topY + strokeRadiusLeftTop);
+                    path.arcTo(leftX + arrowHeight, topY, leftX + arrowHeight + strokeRadiusLeftTop * 2, topY + strokeRadiusLeftTop * 2, 180, 90,
+                            false);
                     break;
                 case BUBBLE_DIRECTION_RIGHT:
                     rightX = rightX + arrowHeight;
-                    path.moveTo(leftX + strokeRadiusLeftTop / 2.0F, topY);
-                    path.arcTo(rightX - strokeRadiusRightTop - arrowHeight, topY, rightX - arrowHeight, topY - arrowHeight + strokeRadiusRightTop,
-                            270, 90, false);
+                    path.moveTo(leftX + strokeRadiusLeftTop, topY);
+                    path.arcTo(rightX - strokeRadiusRightTop * 2 - arrowHeight, topY, rightX - arrowHeight,
+                            topY - arrowHeight + strokeRadiusRightTop * 2, 270, 90, false);
                     path.lineTo(rightX - arrowHeight, topY + arrowTopOffset);
                     path.lineTo(rightX, topY + arrowTopOffset + arrowWidth / 2.0F);
                     path.lineTo(rightX - arrowHeight, topY + arrowTopOffset + arrowWidth);
-                    path.arcTo(rightX - strokeRadiusRightBottom - arrowHeight, bottomY - strokeRadiusRightBottom, rightX - arrowHeight, bottomY, 0,
-                            90, false);
-                    path.arcTo(leftX, bottomY - strokeRadiusLeftBottom, leftX + strokeRadiusLeftBottom, bottomY, 90, 90, false);
-                    path.arcTo(leftX, topY, leftX + strokeRadiusLeftTop, topY + strokeRadiusLeftTop, 180, 90, false);
+                    path.arcTo(rightX - strokeRadiusRightBottom * 2 - arrowHeight, bottomY - strokeRadiusRightBottom * 2, rightX - arrowHeight,
+                            bottomY, 0, 90, false);
+                    path.arcTo(leftX, bottomY - strokeRadiusLeftBottom * 2, leftX + strokeRadiusLeftBottom * 2, bottomY, 90, 90, false);
+                    path.arcTo(leftX, topY, leftX + strokeRadiusLeftTop * 2, topY + strokeRadiusLeftTop * 2, 180, 90, false);
                     break;
                 case BUBBLE_DIRECTION_TOP:
                     topY -= arrowHeight;
-                    path.moveTo(leftX + strokeRadiusLeftTop / 2.0F, topY + arrowHeight);
+                    path.moveTo(leftX + strokeRadiusLeftTop, topY + arrowHeight);
                     path.lineTo(leftX + arrowLeftOffset, topY + arrowHeight);
                     path.lineTo(leftX + arrowLeftOffset + arrowWidth / 2.0F, topY);
                     path.lineTo(leftX + arrowLeftOffset + arrowWidth, topY + arrowHeight);
-                    path.arcTo(rightX - strokeRadiusRightTop, topY + arrowHeight, rightX, topY + arrowHeight + strokeRadiusRightTop, 270, 90, false);
-                    path.arcTo(rightX - strokeRadiusRightBottom, bottomY - strokeRadiusRightBottom, rightX, bottomY, 0, 90, false);
-                    path.arcTo(leftX, bottomY - strokeRadiusLeftBottom, leftX + strokeRadiusLeftBottom, bottomY, 90, 90, false);
-                    path.arcTo(leftX, topY + arrowHeight, leftX + strokeRadiusLeftTop, topY + arrowHeight + strokeRadiusLeftTop, 180, 90, false);
+                    path.arcTo(rightX - strokeRadiusRightTop * 2, topY + arrowHeight, rightX, topY + arrowHeight + strokeRadiusRightTop * 2, 270, 90,
+                            false);
+                    path.arcTo(rightX - strokeRadiusRightBottom * 2, bottomY - strokeRadiusRightBottom * 2, rightX, bottomY, 0, 90, false);
+                    path.arcTo(leftX, bottomY - strokeRadiusLeftBottom * 2, leftX + strokeRadiusLeftBottom * 2, bottomY, 90, 90, false);
+                    path.arcTo(leftX, topY + arrowHeight, leftX + strokeRadiusLeftTop * 2, topY + arrowHeight + strokeRadiusLeftTop * 2, 180, 90,
+                            false);
                     break;
                 case BUBBLE_DIRECTION_BOTTOM:
                     bottomY += arrowHeight;
-                    path.moveTo(leftX + strokeRadiusLeftTop / 2.0F, topY);
-                    path.arcTo(rightX - strokeRadiusRightTop, topY, rightX, topY + strokeRadiusRightTop, 270, 90, false);
-                    path.arcTo(rightX - strokeRadiusRightBottom, bottomY - strokeRadiusRightBottom - arrowHeight, rightX, bottomY - arrowHeight, 0,
-                            90, false);
+                    path.moveTo(leftX + strokeRadiusLeftTop, topY);
+                    path.arcTo(rightX - strokeRadiusRightTop * 2, topY, rightX, topY + strokeRadiusRightTop * 2, 270, 90, false);
+                    path.arcTo(rightX - strokeRadiusRightBottom * 2, bottomY - strokeRadiusRightBottom * 2 - arrowHeight, rightX,
+                            bottomY - arrowHeight, 0, 90, false);
                     path.lineTo(leftX + arrowLeftOffset + arrowWidth, bottomY - arrowHeight);
                     path.lineTo(leftX + arrowLeftOffset + arrowWidth / 2.0F, bottomY);
                     path.lineTo(leftX + arrowLeftOffset, bottomY - arrowHeight);
-                    path.arcTo(leftX, bottomY - arrowHeight - strokeRadiusLeftBottom, leftX + strokeRadiusLeftBottom, bottomY - arrowHeight, 90, 90,
-                            false);
-                    path.arcTo(leftX, topY, leftX + strokeRadiusLeftTop, topY + strokeRadiusLeftTop, 180, 90, false);
+                    path.arcTo(leftX, bottomY - arrowHeight - strokeRadiusLeftBottom * 2, leftX + strokeRadiusLeftBottom * 2, bottomY - arrowHeight,
+                            90, 90, false);
+                    path.arcTo(leftX, topY, leftX + strokeRadiusLeftTop * 2, topY + strokeRadiusLeftTop * 2, 180, 90, false);
                     break;
                 default:
                     break;
@@ -311,14 +313,14 @@ public class AvlwBubbleLayout extends ConstraintLayout {
                 } else if (arrowOffsetBottom != 0) {
                     top = height - arrowOffsetBottom - arrowWidth;
                 }
-                if (top < strokeRadiusLeftTop / 2.0F) {
+                if (top < strokeRadiusLeftTop) {
                     arrowWidth = 0;
                     arrowHeight = 0;
-                    top = strokeRadiusLeftTop / 2.0F;
-                } else if (top > height - strokeRadiusRightTop / 2.0F) {
+                    top = strokeRadiusLeftTop;
+                } else if (top > height - strokeRadiusRightTop) {
                     arrowWidth = 0;
                     arrowHeight = 0;
-                    top = height - strokeRadiusRightTop / 2.0F;
+                    top = height - strokeRadiusRightTop;
                 }
                 break;
             case BUBBLE_DIRECTION_RIGHT:
@@ -331,14 +333,14 @@ public class AvlwBubbleLayout extends ConstraintLayout {
                 } else if (arrowOffsetBottom != 0) {
                     top = height - arrowOffsetBottom - arrowWidth;
                 }
-                if (top < strokeRadiusLeftBottom / 2.0F) {
+                if (top < strokeRadiusLeftBottom) {
                     arrowWidth = 0;
                     arrowHeight = 0;
-                    top = strokeRadiusLeftBottom / 2.0F;
-                } else if (top > height - strokeRadiusRightBottom / 2.0F) {
+                    top = strokeRadiusLeftBottom;
+                } else if (top > height - strokeRadiusRightBottom) {
                     arrowWidth = 0;
                     arrowHeight = 0;
-                    top = height - strokeRadiusRightBottom / 2.0F;
+                    top = height - strokeRadiusRightBottom;
                 }
                 break;
             default:
@@ -365,14 +367,14 @@ public class AvlwBubbleLayout extends ConstraintLayout {
                 } else if (arrowOffsetRight != 0) {
                     left = width - arrowOffsetRight - arrowWidth;
                 }
-                if (left < (strokeRadiusLeftTop / 2.0F)) {
+                if (left < (strokeRadiusLeftTop)) {
                     arrowWidth = 0;
                     arrowHeight = 0;
-                    left = strokeRadiusLeftTop / 2.0F;
-                } else if (left > (width - strokeRadiusRightTop / 2.0F)) {
+                    left = strokeRadiusLeftTop;
+                } else if (left > (width - strokeRadiusRightTop)) {
                     arrowWidth = 0;
                     arrowHeight = 0;
-                    left = width - strokeRadiusRightTop / 2.0F;
+                    left = width - strokeRadiusRightTop;
                 }
                 break;
             case BUBBLE_DIRECTION_BOTTOM:
@@ -385,14 +387,14 @@ public class AvlwBubbleLayout extends ConstraintLayout {
                 } else if (arrowOffsetRight != 0) {
                     left = width - arrowOffsetRight - arrowWidth;
                 }
-                if (left < strokeRadiusLeftBottom / 2.0F) {
+                if (left < strokeRadiusLeftBottom) {
                     arrowWidth = 0;
                     arrowHeight = 0;
-                    left = strokeRadiusLeftBottom / 2.0F;
-                } else if (left > width - strokeRadiusRightBottom / 2.0F) {
+                    left = strokeRadiusLeftBottom;
+                } else if (left > width - strokeRadiusRightBottom) {
                     arrowWidth = 0;
                     arrowHeight = 0;
-                    left = width - strokeRadiusRightBottom / 2.0F;
+                    left = width - strokeRadiusRightBottom;
                 }
                 break;
             default:
