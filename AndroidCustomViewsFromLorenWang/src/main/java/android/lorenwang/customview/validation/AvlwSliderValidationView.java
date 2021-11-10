@@ -49,7 +49,7 @@ public class AvlwSliderValidationView extends ConstraintLayout {
     private int offset = 0;
 
     /**
-     * 移动最大距离，-1代表着不限制
+     * 移动最大距离，-1_代表着不限制
      */
     private int moveMaxWidth = -1;
     private float moveMaxWidthPercent = -1;
@@ -104,12 +104,10 @@ public class AvlwSliderValidationView extends ConstraintLayout {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwSliderValidationView);
-        touchViewId = attributes.getResourceId(R.styleable.AvlwSliderValidationView_avlwSliderValidationViewTouchView, -1);
-        moveViewId = attributes.getResourceId(R.styleable.AvlwSliderValidationView_avlwSliderValidationViewMoveView, -1);
-        moveMaxWidthPercent = attributes.getFloat(R.styleable.AvlwSliderValidationView_avlwSliderValidationViewMoveMaxWidthPercent,
-                moveMaxWidthPercent);
-        moveConfirmWidthPercent = attributes.getFloat(R.styleable.AvlwSliderValidationView_avlwSliderValidationViewMoveConfirmWidthPercent,
-                moveConfirmWidthPercent);
+        touchViewId = attributes.getResourceId(R.styleable.AvlwSliderValidationView_avlw_svv_touchView, -1);
+        moveViewId = attributes.getResourceId(R.styleable.AvlwSliderValidationView_avlw_svv_moveView, -1);
+        moveMaxWidthPercent = attributes.getFloat(R.styleable.AvlwSliderValidationView_avlw_svv_moveMaxWidthPercent, moveMaxWidthPercent);
+        moveConfirmWidthPercent = attributes.getFloat(R.styleable.AvlwSliderValidationView_avlw_svv_moveConfirmWidthPercent, moveConfirmWidthPercent);
         attributes.recycle();
     }
 

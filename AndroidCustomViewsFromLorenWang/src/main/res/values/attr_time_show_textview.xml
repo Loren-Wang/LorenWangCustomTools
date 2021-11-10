@@ -2,10 +2,10 @@
 <resources>
     <declare-styleable name="AvlwTimeShowTextView">
         <!--显示文本的模板，替换的位置使用{位置}做标记，例：{0}-{1}范围内有降雨-->
-        <attr name="avlwShowTextTemplate" format="string" />
+        <attr name="avlw_tst_showTextTemplate" format="string" />
         <!--时间的格式起始值的格式类型-->
-        <attr name="avlwFormatPatternStart" format="string" />
+        <attr name="avlw_tst_formatPatternStart" format="string" />
         <!--时间的格式结束值的格式类型-->
-        <attr name="avlwFormatPatternEnd" format="string" />
+        <attr name="avlw_tst_formatPatternEnd" format="string" />
     </declare-styleable>
 </resources>

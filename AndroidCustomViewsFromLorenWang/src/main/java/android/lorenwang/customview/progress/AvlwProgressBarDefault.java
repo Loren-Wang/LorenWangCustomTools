@@ -49,13 +49,13 @@ class AvlwProgressBarDefault extends AvlwProgressBarBase {
     public void init(Context context, AvlwProgressBar avlwProgressBar, TypedArray attributes) {
         super.init(context, avlwProgressBar, attributes);
         //背景图片
-        progressBgDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlwProgressBgImage);
+        progressBgDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlw_pb_progressBgImage);
         //进度条图片
-        progressShowDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlwProgressImage);
+        progressShowDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlw_pb_progressImage);
         //进度条背景高度
-        progressBgHeight = attributes.getDimension(R.styleable.AvlwProgressBar_avlwProgressBgHeight, progressBgHeight);
+        progressBgHeight = attributes.getDimension(R.styleable.AvlwProgressBar_avlw_pb_progressBgHeight, progressBgHeight);
         //进度条高度（居中背景）
-        progressHeight = attributes.getDimension(R.styleable.AvlwProgressBar_avlwProgressHeight, progressHeight);
+        progressHeight = attributes.getDimension(R.styleable.AvlwProgressBar_avlw_pb_progressHeight, progressHeight);
         if (progressHeight > progressBgHeight) {
             progressHeight = progressBgHeight;
         }
@@ -122,8 +122,6 @@ class AvlwProgressBarDefault extends AvlwProgressBarBase {
         if (progressShowDrawable != null && showProgressWidth > 0 && showProgressHeight > 0) {
             //缓存进度百分比为0-1
             showRect.right = (int) (left + showProgressWidth * progress);
-            //释放旧的位图
-            AtlwImageCommonUtil.getInstance().releaseBitmap(bitmap);
             if (showRect.width() > 0 && showRect.height() > 0) {
                 //获取当前显示位图
                 bitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(progressShowDrawable, showRect.width(), showRect.height());

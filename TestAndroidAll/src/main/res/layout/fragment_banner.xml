@@ -9,7 +9,7 @@
         android:id="@+id/bvBanner"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:avlwBvAutoCycle="true"
+        app:avlw_bv_autoCycle="true"
         android:layout_width="300dp"
         android:layout_height="300dp"
         tools:ignore="MissingPrefix" />

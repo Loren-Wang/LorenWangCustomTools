@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.customView.titlebar.TitleBarHeadViewActivity">
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_1"
+        app:avlw_tbh_titleText="标题"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_2"
+        app:avlw_tbh_titleText="标题"
+        app:avlw_tbh_rightBtnText="操作"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_3"
+        app:avlw_tbh_titleText="标题"
+        app:avlw_tbh_rightBtnText="操作"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_4"
+        app:avlw_tbh_titleText="标题"
+        app:avlw_tbh_leftBtnText="后退"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_5"
+        app:avlw_tbh_leftBtnText="后退"
+        app:avlw_tbh_rightBtnText="操作"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_6"
+        app:avlw_tbh_rightBtnText="操作"
+        app:avlw_tbh_rightDistanceTop="10dp"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_7"
+        app:avlw_tbh_titleText="标题"
+        app:avlw_tbh_rightWidth="40dp"
+        app:avlw_tbh_rightDistanceLeft="10dp"
+        app:avlw_tbh_rightDistanceRight="10dp"
+        app:avlw_tbh_rightDistanceTop="10dp"
+        app:avlw_tbh_rightBgRes="@mipmap/ic_launcher"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_8"
+        app:avlw_tbh_titleText="标题"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.titlebar.AvlwTitleBarHeadView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:avlw_tbh_layoutType="LAYOUT_TYPE_9"
+        tools:ignore="MissingPrefix" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

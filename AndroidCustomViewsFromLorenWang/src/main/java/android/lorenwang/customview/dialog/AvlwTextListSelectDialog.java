@@ -1,18 +1,11 @@
 package android.lorenwang.customview.dialog;
 
 import android.app.Activity;
-import android.lorenwang.customview.R;
 import android.lorenwang.customview.radiogroup.AvlwTextListSelectRadioGroup;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * 功能作用：文本列表选择弹窗
@@ -27,22 +20,12 @@ import androidx.appcompat.widget.AppCompatTextView;
  *
  * @author 王亮（Loren wang）
  */
-
-public class AvlwTextListSelectDialog<T extends AvlwTextListSelectRadioGroup.SelectItemBean> extends AvlwBaseBottomDialog {
-    /**
-     * 标题
-     */
-    private final AppCompatTextView tvTitle;
-
-    /**
-     * 提示
-     */
-    private final AppCompatTextView tvHint;
+public abstract class AvlwTextListSelectDialog<T extends AvlwTextListSelectRadioGroup.SelectItemBean> extends AvlwBaseDialog {
 
     /**
      * 选择列表
      */
-    private final AvlwTextListSelectRadioGroup<T> rgSelect;
+    private AvlwTextListSelectRadioGroup rgSelect;
 
     /**
      * 当前选择
@@ -59,46 +42,17 @@ public class AvlwTextListSelectDialog<T extends AvlwTextListSelectRadioGroup.Sel
      */
     private AvlwTextListSelectRadioGroup.OnSelectChangeListener<T> useSelectListener;
 
-    public AvlwTextListSelectDialog(Activity context) {
-        super(context, R.layout.avlw_dialog_text_select, false,
-                ViewGroup.LayoutParams.MATCH_PARENT, null);
-        tvTitle = view.findViewById(R.id.tvTitle);
-        tvHint = view.findViewById(R.id.tvHint);
-        //关闭按钮
-        AppCompatImageButton imgBtnClose = view.findViewById(R.id.imgBtnClose);
-        //确定按钮
-        AppCompatButton btnConfirm = view.findViewById(R.id.btnConfirm);
-        rgSelect = view.findViewById(R.id.rgSelect);
+    protected AvlwTextListSelectDialog(Activity context) {
+        super(context);
+    }
 
-        imgBtnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-        //选择回调
-        rgSelect.setOnSelectChangeListener(new AvlwTextListSelectRadioGroup.OnSelectChangeListener<T>() {
-            @Override
-            public void selectChanged(int type, T item) {
-                nowSelect = item;
-                nowType = type;
-            }
-        });
-        //确定回调
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setEnabled(false);
-                if (nowType != null && nowSelect != null && useSelectListener != null) {
-                    useSelectListener.selectChanged(nowType, nowSelect);
-                }
-                dismiss();
-                useSelectListener = null;
-                nowSelect = null;
-                nowType = null;
-                v.setEnabled(true);
-            }
-        });
+    protected AvlwTextListSelectDialog(Activity context, int style) {
+        super(context, style);
+    }
+
+    public AvlwTextListSelectDialog(Activity context, int dialogViewLayoutResId, int modelStyleResId, int dialogAnim, boolean isOutSideCancel,
+            Integer showDialogWidth, Integer showDialogHeight, Integer windowGravity) {
+        super(context, dialogViewLayoutResId, modelStyleResId, dialogAnim, isOutSideCancel, showDialogWidth, showDialogHeight, windowGravity);
     }
 
     @Override
@@ -106,29 +60,53 @@ public class AvlwTextListSelectDialog<T extends AvlwTextListSelectRadioGroup.Sel
     }
 
     /**
+     * 设置选择控件
+     *
+     * @param rgSelect 选择控件
+     */
+    public void setRgSelect(AvlwTextListSelectRadioGroup rgSelect) {
+        this.rgSelect = rgSelect;
+        //选择回调
+        rgSelect.setOnSelectChangeListener((type, item) -> {
+            nowSelect = (T) item;
+            nowType = type;
+        });
+    }
+
+    /**
      * 显示文本选择
      *
-     * @param title            标题
-     * @param type             文本列表类型
+     * @param type             文本列表类型(回传的时候自己判断的)
      * @param textList         文本选择列表
      * @param changeListener   改变监听
      * @param defaultSelected  默认选中的文本
      * @param radioButtonStyle 选择radioButton样式
      */
-    public void showTextListSelect(@NonNull String title, String hint, int type, List<T> textList,
-                                   AvlwTextListSelectRadioGroup.OnSelectChangeListener<T> changeListener,
-                                   String defaultSelected, @StyleRes Integer radioButtonStyle) {
-        if (hint != null) {
-            tvHint.setVisibility(View.VISIBLE);
-            tvHint.setText(hint);
-        } else {
-            tvHint.setVisibility(View.GONE);
-        }
-        tvTitle.setText(title);
+    public void showTextListSelect(int type, List<T> textList, AvlwTextListSelectRadioGroup.OnSelectChangeListener<T> changeListener,
+            String defaultSelected, @StyleRes Integer radioButtonStyle) {
         this.useSelectListener = changeListener;
         if (textList != null) {
             rgSelect.setList(type, textList, defaultSelected, radioButtonStyle);
         }
         super.show();
+    }
+
+
+    /**
+     * 清除配置信息
+     */
+    public void clear() {
+        useSelectListener = null;
+        nowSelect = null;
+        nowType = null;
+    }
+
+    /**
+     * 回调选择
+     */
+    public void callbackSelect() {
+        if (nowType != null && nowSelect != null && useSelectListener != null) {
+            useSelectListener.selectChanged(nowType, nowSelect);
+        }
     }
 }

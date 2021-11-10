@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".activity.customView.CalendarActivity"
+    tools:ignore="MissingPrefix">
+
+    <android.lorenwang.customview.calendar.AvlwCalendarView
+        android:id="@+id/timeShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:avlw_caledar_selecOne="false"
+        app:avlw_caledar_showOnlyMonth="true"
+        app:avlw_caledar_useAutoHeight="false"
+        app:avlw_caledar_weekFirst="monday" />
+
+</FrameLayout>

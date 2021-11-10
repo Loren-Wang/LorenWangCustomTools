@@ -2,7 +2,6 @@ package android.lorenwang.tools.location;
 
 import android.lorenwang.tools.app.AtlwActivityUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
-import android.lorenwang.tools.location.enums.AtlwLocationLibraryTypeEnum;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author 王亮（Loren）
  */
-public class AtlwLocationUtil implements AtlwLocationLibraryBase {
+public class AtlwLocationUtil extends AtlwLocationLibraryBase {
     private final String TAG = getClass().getName();
     private static volatile AtlwLocationUtil optionsInstance;
 
@@ -34,6 +33,11 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
      * 定位类型
      */
     private AtlwLocationLibraryBase locationLibrary = new AtlwLocationLibraryDefault();
+
+    /**
+     * 使用的定位库
+     */
+    private AtlwLocationTypeEnum libraryTypeEnum = AtlwLocationTypeEnum.DEVICES;
 
     private AtlwLocationUtil() {
     }
@@ -56,8 +60,8 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
      * @return 有权限返回true
      */
     @Override
-    public boolean checPermissions(@NotNull AtlwLocationConfig config) {
-        return locationLibrary.checPermissions(config);
+    public boolean checkPermissions(@NotNull AtlwLocationConfig config) {
+        return locationLibrary.checkPermissions(config);
     }
 
     /**
@@ -67,6 +71,8 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
      */
     @Override
     public void startNetworkPositioning(@NotNull AtlwLocationConfig config) {
+        stopLoopPositioning();
+        setLocationLibraryType(libraryTypeEnum);
         locationLibrary.startNetworkPositioning(config);
     }
 
@@ -77,6 +83,8 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
      */
     @Override
     public void startDevicesPositioning(@NotNull AtlwLocationConfig config) {
+        stopLoopPositioning();
+        setLocationLibraryType(libraryTypeEnum);
         locationLibrary.startDevicesPositioning(config);
     }
 
@@ -87,6 +95,8 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
      */
     @Override
     public void startAccuratePositioning(@NotNull AtlwLocationConfig config) {
+        stopLoopPositioning();
+        setLocationLibraryType(libraryTypeEnum);
         locationLibrary.startAccuratePositioning(config);
     }
 
@@ -121,20 +131,26 @@ public class AtlwLocationUtil implements AtlwLocationLibraryBase {
      *
      * @param locationLibraryType 定位库类型
      */
-    public void setLocationLibraryType(AtlwLocationLibraryTypeEnum locationLibraryType) {
-        switch (locationLibraryType) {
+    public void setLocationLibraryType(AtlwLocationTypeEnum locationLibraryType) {
+        libraryTypeEnum = locationLibraryType;
+        if (locationLibrary != null) {
+            locationLibrary.stopLoopPositioning();
+            locationLibrary.release();
+        }
+        switch (locationLibraryType.getLocationUseLibrary()) {
             case BAIDU:
-                locationLibrary = new AtlwLocationLibraryBaiDu();
+                this.locationLibrary = new AtlwLocationLibraryBaiDu();
                 break;
             case GAODE:
-                locationLibrary = new AtlwLocationLibraryGaoDe();
+                this.locationLibrary = new AtlwLocationLibraryGaoDe();
                 break;
             case TENCENT:
-                locationLibrary = new AtlwLocationLibraryTencent();
-            case DEFAULT:
-            default:
+                this.locationLibrary = new AtlwLocationLibraryTencent();
                 break;
-
+            case DEVICES:
+            default:
+                this.locationLibrary = new AtlwLocationLibraryDefault();
+                break;
         }
     }
 }

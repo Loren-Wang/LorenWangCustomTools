@@ -87,45 +87,32 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
     public void init(Context context, AvlwProgressBar avlwProgressBar, TypedArray attributes) {
         super.init(context, avlwProgressBar, attributes);
         //当前缓存进度
-        progressCache = attributes.getFloat(R.styleable.AvlwProgressBar_avlwProgressCache,
-                progressCache);
+        progressCache = attributes.getFloat(R.styleable.AvlwProgressBar_avlw_pb_progressCache, progressCache);
         if (progressCache > 1) {
             progressCache = 1;
         } else if (progress < 0) {
             progressCache = 0;
         }
         //背景图片
-        progressBgDrawable =
-                attributes.getDrawable(R.styleable.AvlwProgressBar_avlwProgressBgImage);
+        progressBgDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlw_pb_progressBgImage);
         //进度条图片
-        progressShowDrawable =
-                attributes.getDrawable(R.styleable.AvlwProgressBar_avlwProgressImage);
+        progressShowDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlw_pb_progressImage);
         //已缓存部分进度条图片
-        progressCacheDrawable =
-                attributes.getDrawable(R.styleable.AvlwProgressBar_avlwProgressCacheImage);
+        progressCacheDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlw_pb_progressCacheImage);
         //当前进度条图片
-        progressCurrentDrawable =
-                attributes.getDrawable(R.styleable.AvlwProgressBar_avlwProgressCurrentImage);
+        progressCurrentDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlw_pb_progressCurrentImage);
 
         //进度条背景高度（大模式显示）
-        progressBigHeight =
-                attributes.getDimension(R.styleable.AvlwProgressBar_avlwProgressBigHeight,
-                        progressBigHeight);
+        progressBigHeight = attributes.getDimension(R.styleable.AvlwProgressBar_avlw_pb_progressBigHeight, progressBigHeight);
 
         //进度条背景高度（小模式显示）
-        progressSmallHeight =
-                attributes.getDimension(R.styleable.AvlwProgressBar_avlwProgressSmallHeight,
-                        progressSmallHeight);
+        progressSmallHeight = attributes.getDimension(R.styleable.AvlwProgressBar_avlw_pb_progressSmallHeight, progressSmallHeight);
 
         //进度当前进度点高度
-        progressCurrentHeight =
-                attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlwProgressCurrentHeight,
-                        progressCurrentHeight);
+        progressCurrentHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlw_pb_progressCurrentHeight, progressCurrentHeight);
 
         //进度当前进度点宽度
-        progressCurrentWidth =
-                attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlwProgressCurrentWidth,
-                        progressCurrentWidth);
+        progressCurrentWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlw_pb_progressCurrentWidth, progressCurrentWidth);
         //设置是否显示大模式
         setShowBig(showBig);
     }
@@ -198,8 +185,6 @@ class AvlwProgressBarVideoPlay extends AvlwProgressBarBase {
         if (progressCacheDrawable != null && showProgressWidth > 0 && showProgressHeight > 0) {
             //缓存进度百分比为0-1
             showRect.right = (int) (left + showProgressWidth * progressCache);
-            //释放旧的位图
-            AtlwImageCommonUtil.getInstance().releaseBitmap(bitmap);
             if (showRect.width() > 0 && showRect.height() > 0) {
                 //获取当前显示位图
                 bitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(progressCacheDrawable,

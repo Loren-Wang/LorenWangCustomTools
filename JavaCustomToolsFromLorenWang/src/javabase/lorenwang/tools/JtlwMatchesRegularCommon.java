@@ -192,9 +192,17 @@ public class JtlwMatchesRegularCommon {
      */
     public static final String EXP_ALL_INTEGET_AND_ZERO = "^-?[0-9]\\d*$";
     /**
-     * 匹配车牌号
+     * 匹配车牌号-中国民用
      */
-    public static final String EXP_CAR_LICENSE_NUM = "[a-zA-Z]{1}[0-9a-zA-Z]{5,6}";
+    public static final String EXP_CAR_LICENSE_NUM_CHINA_CIVIL = "^[京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][a-zA-Z]([0-9a-zA-Z]{5,6})|([0-9a-zA-Z]{4}[港澳学挂领试超练])$";
+    /**
+     * 匹配车牌号-中国民用-挂车
+     */
+    public static final String EXP_CAR_LICENSE_NUM_CHINA_CIVIL_GUA = "^[京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][a-zA-Z][0-9a-zA-Z]{4}挂$";
+    /**
+     * 在中国国内大使馆车牌号
+     */
+    public static final String EXP_CAR_LICENSE_NUM_IN_CHINA_EMBASSY = "(^[1-3][0-9]{2}[0-9a-zA-Z]{3}使$)|(^使[1-3][0-9]{2}[0-9a-zA-Z]{3}$)";
     /**
      * mac地址
      */

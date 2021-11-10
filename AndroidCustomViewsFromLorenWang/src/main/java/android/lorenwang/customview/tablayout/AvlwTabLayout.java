@@ -21,7 +21,7 @@ import java.util.List;
 
 import androidx.annotation.FloatRange;
 import androidx.annotation.Nullable;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：tablayout自定义控件
@@ -580,7 +580,7 @@ public class AvlwTabLayout extends View implements AvlwBaseTabLayout {
      * @return 位置信息，如果查找不到返回null
      */
     public Integer getTextPosition(String text) {
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(text)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(text)) {
             int indexOf = tabTextList.indexOf(text);
             if (indexOf >= 0) {
                 return indexOf;

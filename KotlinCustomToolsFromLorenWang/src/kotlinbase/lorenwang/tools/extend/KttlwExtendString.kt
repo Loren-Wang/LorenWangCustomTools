@@ -1,7 +1,7 @@
 package kotlinbase.lorenwang.tools.extend
 
-import javabase.lorenwang.dataparse.JdplwJsonUtils
-import javabase.lorenwang.tools.common.JtlwCommonUtils
+import javabase.lorenwang.dataparse.JdplwJsonUtil
+import javabase.lorenwang.tools.common.JtlwCommonUtil
 
 /**
  * 功能作用：字符串相关函数扩展
@@ -20,7 +20,7 @@ import javabase.lorenwang.tools.common.JtlwCommonUtils
  */
 fun <T> String.kttlwParseJsonData(cls: Class<T>): T? {
     return try {
-        JdplwJsonUtils.fromJson(this, cls)
+        JdplwJsonUtil.fromJson(this, cls)
     } catch (e: Exception) {
         null
     }
@@ -48,7 +48,7 @@ fun String?.kttlwIsLongTime(): Boolean {
  * 将字符串转为驼峰法
  */
 fun String?.kttlwToCamelCase(): String? {
-    return JtlwCommonUtils.getInstance().toCamelCase(this)
+    return JtlwCommonUtil.getInstance().toCamelCase(this)
 }
 
 /**
@@ -57,7 +57,7 @@ fun String?.kttlwToCamelCase(): String? {
  * @return 分离后字符
  */
 fun String?.kttlwToSeparatedCase(separated: String?): String? {
-    return JtlwCommonUtils.getInstance().toSeparatedCase(this, separated)
+    return JtlwCommonUtil.getInstance().toSeparatedCase(this, separated)
 }
 
 /**

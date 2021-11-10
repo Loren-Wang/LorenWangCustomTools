@@ -1,6 +1,7 @@
 package android.lorenwang.tools.location.config;
 
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback;
+import android.lorenwang.tools.location.AtlwLocationTypeEnum;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,8 +27,10 @@ public abstract class AtlwLocationCallback implements AtlwPermissionRequestCallb
     /**
      * 定位信息获取成功
      *
+     * @param type
+     * @param config
      * @param bean             定位信息
      * @param locationIsChange 定位信息是否有改变
      */
-    public abstract void locationResultSuccess(@NotNull AtlwLocationResultBean bean, boolean locationIsChange);
+    public abstract void locationResultSuccess(AtlwLocationTypeEnum type, AtlwLocationConfig config, @NotNull AtlwLocationResultBean bean, boolean locationIsChange);
 }

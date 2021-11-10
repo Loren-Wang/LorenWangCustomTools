@@ -9,11 +9,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.testapp"
+        applicationId "com.lorenwang.test.android"
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         multiDexEnabled true // 解决类名重复的问题
 
     }
@@ -100,19 +100,35 @@ dependencies {
 
 
     //列表数据加载
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
-    //1.0.5及以前版本的老用户升级需谨慎，API改动过大
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
+    compileOnly 'com.scwang.smart:refresh-layout-kernel:2.0.3'
+    //列表数据加载-经典刷新头
+    compileOnly  'com.scwang.smart:refresh-header-classics:2.0.3'
+    //列表数据加载-雷达刷新头
+    compileOnly  'com.scwang.smart:refresh-header-radar:2.0.3'
+    //列表数据加载-虚拟刷新头
+    compileOnly  'com.scwang.smart:refresh-header-falsify:2.0.3'
+    //列表数据加载-谷歌刷新头
+    compileOnly  'com.scwang.smart:refresh-header-material:2.0.3'
+    //列表数据加载-二级刷新头
+    compileOnly  'com.scwang.smart:refresh-header-two-level:2.0.3'
+    //列表数据加载-球脉冲加载
+    compileOnly  'com.scwang.smart:refresh-footer-ball:2.0.3'
+    //列表数据加载-经典加载
+    compileOnly  'com.scwang.smart:refresh-footer-classics:2.0.3'
 
     //地图定位库
     implementation 'com.amap.api:location:latest.integration'
+    //百度定位库
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Location_All:9.1.8'
+    //腾讯定位库
+    implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.3.0'
 
     //阿里云视频播放器库
     implementation 'com.aliyun.sdk.android:AliyunPlayer:4.5.0-full'
     implementation 'com.alivc.conan:AlivcConan:0.9.5'
 
     //图片选择框架
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
+    implementation 'io.github.lucksiege:pictureselector:v2.7.3-rc03'
     // RxJava 引用
     api 'io.reactivex.rxjava2:rxjava:2.2.13'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'

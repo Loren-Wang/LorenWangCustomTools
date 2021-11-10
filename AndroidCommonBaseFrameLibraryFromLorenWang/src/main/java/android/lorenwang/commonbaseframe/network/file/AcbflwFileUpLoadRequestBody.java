@@ -1,9 +1,10 @@
 package android.lorenwang.commonbaseframe.network.file;
 
+import android.lorenwang.commonbaseframe.bean.AcbflwBaseRepBean;
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback;
+
 import java.io.IOException;
 
-import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.Buffer;
@@ -23,13 +24,13 @@ import okio.Okio;
  * 备注：
  */
 
-class AcbflwFileUpLoadRequestBody<D, T extends KttlwBaseNetResponseBean<D>> extends RequestBody {
+class AcbflwFileUpLoadRequestBody<D, T extends AcbflwBaseRepBean<D>> extends RequestBody {
     private final RequestBody requestBody;
-    private final AcbflwNetOptionsByModelCallback<D,T> callback;
+    private final AcbflwNetOptionsByModelCallback<D, T> callback;
     private final AcbflwFileUpLoadBean bean;
     private BufferedSink bufferedSink;
 
-    public AcbflwFileUpLoadRequestBody(RequestBody requestBody, AcbflwNetOptionsByModelCallback<D,T> callback, AcbflwFileUpLoadBean bean) {
+    public AcbflwFileUpLoadRequestBody(RequestBody requestBody, AcbflwNetOptionsByModelCallback<D, T> callback, AcbflwFileUpLoadBean bean) {
         this.requestBody = requestBody;
         this.callback = callback;
         this.bean = bean;

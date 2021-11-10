@@ -1,6 +1,7 @@
 package android.lorenwang.customview.texiview;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
@@ -22,14 +23,25 @@ import androidx.appcompat.widget.AppCompatTextView;
 public class AvlwMarqueeTextView extends AppCompatTextView {
     public AvlwMarqueeTextView(Context context) {
         super(context);
+        initConfig();
     }
 
     public AvlwMarqueeTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initConfig();
     }
 
     public AvlwMarqueeTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initConfig();
+    }
+
+    private void initConfig() {
+        setMaxLines(1);
+        setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        setMarqueeRepeatLimit(Integer.MAX_VALUE);
+        setSingleLine();
+        setHorizontallyScrolling(true);
     }
 
     @Override

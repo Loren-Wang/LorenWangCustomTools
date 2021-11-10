@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00f"
-    tools:context=".activity.viewpager.ViewPager2Fragment">
+    tools:context=".activity.customView.viewpager.ViewPager2Fragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

@@ -1,6 +1,6 @@
 package android.lorenwang.commonbaseframe.network.callback
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 
 /**
@@ -20,7 +20,7 @@ abstract class AcbflwRepDataOptionsCallback<D, T : KttlwBaseNetResponseBean<D>>(
         if (emptyData) {
             //如果是空数据，则则构造数据返回
             repOptionsData()
-        } else if (JtlwCheckVariateUtils.getInstance().isEmpty(data.data)) {
+        } else if (JtlwCheckVariateUtil.getInstance().isEmpty(data.data)) {
             repDataError(null, null)
         } else {
             repOptionsData(data = data.data!!)

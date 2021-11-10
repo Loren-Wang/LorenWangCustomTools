@@ -3,6 +3,7 @@ package android.lorenwang.commonbaseframe.pulgins.login;
 import android.app.Activity;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginCallBack;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
 import android.lorenwang.tools.base.AtlwLogUtil;
 
@@ -15,8 +16,8 @@ import com.tencent.tauth.Tencent;
 
 import org.jetbrains.annotations.NotNull;
 
-import javabase.lorenwang.dataparse.JdplwJsonUtils;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.dataparse.JdplwJsonUtil;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：登陆工具类
@@ -52,15 +53,17 @@ public class AcbflwLoginUtil {
      * 微信登陆
      */
     public void loginToWeChat(AcbflwPluginCallBack callBack) {
-        AtlwLogUtil.logUtils.logI(TAG, "准备发送微信登陆");
-        // send oauth request
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        String key = String.valueOf(callBack.hashCode());
-        AcbflwPluginUtil.getInstance().setWeChatLoginCallbackKey(key);
-        AcbflwPluginUtil.getInstance().addCallBack(key, callBack);
-        AcbflwPluginUtil.getInstance().getApi().sendReq(req);
+        if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT) != null) {
+            AtlwLogUtil.logUtils.logI(TAG, "准备发送微信登陆");
+            // send oauth request
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            String key = String.valueOf(callBack.hashCode());
+            AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).setWeChatLoginCallbackKey(key);
+            AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT).addCallBack(key, callBack);
+            AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getApi().sendReq(req);
+        }
     }
 
     /**
@@ -69,25 +72,28 @@ public class AcbflwLoginUtil {
      * @param callBack 回调
      */
     public void loginToSina(@NotNull Activity activity, @NotNull AcbflwPluginCallBack callBack) {
-        String key = AcbflwPluginUtil.getInstance().sinaKey(activity);
-        AcbflwPluginUtil.getInstance().getSinaApi(activity).authorize(new WbAuthListener() {
-            @Override
-            public void onComplete(Oauth2AccessToken token) {
-                AcbflwPluginUtil.getInstance().callBackInfo(key, token);
-            }
+        if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA) != null) {
+            String key = AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA).sinaKey(activity);
+            AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA).getSinaApi(activity).authorize(new WbAuthListener() {
+                @Override
+                public void onComplete(Oauth2AccessToken token) {
+                    AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT).callBackInfo(key, token);
+                }
 
-            @Override
-            public void onError(UiError error) {
-                AtlwLogUtil.logUtils.logI("loginToSina", JdplwJsonUtils.toJson(error));
-                AcbflwPluginUtil.getInstance().callBackError(key, AcbflwPluginErrorTypeEnum.SINA_LOGIN_AUTH_UN_KNOW_ERROR);
-            }
+                @Override
+                public void onError(UiError error) {
+                    AtlwLogUtil.logUtils.logI("loginToSina", JdplwJsonUtil.toJson(error));
+                    AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT).callBackError(key,
+                            AcbflwPluginErrorTypeEnum.SINA_LOGIN_AUTH_UN_KNOW_ERROR);
+                }
 
-            @Override
-            public void onCancel() {
-                AcbflwPluginUtil.getInstance().callBackError(key, AcbflwPluginErrorTypeEnum.SINA_LOGIN_AUTH_CANCEL);
-            }
-        });
-        AcbflwPluginUtil.getInstance().addCallBack(key, callBack);
+                @Override
+                public void onCancel() {
+                    AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT).callBackError(key, AcbflwPluginErrorTypeEnum.SINA_LOGIN_AUTH_CANCEL);
+                }
+            });
+            AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT).addCallBack(key, callBack);
+        }
     }
 
     /**
@@ -96,31 +102,33 @@ public class AcbflwLoginUtil {
      * @param callBack 回调
      */
     public void loginToQQ(@NotNull Activity activity, String scope, @NotNull AcbflwPluginCallBack callBack) {
-        Tencent qqApi = AcbflwPluginUtil.getInstance().getQqApi();
-        if (!qqApi.isSessionValid()) {
-            qqApi.login(activity, JtlwCheckVariateUtils.getInstance().isEmpty(scope) ? "all" : scope, new IUiListener() {
-                @Override
-                public void onComplete(Object o) {
-                    AtlwLogUtil.logUtils.logI("loginToQQ",JdplwJsonUtils.toJson(o));
-                    callBack.info(o);
-                }
+        if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.QQ) != null) {
+            Tencent qqApi = AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.QQ).getQqApi();
+            if (!qqApi.isSessionValid()) {
+                qqApi.login(activity, JtlwCheckVariateUtil.getInstance().isEmpty(scope) ? "all" : scope, new IUiListener() {
+                    @Override
+                    public void onComplete(Object o) {
+                        AtlwLogUtil.logUtils.logI("loginToQQ", JdplwJsonUtil.toJson(o));
+                        callBack.info(o);
+                    }
 
-                @Override
-                public void onError(com.tencent.tauth.UiError uiError) {
-                    AtlwLogUtil.logUtils.logI("loginToQQ",JdplwJsonUtils.toJson(uiError));
-                    callBack.error(AcbflwPluginErrorTypeEnum.QQ_LOGIN_AUTH_UN_KNOW_ERROR);
-                }
+                    @Override
+                    public void onError(com.tencent.tauth.UiError uiError) {
+                        AtlwLogUtil.logUtils.logI("loginToQQ", JdplwJsonUtil.toJson(uiError));
+                        callBack.error(AcbflwPluginErrorTypeEnum.QQ_LOGIN_AUTH_UN_KNOW_ERROR);
+                    }
 
-                @Override
-                public void onCancel() {
-                    callBack.error(AcbflwPluginErrorTypeEnum.QQ_LOGIN_AUTH_CANCEL);
-                }
+                    @Override
+                    public void onCancel() {
+                        callBack.error(AcbflwPluginErrorTypeEnum.QQ_LOGIN_AUTH_CANCEL);
+                    }
 
-                @Override
-                public void onWarning(int i) {
-                    callBack.error(AcbflwPluginErrorTypeEnum.QQ_LOGIN_AUTH_UN_KNOW_ERROR);
-                }
-            });
+                    @Override
+                    public void onWarning(int i) {
+                        callBack.error(AcbflwPluginErrorTypeEnum.QQ_LOGIN_AUTH_UN_KNOW_ERROR);
+                    }
+                });
+            }
         }
     }
 }

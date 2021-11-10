@@ -1,5 +1,6 @@
 package android.lorenwang.customview.imageview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.BitmapShader;
@@ -19,9 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
 /**
+ * 功能作用：圆角矩形ImageView
  * 创建时间：2019-03-14 上午 10:50:8
  * 创建人：王亮（Loren wang）
- * 功能作用：圆角矩形ImageView
  * 思路：
  * 方法：
  * 注意：
@@ -32,7 +33,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 
 public class AvlwRoundedRectangleImageView extends AppCompatImageView implements AvlwCustomViewCommon {
-    /********************************************绘制参数*******************************************/
+    /*---------------------------------------------绘制参数---------------------------------------------*/
     /**
      * 圆形画笔
      */
@@ -76,7 +77,8 @@ public class AvlwRoundedRectangleImageView extends AppCompatImageView implements
     /**
      * 控件初始化
      */
-    private final void init(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        @SuppressLint("CustomViewStyleable")
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.AllImageview, defStyleAttr, 0);
 
         //初始化圆形画笔
@@ -89,12 +91,16 @@ public class AvlwRoundedRectangleImageView extends AppCompatImageView implements
         borderPaint = new Paint();
         borderPaint.reset();
         borderPaint.setAntiAlias(true);
-        borderPaint.setColor(attr.getColor(R.styleable.AllImageview_allImageBorderColor, Color.TRANSPARENT));
-        borderPaint.setStrokeWidth(attr.getDimension(R.styleable.AllImageview_allImageBorderWidth, 0));
+        borderPaint.setColor(attr.getColor(R.styleable.AllImageview_avlw_aiv_borderColor, Color.TRANSPARENT));
+        borderPaint.setStrokeWidth(attr.getDimension(R.styleable.AllImageview_avlw_aiv_borderWidth, 0));
         borderPaint.setStyle(Paint.Style.STROKE);
 
         //生成圆角的角度数组以及边框角度数组
-        this.generateRoundedRectangleAngles(attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngle, 0.0F), attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftTop, 0.0F), attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightTop, 0.0F), attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftBottom, 0.0F), attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightBottom, 0.0F));
+        this.generateRoundedRectangleAngles(attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngle, 0.0F),
+                attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngleLeftTop, 0.0F),
+                attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngleRightTop, 0.0F),
+                attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngleLeftBottom, 0.0F),
+                attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngleRightBottom, 0.0F));
 
         attr.recycle();
     }
@@ -110,14 +116,10 @@ public class AvlwRoundedRectangleImageView extends AppCompatImageView implements
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (canvas != null) {
 //            //画圆形
 //            canvas.drawCircle(getWidth() / 2, getHeight() / 2, (int) (Math.min(getWidth(), getHeight()) * 1.0 / 2) - borderPaint.getStrokeWidth(), contentPaint);
-            //画边框
-            canvas.drawPath(getRoundedRectanglePath(null,0,0,getWidth(),getHeight(),this.roundedRectangleAngles),contentPaint);
-        } else {
-            super.onDraw(canvas);
-        }
+        //画边框
+        canvas.drawPath(getRoundedRectanglePath(getWidth(), getHeight(), this.roundedRectangleAngles), contentPaint);
     }
 
 
@@ -156,26 +158,15 @@ public class AvlwRoundedRectangleImageView extends AppCompatImageView implements
     /**
      * 获取圆角path
      */
-    private Path getRoundedRectanglePath(Path path,float left, float top, float right, float bottom,  float[] radii) {
-        if (path == null) {
-            Path newPath = new Path();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                newPath.addRoundRect(left,top,right,bottom, radii, Path.Direction.CCW);
-            }else {
-                newPath.addRoundRect(new RectF(left,top,right,bottom), radii, Path.Direction.CCW);
-            }
-            newPath.close();
-            return newPath;
+    private Path getRoundedRectanglePath(float right, float bottom, float[] radii) {
+        Path newPath = new Path();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            newPath.addRoundRect((float) 0, (float) 0, right, bottom, radii, Path.Direction.CCW);
         } else {
-            path.reset();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                path.addRoundRect(left,top,right,bottom, radii, Path.Direction.CCW);
-            }else {
-                path.addRoundRect(new RectF(left,top,right,bottom), radii, Path.Direction.CCW);
-            }
-            path.close();
-            return path;
+            newPath.addRoundRect(new RectF((float) 0, (float) 0, right, bottom), radii, Path.Direction.CCW);
         }
+        newPath.close();
+        return newPath;
     }
 
 

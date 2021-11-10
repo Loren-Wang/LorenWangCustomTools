@@ -1,6 +1,5 @@
 package android.lorenwang.tools.file;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +9,7 @@ import android.lorenwang.tools.base.AtlwLogUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.util.Xml;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
+import javabase.lorenwang.tools.file.JtlwFileOptionUtil;
 
 /**
  * 功能作用：文件操作工具类
@@ -53,7 +52,7 @@ import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
  * 根据正则获取指定目录下的所有文件列表(使用队列扫描方式)--getFileListForMatchLinkedQueueScan(isCheckPermission,scanPath,matchRegular)
  * 获取根目录文件夹地址--getBaseStorageDirPath()
  * 获取App系统文件夹地址--getAppSystemStorageDirPath(applicationId)
- * 根据uri获取图片文件地址--getUriPath(uri,dbKey)
+ * 根据uri获取图片文件地址--getUriPath(uri)
  * 获取app缓存文件大小--getAppCacheFileSize(isCheckPermission)
  * 清除app缓存--clearAppCacheFile(isCheckPermission)
  * 注意：
@@ -92,7 +91,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(AtlwConfig.nowApplication)) {
             return null;
         }
-        return JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath);
+        return JtlwFileOptionUtil.getInstance().readImageFileGetBytes(isCheckFile, filePath);
     }
 
     /**
@@ -106,7 +105,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(path)) {
             return new byte[]{};
         }
-        return JtlwFileOptionUtils.getInstance().readBytes(path);
+        return JtlwFileOptionUtil.getInstance().readBytes(path);
     }
 
     /**
@@ -120,7 +119,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(file)) {
             return new byte[]{};
         }
-        return JtlwFileOptionUtils.getInstance().readBytes(file);
+        return JtlwFileOptionUtil.getInstance().readBytes(file);
     }
 
     /**
@@ -134,7 +133,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(inputStream)) {
             return new byte[]{};
         }
-        return JtlwFileOptionUtils.getInstance().readBytes(inputStream);
+        return JtlwFileOptionUtil.getInstance().readBytes(inputStream);
     }
 
     /**
@@ -150,7 +149,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, inputStream)) {
             return false;
         }
-        return JtlwFileOptionUtils.getInstance().writeToFile(file, inputStream, append);
+        return JtlwFileOptionUtil.getInstance().writeToFile(file, inputStream, append);
     }
 
     /**
@@ -246,7 +245,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects(file, buffer, append)) {
             return false;
         }
-        return JtlwFileOptionUtils.getInstance().writeToFile(file, buffer, append);
+        return JtlwFileOptionUtil.getInstance().writeToFile(file, buffer, append);
     }
 
     /**
@@ -300,7 +299,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
-        return JtlwFileOptionUtils.getInstance().copyFile(oldPath, newPath);
+        return JtlwFileOptionUtil.getInstance().copyFile(oldPath, newPath);
     }
 
     /**
@@ -315,7 +314,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
-        return JtlwFileOptionUtils.getInstance().deleteFile(url);
+        return JtlwFileOptionUtil.getInstance().deleteFile(url);
     }
 
     /**
@@ -330,7 +329,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return 0L;
         }
-        return JtlwFileOptionUtils.getInstance().getFileSize(file, filtrationDir);
+        return JtlwFileOptionUtil.getInstance().getFileSize(file, filtrationDir);
     }
 
     /**
@@ -344,7 +343,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
-        return JtlwFileOptionUtils.getInstance().deleteDirectory(filePath);
+        return JtlwFileOptionUtil.getInstance().deleteDirectory(filePath);
     }
 
     /**
@@ -359,7 +358,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return false;
         }
-        return JtlwFileOptionUtils.getInstance().createDirectory(path, nowPathIsFile);
+        return JtlwFileOptionUtil.getInstance().createDirectory(path, nowPathIsFile);
     }
 
     /**
@@ -374,7 +373,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return new ArrayList<>();
         }
-        return JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(scanPath, matchRegular);
+        return JtlwFileOptionUtil.getInstance().getFileListForMatchRecursionScan(scanPath, matchRegular);
     }
 
     /**
@@ -389,7 +388,7 @@ public class AtlwFileOptionUtil {
         if (isCheckPermission && !AtlwCheckUtil.getInstance().checkIOUtilsOptionsPermissionAndObjects()) {
             return new ArrayList<>();
         }
-        return JtlwFileOptionUtils.getInstance().getFileListForMatchLinkedQueueScan(scanPath, matchRegular);
+        return JtlwFileOptionUtil.getInstance().getFileListForMatchLinkedQueueScan(scanPath, matchRegular);
     }
 
     /**
@@ -414,30 +413,63 @@ public class AtlwFileOptionUtil {
     /**
      * 根据uri获取图片文件地址
      *
-     * @param uri   uri地址
-     * @param dbKey 数据库地址代表的字段
+     * @param uri uri地址
      * @return 地址
      */
-    public String getUriPath(Uri uri, String dbKey) {
-        String path = "";
-        if (uri != null && !JtlwCheckVariateUtils.getInstance().isEmpty(dbKey)) {
-            final String scheme = uri.getScheme();
-            if (scheme == null || ContentResolver.SCHEME_FILE.equals(scheme)) {
-                path = uri.getPath();
-            } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-                Cursor cursor = AtlwConfig.nowApplication.getContentResolver().query(uri, new String[]{dbKey}, null, null, null);
-                if (null != cursor) {
-                    if (cursor.moveToFirst()) {
-                        int index = cursor.getColumnIndex(dbKey);
-                        if (index > -1) {
-                            path = cursor.getString(index);
-                        }
-                    }
-                    cursor.close();
+    public String getUriPath(Uri uri) {
+        //后面从数据库查找使用
+        Uri contentUri = null;
+        String selection = null;
+        String[] selectionArgs = null;
+
+        //开始处理
+        // DocumentProvider
+        if (DocumentsContract.isDocumentUri(AtlwConfig.nowApplication, uri)) {
+            if ("com.android.externalstorage.documents".equals(uri.getAuthority())) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                if ("primary".equalsIgnoreCase(type)) {
+                    return android.os.Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                // DownloadsProvider
+                final String id = DocumentsContract.getDocumentId(uri);
+                contentUri = android.content.ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.parseLong(id));
+            } else if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                // MediaProvider
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                if ("image".equals(type)) {
+                    contentUri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+                selection = "_id=?";
+                selectionArgs = new String[]{split[1]};
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            // MediaStore (and general)
+            contentUri = uri;
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        //获取地址数据
+        if (contentUri != null) {
+            try (Cursor cursor = AtlwConfig.nowApplication.getContentResolver().query(contentUri, new String[]{"_data"}, selection, selectionArgs,
+                    null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    final int column_index = cursor.getColumnIndexOrThrow("_data");
+                    return cursor.getString(column_index);
                 }
             }
         }
-        return path;
+
+        return null;
     }
 
     /**
@@ -474,7 +506,7 @@ public class AtlwFileOptionUtil {
      * @return 清除状态
      */
     public boolean clearAppCacheFile(boolean isCheckPermission) {
-        boolean clearStatus = false;
+        boolean clearStatus;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             clearStatus = deleteDirectory(isCheckPermission, AtlwConfig.nowApplication.getDataDir().getAbsolutePath());
         } else {

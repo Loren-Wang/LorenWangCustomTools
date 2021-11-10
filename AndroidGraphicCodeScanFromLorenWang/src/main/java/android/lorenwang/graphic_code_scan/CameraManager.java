@@ -53,9 +53,9 @@ class CameraManager {
     private PreviewCallback previewCallback;
     private boolean isFlashlightOpen;
 
-    public CameraManager(Context context,int degree) {
+    public CameraManager(Context context, int degree) {
         this.context = context;
-        this.configManager = new CameraConfigurationManager(context,degree);
+        this.configManager = new CameraConfigurationManager(context, degree);
         previewCallback = new PreviewCallback(configManager);
     }
 
@@ -83,7 +83,7 @@ class CameraManager {
         }
         theCamera.setPreviewDisplay(holder);
 
-        if (!initialized && configManager != null ) {
+        if (!initialized && configManager != null) {
             initialized = true;
             configManager.initFromCameraParameters(theCamera);
         }
@@ -92,7 +92,7 @@ class CameraManager {
         String parametersFlattened = parameters == null ? null : parameters.flatten(); // Save
         // these,
         // temporarily
-        if(configManager != null) {
+        if (configManager != null) {
             try {
                 configManager.setDesiredCameraParameters(theCamera, false);
             } catch (RuntimeException re) {
@@ -154,7 +154,7 @@ class CameraManager {
         }
         if (camera != null && previewing) {
             camera.stopPreview();
-            if(previewCallback != null) {
+            if (previewCallback != null) {
                 previewCallback.setHandler(null, 0);
             }
             previewing = false;

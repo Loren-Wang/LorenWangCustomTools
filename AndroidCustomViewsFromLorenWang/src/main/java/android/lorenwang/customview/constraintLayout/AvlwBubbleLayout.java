@@ -22,8 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
- * 功能作用：气泡内容布局
- * 初始注释时间： 2021/9/28 18:33
+ * 功能作用：气泡以或阴影内容布局
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
@@ -211,6 +210,102 @@ public class AvlwBubbleLayout extends ConstraintLayout {
         resetBgBitmap(background);
     }
 
+    public int getStrokeRadiusLeftTop() {
+        return strokeRadiusLeftTop;
+    }
+
+    public void setStrokeRadiusLeftTop(int strokeRadiusLeftTop) {
+        this.strokeRadiusLeftTop = strokeRadiusLeftTop;
+    }
+
+    public int getStrokeRadiusRightTop() {
+        return strokeRadiusRightTop;
+    }
+
+    public void setStrokeRadiusRightTop(int strokeRadiusRightTop) {
+        this.strokeRadiusRightTop = strokeRadiusRightTop;
+    }
+
+    public int getStrokeRadiusLeftBottom() {
+        return strokeRadiusLeftBottom;
+    }
+
+    public void setStrokeRadiusLeftBottom(int strokeRadiusLeftBottom) {
+        this.strokeRadiusLeftBottom = strokeRadiusLeftBottom;
+    }
+
+    public int getStrokeRadiusRightBottom() {
+        return strokeRadiusRightBottom;
+    }
+
+    public void setStrokeRadiusRightBottom(int strokeRadiusRightBottom) {
+        this.strokeRadiusRightBottom = strokeRadiusRightBottom;
+    }
+
+    public float getArrowOffsetLeftPercent() {
+        return arrowOffsetLeftPercent;
+    }
+
+    public void setArrowOffsetLeftPercent(float arrowOffsetLeftPercent) {
+        this.arrowOffsetLeftPercent = arrowOffsetLeftPercent;
+    }
+
+    public float getArrowOffsetTopPercent() {
+        return arrowOffsetTopPercent;
+    }
+
+    public void setArrowOffsetTopPercent(float arrowOffsetTopPercent) {
+        this.arrowOffsetTopPercent = arrowOffsetTopPercent;
+    }
+
+    public float getArrowOffsetRightPercent() {
+        return arrowOffsetRightPercent;
+    }
+
+    public void setArrowOffsetRightPercent(float arrowOffsetRightPercent) {
+        this.arrowOffsetRightPercent = arrowOffsetRightPercent;
+    }
+
+    public float getArrowOffsetBottomPercent() {
+        return arrowOffsetBottomPercent;
+    }
+
+    public void setArrowOffsetBottomPercent(float arrowOffsetBottomPercent) {
+        this.arrowOffsetBottomPercent = arrowOffsetBottomPercent;
+    }
+
+    public int getArrowOffsetLeft() {
+        return arrowOffsetLeft;
+    }
+
+    public void setArrowOffsetLeft(int arrowOffsetLeft) {
+        this.arrowOffsetLeft = arrowOffsetLeft;
+    }
+
+    public int getArrowOffsetTop() {
+        return arrowOffsetTop;
+    }
+
+    public void setArrowOffsetTop(int arrowOffsetTop) {
+        this.arrowOffsetTop = arrowOffsetTop;
+    }
+
+    public int getArrowOffsetRight() {
+        return arrowOffsetRight;
+    }
+
+    public void setArrowOffsetRight(int arrowOffsetRight) {
+        this.arrowOffsetRight = arrowOffsetRight;
+    }
+
+    public int getArrowOffsetBottom() {
+        return arrowOffsetBottom;
+    }
+
+    public void setArrowOffsetBottom(int arrowOffsetBottom) {
+        this.arrowOffsetBottom = arrowOffsetBottom;
+    }
+
     /**
      * 获取边框路径
      *
@@ -239,7 +334,8 @@ public class AvlwBubbleLayout extends ConstraintLayout {
                     path.moveTo(leftX + strokeRadiusLeftTop + arrowHeight, topY);
                     path.arcTo(rightX - strokeRadiusRightTop * 2, topY, rightX, topY + strokeRadiusRightTop * 2, 270, 90, false);
                     path.arcTo(rightX - strokeRadiusRightBottom * 2, bottomY - strokeRadiusRightBottom * 2, rightX, bottomY, 0, 90, false);
-                    path.arcTo(leftX + arrowHeight, bottomY - strokeRadiusLeftBottom * 2, leftX + strokeRadiusLeftBottom * 2, bottomY, 90, 90, false);
+                    path.arcTo(leftX + arrowHeight, bottomY - strokeRadiusLeftBottom * 2, leftX + arrowHeight + strokeRadiusLeftBottom * 2, bottomY,
+                            90, 90, false);
                     path.lineTo(leftX + arrowHeight, topY + arrowTopOffset + arrowWidth);
                     path.lineTo(leftX, topY + arrowTopOffset + arrowWidth / 2.0F);
                     path.lineTo(leftX + arrowHeight, topY + arrowTopOffset);
@@ -250,8 +346,8 @@ public class AvlwBubbleLayout extends ConstraintLayout {
                 case BUBBLE_DIRECTION_RIGHT:
                     rightX = rightX + arrowHeight;
                     path.moveTo(leftX + strokeRadiusLeftTop, topY);
-                    path.arcTo(rightX - strokeRadiusRightTop * 2 - arrowHeight, topY, rightX - arrowHeight,
-                            topY - arrowHeight + strokeRadiusRightTop * 2, 270, 90, false);
+                    path.arcTo(rightX - strokeRadiusRightTop * 2 - arrowHeight, topY, rightX - arrowHeight, topY + strokeRadiusRightTop * 2, 270, 90,
+                            false);
                     path.lineTo(rightX - arrowHeight, topY + arrowTopOffset);
                     path.lineTo(rightX, topY + arrowTopOffset + arrowWidth / 2.0F);
                     path.lineTo(rightX - arrowHeight, topY + arrowTopOffset + arrowWidth);

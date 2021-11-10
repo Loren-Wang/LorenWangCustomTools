@@ -19,9 +19,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * 功能作用：排序序号显示类型
  * 创建时间：2019-04-16 下午 18:28:48
  * 创建人：王亮（Loren wang）
- * 功能作用：排序序号显示类型
  * 思路：定义以下参数处理
  * sbar_text_width 文本显示宽度
  * sbar_text_height 文本显示高度

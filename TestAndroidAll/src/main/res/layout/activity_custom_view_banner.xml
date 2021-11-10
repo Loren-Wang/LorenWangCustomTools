@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <android.lorenwang.customview.viewpager.banner.AvlwBannerView
+            android:id="@+id/vpgList0"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:avlw_bv_indicatorType="point"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.viewpager.banner.AvlwBannerView
+            android:id="@+id/vpgList1"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:avlw_bv_indicatorType="text"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.viewpager.banner.AvlwBannerView
+            android:id="@+id/vpgList2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:avlw_bv_indicatorType="point"
+            app:avlw_bv_autoplayTime="2000"
+            app:avlw_bv_indicatorBackground="@drawable/avlw_solid_radius_2"
+            app:avlw_bv_indicatorBackgroundTintColor="#00f"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.viewpager.banner.AvlwBannerView
+            android:id="@+id/vpgList3"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:avlw_bv_indicatorType="text"
+            app:avlw_bv_autoplayTime="5000"
+            app:avlw_bv_indicatorTheLeft="true"
+            app:avlw_bv_indicatorTheTop="true"
+            app:avlw_bv_indicatorTheRight="false"
+            app:avlw_bv_indicatorTheBottom="false"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.viewpager.banner.AvlwBannerView
+            android:id="@+id/vpgList4"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:avlw_bv_indicatorType="point"
+            app:avlw_bv_autoplayTime="2000"
+            app:avlw_bv_indicatorDotItemWidth="10dp"
+            app:avlw_bv_indicatorDotItemHeight="2dp"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.viewpager.banner.AvlwBannerView
+            android:id="@+id/vpgList5"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:avlw_bv_indicatorType="text"
+            app:avlw_bv_autoplayTime="5000"
+            app:avlw_bv_indicatorTextColor="#0f0"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.viewpager.banner.AvlwBannerView
+            android:id="@+id/vpgList6"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:avlw_bv_indicatorType="text"
+            app:avlw_bv_autoplayTime="5000"
+            app:avlw_bv_indicatorTextColor="#0f0"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+    </LinearLayout>
+</ScrollView>

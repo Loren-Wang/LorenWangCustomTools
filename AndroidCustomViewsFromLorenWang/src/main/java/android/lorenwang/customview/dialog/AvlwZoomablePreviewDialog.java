@@ -2,16 +2,9 @@ package android.lorenwang.customview.dialog;
 
 import android.app.Activity;
 import android.lorenwang.customview.R;
-import android.lorenwang.customview.imageview.AvlwFrescoZoomableImageView;
-import android.net.Uri;
+import android.lorenwang.customview.imageview.AvlwZoomableImageView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import androidx.annotation.DrawableRes;
 
@@ -34,12 +27,7 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
         super(context, R.layout.avlw_dialog_zoomable_preview, false,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         //点击隐藏弹窗
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        };
+        View.OnClickListener onClickListener = v -> dismiss();
         view.setOnClickListener(onClickListener);
         getImageView().setOnClickListener(onClickListener);
     }
@@ -51,14 +39,14 @@ public class AvlwZoomablePreviewDialog extends AvlwBaseCenterDialog {
      */
     public void setImagePath(@DrawableRes int loadingResId,
                              @DrawableRes int errorResId, String path) {
-      getImageView().setLoadOriginImagePath(loadingResId, errorResId, path);
+        getImageView().setLoadOriginImagePathFresco(loadingResId, errorResId, path);
     }
 
     /**
      * 获取图片组件
      */
-    public AvlwFrescoZoomableImageView getImageView() {
-        return ((AvlwFrescoZoomableImageView) view.findViewById(R.id.imgZoom));
+    public AvlwZoomableImageView getImageView() {
+        return view.findViewById(R.id.imgZoom);
     }
 
 }

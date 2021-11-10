@@ -2,56 +2,56 @@
 <resources>
     <declare-styleable name="AvlwBannerView">
         <!--指示器类型-->
-        <attr name="avlwBvIndicatorType" format="enum">
+        <attr name="avlw_bv_indicatorType" format="enum">
             <enum name="none" value="0" />
             <enum name="text" value="1" />
             <enum name="point" value="2" />
         </attr>
         <!--是否自动循环-->
-        <attr name="avlwBvAutoCycle" format="boolean" />
+        <attr name="avlw_bv_autoCycle" format="boolean" />
         <!--自动播放时间-->
-        <attr name="avlwBvAutoplayTime" format="integer" />
+        <attr name="avlw_bv_autoplayTime" format="integer" />
         <!--dot点的图片资源-->
-        <attr name="avlwBvIndicatorDotItemViewRes" format="reference" />
+        <attr name="avlw_bv_indicatorDotItemViewRes" format="reference" />
         <!--dot点的宽度-->
-        <attr name="avlwBvIndicatorDotItemWidth" format="dimension" />
+        <attr name="avlw_bv_indicatorDotItemWidth" format="dimension" />
         <!--dot点的高度-->
-        <attr name="avlwBvIndicatorDotItemHeight" format="dimension" />
+        <attr name="avlw_bv_indicatorDotItemHeight" format="dimension" />
         <!--dot点的左右外边距-->
-        <attr name="avlwBvIndicatorDotItemMarginLeftRight" format="dimension" />
+        <attr name="avlw_bv_indicatorDotItemMarginLeftRight" format="dimension" />
         <!--dot选中颜色-->
-        <attr name="avlwBvIndicatorDotSelectColor" format="color" />
+        <attr name="avlw_bv_indicatorDotSelectColor" format="color" />
         <!--dot未选中颜色-->
-        <attr name="avlwBvIndicatorDotUnSelectColor" format="color" />
+        <attr name="avlw_bv_indicatorDotUnSelectColor" format="color" />
         <!--指示器文本颜色-->
-        <attr name="avlwBvIndicatorTextColor" format="color" />
+        <attr name="avlw_bv_indicatorTextColor" format="color" />
         <!--指示器位置是否左对齐（针对于轮播组件）-->
-        <attr name="avlwBvIndicatorTheLeft" format="boolean"/>
+        <attr name="avlw_bv_indicatorTheLeft" format="boolean"/>
         <!--指示器位置是否上对齐（针对于轮播组件）-->
-        <attr name="avlwBvIndicatorTheTop" format="boolean"/>
+        <attr name="avlw_bv_indicatorTheTop" format="boolean"/>
         <!--指示器位置是否右对齐（针对于轮播组件）-->
-        <attr name="avlwBvIndicatorTheRight" format="boolean"/>
+        <attr name="avlw_bv_indicatorTheRight" format="boolean"/>
         <!--指示器位置是否下对齐（针对于轮播组件）-->
-        <attr name="avlwBvIndicatorTheBottom" format="boolean"/>
+        <attr name="avlw_bv_indicatorTheBottom" format="boolean"/>
         <!--指示器左边距-->
-        <attr name="avlwBvIndicatorMarginLeft" format="dimension" />
+        <attr name="avlw_bv_indicatorMarginLeft" format="dimension" />
         <!--指示器右边距-->
-        <attr name="avlwBvIndicatorMarginRight" format="dimension" />
+        <attr name="avlw_bv_indicatorMarginRight" format="dimension" />
         <!--指示器上边距-->
-        <attr name="avlwBvIndicatorMarginTop" format="dimension" />
+        <attr name="avlw_bv_indicatorMarginTop" format="dimension" />
         <!--指示器下边距-->
-        <attr name="avlwBvIndicatorMarginBottom" format="dimension" />
+        <attr name="avlw_bv_indicatorMarginBottom" format="dimension" />
         <!--指示器左内边距-->
-        <attr name="avlwBvIndicatorPaddingLeft" format="dimension" />
+        <attr name="avlw_bv_indicatorPaddingLeft" format="dimension" />
         <!--指示器右内边距-->
-        <attr name="avlwBvIndicatorPaddingRight" format="dimension" />
+        <attr name="avlw_bv_indicatorPaddingRight" format="dimension" />
         <!--指示器上内边距-->
-        <attr name="avlwBvIndicatorPaddingTop" format="dimension" />
+        <attr name="avlw_bv_indicatorPaddingTop" format="dimension" />
         <!--指示器下内边距-->
-        <attr name="avlwBvIndicatorPaddingBottom" format="dimension" />
+        <attr name="avlw_bv_indicatorPaddingBottom" format="dimension" />
         <!--指示器背景-->
-        <attr name="avlwBvIndicatorBackground" format="reference" />
+        <attr name="avlw_bv_indicatorBackground" format="reference" />
         <!--指示器背景tint颜色-->
-        <attr name="avlwBvIndicatorBackgroundTintColor" format="color" />
+        <attr name="avlw_bv_indicatorBackgroundTintColor" format="color" />
     </declare-styleable>
 </resources>

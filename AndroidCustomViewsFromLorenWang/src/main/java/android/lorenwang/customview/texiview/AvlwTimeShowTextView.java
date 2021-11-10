@@ -9,8 +9,8 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 import androidx.appcompat.widget.AppCompatTextView;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
+import javabase.lorenwang.tools.common.JtlwDateTimeUtil;
 
 /**
  * 功能作用：时间显示控件
@@ -58,12 +58,12 @@ public class AvlwTimeShowTextView extends AppCompatTextView {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwTimeShowTextView);
-        String pattern = attributes.getString(R.styleable.AvlwTimeShowTextView_avlwFormatPatternStart);
+        String pattern = attributes.getString(R.styleable.AvlwTimeShowTextView_avlw_tst_formatPatternStart);
         if (pattern != null) {
             formatPatternStart = pattern;
         }
-        formatPatternEnd = attributes.getString(R.styleable.AvlwTimeShowTextView_avlwFormatPatternEnd);
-        showTextTemplate = attributes.getString(R.styleable.AvlwTimeShowTextView_avlwShowTextTemplate);
+        formatPatternEnd = attributes.getString(R.styleable.AvlwTimeShowTextView_avlw_tst_formatPatternEnd);
+        showTextTemplate = attributes.getString(R.styleable.AvlwTimeShowTextView_avlw_tst_showTextTemplate);
         attributes.recycle();
     }
 
@@ -144,21 +144,21 @@ public class AvlwTimeShowTextView extends AppCompatTextView {
         String start = "";
         String end = "";
         if (startTime != null) {
-            start = JtlwDateTimeUtils.getInstance().getFormatDateTime(formatPatternStart,
+            start = JtlwDateTimeUtil.getInstance().getFormatDateTime(formatPatternStart,
                     startTime);
             if (start == null) {
                 start = "";
             }
         }
         if (endTime != null) {
-            end = JtlwDateTimeUtils.getInstance().getFormatDateTime(formatPatternEnd, endTime);
+            end = JtlwDateTimeUtil.getInstance().getFormatDateTime(formatPatternEnd, endTime);
             if (end == null) {
                 end = "";
             }
         }
 
         //设置文本内容
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(showTextTemplate)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(showTextTemplate)) {
             setText(MessageFormat.format(showTextTemplate, start, end));
         } else {
             setText(start);

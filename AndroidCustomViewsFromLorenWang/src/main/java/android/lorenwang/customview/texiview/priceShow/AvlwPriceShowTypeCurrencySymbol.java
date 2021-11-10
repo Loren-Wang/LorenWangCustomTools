@@ -104,20 +104,20 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
     void init(Context context, AvlwPriceShowTextView qtPriceShowTextView, TypedArray attributes) {
         super.init(context, qtPriceShowTextView, attributes);
         //符号文本
-        currencySymbolText = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbol);
+        currencySymbolText = attributes.getString(R.styleable.AvlwPriceShowTextView_avlw_pst_currencySymbol);
         currencySymbolText = currencySymbolText == null ? "￥" : currencySymbolText;
         //符号要显示的位置
-        currencySymbolLocation = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolLocation, currencySymbolLocation);
+        currencySymbolLocation = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlw_pst_currencySymbolLocation, currencySymbolLocation);
         //符号和价格的间距
-        currencySymbolPriceDistance = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolPriceDistance,
+        currencySymbolPriceDistance = attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlw_pst_currencySymbolPriceDistance,
                 currencySymbolPriceDistance);
 
         //初始化画笔
         currencySymbolPaint = new Paint();
         currencySymbolPaint.setAntiAlias(true);
-        currencySymbolPaint.setTextSize(attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolTextSize, priceSize));
-        currencySymbolPaint.setColor(attributes.getColor(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolTextColor, priceColor));
-        if (attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlwCurrencySymbolTextBold, false)) {
+        currencySymbolPaint.setTextSize(attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlw_pst_currencySymbolTextSize, priceSize));
+        currencySymbolPaint.setColor(attributes.getColor(R.styleable.AvlwPriceShowTextView_avlw_pst_currencySymbolTextColor, priceColor));
+        if (attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlw_pst_currencySymbolTextBold, false)) {
             currencySymbolPaint.setTypeface(Typeface.DEFAULT_BOLD);
         }
     }

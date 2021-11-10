@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：吐司弹窗工具类
@@ -175,7 +175,7 @@ public class AtlwToastHintUtil {
      * @return 不为空则返回true
      */
     private Boolean checkMsg(String msg) {
-        return msg != null && !JtlwCheckVariateUtils.getInstance().isEmpty(msg);
+        return msg != null && !JtlwCheckVariateUtil.getInstance().isEmpty(msg);
     }
 
     /**

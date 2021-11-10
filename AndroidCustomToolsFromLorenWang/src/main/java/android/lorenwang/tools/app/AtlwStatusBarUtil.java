@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+
 /**
  * 功能作用：状态栏操作工具类
  * 初始注释时间： 2021/9/17 10:50
@@ -61,15 +62,13 @@ public class AtlwStatusBarUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
 
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = activity.getWindow();
-            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
 
@@ -109,7 +108,8 @@ public class AtlwStatusBarUtil {
         }
         try {
             if (isFullscreen) {
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                activity.getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             } else {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
@@ -143,7 +143,6 @@ public class AtlwStatusBarUtil {
         }
     }
 
-
     /**
      * 需要MIUIV6以上,参考链接 https://www.jianshu.com/p/7f5a9969be53
      *
@@ -170,7 +169,8 @@ public class AtlwStatusBarUtil {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     //开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错，所以两个方式都要加上
                     if (dark) {
-                        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                        activity.getWindow().getDecorView().setSystemUiVisibility(
+                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                     } else {
                         activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                     }
@@ -202,8 +202,7 @@ public class AtlwStatusBarUtil {
      */
     private void setStatusBarLightModeForMeiZu(Activity activity, boolean dark, boolean flag) {
         try {
-            Method mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon",
-                    boolean.class);
+            Method mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon", boolean.class);
             mSetStatusBarDarkIcon.invoke(activity, dark);
             AtlwLogUtil.logUtils.logD(TAG, "Set StatusBar success for MeiZu");
         } catch (Exception e) {
@@ -240,8 +239,7 @@ public class AtlwStatusBarUtil {
      * @param on        内外
      * @return 是否成功
      */
-    private static boolean changeMeizuFlag(WindowManager.LayoutParams winParams, String flagName,
-                                           boolean on) {
+    private static boolean changeMeizuFlag(WindowManager.LayoutParams winParams, String flagName, boolean on) {
         try {
             Field f = winParams.getClass().getDeclaredField(flagName);
             f.setAccessible(true);
@@ -274,8 +272,7 @@ public class AtlwStatusBarUtil {
     private static void setStatusBarColor(Window window, int color) {
         WindowManager.LayoutParams winParams = window.getAttributes();
         try {
-            Field mStatusBarColorFiled = WindowManager.LayoutParams.class.getField(
-                    "statusBarColor");
+            Field mStatusBarColorFiled = WindowManager.LayoutParams.class.getField("statusBarColor");
             if (mStatusBarColorFiled != null) {
                 int oldColor = mStatusBarColorFiled.getInt(winParams);
                 if (oldColor != color) {

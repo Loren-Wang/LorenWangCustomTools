@@ -2,12 +2,12 @@
 <resources>
     <declare-styleable name="AvlwSliderValidationView">
         <!--触摸移动的控件-->
-        <attr name="avlwSliderValidationViewTouchView" format="reference" />
+        <attr name="avlw_svv_touchView" format="reference" />
         <!--要移动的控件-->
-        <attr name="avlwSliderValidationViewMoveView" format="reference" />
+        <attr name="avlw_svv_moveView" format="reference" />
         <!--要移动控件的最大距离-->
-        <attr name="avlwSliderValidationViewMoveMaxWidthPercent" format="float" />
+        <attr name="avlw_svv_moveMaxWidthPercent" format="float" />
         <!--要移动控件的确认距离-->
-        <attr name="avlwSliderValidationViewMoveConfirmWidthPercent" format="float" />
+        <attr name="avlw_svv_moveConfirmWidthPercent" format="float" />
     </declare-styleable>
 </resources>

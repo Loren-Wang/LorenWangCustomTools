@@ -303,6 +303,9 @@ compileOnly 'com.google.code.gson:gson:2.8.6'
 | 获取文本高度 | getStrTextHeight(Paint paint) | float |
 | 获取文本高度 | getStrTextHeight(int textSize) | float |
 | RecycleView 是否在顶部未向下滑动过 | recycleViewIsTheTop(RecyclerView recyclerView) | boolean |
+| 获取控件位图 | getViewBitmap(View optionsView) | Bitmap|
+| 获取控件位图 | getViewBitmap(View optionsView, Integer[] hideIds) | Bitmap|
+| 获取控件位图 | getViewBitmap(View optionsView, Integer useWidth, Integer useHeight, Integer[] hideIds) | Bitmap|
 
 <br> 
 
@@ -366,7 +369,7 @@ compileOnly 'com.google.code.gson:gson:2.8.6'
 | 根据正则获取指定目录下的所有文件列表(使用队列扫描方式) | getFileListForMatchLinkedQueueScan(boolean isCheckPermission, String scanPath, final String matchRegular) | List<File> |
 | 获取根目录文件夹地址 | getBaseStorageDirPath() | String |
 | 获取App系统文件夹地址 | getAppSystemStorageDirPath(String applicationId) | String |
-| 根据uri获取图片文件地址 | getUriPath(Uri uri, String dbKey) | String |
+| 根据uri获取图片文件地址 | getUriPath(Uri uri) | String |
 | 获取app缓存文件大小 | getAppCacheFileSize(boolean isCheckPermission) | long |
 | 清除app缓存 | clearAppCacheFile(boolean isCheckPermission) | boolean |
 
@@ -383,6 +386,7 @@ compileOnly 'com.google.code.gson:gson:2.8.6'
 | 将图片转换为base64字符串 | imageToBase64String(Bitmap bitmap) | String |
 | 图片drawable转bitmap | drawableToBitmap(Drawable drawable) | Bitmap |
 | 图片drawable转bitmap | drawableToBitmap(Drawable drawable,int width,int height) | Bitmap |
+| bitmap转Drawable | bitmapToDrawable(Bitmap bitmap) | Drawable |
 | 获取drawable的宽度 | getDrawableWidth(Drawable drawable) | int |
 | 获取drawable的高度 | getDrawableHeight(Drawable drawable) | int |
 | 获取圆角bitmap | getRoundedCornerBitmap(Bitmap bitmap, int radius) | Bitmap |
@@ -536,16 +540,6 @@ compileOnly 'com.google.code.gson:gson:2.8.6'
 | 开启相机 | openCamera(Activity activity, String savePath, int requestCode) | void |
 | 拨打电话 | makeCall(Activity activity, String phoneNo) | void |
 | 开启图片相册选择 | openImagePhotoAlbum(Activity activity, int requestCode) | void |
-| 获取电源设备锁 | getPowerLocalWakeLock() | void |
-| 销毁电源设备锁 | destroyPowerLocalWakeLock() | void |
-| 申请电源设备锁，关闭屏幕 | applyForPowerLocalWakeLock() | void |
-| 释放电源设备锁，唤起屏幕 | releasePowerLocalWakeLock() | void |
-| 获取传感器管理器实例 | getSensorManager() | void |
-| 注册距离传感器监听 | registerProximitySensorListener(SensorEventListener listener) | void |
-| 取消注册距离传感器监听 | unRegisterProximitySensorListener(SensorEventListener listener) | void |
-| 获取系统级别音频管理器 | getAudioManager() | void |
-| 使用听筒播放正在播放的音频 | useHandsetToPlay(Activity activity) | void |
-| 使用扬声器播放正在播放的音频 | useSpeakersToPlay() | void |
 
 <br> 
 

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="AvlwKerleyViewAvlw">
-        <!--左侧空间-->
-        <attr name="kv_orientation" format="enum" >
-            <enum name="horizontal" value="0"/>
-            <enum name="vertical" value="1"/>
+    <declare-styleable name="AvlwKerleyOrDottedViewAvlw">
+        <!--宽度-->
+        <attr name="avlw_kv_width" format="dimension" />
+        <!--高度-->
+        <attr name="avlw_kv_height" format="dimension" />
+        <!--直径-->
+        <attr name="avlw_kv_radius" format="dimension" />
+        <!--间距-->
+        <attr name="avlw_kv_distance" format="dimension" />
+        <!--颜色-->
+        <attr name="avlw_kv_color" format="color" />
+        <!--方向-->
+        <attr name="avlw_kv_orientation">
+            <!-- Defines an horizontal widget. -->
+            <enum name="horizontal" value="0" />
+            <!-- Defines a vertical widget. -->
+            <enum name="vertical" value="1" />
         </attr>
-        <!--上侧空间-->
-        <attr name="kv_spaceTop" format="dimension" />
-        <!--下侧空间-->
-        <attr name="kv_spaceBottom" format="dimension" />
-        <!--左侧空间-->
-        <attr name="kv_spaceLeft" format="dimension" />
-        <!--右侧空间-->
-        <attr name="kv_spaceRight" format="dimension" />
-        <!--分割线高度-->
-        <attr name="kv_kerleyHeight" format="dimension" />
-        <!--分割线颜色-->
-        <attr name="kv_kerleyColor" format="color" />
     </declare-styleable>
 </resources>

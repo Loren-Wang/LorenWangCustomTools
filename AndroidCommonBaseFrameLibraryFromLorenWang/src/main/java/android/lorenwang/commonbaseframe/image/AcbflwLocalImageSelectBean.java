@@ -4,7 +4,6 @@ import android.lorenwang.tools.file.AtlwFileOptionUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
-import android.provider.MediaStore;
 
 import com.luck.picture.lib.entity.LocalMedia;
 
@@ -38,7 +37,7 @@ public class AcbflwLocalImageSelectBean extends LocalMedia {
     public String getPath() {
         String path = super.getPath();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            setPath(AtlwFileOptionUtil.getInstance().getUriPath(Uri.parse(path), MediaStore.Images.ImageColumns.DATA));
+            setPath(AtlwFileOptionUtil.getInstance().getUriPath(Uri.parse(path)));
         }
         return super.getPath();
     }

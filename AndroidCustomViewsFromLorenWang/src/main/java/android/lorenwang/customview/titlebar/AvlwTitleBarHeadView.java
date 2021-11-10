@@ -24,9 +24,9 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 
 /**
+ * 功能作用：标题操作栏
  * 创建时间： 2018/10/25 0025 下午 14:51:35
  * 创建人：LorenWang
- * 功能作用：标题操作栏
  * 方法介绍：
  * 思路：1、通过type加载不同的布局
  * 2、传递过来titlebar高度后设置给params
@@ -110,12 +110,9 @@ public class AvlwTitleBarHeadView extends FrameLayout {
      * @param defStyleAttr 属性
      */
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        TypedArray attributes = context.obtainStyledAttributes(attrs,
-                R.styleable.AvlwTitleBarHeadView);
-        layoutType = attributes.getInt(R.styleable.AvlwTitleBarHeadView_avlwLayoutType,
-                LAYOUT_TYPE_1);
-        int customLayout = attributes.getResourceId(R.styleable.AvlwTitleBarHeadView_customLayout
-                , -1);
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwTitleBarHeadView);
+        layoutType = attributes.getInt(R.styleable.AvlwTitleBarHeadView_avlw_tbh_layoutType, LAYOUT_TYPE_1);
+        int customLayout = attributes.getResourceId(R.styleable.AvlwTitleBarHeadView_avlw_tbh_customLayout, -1);
 
 
         //根据不同类型，读取不同数据
@@ -223,8 +220,7 @@ public class AvlwTitleBarHeadView extends FrameLayout {
                 break;
         }
         //设置背景颜色
-        int viewBgColor = attributes.getColor(R.styleable.AvlwTitleBarHeadView_viewBgColor,
-                Color.WHITE);
+        int viewBgColor = attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlw_tbh_viewBgColor, Color.WHITE);
         setBackgroundColor(viewBgColor);
     }
 
@@ -235,30 +231,24 @@ public class AvlwTitleBarHeadView extends FrameLayout {
      */
     private void setLeftOptionsView(TypedArray attributes) {
         setOptionsView(findViewById(R.id.optionsLeft),
-                attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlwLeftBtnTextColor,
-                        DEFAULT_TEXT_COLOR),
-                attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_avlwLeftBtnTextSize, DEFAULT_TEXT_SIZE),
-                attributes.getString(R.styleable.AvlwTitleBarHeadView_avlwLeftBtnText),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwLeftWidth
-                        , DEFAULT_OPTIONS_WIDTH),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwLeftHeight, DEFAULT_OPTIONS_HEIGHT),
-                attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlwLeftBgColor, -1),
-                attributes.getDrawable(R.styleable.AvlwTitleBarHeadView_avlwLeftBgRes),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwLeftDistanceLeft, 0),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwLeftDistanceTop, 0),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_bavlwLeftDistanceRight, 0),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwLeftDistanceBottom, 0)
-        );
+                attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftBtnTextColor, DEFAULT_TEXT_COLOR),
+                attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftBtnTextSize, DEFAULT_TEXT_SIZE),
+                attributes.getString(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftBtnText),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftWidth, DEFAULT_OPTIONS_WIDTH),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftHeight, DEFAULT_OPTIONS_HEIGHT),
+                attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftBgColor, -1),
+                attributes.getDrawable(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftBgRes),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftDistanceLeft, 0),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftDistanceTop, 0),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftDistanceRight, 0),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_leftDistanceBottom, 0));
 
         //设置默认点击事件为后退并销毁当前页面
-        setOptionsLeftOnClick(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Activity activity = (Activity) getContext();
-                if (activity != null) {
-                    activity.onBackPressed();
-                    activity.finish();
-                }
+        setOptionsLeftOnClick(v -> {
+            Activity activity = (Activity) getContext();
+            if (activity != null) {
+                activity.onBackPressed();
+                activity.finish();
             }
         });
     }
@@ -270,20 +260,17 @@ public class AvlwTitleBarHeadView extends FrameLayout {
      */
     private void setRightOptionsView(TypedArray attributes) {
         setOptionsView(findViewById(R.id.optionsRight),
-                attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlwRightBtnTextColor,
-                        DEFAULT_TEXT_COLOR),
-                attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_avlwRightBtnTextSize, DEFAULT_TEXT_SIZE),
-                attributes.getString(R.styleable.AvlwTitleBarHeadView_avlwRightBtnText),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwRightWidth
-                        , DEFAULT_OPTIONS_WIDTH),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwRightHeight, DEFAULT_OPTIONS_HEIGHT),
-                attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlwRightBgColor, -1),
-                attributes.getDrawable(R.styleable.AvlwTitleBarHeadView_avlwRightBgRes),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwRightDistanceLeft, 0),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwRightDistanceTop, 0),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwRightDistanceRight, 0),
-                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlwRightDistanceBottom, 0)
-        );
+                attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightBtnTextColor, DEFAULT_TEXT_COLOR),
+                attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightBtnTextSize, DEFAULT_TEXT_SIZE),
+                attributes.getString(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightBtnText),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightWidth, DEFAULT_OPTIONS_WIDTH),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightHeight, DEFAULT_OPTIONS_HEIGHT),
+                attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightBgColor, -1),
+                attributes.getDrawable(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightBgRes),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightDistanceLeft, 0),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightDistanceTop, 0),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightDistanceRight, 0),
+                attributes.getDimensionPixelOffset(R.styleable.AvlwTitleBarHeadView_avlw_tbh_rightDistanceBottom, 0));
     }
 
     /**
@@ -369,11 +356,10 @@ public class AvlwTitleBarHeadView extends FrameLayout {
     private void setTitleTextView(TypedArray attributes) {
         View view = findViewById(R.id.tvTitle);
         if (view instanceof TextView) {
-            ((TextView) view).setTextColor(attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlwTitleTextColor, DEFAULT_TEXT_COLOR));
+            ((TextView) view).setTextColor(attributes.getColor(R.styleable.AvlwTitleBarHeadView_avlw_tbh_titleTextColor, DEFAULT_TEXT_COLOR));
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                    attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_avlwTitleTextSize,
-                            DEFAULT_TEXT_SIZE));
-            String text = attributes.getString(R.styleable.AvlwTitleBarHeadView_avlwTitleText);
+                    attributes.getDimensionPixelSize(R.styleable.AvlwTitleBarHeadView_avlw_tbh_titleTextSize, DEFAULT_TEXT_SIZE));
+            String text = attributes.getString(R.styleable.AvlwTitleBarHeadView_avlw_tbh_titleText);
             if (text != null) {
                 ((TextView) view).setText(text);
             }

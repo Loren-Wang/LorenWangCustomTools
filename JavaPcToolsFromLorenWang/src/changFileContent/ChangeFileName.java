@@ -1,9 +1,8 @@
 package changFileContent;
 
 import java.io.File;
-import java.nio.charset.Charset;
 
-import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
+import javabase.lorenwang.tools.file.JtlwFileOptionUtil;
 
 /**
  * 功能作用：
@@ -46,7 +45,7 @@ public class ChangeFileName {
         if (dirFile != null && dirFile.isDirectory() && dirFile.listFiles() != null) {
             for (File file : dirFile.listFiles()) {
                 if (file.isFile()) {
-                    JtlwFileOptionUtils.getInstance().renameFile(file, file.getName().replace("-", "_"));
+                    JtlwFileOptionUtil.getInstance().renameFile(file, file.getName().replace("-", "_"));
                 } else {
                     inTheLineToTheUnderline(file, changeChild);
                 }
@@ -65,7 +64,7 @@ public class ChangeFileName {
             for (File file : dirFile.listFiles()) {
                 if (file.isFile()) {
                     System.out.println(file.getAbsolutePath());
-                    JtlwFileOptionUtils.getInstance().renameFile(file, file.getName().replace(target, replacement));
+                    JtlwFileOptionUtil.getInstance().renameFile(file, file.getName().replace(target, replacement));
                 } else {
                     changeFileName(file, changeChild, target, replacement);
                 }

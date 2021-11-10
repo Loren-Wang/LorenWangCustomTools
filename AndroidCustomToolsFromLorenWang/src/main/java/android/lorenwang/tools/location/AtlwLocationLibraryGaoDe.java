@@ -1,13 +1,9 @@
 package android.lorenwang.tools.location;
 
 import android.lorenwang.tools.AtlwConfig;
-import android.lorenwang.tools.app.AtlwThreadUtil;
 import android.lorenwang.tools.base.AtlwLogUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
-import android.lorenwang.tools.location.config.AtlwLocationResultBean;
-import android.lorenwang.tools.location.enums.AtlwLocationResultFromTypeEnum;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 
@@ -26,72 +22,39 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author 王亮（Loren）
  */
-class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
+class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryBase {
 
     /**
      * 声明AMapLocationClient类对象
      */
-    private final AMapLocationClient mLocationClient = new AMapLocationClient(AtlwConfig.nowApplication);
+    private AMapLocationClient mLocationClient = new AMapLocationClient(AtlwConfig.nowApplication);
 
-    /**
-     * AMapLocationClientOption对象,发起定位的模式和相关参数。
-     */
-    private final AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
-
-    /**
-     * 声明定位回调监听器
-     */
-    private final AtlwLocationChangeListener mLocationListener = new AtlwLocationChangeListener() {
-        @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
-            if (!loopPositioning) {
-                stopLoopPositioning();
-            }
-            //定位相关信息
-            final AtlwLocationResultBean bean = new AtlwLocationResultBean();
-            if (aMapLocation != null) {
-                bean.setLatitude(aMapLocation.getLatitude());
-                bean.setLongitude(aMapLocation.getLongitude());
-                bean.setCityName(aMapLocation.getCity());
-            }
-            AtlwLogUtil.logUtils.logI(TAG, "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
-            //回调定位
-            if (config != null && config.getLocationsCallback() != null) {
-                AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        config.getLocationsCallback().locationResultSuccess(bean, judgeLocationResultBean(bean));
-                    }
-                });
-            }
-        }
-    };
 
     public AtlwLocationLibraryGaoDe() {
         //设置定位回调监听
-        mLocationClient.setLocationListener(mLocationListener);
+        mLocationClient.setLocationListener(mChangeListener);
     }
 
     @Override
     public void startDevicesPositioning(@NotNull AtlwLocationConfig config) {
-        startPositioning(config, AtlwLocationResultFromTypeEnum.GAODE_DEVICE_SENSORS);
+        startPositioning(config, AtlwLocationTypeEnum.GAODE_DEVICE_SENSORS);
     }
 
     @Override
     public void startNetworkPositioning(@NotNull AtlwLocationConfig config) {
-        startPositioning(config, AtlwLocationResultFromTypeEnum.GAODE_BATTERY_SAVING);
+        startPositioning(config, AtlwLocationTypeEnum.GAODE_BATTERY_SAVING);
     }
 
     @Override
     public void startAccuratePositioning(@NotNull AtlwLocationConfig config) {
-        startPositioning(config, AtlwLocationResultFromTypeEnum.GAODE_HIGHT_ACCURACY);
+        startPositioning(config, AtlwLocationTypeEnum.GAODE_HIGHT_ACCURACY);
     }
 
     @Override
     public synchronized void stopLoopPositioning() {
-        loopPositioning = false;
+        mChangeListener.loopPositioning = false;
         //注销监听
-        mLocationClient.unRegisterLocationListener(mLocationListener);
+        mLocationClient.unRegisterLocationListener(mChangeListener);
         //停止定位后，本地定位服务并不会被销毁
         mLocationClient.stopLocation();
         AtlwLogUtil.logUtils.logI(TAG, "停止定位");
@@ -103,8 +66,7 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
      * @param config 配置信息
      * @param type   定位类型
      */
-    @Override
-    protected void startPositioning(@NotNull AtlwLocationConfig config, @NotNull AtlwLocationResultFromTypeEnum type) {
+    protected void startPositioning(@NotNull AtlwLocationConfig config, @NotNull AtlwLocationTypeEnum type) {
         AMapLocationClientOption.AMapLocationMode mode = null;
         switch (type) {
             case GAODE_BATTERY_SAVING:
@@ -119,10 +81,12 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
             default:
                 break;
         }
-        if (!loopPositioning && mode != null) {
+        if (!mChangeListener.loopPositioning && mode != null) {
+            //AMapLocationClientOption对象,发起定位的模式和相关参数。
+            AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
             mLocationOption.setLocationMode(mode);
             if (config.getLocationTimeInterval() > 0) {
-                loopPositioning = true;
+                mChangeListener.loopPositioning = true;
                 //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
                 mLocationOption.setInterval(config.getLocationTimeInterval());
             } else {
@@ -133,10 +97,16 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryDefault {
             }
             //设置返回地址信息
             mLocationOption.setNeedAddress(true);
-            mLocationListener.config = config;
-            mLocationListener.type = type;
-            mLocationClient.setLocationListener(mLocationListener);
+            mChangeListener.config = config;
+            mChangeListener.type = type;
+            mLocationClient.setLocationListener(mChangeListener);
             mLocationClient.startLocation();
         }
+    }
+
+    @Override
+    public void release() {
+        super.release();
+        mLocationClient = null;
     }
 }

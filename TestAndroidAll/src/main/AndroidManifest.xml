@@ -1,91 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.testapp">
-    <!-- 用于申请调用A-GPS模块 -->
+    package="com.lorenwang.test.android">
+
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.androidTools.MobileNotificationActivity"></activity>
-        <activity android:name=".activity.textview.EdittextActivity" />
-        <activity android:name=".activity.image.ImageSelectActivity" />
-        <activity
-            android:name=".activity.carousel.CarouselActivity"
-            android:screenOrientation="landscape" />
-        <activity android:name=".activity.touch.TouchOptionsActivity" />
-        <activity android:name=".activity.validation.ValidationActivity" />
-        <activity android:name=".activity.calendar.CalendarActivity" />
-        <activity android:name=".activity.recycleView.WheelRecycleViewActivity" />
-        <activity
-            android:name=".activity.video.VideoPlayActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".activity.video.VideoPlayListActivity" />
-        <activity android:name=".activity.image.ImageListBitmapActivity" />
-        <activity android:name=".activity.location.LocationActivity" />
-        <activity android:name=".activity.ProgressActivity" />
-        <activity android:name=".activity.textview.CustomDrawableButtonActivity" />
-        <activity android:name=".activity.titlebar.TitleBarHeadViewActivity" />
-        <activity android:name=".activity.image.ZoomableImageViewActivity" />
-        <activity android:name=".activity.graphicCodeScan.CodeGenerateActivity" />
-        <activity android:name=".activity.viewpager.FragmentAndBannerActivity" />
-        <activity android:name=".activity.dialog.DialogsActivity" />
-        <activity android:name=".activity.viewpager.ViewPager2Activity" />
-        <activity android:name=".activity.viewpager.BannerActivity" />
-        <activity android:name=".activity.textview.ShowPriceTextViewActivity" />
-        <activity android:name=".activity.textview.ShowQuantityOfCommodityActivity" />
-        <activity android:name=".activity.RecycleViewPageActivity" />
-        <activity android:name=".activity.TabLayoutActivity" />
-        <activity
-            android:name=".activity.graphicCodeScan.ScanCodeActivity"
-            android:screenOrientation="landscape" />
-        <activity android:name=".activity.DataParseActivity" />
-        <activity android:name=".activity.ToastActivity" />
-        <activity android:name=".activity.FileOptionsActivity" />
-        <activity android:name=".activity.bluetooth.BluetoothActivity" />
-        <activity android:name=".activity.anim.AnimActivity" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.customToolsJava.BeanActivity"></activity>
+        <activity android:name=".activity.customToolsJava.CommonActivity" />
+        <activity android:name=".activity.customToolsJava.CustomToolsActivity" />
+        <activity android:name=".activity.customView.KerleyOrDottedActivity" />
+        <activity android:name=".activity.customView.textview.TimeShowActivity" />
+        <activity android:name=".activity.customView.textview.MarqueeActivity" />
+        <activity android:name=".activity.customView.SudokuSwipeGesturesActivity" />
+        <activity android:name=".activity.customView.RecycleItemDecorationActivity" />
+        <activity android:name=".activity.customView.RadioGroupActivity" />
+        <activity android:name=".activity.customView.ProgressActivity" />
+        <activity android:name=".activity.customView.HotViewActivity" />
+        <activity android:name=".activity.customView.MotionEventActivity" />
+        <activity android:name=".activity.customToolsAndroid.MobileSystemInfoActivity" />
+        <activity android:name=".activity.splash.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GlideImageLoadingActivity" />
-        <activity android:name=".activity.BrightnessActivity" />
-        <activity android:name=".activity.FileOptionsForScanFileActivity" />
-        <activity android:name=".activity.SideBarActivity" />
-        <activity android:name=".activity.HorizontalSlipTabLayoutActivity" />
-        <activity android:name=".activity.SwitchButtonActivity" />
-        <activity android:name=".activity.image.ImageViewActivity" />
-        <activity android:name=".activity.androidTools.MobileContactsActivity" />
-        <activity android:name=".activity.androidTools.MobileSmsActivity" />
+        <activity android:name=".activity.customToolsAndroid.MobileInfoActivity" />
+        <activity android:name=".activity.customToolsAndroid.FlyMessageActivity" />
+        <activity android:name=".activity.customToolsAndroid.LocationActivity" />
+        <activity android:name=".activity.customToolsAndroid.image.ImageLoadingActivity" />
+        <activity android:name=".activity.customToolsAndroid.image.ImageCommonActivity" />
+        <activity android:name=".activity.customView.ShadowActivity" />
+        <activity android:name=".activity.customToolsAndroid.FileActivity" />
+        <activity android:name=".activity.customToolsAndroid.DesktopShortcutActivity" />
+        <activity android:name=".activity.customToolsAndroid.CheckActivity" />
+        <activity android:name=".activity.customToolsAndroid.ViewActivity" />
+        <activity android:name=".activity.customToolsAndroid.StatusBarActivity" />
+        <activity android:name=".activity.customToolsAndroid.SpannableActivity" />
+        <activity android:name=".activity.customToolsAndroid.ScreenActivity" />
+        <activity android:name=".activity.customToolsAndroid.BrightnessChangeActivity" />
+        <activity android:name=".activity.customToolsAndroid.ActivityActivity" />
+        <activity android:name=".activity.customToolsAndroid.CustomToolsActivity" />
+        <activity android:name=".activity.customView.WheelViewActivity" />
+        <activity android:name=".activity.customView.CustomViewActivity" />
+        <activity android:name=".activity.graphicCodeScan.CameraActivity" />
+        <activity android:name=".activity.graphicCodeScan.GraphicCodeActivity" />
+        <activity android:name=".activity.customToolsAndroid.MobileNotificationActivity" />
+        <activity android:name=".activity.customView.EdittextActivity" />
+        <activity android:name=".activity.customToolsAndroid.image.ImageSelectActivity" />
+        <activity
+            android:name=".activity.customView.carousel.CarouselActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activity.customView.touch.TouchOptionsActivity" />
+        <activity android:name=".activity.customView.validation.ValidationActivity" />
+        <activity android:name=".activity.customView.CalendarActivity" />
+        <activity
+            android:name=".activity.customView.video.VideoPlayActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".activity.customView.video.VideoPlayListActivity" />
+        <activity android:name=".activity.customToolsAndroid.image.ImageListBitmapActivity" />
+        <activity android:name=".activity.customView.textview.CustomDrawableButtonActivity" />
+        <activity android:name=".activity.customView.titlebar.TitleBarHeadViewActivity" />
+        <activity android:name=".activity.customView.ZoomableImageViewActivity" />
+        <activity android:name=".activity.graphicCodeScan.CodeGenerateActivity" />
+        <activity android:name=".activity.customView.viewpager.FragmentAndBannerActivity" />
+        <activity android:name=".activity.customView.DialogsActivity" />
+        <activity android:name=".activity.customView.viewpager.ViewPager2Activity" />
+        <activity android:name=".activity.customView.viewpager.BannerActivity" />
+        <activity android:name=".activity.customView.textview.ShowPriceTextViewActivity" />
+        <activity android:name=".activity.customView.ShowQuantityOfCommodityActivity" />
+        <activity android:name=".activity.customView.RecycleViewPageActivity" />
+        <activity android:name=".activity.customView.TabLayoutActivity" />
+        <activity android:name=".activity.graphicCodeScan.ScanCodeActivity" />
+        <activity android:name=".activity.DataParseActivity" />
+        <activity android:name=".activity.customToolsAndroid.ToastActivity" />
+        <activity android:name=".activity.bluetooth.BluetoothActivity" />
+        <activity android:name=".activity.anim.AnimActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.customView.SideBarActivity" />
+        <activity android:name=".activity.customView.SwitchButtonActivity" />
+        <activity android:name=".activity.customView.ImageViewActivity" />
 
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="f8971f2365e197c4bb3c0e483a14eff5" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="AK" /> <!-- 高德地图定位key -->
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="F7WBZ-5BBRW-GECR3-O2HBK-N22YT-3UFB3" /> <!-- 百度定位key -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider> <!-- 腾讯定位服务key -->
         <service android:name="com.amap.api.location.APSService" />
-    </application> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 请求网络 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 不是SDK需要的权限，是示例中的后台唤醒定位需要的权限 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 需要运行时注册的权限 -->
-    <!-- 用于进行网络定位 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 用于提高GPS定位速度 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 读取缓存数据 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 更改设置 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限 -->
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" /> <!-- 如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    </application>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 读取存储 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 写入存储 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 手机联系人读取 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 软件安装权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -101,7 +141,12 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES " />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission
+        android:name="android.permission.DEVICE_POWER"
+        tools:ignore="ProtectedPermissions" />
 
 </manifest>

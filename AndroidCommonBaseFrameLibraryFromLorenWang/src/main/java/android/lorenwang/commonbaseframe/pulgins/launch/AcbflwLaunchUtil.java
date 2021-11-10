@@ -1,5 +1,6 @@
 package android.lorenwang.commonbaseframe.pulgins.launch;
 
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
 
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
@@ -43,18 +44,20 @@ public class AcbflwLaunchUtil {
      * @param jumpToPreview 是否跳转到预览页面
      */
     public void launchWeChatMiniProgram(String pagePath, Boolean jumpToPreview) {
-        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
-        // 填小程序原始id
-        req.userName = AcbflwPluginUtil.getInstance().getWeChatConfigInfoBean().getWeChatApplyId();
-        //拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query
-        req.path = pagePath;
-        //部分，来实现传参效果，如：传入 "?foo=bar"。// 可选打开 开发版，体验版和正式版
-        if (jumpToPreview == null || !jumpToPreview) {
-            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;
-        } else {
-            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;
+        if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT) != null) {
+            WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+            // 填小程序原始id
+            req.userName = AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getWeChatConfigInfoBean().getWeChatApplyId();
+            //拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query
+            req.path = pagePath;
+            //部分，来实现传参效果，如：传入 "?foo=bar"。// 可选打开 开发版，体验版和正式版
+            if (jumpToPreview == null || !jumpToPreview) {
+                req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;
+            } else {
+                req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;
+            }
+            AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getApi().sendReq(req);
         }
-        AcbflwPluginUtil.getInstance().getApi().sendReq(req);
     }
 
 }

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="取消四舍五入向下取整" />
+
+        <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            app:avlw_pst_priceText="2.05666"
+            app:avlw_pst_priceTextSize="40dp"
+            app:avlw_pst_priceTextColor="@color/colorPrimary"
+            app:avlw_pst_priceTextBold="true"
+            app:avlw_pst_priceRoundingMode="1"
+            android:background="#dcdcdc"
+            tools:ignore="MissingPrefix" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="使用四舍五入模式" />
+
+        <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            app:avlw_pst_priceText="2.05666"
+            app:avlw_pst_priceTextSize="40dp"
+            app:avlw_pst_priceTextColor="@color/colorPrimary"
+            app:avlw_pst_priceTextBold="true"
+            android:background="#dcdcdc"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            app:avlw_pst_priceText="2.05444"
+            app:avlw_pst_priceTextSize="40dp"
+            app:avlw_pst_priceTextColor="@color/colorPrimary"
+            app:avlw_pst_priceTextBold="true"
+            android:background="#dcdcdc"
+            tools:ignore="MissingPrefix" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#333"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:text="金额符号以及金额区域"
+            android:gravity="center"
+            android:layout_marginTop="10dp" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+
+                <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    app:avlw_pst_priceText="2.05444"
+                    app:avlw_pst_priceTextSize="40dp"
+                    app:avlw_pst_priceTextColor="@color/colorPrimary"
+                    app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL_AND_DES_AND_RANG"
+                    app:avlw_pst_currencySymbolLocation="bottomLeft"
+                    app:avlw_pst_currencySymbolTextSize="20sp"
+                    android:background="#dcdcdc"
+                    android:layout_marginRight="30dp"
+                    tools:ignore="MissingPrefix" />
+
+                <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    app:avlw_pst_priceText="2.05444"
+                    app:avlw_pst_priceTextSize="40dp"
+                    app:avlw_pst_currencySymbolTextSize="20sp"
+                    app:avlw_pst_priceTextColor="@color/colorPrimary"
+                    app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL"
+                    app:avlw_pst_currencySymbolLocation="bottomRight"
+                    android:background="#dcdcdc"
+                    tools:ignore="MissingPrefix" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    app:avlw_pst_priceText="2.05444"
+                    app:avlw_pst_priceTextSize="40dp"
+                    app:avlw_pst_priceTextColor="@color/colorPrimary"
+                    app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL"
+                    app:avlw_pst_currencySymbolLocation="topLeft"
+                    app:avlw_pst_currencySymbolTextSize="20sp"
+                    android:background="#dcdcdc"
+                    android:layout_marginRight="30dp"
+                    tools:ignore="MissingPrefix" />
+
+                <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    app:avlw_pst_priceText="2.05444"
+                    app:avlw_pst_priceTextSize="40dp"
+                    app:avlw_pst_priceTextColor="@color/colorPrimary"
+                    app:avlw_pst_currencySymbolTextSize="20sp"
+                    app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL"
+                    app:avlw_pst_currencySymbolLocation="topRight"
+                    android:background="#dcdcdc"
+                    tools:ignore="MissingPrefix" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    app:avlw_pst_priceText="2.05444"
+                    app:avlw_pst_priceTextSize="40dp"
+                    app:avlw_pst_priceTextColor="@color/colorPrimary"
+                    app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL"
+                    app:avlw_pst_currencySymbolLocation="leftBottom"
+                    app:avlw_pst_currencySymbol=""
+                    android:background="#dcdcdc"
+                    android:layout_marginRight="30dp"
+                    tools:ignore="MissingPrefix" />
+
+                <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    app:avlw_pst_priceText="2.05444"
+                    app:avlw_pst_priceTextSize="40dp"
+                    app:avlw_pst_priceTextColor="@color/colorPrimary"
+                    app:avlw_pst_currencySymbolTextSize="20sp"
+                    app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL"
+                    app:avlw_pst_currencySymbolLocation="leftTop"
+                    android:background="#dcdcdc"
+                    tools:ignore="MissingPrefix" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    app:avlw_pst_priceText="2.05444"
+                    app:avlw_pst_priceTextSize="40dp"
+                    app:avlw_pst_priceTextColor="@color/colorPrimary"
+                    app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL"
+                    app:avlw_pst_currencySymbolLocation="rightTop"
+                    app:avlw_pst_currencySymbolTextSize="20sp"
+                    app:avlw_pst_currencySymbolPriceDistance="15dp"
+                    android:background="#dcdcdc"
+                    android:layout_marginRight="30dp"
+                    tools:ignore="MissingPrefix" />
+
+                <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="0dp"
+                    app:avlw_pst_priceText="2.05444"
+                    app:avlw_pst_priceTextSize="40dp"
+                    app:avlw_pst_priceTextColor="@color/colorPrimary"
+                    app:avlw_pst_currencySymbolTextSize="20sp"
+                    app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL"
+                    app:avlw_pst_currencySymbolLocation="rightBottom"
+                    app:avlw_pst_currencySymbolPriceDistance="15dp"
+                    android:background="#dcdcdc"
+                    tools:ignore="MissingPrefix" />
+            </TableRow>
+        </TableLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#333"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:text="金额符号以及金额区域以及底部和金额持平的描述"
+            android:gravity="center"
+            android:layout_marginTop="10dp" />
+
+
+        <android.lorenwang.customview.texiview.priceShow.AvlwPriceShowTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            app:avlw_pst_priceText="2.05444"
+            app:avlw_pst_priceTextSize="40dp"
+            app:avlw_pst_priceTextColor="@color/colorPrimary"
+            app:avlw_pst_currencySymbolTextSize="20sp"
+            app:avlw_pst_priceShowShowType="CURRENCY_SYMBOL_AND_DES_AND_RANG"
+            app:avlw_pst_currencySymbolLocation="leftBottom"
+            android:background="#dcdcdc"
+            tools:ignore="MissingPrefix" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

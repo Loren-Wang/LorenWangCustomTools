@@ -1,6 +1,7 @@
 package android.lorenwang.commonbaseframe.pulgins.share;
 
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
 import android.lorenwang.tools.base.AtlwLogUtil;
 import android.os.Bundle;
@@ -8,8 +9,8 @@ import android.os.Bundle;
 import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 
-import javabase.lorenwang.dataparse.JdplwJsonUtils;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.dataparse.JdplwJsonUtil;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：QQ分享
@@ -30,21 +31,23 @@ class AcbflwQQShare {
      * @param shareDataBean 分享信息
      */
     public void shareImage(AcbflwShareDataBean shareDataBean) {
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getActivity())) {
-            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_ACTIVITY_EMPTY);
-            return;
-        }
+       if(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.QQ) != null){
+           if (JtlwCheckVariateUtil.getInstance().isEmpty(shareDataBean.getActivity())) {
+               callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_ACTIVITY_EMPTY);
+               return;
+           }
 
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(shareDataBean.getQqImageLocalPath())) {
-            //回调异常
-            callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_EMPTY);
-        } else {
-            Bundle params = new Bundle();
-            params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, shareDataBean.getQqImageLocalPath());
-            params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
-            params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
-            AcbflwPluginUtil.getInstance().getQqApi().shareToQQ(shareDataBean.getActivity(), params, getCallbackListener(shareDataBean));
-        }
+           if (JtlwCheckVariateUtil.getInstance().isEmpty(shareDataBean.getQqImageLocalPath())) {
+               //回调异常
+               callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_IMAGE_EMPTY);
+           } else {
+               Bundle params = new Bundle();
+               params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, shareDataBean.getQqImageLocalPath());
+               params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
+               params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+               AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.QQ).getQqApi().shareToQQ(shareDataBean.getActivity(), params, getCallbackListener(shareDataBean));
+           }
+       }
     }
 
     /**
@@ -69,7 +72,7 @@ class AcbflwQQShare {
         return new IUiListener() {
             @Override
             public void onComplete(Object o) {
-                AtlwLogUtil.logUtils.logI("shareToQQ", JdplwJsonUtils.toJson(o));
+                AtlwLogUtil.logUtils.logI("shareToQQ", JdplwJsonUtil.toJson(o));
                 if (shareDataBean != null && shareDataBean.getShareCallBack() != null) {
                     shareDataBean.getShareCallBack().info(o);
                 }
@@ -77,7 +80,7 @@ class AcbflwQQShare {
 
             @Override
             public void onError(com.tencent.tauth.UiError uiError) {
-                AtlwLogUtil.logUtils.logI("shareToQQ", JdplwJsonUtils.toJson(uiError));
+                AtlwLogUtil.logUtils.logI("shareToQQ", JdplwJsonUtil.toJson(uiError));
                 callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.SHARE_FAIL);
             }
 

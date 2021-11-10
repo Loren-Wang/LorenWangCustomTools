@@ -52,7 +52,7 @@ abstract class AvlwProgressBarBase implements AvlwProgressBarOptions {
         this.avlwProgressBar = avlwProgressBar;
         this.attributes = attributes;
         //当前进度
-        progress = attributes.getFloat(R.styleable.AvlwProgressBar_avlwProgress, progress);
+        progress = attributes.getFloat(R.styleable.AvlwProgressBar_avlw_pb_progress, progress);
         if (progress > 1) {
             progress = 1;
         } else if (progress < 0) {

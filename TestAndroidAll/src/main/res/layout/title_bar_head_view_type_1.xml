@@ -5,6 +5,6 @@
     android:id="@+id/tbhvView"
     android:layout_width="match_parent"
     android:layout_height="@dimen/avlw_base_title_bar_head_view_height"
-    app:avlwLayoutType="LAYOUT_TYPE_1"
+    app:avlw_tbh_layoutType="LAYOUT_TYPE_1"
     style="@style/DefaultTitleBarHeadView"
     tools:ignore="MissingPrefix" />

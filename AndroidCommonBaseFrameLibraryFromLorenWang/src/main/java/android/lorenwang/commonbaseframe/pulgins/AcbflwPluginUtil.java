@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：插件工具类
@@ -38,11 +38,17 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
 public class AcbflwPluginUtil {
     private final String TAG = "QtPluginUtils";
     private static volatile AcbflwPluginUtil optionsInstance;
+    /**
+     * 三个插件是否初始化了
+     */
+    private static boolean weChatInit = false;
+    private static boolean qqInit = false;
+    private static boolean sinaInit = false;
 
     private AcbflwPluginUtil() {
     }
 
-    public static AcbflwPluginUtil getInstance() {
+    public static AcbflwPluginUtil getInstance(AcbflwPluginTypeEnum type) {
         if (optionsInstance == null) {
             synchronized (AcbflwPluginUtil.class) {
                 if (optionsInstance == null) {
@@ -50,9 +56,19 @@ public class AcbflwPluginUtil {
                 }
             }
         }
-        return optionsInstance;
+        switch (type) {
+            case QQ:
+                return qqInit ? optionsInstance : null;
+            case SINA:
+                return sinaInit ? optionsInstance : null;
+            case WECHAT:
+                return weChatInit ? optionsInstance : null;
+            case DEFAULT:
+                return optionsInstance;
+            default:
+                return null;
+        }
     }
-
 
     /**
      * 回调集合,使用线程安全的集合
@@ -86,7 +102,7 @@ public class AcbflwPluginUtil {
      */
     public void callBackError(String key, AcbflwPluginErrorTypeEnum errorType) {
         AcbflwPluginCallBack callBack = callBackMap.get(key);
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(callBack) && errorType != null) {
+        if (!JtlwCheckVariateUtil.getInstance().isEmpty(callBack) && errorType != null) {
             callBack.error(errorType);
             removeCallBack(key);
         }
@@ -100,7 +116,7 @@ public class AcbflwPluginUtil {
      */
     public void callBackInfo(String key, Object... info) {
         AcbflwPluginCallBack callBack = callBackMap.get(key);
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(callBack)) {
+        if (!JtlwCheckVariateUtil.getInstance().isEmpty(callBack)) {
             callBack.info(info);
             removeCallBack(key);
         }

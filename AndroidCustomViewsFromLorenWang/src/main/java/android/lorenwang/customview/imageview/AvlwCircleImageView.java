@@ -1,5 +1,6 @@
 package android.lorenwang.customview.imageview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.BitmapShader;
@@ -15,9 +16,9 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatImageView;
 
 /**
+ * 功能作用：圆角图片控件，仅仅只显示圆角图片，其他的一概不显示
  * 创建时间：2019-03-12 下午 16:09:33
  * 创建人：王亮（Loren wang）
- * 功能作用：圆角图片控件，仅仅只显示圆角图片，其他的一概不显示
  * 思路：使用PorterDuff.Mode合成图片
  * 方法：
  * 注意：
@@ -27,7 +28,7 @@ import androidx.appcompat.widget.AppCompatImageView;
  */
 public class AvlwCircleImageView extends AppCompatImageView implements AvlwCustomViewCommon {
 
-    /********************************************绘制参数*******************************************/
+    /*---------------------------------------------绘制参数---------------------------------------------*/
     /**
      * 圆形画笔
      */
@@ -55,6 +56,7 @@ public class AvlwCircleImageView extends AppCompatImageView implements AvlwCusto
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        @SuppressLint("CustomViewStyleable")
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.AllImageview, defStyleAttr, 0);
 
         //初始化圆形画笔
@@ -67,8 +69,8 @@ public class AvlwCircleImageView extends AppCompatImageView implements AvlwCusto
         borderCirclePaint = new Paint();
         borderCirclePaint.reset();
         borderCirclePaint.setAntiAlias(true);
-        borderCirclePaint.setColor(attr.getColor(R.styleable.AllImageview_allImageBorderColor, Color.TRANSPARENT));
-        borderCirclePaint.setStrokeWidth(attr.getDimension(R.styleable.AllImageview_allImageBorderWidth, 0));
+        borderCirclePaint.setColor(attr.getColor(R.styleable.AllImageview_avlw_aiv_borderColor, Color.TRANSPARENT));
+        borderCirclePaint.setStrokeWidth(attr.getDimension(R.styleable.AllImageview_avlw_aiv_borderWidth, 0));
         borderCirclePaint.setStyle(Paint.Style.STROKE);
 
         attr.recycle();
@@ -84,14 +86,12 @@ public class AvlwCircleImageView extends AppCompatImageView implements AvlwCusto
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (canvas != null) {
-            //画圆形
-            canvas.drawCircle(getWidth() / 2, getHeight() / 2, (int) (Math.min(getWidth(), getHeight()) * 1.0 / 2) - borderCirclePaint.getStrokeWidth(), circlePaint);
-            //画边框
-            canvas.drawCircle(getWidth() / 2,getHeight() / 2,(int) (Math.min(getWidth(), getHeight()) * 1.0 / 2) - borderCirclePaint.getStrokeWidth(),borderCirclePaint);
-        } else {
-            super.onDraw(canvas);
-        }
+        //画圆形
+        canvas.drawCircle(getWidth() / 2.0F, getHeight() / 2.0F, (int) (Math.min(getWidth(), getHeight()) * 1.0 / 2) -
+                borderCirclePaint.getStrokeWidth(), circlePaint);
+        //画边框
+        canvas.drawCircle(getWidth() / 2.0F, getHeight() / 2.0F, (int) (Math.min(getWidth(), getHeight()) * 1.0 / 2) -
+                borderCirclePaint.getStrokeWidth(), borderCirclePaint);
     }
 
     @Override

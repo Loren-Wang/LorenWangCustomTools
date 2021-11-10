@@ -17,7 +17,6 @@
 package android.lorenwang.graphic_code_scan;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.hardware.Camera.Size;
 import android.os.Bundle;
@@ -55,7 +54,7 @@ class DecodeHandler extends Handler {
     private boolean running = true;
     private AgcslwScan agcslwScan;
 
-    public DecodeHandler(Map<DecodeHintType, Object> hints,AgcslwScan agcslwScan) {
+    public DecodeHandler(Map<DecodeHintType, Object> hints, AgcslwScan agcslwScan) {
         multiFormatReader = new MultiFormatReader();
         multiFormatReader.setHints(hints);
         this.agcslwScan = agcslwScan;
@@ -67,10 +66,13 @@ class DecodeHandler extends Handler {
             return;
         }
         switch (message.what) {
-            case SacnCameraCommon.decode:
+            case ScanCameraCommon.decode:
+                agcslwScan.paramsCameraTakePhotoData((byte[]) message.obj, this, ScanCameraCommon.decode_params_data);
+                break;
+            case ScanCameraCommon.decode_params_data:
                 decode((byte[]) message.obj, message.arg1, message.arg2);
                 break;
-            case SacnCameraCommon.quit:
+            case ScanCameraCommon.quit:
                 running = false;
                 Looper.myLooper().quit();
                 break;
@@ -91,27 +93,8 @@ class DecodeHandler extends Handler {
         if (cameraManager != null) {
             Size size = cameraManager.getPreviewSize();
             if (size != null) {
-
                 Result rawResult = null;
-                PlanarYUVLuminanceSource source;
-
-                if(agcslwScan.getDegree() / 90 % 2 != 0){
-                    // 这里需要将获取的data翻转一下，因为相机默认拿的的横屏的数据
-                    byte[] rotatedData = new byte[data.length];
-                    for (int y = 0; y < size.height; y++) {
-                        for (int x = 0; x < size.width; x++)
-                            rotatedData[x * size.height + size.height - y - 1] = data[x + y * size.width];
-                    }
-                    // 宽高也要调整
-                    int tmp = size.width;
-                    size.width = size.height;
-                    size.height = tmp;
-                    source = buildLuminanceSource(rotatedData, size.width, size.height);
-                }else {
-                    source = buildLuminanceSource(data, size.width, size.height);
-                }
-
-
+                PlanarYUVLuminanceSource source = buildLuminanceSource(data, width, height);
                 if (source != null && multiFormatReader != null) {
                     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
                     try {
@@ -127,7 +110,7 @@ class DecodeHandler extends Handler {
                 if (rawResult != null) {
                     // Don't log the barcode contents for security.
                     if (handler != null) {
-                        Message message = Message.obtain(handler, SacnCameraCommon.decode_succeeded, rawResult);
+                        Message message = Message.obtain(handler, ScanCameraCommon.decode_succeeded, rawResult);
                         Bundle bundle = new Bundle();
                         bundleThumbnail(source, bundle);
                         message.setData(bundle);
@@ -135,7 +118,7 @@ class DecodeHandler extends Handler {
                     }
                 } else {
                     if (handler != null) {
-                        Message message = Message.obtain(handler, SacnCameraCommon.decode_failed);
+                        Message message = Message.obtain(handler, ScanCameraCommon.decode_failed);
                         message.sendToTarget();
                     }
                 }

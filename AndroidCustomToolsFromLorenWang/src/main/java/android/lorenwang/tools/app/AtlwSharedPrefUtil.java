@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javabase.lorenwang.dataparse.JdplwJsonUtils;
-import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
+import javabase.lorenwang.dataparse.JdplwJsonUtil;
+import javabase.lorenwang.tools.common.JtlwDateTimeUtil;
 
 /**
  * 功能作用：Android SharedPreference文件读写操作工具类
@@ -423,10 +423,10 @@ public class AtlwSharedPrefUtil {
         if (old == null || old.isEmpty()) {
             list = new ArrayList<>();
         } else {
-            list = JdplwJsonUtils.fromJsonArray(old, String.class);
+            list = JdplwJsonUtil.fromJsonArray(old, String.class);
         }
-        list.add(id + "_" + JtlwDateTimeUtils.getInstance().getFormatDateNowTime(recordTimePattern) + "_" + value);
-        return putString(key, JdplwJsonUtils.toJson(list));
+        list.add(id + "_" + JtlwDateTimeUtil.getInstance().getFormatDateNowTime(recordTimePattern) + "_" + value);
+        return putString(key, JdplwJsonUtil.toJson(list));
     }
 
     /**
@@ -441,7 +441,7 @@ public class AtlwSharedPrefUtil {
         if (old == null || old.isEmpty()) {
             list = new ArrayList<>();
         } else {
-            list = JdplwJsonUtils.fromJsonArray(old, String.class);
+            list = JdplwJsonUtil.fromJsonArray(old, String.class);
         }
         String[] split;
         //判断是否要清除旧数据
@@ -458,7 +458,7 @@ public class AtlwSharedPrefUtil {
                         //判断是否是要当天的数据，如果不是要当天的数据则读取数据返回，同时加入到其他数据列表
                         if (today) {
                             //当前需要的是当天的数据，如果是当天的数据则返回并加入到其他列表中，否则不处理，清除掉之前时间的数据，保证数据量最小
-                            if (JtlwDateTimeUtils.getInstance().getFormatDateNowTime(recordTimePattern) == split[1]) {
+                            if (JtlwDateTimeUtil.getInstance().getFormatDateNowTime(recordTimePattern) == split[1]) {
                                 current = split;
                                 otherList.add(item);
                             }
@@ -474,7 +474,7 @@ public class AtlwSharedPrefUtil {
                 }
             }
             //清除数据
-            putString(key, JdplwJsonUtils.toJson(otherList));
+            putString(key, JdplwJsonUtil.toJson(otherList));
             //判断是否要返回数据
             if (current != null) {
                 return current[2];
@@ -485,7 +485,7 @@ public class AtlwSharedPrefUtil {
                 if (split.length == 3) {
                     if (split[0] == id) {
                         if (today) {
-                            if (JtlwDateTimeUtils.getInstance().getFormatDateNowTime(recordTimePattern).equals(split[1])) {
+                            if (JtlwDateTimeUtil.getInstance().getFormatDateNowTime(recordTimePattern).equals(split[1])) {
                                 return split[2];
                             }
                         } else {
@@ -504,7 +504,7 @@ public class AtlwSharedPrefUtil {
      * @return 插入结果
      */
     public boolean putDayRecord(String key) {
-       return putString(key, JtlwDateTimeUtils.getInstance().getFormatDateNowTime(recordTimePattern));
+       return putString(key, JtlwDateTimeUtil.getInstance().getFormatDateNowTime(recordTimePattern));
     }
 
     /**
@@ -512,7 +512,7 @@ public class AtlwSharedPrefUtil {
      */
     public String getDayRecord(String key) {
         String time = getString(key, null);
-        if (JtlwDateTimeUtils.getInstance().getFormatDateNowTime(recordTimePattern).equals(time)) {
+        if (JtlwDateTimeUtil.getInstance().getFormatDateNowTime(recordTimePattern).equals(time)) {
             return time;
         } else {
             return null;

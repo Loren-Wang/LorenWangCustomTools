@@ -10,7 +10,7 @@ import android.lorenwang.tools.app.AtlwViewUtil;
 
 import java.math.BigDecimal;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：范围金额、符号、描述
@@ -65,7 +65,7 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
      */
     private int desEndLeftDistance = 0;
     /**
-     * 范围分隔符左右间距
+     * 范围分隔符左右的间距
      */
     private int rangSeparateLeftRightDistance = 0;
 
@@ -77,38 +77,41 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
     @Override
     void init(Context context, AvlwPriceShowTextView qtPriceShowTextView, TypedArray attributes) {
         super.init(context, qtPriceShowTextView, attributes);
-        rangMaxNeedCurrencySymbol = attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlwRangMaxNeedCurrencySymbol, rangMaxNeedCurrencySymbol);
-        rangSeparateLeftRightDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwPriceShowTextView_avlwRangSeparateLeftRightDistance,
+        rangMaxNeedCurrencySymbol = attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlw_pst_rangMaxNeedCurrencySymbol,
+                rangMaxNeedCurrencySymbol);
+        rangSeparateLeftRightDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwPriceShowTextView_avlw_pst_rangSeparateLeftRightDistance,
                 rangSeparateLeftRightDistance);
-        desStartRightDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwPriceShowTextView_avlwDesStartRightDistance, desStartRightDistance);
-        desEndLeftDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwPriceShowTextView_avlwDesEndLeftDistance, desEndLeftDistance);
+        desStartRightDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwPriceShowTextView_avlw_pst_desStartRightDistance,
+                desStartRightDistance);
+        desEndLeftDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwPriceShowTextView_avlw_pst_desEndLeftDistance, desEndLeftDistance);
 
         //初始化画笔
         paintDes = new Paint();
         paintDes.setAntiAlias(true);
-        paintDes.setTextSize(attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwDescribeTextSize, priceSize));
-        paintDes.setColor(attributes.getColor(R.styleable.AvlwPriceShowTextView_avlwDescribeTextColor, priceColor));
-        if (attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlwDescribeTextBold, false)) {
+        paintDes.setTextSize(attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlw_pst_describeTextSize, priceSize));
+        paintDes.setColor(attributes.getColor(R.styleable.AvlwPriceShowTextView_avlw_pst_describeTextColor, priceColor));
+        if (attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlw_pst_describeTextBold, false)) {
             paintDes.setTypeface(Typeface.DEFAULT_BOLD);
         }
 
-        rangSeparate = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwRangSeparate);
+        rangSeparate = attributes.getString(R.styleable.AvlwPriceShowTextView_avlw_pst_rangSeparate);
         paintRangSeparate = new Paint();
-        paintRangSeparate.setTextSize(attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlwRangSeparateTextSize, priceSize));
-        paintRangSeparate.setColor(attributes.getColor(R.styleable.AvlwPriceShowTextView_avlwRangSeparateTextColor, priceColor));
-        if (attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlwRangSeparateTextBold, false)) {
+        paintRangSeparate.setTextSize(attributes.getDimension(R.styleable.AvlwPriceShowTextView_avlw_pst_rangSeparateTextSize, priceSize));
+        paintRangSeparate.setColor(attributes.getColor(R.styleable.AvlwPriceShowTextView_avlw_pst_rangSeparateTextColor, priceColor));
+        if (attributes.getBoolean(R.styleable.AvlwPriceShowTextView_avlw_pst_rangSeparateTextBold, false)) {
             paintRangSeparate.setTypeface(Typeface.DEFAULT_BOLD);
         }
 
         //初始化设置文本
-        setDesInfo(attributes.getString(R.styleable.AvlwPriceShowTextView_avlwDesStart), attributes.getString(R.styleable.AvlwPriceShowTextView_avlwDesEnd));
-        String priceMin = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceMin);
-        String priceMax = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceMax);
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(priceMin)) {
-            priceMin = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceText);
+        setDesInfo(attributes.getString(R.styleable.AvlwPriceShowTextView_avlw_pst_desStart),
+                attributes.getString(R.styleable.AvlwPriceShowTextView_avlw_pst_desEnd));
+        String priceMin = attributes.getString(R.styleable.AvlwPriceShowTextView_avlw_pst_priceMin);
+        String priceMax = attributes.getString(R.styleable.AvlwPriceShowTextView_avlw_pst_priceMax);
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(priceMin)) {
+            priceMin = attributes.getString(R.styleable.AvlwPriceShowTextView_avlw_pst_priceText);
         }
-        setRangPrice(JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMin) ? new BigDecimal(priceMin) : null,
-                JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMax) ? new BigDecimal(priceMax) : null);
+        setRangPrice(JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMin) ? new BigDecimal(priceMin) : null,
+                JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMax) ? new BigDecimal(priceMax) : null);
     }
 
     /**
@@ -135,7 +138,7 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
         } else if (priceMin != null && priceMax == null) {
             this.priceMin = formatPrice(priceMin);
             this.priceMax = null;
-        } else if (priceMax != null && priceMin == null) {
+        } else if (priceMin == null) {
             this.priceMin = formatPrice(priceMax);
             this.priceMax = null;
         } else if (priceMin.compareTo(priceMax) > 0) {
@@ -179,13 +182,13 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
     public int getMeasureWidth(int widthMeasureSpec) {
         float showWidth = 0;
         //起始描述
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(desStart)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(desStart)) {
             showWidth += AtlwViewUtil.getInstance().getStrTextWidth(paintDes, desStart);
         }
         //间距
         showWidth += desStartRightDistance;
         //起始金额
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMin)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMin)) {
             //顶部的，则为符号和数据的最大值
             if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TL ||
                     currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TR ||
@@ -202,7 +205,7 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
             }
         }
         //结束金额
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMax)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMax)) {
             //分隔符
             showWidth += rangSeparateLeftRightDistance * 2 + AtlwViewUtil.getInstance().getStrTextWidth(paintRangSeparate, rangSeparate);
             if (rangMaxNeedCurrencySymbol) {
@@ -226,7 +229,7 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
         }
         //结束描述以及间距
         showWidth += desEndLeftDistance;
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(desEnd)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(desEnd)) {
             showWidth += AtlwViewUtil.getInstance().getStrTextWidth(paintDes, desEnd);
         }
 
@@ -242,13 +245,13 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
     @Override
     public int getMeasureHeight(int heightMeasureSpec) {
         float showHeight = 0;
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(desStart) || JtlwCheckVariateUtils.getInstance().isNotEmpty(desEnd)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(desStart) || JtlwCheckVariateUtil.getInstance().isNotEmpty(desEnd)) {
             showHeight = Math.max(showHeight, AtlwViewUtil.getInstance().getStrTextHeight(paintDes));
         }
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMin) || JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMax)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMin) || JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMax)) {
             showHeight = Math.max(showHeight, Math.abs(pricePaint.getFontMetrics().ascent));
         }
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(currencySymbolText)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(currencySymbolText)) {
             if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TL ||
                     currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_TR ||
                     currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BL ||
@@ -261,7 +264,7 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
         } else {
             showHeight = Math.max(showHeight, AtlwViewUtil.getInstance().getStrTextHeight(currencySymbolPaint));
         }
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(rangSeparate)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(rangSeparate)) {
             showHeight = Math.max(showHeight, AtlwViewUtil.getInstance().getStrTextHeight(paintRangSeparate));
         }
         return (int) (showHeight);
@@ -280,17 +283,17 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
     void onDrawRegion(Canvas canvas, float left, float top, float right, float bottom) {
         float drawLeft = left;
         //绘制开始描述
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(desStart)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(desStart)) {
             canvas.drawText(desStart, drawLeft, bottom - paintDes.getFontMetrics().bottom, paintDes);
             drawLeft += AtlwViewUtil.getInstance().getStrTextWidth(paintDes, desStart);
         }
         drawLeft += desStartRightDistance;
         //绘制左侧金额符号
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(currencySymbolText)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(currencySymbolText)) {
             drawLeft = drawCurrencySymbol(canvas, drawLeft, bottom, priceMin);
         }
         //绘制最小金额
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMin)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMin)) {
             drawLeft = drawPrice(canvas, drawLeft, bottom - currencySymbolPaint.getFontMetrics().bottom, priceMin);
         }
         //右侧时需要drawLeft加上符号宽度
@@ -298,9 +301,9 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
             drawLeft += AtlwViewUtil.getInstance().getStrTextWidth(currencySymbolPaint, currencySymbolText) + currencySymbolPriceDistance;
         }
         //绘制最大金额
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMax)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMax)) {
             //绘制分隔符
-            if (JtlwCheckVariateUtils.getInstance().isNotEmpty(rangSeparate)) {
+            if (JtlwCheckVariateUtil.getInstance().isNotEmpty(rangSeparate)) {
                 drawLeft += rangSeparateLeftRightDistance;
                 if (currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BL || currencySymbolLocation == CURRENCY_SYMBOL_LOCATION_BR) {
                     canvas.drawText(rangSeparate, drawLeft, bottom - paintRangSeparate.getFontMetrics().bottom - rangSeparateLeftRightDistance -
@@ -312,11 +315,11 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
                 drawLeft += AtlwViewUtil.getInstance().getStrTextWidth(paintRangSeparate, rangSeparate) + rangSeparateLeftRightDistance;
             }
             //绘制最大金额符号
-            if (JtlwCheckVariateUtils.getInstance().isNotEmpty(currencySymbolText) && rangMaxNeedCurrencySymbol) {
+            if (JtlwCheckVariateUtil.getInstance().isNotEmpty(currencySymbolText) && rangMaxNeedCurrencySymbol) {
                 drawLeft = drawCurrencySymbol(canvas, drawLeft, bottom, priceMax);
             }
             //绘制最大金额
-            if (JtlwCheckVariateUtils.getInstance().isNotEmpty(priceMax)) {
+            if (JtlwCheckVariateUtil.getInstance().isNotEmpty(priceMax)) {
                 drawLeft = drawPrice(canvas, drawLeft, bottom - currencySymbolPaint.getFontMetrics().bottom, priceMax);
             }
         }
@@ -328,9 +331,8 @@ public class AvlwPriceShowTypeRangAndCurrencySymbolAndDescribe extends AvlwPrice
         }
         drawLeft += desEndLeftDistance;
         //绘制结束描述
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(desEnd)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(desEnd)) {
             canvas.drawText(desEnd, drawLeft, bottom - paintDes.getFontMetrics().bottom, paintDes);
-            drawLeft += AtlwViewUtil.getInstance().getStrTextWidth(paintDes, desEnd);
         }
     }
 

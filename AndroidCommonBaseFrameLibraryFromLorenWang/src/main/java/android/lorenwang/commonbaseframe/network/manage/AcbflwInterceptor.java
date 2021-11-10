@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 
 import androidx.annotation.NonNull;
-import javabase.lorenwang.dataparse.JdplwJsonUtils;
+import javabase.lorenwang.dataparse.JdplwJsonUtil;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -69,7 +69,7 @@ public class AcbflwInterceptor implements Interceptor {
             logBuilder.append("***response_code:").append(response.code()).append('\n');
             logBuilder.append("***response_message:").append(response.message()).append('\n');
             //存储响应header
-            logBuilder.append("***response_heads:\n").append(JdplwJsonUtils.toJson(response.headers().toMultimap())).append("\n\n");
+            logBuilder.append("***response_heads:\n").append(JdplwJsonUtil.toJson(response.headers().toMultimap())).append("\n\n");
             //存储响应体
             logBuilder.append("***response_body:\n").append(body.replaceAll(",\"", ",\n\"")).append("\n\n");
 

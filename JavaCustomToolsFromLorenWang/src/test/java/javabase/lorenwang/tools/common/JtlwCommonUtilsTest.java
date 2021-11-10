@@ -6,8 +6,6 @@ import org.junit.After;
 
 import java.util.Locale;
 
-import javabase.lorenwang.tools.common.JtlwCommonUtils;
-
 /**
  * JtlwCommonUtils Tester.
  *
@@ -27,12 +25,12 @@ public class JtlwCommonUtilsTest {
 
     @Test
     public void toSeparatedCase() {
-        System.out.println(JtlwCommonUtils.getInstance().toSeparatedCase("aBCD_","_").toLowerCase(Locale.ROOT));
+        System.out.println(JtlwCommonUtil.getInstance().toSeparatedCase("aBCD_","_").toLowerCase(Locale.ROOT));
     }
 
     @Test
     public void toCamelCase() {
-        System.out.println(JtlwCommonUtils.getInstance().toCamelCase("a_b_c_d_"));
+        System.out.println(JtlwCommonUtil.getInstance().toCamelCase("a_b_c_d_"));
     }
 
     /**
@@ -48,13 +46,13 @@ public class JtlwCommonUtilsTest {
     @Test
     public void testGenerateUuid() {
         System.out.println("uuid带中划线长度");
-        System.out.println(JtlwCommonUtils.getInstance().generateUuid(false).length());
+        System.out.println(JtlwCommonUtil.getInstance().generateUuid(false).length());
         System.out.println("uuid不带中划线长度");
-        System.out.println(JtlwCommonUtils.getInstance().generateUuid(true).length());
+        System.out.println(JtlwCommonUtil.getInstance().generateUuid(true).length());
         System.out.println("uuid带中划线生成");
-        System.out.println(JtlwCommonUtils.getInstance().generateUuid(false));
+        System.out.println(JtlwCommonUtil.getInstance().generateUuid(false));
         System.out.println("uuid不带中划线生成");
-        System.out.println(JtlwCommonUtils.getInstance().generateUuid(true));
+        System.out.println(JtlwCommonUtil.getInstance().generateUuid(true));
     }
 
     /**

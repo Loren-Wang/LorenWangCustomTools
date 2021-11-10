@@ -2,18 +2,18 @@
 <resources>
     <declare-styleable name="AllImageview">
         <!--边框宽度-->
-        <attr name="allImageBorderWidth" format="dimension" />
+        <attr name="avlw_aiv_borderWidth" format="dimension" />
         <!--边框颜色-->
-        <attr name="allImageBorderColor" format="color" />
+        <attr name="avlw_aiv_borderColor" format="color" />
         <!--总的所有圆角-->
-        <attr name="allImageRoundedRectangleAngle" format="dimension" />
+        <attr name="avlw_aiv_roundedRectangleAngle" format="dimension" />
         <!--左上圆角角度-->
-        <attr name="allImageRoundedRectangleAngleLeftTop" format="dimension" />
+        <attr name="avlw_aiv_roundedRectangleAngleLeftTop" format="dimension" />
         <!--右上圆角角度-->
-        <attr name="allImageRoundedRectangleAngleRightTop" format="dimension" />
+        <attr name="avlw_aiv_roundedRectangleAngleRightTop" format="dimension" />
         <!--左下圆角角度-->
-        <attr name="allImageRoundedRectangleAngleLeftBottom" format="dimension" />
+        <attr name="avlw_aiv_roundedRectangleAngleLeftBottom" format="dimension" />
         <!--右下圆角角度-->
-        <attr name="allImageRoundedRectangleAngleRightBottom" format="dimension" />
+        <attr name="avlw_aiv_roundedRectangleAngleRightBottom" format="dimension" />
     </declare-styleable>
 </resources>

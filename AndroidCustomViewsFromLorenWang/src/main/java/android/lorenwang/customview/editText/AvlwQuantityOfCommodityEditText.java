@@ -1,5 +1,6 @@
 package android.lorenwang.customview.editText;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -21,8 +22,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatEditText;
-import javabase.lorenwang.tools.JtlwLogUtils;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.JtlwLogUtil;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：商品数量修改textView
@@ -197,41 +198,43 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
     /**
      * 初始化
      */
+    @SuppressLint("ResourceType")
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwQuantityOfCommodityEditText);
         //获取间距
-        textInsideDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwTextInsideDistance,
+        textInsideDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_textInsideDistance,
                 textInsideDistance);
         //操作按钮内部边距
-        optionsButtonInsideDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwOptionsButtonInsideDistance,
-                optionsButtonInsideDistance);
+        optionsButtonInsideDistance = attributes.getDimensionPixelOffset(
+                R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_optionsButtonInsideDistance, optionsButtonInsideDistance);
         //操作按钮和文本分隔之间的间距
         optionsButtonAndTextSeparatedDistance = attributes.getDimensionPixelOffset(
-                R.styleable.AvlwQuantityOfCommodityEditText_avlwOptionsButtonAndTextSeparatedDistance, optionsButtonAndTextSeparatedDistance);
+                R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_optionsButtonAndTextSeparatedDistance, optionsButtonAndTextSeparatedDistance);
         //获取操作按钮宽度
-        optionsButtonWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwOptionsButtonWidth,
+        optionsButtonWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_optionsButtonWidth,
                 optionsButtonWidth);
         //边框角度半径
-        borderRadio = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQuantityBorderRadio, borderRadio);
+        borderRadio = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_quantityBorderRadio, borderRadio);
         //边框宽度
-        borderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwQuantityBorderWidth, borderWidth);
+        borderWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_quantityBorderWidth, borderWidth);
         //是否只给内容加边框
-        borderOnlyShowContent = attributes.getBoolean(R.styleable.AvlwQuantityOfCommodityEditText_avlwBorderOnlyShowContent, borderOnlyShowContent);
+        borderOnlyShowContent = attributes.getBoolean(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_borderOnlyShowContent,
+                borderOnlyShowContent);
         //文本显示宽度
-        textShowWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlwTextShowWidth, textShowWidth);
+        textShowWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_textShowWidth, textShowWidth);
 
         //按钮部分数据参数
         try {
             addButtonAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(
-                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwAddButtonDrawableAllow));
+                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_addButtonDrawableAllow));
             addButtonNotAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(
-                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwAddButtonDrawableNotAllow));
+                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_addButtonDrawableNotAllow));
             reduceButtonAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(
-                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwReduceButtonDrawableAllow));
+                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_reduceButtonDrawableAllow));
             reduceButtonNotAllowBitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(
-                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlwReduceButtonDrawableNotAllow));
+                    attributes.getDrawable(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_reduceButtonDrawableNotAllow));
         } catch (Exception e) {
-            JtlwLogUtils.logUtils.logE(TAG, "数量控件初始化异常");
+            JtlwLogUtil.logUtils.logE(TAG, "数量控件初始化异常");
         }
         if (addButtonAllowBitmap != null) {
             addButtonAllowBitmapRect = new Rect(0, 0, addButtonAllowBitmap.getWidth(), addButtonAllowBitmap.getHeight());
@@ -251,7 +254,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
         borderPaint = new Paint();
         borderPaint.setAntiAlias(true);
         borderPaint.setStrokeWidth(borderWidth);
-        borderPaint.setColor(attributes.getColor(R.styleable.AvlwQuantityOfCommodityEditText_avlwQuantityBorderColor, Color.TRANSPARENT));
+        borderPaint.setColor(attributes.getColor(R.styleable.AvlwQuantityOfCommodityEditText_avlw_qoce_quantityBorderColor, Color.TRANSPARENT));
         borderPaint.setStyle(Paint.Style.STROKE);
 
         //设置允许输入的字符串
@@ -283,11 +286,11 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
                 Math.max(attributes.getDimensionPixelOffset(5, firstPaddingRight), firstPaddingRight));
         firstPaddingTop = attributes.getDimensionPixelOffset(6, firstPaddingTop);
         firstPaddingBottom = attributes.getDimensionPixelOffset(7, firstPaddingBottom);
-
+        attributes.recycle();
         //设置布局设置数据
         changeQuantity(getText(), true);
         //设置初始数据
-        if (getText().toString().isEmpty()) {
+        if (getText() != null && getText().toString().isEmpty()) {
             setText(String.valueOf(this.quantity));
         }
     }
@@ -307,7 +310,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null && JtlwCheckVariateUtils.getInstance().isNotEmpty(s.toString())) {
+                if (s != null && JtlwCheckVariateUtil.getInstance().isNotEmpty(s.toString())) {
                     changeQuantity(s, true);
                 } else {
                     changeQuantity(quantity, false);
@@ -693,7 +696,7 @@ public class AvlwQuantityOfCommodityEditText extends AppCompatEditText {
                     }
                 }
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(this.TAG, "传递的参数非整数参数");
+                JtlwLogUtil.logUtils.logE(this.TAG, "传递的参数非整数参数");
             }
         }
         postInvalidate();

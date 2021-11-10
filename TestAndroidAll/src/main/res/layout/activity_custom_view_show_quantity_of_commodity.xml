@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/test"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+
+        <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/avlw_solid_radius_8"
+            android:backgroundTint="#dcdcdc"
+            app:avlw_qoce_addButtonDrawableAllow="@drawable/icon_empty_add"
+            app:avlw_qoce_addButtonDrawableNotAllow="@drawable/icon_empty_add_unable"
+            app:avlw_qoce_reduceButtonDrawableAllow="@drawable/icon_empty_sub"
+            app:avlw_qoce_reduceButtonDrawableNotAllow="@drawable/icon_empty_sub_unable"
+            app:avlw_qoce_textInsideDistance="10dp"
+            app:avlw_qoce_optionsButtonWidth="15dp"
+            app:avlw_qoce_quantityBorderColor="#000"
+            app:avlw_qoce_quantityBorderWidth="1dp"
+            app:avlw_qoce_quantityBorderRadio="8dp"
+            app:avlw_qoce_textShowWidth="200dp"
+            app:avlw_qoce_optionsButtonInsideDistance="3dp"
+            tools:ignore="MissingPrefix" />
+
+
+        <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/avlw_solid_radius_8"
+            android:backgroundTint="#dcdcdc"
+            android:text="3333"
+            app:avlw_qoce_addButtonDrawableAllow="@drawable/icon_empty_add"
+            app:avlw_qoce_addButtonDrawableNotAllow="@drawable/icon_empty_add_unable"
+            app:avlw_qoce_reduceButtonDrawableAllow="@drawable/icon_empty_sub"
+            app:avlw_qoce_reduceButtonDrawableNotAllow="@drawable/icon_empty_sub_unable"
+            app:avlw_qoce_textInsideDistance="10dp"
+            app:avlw_qoce_optionsButtonWidth="15dp"
+            app:avlw_qoce_quantityBorderColor="#000"
+            app:avlw_qoce_quantityBorderWidth="1dp"
+            app:avlw_qoce_quantityBorderRadio="8dp"
+            app:avlw_qoce_textShowWidth="200dp"
+            app:avlw_qoce_optionsButtonInsideDistance="3dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/avlw_solid_radius_8"
+            android:backgroundTint="#dcdcdc"
+            android:text="1"
+            app:avlw_qoce_addButtonDrawableAllow="@drawable/icon_empty_add"
+            app:avlw_qoce_addButtonDrawableNotAllow="@drawable/icon_empty_add_unable"
+            app:avlw_qoce_reduceButtonDrawableAllow="@drawable/icon_empty_sub"
+            app:avlw_qoce_reduceButtonDrawableNotAllow="@drawable/icon_empty_sub_unable"
+            app:avlw_qoce_textInsideDistance="10dp"
+            app:avlw_qoce_optionsButtonWidth="15dp"
+            app:avlw_qoce_optionsButtonInsideDistance="3dp"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/avlw_solid_radius_8"
+            android:backgroundTint="#dcdcdc"
+            android:text="9999"
+            app:avlw_qoce_addButtonDrawableAllow="@drawable/icon_empty_add"
+            app:avlw_qoce_addButtonDrawableNotAllow="@drawable/icon_empty_add_unable"
+            app:avlw_qoce_reduceButtonDrawableAllow="@drawable/icon_empty_sub"
+            app:avlw_qoce_reduceButtonDrawableNotAllow="@drawable/icon_empty_sub_unable"
+            app:avlw_qoce_textInsideDistance="10dp"
+            app:avlw_qoce_optionsButtonWidth="15dp"
+            app:avlw_qoce_optionsButtonInsideDistance="3dp"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+        <android.lorenwang.customview.editText.AvlwQuantityOfCommodityEditText
+            android:id="@+id/testInput"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/avlw_solid_radius_8"
+            android:backgroundTint="#dcdcdc"
+            android:text="6666"
+            app:avlw_qoce_addButtonDrawableAllow="@drawable/icon_empty_add"
+            app:avlw_qoce_addButtonDrawableNotAllow="@drawable/icon_empty_add_unable"
+            app:avlw_qoce_reduceButtonDrawableAllow="@drawable/icon_empty_sub"
+            app:avlw_qoce_reduceButtonDrawableNotAllow="@drawable/icon_empty_sub_unable"
+            app:avlw_qoce_textInsideDistance="10dp"
+            app:avlw_qoce_optionsButtonWidth="15dp"
+            app:avlw_qoce_optionsButtonInsideDistance="3dp"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingPrefix" />
+
+
+    </LinearLayout>
+
+</ScrollView>

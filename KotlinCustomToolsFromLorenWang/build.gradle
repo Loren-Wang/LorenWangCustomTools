@@ -31,7 +31,7 @@ dependencies {
 
 def moduleName = "KotlinCustomToolsFromLorenWang"
 def moduleDescription = "Kotlin自定义工具类"
-def moduleVersion = '1.3.7'
+def moduleVersion = '2.0.0'
 // 编译版本和编码配置
 repositories {
     mavenCentral()

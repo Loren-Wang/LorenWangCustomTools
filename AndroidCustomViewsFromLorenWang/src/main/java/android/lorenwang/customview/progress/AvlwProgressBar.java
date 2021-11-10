@@ -55,7 +55,7 @@ public class AvlwProgressBar extends View implements AvlwProgressBarOptions {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
 
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwProgressBar);
-        switch (attributes.getInt(R.styleable.AvlwProgressBar_avlwShowProgressType, -1)) {
+        switch (attributes.getInt(R.styleable.AvlwProgressBar_avlw_pb_showProgressType, -1)) {
             case PROGRESS_TYPE_2:
                 avlwProgressBarBase = new AvlwProgressBarScroll();
                 break;

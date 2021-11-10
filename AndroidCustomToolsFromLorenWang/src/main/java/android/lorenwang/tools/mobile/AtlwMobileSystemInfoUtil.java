@@ -138,7 +138,17 @@ public class AtlwMobileSystemInfoUtil {
     public String getIMEIInfo() {
         TelephonyManager tm = (TelephonyManager) AtlwConfig.nowApplication.getSystemService(Activity.TELEPHONY_SERVICE);
         if (tm != null) {
-            return tm.getDeviceId();
+            try {
+                return tm.getDeviceId();
+            } catch (Exception e) {
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        return tm.getImei();
+                    }
+                } catch (Exception ignore) {
+
+                }
+            }
         }
         return null;
     }

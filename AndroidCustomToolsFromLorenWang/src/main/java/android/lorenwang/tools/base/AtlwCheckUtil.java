@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.List;
 
 import androidx.core.app.ActivityCompat;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
@@ -127,7 +127,7 @@ public class AtlwCheckUtil {
      */
     public boolean checkFileIsImage(String filePath) {
         if (!TextUtils.isEmpty(filePath)) {
-            if (JtlwCheckVariateUtils.getInstance().checkFileIsImage(filePath)) {
+            if (JtlwCheckVariateUtil.getInstance().checkFileIsImage(filePath)) {
                 AtlwLogUtil.logUtils.logI(TAG, "被检测地址为图片地址：");
                 return true;
             } else {

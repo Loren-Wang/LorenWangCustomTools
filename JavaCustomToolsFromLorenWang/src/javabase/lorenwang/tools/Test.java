@@ -2,9 +2,7 @@ package javabase.lorenwang.tools;
 
 import java.util.List;
 
-import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
-import javabase.lorenwang.tools.thread.CountDownCallback;
-import javabase.lorenwang.tools.thread.JtlwTimingTaskUtils;
+import javabase.lorenwang.tools.common.JtlwDateTimeUtil;
 
 /**
  * 创建时间：2019-01-28 下午 15:15:21
@@ -20,9 +18,9 @@ import javabase.lorenwang.tools.thread.JtlwTimingTaskUtils;
 
 public class Test {
     public static void main(String[] args) {
-        List<Long> longList = JtlwDateTimeUtils.getInstance().getYearList(12, 0);
+        List<Long> longList = JtlwDateTimeUtil.getInstance().getYearList(12, 0);
         for (Long item : longList) {
-            System.out.println(JtlwDateTimeUtils.getInstance().getFormatDateTime("yyyy", item));
+            System.out.println(JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy", item));
         }
     }
 }

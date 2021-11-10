@@ -1,7 +1,6 @@
 package android.lorenwang.tools.mobile;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -10,33 +9,21 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwLogUtil;
-import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.RequiresPermission;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-
-import static android.media.AudioManager.STREAM_VOICE_CALL;
 
 /**
  * 功能作用：手机操作工具类
@@ -53,16 +40,6 @@ import static android.media.AudioManager.STREAM_VOICE_CALL;
  * 开启相机--openCamera(activity,savePath,requestCode)
  * 拨打电话--makeCall(activity,phoneNo)
  * 开启图片相册选择--openImagePhotoAlbum(activity,requestCode)
- * 获取电源设备锁--getPowerLocalWakeLock()
- * 销毁电源设备锁--destroyPowerLocalWakeLock()
- * 申请电源设备锁，关闭屏幕--applyForPowerLocalWakeLock()
- * 释放电源设备锁，唤起屏幕--releasePowerLocalWakeLock()
- * 获取传感器管理器实例--getSensorManager()
- * 注册距离传感器监听--registerProximitySensorListener(listener)
- * 取消注册距离传感器监听--unRegisterProximitySensorListener(listener)
- * 获取系统级别音频管理器--getAudioManager()
- * 使用听筒播放正在播放的音频--useHandsetToPlay(activity)
- * 使用扬声器播放正在播放的音频--useSpeakersToPlay()
  * 注意：
  * 修改人：
  * 修改时间：
@@ -113,12 +90,26 @@ public final class AtlwMobileOptionsUtil {
      * @return 安装程序的intent
      */
     public synchronized Intent getInstallAppIntent(String authority, String installAppFilePath) {
+        Intent intent = null;
         try {
-            Intent intent;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.fromFile(new File(installAppFilePath)), "application/vnd.android.package-archive");
+            } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+                if (AtlwConfig.nowApplication.getPackageManager().canRequestPackageInstalls()) {
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    File file = (new File(installAppFilePath));
+                    // 由于没有在Activity环境下启动Activity,设置下面的标签
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
+                    Uri apkUri = FileProvider.getUriForFile(AtlwConfig.nowApplication, authority, file);
+                    //添加这一句表示对目标应用临时授权该Uri所代表的文件
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                } else {
+                    AtlwLogUtil.logUtils.logD(TAG, "安装异常：没有安装权限");
+                }
             } else {
                 intent = new Intent(Intent.ACTION_VIEW);
                 File file = (new File(installAppFilePath));
@@ -130,11 +121,10 @@ public final class AtlwMobileOptionsUtil {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
             }
-            return intent;
         } catch (Exception e) {
             AtlwLogUtil.logUtils.logD(TAG, "安装异常：" + e.getMessage());
-            return null;
         }
+        return intent;
     }
 
     /**
@@ -146,8 +136,6 @@ public final class AtlwMobileOptionsUtil {
         AtlwLogUtil.logUtils.logI(TAG, "跳转到APP权限设置页面：" + packageName);
         if (AtlwMobilePhoneBrandUtil.getInstance().isMeiZuMobile()) {
             jumpToMeizuAppPermissionSettingPage(activity, packageName);
-        } else if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile()) {
-            jumpToXiaoMiAppPermissionSettingPage(activity, packageName);
         } else {
             jumpToDefaultAppPermissionSettingPage(activity, packageName);
         }
@@ -168,7 +156,6 @@ public final class AtlwMobileOptionsUtil {
         if (TextUtils.isEmpty(packageName)) {
             throw new NullPointerException("packageName can't be empty!");
         }
-
         try {
             Intent intent = activity.getPackageManager().getLaunchIntentForPackage(packageName);
             if (intent != null && bundle != null) {
@@ -191,57 +178,6 @@ public final class AtlwMobileOptionsUtil {
         ClipData mClipData = ClipData.newPlainText(label, content);
         // 将ClipData内容放到系统剪贴板里。
         cm.setPrimaryClip(mClipData);
-    }
-
-    /**
-     * 获取小米手机的MIUI版本号
-     *
-     * @return 小米miui版本号
-     */
-    private String getMiuiVersion() {
-        String propName = "ro.miui.ui.version.name";
-        String line;
-        BufferedReader input = null;
-        try {
-            Process p = Runtime.getRuntime().exec("getprop " + propName);
-            input = new BufferedReader(new InputStreamReader(p.getInputStream()), 1024);
-            line = input.readLine();
-            input.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        } finally {
-            try {
-                assert input != null;
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return line;
-    }
-
-    /**
-     * 跳转到小米App权限设置
-     *
-     * @param packageName 应用包名
-     */
-    private void jumpToXiaoMiAppPermissionSettingPage(Activity activity, String packageName) {
-        String rom = getMiuiVersion();
-        AtlwLogUtil.logUtils.logI(TAG, "jumpToMiaoMiAppPermissionSettingPage --- rom : " + rom);
-        Intent intent = new Intent();
-        if ("V6".equals(rom) || "V7".equals(rom)) {
-            intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions" + ".AppPermissionsEditorActivity");
-            intent.putExtra("extra_pkgname", packageName);
-        } else if ("V8".equals(rom) || "V9".equals(rom)) {
-            intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions" + ".PermissionsEditorActivity");
-            intent.putExtra("extra_pkgname", packageName);
-        } else {
-            jumpToDefaultAppPermissionSettingPage(activity, packageName);
-        }
-        activity.startActivity(intent);
     }
 
     /**
@@ -369,169 +305,6 @@ public final class AtlwMobileOptionsUtil {
             activity.startActivityForResult(intent, requestCode);
         } else {
             AtlwLogUtil.logUtils.logD(TAG, "don't get camera permisstion");
-        }
-    }
-
-
-    /*---------------------------------------电源部分---------------------------------------*/
-
-    /**
-     * 电源设备锁
-     */
-    private PowerManager.WakeLock powerLocalWakeLock;
-
-    /**
-     * 获取电源设备锁
-     *
-     * @return 返回电源设备所
-     */
-    @SuppressLint("InvalidWakeLockTag")
-    public PowerManager.WakeLock getPowerLocalWakeLock() {
-        if (powerLocalWakeLock == null) {
-            try {
-                //获取系统服务POWER_SERVICE，返回一个PowerManager对象
-                powerLocalWakeLock = ((PowerManager) AtlwConfig.nowApplication.getSystemService(Context.POWER_SERVICE)).newWakeLock(32, "MyPower");
-            } catch (Exception ignored) {
-            }
-
-        }
-        return powerLocalWakeLock;
-    }
-
-    /**
-     * 销毁电源设备锁
-     */
-    public void destroyPowerLocalWakeLock() {
-        if (powerLocalWakeLock != null) {
-            powerLocalWakeLock.setReferenceCounted(false);
-            powerLocalWakeLock.release();//释放电源锁，如果不释放finish这个acitivity后仍然会有自动锁屏的效果，不信可以试一试
-            powerLocalWakeLock = null;
-        }
-    }
-
-    /**
-     * 申请电源设备锁，关闭屏幕
-     */
-    public void applyForPowerLocalWakeLock() {
-        AtlwLogUtil.logUtils.logI(TAG, "申请电源设备锁");
-        if (getPowerLocalWakeLock() != null) {
-            AtlwLogUtil.logUtils.logI(TAG, "电源设备锁获取成功，准备申请锁住屏幕。");
-            //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
-            getPowerLocalWakeLock().acquire(100);// 申请设备电源锁
-        }
-    }
-
-    /**
-     * 释放电源设备锁，唤起屏幕
-     */
-    public void releasePowerLocalWakeLock() {
-        AtlwLogUtil.logUtils.logD(TAG, "释放设备电源锁");
-        if (getPowerLocalWakeLock() != null) {
-            AtlwLogUtil.logUtils.logI(TAG, "电源设备锁获取成功，准备申请释放屏幕并唤醒。");
-            //申请电源设备锁锁住并关闭屏幕，在100ms后释放唤醒锁使其可以运行被唤醒
-            getPowerLocalWakeLock().setReferenceCounted(false);
-            getPowerLocalWakeLock().release(); // 释放设备电源锁
-
-        }
-    }
-
-
-    /*---------------------------------------传感器部分---------------------------------------*/
-
-    /**
-     * 系统级别的传感器管理器
-     */
-    private SensorManager sensorManager;
-    /**
-     * 距离传感器所有监听
-     */
-    private final List<SensorEventListener> proximityListenerList = new ArrayList<>();
-
-    /**
-     * 获取传感器管理器实例
-     *
-     * @return 传感器实例
-     */
-    public SensorManager getSensorManager() {
-        if (sensorManager == null) {
-            sensorManager = (SensorManager) AtlwConfig.nowApplication.getSystemService(Context.SENSOR_SERVICE);
-        }
-        return sensorManager;
-    }
-
-    /**
-     * 注册距离传感器监听
-     *
-     * @param listener 监听回调
-     */
-    public void registerProximitySensorListener(SensorEventListener listener) {
-        synchronized (proximityListenerList) {
-            if (listener != null && !proximityListenerList.contains(listener)) {
-                getSensorManager().registerListener(listener, getSensorManager().getDefaultSensor(Sensor.TYPE_PROXIMITY),
-                        SensorManager.SENSOR_DELAY_NORMAL);
-                proximityListenerList.add(listener);
-            }
-        }
-    }
-
-    /**
-     * 取消注册距离传感器监听
-     *
-     * @param listener 监听
-     */
-    public void unRegisterProximitySensorListener(SensorEventListener listener) {
-        synchronized (proximityListenerList) {
-            if (listener != null && proximityListenerList.contains(listener)) {
-                getSensorManager().unregisterListener(listener);
-                proximityListenerList.remove(listener);
-            }
-        }
-    }
-
-
-    /*---------------------------------------音频管理器---------------------------------------*/
-
-    /**
-     * 音频管理器
-     */
-    private AudioManager audioManager;
-
-    /**
-     * 获取系统级别音频管理器
-     *
-     * @return 音频管理器
-     */
-    public AudioManager getAudioManager() {
-        if (audioManager == null) {
-            audioManager = (AudioManager) AtlwConfig.nowApplication.getSystemService(Context.AUDIO_SERVICE);
-        }
-        return audioManager;
-    }
-
-    /**
-     * 使用听筒播放正在播放的音频
-     *
-     * @param activity activity实例
-     */
-    public void useHandsetToPlay(Activity activity) {
-        if (getAudioManager() != null) {
-            AtlwLogUtil.logUtils.logD(TAG, "切换到手机听筒播放");
-            activity.setVolumeControlStream(STREAM_VOICE_CALL);
-            getAudioManager().setSpeakerphoneOn(false);//关闭扬声器
-            getAudioManager().setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE, AudioManager.ROUTE_ALL);
-            //把声音设定成Earpiece（听筒）出来，设定为正在通话中
-            getAudioManager().setMode(AudioManager.MODE_IN_CALL);
-        }
-    }
-
-    /**
-     * 使用扬声器播放正在播放的音频
-     */
-    public void useSpeakersToPlay() {
-        if (getAudioManager() != null) {
-            AtlwLogUtil.logUtils.logD(TAG, "切换到扬声器播放");
-            getAudioManager().setSpeakerphoneOn(true);
-            getAudioManager().setMode(AudioManager.MODE_NORMAL);
         }
     }
 

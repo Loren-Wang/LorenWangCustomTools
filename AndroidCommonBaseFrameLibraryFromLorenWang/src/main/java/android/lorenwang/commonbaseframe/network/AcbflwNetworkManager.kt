@@ -9,7 +9,7 @@ import android.lorenwang.commonbaseframe.network.manage.AcbflwInterceptor
 import android.lorenwang.commonbaseframe.network.manage.AcbflwResponseGsonConverterFactory
 import android.lorenwang.tools.app.AtlwSharedPrefUtil
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import javabase.lorenwang.dataparse.JdplwJsonUtils
+import javabase.lorenwang.dataparse.JdplwJsonUtil
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import kotlinbase.lorenwang.tools.extend.kttlwIsEmpty
 import okhttp3.ConnectionSpec
@@ -116,7 +116,9 @@ open class AcbflwNetworkManager private constructor() {
         //防止无法进行http请求
         builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))
         //设置超时时间
-        builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS)
+        builder = builder.readTimeout(timeout ?: 30000, TimeUnit.MILLISECONDS)
+        builder = builder.writeTimeout(timeout ?: 30000, TimeUnit.MILLISECONDS)
+        builder = builder.connectTimeout(timeout ?: 30000, TimeUnit.MILLISECONDS)
         //添加拦截器
         interceptor?.forEach {
             builder = builder.addInterceptor(it)
@@ -131,7 +133,9 @@ open class AcbflwNetworkManager private constructor() {
         //防止无法进行http请求
         builder = builder.connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT))
         //设置超时时间
-        builder = builder.readTimeout(timeout ?: 30, TimeUnit.MILLISECONDS)
+        builder = builder.readTimeout(timeout ?: 30000, TimeUnit.MILLISECONDS)
+        builder = builder.writeTimeout(timeout ?: 30000, TimeUnit.MILLISECONDS)
+        builder = builder.connectTimeout(timeout ?: 30000, TimeUnit.MILLISECONDS)
         lwDownloadRetrofit =
             Retrofit.Builder().baseUrl(this.apiBaseUrl).client(builder.build()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
     }
@@ -178,7 +182,7 @@ open class AcbflwNetworkManager private constructor() {
                 val urls = arrayOfNulls<Array<String>>(recodeUrls.size + 1)
                 urls[recodeUrls.size] = arrayOf(baseUrl, h5BaseUrl.kttlwGetNotEmptyData(), shareBaseUrl.kttlwGetNotEmptyData())
                 System.arraycopy(recodeUrls, 0, urls, 0, recodeUrls.size)
-                AtlwSharedPrefUtil.getInstance().putString(KEY_BASE_URL_RECORDS, JdplwJsonUtils.toJson(urls))
+                AtlwSharedPrefUtil.getInstance().putString(KEY_BASE_URL_RECORDS, JdplwJsonUtil.toJson(urls))
             }
         }
     }
@@ -210,7 +214,7 @@ open class AcbflwNetworkManager private constructor() {
      * @return 二维数组，一级数组中的每一个元素内的数据从头至尾分别代表着基础URl，h5基础Url，分享基础Url
      */
     fun getRecordUrls(): Array<Array<String>> {
-        return JdplwJsonUtils.fromJson(AtlwSharedPrefUtil.getInstance().getString(KEY_BASE_URL_RECORDS, ""), Array<Array<String>>::class.java)
+        return JdplwJsonUtil.fromJson(AtlwSharedPrefUtil.getInstance().getString(KEY_BASE_URL_RECORDS, ""), Array<Array<String>>::class.java)
             ?: arrayOf()
     }
 }

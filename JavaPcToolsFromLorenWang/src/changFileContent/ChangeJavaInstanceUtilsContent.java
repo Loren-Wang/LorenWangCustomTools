@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
+import javabase.lorenwang.tools.file.JtlwFileOptionUtil;
 
 public class ChangeJavaInstanceUtilsContent {
     private static final String FILE_PATH_DIR = "/Volumes/AllDevelop/Project/Common/LorenWangCustomTools/AndroidAnimFromLorenWang/src/main/res/anim";
@@ -20,14 +20,14 @@ public class ChangeJavaInstanceUtilsContent {
      * 修改java文件
      */
     private static void changeJavaFile() {
-        List<File> fileList = JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(FILE_PATH_DIR,
+        List<File> fileList = JtlwFileOptionUtil.getInstance().getFileListForMatchRecursionScan(FILE_PATH_DIR,
                 "\\S+.java");
 
         Charset codedFormat;
         for (File file : fileList) {
             try {
-                codedFormat = JtlwFileOptionUtils.getInstance().getFileCodedFormat(file.getAbsolutePath());
-                String content = JtlwFileOptionUtils.getInstance().readFileContent(file.getAbsolutePath(), codedFormat);
+                codedFormat = JtlwFileOptionUtil.getInstance().getFileCodedFormat(file.getAbsolutePath());
+                String content = JtlwFileOptionUtil.getInstance().readFileContent(file.getAbsolutePath(), codedFormat);
                 if (content != null) {
                     Pattern pattern = Pattern.compile("private( )+static( )+" + file.getName().replace(".java", "") + "( )+\\S+Utils;");
                     Matcher matcher = pattern.matcher(content);
@@ -35,7 +35,7 @@ public class ChangeJavaInstanceUtilsContent {
                         content = content.replaceAll(pattern.pattern(), matcher.group(0).replaceAll("private( )+static( )+", "private static volatile "));
                     }
                 }
-                JtlwFileOptionUtils.getInstance().writeFilContent(file.getAbsolutePath(), StandardCharsets.UTF_8, content);
+                JtlwFileOptionUtil.getInstance().writeFilContent(file.getAbsolutePath(), StandardCharsets.UTF_8, content);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -47,21 +47,21 @@ public class ChangeJavaInstanceUtilsContent {
      * 修改kt文件
      */
     private static void changeKtFile() {
-        List<File> fileList = JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(FILE_PATH_DIR, "\\S+.kt");
+        List<File> fileList = JtlwFileOptionUtil.getInstance().getFileListForMatchRecursionScan(FILE_PATH_DIR, "\\S+.kt");
 
         Charset codedFormat;
         String data;
         for (File file : fileList) {
             try {
-                codedFormat = JtlwFileOptionUtils.getInstance().getFileCodedFormat(file.getAbsolutePath());
-                String content = JtlwFileOptionUtils.getInstance().readFileContent(file.getAbsolutePath(), codedFormat);
+                codedFormat = JtlwFileOptionUtil.getInstance().getFileCodedFormat(file.getAbsolutePath());
+                String content = JtlwFileOptionUtil.getInstance().readFileContent(file.getAbsolutePath(), codedFormat);
                 if (content != null) {
                     Pattern pattern = Pattern.compile("(@JvmStatic\r\n( )+)*val instance");
                     Matcher matcher = pattern.matcher(content);
                     if (matcher.find()) {
                         content = content.replaceAll(pattern.pattern(), "@JvmStatic\n        val instance");
                         System.out.print(content + "\n");
-                        JtlwFileOptionUtils.getInstance().writeFilContent(file.getAbsolutePath(), StandardCharsets.UTF_8, content);
+                        JtlwFileOptionUtil.getInstance().writeFilContent(file.getAbsolutePath(), StandardCharsets.UTF_8, content);
                     }
                 }
 
@@ -72,7 +72,7 @@ public class ChangeJavaInstanceUtilsContent {
     }
 
     private static void addFileNamePrefix(String prefixName){
-        List<File> fileList = JtlwFileOptionUtils.getInstance().getFileListForMatchRecursionScan(FILE_PATH_DIR,
+        List<File> fileList = JtlwFileOptionUtil.getInstance().getFileListForMatchRecursionScan(FILE_PATH_DIR,
                 "\\S+.xml");
         String fileName;
         for (File file : fileList) {

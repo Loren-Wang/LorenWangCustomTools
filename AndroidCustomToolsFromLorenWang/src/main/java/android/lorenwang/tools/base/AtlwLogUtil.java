@@ -5,15 +5,15 @@ import android.util.Log;
 
 import java.io.File;
 
-import javabase.lorenwang.tools.JtlwLogUtils;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
+import javabase.lorenwang.tools.JtlwLogUtil;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
+import javabase.lorenwang.tools.common.JtlwDateTimeUtil;
 
 
 /**
  * 日志工具类
  */
-public final class AtlwLogUtil extends JtlwLogUtils {
+public final class AtlwLogUtil extends JtlwLogUtil {
 
     @Override
     public void logV(String msg) {
@@ -129,17 +129,17 @@ public final class AtlwLogUtil extends JtlwLogUtils {
     private void saveLog(String type, String tag, String message) {
         try {
             File saveFile = getSaveFile();
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(saveFile)) {
+            if (JtlwCheckVariateUtil.getInstance().isEmpty(saveFile)) {
                 return;
             }
 
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(type)) {
+            if (JtlwCheckVariateUtil.getInstance().isEmpty(type)) {
                 type = "";
             }
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(tag)) {
+            if (JtlwCheckVariateUtil.getInstance().isEmpty(tag)) {
                 tag = "";
             }
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(message)) {
+            if (JtlwCheckVariateUtil.getInstance().isEmpty(message)) {
                 message = "";
             }
 
@@ -170,7 +170,7 @@ public final class AtlwLogUtil extends JtlwLogUtils {
                 //创建日志文件夹
                 AtlwFileOptionUtil.getInstance().createDirectory(true, logSaveFileDirPath, false);
                 //生成文件名称
-                String fileName = JtlwDateTimeUtils.getInstance().getFormatDateNowTime("yyyy_mm_dd_hh_MM_ss.log");
+                String fileName = JtlwDateTimeUtil.getInstance().getFormatDateNowTime("yyyy_mm_dd_hh_MM_ss.log");
                 //生成文件file
                 if (logSaveFileDirPath.lastIndexOf("/") == logSaveFileDirPath.length() - 1) {
                     logSaveFile = new File(logSaveFileDirPath + fileName);

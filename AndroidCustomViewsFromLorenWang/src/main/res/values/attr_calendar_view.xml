@@ -2,7 +2,7 @@
 <resources>
     <declare-styleable name="AvlwCalendarView">
         <!--周的第一天显示是周几-->
-        <attr name="avlwCaledarWeekFirst">
+        <attr name="avlw_caledar_weekFirst">
             <enum name="sunday" value="0" />
             <enum name="monday" value="1" />
             <enum name="tuesday" value="2" />
@@ -12,10 +12,10 @@
             <enum name="saturday" value="6" />
         </attr>
         <!--是否只显示单月-->
-        <attr name="avlwCaledarShowOnlyMonth" format="boolean" />
+        <attr name="avlw_caledar_showOnlyMonth" format="boolean" />
         <!--是否是单选-->
-        <attr name="avlwCaledarSelecOne" format="boolean" />
+        <attr name="avlw_caledar_selecOne" format="boolean" />
         <!--是否使用自动高度切换-->
-        <attr name="avlwCaledarUseAutoHeight" format="boolean" />
+        <attr name="avlw_caledar_useAutoHeight" format="boolean" />
     </declare-styleable>
 </resources>

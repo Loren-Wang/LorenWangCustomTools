@@ -35,7 +35,7 @@ class AvlwPriceShowTypeDefault extends AvlwPriceShowTypeBase {
     void init(Context context, AvlwPriceShowTextView qtPriceShowTextView, TypedArray attributes) {
         super.init(context, qtPriceShowTextView, attributes);
         //格式化金额显示
-        String priceText = attributes.getString(R.styleable.AvlwPriceShowTextView_avlwPriceText);
+        String priceText = attributes.getString(R.styleable.AvlwPriceShowTextView_avlw_pst_priceText);
         if (priceText != null && priceText.matches(JtlwMatchesRegularCommon.EXP_BIGDECIMAL)) {
             setPrice(new BigDecimal(priceText));
         } else {

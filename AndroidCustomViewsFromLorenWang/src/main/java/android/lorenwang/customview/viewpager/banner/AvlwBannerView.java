@@ -128,17 +128,16 @@ public class AvlwBannerView extends ConstraintLayout {
         vpgBaseList = view.findViewById(R.id.vpgBaseList);
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwBannerView);
         //设置指示器类型
-        switch (indicatorType = attributes.getInt(R.styleable.AvlwBannerView_avlwBvIndicatorType,
-                0)) {
+        switch (indicatorType = attributes.getInt(R.styleable.AvlwBannerView_avlw_bv_indicatorType, 0)) {
             case INDICATOR_TYPE_TEXT:
                 //文本样式
-                bannerIndicator = new AvlwBannerTextIndicator(attributes, indicatorView =
-                        LayoutInflater.from(context).inflate(R.layout.avlw_custom_viewpager_indicator_text, this).findViewById(R.id.tvBaseText));
+                bannerIndicator = new AvlwBannerTextIndicator(attributes, indicatorView = LayoutInflater.from(context)
+                        .inflate(R.layout.avlw_custom_viewpager_indicator_text, this).findViewById(R.id.tvBaseText));
                 break;
             case INDICATOR_TYPE_POINT:
                 //点样式
-                bannerIndicator = new AvlwBannerDotIndicator(attributes, indicatorView =
-                        LayoutInflater.from(context).inflate(R.layout.avlw_custom_viewpager_indicator_point, this).findViewById(R.id.lnBaseIndicator));
+                bannerIndicator = new AvlwBannerDotIndicator(attributes, indicatorView = LayoutInflater.from(context)
+                        .inflate(R.layout.avlw_custom_viewpager_indicator_point, this).findViewById(R.id.lnBaseIndicator));
                 break;
             case INDICATOR_TYPE_NONE:
             default:
@@ -151,56 +150,44 @@ public class AvlwBannerView extends ConstraintLayout {
                             ViewGroup.LayoutParams.WRAP_CONTENT);
             //设置边距
             int distance = (int) AtlwScreenUtil.getInstance().dip2px(10F);
-            viewLayoutParams.setMargins(
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginLeft, distance),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginTop, distance),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginRight, distance),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorMarginBottom, distance));
+            viewLayoutParams.setMargins(attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorMarginLeft, distance),
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorMarginTop, distance),
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorMarginRight, distance),
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorMarginBottom, distance));
             indicatorView.setLayoutParams(viewLayoutParams);
             //设置内边距
-            indicatorView.setPadding(
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingLeft, distance),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingTop, 0),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingRight, distance),
-                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorPaddingBottom, 0));
+            indicatorView.setPadding(attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorPaddingLeft, distance),
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorPaddingTop, 0),
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorPaddingRight, distance),
+                    attributes.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorPaddingBottom, 0));
             //设置背景
-            indicatorView.setBackgroundResource(attributes.getResourceId(R.styleable.AvlwBannerView_avlwBvIndicatorBackground,
-                    R.drawable.avlw_solid_radius_8));
+            indicatorView.setBackgroundResource(
+                    attributes.getResourceId(R.styleable.AvlwBannerView_avlw_bv_indicatorBackground, R.drawable.avlw_solid_radius_8));
             //设置背景渲染色
             AtlwViewUtil.getInstance().setBackgroundTint(indicatorView,
-                    ColorStateList.valueOf(attributes.getColor(R.styleable.AvlwBannerView_avlwBvIndicatorBackgroundTintColor,
-                            Color.TRANSPARENT)));
+                    ColorStateList.valueOf(attributes.getColor(R.styleable.AvlwBannerView_avlw_bv_indicatorBackgroundTintColor, Color.TRANSPARENT)));
 
             //设置指示器位置
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(this);
-            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvIndicatorTheLeft,
-                    bannerIndicator.getDefaultTheLeft())) {
-                constraintSet.connect(indicatorView.getId(), ConstraintSet.LEFT,
-                        R.id.vpgBaseList, ConstraintSet.LEFT);
+            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlw_bv_indicatorTheLeft, bannerIndicator.getDefaultTheLeft())) {
+                constraintSet.connect(indicatorView.getId(), ConstraintSet.LEFT, R.id.vpgBaseList, ConstraintSet.LEFT);
             }
-            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvIndicatorTheTop,
-                    bannerIndicator.getDefaultTheTop())) {
-                constraintSet.connect(indicatorView.getId(), ConstraintSet.TOP,
-                        R.id.vpgBaseList, ConstraintSet.TOP);
+            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlw_bv_indicatorTheTop, bannerIndicator.getDefaultTheTop())) {
+                constraintSet.connect(indicatorView.getId(), ConstraintSet.TOP, R.id.vpgBaseList, ConstraintSet.TOP);
             }
-            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvIndicatorTheRight,
-                    bannerIndicator.getDefaultTheRight())) {
-                constraintSet.connect(indicatorView.getId(), ConstraintSet.RIGHT,
-                        R.id.vpgBaseList, ConstraintSet.RIGHT);
+            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlw_bv_indicatorTheRight, bannerIndicator.getDefaultTheRight())) {
+                constraintSet.connect(indicatorView.getId(), ConstraintSet.RIGHT, R.id.vpgBaseList, ConstraintSet.RIGHT);
             }
-            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvIndicatorTheBottom,
-                    bannerIndicator.getDefaultTheBottom())) {
-                constraintSet.connect(indicatorView.getId(), ConstraintSet.BOTTOM,
-                        R.id.vpgBaseList, ConstraintSet.BOTTOM);
+            if (attributes.getBoolean(R.styleable.AvlwBannerView_avlw_bv_indicatorTheBottom, bannerIndicator.getDefaultTheBottom())) {
+                constraintSet.connect(indicatorView.getId(), ConstraintSet.BOTTOM, R.id.vpgBaseList, ConstraintSet.BOTTOM);
             }
             constraintSet.applyTo(this);
         }
         //设置指示器时间
-        setAutoplayTime((long) attributes.getInt(R.styleable.AvlwBannerView_avlwBvAutoplayTime,
-                autoplayTime.intValue()));
+        setAutoplayTime((long) attributes.getInt(R.styleable.AvlwBannerView_avlw_bv_autoplayTime, autoplayTime.intValue()));
         //获取循环状态，是否是自动循环
-        autoCycle = attributes.getBoolean(R.styleable.AvlwBannerView_avlwBvAutoCycle, autoCycle);
+        autoCycle = attributes.getBoolean(R.styleable.AvlwBannerView_avlw_bv_autoCycle, autoCycle);
         attributes.recycle();
     }
 

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.customView.KerleyOrDottedActivity"
+    android:padding="20dp">
+
+    <android.lorenwang.customview.AvlwKerleyOrDottedView
+        android:id="@+id/view_1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:avlw_kv_width="5dp"
+        app:avlw_kv_height="2dp"
+        app:avlw_kv_radius="0dp"
+        app:avlw_kv_distance="2dp"
+        app:avlw_kv_color="@color/black"
+        app:avlw_kv_orientation="horizontal"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.AvlwKerleyOrDottedView
+        android:id="@+id/view_2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/view_1"
+        android:layout_marginTop="5dp"
+        app:avlw_kv_width="5dp"
+        app:avlw_kv_height="2dp"
+        app:avlw_kv_radius="2dp"
+        app:avlw_kv_distance="2dp"
+        app:avlw_kv_color="@color/black"
+        app:avlw_kv_orientation="horizontal"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.AvlwKerleyOrDottedView
+        android:id="@+id/view_3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/view_2"
+        android:layout_marginTop="5dp"
+        app:avlw_kv_width="2dp"
+        app:avlw_kv_height="2dp"
+        app:avlw_kv_radius="2dp"
+        app:avlw_kv_distance="2dp"
+        app:avlw_kv_color="@color/black"
+        app:avlw_kv_orientation="horizontal"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.AvlwKerleyOrDottedView
+        android:id="@+id/view_4"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/view_3"
+        android:layout_marginTop="5dp"
+        app:avlw_kv_width="0dp"
+        app:avlw_kv_height="2dp"
+        app:avlw_kv_radius="0dp"
+        app:avlw_kv_distance="0dp"
+        app:avlw_kv_color="@color/black"
+        app:avlw_kv_orientation="horizontal"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.AvlwKerleyOrDottedView
+        android:id="@+id/view_5"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/view_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="5dp"
+        app:avlw_kv_width="2dp"
+        app:avlw_kv_height="0dp"
+        app:avlw_kv_radius="0dp"
+        app:avlw_kv_distance="0dp"
+        app:avlw_kv_color="@color/black"
+        app:avlw_kv_orientation="vertical"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.AvlwKerleyOrDottedView
+        android:id="@+id/view_6"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/view_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/view_5"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:avlw_kv_width="2dp"
+        app:avlw_kv_height="5dp"
+        app:avlw_kv_radius="0dp"
+        app:avlw_kv_distance="2dp"
+        app:avlw_kv_color="@color/black"
+        app:avlw_kv_orientation="vertical"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.AvlwKerleyOrDottedView
+        android:id="@+id/view_7"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/view_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/view_6"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:avlw_kv_width="2dp"
+        app:avlw_kv_height="2dp"
+        app:avlw_kv_radius="2dp"
+        app:avlw_kv_distance="2dp"
+        app:avlw_kv_color="@color/black"
+        app:avlw_kv_orientation="vertical"
+        tools:ignore="MissingPrefix" />
+
+    <android.lorenwang.customview.AvlwKerleyOrDottedView
+        android:id="@+id/view_8"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/view_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/view_7"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:avlw_kv_width="2dp"
+        app:avlw_kv_height="5dp"
+        app:avlw_kv_radius="2dp"
+        app:avlw_kv_distance="2dp"
+        app:avlw_kv_color="@color/black"
+        app:avlw_kv_orientation="vertical"
+        tools:ignore="MissingPrefix" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

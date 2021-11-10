@@ -1,6 +1,7 @@
 package android.lorenwang.commonbaseframe.pulgins.pay;
 
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwWeChatConfigInfoBean;
 import android.lorenwang.tools.app.AtlwThreadUtil;
@@ -11,8 +12,8 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import java.util.Map;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
+import javabase.lorenwang.tools.common.JtlwDateTimeUtil;
 
 /**
  * 功能作用：支付工具类
@@ -70,8 +71,9 @@ public class AcbflwPayUtil {
      */
     private void sendPayWeChat(AcbflwPayDataBean payDataBean) {
         AtlwLogUtil.logUtils.logI(TAG, "开始调用微信支付");
-        if (AcbflwPluginUtil.getInstance().getApi().isWXAppInstalled()) {
-            AcbflwWeChatConfigInfoBean configInfoBean = AcbflwPluginUtil.getInstance().getWeChatConfigInfoBean();
+        if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT) != null && AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getApi()
+                .isWXAppInstalled()) {
+            AcbflwWeChatConfigInfoBean configInfoBean = AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getWeChatConfigInfoBean();
             assert configInfoBean != null;
             AtlwLogUtil.logUtils.logI(TAG, "微信配置信息验证通过，开始初始化支付请求实体");
             PayReq request = new PayReq();
@@ -84,9 +86,9 @@ public class AcbflwPayUtil {
             request.packageValue = payDataBean.getPackageValue();
             //时间戳
             request.timeStamp = payDataBean.getTimeStamp() != null ? payDataBean.getTimeStamp() : String.valueOf(
-                    JtlwDateTimeUtils.getInstance().getSecond());
+                    JtlwDateTimeUtil.getInstance().getSecond());
             //随机字符串，不长于32位。
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(payDataBean.getNonceStr())) {
+            if (JtlwCheckVariateUtil.getInstance().isEmpty(payDataBean.getNonceStr())) {
                 String str = payDataBean.getTimeStamp() != null ? payDataBean.getTimeStamp() : request.timeStamp;
                 request.nonceStr = str.substring(0, Math.min(str.length(), 32));
             } else {
@@ -96,10 +98,10 @@ public class AcbflwPayUtil {
             request.sign = payDataBean.getSign();
             AtlwLogUtil.logUtils.logI(TAG, "微信支付请求实体初始化完成，向微信发送支付请求");
             //发起请求
-            AcbflwPluginUtil.getInstance().getApi().sendReq(request);
+            AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getApi().sendReq(request);
             //记录回调
-            if (!JtlwCheckVariateUtils.getInstance().isEmpty(payDataBean.getPayCallBack())) {
-                AcbflwPluginUtil.getInstance().addCallBack(request.prepayId, payDataBean.getPayCallBack());
+            if (!JtlwCheckVariateUtil.getInstance().isEmpty(payDataBean.getPayCallBack())) {
+                AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT).addCallBack(request.prepayId, payDataBean.getPayCallBack());
             }
         } else {
             AtlwLogUtil.logUtils.logI(TAG, "微信应用未安装");
@@ -127,7 +129,7 @@ public class AcbflwPayUtil {
                 AtlwLogUtil.logUtils.logI(TAG, "支付宝请求实体初始化完成，向支付宝发送支付请求");
                 Map<String, String> result = alipay.payV2(payDataBean.getaLiPayBody(), true);
                 String resultStatus = result.get("resultStatus");
-                if (JtlwCheckVariateUtils.getInstance().isNotEmpty(resultStatus)) {
+                if (JtlwCheckVariateUtil.getInstance().isNotEmpty(resultStatus)) {
                     //                    9000	订单支付成功
                     //                    8000	正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
                     //                    4000	订单支付失败

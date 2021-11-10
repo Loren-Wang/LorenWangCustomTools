@@ -1,6 +1,7 @@
 package android.lorenwang.tools.location;
 
 import android.Manifest;
+import android.lorenwang.tools.base.AtlwCheckUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author 王亮（Loren）
  */
-interface AtlwLocationLibraryBase {
+abstract class AtlwLocationLibraryBase {
     String TAG = "AtlwLocation";
 
     /**
@@ -40,48 +41,71 @@ interface AtlwLocationLibraryBase {
     /**
      * 手机位置改变距离监听的范围
      */
-    int LOCATION_DISTANCE_INTERVAL = 0;
+    protected int LOCATION_DISTANCE_INTERVAL = 0;
 
     /**
      * 有效定位时间间隔
      */
-    int LOCATION_VALID_TIME_INTERVAL = 5000;
+    protected int LOCATION_VALID_TIME_INTERVAL = 5000;
 
     /**
      * 定位超时时间
      */
-    int LOCATION_TIMEOUT = 15000;
+    protected int LOCATION_TIMEOUT = 15000;
+
+    /**
+     * 定位监听回调
+     */
+    protected AtlwLocationChangeListener mChangeListener = new AtlwLocationChangeListener();
 
     /**
      * 检测权限
      *
      * @param config 配置信息
      */
-    boolean checPermissions(@NotNull AtlwLocationConfig config);
+    public boolean checkPermissions(@NotNull AtlwLocationConfig config) {
+        if (config.isNeedBackLocation()) {
+            return AtlwCheckUtil.getInstance().checkAppPermission(NEED_PERMISSIONS_AND_BACK);
+        } else {
+            return AtlwCheckUtil.getInstance().checkAppPermission(NEED_PERMISSIONS);
+        }
+    }
 
     /**
      * 使用网络定位
      *
      * @param config 配置信息
      */
-    void startNetworkPositioning(@NotNull AtlwLocationConfig config);
+    public abstract void startNetworkPositioning(@NotNull AtlwLocationConfig config);
 
     /**
      * 使用设备进行定位
      *
      * @param config 配置信息
      */
-    void startDevicesPositioning(@NotNull AtlwLocationConfig config);
+    public abstract void startDevicesPositioning(@NotNull AtlwLocationConfig config);
 
     /**
      * 使用精准定位
      *
      * @param config 定位配置信息
      */
-    void startAccuratePositioning(@NotNull AtlwLocationConfig config);
+    public abstract void startAccuratePositioning(@NotNull AtlwLocationConfig config);
 
     /**
      * 停止循环定位
      */
-    void stopLoopPositioning();
+    public abstract void stopLoopPositioning();
+
+    /**
+     * 释放相关
+     */
+    public void release() {
+        TAG = null;
+        BACKGROUND_LOCATION_PERMISSION = null;
+        NEED_PERMISSIONS = null;
+        NEED_PERMISSIONS_AND_BACK = null;
+        mChangeListener = null;
+    }
+
 }

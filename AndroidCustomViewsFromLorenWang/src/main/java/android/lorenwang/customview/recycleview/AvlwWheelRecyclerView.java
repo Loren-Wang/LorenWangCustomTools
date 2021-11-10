@@ -28,6 +28,18 @@ import java.util.Objects;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * 功能作用：滚筒列表
+ * 创建人：王亮（Loren）
+ * 思路：
+ * 方法：
+ * 注意：
+ * 修改人：
+ * 修改时间：
+ * 备注：
+ *
+ * @author 王亮（Loren）
+ */
 public class AvlwWheelRecyclerView extends RecyclerView {
 
     //默认参数
@@ -120,17 +132,17 @@ public class AvlwWheelRecyclerView extends RecyclerView {
         super(context, attrs);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AvlwWheelRecyclerView);
 
-        mItemHeight = (int) ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwItemHeight, mItemHeight);
-        mSelectTextColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwSelectTextColor, mSelectTextColor);
-        mUnselectTextColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextColor, mUnselectTextColor);
-        mSelectTextSize = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwSelectTextSize, mSelectTextSize);
-        mUnselectTextSize = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextSize, mUnselectTextSize);
-        selectTextIsBold = ta.getBoolean(R.styleable.AvlwWheelRecyclerView_avlwSelectTextIsBold, selectTextIsBold);
-        unSelectTextIsBold = ta.getBoolean(R.styleable.AvlwWheelRecyclerView_avlwUnSelectTextIsBold, unSelectTextIsBold);
-        mOffset = ta.getInteger(R.styleable.AvlwWheelRecyclerView_avlwWheelOffset, mOffset);
-        mDividerWidth = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwDividerWidth, mDividerWidth);
-        mDividerHeight = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlwDividerHeight, mDividerHeight);
-        mDividerColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlwDividerColor, mDividerColor);
+        mItemHeight = (int) ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlw_wr_itemHeight, mItemHeight);
+        mSelectTextColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlw_wr_selectTextColor, mSelectTextColor);
+        mUnselectTextColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlw_wr_unSelectTextColor, mUnselectTextColor);
+        mSelectTextSize = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlw_wr_selectTextSize, mSelectTextSize);
+        mUnselectTextSize = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlw_wr_unSelectTextSize, mUnselectTextSize);
+        selectTextIsBold = ta.getBoolean(R.styleable.AvlwWheelRecyclerView_avlw_wr_selectTextIsBold, selectTextIsBold);
+        unSelectTextIsBold = ta.getBoolean(R.styleable.AvlwWheelRecyclerView_avlw_wr_unSelectTextIsBold, unSelectTextIsBold);
+        mOffset = ta.getInteger(R.styleable.AvlwWheelRecyclerView_avlw_wr_wheelOffset, mOffset);
+        mDividerWidth = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlw_wr_dividerWidth, mDividerWidth);
+        mDividerHeight = ta.getDimension(R.styleable.AvlwWheelRecyclerView_avlw_wr_dividerHeight, mDividerHeight);
+        mDividerColor = ta.getColor(R.styleable.AvlwWheelRecyclerView_avlw_wr_dividerColor, mDividerColor);
 
         ta.recycle();
 
@@ -347,7 +359,6 @@ public class AvlwWheelRecyclerView extends RecyclerView {
      *
      * @param isSelect 是否是选中的
      * @param textView 文本控件
-     * @param diff
      */
     private void setTextShowType(boolean isSelect, @NotNull TextView textView, int diff) {
         TextPaint paint = textView.getPaint();

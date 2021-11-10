@@ -2,30 +2,30 @@
 <resources>
     <declare-styleable name="AvlwQuantityOfCommodityEditText">
         <!--新增按钮允许操作颜色-->
-        <attr name="avlwAddButtonDrawableAllow" format="reference" />
+        <attr name="avlw_qoce_addButtonDrawableAllow" format="reference" />
         <!--新增按钮禁止操作颜色-->
-        <attr name="avlwAddButtonDrawableNotAllow" format="reference" />
+        <attr name="avlw_qoce_addButtonDrawableNotAllow" format="reference" />
         <!--减少按钮允许操作颜色-->
-        <attr name="avlwReduceButtonDrawableAllow" format="reference" />
+        <attr name="avlw_qoce_reduceButtonDrawableAllow" format="reference" />
         <!--减少按钮禁止操作颜色-->
-        <attr name="avlwReduceButtonDrawableNotAllow" format="reference" />
+        <attr name="avlw_qoce_reduceButtonDrawableNotAllow" format="reference" />
         <!--文本内部左右边距-->
-        <attr name="avlwTextInsideDistance" format="dimension" />
+        <attr name="avlw_qoce_textInsideDistance" format="dimension" />
         <!--操作按钮宽度，高度和控件高度一致-->
-        <attr name="avlwOptionsButtonWidth" format="dimension" />
+        <attr name="avlw_qoce_optionsButtonWidth" format="dimension" />
         <!--操作按钮内部边距-->
-        <attr name="avlwOptionsButtonInsideDistance" format="dimension" />
+        <attr name="avlw_qoce_optionsButtonInsideDistance" format="dimension" />
         <!--操作按钮和文本分隔之间的间距-->
-        <attr name="avlwOptionsButtonAndTextSeparatedDistance" format="dimension" />
+        <attr name="avlw_qoce_optionsButtonAndTextSeparatedDistance" format="dimension" />
         <!--文本显示宽度-->
-        <attr name="avlwTextShowWidth" format="dimension" />
+        <attr name="avlw_qoce_textShowWidth" format="dimension" />
         <!--边框颜色-->
-        <attr name="avlwQuantityBorderColor" format="color" />
+        <attr name="avlw_qoce_quantityBorderColor" format="color" />
         <!--边框宽度-->
-        <attr name="avlwQuantityBorderWidth" format="dimension" />
+        <attr name="avlw_qoce_quantityBorderWidth" format="dimension" />
         <!--边框角度-->
-        <attr name="avlwQuantityBorderRadio" format="dimension" />
+        <attr name="avlw_qoce_quantityBorderRadio" format="dimension" />
         <!--边框是否单独给文本内容-->
-        <attr name="avlwBorderOnlyShowContent" format="boolean" />
+        <attr name="avlw_qoce_borderOnlyShowContent" format="boolean" />
     </declare-styleable>
 </resources>

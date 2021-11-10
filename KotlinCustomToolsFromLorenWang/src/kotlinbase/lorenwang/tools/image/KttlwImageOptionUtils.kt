@@ -1,7 +1,7 @@
 package kotlinbase.lorenwang.tools.image
 
-import javabase.lorenwang.tools.JtlwLogUtils
-import javabase.lorenwang.tools.file.JtlwFileOptionUtils
+import javabase.lorenwang.tools.JtlwLogUtil
+import javabase.lorenwang.tools.file.JtlwFileOptionUtil
 import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -43,8 +43,9 @@ class KttlwImageOptionUtils private constructor() {
      * @return 文件转码后的base64字符串
      */
     fun imageFileToBase64String(isCheckFile: Boolean, filePath: String): String {
-        return getBase64Encoder().encodeToString(JtlwFileOptionUtils.getInstance().readImageFileGetBytes(isCheckFile, filePath)).kttlwEmptyCheck({
-            JtlwLogUtils.logUtils.logI(this.TAG, "图片转换失败,失败原因：文件读取异常")
+        return getBase64Encoder().encodeToString(
+            JtlwFileOptionUtil.getInstance().readImageFileGetBytes(isCheckFile, filePath)).kttlwEmptyCheck({
+            JtlwLogUtil.logUtils.logI(this.TAG, "图片转换失败,失败原因：文件读取异常")
             ""
         }, {
             it

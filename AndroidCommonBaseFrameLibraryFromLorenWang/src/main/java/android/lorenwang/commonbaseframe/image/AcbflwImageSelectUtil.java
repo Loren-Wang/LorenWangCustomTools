@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：图片选择器工具
@@ -356,7 +356,7 @@ public class AcbflwImageSelectUtil {
      * 获取操作图片地址
      */
     public String getOptionsImagePath(AcbflwLocalImageSelectBean media) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && JtlwCheckVariateUtils.getInstance().isNotEmpty(media.getAndroidQToPath())) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && JtlwCheckVariateUtil.getInstance().isNotEmpty(media.getAndroidQToPath())) {
             return media.getAndroidQToPath();
         } else {
             return media.getPath();

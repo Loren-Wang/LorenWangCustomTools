@@ -12,7 +12,11 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.View;
 
+import com.squareup.picasso.Picasso;
+
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
@@ -177,6 +181,22 @@ public class AvlwZoomableImageView extends AppCompatImageView {
     public void setUseZoomable(boolean useZoomable) {
         resetZoomable();
         this.useZoomable = useZoomable;
+    }
+
+    /**
+     * 设置加载原始的缩放图片
+     *
+     * @param loadingResId 加载中显示图片
+     * @param errorResId   异常显示图片
+     * @param path         显示图片地址
+     */
+    public void setLoadOriginImagePathFresco(@DrawableRes int loadingResId, @DrawableRes int errorResId, String path) {
+        if (path != null) {
+            //关闭硬件加速
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            //必须使用
+            Picasso.get().load(path).placeholder(loadingResId).error(errorResId).into(this);
+        }
     }
 
     /**

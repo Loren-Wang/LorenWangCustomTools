@@ -27,7 +27,7 @@ class AvlwBannerTextIndicator extends AvlwBaseBannerIndicator {
     public AvlwBannerTextIndicator(TypedArray typedArray, View indicatorView) {
         super(typedArray, indicatorView);
         tvIndicator = (AppCompatTextView) indicatorView;
-        tvIndicator.setTextColor(typedArray.getColor(R.styleable.AvlwBannerView_avlwBvIndicatorTextColor,
+        tvIndicator.setTextColor(typedArray.getColor(R.styleable.AvlwBannerView_avlw_bv_indicatorTextColor,
                 tvIndicator.getCurrentTextColor()));
     }
 

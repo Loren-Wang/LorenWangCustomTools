@@ -56,7 +56,7 @@ public class AvlwPriceShowTextView extends View {
 
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwPriceShowTextView);
-        int type = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlwPriceShowShowType, 0);
+        int type = attributes.getInt(R.styleable.AvlwPriceShowTextView_avlw_pst_priceShowShowType, 0);
         switch (type) {
             case 1:
                 this.showType = new AvlwPriceShowTypeCurrencySymbol();

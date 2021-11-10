@@ -41,7 +41,7 @@ class AtlwGlideImageLoading extends AtlwBaseImageLoading {
      */
     private void loadGildeImage(Object pathOrRes, final ImageView imageView, @NotNull final AtlwImageLoadConfig config) {
         RequestManager requestManager = Glide.with(AtlwConfig.nowApplication);
-        if (config.isLoadGetBitmap() && imageView != null) {
+        if (!config.isLoadGetBitmap() && imageView != null) {
             RequestBuilder<Drawable> builder = requestManager.load(pathOrRes);
             getBuild(imageView, builder, config).into(imageView);
         } else {

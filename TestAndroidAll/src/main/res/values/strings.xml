@@ -12,13 +12,11 @@
     <string name="page_type_custom_image_view">图片控件</string>
     <string name="page_type_glide_image_loading">glide图片加载</string>
     <string name="page_type_brightness">屏幕亮度调节</string>
-    <string name="page_type_file_scan">文件扫描</string>
     <string name="page_type_custom_view_sidebar">SideBar</string>
     <string name="page_type_horizontal_slip_tab">水平切换tab</string>
     <string name="page_type_custom_view_tab_layout">TabLayout</string>
     <string name="page_type_custom_view_switch_buttom">切换按钮</string>
     <string name="page_type_custom_view_smart_refresh_layout">SmartRefreshLayout</string>
-    <string name="page_type_file_options">文件操作按钮</string>
     <string name="page_type_toast">吐司Toast页面</string>
     <string name="page_type_data_parse">数据格式化页面</string>
     <string name="page_type_mobile_contancts">手机联系人操作</string>
@@ -71,7 +69,6 @@
     <string name="page_type_progress">进度条</string>
     <string name="page_type_custom_drawable_button">CustomDrawableButton</string>
     <string name="page_type_banner_viewpager">Banner和ViewPager嵌套页面</string>
-    <string name="page_type_code_generate">图形码生成</string>
     <string name="custom_drawable_button_fixed_width_height_left">图标左</string>
     <string name="custom_drawable_button_fixed_width_height_top">图标上</string>
     <string name="custom_drawable_button_fixed_width_height_right">图标右</string>

@@ -9,26 +9,25 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
-import android.graphics.Xfermode;
 import android.lorenwang.customview.AvlwCustomViewCommon;
 import android.lorenwang.customview.R;
 import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
 
-
 /**
- * 创建时间：2019-03-12 下午 17:33:56
- * 创建人：王亮（Loren wang）
  * 功能作用：ImageView通用处理实体
+ * 创建人：王亮（Loren）
  * 思路：
  * 方法：
  * 注意：
  * 修改人：
  * 修改时间：
  * 备注：
+ *
+ * @author 王亮（Loren）
  */
-public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
+class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
     //圆形图片路径
     private Paint circlePaint;
     //圆形图片路径
@@ -41,10 +40,10 @@ public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
     private Path roundedRectanglePath;
     //圆角矩形区域
     @Nullable
-    private RectF roundedRectangleAngleRectf;
+    private RectF roundedRectangleAngleRect;
     //边框圆角矩形区域
     @Nullable
-    private RectF borderRoundedRectangleAngleRectf;
+    private RectF borderRoundedRectangleAngleRect;
     //圆角矩形角度
     private float[] roundedRectangleAngles = new float[0];
 
@@ -66,10 +65,14 @@ public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
      */
     public final void init( Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.AllImageview, defStyleAttr, 0);
-        this.borderWidth = attr.getDimension(R.styleable.AllImageview_allImageBorderWidth, this.borderWidth);
-        this.borderColor = attr.getColor(R.styleable.AllImageview_allImageBorderColor, this.borderColor);
+        this.borderWidth = attr.getDimension(R.styleable.AllImageview_avlw_aiv_borderWidth, this.borderWidth);
+        this.borderColor = attr.getColor(R.styleable.AllImageview_avlw_aiv_borderColor, this.borderColor);
         //生成圆角的角度数组以及边框角度数组
-        this.generateRoundedRectangleAngles(attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngle, 0.0F), attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftTop, 0.0F), attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightTop, 0.0F), attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleLeftBottom, 0.0F), attr.getDimension(R.styleable.AllImageview_allImageRoundedRectangleAngleRightBottom, 0.0F));
+        this.generateRoundedRectangleAngles(attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngle, 0.0F),
+                attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngleLeftTop, 0.0F),
+                attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngleRightTop, 0.0F),
+                attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngleLeftBottom, 0.0F),
+                attr.getDimension(R.styleable.AllImageview_avlw_aiv_roundedRectangleAngleRightBottom, 0.0F));
         attr.recycle();
     }
 
@@ -97,11 +100,11 @@ public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
      */
     public void drawRoundedRectangle( Canvas canvas, float width, float height) {
         //内容范围
-        if (this.roundedRectangleAngleRectf == null) {
-            this.roundedRectangleAngleRectf = new RectF(0.0F, 0.0F, width, height);
+        if (this.roundedRectangleAngleRect == null) {
+            this.roundedRectangleAngleRect = new RectF(0.0F, 0.0F, width, height);
         }
         //内容path
-        roundedRectanglePath = getRoundedRectanglePath(roundedRectanglePath, roundedRectangleAngleRectf, roundedRectangleAngles);
+        roundedRectanglePath = getRoundedRectanglePath(roundedRectanglePath, roundedRectangleAngleRect, roundedRectangleAngles);
         //内容画笔
         roundedRectanglePaint = getImagePaint(roundedRectanglePaint);
         //绘制内容区域
@@ -110,12 +113,12 @@ public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
         //边框部分
         if (borderWidth > 0) {
             //边框范围
-            if (borderRoundedRectangleAngleRectf == null) {
-                borderRoundedRectangleAngleRectf = new RectF(borderWidth / 2, borderWidth / 2, width - borderWidth / 2, height - borderWidth / 2);
+            if (borderRoundedRectangleAngleRect == null) {
+                borderRoundedRectangleAngleRect = new RectF(borderWidth / 2, borderWidth / 2, width - borderWidth / 2, height - borderWidth / 2);
             }
             //边框路径
-            borderRoundedRectanglePath = getRoundedRectanglePath(borderRoundedRectanglePath
-                    , borderRoundedRectangleAngleRectf, borderRoundedRectangleAngles);
+            borderRoundedRectanglePath = getRoundedRectanglePath(borderRoundedRectanglePath, borderRoundedRectangleAngleRect,
+                    borderRoundedRectangleAngles);
             //绘制边框
             drawBorder(canvas, borderRoundedRectanglePath);
         }
@@ -128,9 +131,9 @@ public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
      */
     private void drawContent(Canvas canvas, Path path, Paint paint) {
         if (path != null && paint != null) {
-            paint.setXfermode((Xfermode) (new PorterDuffXfermode(PorterDuff.Mode.DST_IN)));
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
             canvas.drawPath(path, paint);
-            paint.setXfermode((Xfermode) null);
+            paint.setXfermode(null);
         }
     }
 
@@ -218,22 +221,20 @@ public class AvlwImageViewCommonDeal implements AvlwCustomViewCommon {
     /**
      * 生成圆角的角度数组以及边框角度数组
      */
-    private void generateRoundedRectangleAngles(float roundedRectangleAngle
-            , float roundedRectangleAngleLeftTop, float roundedRectangleAngleRightTop
-            , float roundedRectangleAngleLeftBottom, float roundedRectangleAngleRightBottm) {
+    private void generateRoundedRectangleAngles(float roundedRectangleAngle, float roundedRectangleAngleLeftTop, float roundedRectangleAngleRightTop,
+            float roundedRectangleAngleLeftBottom, float roundedRectangleAngleRightBottom) {
 
         if (roundedRectangleAngle == 0f) {
             //生成圆角角度数组
-            this.borderRoundedRectangleAngles = new float[]{roundedRectangleAngleLeftTop, roundedRectangleAngleLeftTop
-                    , roundedRectangleAngleRightTop, roundedRectangleAngleRightTop
-                    , roundedRectangleAngleRightBottm, roundedRectangleAngleRightBottm
-                    , roundedRectangleAngleLeftBottom, roundedRectangleAngleLeftBottom};
+            this.borderRoundedRectangleAngles = new float[]{roundedRectangleAngleLeftTop, roundedRectangleAngleLeftTop, roundedRectangleAngleRightTop,
+                    roundedRectangleAngleRightTop, roundedRectangleAngleRightBottom, roundedRectangleAngleRightBottom,
+                    roundedRectangleAngleLeftBottom, roundedRectangleAngleLeftBottom};
             //生成边框圆角角度数组
-            this.roundedRectangleAngles = new float[]{
-                    roundedRectangleAngleLeftTop + this.borderWidth / 2f, roundedRectangleAngleLeftTop + this.borderWidth / 2f
-                    , roundedRectangleAngleRightTop + this.borderWidth / 2f, roundedRectangleAngleRightTop + this.borderWidth / 2f
-                    , roundedRectangleAngleRightBottm + this.borderWidth / 2f, roundedRectangleAngleRightBottm + this.borderWidth / 2f
-                    , roundedRectangleAngleLeftBottom + this.borderWidth / 2f, roundedRectangleAngleLeftBottom + this.borderWidth / 2f};
+            this.roundedRectangleAngles = new float[]{roundedRectangleAngleLeftTop + this.borderWidth / 2f,
+                    roundedRectangleAngleLeftTop + this.borderWidth / 2f, roundedRectangleAngleRightTop + this.borderWidth / 2f,
+                    roundedRectangleAngleRightTop + this.borderWidth / 2f, roundedRectangleAngleRightBottom + this.borderWidth / 2f,
+                    roundedRectangleAngleRightBottom + this.borderWidth / 2f, roundedRectangleAngleLeftBottom + this.borderWidth / 2f,
+                    roundedRectangleAngleLeftBottom + this.borderWidth / 2f};
         } else {
             //生成边框圆角角度数组
             this.borderRoundedRectangleAngles = new float[]{roundedRectangleAngle, roundedRectangleAngle

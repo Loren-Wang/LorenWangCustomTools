@@ -19,7 +19,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.content.ContextCompat;
 
 /**
- * 功能作用：左右图标显示的编辑控件
+ * 功能作用：左右的图标显示的编辑控件
  * 初始注释时间： 2021/5/27 14:03
  * 创建人：王亮（Loren）
  * 思路：
@@ -87,14 +87,14 @@ public class AvlwLeftRightIconShowEditText extends AppCompatEditText {
 
     private void init(Context context, AttributeSet attrs) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwLeftRightIconShowEditText);
-        leftIconWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwLeftRightIconShowEditText_avlwLeftIconWidth, leftIconWidth);
-        leftIconHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwLeftRightIconShowEditText_avlwLeftIconHeight, leftIconHeight);
-        rightIconWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwLeftRightIconShowEditText_avlwRightIconWidth, rightIconWidth);
-        rightIconHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwLeftRightIconShowEditText_avlwRightIconHeight, rightIconHeight);
-        rightIconClickClearText = attributes.getBoolean(R.styleable.AvlwLeftRightIconShowEditText_avlwRightIconClickClearText,
+        leftIconWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwLeftRightIconShowEditText_avlw_lrice_leftIconWidth, leftIconWidth);
+        leftIconHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwLeftRightIconShowEditText_avlw_lrice_leftIconHeight, leftIconHeight);
+        rightIconWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwLeftRightIconShowEditText_avlw_lrice_rightIconWidth, rightIconWidth);
+        rightIconHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwLeftRightIconShowEditText_avlw_lrice_rightIconHeight, rightIconHeight);
+        rightIconClickClearText = attributes.getBoolean(R.styleable.AvlwLeftRightIconShowEditText_avlw_lrice_rightIconClickClearText,
                 rightIconClickClearText);
-        leftIconDrawable = attributes.getDrawable(R.styleable.AvlwLeftRightIconShowEditText_avlwLeftIconRes);
-        rightIconDrawable = attributes.getDrawable(R.styleable.AvlwLeftRightIconShowEditText_avlwRightIconRes);
+        leftIconDrawable = attributes.getDrawable(R.styleable.AvlwLeftRightIconShowEditText_avlw_lrice_leftIconRes);
+        rightIconDrawable = attributes.getDrawable(R.styleable.AvlwLeftRightIconShowEditText_avlw_lrice_rightIconRes);
         attributes.recycle();
         //更新图标
         updateIconDrawable();

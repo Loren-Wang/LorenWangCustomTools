@@ -2,18 +2,18 @@
 <resources>
     <declare-styleable name="AvlwLeftRightIconShowEditText">
         <!--左侧icon-->
-        <attr name="avlwLeftIconRes" format="reference" />
+        <attr name="avlw_lrice_leftIconRes" format="reference" />
         <!--左侧icon宽-->
-        <attr name="avlwLeftIconWidth" format="dimension" />
+        <attr name="avlw_lrice_leftIconWidth" format="dimension" />
         <!--左侧icon高-->
-        <attr name="avlwLeftIconHeight" format="dimension" />
+        <attr name="avlw_lrice_leftIconHeight" format="dimension" />
         <!--右侧icon-->
-        <attr name="avlwRightIconRes" format="reference" />
+        <attr name="avlw_lrice_rightIconRes" format="reference" />
         <!--右侧icon宽-->
-        <attr name="avlwRightIconWidth" format="dimension" />
+        <attr name="avlw_lrice_rightIconWidth" format="dimension" />
         <!--右侧icon高-->
-        <attr name="avlwRightIconHeight" format="dimension" />
+        <attr name="avlw_lrice_rightIconHeight" format="dimension" />
         <!--右侧图标点击是否是清除文本-->
-        <attr name="avlwRightIconClickClearText" format="boolean" />
+        <attr name="avlw_lrice_rightIconClickClearText" format="boolean" />
     </declare-styleable>
 </resources>

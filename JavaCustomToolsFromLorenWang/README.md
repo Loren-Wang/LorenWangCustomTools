@@ -302,6 +302,8 @@ Java自定义工具类
 
 <h3>JtlwFileOptionUtils---(文件操作工具类)
 
+备注：Android10以上使用最好加上：<application android:requestLegacyExternalStorage="true"，否则会导致listFiles()大小为0
+
 | 功能 | 函数/常量 | 返回值 |
 | :----: | :----: | :----: |
 | 读取图片文件并获取字节 | readImageFileGetBytes(Boolean isCheckFile, String filePath) | byte[] |

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTargetTypeEnum;
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
 import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.app.AtlwActivityUtil;
@@ -91,53 +92,55 @@ public class AcbflwShareUtil {
         assert shareDataBean.getShareCallBack() != null;
         AtlwLogUtil.logUtils.logI(TAG, "分享目标：" + targetType.getDes() + " 分享内容类型：" + contentType.getDes());
         switch (targetType) {
-                //好友
+            //好友
             case SHARE_WE_CHAT_SESSION:
                 //收藏
             case SHARE_WE_CHAT_FAVORITE:
                 //朋友圈
             case SHARE_WE_CHAT_MOMENTS:
-                if (AcbflwPluginUtil.getInstance().getApi() == null) {
-                    getWeChatShare().callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.WECHAT_NOT_INIT);
-                } else if (AcbflwPluginUtil.getInstance().getApi().isWXAppInstalled()) {
-                    switch (contentType) {
-                        //文本
-                        case TEXT:
-                            getWeChatShare().sendTextShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
-                            break;
-                        //图片
-                        case IMAGE:
-                            getWeChatShare().sendImageShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
-                            break;
-                        //音频
-                        case MUSIC:
-                            getWeChatShare().sendMusicShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
-                            break;
-                        //视频
-                        case VIDEO:
-                            getWeChatShare().sendVideoShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
-                            break;
-                        //网页分享
-                        case WEB_PAGE:
-                            getWeChatShare().sendWebPageShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
-                            break;
-                        //文件分享
-                        case FILE:
-                            getWeChatShare().sendFileShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
-                            break;
-                        case APP_EXTEND:
-                            getWeChatShare().sendAppExtendShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
-                            break;
-                        //小程序分享
-                        case MINI_PROGRAM:
-                            getWeChatShare().sendMiniProgramShare(shareDataBean);
-                            break;
-                        default:
-                            break;
+                if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT) != null) {
+                    if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getApi() == null) {
+                        getWeChatShare().callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.WECHAT_NOT_INIT);
+                    } else if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getApi().isWXAppInstalled()) {
+                        switch (contentType) {
+                            //文本
+                            case TEXT:
+                                getWeChatShare().sendTextShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
+                                break;
+                            //图片
+                            case IMAGE:
+                                getWeChatShare().sendImageShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
+                                break;
+                            //音频
+                            case MUSIC:
+                                getWeChatShare().sendMusicShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
+                                break;
+                            //视频
+                            case VIDEO:
+                                getWeChatShare().sendVideoShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
+                                break;
+                            //网页分享
+                            case WEB_PAGE:
+                                getWeChatShare().sendWebPageShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
+                                break;
+                            //文件分享
+                            case FILE:
+                                getWeChatShare().sendFileShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
+                                break;
+                            case APP_EXTEND:
+                                getWeChatShare().sendAppExtendShare(shareDataBean, AcbflwPluginTargetTypeEnum.getShareTargetType(targetType));
+                                break;
+                            //小程序分享
+                            case MINI_PROGRAM:
+                                getWeChatShare().sendMiniProgramShare(shareDataBean);
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        AtlwLogUtil.logUtils.logI(TAG, "分享失败：微信未安装");
+                        getWeChatShare().callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.WECHAT_NOT_INSTALL);
                     }
-                } else {
-                    AtlwLogUtil.logUtils.logI(TAG, "分享失败：微信未安装");
-                    getWeChatShare().callBackError(shareDataBean, AcbflwPluginErrorTypeEnum.WECHAT_NOT_INSTALL);
                 }
                 break;
             case SHARE_SAVE_LOCAL_IMAGE:

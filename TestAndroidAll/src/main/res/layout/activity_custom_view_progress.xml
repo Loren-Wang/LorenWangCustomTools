@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.lorenwang.customview.progress.AvlwProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                app:avlw_pb_progressBigHeight="10dp"
+                app:avlw_pb_progressBgImage="@drawable/sidebar_select"
+                app:avlw_pb_progressCacheImage="@drawable/progressbar_cache"
+                app:avlw_pb_progressImage="@drawable/progressbar_progress"
+                app:avlw_pb_progressCurrentImage="@drawable/progressbar_current"
+                app:avlw_pb_progressCurrentHeight="20dp"
+                app:avlw_pb_progressCurrentWidth="20dp"
+                app:avlw_pb_showProgressType="PROGRESS_TYPE_1"
+                app:avlw_pb_progress="0.2"
+                app:avlw_pb_progressCache="0.5"
+                tools:ignore="MissingPrefix" />
+
+            <android.lorenwang.customview.progress.AvlwProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                app:avlw_pb_progressBigHeight="10dp"
+                app:avlw_pb_progressBgImage="@drawable/sidebar_select"
+                app:avlw_pb_progressCacheImage="@drawable/progressbar_cache"
+                app:avlw_pb_progressImage="@drawable/progressbar_progress"
+                app:avlw_pb_progressCurrentImage="@drawable/progressbar_current"
+                app:avlw_pb_progressCurrentHeight="10dp"
+                app:avlw_pb_progressCurrentWidth="10dp"
+                android:layout_marginTop="10dp"
+                app:avlw_pb_showProgressType="PROGRESS_TYPE_1"
+                app:avlw_pb_progress="0.2"
+                app:avlw_pb_progressCache="0.5"
+                tools:ignore="MissingPrefix" />
+
+            <android.lorenwang.customview.progress.AvlwProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                app:avlw_pb_progressShowHeight="10dp"
+                app:avlw_pb_progressBgImage="@drawable/sidebar_select"
+                app:avlw_pb_progressCurrentImage="@drawable/progressbar_current"
+                app:avlw_pb_progressCurrentHeight="10dp"
+                app:avlw_pb_progressCurrentWidth="15dp"
+                app:avlw_pb_showProgressType="PROGRESS_TYPE_2"
+                android:layout_marginTop="10dp"
+                app:avlw_pb_progress="1"
+                tools:ignore="MissingPrefix" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

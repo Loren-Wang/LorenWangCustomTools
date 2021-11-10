@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：消息传递工具类
@@ -244,7 +244,7 @@ public class AtlwFlyMessageUtil {
             //                msgQueListOptions(false,true,false,messageQueueDto,messageQueueDto.msgType);
             //            }
         } catch (Exception e) {
-            if (JtlwCheckVariateUtils.getInstance().isEmpty(e) && JtlwCheckVariateUtils.getInstance().isEmpty(e.getMessage()) &&
+            if (JtlwCheckVariateUtil.getInstance().isEmpty(e) && JtlwCheckVariateUtil.getInstance().isEmpty(e.getMessage()) &&
                     e.getMessage().contains("Only the original thread that created a view hierarchy can touch its views.")) {
                 AtlwThreadUtil.getInstance().runOnUiThread(new Runnable() {
                     @Override

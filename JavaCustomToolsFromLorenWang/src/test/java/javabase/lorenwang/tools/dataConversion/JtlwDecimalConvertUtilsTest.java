@@ -4,8 +4,6 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
-import javabase.lorenwang.tools.dataConversion.JtlwDecimalConvertUtils;
-
 /**
  * JtlwDecimalConvertUtils Tester.
  *
@@ -51,11 +49,11 @@ public class JtlwDecimalConvertUtilsTest {
      */
     @Test
     public void testDecimal10To16() {
-        System.out.println(JtlwDecimalConvertUtils.getInstance().decimal10To16(255));
-        System.out.println(JtlwDecimalConvertUtils.getInstance().decimal10To16(100));
-        System.out.println(JtlwDecimalConvertUtils.getInstance().decimal10To16(17));
-        System.out.println(JtlwDecimalConvertUtils.getInstance().decimal10To16(2));
-        System.out.println(JtlwDecimalConvertUtils.getInstance().decimal10To16(1));
+        System.out.println(JtlwDecimalConvertUtil.getInstance().decimal10To16(255));
+        System.out.println(JtlwDecimalConvertUtil.getInstance().decimal10To16(100));
+        System.out.println(JtlwDecimalConvertUtil.getInstance().decimal10To16(17));
+        System.out.println(JtlwDecimalConvertUtil.getInstance().decimal10To16(2));
+        System.out.println(JtlwDecimalConvertUtil.getInstance().decimal10To16(1));
     }
 
     /**

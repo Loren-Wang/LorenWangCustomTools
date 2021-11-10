@@ -28,14 +28,14 @@
         android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:avlwDividerHeight="1dp"
-        app:avlwDividerColor="#00ffffff"
-        app:avlwSelectTextColor="#101010"
-        app:avlwUnSelectTextColor="#999"
-        app:avlwSelectTextSize="@dimen/textSize16"
-        app:avlwUnSelectTextSize="@dimen/textSize16"
-        app:avlwWheelOffset="2"
-        app:avlwSelectTextIsBold="true"
+        app:avlw_wr_dividerHeight="1dp"
+        app:avlw_wr_dividerColor="#00ffffff"
+        app:avlw_wr_selectTextColor="#101010"
+        app:avlw_wr_unSelectTextColor="#999"
+        app:avlw_wr_selectTextSize="@dimen/textSize16"
+        app:avlw_wr_unSelectTextSize="1sp"
+        app:avlw_wr_wheelOffset="2"
+        app:avlw_wr_selectTextIsBold="true"
         tools:ignore="MissingPrefix" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

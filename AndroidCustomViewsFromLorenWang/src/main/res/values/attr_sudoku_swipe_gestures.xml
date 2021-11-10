@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AvlwSudokuSwipeGesturesView">
+        <!--连接线宽度-->
+        <attr name="avlw_scg_connectingLineWidth" format="dimension" />
+        <!--圆圈的有效半径-->
+        <attr name="avlw_scg_circleEffectiveRadius" format="dimension" />
+        <!--圆圈的内圈半径-->
+        <attr name="avlw_scg_circleInnerRingRadius" format="dimension" />
+        <!--圆圈的外圈半径-->
+        <attr name="avlw_scg_circleOuterRingRadius" format="dimension" />
+        <!--圆圈的外圈的边框宽度-->
+        <attr name="avlw_scg_circleOuterRingBorderWidth" format="dimension" />
+        <!--圆圈内圈选中颜色-->
+        <attr name="avlw_scg_circleInnerRingSelectedColor" format="color" />
+        <!--圆圈内圈未选中颜色-->
+        <attr name="avlw_scg_circleInnerRingUnSelectedColor" format="color" />
+        <!--圆圈内圈错误颜色-->
+        <attr name="avlw_scg_circleInnerRingErrorColor" format="color" />
+        <!--圆圈外圈选中颜色-->
+        <attr name="avlw_scg_circleOuterRingSelectedColor" format="color" />
+        <!--圆圈外圈未选中颜色-->
+        <attr name="avlw_scg_circleOuterRingUnSelectedColor" format="color" />
+        <!--圆圈外圈错误颜色-->
+        <attr name="avlw_scg_circleOuterRingErrorColor" format="color" />
+        <!--连接线链接时颜色-->
+        <attr name="avlw_scg_connectingLineColor" format="color" />
+        <!--连接线错误的时候的颜色-->
+        <attr name="avlw_scg_connectingLineErrorColor" format="color" />
+        <!--是否显示绘制轨迹-->
+        <attr name="avlw_scg_isShowTrack" format="boolean" />
+        <!--显示模式-->
+        <attr name="avlw_scg_circleShowType">
+            <!--内圈实心，外圈空心带边框，滑动时内外圈变色，连接线从中心点出来，此模式下需要传入边框宽度-->
+            <enum name="CIRCLE_SHOW_TYPE_1" value="1" />
+            <!--内圈实心，外圈实心，未选中的时候内圈显示，外圈不显示，滑动时外圈显示，连接线从中心点出来-->
+            <enum name="CIRCLE_SHOW_TYPE_2" value="2" />
+        </attr>
+    </declare-styleable>
+
+</resources>

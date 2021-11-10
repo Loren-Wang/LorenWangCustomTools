@@ -25,7 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
+import javabase.lorenwang.tools.common.JtlwVariateDataParamUtil;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
@@ -91,7 +91,7 @@ public class AtlwActivityUtil {
         //版本判断，小于23的不执行权限请求
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             if (permissionRequestCallback != null) {
-                permissionRequestCallback.permissionRequestSuccessCallback(JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions),
+                permissionRequestCallback.permissionRequestSuccessCallback(JtlwVariateDataParamUtil.getInstance().paramesArrayToList(permisstions),
                         permissionsRequestCode);
             }
         } else {
@@ -99,7 +99,7 @@ public class AtlwActivityUtil {
             if (AtlwCheckUtil.getInstance().checkAppPermission(permisstions)) {
                 if (permissionRequestCallback != null) {
                     permissionRequestCallback.permissionRequestSuccessCallback(
-                            JtlwVariateDataParamUtils.getInstance().paramesArrayToList(permisstions), permissionsRequestCode);
+                            JtlwVariateDataParamUtil.getInstance().paramesArrayToList(permisstions), permissionsRequestCode);
                 }
             } else {
                 //存储键值对

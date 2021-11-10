@@ -14,7 +14,7 @@ import android.os.Bundle;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
-import javabase.lorenwang.tools.common.JtlwCommonUtils;
+import javabase.lorenwang.tools.common.JtlwCommonUtil;
 
 import static android.lorenwang.tools.messageTransmit.AtlwFlyMessageMsgTypes.DESKTOP_SHORTCUT_CREATE_SUCCESS;
 
@@ -81,7 +81,7 @@ public class AtlwDesktopShortcutUtil {
             intent.putExtras(bundle);
 
             //设置快捷方式信息
-            ShortcutInfoCompat shortcutInfoCompat = new ShortcutInfoCompat.Builder(context, JtlwCommonUtils.getInstance().generateUuid(true)).setIcon(
+            ShortcutInfoCompat shortcutInfoCompat = new ShortcutInfoCompat.Builder(context, JtlwCommonUtil.getInstance().generateUuid(true)).setIcon(
                     IconCompat.createWithBitmap(bitmap)).setShortLabel(title).setIntent(intent).build();
             //快捷方式添加回调
             PendingIntent shortcutCallbackIntent = PendingIntent.getBroadcast(context, 0, new Intent(context, DesktopShortcutReceiver.class),

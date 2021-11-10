@@ -1,9 +1,11 @@
 package android.lorenwang.customview.radiogroup;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.lorenwang.customview.R;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import java.util.List;
@@ -25,14 +27,13 @@ import androidx.appcompat.widget.AppCompatRadioButton;
  *
  * @author 王亮（Loren wang）
  */
-
-public class AvlwTextListSelectRadioGroup<T extends AvlwTextListSelectRadioGroup.SelectItemBean> extends RadioGroup {
+public class AvlwTextListSelectRadioGroup extends RadioGroup {
     private int type = 0;
 
     /**
      * 选择回调
      */
-    private OnSelectChangeListener<T> onSelectChangeListener;
+    private OnSelectChangeListener onSelectChangeListener;
 
     /**
      * {@inheritDoc}
@@ -59,14 +60,9 @@ public class AvlwTextListSelectRadioGroup<T extends AvlwTextListSelectRadioGroup
      * 初始化相关
      */
     private void init() {
-        setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (onSelectChangeListener != null && group.getChildAt(checkedId) != null
-                        && group.getChildAt(checkedId).getTag() != null) {
-                    onSelectChangeListener.selectChanged(type,
-                            (T) group.getChildAt(checkedId).getTag());
-                }
+        setOnCheckedChangeListener((group, checkedId) -> {
+            if (onSelectChangeListener != null && group.getChildAt(checkedId) != null && group.getChildAt(checkedId).getTag() != null) {
+                onSelectChangeListener.selectChanged(type, (SelectItemBean) group.getChildAt(checkedId).getTag());
             }
         });
     }
@@ -79,8 +75,8 @@ public class AvlwTextListSelectRadioGroup<T extends AvlwTextListSelectRadioGroup
      * @param defaultSelected  默认选中文本
      * @param radioButtonStyle 选择radioButton样式
      */
-    public void setList(int type, List<T> textList, String defaultSelected,
-                        @StyleRes Integer radioButtonStyle) {
+    public <T extends AvlwTextListSelectRadioGroup.SelectItemBean> void setList(int type, List<T> textList, String defaultSelected,
+            @StyleRes Integer radioButtonStyle) {
         if (radioButtonStyle == null) {
             radioButtonStyle = R.style.AvlwRadioButtonTextListSelect;
         }
@@ -93,9 +89,10 @@ public class AvlwTextListSelectRadioGroup<T extends AvlwTextListSelectRadioGroup
             if (item.getText() == null || item.getText().trim().length() == 0) {
                 return;
             }
-            rbSelect = new AppCompatRadioButton(new ContextThemeWrapper(getContext(),
-                    radioButtonStyle));
+            rbSelect = new AppCompatRadioButton(new ContextThemeWrapper(getContext(), radioButtonStyle));
             rbSelect.setText(item.getText());
+            //清除原本按钮，给各自自定义
+            rbSelect.setButtonDrawable(new BitmapDrawable());
             if (defaultSelected != null && TextUtils.equals(defaultSelected, item.getText())) {
                 rbSelect.setChecked(true);
                 if (onSelectChangeListener != null) {
@@ -106,11 +103,15 @@ public class AvlwTextListSelectRadioGroup<T extends AvlwTextListSelectRadioGroup
             }
             rbSelect.setTag(item);
             rbSelect.setId(i);
-            addView(rbSelect);
+            ViewGroup.LayoutParams params = rbSelect.getLayoutParams();
+            if (params == null) {
+                params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+            addView(rbSelect, params);
         }
     }
 
-    public void setOnSelectChangeListener(OnSelectChangeListener<T> onSelectChangeListener) {
+    public <T extends AvlwTextListSelectRadioGroup.SelectItemBean> void setOnSelectChangeListener(OnSelectChangeListener<T> onSelectChangeListener) {
         this.onSelectChangeListener = onSelectChangeListener;
     }
 

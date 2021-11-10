@@ -1,7 +1,7 @@
 package android.lorenwang.tools.app;
 
 import android.lorenwang.tools.bean.AtlwSpannableClickBean;
-import android.lorenwang.tools.bean.AvlwSpannableTagBean;
+import android.lorenwang.tools.bean.AtlwSpannableTagBean;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -101,13 +101,13 @@ public class AtlwSpannableUtil {
      * @param dataBeans 数据要格式化实例
      * @return 格式化后数据
      */
-    public SpannableString paramsTagMessage(@NonNull String msg, AvlwSpannableTagBean... dataBeans) {
+    public SpannableString paramsTagMessage(@NonNull String msg, AtlwSpannableTagBean... dataBeans) {
         if (dataBeans != null) {
-            ArrayList<AvlwSpannableTagBean> list = new ArrayList<>(dataBeans.length);
+            ArrayList<AtlwSpannableTagBean> list = new ArrayList<>(dataBeans.length);
             Collections.addAll(list, dataBeans);
             return paramsTagMessage(msg, list);
         } else {
-            return paramsTagMessage(msg, new ArrayList<AvlwSpannableTagBean>(0));
+            return paramsTagMessage(msg, new ArrayList<AtlwSpannableTagBean>(0));
         }
     }
 
@@ -118,10 +118,10 @@ public class AtlwSpannableUtil {
      * @param dataBeans 数据要格式化实例
      * @return 格式化后数据
      */
-    public SpannableString paramsTagMessage(@NonNull String msg, @NonNull ArrayList<AvlwSpannableTagBean> dataBeans) {
+    public SpannableString paramsTagMessage(@NonNull String msg, @NonNull ArrayList<AtlwSpannableTagBean> dataBeans) {
         SpannableString spannableString = new SpannableString(msg);
         int index = -1;
-        for (AvlwSpannableTagBean dataBean : dataBeans) {
+        for (AtlwSpannableTagBean dataBean : dataBeans) {
             //从上一个位置开始查起
             index = msg.indexOf(dataBean.getParamsMsg(), index);
             if (index >= 0 && dataBean.getBgColor() != null && dataBean.getTextColor() != null) {

@@ -2,14 +2,13 @@ package android.lorenwang.customview.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.IdRes;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：webview弹窗
@@ -69,7 +68,7 @@ public class AvlwBaseWebViewDialog extends AvlwBaseDialog {
             //支持屏幕缩放
             webSettings.setSupportZoom(true);
             webSettings.setBuiltInZoomControls(true);
-            if (!JtlwCheckVariateUtils.getInstance().isEmpty(url)) {
+            if (!JtlwCheckVariateUtil.getInstance().isEmpty(url)) {
                 ((WebView) webView).loadUrl(url);
             }
         }
@@ -82,7 +81,7 @@ public class AvlwBaseWebViewDialog extends AvlwBaseDialog {
      */
     public void loadUrl(String url) {
         if (webView != null && webView instanceof WebView
-                && !JtlwCheckVariateUtils.getInstance().isEmpty(url)) {
+                && !JtlwCheckVariateUtil.getInstance().isEmpty(url)) {
             ((WebView) webView).loadUrl(url);
         }
     }

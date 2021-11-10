@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
 import androidx.annotation.IntegerRes;
-import javabase.lorenwang.tools.file.JtlwFileOptionUtils;
+import javabase.lorenwang.tools.file.JtlwFileOptionUtil;
 
 /**
  * 功能作用：资源相关工具类
@@ -67,7 +67,7 @@ public class AtlwResourcesUtil {
      */
     public byte[] getAssets(@NotNull String assetsName) {
         try {
-            return JtlwFileOptionUtils.getInstance().readBytes(AtlwConfig.nowApplication.getResources().getAssets().open(assetsName));
+            return JtlwFileOptionUtil.getInstance().readBytes(AtlwConfig.nowApplication.getResources().getAssets().open(assetsName));
         } catch (IOException e) {
             e.printStackTrace();
         }

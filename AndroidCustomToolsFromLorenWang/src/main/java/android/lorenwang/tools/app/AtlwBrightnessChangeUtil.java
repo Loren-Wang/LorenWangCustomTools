@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
 
 /**
  * 功能作用：安卓端亮度调节工具类
@@ -138,7 +139,7 @@ public class AtlwBrightnessChangeUtil {
         if (activity != null) {
             //如果Activity界面不是自动的
             if (!isActivityAutoBrightness(activity)) {
-                screenBrightness = activity.getWindow().getAttributes().screenBrightness;
+                return activity.getWindow().getAttributes().screenBrightness;
             }
 
             ContentResolver resolver = activity.getContentResolver();
@@ -152,10 +153,9 @@ public class AtlwBrightnessChangeUtil {
         } else {
             AtlwLogUtil.logUtils.logI(TAG, "获取手机系统当前亮度失败");
         }
-
+        screenBrightness = screenBrightness % 255 / 255.0F;
         return screenBrightness;
     }
-
 
     /**
      * 更新手机系统亮度模式
@@ -203,7 +203,6 @@ public class AtlwBrightnessChangeUtil {
         }
     }
 
-
     /**
      * 设置亮度:通过设置 Windows 的 screenBrightness 来修改当前 Windows 的亮度
      * lp.screenBrightness:参数范围为 0~1
@@ -211,7 +210,7 @@ public class AtlwBrightnessChangeUtil {
      * @param brightness 亮度范围
      * @param isCallback 是否回调
      */
-    public void setBrightness(float brightness, boolean isCallback) {
+    public void setBrightness(@FloatRange(from = 0,to = 1) float brightness, boolean isCallback) {
         setBrightness(null, brightness, isCallback);
     }
 
@@ -223,14 +222,14 @@ public class AtlwBrightnessChangeUtil {
      * @param brightness 要设置的亮度
      * @param isCallback 回调
      */
-    public void setBrightness(Activity activity, float brightness, boolean isCallback) {
+    public void setBrightness(Activity activity,@FloatRange(from = 0,to = 1) float brightness, boolean isCallback) {
         activity = getActivity(activity);
         if (activity != null) {
             try {
                 WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
                 if (brightness > 0) {
                     //将 0~255 范围内的数据，转换为 0~1
-                    lp.screenBrightness = brightness * (1f / 255f);
+                    lp.screenBrightness = brightness;
                     if (lp.screenBrightness > 1) {
                         lp.screenBrightness = 1;
                     }
@@ -282,7 +281,6 @@ public class AtlwBrightnessChangeUtil {
         return isAuto;
     }
 
-
     /**
      * 判断是否开启了自动亮度调节
      *
@@ -314,7 +312,6 @@ public class AtlwBrightnessChangeUtil {
         }
         return isAuto;
     }
-
 
     /**
      * 保存亮度设置状态
@@ -356,7 +353,6 @@ public class AtlwBrightnessChangeUtil {
         }
     }
 
-
     /**
      * 设置屏幕亮度跟随系统
      */
@@ -394,6 +390,7 @@ public class AtlwBrightnessChangeUtil {
      * @param mBrightObserver 观察者
      */
     public void registerBrightObserver(Activity activity, AtlwBrightnessChangeContentObserver mBrightObserver) {
+        unregisterBrightObserver(activity);
         try {
             if (mBrightObserver != null) {
                 if (!mBrightObserver.isRegist()) {
@@ -420,7 +417,7 @@ public class AtlwBrightnessChangeUtil {
         try {
             AtlwBrightnessChangeContentObserver mBrightObserver = observerMap.get(activity);
             if (mBrightObserver != null) {
-                if (!mBrightObserver.isRegist()) {
+                if (mBrightObserver.isRegist()) {
                     activity.getContentResolver().unregisterContentObserver(mBrightObserver);
                     mBrightObserver.setRegist(false);
                     observerMap.remove(activity);

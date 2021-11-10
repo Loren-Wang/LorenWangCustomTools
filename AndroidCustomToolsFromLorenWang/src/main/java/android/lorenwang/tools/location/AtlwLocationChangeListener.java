@@ -2,12 +2,20 @@ package android.lorenwang.tools.location;
 
 import android.location.Location;
 import android.location.LocationListener;
+import android.lorenwang.tools.app.AtlwThreadUtil;
+import android.lorenwang.tools.base.AtlwLogUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
-import android.lorenwang.tools.location.enums.AtlwLocationResultFromTypeEnum;
+import android.lorenwang.tools.location.config.AtlwLocationResultBean;
 import android.os.Bundle;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 功能作用：定位信息改变监听
@@ -22,7 +30,7 @@ import com.amap.api.location.AMapLocationListener;
  *
  * @author 王亮（Loren）
  */
-abstract class AtlwLocationChangeListener implements LocationListener, AMapLocationListener {
+class AtlwLocationChangeListener extends BDAbstractLocationListener implements LocationListener, AMapLocationListener, TencentLocationListener {
     /**
      * 定位信息配置
      */
@@ -30,16 +38,24 @@ abstract class AtlwLocationChangeListener implements LocationListener, AMapLocat
     /**
      * 定位类型
      */
-    protected AtlwLocationResultFromTypeEnum type;
+    protected AtlwLocationTypeEnum type;
+    /**
+     * 循环定位标记
+     */
+    protected volatile boolean loopPositioning = false;
+    /**
+     * 上一次的位置信息
+     */
+    protected volatile AtlwLocationResultBean lastLocationBean;
 
     @Override
     public void onLocationChanged(Location location) {
-
+        onResult(location.getLatitude(), location.getLongitude(), location.getProvider());
     }
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
-
+        onResult(aMapLocation.getLatitude(), aMapLocation.getLongitude(), aMapLocation.getCity());
     }
 
     @Override
@@ -55,5 +71,66 @@ abstract class AtlwLocationChangeListener implements LocationListener, AMapLocat
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    /*---百度使用的---*/
+    @Override
+    public void onReceiveLocation(BDLocation bdLocation) {
+        onResult(bdLocation.getLatitude(), bdLocation.getLongitude(), bdLocation.getCity());
+    }
+
+    /*---腾讯使用的---*/
+    @Override
+    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
+        onResult(tencentLocation.getLatitude(), tencentLocation.getLongitude(), tencentLocation.getCity());
+    }
+
+    @Override
+    public void onStatusUpdate(String s, int i, String s1) {
+
+    }
+
+    /**
+     * 开始返回
+     *
+     * @param latitude  纬度
+     * @param longitude 精度
+     * @param cityName  城市名称
+     */
+    protected void onResult(double latitude, double longitude, String cityName) {
+        if (!loopPositioning) {
+            AtlwLocationUtil.getInstance().stopLoopPositioning();
+        }
+        //定位相关信息
+        final AtlwLocationResultBean bean = new AtlwLocationResultBean();
+        bean.setLatitude(latitude);
+        bean.setLongitude(longitude);
+        bean.setCityName(cityName);
+        AtlwLogUtil.logUtils.logI("AtlwLocation", "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
+        //回调定位
+        if (config != null && config.getLocationsCallback() != null) {
+            AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    config.getLocationsCallback().locationResultSuccess(type, config, bean, judgeLocationResultBean(bean));
+                }
+            });
+        }
+    }
+
+    /**
+     * 判断位置信息返回
+     *
+     * @param bean 当前位置信息
+     * @return 需要返回则返回true
+     */
+    private boolean judgeLocationResultBean(@NotNull AtlwLocationResultBean bean) {
+        if (lastLocationBean != null && Double.compare(lastLocationBean.getLatitude(), bean.getLatitude()) == 0 && Double.compare(
+                lastLocationBean.getLongitude(), bean.getLongitude()) == 0) {
+            AtlwLogUtil.logUtils.logI("AtlwLocation", "当前位置信息未发生变更");
+            return false;
+        }
+        lastLocationBean = bean;
+        return true;
     }
 }

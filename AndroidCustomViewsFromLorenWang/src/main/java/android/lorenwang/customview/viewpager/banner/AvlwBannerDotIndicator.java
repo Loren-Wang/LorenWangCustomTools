@@ -60,22 +60,14 @@ class AvlwBannerDotIndicator extends AvlwBaseBannerIndicator {
 
     public AvlwBannerDotIndicator(TypedArray typedArray, View indicatorView) {
         super(typedArray,indicatorView);
-        dotItemViewRes = typedArray.getResourceId(R.styleable.AvlwBannerView_avlwBvIndicatorDotItemViewRes
-                , dotItemViewRes);
-        dotItemWidth =
-                typedArray.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorDotItemWidth,
-                        dotItemWidth);
-        dotItemHeight =
-                typedArray.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorDotItemHeight
-                        , dotItemWidth);
-        dotItemMarginLeftRight =
-                typedArray.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlwBvIndicatorDotItemMarginLeftRight,
-                        dotItemMarginLeftRight);
-        dotSelectColor =
-                ColorStateList.valueOf(typedArray.getColor(R.styleable.AvlwBannerView_avlwBvIndicatorDotSelectColor, Color.WHITE));
-        dotUnSelectColor =
-                ColorStateList.valueOf(typedArray.getColor(R.styleable.AvlwBannerView_avlwBvIndicatorDotUnSelectColor,
-                        Color.parseColor("#88ffffff")));
+        dotItemViewRes = typedArray.getResourceId(R.styleable.AvlwBannerView_avlw_bv_indicatorDotItemViewRes, dotItemViewRes);
+        dotItemWidth = typedArray.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorDotItemWidth, dotItemWidth);
+        dotItemHeight = typedArray.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorDotItemHeight, dotItemWidth);
+        dotItemMarginLeftRight = typedArray.getDimensionPixelOffset(R.styleable.AvlwBannerView_avlw_bv_indicatorDotItemMarginLeftRight,
+                dotItemMarginLeftRight);
+        dotSelectColor = ColorStateList.valueOf(typedArray.getColor(R.styleable.AvlwBannerView_avlw_bv_indicatorDotSelectColor, Color.WHITE));
+        dotUnSelectColor = ColorStateList.valueOf(
+                typedArray.getColor(R.styleable.AvlwBannerView_avlw_bv_indicatorDotUnSelectColor, Color.parseColor("#88ffffff")));
 
     }
 

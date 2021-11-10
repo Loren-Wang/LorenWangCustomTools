@@ -13,4 +13,5 @@ package android.lorenwang.tools.desktopShortcut;
  */
 public interface DesktopShortcutOptionsCallback {
     void addSuccess();//添加成功
+    void fail();//添加失败
 }

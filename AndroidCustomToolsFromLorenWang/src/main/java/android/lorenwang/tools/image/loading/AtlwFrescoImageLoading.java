@@ -4,9 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.file.AtlwFileOptionUtil;
-import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
@@ -36,9 +34,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 import androidx.annotation.Nullable;
-import javabase.lorenwang.tools.JtlwLogUtils;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.thread.JtlwTimingTaskUtils;
+import javabase.lorenwang.tools.JtlwLogUtil;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
+import javabase.lorenwang.tools.thread.JtlwTimingTaskUtil;
 
 
 /**
@@ -85,7 +83,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                     @Override
                     public void onNewResultImpl(@Nullable final Bitmap bitmap) {
                         if (bitmap != null && !bitmap.isRecycled()) {
-                            JtlwTimingTaskUtils.getInstance().schedule(Double.valueOf(Math.random() * 100000).intValue(), new Runnable() {
+                            JtlwTimingTaskUtil.getInstance().schedule(Double.valueOf(Math.random() * 100000).intValue(), new Runnable() {
                                 @Override
                                 public void run() {
                                     resultBitmap(bitmap, config);
@@ -118,7 +116,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
 
     @Override
     public void loadingNetImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(path) && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView) &&
+        if (!JtlwCheckVariateUtil.getInstance().isEmpty(path) && !JtlwCheckVariateUtil.getInstance().isEmpty(imageView) &&
                 imageView instanceof DraweeView) {
             //生成请求
             ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(Uri.parse(path)), config);
@@ -130,7 +128,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
 
     @Override
     public void loadingLocalImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(path)) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(path)) {
             return;
         }
         Uri uri;
@@ -158,14 +156,14 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
 
     @Override
     public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        if (!JtlwCheckVariateUtils.getInstance().isEmpty(bitmap) && !JtlwCheckVariateUtils.getInstance().isEmpty(imageView) &&
+        if (!JtlwCheckVariateUtil.getInstance().isEmpty(bitmap) && !JtlwCheckVariateUtil.getInstance().isEmpty(imageView) &&
                 imageView instanceof SimpleDraweeView) {
             try {
-                if (bitmap != null && JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getThumbSavePath())) {
+                if (bitmap != null && JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getThumbSavePath())) {
                     if(AtlwFileOptionUtil.getInstance().writeToFile(false, new File(config.getThumbSavePath()), bitmap, Bitmap.CompressFormat.JPEG)){
                         loadingLocalImage(config.getThumbSavePath(),imageView,config);
                     }else {
-                        JtlwLogUtils.logUtils.logE(TAG, "加载bitmap失败");
+                        JtlwLogUtil.logUtils.logE(TAG, "加载bitmap失败");
                     }
 //
 //                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwConfig.nowApplication.getContentResolver(), bitmap, null, null));
@@ -176,7 +174,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
 //                    }
                 }
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, "加载bitmap失败");
+                JtlwLogUtil.logUtils.logE(TAG, "加载bitmap失败");
             }
         }
 
@@ -184,7 +182,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
 
     @Override
     public void getNetImageBitmap(String path, AtlwImageLoadConfig config) {
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(path)) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(path)) {
             //生成请求
             ImageRequest imageRequest = getImageRequest(null, ImageRequestBuilder.newBuilderWithSource(Uri.parse(path)), config);
             if (imageRequest != null) {
@@ -241,7 +239,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                 ResizeOptions resizeOptions = new ResizeOptions(config.getResizeLoadWidth(), config.getResizeLoadHeight());
                 imageRequestBuilder.setResizeOptions(resizeOptions);
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, "resize失败");
+                JtlwLogUtil.logUtils.logE(TAG, "resize失败");
             }
         }
         //判断是否需要显示缩略图
@@ -288,7 +286,7 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
             try {
                 builder.setOldController(((DraweeView) imageView).getController());
             } catch (Exception e) {
-                JtlwLogUtils.logUtils.logE(TAG, "图片加载异常");
+                JtlwLogUtil.logUtils.logE(TAG, "图片加载异常");
             }
 
             builder.setControllerListener(new BaseControllerListener<ImageInfo>() {

@@ -5,9 +5,9 @@ import android.lorenwang.tools.AtlwConfig;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.facebook.drawee.view.DraweeView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
@@ -30,6 +30,10 @@ import org.jetbrains.annotations.NotNull;
  */
 class AtlwImageLoadImageLoading extends AtlwBaseImageLoading {
 
+    AtlwImageLoadImageLoading() {
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(AtlwConfig.nowApplication));
+    }
+
     /**
      * 加载图片
      *
@@ -43,7 +47,15 @@ class AtlwImageLoadImageLoading extends AtlwBaseImageLoading {
             if (config.getResizeLoadWidth() > 0 && config.getResizeLoadHeight() > 0) {
                 mImageSize = new ImageSize(config.getResizeLoadWidth(), config.getResizeLoadHeight());
             }
-            ImageLoader.getInstance().loadImage(path, mImageSize, getDisplayImageOptions(config), getImageLoadingListener(config, imageView));
+            if (config.getShowViewWidth() > 0 && config.getShowViewHeight() > 0) {
+                mImageSize = new ImageSize(config.getShowViewWidth(), config.getShowViewHeight());
+            }
+            if (mImageSize == null) {
+                ImageLoader.getInstance().loadImage(path, getDisplayImageOptions(config), getImageLoadingListener(config, imageView));
+            } else {
+                ImageLoader.getInstance().loadImage(path, mImageSize, getDisplayImageOptions(config), getImageLoadingListener(config, imageView));
+            }
+
         }
     }
 

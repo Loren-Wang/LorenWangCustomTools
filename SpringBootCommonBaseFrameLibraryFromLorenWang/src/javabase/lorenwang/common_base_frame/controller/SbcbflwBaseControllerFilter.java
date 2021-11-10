@@ -77,8 +77,8 @@ public abstract class SbcbflwBaseControllerFilter<T extends SbcbflwBaseHttpServl
             // Access-Control-Max-Age 用于 CORS 相关配置的缓存
             rep.setHeader("Access-Control-Max-Age", "3600");
             rep.setHeader("Access-Control-Allow-Headers",
-                    "" + SbcbflwCommon.getInstance().propertiesConfig.getHeaderTokenKeyName() + ",Origin, X-Requested-With, Content-Type, Accept," +
-                            "Access-Control-Allow-Headers,Origin," + " X-Requested-With, Content-Type, Accept,WG-App-Version, WG-Device-Id, " +
+                    getHeaderAccessTokenKey() + ",Origin, X-Requested-With, Content-Type, Accept," + "Access-Control-Allow-Headers,Origin," +
+                            " X-Requested-With, Content-Type, Accept,WG-App-Version, WG-Device-Id, " +
                             "WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model," + " WG-CPU, WG-Sid, WG-App-Id, WG-Token");
             rep.setCharacterEncoding("UTF-8");
 

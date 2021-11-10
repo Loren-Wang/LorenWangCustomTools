@@ -1,5 +1,6 @@
 package android.lorenwang.customview.texiview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 
 /**
  * 功能作用：固定宽高按钮
@@ -124,19 +126,20 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
         init(context, attrs, defStyleAttr);
     }
 
+    @SuppressLint({"ResourceType", "Recycle"})
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         //资源处理
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwFixedWidthHeightDrawableButton);
-        drawablePosition = attributes.getInt(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawablePosition, drawablePosition);
-        drawableWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableWidth, drawableWidth);
-        drawableHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableHeight, drawableHeight);
-        drawableTextDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableTextDistance,
+        drawablePosition = attributes.getInt(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_drawablePosition, drawablePosition);
+        drawableWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_drawableWidth, drawableWidth);
+        drawableHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_drawableHeight, drawableHeight);
+        drawableTextDistance = attributes.getDimensionPixelOffset(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_drawableTextDistance,
                 drawableTextDistance);
-        drawableUsePadding = attributes.getBoolean(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableUsePadding, drawableUsePadding);
-        drawableResId = attributes.getResourceId(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableResId, -1);
-        textShowGravity = attributes.getInt(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwTextGravity, textShowGravity);
-        if (Integer.MAX_VALUE != attributes.getColor(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableTint, Integer.MAX_VALUE)) {
-            tint = ColorStateList.valueOf(attributes.getColor(R.styleable.AvlwFixedWidthHeightDrawableButton_avlwDrawableTint, 0));
+        drawableUsePadding = attributes.getBoolean(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_drawableUsePadding, drawableUsePadding);
+        drawableResId = attributes.getResourceId(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_drawableResId, -1);
+        textShowGravity = attributes.getInt(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_textGravity, textShowGravity);
+        if (Integer.MAX_VALUE != attributes.getColor(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_drawableTint, Integer.MAX_VALUE)) {
+            tint = ColorStateList.valueOf(attributes.getColor(R.styleable.AvlwFixedWidthHeightDrawableButton_avlw_fwhdb_drawableTint, 0));
         }
         attributes.recycle();
 
@@ -413,6 +416,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
      * @param drawablePosition 图片要展示的位置
      * @return 当前实例
      */
+    @SuppressLint("ResourceType")
     public synchronized AvlwFixedWidthHeightDrawableButton setDrawable(Integer drawablePosition, Integer drawableWidth, Integer drawableHeight,
             Integer drawableTextDistance, @DrawableRes Integer drawableResId) {
         if (drawablePosition != null) {
@@ -458,6 +462,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
      *
      * @param drawableResId 资源id
      */
+    @SuppressLint("ResourceType")
     public void setShowDrawableResId(@DrawableRes int drawableResId) {
         if (drawableResId > 0) {
             drawBitmap = getDrawBitmap(drawableResId);
@@ -475,7 +480,7 @@ public class AvlwFixedWidthHeightDrawableButton extends AppCompatButton {
      */
     private Bitmap getDrawBitmap(int drawableResId) {
         Bitmap bitmap = null;
-        Drawable drawable = getContext().getDrawable(drawableResId);
+        Drawable drawable = ContextCompat.getDrawable(getContext(),drawableResId);
         if (drawable != null) {
             drawable = drawable.mutate();
             bitmap = AtlwImageCommonUtil.getInstance().drawableToBitmap(AtlwViewUtil.getInstance().tintDrawable(drawable, tint), drawableWidth,

@@ -3,6 +3,7 @@ package android.lorenwang.commonbaseframe.mvp
 import android.app.Activity
 import android.lorenwang.commonbaseframe.AcbflwBaseApplication
 import android.lorenwang.commonbaseframe.R
+import android.lorenwang.commonbaseframe.bean.AcbflwBaseRepBean
 import android.lorenwang.commonbaseframe.network.AcbflwNetworkManager
 import android.lorenwang.commonbaseframe.network.callback.AcbflwFileDownLoadCallback
 import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
@@ -14,9 +15,8 @@ import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import javabase.lorenwang.dataparse.JdplwJsonUtils
-import javabase.lorenwang.tools.JtlwLogUtils
-import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
+import javabase.lorenwang.dataparse.JdplwJsonUtil
+import javabase.lorenwang.tools.JtlwLogUtil
 import okhttp3.ResponseBody
 import retrofit2.Response
 import java.io.File
@@ -53,7 +53,7 @@ open class AcbflwBaseModel {
      */
     fun releaseModel() {
         compositeDisposable.clear()
-        JtlwLogUtils.logUtils.logI(tag, "释放了当前model所有网络请求！")
+        JtlwLogUtil.logUtils.logI(tag, "释放了当前model所有网络请求！")
     }
 
     /**
@@ -63,7 +63,7 @@ open class AcbflwBaseModel {
      * @param pageCount 页面数量
      * @param netOptionsCallback 请求结果回调
      */
-    open fun <D, T : KttlwBaseNetResponseBean<D>, CB : AcbflwNetOptionsByModelCallback<D, T>> getBaseObserver(activity: Activity?, pageIndex: Int?,
+    open fun <D, T : AcbflwBaseRepBean<D>, CB : AcbflwNetOptionsByModelCallback<D, T>> getBaseObserver(activity: Activity?, pageIndex: Int?,
         pageCount: Int?, netOptionsCallback: CB): Observer<Response<T>> {
         //添加model实例
         AcbflwBaseApplication.application?.addModel(activity, this)
@@ -81,25 +81,23 @@ open class AcbflwBaseModel {
 
             override fun onNext(t: Response<T>) {
                 setPageInfo()
-                if (t.code() == 200) {
-                    val repCode = t.body()?.stateCode
-                    if (repCode == AcbflwNetRepCode.repCodeSuccess) {
-                        //网络请求成功
-                        netOptionsCallback.success(t.body()!!)
-                    } else {
-                        AcbflwNetRepCode.repCodeLoginStatusError.forEach {
-                            if (it == repCode) {
-                                //用户登陆状态异常，需要跳转到登陆页面
-                                netOptionsCallback.userLoginStatusError(it, t.body()?.stateMessage)
-                                return
-                            }
+                if (t.code() == 200 && t.body() != null) {
+                    t.body()!!.apply {
+                        if (checkResponseSuccess()) {
+                            //网络请求成功
+                            netOptionsCallback.success(t.body()!!)
+                        } else if (checkUserLoginStatusError()) {
+                            JtlwLogUtil.logUtils.logE(tag, getErrorCode())
+                            //用户登陆状态异常，需要跳转到登陆页面
+                            netOptionsCallback.userLoginStatusError(getErrorCode(), getErrorMsg())
+                        } else {
+                            JtlwLogUtil.logUtils.logE(tag, getErrorCode())
+                            netOptionsCallback.error(Exception(JdplwJsonUtil.toJson(t.body())))
                         }
-                        JtlwLogUtils.logUtils.logE(tag, t.code().toString())
-                        netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
                     }
                 } else {
-                    JtlwLogUtils.logUtils.logE(tag, t.code().toString())
-                    netOptionsCallback.error(Exception(JdplwJsonUtils.toJson(t.body())))
+                    JtlwLogUtil.logUtils.logE(tag, t.code().toString())
+                    netOptionsCallback.error(Exception(JdplwJsonUtil.toJson(t.body())))
                 }
             }
 
@@ -109,36 +107,36 @@ open class AcbflwBaseModel {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtil.getInstance().networkType == 0) {
-                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
+                                JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_server))
                             }
                         } catch (e: Exception) {
-                            JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                            JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                         }
                     }
                     is SocketTimeoutException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtil.getInstance().networkType == 0) {
-                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                                JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                             }
                         } catch (e: Exception) {
-                            JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
+                            JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_timeout))
                         }
                     }
                     is SSLException -> {
                         //判断是无网络还是其他问题
                         try {
                             if (AtlwMobileSystemInfoUtil.getInstance().networkType == 0) {
-                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
+                                JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_net))
                             } else {
-                                JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                                JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                             }
                         } catch (e: Exception) {
-                            JtlwLogUtils.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
+                            JtlwLogUtil.logUtils.logE(tag, AcbflwBaseApplication.appContext?.getString(R.string.net_error_sll))
                         }
                     }
                     else -> {
@@ -183,11 +181,17 @@ open class AcbflwBaseModel {
                         val bytes = ByteArray(1024)
                         var rendLength = 0
                         var currLength: Long = 0
+                        var lastProgress = -1
+                        var currentProgress: Int
                         while (rendLength.let { rendLength = inputStream.read(bytes);rendLength } != -1) {
                             fileOutputStream.write(bytes, 0, rendLength)
                             fileOutputStream.flush()
                             currLength += rendLength
-                            callback.updateProgress((currLength * 100.0 / contentLength).toInt())
+                            currentProgress = ((currLength * 1.0 / contentLength) * 100).toInt()
+                            if(lastProgress != currentProgress) {
+                                callback.updateProgress(currentProgress)
+                                lastProgress = currentProgress
+                            }
                         }
                         callback.downloadSuccess(bean, localFile.absolutePath)
                     } catch (ignore: Exception) {

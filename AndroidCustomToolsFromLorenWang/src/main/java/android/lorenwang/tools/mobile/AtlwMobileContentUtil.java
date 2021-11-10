@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.RequiresPermission;
-import javabase.lorenwang.tools.common.JtlwVariateDataParamUtils;
+import javabase.lorenwang.tools.common.JtlwVariateDataParamUtil;
 
 /**
  * 功能作用：获取手机各个内容
@@ -123,8 +123,8 @@ public class AtlwMobileContentUtil {
                 } else if (contactName.substring(0, 1).getBytes().length > 1) {
                     //Sim卡中没有联系人头像
                     mContactsName.add(contactName);
-                    mContactsYinxu.add(JtlwVariateDataParamUtils.getInstance().getFirstPinYin(contactName));
-                    mContactsQuanPin.add(JtlwVariateDataParamUtils.getInstance().getPinYin(contactName));
+                    mContactsYinxu.add(JtlwVariateDataParamUtil.getInstance().getFirstPinYin(contactName));
+                    mContactsQuanPin.add(JtlwVariateDataParamUtil.getInstance().getPinYin(contactName));
                     mContactsNumber.add(phoneNumber);
                 } else {
                     //Sim卡中没有联系人头像
@@ -169,8 +169,8 @@ public class AtlwMobileContentUtil {
                 } else if (contactName.substring(0, 1).getBytes().length > 1) {
                     //Sim卡中没有联系人头像
                     mContactsName.add(contactName);
-                    mContactsYinxu.add(JtlwVariateDataParamUtils.getInstance().getFirstPinYin(contactName));
-                    mContactsQuanPin.add(JtlwVariateDataParamUtils.getInstance().getPinYin(contactName));
+                    mContactsYinxu.add(JtlwVariateDataParamUtil.getInstance().getFirstPinYin(contactName));
+                    mContactsQuanPin.add(JtlwVariateDataParamUtil.getInstance().getPinYin(contactName));
                     mContactsNumber.add(phoneNumber);
                 } else {
                     //Sim卡中没有联系人头像
@@ -256,16 +256,13 @@ public class AtlwMobileContentUtil {
      *
      * @return 系统短信列表
      */
+    @RequiresPermission(Manifest.permission.READ_SMS)
     public List<AtlwMobileSmsInfoBean> getSystemSms() {
         List<AtlwMobileSmsInfoBean> list = new ArrayList<>();
         ContentResolver resolver = AtlwConfig.nowApplication.getContentResolver();
         // 获取手机系统短信
         Cursor smsCursor;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            smsCursor = resolver.query(Telephony.Sms.CONTENT_URI, SMS_PROJECTION, null, null, null);
-        } else {
-            smsCursor = resolver.query(Uri.parse("content://sms"), SMS_PROJECTION, null, null, null);
-        }
+        smsCursor = resolver.query(Telephony.Sms.CONTENT_URI, SMS_PROJECTION, null, null, null);
         return getAtlwMobileSmsInfoBeans(list, smsCursor);
     }
 

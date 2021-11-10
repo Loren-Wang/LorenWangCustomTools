@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.RecycleViewPageActivity">
+    tools:context=".activity.customView.RecycleViewPageActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:id="@+id/vpgList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".activity.RecycleViewPageActivity">
+            tools:context=".activity.customView.RecycleViewPageActivity">
 
         </android.lorenwang.customview.recycleview.AvlwRecycleViewViewpager>
 

@@ -1,9 +1,7 @@
 package android.lorenwang.commonbaseframe
 
-import android.lorenwang.commonbaseframe.mvp.AcbflwNetRepCode
 import android.lorenwang.tools.AtlwConfig
 import androidx.annotation.DrawableRes
-import androidx.customview.R
 
 /**
  * 功能作用：基础配置文件
@@ -88,18 +86,11 @@ object AcbflwBaseConfig {
      * 初始化基础配置
      *
      * @param applicationIdPackageNameCurrent      当前项目包名
-     * @param apiResponseCodeSuccess               接口请求成功code
-     * @param apiResponseCodeLoginStatusError      登录状态异常code
-     * @param apiResponseCodeCurrentLimitingBaffle 限流挡板返回code
      * @param imageLoadingFailResId                加载失败图片
      * @param imageLoadingLoadResId                加载中图片
      */
-    fun initBaseConfig(applicationIdPackageNameCurrent: String, apiResponseCodeSuccess: String?, apiResponseCodeLoginStatusErrorList: List<String>?,
-        apiResponseCodeCurrentLimitingBaffle: List<String?>?, @DrawableRes imageLoadingFailResId: Int?, @DrawableRes imageLoadingLoadResId: Int?) {
+    fun initBaseConfig(applicationIdPackageNameCurrent: String, @DrawableRes imageLoadingFailResId: Int?, @DrawableRes imageLoadingLoadResId: Int?) {
         this.applicationIdPackageNameCurrent = applicationIdPackageNameCurrent
-        AcbflwNetRepCode.repCodeSuccess = apiResponseCodeSuccess
-        AcbflwNetRepCode.repCodeLoginStatusError.clear()
-        apiResponseCodeLoginStatusErrorList?.let { AcbflwNetRepCode.repCodeLoginStatusError.addAll(it) }
         if (imageLoadingFailResId != null) {
             AtlwConfig.imageLoadingFailResId = imageLoadingFailResId
         }

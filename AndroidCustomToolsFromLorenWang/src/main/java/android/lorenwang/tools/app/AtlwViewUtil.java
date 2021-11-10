@@ -1,6 +1,9 @@
 package android.lorenwang.tools.app;
 
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -12,13 +15,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：控件相关工具类
@@ -43,6 +50,9 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
  * 获取文本高度--getStrTextHeight(paint)
  * 获取文本高度--getStrTextHeight(textSize)
  * RecycleView 是否在顶部未向下滑动过--recycleViewIsTheTop(recyclerView)
+ * 获取控件位图--getViewBitmap(optionsView)
+ * 获取控件位图--getViewBitmap(optionsView,hideIds)
+ * 获取控件位图--getViewBitmap(optionsView,useWidth,useHeight,hideIds)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -335,7 +345,7 @@ public class AtlwViewUtil {
      * @return 字符串宽度
      */
     public float getStrTextWidth(Paint paint, String text, Integer start, Integer end) {
-        if (!JtlwCheckVariateUtils.getInstance().isHaveEmpty(paint, text)) {
+        if (!JtlwCheckVariateUtil.getInstance().isHaveEmpty(paint, text)) {
             if (start != null) {
                 if (text.length() < start) {
                     start = text.length() - 1;
@@ -367,7 +377,7 @@ public class AtlwViewUtil {
      * @return 字符串宽度
      */
     public float getStrTextWidth(Paint paint, String text) {
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(text)) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(text)) {
             return 0f;
         }
         return getStrTextWidth(paint, text, 0, text.length());
@@ -383,7 +393,7 @@ public class AtlwViewUtil {
      * @return 字符串宽度
      */
     public float getStrTextWidth(int textSize, String text, Integer start, Integer end) {
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(text)) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(text)) {
             return 0f;
         }
         Paint paint;
@@ -400,7 +410,7 @@ public class AtlwViewUtil {
      * @return 字符串宽度
      */
     public float getStrTextWidth(int textSize, String text) {
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(text)) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(text)) {
             return 0f;
         }
         Paint paint;
@@ -417,7 +427,7 @@ public class AtlwViewUtil {
      */
     public float getStrTextHeight(Paint paint) {
         Paint.FontMetrics fontMetrics;
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(paint)) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(paint)) {
             return 0f;
         }
         fontMetrics = paint.getFontMetrics();
@@ -467,4 +477,87 @@ public class AtlwViewUtil {
         return true;
     }
 
+    /**
+     * 获取控件位图
+     *
+     * @param optionsView 控件
+     * @return 控件位图
+     */
+    public Bitmap getViewBitmap(View optionsView) {
+        return getViewBitmap(optionsView, null, null, null);
+    }
+
+    /**
+     * 获取控件位图
+     *
+     * @param optionsView 控件
+     * @param hideIds     要隐藏的id列表
+     * @return 控件位图
+     */
+    public Bitmap getViewBitmap(View optionsView, Integer[] hideIds) {
+        return getViewBitmap(optionsView, null, null, hideIds);
+    }
+
+    /**
+     * 获取控件位图
+     *
+     * @param optionsView 控件
+     * @param useWidth    要使用的宽度
+     * @param useHeight   要使用的高度
+     * @param hideIds     要隐藏的id列表
+     * @return 控件位图
+     */
+    public Bitmap getViewBitmap(View optionsView, Integer useWidth, Integer useHeight, Integer[] hideIds) {
+        if (optionsView == null) {
+            return null;
+        }
+        List<Integer> showViews = new ArrayList<>();
+        //处理布局(隐藏不需要显示的，同时记录改变显示状态的)
+        View view;
+        if (hideIds != null) {
+            for (int id : hideIds) {
+                view = optionsView.findViewById(id);
+                if (view.getVisibility() == View.VISIBLE) {
+                    showViews.add(id);
+                    view.setVisibility(View.GONE);
+                }
+            }
+        }
+        //宽高处理
+        int width;
+        int height;
+        if (optionsView instanceof ScrollView) {
+            View container = ((ViewGroup) optionsView).getChildAt(0);
+            width = container.getWidth();
+            height = container.getHeight();
+        } else {
+            width = optionsView.getWidth();
+            height = optionsView.getHeight();
+        }
+        if (useWidth != null && useWidth > 0) {
+            width = useWidth;
+        }
+        if (useHeight != null && useHeight > 0) {
+            height = useHeight;
+        }
+        if (width <= 0 || height <= 0) {
+            //恢复布局
+            for (Integer id : showViews) {
+                optionsView.findViewById(id).setVisibility(View.VISIBLE);
+            }
+            return null;
+        }
+
+        //获取位图
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+        optionsView.draw(canvas);
+
+        //恢复布局
+        for (Integer id : showViews) {
+            optionsView.findViewById(id).setVisibility(View.VISIBLE);
+        }
+        return bitmap;
+    }
 }

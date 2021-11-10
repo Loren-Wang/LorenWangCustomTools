@@ -3,6 +3,7 @@ package android.lorenwang.commonbaseframe
 import android.content.Intent
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil
 import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwViewUtil
@@ -17,10 +18,11 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sina.weibo.sdk.common.UiError
 import com.sina.weibo.sdk.share.WbShareCallback
-import javabase.lorenwang.dataparse.JdplwJsonUtils
+import javabase.lorenwang.dataparse.JdplwJsonUtil
 import kotlinbase.lorenwang.tools.extend.kttlwToVisible
 
 /**
@@ -67,6 +69,11 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      * 基类刷新控件
      */
     protected var swipeAcbflwRefresh: SwipeRefreshLayout? = null
+
+    /**
+     * 上一个显示的页面
+     */
+    private var lastFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initCreateSuperBefore(savedInstanceState)
@@ -281,25 +288,52 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //新浪微博相关回调
-        if (AcbflwPluginUtil.getInstance().getSinaApi(this) != null) {
-            AcbflwPluginUtil.getInstance().getSinaApi(this).doResultIntent(data, object : WbShareCallback {
+        AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.getSinaApi(this)?.let {
+            it.doResultIntent(data, object : WbShareCallback {
                 override fun onComplete() {
-                    AcbflwPluginUtil.getInstance().callBackInfo(AcbflwPluginUtil.getInstance().sinaKey(this@AcbflwBaseActivity))
+                    AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT)
+                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwBaseActivity))
                 }
 
                 override fun onError(p0: UiError?) {
-                    AtlwLogUtil.logUtils.logI("shareToSina", JdplwJsonUtils.toJson(p0))
-                    AcbflwPluginUtil.getInstance()
-                        .callBackError(AcbflwPluginUtil.getInstance().sinaKey(this@AcbflwBaseActivity), AcbflwPluginErrorTypeEnum.SHARE_FAIL)
+                    AtlwLogUtil.logUtils.logI("shareToSina", JdplwJsonUtil.toJson(p0))
+                    AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT)
+                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwBaseActivity),
+                            AcbflwPluginErrorTypeEnum.SHARE_FAIL)
                 }
 
                 override fun onCancel() {
-                    AcbflwPluginUtil.getInstance()
-                        .callBackError(AcbflwPluginUtil.getInstance().sinaKey(this@AcbflwBaseActivity), AcbflwPluginErrorTypeEnum.SHARE_CANCEL)
+                    AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT)
+                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwBaseActivity),
+                            AcbflwPluginErrorTypeEnum.SHARE_CANCEL)
                 }
             })
-            AcbflwPluginUtil.getInstance().getSinaApi(this).authorizeCallback(requestCode, resultCode, data);
+            it.authorizeCallback(requestCode, resultCode, data);
         }
     }
 
+    /**
+     * 修改显示页面
+     */
+    @Synchronized
+    protected fun changeFragment(fragment: Fragment, id: Int) {
+        if (lastFragment != fragment) {
+            supportFragmentManager.apply {
+                if (findFragmentByTag(fragment.hashCode().toString()) == null) {
+                    if (lastFragment != null) {
+                        beginTransaction().hide(lastFragment!!).add(id, fragment, fragment.hashCode().toString()).commitAllowingStateLoss()
+                    } else {
+                        beginTransaction().add(id, fragment, fragment.hashCode().toString()).commitAllowingStateLoss()
+                    }
+                } else {
+                    if (lastFragment != null) {
+                        beginTransaction().hide(lastFragment!!).show(fragment).commitAllowingStateLoss()
+                    } else {
+                        beginTransaction().show(fragment).commitAllowingStateLoss()
+                    }
+                }
+                lastFragment = fragment
+            }
+        }
+    }
 }

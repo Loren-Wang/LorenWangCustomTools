@@ -46,7 +46,7 @@ public class AcbflwPageShowViewDataBean<T> {
      */
     private ArrayList<T> list;
 
-    AcbflwPageShowViewDataBean(){
+    public AcbflwPageShowViewDataBean(){
     }
 
     public AcbflwPageShowViewDataBean(boolean lastPageData, boolean firstPageData,

@@ -2,43 +2,43 @@
 <resources>
     <declare-styleable name="AvlwTitleBarHeadView">
         <!--标题样式-->
-        <attr name="avlwTitleTextSize" format="dimension" />
-        <attr name="avlwTitleTextColor" format="color" />
-        <attr name="avlwTitleText" format="string" />
+        <attr name="avlw_tbh_titleTextSize" format="dimension" />
+        <attr name="avlw_tbh_titleTextColor" format="color" />
+        <attr name="avlw_tbh_titleText" format="string" />
         <!--左侧按钮时样式-->
-        <attr name="avlwLeftBtnTextSize" format="dimension" />
-        <attr name="avlwLeftBtnTextColor" format="color" />
-        <attr name="avlwLeftBtnText" format="string" />
+        <attr name="avlw_tbh_leftBtnTextSize" format="dimension" />
+        <attr name="avlw_tbh_leftBtnTextColor" format="color" />
+        <attr name="avlw_tbh_leftBtnText" format="string" />
         <!--右侧按钮时样式-->
-        <attr name="avlwRightBtnTextSize" format="dimension" />
-        <attr name="avlwRightBtnTextColor" format="color" />
-        <attr name="avlwRightBtnText" format="string" />
+        <attr name="avlw_tbh_rightBtnTextSize" format="dimension" />
+        <attr name="avlw_tbh_rightBtnTextColor" format="color" />
+        <attr name="avlw_tbh_rightBtnText" format="string" />
         <!--自定义布局-->
-        <attr name="customLayout" format="reference" />
+        <attr name="avlw_tbh_customLayout" format="reference" />
         <!--背景颜色-->
-        <attr name="viewBgColor" format="color" />
+        <attr name="avlw_tbh_viewBgColor" format="color" />
         <!--左侧样式,宽高使用一致的-->
-        <attr name="avlwLeftWidth" format="dimension" />
-        <attr name="avlwLeftHeight" format="dimension" />
-        <attr name="avlwLeftBgColor" format="color" />
-        <attr name="avlwLeftBgRes" format="reference" />
+        <attr name="avlw_tbh_leftWidth" format="dimension" />
+        <attr name="avlw_tbh_leftHeight" format="dimension" />
+        <attr name="avlw_tbh_leftBgColor" format="color" />
+        <attr name="avlw_tbh_leftBgRes" format="reference" />
         <!--左侧边距-->
-        <attr name="avlwLeftDistanceLeft" format="dimension" />
-        <attr name="avlwLeftDistanceTop" format="dimension" />
-        <attr name="bavlwLeftDistanceRight" format="dimension" />
-        <attr name="avlwLeftDistanceBottom" format="dimension" />
+        <attr name="avlw_tbh_leftDistanceLeft" format="dimension" />
+        <attr name="avlw_tbh_leftDistanceTop" format="dimension" />
+        <attr name="avlw_tbh_leftDistanceRight" format="dimension" />
+        <attr name="avlw_tbh_leftDistanceBottom" format="dimension" />
         <!--右侧侧样式,宽高使用一致的-->
-        <attr name="avlwRightWidth" format="dimension" />
-        <attr name="avlwRightHeight" format="dimension" />
-        <attr name="avlwRightBgColor" format="color" />
-        <attr name="avlwRightBgRes" format="reference" />
+        <attr name="avlw_tbh_rightWidth" format="dimension" />
+        <attr name="avlw_tbh_rightHeight" format="dimension" />
+        <attr name="avlw_tbh_rightBgColor" format="color" />
+        <attr name="avlw_tbh_rightBgRes" format="reference" />
         <!--右侧边距-->
-        <attr name="avlwRightDistanceLeft" format="dimension" />
-        <attr name="avlwRightDistanceTop" format="dimension" />
-        <attr name="avlwRightDistanceRight" format="dimension" />
-        <attr name="avlwRightDistanceBottom" format="dimension" />
+        <attr name="avlw_tbh_rightDistanceLeft" format="dimension" />
+        <attr name="avlw_tbh_rightDistanceTop" format="dimension" />
+        <attr name="avlw_tbh_rightDistanceRight" format="dimension" />
+        <attr name="avlw_tbh_rightDistanceBottom" format="dimension" />
         <!--布局类型-->
-        <attr name="avlwLayoutType" format="enum">
+        <attr name="avlw_tbh_layoutType" format="enum">
             <enum name="LAYOUT_TYPE_0" value="0" />//（0）自定义view
             <enum name="LAYOUT_TYPE_1" value="1" />//（1）后退按钮图片、标题
             <enum name="LAYOUT_TYPE_2" value="2" />//（2）后退按钮图片、标题、右侧按钮

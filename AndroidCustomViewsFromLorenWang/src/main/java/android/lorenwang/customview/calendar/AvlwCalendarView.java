@@ -24,7 +24,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-import javabase.lorenwang.tools.common.JtlwDateTimeUtils;
+import javabase.lorenwang.tools.common.JtlwDateTimeUtil;
 
 /**
  * 功能作用：日历控件
@@ -46,7 +46,7 @@ public class AvlwCalendarView extends LinearLayoutCompat {
     private int showMonthLeftCount = 6;
     private int showMonthRightCount = 6;
     /**
-     * 每周的第一天是周几，默认周日，0代表周日，1代表周一，后续依次累加
+     * 每周的第一天是周几，默认周日，0_代表周日，1_代表周一，后续依次累加
      */
     private int caledarWeekFirst = 0;
     /**
@@ -108,7 +108,7 @@ public class AvlwCalendarView extends LinearLayoutCompat {
         @Override
         public void setWeekDayView(RecyclerView.ViewHolder holder, Long time, boolean select) {
             if (time != null) {
-                ((AppCompatTextView) holder.itemView).setText(JtlwDateTimeUtils.getInstance().getFormatDateTime("MM-dd", time));
+                ((AppCompatTextView) holder.itemView).setText(JtlwDateTimeUtil.getInstance().getFormatDateTime("MM-dd", time));
             } else {
                 ((AppCompatTextView) holder.itemView).setText("");
             }
@@ -122,11 +122,8 @@ public class AvlwCalendarView extends LinearLayoutCompat {
     /**
      * 控件回调
      */
-    private AvlwCalendarViewCallback calendarViewCallback = new AvlwCalendarViewCallback() {
-        @Override
-        public void selectChange(Long selectTimeOne, Long selectTimeTwo) {
+    private AvlwCalendarViewCallback calendarViewCallback = (selectTimeOne, selectTimeTwo) -> {
 
-        }
     };
     /**
      * 第一个选择的时间
@@ -158,10 +155,10 @@ public class AvlwCalendarView extends LinearLayoutCompat {
 
     private void init(Context context, AttributeSet attrs) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AvlwCalendarView);
-        caledarWeekFirst = attributes.getInt(R.styleable.AvlwCalendarView_avlwCaledarWeekFirst, caledarWeekFirst);
-        showOnlyMonth = attributes.getBoolean(R.styleable.AvlwCalendarView_avlwCaledarShowOnlyMonth, showOnlyMonth);
-        selecOne = attributes.getBoolean(R.styleable.AvlwCalendarView_avlwCaledarSelecOne, selecOne);
-        useAutoHeight = attributes.getBoolean(R.styleable.AvlwCalendarView_avlwCaledarUseAutoHeight, useAutoHeight);
+        caledarWeekFirst = attributes.getInt(R.styleable.AvlwCalendarView_avlw_caledar_weekFirst, caledarWeekFirst);
+        showOnlyMonth = attributes.getBoolean(R.styleable.AvlwCalendarView_avlw_caledar_showOnlyMonth, showOnlyMonth);
+        selecOne = attributes.getBoolean(R.styleable.AvlwCalendarView_avlw_caledar_selecOne, selecOne);
+        useAutoHeight = attributes.getBoolean(R.styleable.AvlwCalendarView_avlw_caledar_useAutoHeight, useAutoHeight);
         attributes.recycle();
 
         //设置当前组件元素
@@ -289,7 +286,7 @@ public class AvlwCalendarView extends LinearLayoutCompat {
     /**
      * 获取每周的第一天
      *
-     * @return 每周的第一天是周几，默认周日，0代表周日，1代表周一，后续依次累加
+     * @return 每周的第一天是周几，默认周日，0_代表周日，1_代表周一，后续依次累加
      */
     public int getCaledarWeekFirst() {
         return caledarWeekFirst;
@@ -354,22 +351,22 @@ public class AvlwCalendarView extends LinearLayoutCompat {
         View view;
         //添加之前的
         for (int i = showMonthLeftCount - 1; i >= 0; i--) {
-            time = JtlwDateTimeUtils.getInstance().getLastMonthStartDayTime(time);
-            monthTimeList = JtlwDateTimeUtils.getInstance().getMonthTimeList(time, caledarWeekFirst, showOnlyMonth);
+            time = JtlwDateTimeUtil.getInstance().getLastMonthStartDayTime(time);
+            monthTimeList = JtlwDateTimeUtil.getInstance().getMonthTimeList(time, caledarWeekFirst, showOnlyMonth);
             recyclerView = getViewPagerItemView(monthTimeList, i);
             vpgViewList.add(0, recyclerView);
         }
 
         //添加本月
         time = System.currentTimeMillis();
-        monthTimeList = JtlwDateTimeUtils.getInstance().getMonthTimeList(time, caledarWeekFirst, showOnlyMonth);
+        monthTimeList = JtlwDateTimeUtil.getInstance().getMonthTimeList(time, caledarWeekFirst, showOnlyMonth);
         recyclerView = getViewPagerItemView(monthTimeList, vpgViewList.size());
         vpgViewList.add(recyclerView);
 
         //添加后面的的
         for (int i = 0; i < showMonthRightCount; i++) {
-            time = JtlwDateTimeUtils.getInstance().getNextMonthStartDayTime(time);
-            monthTimeList = JtlwDateTimeUtils.getInstance().getMonthTimeList(time, caledarWeekFirst, showOnlyMonth);
+            time = JtlwDateTimeUtil.getInstance().getNextMonthStartDayTime(time);
+            monthTimeList = JtlwDateTimeUtil.getInstance().getMonthTimeList(time, caledarWeekFirst, showOnlyMonth);
             recyclerView = getViewPagerItemView(monthTimeList, vpgViewList.size());
             vpgViewList.add(recyclerView);
         }
@@ -442,131 +439,128 @@ public class AvlwCalendarView extends LinearLayoutCompat {
                     }
                     calendarViewGetChild.setWeekDayView(holder, dataList.get(position), select);
                 }
-                holder.itemView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (time != null) {
-                            if (selecOne) {
-                                if (selectTimeOne != null) {
-                                    if (time.compareTo(selectTimeOne) == 0) {
-                                        selectTimeOne = null;
-                                        selectPageList.clear();
-                                        notifyItemChanged(position);
-                                    } else {
-                                        selectTimeOne = time;
-                                        //先更新旧的
-                                        updateViewPager();
-                                        //替换新的
-                                        selectPageList.clear();
-                                        selectPageList.add(String.valueOf(vpgPosition));
-                                        //更新所有轮播页面
-                                        updateViewPager();
-                                    }
+                holder.itemView.setOnClickListener(v -> {
+                    if (time != null) {
+                        if (selecOne) {
+                            if (selectTimeOne != null) {
+                                if (time.compareTo(selectTimeOne) == 0) {
+                                    selectTimeOne = null;
+                                    selectPageList.clear();
+                                    notifyItemChanged(position);
                                 } else {
                                     selectTimeOne = time;
+                                    //先更新旧的
+                                    updateViewPager();
+                                    //替换新的
                                     selectPageList.clear();
                                     selectPageList.add(String.valueOf(vpgPosition));
-                                    notifyItemChanged(position);
+                                    //更新所有轮播页面
+                                    updateViewPager();
                                 }
                             } else {
-                                if (selectTimeOne == null && selectTimeTwo == null) {
-                                    selectTimeOne = time;
-                                    selectPageList.add(String.valueOf(vpgPosition));
+                                selectTimeOne = time;
+                                selectPageList.clear();
+                                selectPageList.add(String.valueOf(vpgPosition));
+                                notifyItemChanged(position);
+                            }
+                        } else {
+                            if (selectTimeOne == null && selectTimeTwo == null) {
+                                selectTimeOne = time;
+                                selectPageList.add(String.valueOf(vpgPosition));
+                                notifyItemChanged(position);
+                            } else if (selectTimeOne != null && selectTimeTwo == null) {
+                                //判断是否和起始一样
+                                if (time.compareTo(selectTimeOne) == 0) {
+                                    selectTimeOne = null;
+                                    selectPageList.clear();
                                     notifyItemChanged(position);
-                                } else if (selectTimeOne != null && selectTimeTwo == null) {
-                                    //判断是否和起始一样
-                                    if (time.compareTo(selectTimeOne) == 0) {
-                                        selectTimeOne = null;
-                                        selectPageList.clear();
-                                        notifyItemChanged(position);
-                                    } else if (time.compareTo(selectTimeOne) < 0) {
-                                        //设置个起始，起始设置给结束
-                                        selectTimeTwo = selectTimeOne;
-                                        selectTimeOne = time;
-                                        //先进行更新清除
-                                        updateViewPager();
-                                        //再进行新数据替换
-                                        int start = Integer.parseInt(selectPageList.get(0));
-                                        selectPageList.clear();
-                                        for (int i = vpgPosition; i <= start; i++) {
-                                            selectPageList.add(String.valueOf(i));
-                                        }
-                                        updateViewPager();
-                                    } else {
-                                        //设置给结束
-                                        selectTimeTwo = time;
-                                        int start = Integer.parseInt(selectPageList.get(0));
-                                        //先进行更新清除
-                                        updateViewPager();
-                                        //再进行新数据替换
-                                        selectPageList.clear();
-                                        for (int i = start; i <= vpgPosition; i++) {
-                                            selectPageList.add(String.valueOf(i));
-                                        }
-                                        updateViewPager();
+                                } else if (time.compareTo(selectTimeOne) < 0) {
+                                    //设置个起始，起始设置给结束
+                                    selectTimeTwo = selectTimeOne;
+                                    selectTimeOne = time;
+                                    //先进行更新清除
+                                    updateViewPager();
+                                    //再进行新数据替换
+                                    int start = Integer.parseInt(selectPageList.get(0));
+                                    selectPageList.clear();
+                                    for (int i = vpgPosition; i <= start; i++) {
+                                        selectPageList.add(String.valueOf(i));
                                     }
-                                } else if (selectTimeOne != null && selectTimeTwo != null) {
-                                    //判断是否和起始一样
-                                    if (time.compareTo(selectTimeOne) == 0) {
-                                        selectTimeOne = selectTimeTwo;
-                                        selectTimeTwo = null;
-                                        //先进行更新清除
-                                        updateViewPager();
-                                        //再进行新数据替换
-                                        String last = selectPageList.get(selectPageList.size() - 1);
-                                        selectPageList.clear();
-                                        selectPageList.add(last);
-                                        updateViewPager();
-                                    } else if (time.compareTo(selectTimeOne) < 0) {
-                                        //比开始小
-                                        selectTimeOne = time;
-                                        //第一个元素为起始位置
-                                        int start = Integer.parseInt(selectPageList.get(0));
-                                        for (int i = start - 1; i >= vpgPosition; i--) {
-                                            selectPageList.add(0, String.valueOf(i));
-                                        }
-                                        //更新所有轮播页面
-                                        updateViewPager();
-                                    } else if (time.compareTo(selectTimeTwo) < 0) {
-                                        //比结束小，修改结束
-                                        selectTimeTwo = time;
-                                        //先进行更新清除
-                                        updateViewPager();
-                                        //再进行新数据替换
-                                        int start = Integer.parseInt(selectPageList.get(0));
-                                        selectPageList.clear();
-                                        for (int i = start; i <= vpgPosition; i++) {
-                                            selectPageList.add(String.valueOf(i));
-                                        }
-                                        //更新所有轮播页面
-                                        updateViewPager();
-                                    } else if (time.compareTo(selectTimeTwo) == 0) {
-                                        //就是结束位置
-                                        selectTimeTwo = null;
-                                        //先进行更新清除
-                                        updateViewPager();
-                                        //再进行新数据替换
-                                        String start = selectPageList.get(0);
-                                        selectPageList.clear();
-                                        selectPageList.add(start);
-                                        //更新所有轮播页面
-                                        updateViewPager();
-                                    } else {
-                                        //比结束大
-                                        selectTimeTwo = time;
-                                        //第一个元素为起始位置
-                                        int start = Integer.parseInt(selectPageList.get(0));
-                                        for (int i = start + 1; i <= vpgPosition; i++) {
-                                            selectPageList.add(String.valueOf(i));
-                                        }
-                                        //更新所有轮播页面
-                                        updateViewPager();
+                                    updateViewPager();
+                                } else {
+                                    //设置给结束
+                                    selectTimeTwo = time;
+                                    int start = Integer.parseInt(selectPageList.get(0));
+                                    //先进行更新清除
+                                    updateViewPager();
+                                    //再进行新数据替换
+                                    selectPageList.clear();
+                                    for (int i = start; i <= vpgPosition; i++) {
+                                        selectPageList.add(String.valueOf(i));
                                     }
+                                    updateViewPager();
+                                }
+                            } else if (selectTimeOne != null) {
+                                //判断是否和起始一样
+                                if (time.compareTo(selectTimeOne) == 0) {
+                                    selectTimeOne = selectTimeTwo;
+                                    selectTimeTwo = null;
+                                    //先进行更新清除
+                                    updateViewPager();
+                                    //再进行新数据替换
+                                    String last = selectPageList.get(selectPageList.size() - 1);
+                                    selectPageList.clear();
+                                    selectPageList.add(last);
+                                    updateViewPager();
+                                } else if (time.compareTo(selectTimeOne) < 0) {
+                                    //比开始小
+                                    selectTimeOne = time;
+                                    //第一个元素为起始位置
+                                    int start = Integer.parseInt(selectPageList.get(0));
+                                    for (int i = start - 1; i >= vpgPosition; i--) {
+                                        selectPageList.add(0, String.valueOf(i));
+                                    }
+                                    //更新所有轮播页面
+                                    updateViewPager();
+                                } else if (time.compareTo(selectTimeTwo) < 0) {
+                                    //比结束小，修改结束
+                                    selectTimeTwo = time;
+                                    //先进行更新清除
+                                    updateViewPager();
+                                    //再进行新数据替换
+                                    int start = Integer.parseInt(selectPageList.get(0));
+                                    selectPageList.clear();
+                                    for (int i = start; i <= vpgPosition; i++) {
+                                        selectPageList.add(String.valueOf(i));
+                                    }
+                                    //更新所有轮播页面
+                                    updateViewPager();
+                                } else if (time.compareTo(selectTimeTwo) == 0) {
+                                    //就是结束位置
+                                    selectTimeTwo = null;
+                                    //先进行更新清除
+                                    updateViewPager();
+                                    //再进行新数据替换
+                                    String start = selectPageList.get(0);
+                                    selectPageList.clear();
+                                    selectPageList.add(start);
+                                    //更新所有轮播页面
+                                    updateViewPager();
+                                } else {
+                                    //比结束大
+                                    selectTimeTwo = time;
+                                    //第一个元素为起始位置
+                                    int start = Integer.parseInt(selectPageList.get(0));
+                                    for (int i = start + 1; i <= vpgPosition; i++) {
+                                        selectPageList.add(String.valueOf(i));
+                                    }
+                                    //更新所有轮播页面
+                                    updateViewPager();
                                 }
                             }
-                            //回调数据
-                            calendarViewCallback.selectChange(selectTimeOne, selectTimeTwo);
                         }
+                        //回调数据
+                        calendarViewCallback.selectChange(selectTimeOne, selectTimeTwo);
                     }
                 });
             }
@@ -587,8 +581,12 @@ public class AvlwCalendarView extends LinearLayoutCompat {
         for (String s : selectPageList) {
             map.put(s, s);
         }
+        RecyclerView.Adapter adapter;
         for (String s : map.keySet()) {
-            vpgViewList.get(Integer.parseInt(s)).getAdapter().notifyDataSetChanged();
+            adapter = vpgViewList.get(Integer.parseInt(s)).getAdapter();
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
         }
         map.clear();
     }

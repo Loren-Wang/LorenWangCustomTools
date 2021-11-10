@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="AvlwShadowLayout">
-        <!--阴影宽度-->
-        <attr name="avlw_sl_shadowWidth" format="dimension" />
-        <!--阴影颜色-->
-        <attr name="avlw_sl_shadowColor" format="color" />
-    </declare-styleable>
-</resources>

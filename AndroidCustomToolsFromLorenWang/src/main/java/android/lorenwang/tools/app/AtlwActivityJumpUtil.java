@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import androidx.annotation.AnimRes;
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：activity页面跳转工具类
@@ -418,7 +418,7 @@ public class AtlwActivityJumpUtil {
      * @param appPkg    要查找的App包名
      */
     public void jumpApplicationMarket(Activity activity, String marketPkg, String appPkg) {
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(appPkg)) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(appPkg)) {
             return;
         }
         //构造uri
@@ -426,7 +426,7 @@ public class AtlwActivityJumpUtil {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //如果有传应用市场包则指定包，否则自动选择
-        if (JtlwCheckVariateUtils.getInstance().isEmpty(marketPkg)) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(marketPkg)) {
             if (AtlwMobilePhoneBrandUtil.getInstance().isXiaoMiMobile() && AtlwCheckUtil.getInstance().checkAppIsInstall(
                     AtlwAPKPackageNameList.MARKET_XIAO_MI)) {
                 intent.setPackage(AtlwAPKPackageNameList.MARKET_XIAO_MI);

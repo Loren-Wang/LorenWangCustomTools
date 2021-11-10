@@ -1,7 +1,7 @@
 package android.lorenwang.commonbaseframe.network.callback
 
+import android.lorenwang.commonbaseframe.bean.AcbflwBaseRepBean
 import android.lorenwang.commonbaseframe.network.file.AcbflwFileUpLoadBean
-import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 
 /**
  * 功能作用：网络接口操作回调(主要对model层的基础处理回调，处理后会回调到presenter层)
@@ -14,7 +14,7 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
  * 修改时间：
  * 备注：该类主要放到model层中，主要是对接口返回的数据的处理，例如转换成本地使用的数据结构类型等
  */
-open class AcbflwNetOptionsByModelCallback<D, T : KttlwBaseNetResponseBean<D>> {
+open class AcbflwNetOptionsByModelCallback<D, T : AcbflwBaseRepBean<D>> {
 
 
     /**

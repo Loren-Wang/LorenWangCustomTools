@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.customView.SudokuSwipeGesturesActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_type_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="内圈实心，外圈空心带边框，滑动时内外圈变色，连接线从中心点出来" />
+
+        <android.lorenwang.customview.sudokuSwipeGestures.AvlwSudokuSwipeGesturesView
+            android:id="@+id/ssg_type_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.7"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_1"
+            app:avlw_scg_connectingLineWidth="3dp"
+            app:avlw_scg_circleEffectiveRadius="80dp"
+            app:avlw_scg_circleInnerRingRadius="4dp"
+            app:avlw_scg_circleOuterRingRadius="5dp"
+            app:avlw_scg_circleOuterRingBorderWidth="1dp"
+            app:avlw_scg_circleInnerRingSelectedColor="#0f0"
+            app:avlw_scg_circleInnerRingUnSelectedColor="#0a3a00"
+            app:avlw_scg_circleInnerRingErrorColor="#f00"
+            app:avlw_scg_circleOuterRingSelectedColor="#00f"
+            app:avlw_scg_circleOuterRingUnSelectedColor="#000a3a"
+            app:avlw_scg_circleOuterRingErrorColor="#f00"
+            app:avlw_scg_connectingLineColor="#000"
+            app:avlw_scg_connectingLineErrorColor="#3425ab"
+            app:avlw_scg_isShowTrack="true"
+            app:avlw_scg_circleShowType="CIRCLE_SHOW_TYPE_1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_type_1_allow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_1"
+            android:text="禁用绘制" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_type_1_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_type_1_allow"
+            android:text="修改类型" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_type_1_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_type_1_change"
+            android:text="重置" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_type_1_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_type_1_reset"
+            android:text="开启结束报错" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_type_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/ssg_type_1"
+            android:text="内圈实心，外圈实心，未选中的时候内圈显示，外圈不显示，滑动时外圈显示，连接线从中心点出来" />
+
+        <android.lorenwang.customview.sudokuSwipeGestures.AvlwSudokuSwipeGesturesView
+            android:id="@+id/ssg_type_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.7"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_2"
+            app:avlw_scg_connectingLineWidth="3dp"
+            app:avlw_scg_circleEffectiveRadius="80dp"
+            app:avlw_scg_circleInnerRingRadius="5dp"
+            app:avlw_scg_circleOuterRingRadius="10dp"
+            app:avlw_scg_circleOuterRingBorderWidth="1dp"
+            app:avlw_scg_circleInnerRingSelectedColor="#0f0"
+            app:avlw_scg_circleInnerRingUnSelectedColor="#0a3a00"
+            app:avlw_scg_circleInnerRingErrorColor="#f00"
+            app:avlw_scg_circleOuterRingSelectedColor="#00f"
+            app:avlw_scg_circleOuterRingUnSelectedColor="#000a3a"
+            app:avlw_scg_circleOuterRingErrorColor="#f00"
+            app:avlw_scg_connectingLineColor="#000"
+            app:avlw_scg_connectingLineErrorColor="#3425ab"
+            app:avlw_scg_isShowTrack="true"
+            app:avlw_scg_circleShowType="CIRCLE_SHOW_TYPE_2" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_type_2_allow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_2"
+            android:text="禁用绘制" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_type_2_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_type_2_allow"
+            android:text="修改类型" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_type_2_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_type_2_change"
+            android:text="重置" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_type_2_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_type_2_reset"
+            android:text="开启结束报错" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,7 +1,6 @@
 package kotlinbase.lorenwang.tools.extend
 
-import javabase.lorenwang.dataparse.JdplwJsonUtils
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
+import javabase.lorenwang.dataparse.JdplwJsonUtil
 
 /**
  * 功能作用：Map函数扩展
@@ -20,7 +19,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtils
  */
 fun <R> Map<String, Any?>.kttlwParseJsonData(cls: Class<R>): R? {
     return try {
-        JdplwJsonUtils.fromJson(this, cls)
+        JdplwJsonUtil.fromJson(this, cls)
     } catch (e: Exception) {
         null
     }

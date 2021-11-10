@@ -56,26 +56,18 @@ class AvlwProgressBarScroll extends AvlwProgressBarBase {
     public void init(Context context, AvlwProgressBar avlwProgressBar, TypedArray attributes) {
         super.init(context, avlwProgressBar, attributes);
         //背景图片
-        progressBgDrawable =
-                attributes.getDrawable(R.styleable.AvlwProgressBar_avlwProgressBgImage);
+        progressBgDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlw_pb_progressBgImage);
         //当前进度条图片
-        progressCurrentDrawable =
-                attributes.getDrawable(R.styleable.AvlwProgressBar_avlwProgressCurrentImage);
+        progressCurrentDrawable = attributes.getDrawable(R.styleable.AvlwProgressBar_avlw_pb_progressCurrentImage);
 
         //进度条高度
-        progressShowHeight =
-                attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlwProgressShowHeight,
-                        progressShowHeight);
+        progressShowHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlw_pb_progressShowHeight, progressShowHeight);
 
         //进度当前进度点高度
-        progressCurrentHeight =
-                attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlwProgressCurrentHeight,
-                        progressCurrentHeight);
+        progressCurrentHeight = attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlw_pb_progressCurrentHeight, progressCurrentHeight);
 
         //进度当前进度点宽度
-        progressCurrentWidth =
-                attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlwProgressCurrentWidth,
-                        progressCurrentWidth);
+        progressCurrentWidth = attributes.getDimensionPixelOffset(R.styleable.AvlwProgressBar_avlw_pb_progressCurrentWidth, progressCurrentWidth);
     }
 
     /**
@@ -120,7 +112,7 @@ class AvlwProgressBarScroll extends AvlwProgressBarBase {
         Bitmap bitmap = null;
         //进度条绘制顶部、底部坐标
         showRect.top = (int) ((showRect.height() - progressShowHeight) / 2 + top);
-        showRect.bottom = (int) (showRect.top + progressShowHeight);
+        showRect.bottom = showRect.top + progressShowHeight;
         //显示进度相关宽度
         int showProgressWidth = showRect.width();
         //显示进度相关高度

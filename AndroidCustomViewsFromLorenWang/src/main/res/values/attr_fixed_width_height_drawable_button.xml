@@ -3,24 +3,24 @@
 
     <declare-styleable name="AvlwFixedWidthHeightDrawableButton">
         <!--图标显示位置-->
-        <attr name="avlwDrawablePosition">
+        <attr name="avlw_fwhdb_drawablePosition">
             <enum name="left" value="1" />
             <enum name="top" value="2" />
             <enum name="right" value="3" />
             <enum name="bottom" value="4" />
         </attr>
         <!--图标显示宽度-->
-        <attr name="avlwDrawableWidth" format="dimension" />
+        <attr name="avlw_fwhdb_drawableWidth" format="dimension" />
         <!--图标渲染颜色-->
-        <attr name="avlwDrawableTint" format="color" />
+        <attr name="avlw_fwhdb_drawableTint" format="color" />
         <!--图标显示高度-->
-        <attr name="avlwDrawableHeight" format="dimension" />
+        <attr name="avlw_fwhdb_drawableHeight" format="dimension" />
         <!--图标和文本的间距-->
-        <attr name="avlwDrawableTextDistance" format="dimension" />
+        <attr name="avlw_fwhdb_drawableTextDistance" format="dimension" />
         <!--图标显示资源-->
-        <attr name="avlwDrawableResId" format="reference" />
+        <attr name="avlw_fwhdb_drawableResId" format="reference" />
         <!--文本显示位置-->
-        <attr name="avlwTextGravity" format="reference">
+        <attr name="avlw_fwhdb_textGravity" format="reference">
             <flag name="top" value="1" />
             <flag name="bottom" value="2" />
             <flag name="left" value="3" />
@@ -35,7 +35,7 @@
             <flag name="right_bottom" value="12" />
         </attr>
         <!--图片是否占用padding位置-->
-        <attr name="avlwDrawableUsePadding" format="boolean" />
+        <attr name="avlw_fwhdb_drawableUsePadding" format="boolean" />
     </declare-styleable>
 
 </resources>

@@ -2,16 +2,13 @@ package android.lorenwang.graphic_code_scan;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.app.AtlwScreenUtil;
 import android.lorenwang.tools.base.AtlwLogUtil;
 import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
@@ -22,14 +19,9 @@ import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 /**
  * 功能作用：扫描工具类
@@ -56,21 +48,16 @@ import androidx.core.content.ContextCompat;
  * 修改时间：
  * 备注：
  */
-public class AgcslwScan implements SurfaceHolder.Callback {
+public class AgcslwScan extends AgcslwCamera {
     private final String TAG = "AgcslwScanUtils";
     /**
      * 扫描结果回调
      */
     private AgcslwScanResultCallback scanResultCallback;
-
-    private Activity activity;
     //二维码控制属性
-    private CameraManager cameraManager;
     private CaptureActivityHandler handler;
     private InactivityTimer inactivityTimer;
     private BeepManager beepManager;
-    private boolean isHasSurface = false;
-    private SurfaceView sFVScan;
     /**
      * 扫描内容view
      */
@@ -79,10 +66,6 @@ public class AgcslwScan implements SurfaceHolder.Callback {
      * 扫描类型
      */
     private int decodeMode = DecodeThread.ALL_MODE;
-    /**
-     * 闪光灯状态，默认关闭
-     */
-    private boolean flashLightStatus = false;
     /**
      * 是否返回扫描结果的位图
      */
@@ -95,106 +78,81 @@ public class AgcslwScan implements SurfaceHolder.Callback {
      * 实际图片裁剪区域
      */
     private Rect imageCropRect;
-    /**
-     * 屏幕方向角度
-     */
-    private int degree;
 
-    /***************************************扫描主方法**********************************************/
-    /**
-     * Activity获取焦点
-     */
     @RequiresPermission(Manifest.permission.CAMERA)
+    @Override
     public boolean onActResumeChange() {
         //权限检测
         if (!checkPermissions(Manifest.permission.CAMERA)) {
             return false;
         }
-        // CameraManager must be initialized here, not in onCreate(). This is
-        // necessary because we don't
-        // want to open the camera driver and measure the screen size if we're
-        // going to show the help on
-        // first launch. That led to bugs where the scanning rectangle was the
-        // wrong size and partially
-        // off screen.
-        cameraManager = new CameraManager(AtlwConfig.nowApplication, degree);
         handler = null;
-        if (isHasSurface) {
-            // The activity was paused but not stopped, so the surface still
-            // exists. Therefore
-            // surfaceCreated() won't be called, so init the camera here.
-            initCamera(sFVScan.getHolder());
+        if (super.onActResumeChange()) {
+            inactivityTimer.onResume();
+            return true;
         } else {
-            // Install the callback and wait for surfaceCreated() to init the
-            // camera.
-            if (sFVScan != null && sFVScan.getHolder() != null) {
-                sFVScan.getHolder().addCallback(this);
-            }
+            return false;
         }
-
-        inactivityTimer.onResume();
-        return true;
     }
 
     /**
      * 当Activity失去焦点
      */
+    @Override
     public void onActPauseChange() {
+        super.onActPauseChange();
+        if (inactivityTimer != null) {
+            inactivityTimer.onPause();
+        }
         if (handler != null) {
             handler.quitSynchronously();
             handler = null;
         }
-        if (inactivityTimer != null) {
-            inactivityTimer.onPause();
-        }
         if (beepManager != null) {
             beepManager.close();
-        }
-        if (cameraManager != null) {
-            cameraManager.closeDriver();
-        }
-        if (!isHasSurface && sFVScan != null && sFVScan.getHolder() != null) {
-            sFVScan.getHolder().removeCallback(this);
-        }
-        if (flashLightStatus) {
-            closeFlashLight();
         }
     }
 
     /**
      * 当Activity结束
      */
+    @Override
     public void onActFinish() {
-        if (cameraManager != null) {
-            cameraManager.release();
-            cameraManager = null;
+        super.onActFinish();
+        if (inactivityTimer != null) {
+            inactivityTimer.release();
+            inactivityTimer = null;
         }
         if (handler != null) {
             handler.release();
             handler = null;
         }
-        if (inactivityTimer != null) {
-            inactivityTimer.release();
-            inactivityTimer = null;
-        }
         if (beepManager != null) {
             beepManager.release();
             beepManager = null;
-        }
-        if (sFVScan != null && sFVScan.getHolder() != null) {
-            sFVScan.getHolder().removeCallback(this);
-            sFVScan = null;
         }
         showCropRect = null;
         imageCropRect = null;
         scanView = null;
     }
 
+
+    /**
+     * 开始扫描
+     *
+     * @param activity activity实例
+     * @param sFVScan  surfaceView
+     */
+    @RequiresPermission(Manifest.permission.CAMERA)
+    public boolean startScan(Activity activity, SurfaceView sFVScan) {
+        return startScan(activity, sFVScan, true, true, true, true, true, 90);
+    }
+
     /**
      * 开始扫描
      *
      * @param activity         activity实例
-     * @param sFVScan          surfaceview
+     * @param sFVScan          surfaceView
      * @param playBeep         扫描结束是否播放声音
      * @param vibrate          扫描结束后是否震动
      * @param scanQrCode       是否扫描二维码
@@ -205,30 +163,31 @@ public class AgcslwScan implements SurfaceHolder.Callback {
     @RequiresPermission(Manifest.permission.CAMERA)
     public boolean startScan(Activity activity, SurfaceView sFVScan, boolean playBeep, boolean vibrate, boolean scanQrCode, boolean scanBarCode,
             boolean returnScanBitmap, int degree) {
-        this.activity = activity;
-        this.degree = degree;
-        //权限检测
-        if (!checkPermissions(Manifest.permission.CAMERA)) {
+        if (setCameraConfig(activity, sFVScan, degree)) {
+            //权限检测
+            if (!checkPermissions(Manifest.permission.CAMERA)) {
+                return false;
+            }
+            //初始化二维码控制属性
+            inactivityTimer = new InactivityTimer(activity);
+            this.returnScanBitmap = returnScanBitmap;
+            beepManager = new BeepManager(activity);
+            //设置是否播放声音
+            beepManager.setPlayBeep(playBeep);
+            //设置是否震动
+            beepManager.setVibrate(vibrate);
+            //设置扫描类型
+            if (!scanBarCode && scanQrCode) {
+                decodeMode = DecodeThread.QRCODE_MODE;
+            } else if (scanBarCode && !scanQrCode) {
+                decodeMode = DecodeThread.BARCODE_MODE;
+            } else {
+                decodeMode = DecodeThread.ALL_MODE;
+            }
+            return true;
+        } else {
             return false;
         }
-        this.sFVScan = sFVScan;
-        this.returnScanBitmap = returnScanBitmap;
-        //初始化二维码控制属性
-        inactivityTimer = new InactivityTimer(activity);
-        beepManager = new BeepManager(activity);
-        //设置是否播放声音
-        beepManager.setPlayBeep(playBeep);
-        //设置是否震动
-        beepManager.setVibrate(vibrate);
-        //设置扫描类型
-        if (!scanBarCode && scanQrCode) {
-            decodeMode = DecodeThread.QRCODE_MODE;
-        } else if (scanBarCode && !scanQrCode) {
-            decodeMode = DecodeThread.BARCODE_MODE;
-        } else {
-            decodeMode = DecodeThread.ALL_MODE;
-        }
-        return true;
     }
 
     /**
@@ -241,13 +200,13 @@ public class AgcslwScan implements SurfaceHolder.Callback {
             return false;
         }
         if (handler != null) {
-            handler.sendEmptyMessage(SacnCameraCommon.restart_preview);
+            handler.sendEmptyMessage(ScanCameraCommon.restart_preview);
         }
         return true;
     }
 
 
-    /*****************************************公开方法**********************************************/
+    /*-----------------------------------公开方法-----------------------------------*/
 
     /**
      * 扫描相册图片
@@ -288,9 +247,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
                     handleDecode(result, null);
                 }
                 decodeThread.release();
-                decodeThread = null;
                 reader.release();
-                reader = null;
                 return true;
             } catch (Exception e) {
                 scanResultCallback.scanPhotoAlbumImageError(path, false, true);
@@ -333,50 +290,11 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         this.scanResultCallback = scanResultCallback;
     }
 
-    /**
-     * 手动对焦
-     */
-    public void manualFocus() {
-        if (cameraManager != null) {
-            cameraManager.manualFocus();
-        }
-    }
-
-    /**
-     * 开启闪光灯
-     */
-    public void openFlashLight() {
-        if (cameraManager != null) {
-            flashLightStatus = cameraManager.openFlashLight();
-        }
-    }
-
-    /**
-     * 关闭闪光灯
-     */
-    public void closeFlashLight() {
-        if (cameraManager != null) {
-            flashLightStatus = !cameraManager.openFlashLight();
-        }
-    }
-
-    /**
-     * 修改闪光灯状态
-     */
-    public void changeFlashLightStatus() {
-        if (cameraManager != null) {
-            if (flashLightStatus) {
-                closeFlashLight();
-            } else {
-                openFlashLight();
-            }
-        }
-    }
 
     /**
      * 扫描视图裁剪矩阵变化,回调使用
      *
-     * @param rect 裁剪矩阵位置,仅相对于扫描控件scanview的坐标
+     * @param rect 裁剪矩阵位置,仅相对于扫描控件scanView的坐标
      */
     public void scanViewCropRectChange(@NonNull Rect rect) {
         if (scanResultCallback != null) {
@@ -392,11 +310,11 @@ public class AgcslwScan implements SurfaceHolder.Callback {
      * @param rightPercent  右侧百分比
      * @param bottomPercent 底部百分比
      * @param square        是否是证方形
-     * @param sFVScan       surfaceview
+     * @param sFVScan       surfaceView
      * @return 显示的裁剪区域
      */
     public Rect parseShowCropRect(float leftPercent, float topPercent, float rightPercent, float bottomPercent, boolean square, SurfaceView sFVScan) {
-        //如果使用的适scanview的话则裁剪区域为裁剪扫描控件属性
+        //如果使用的适scanView的话则裁剪区域为裁剪扫描控件属性
         if (showCropRect == null && scanView == null) {
             int cropWidth = (int) (getBaseWidth(sFVScan) * (1 - leftPercent - rightPercent));
             int cropHeight = (int) (getBaseHeight(sFVScan) * (1 - topPercent - bottomPercent));
@@ -435,27 +353,9 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         showCropRect = null;
     }
 
-    /***************************************导入接口方法********************************************/
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        if (!isHasSurface) {
-            isHasSurface = true;
-            initCamera(holder);
-        }
-    }
+    /*-----------------------------------同一文件下其他类调用方法-----------------------------------*/
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        isHasSurface = false;
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    /**********************************同一文件下其他类调用方法**************************************/
     /**
      * 获取要裁剪的图片区域
      *
@@ -466,15 +366,6 @@ public class AgcslwScan implements SurfaceHolder.Callback {
             initCrop();
         }
         return imageCropRect;
-    }
-
-    /**
-     * 获取相机管理器
-     *
-     * @return 相机管理器
-     */
-    protected CameraManager getCameraManager() {
-        return cameraManager;
     }
 
     /**
@@ -522,40 +413,6 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         }
     }
 
-    /**
-     * 获取方向
-     */
-    public int getDegree() {
-        return degree;
-    }
-
-    /****************************************私有方法**********************************************/
-
-    /**
-     * 获取基础宽度
-     *
-     * @param view 控件
-     * @return 基础宽度
-     */
-    private int getBaseWidth(View view) {
-        if (view == null) {
-            return getScreenWidth();
-        }
-        return view.getMeasuredWidthAndState() > 0 ? view.getMeasuredWidthAndState() : getScreenWidth();
-    }
-
-    /**
-     * 获取基础高度
-     *
-     * @param view 控件
-     * @return 基础高度
-     */
-    private int getBaseHeight(View view) {
-        if (view == null) {
-            return getScreenHeight();
-        }
-        return view.getMeasuredHeightAndState() > 0 ? view.getMeasuredHeightAndState() : getScreenHeight();
-    }
 
     /**
      * 初始化扫描截取区域
@@ -569,6 +426,7 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         //获取相机像素属性
         int cameraWidth;
         int cameraHeight;
+        CameraManager cameraManager = getCameraManager();
         try {
             cameraWidth = cameraManager.getCameraResolution() != null ?
                     degree / 90 % 2 != 0 ? cameraManager.getCameraResolution().y : cameraManager.getCameraResolution().x : getScreenWidth();
@@ -609,85 +467,21 @@ public class AgcslwScan implements SurfaceHolder.Callback {
         //计算最终截取的矩形的高度
         int height = showCropRect.height() * cameraHeight / containerHeight;
 
-        //生成最终的截取的矩形
+        //生成最终截取的矩形
         imageCropRect = new Rect(x, y, width + x, height + y);
     }
 
-    /**
-     * 获取当前屏幕宽度
-     */
-    private int getScreenWidth() {
-        return degree / 90 % 2 != 0 ? AtlwScreenUtil.getInstance().getScreenWidth() : AtlwScreenUtil.getInstance().getScreenHeight();
-    }
 
     /**
-     * 获取当前屏幕高度
+     * 初始化相机结束后的扫描相关
      */
-    private int getScreenHeight() {
-        return degree / 90 % 2 != 0 ? AtlwScreenUtil.getInstance().getScreenHeight() : AtlwScreenUtil.getInstance().getScreenWidth();
-    }
+    @Override
+    protected void initCameraScan() throws Exception {
+        super.initCameraScan();
+        if (handler == null) {
+            handler = new CaptureActivityHandler(getCameraManager(), decodeMode, this);
+        }
 
-    /**
-     * 相机初始化
-     *
-     * @param surfaceHolder surfaceHolder
-     */
-    private void initCamera(SurfaceHolder surfaceHolder) {
-        if (surfaceHolder == null) {
-            throw new IllegalStateException("No SurfaceHolder provided");
-        }
-        if (cameraManager.isOpen()) {
-            AtlwLogUtil.logUtils.logD(TAG, "initCamera() while already open -- late SurfaceView callback?");
-            return;
-        }
-        try {
-            cameraManager.openDriver(surfaceHolder);
-            // Creating the handler starts the preview, which can also throw a
-            // RuntimeException.
-            if (handler == null) {
-                handler = new CaptureActivityHandler(cameraManager, decodeMode, this);
-            }
-
-            initCrop();
-        } catch (IOException ioe) {
-            AtlwLogUtil.logUtils.logD(TAG, ioe.getMessage());
-            if (scanResultCallback != null) {
-                scanResultCallback.cameraInitError();
-            }
-        } catch (RuntimeException e) {
-            // Barcode Scanner has seen crashes in the wild of this variety:
-            // java.?lang.?RuntimeException: Fail to connect to camera service
-            AtlwLogUtil.logUtils.logD(TAG, "Unexpected error initializing camera", e);
-            if (scanResultCallback != null) {
-                scanResultCallback.cameraInitError();
-            }
-        }
-    }
-
-    /**
-     * 检测权限
-     */
-    private boolean checkPermissions(String... permissions) {
-        if (activity == null) {
-            scanResultCallback.notPermissions(false, permissions);
-            return false;
-        } else {
-            List<String> notPermissions = new ArrayList<>();
-            //是否能显示自定义权限弹窗
-            boolean shouldShowRequestPermissionRationale = false;
-            for (String permission : permissions) {
-                shouldShowRequestPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) ||
-                        shouldShowRequestPermissionRationale;
-                if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
-                    notPermissions.add(permission);
-                }
-            }
-            if (notPermissions.isEmpty()) {
-                return true;
-            } else {
-                scanResultCallback.notPermissions(shouldShowRequestPermissionRationale, notPermissions.toArray(new String[0]));
-                return false;
-            }
-        }
+        initCrop();
     }
 }
