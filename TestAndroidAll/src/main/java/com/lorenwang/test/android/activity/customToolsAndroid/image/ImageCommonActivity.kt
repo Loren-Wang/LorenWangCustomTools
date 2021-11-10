@@ -15,7 +15,7 @@ import android.view.View
 import com.lorenwang.test.android.BuildConfig
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
-import com.lorenwang.test.android.databinding.ActivityCustomToolsImageCommonBinding
+import com.lorenwang.test.android.databinding.ActivityCustomToolsAndroidImageCommonBinding
 import java.io.File
 
 /**
@@ -40,7 +40,7 @@ class ImageCommonActivity : BaseActivity() {
     /**
      * 页面布局
      */
-    private lateinit var binding: ActivityCustomToolsImageCommonBinding
+    private lateinit var binding: ActivityCustomToolsAndroidImageCommonBinding
 
     /**
      * 操作的位图
@@ -50,7 +50,7 @@ class ImageCommonActivity : BaseActivity() {
     private lateinit var optionsBitmapAdd: Bitmap
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding = ActivityCustomToolsImageCommonBinding.inflate(layoutInflater)
+        binding = ActivityCustomToolsAndroidImageCommonBinding.inflate(layoutInflater)
         addShowContentView(true, binding)
         binding.btnInit.performClick()
     }

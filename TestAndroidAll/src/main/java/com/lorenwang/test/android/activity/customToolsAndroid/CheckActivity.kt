@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
-import com.lorenwang.test.android.databinding.ActivityCustomToolsCheckBinding
+import com.lorenwang.test.android.databinding.ActivityCustomToolsAndroidCheckBinding
 import kotlinbase.lorenwang.tools.extend.kttlwClearFirstString
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
@@ -26,9 +26,9 @@ import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
  */
 class CheckActivity : BaseActivity() {
 
-    private var binding: ActivityCustomToolsCheckBinding? = null
+    private var binding: ActivityCustomToolsAndroidCheckBinding? = null
         get() {
-            field = field.kttlwGetNotEmptyData { ActivityCustomToolsCheckBinding.inflate(layoutInflater) }
+            field = field.kttlwGetNotEmptyData { ActivityCustomToolsAndroidCheckBinding.inflate(layoutInflater) }
             return field
         }
 

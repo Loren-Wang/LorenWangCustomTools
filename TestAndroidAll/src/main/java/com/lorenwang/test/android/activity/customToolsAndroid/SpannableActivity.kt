@@ -7,7 +7,7 @@ import android.lorenwang.tools.bean.AtlwSpannableClickBean
 import android.lorenwang.tools.bean.AtlwSpannableTagBean
 import android.os.Bundle
 import com.lorenwang.test.android.base.BaseActivity
-import com.lorenwang.test.android.databinding.ActivityCustomToolsSpannableBinding
+import com.lorenwang.test.android.databinding.ActivityCustomToolsAndroidSpannableBinding
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
 /**
@@ -25,9 +25,9 @@ import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
  */
 class SpannableActivity : BaseActivity() {
 
-    private var binding: ActivityCustomToolsSpannableBinding? = null
+    private var binding: ActivityCustomToolsAndroidSpannableBinding? = null
         get() {
-            field = field.kttlwGetNotEmptyData { ActivityCustomToolsSpannableBinding.inflate(layoutInflater) }
+            field = field.kttlwGetNotEmptyData { ActivityCustomToolsAndroidSpannableBinding.inflate(layoutInflater) }
             return field
         }
 

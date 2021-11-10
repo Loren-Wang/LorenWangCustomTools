@@ -10,7 +10,7 @@ import com.lorenwang.test.android.R
 import com.lorenwang.test.android.activity.customView.titlebar.TitleBarHeadViewActivity
 import com.lorenwang.test.android.base.BaseActivity
 import kotlinbase.lorenwang.tools.extend.kttlwThrottleClick
-import kotlinx.android.synthetic.main.activity_custom_tools_mobile_notification.*
+import kotlinx.android.synthetic.main.activity_custom_tools_android_mobile_notification.*
 
 /**
  * 功能作用：通知相关测试页面

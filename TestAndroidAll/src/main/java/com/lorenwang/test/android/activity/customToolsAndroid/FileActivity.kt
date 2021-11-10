@@ -12,7 +12,7 @@ import android.view.View
 import com.lorenwang.test.android.BuildConfig
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
-import com.lorenwang.test.android.databinding.ActivityCustomToolsFileBinding
+import com.lorenwang.test.android.databinding.ActivityCustomToolsAndroidFileBinding
 import javabase.lorenwang.tools.file.JtlwFileOptionUtil
 import java.io.File
 
@@ -31,11 +31,11 @@ import java.io.File
  */
 class FileActivity : BaseActivity() {
 
-    private lateinit var binding: ActivityCustomToolsFileBinding
+    private lateinit var binding: ActivityCustomToolsAndroidFileBinding
 
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding = ActivityCustomToolsFileBinding.inflate(layoutInflater)
+        binding = ActivityCustomToolsAndroidFileBinding.inflate(layoutInflater)
         addShowContentView(true, binding)
     }
 

@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import com.lorenwang.test.android.BuildConfig
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
-import com.lorenwang.test.android.databinding.ActivityCustomToolsImageLoadingBinding
+import com.lorenwang.test.android.databinding.ActivityCustomToolsAndroidImageLoadingBinding
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
 /**
@@ -32,9 +32,9 @@ import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
  */
 class ImageLoadingActivity : BaseActivity() {
 
-    private var binding: ActivityCustomToolsImageLoadingBinding? = null
+    private var binding: ActivityCustomToolsAndroidImageLoadingBinding? = null
         get() {
-            field = field.kttlwGetNotEmptyData { ActivityCustomToolsImageLoadingBinding.inflate(layoutInflater) }
+            field = field.kttlwGetNotEmptyData { ActivityCustomToolsAndroidImageLoadingBinding.inflate(layoutInflater) }
             return field
         }
 

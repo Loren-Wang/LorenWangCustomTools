@@ -9,7 +9,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
-import com.lorenwang.test.android.databinding.ActivityCustomToolsViewBinding
+import com.lorenwang.test.android.databinding.ActivityCustomToolsAndroidViewBinding
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
 /**
@@ -26,9 +26,9 @@ import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
  * @author 王亮（Loren）
  */
 class ViewActivity : BaseActivity() {
-    private var binding: ActivityCustomToolsViewBinding? = null
+    private var binding: ActivityCustomToolsAndroidViewBinding? = null
         get() {
-            field = field.kttlwGetNotEmptyData { ActivityCustomToolsViewBinding.inflate(layoutInflater) }
+            field = field.kttlwGetNotEmptyData { ActivityCustomToolsAndroidViewBinding.inflate(layoutInflater) }
             return field
         }
 

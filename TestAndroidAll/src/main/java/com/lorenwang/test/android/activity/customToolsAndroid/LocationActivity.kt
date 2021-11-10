@@ -10,7 +10,7 @@ import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
-import com.lorenwang.test.android.databinding.ActivityCustomToolsLocationBinding
+import com.lorenwang.test.android.databinding.ActivityCustomToolsAndroidLocationBinding
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
 /**
@@ -28,9 +28,9 @@ import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
  */
 class LocationActivity : BaseActivity() {
 
-    private var binding: ActivityCustomToolsLocationBinding? = null
+    private var binding: ActivityCustomToolsAndroidLocationBinding? = null
         get() {
-            field = field.kttlwGetNotEmptyData { ActivityCustomToolsLocationBinding.inflate(layoutInflater) }
+            field = field.kttlwGetNotEmptyData { ActivityCustomToolsAndroidLocationBinding.inflate(layoutInflater) }
             return field
         }
 

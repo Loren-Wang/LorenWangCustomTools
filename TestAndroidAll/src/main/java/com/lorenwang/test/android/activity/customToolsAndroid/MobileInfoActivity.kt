@@ -22,7 +22,7 @@ import com.lorenwang.test.android.BuildConfig
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.base.BasePresenter
-import com.lorenwang.test.android.databinding.ActivityCustomToolsMobileInfoBinding
+import com.lorenwang.test.android.databinding.ActivityCustomToolsAndroidMobileInfoBinding
 import javabase.lorenwang.tools.common.JtlwDateTimeUtil
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import java.io.File
@@ -42,9 +42,9 @@ import java.io.File
  */
 class MobileInfoActivity : BaseActivity() {
 
-    private var binding: ActivityCustomToolsMobileInfoBinding? = null
+    private var binding: ActivityCustomToolsAndroidMobileInfoBinding? = null
         get() {
-            field = field.kttlwGetNotEmptyData { ActivityCustomToolsMobileInfoBinding.inflate(layoutInflater) }
+            field = field.kttlwGetNotEmptyData { ActivityCustomToolsAndroidMobileInfoBinding.inflate(layoutInflater) }
             return field
         }
 
