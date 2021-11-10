@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_contact"
+                style="@style/MainButtons"
+                android:text="获取联系人信息" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_system_msg"
+                style="@style/MainButtons"
+                android:text="获取系统短信" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_all_sms"
+                style="@style/MainButtons"
+                android:text="获取全部短信" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_install_apk"
+                style="@style/MainButtons"
+                android:text="安装应用" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_jump_to_permission_setting"
+                style="@style/MainButtons"
+                android:text="跳转到应用设置页面" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_jump_to_other_app"
+                style="@style/MainButtons"
+                android:text="跳转到其他页面" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_copy"
+                style="@style/MainButtons"
+                android:text="复制内容到粘贴板" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_vibrate"
+                style="@style/MainButtons"
+                android:text="震动设备" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_open_camera"
+                style="@style/MainButtons"
+                android:text="开启相机" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_open_photos"
+                style="@style/MainButtons"
+                android:text="开启相册" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_make_call"
+                style="@style/MainButtons"
+                android:text="拨打电话" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/iv_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>

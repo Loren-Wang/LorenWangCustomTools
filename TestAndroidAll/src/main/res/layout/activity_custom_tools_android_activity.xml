@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.graphicCodeScan.GraphicCodeActivity"
+    android:fillViewport="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnPermission"
+            style="@style/MainButtons"
+            android:text="请求权限" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnKey"
+            style="@style/MainButtons"
+            android:text="软键盘显示隐藏" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnExitCheck"
+            style="@style/MainButtons"
+            android:text="App退出判断" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnExit"
+            style="@style/MainButtons"
+            android:text="退出app" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFront"
+            style="@style/MainButtons"
+            android:text="判断应用是否在前台" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAppName"
+            style="@style/MainButtons"
+            android:text="获取应用程序名称" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRotate"
+            style="@style/MainButtons"
+            android:text="旋转屏幕方向" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLand"
+            style="@style/MainButtons"
+            android:text="当前是否是横屏显示" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

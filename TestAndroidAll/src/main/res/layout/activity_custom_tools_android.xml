@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.graphicCodeScan.GraphicCodeActivity"
+    android:fillViewport="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnActivity"
+            style="@style/MainButtons"
+            android:text="activity相关" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBrightness"
+            style="@style/MainButtons"
+            android:text="屏幕亮度相关" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNotify"
+            style="@style/MainButtons"
+            android:text="通知相关" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScreen"
+            style="@style/MainButtons"
+            android:text="屏幕相关" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSpannable"
+            style="@style/MainButtons"
+            android:text="字符串某一点变色，点击更换大小等处理" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnStatusBar"
+            style="@style/MainButtons"
+            android:text="状态栏操作" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnView"
+            style="@style/MainButtons"
+            android:text="控件相关工具类" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCheck"
+            style="@style/MainButtons"
+            android:text="Check检测相关工具类" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDesktopShortcut"
+            style="@style/MainButtons"
+            android:text="添加快捷方式" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFile"
+            style="@style/MainButtons"
+            android:text="文件操作相关" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_image_common"
+            style="@style/MainButtons"
+            android:text="图片操作处理" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_image_loading"
+            style="@style/MainButtons"
+            android:text="图片加载处理" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_location"
+            style="@style/MainButtons"
+            android:text="定位相关" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_fly_msg"
+            style="@style/MainButtons"
+            android:text="消息传递" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_mobile_info"
+            style="@style/MainButtons"
+            android:text="手机相关信息" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_mobile_system_info"
+            style="@style/MainButtons"
+            android:text="手机系统相关信息" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnToast"
+            android:text="@string/page_type_toast"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnImageListBitmap"
+            style="@style/MainButtons"
+            android:text="@string/page_type_image_list_map" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnImageSelect"
+            style="@style/MainButtons"
+            android:text="@string/page_type_image_select" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

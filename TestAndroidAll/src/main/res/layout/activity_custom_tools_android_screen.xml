@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.graphicCodeScan.GraphicCodeActivity"
+    android:fillViewport="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDpToPx"
+            style="@style/MainButtons"
+            android:text="dp---->>px" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnPxToDp"
+            style="@style/MainButtons"
+            android:text="px---->>dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSpToPx"
+            style="@style/MainButtons"
+            android:text="sp---->>px" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnPxToSp"
+            style="@style/MainButtons"
+            android:text="px---->>sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnWidth"
+            style="@style/MainButtons"
+            android:text="获取屏幕宽" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHeight"
+            style="@style/MainButtons"
+            android:text="获取屏幕高" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnStatusHeight"
+            style="@style/MainButtons"
+            android:text="获取状态栏高" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnChangeWidth"
+            style="@style/MainButtons"
+            android:text="根据设计稿控件宽度转换成当前屏幕的宽度" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSupplementHeight"
+            style="@style/MainButtons"
+            android:text="获取小米补充高度，否则会显示不全" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

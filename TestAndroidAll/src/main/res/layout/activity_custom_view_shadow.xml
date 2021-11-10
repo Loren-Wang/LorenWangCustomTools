@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.customView.ShadowActivity"
+    android:orientation="vertical"
+    android:padding="50dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.customView.ShadowActivity"
+        android:orientation="vertical"
+        android:padding="50dp">
+
+        <android.lorenwang.customview.constraintLayout.AvlwBubbleLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:avlw_bl_arrowDirection="left"
+            app:avlw_bl_arrowHeight="8dp"
+            app:avlw_bl_arrowWidth="15dp"
+            app:avlw_bl_shadowWidth="12dp"
+            app:avlw_bl_shadowColor="#898989"
+            app:avlw_bl_strokeRadius="4dp"
+            app:avlw_bl_arrowOffsetRightPercent="0.3"
+            app:avlw_bl_arrowOffsetTopPercent="0.1"
+            tools:ignore="MissingPrefix">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asdfasdf" />
+
+        </android.lorenwang.customview.constraintLayout.AvlwBubbleLayout>
+
+        <android.lorenwang.customview.constraintLayout.AvlwBubbleLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:avlw_bl_shadowColor="@color/black"
+            app:avlw_bl_strokeWidth="2dp"
+            app:avlw_bl_strokeColor="@color/colorPrimary"
+            app:avlw_bl_strokeRadius="50dp"
+            app:avlw_bl_arrowDirection="top"
+            app:avlw_bl_arrowHeight="8dp"
+            app:avlw_bl_arrowWidth="15dp"
+            app:avlw_bl_shadowWidth="12dp"
+            app:avlw_bl_arrowOffsetRightPercent="0.3"
+            app:avlw_bl_arrowOffsetTopPercent="0.1"
+            tools:ignore="MissingPrefix">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asdfasdf" />
+
+        </android.lorenwang.customview.constraintLayout.AvlwBubbleLayout>
+
+        <android.lorenwang.customview.constraintLayout.AvlwBubbleLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:avlw_bl_shadowColor="@color/black"
+            app:avlw_bl_arrowDirection="right"
+            app:avlw_bl_arrowHeight="8dp"
+            app:avlw_bl_arrowWidth="15dp"
+            app:avlw_bl_shadowWidth="12dp"
+            app:avlw_bl_arrowOffsetRightPercent="0.3"
+            app:avlw_bl_arrowOffsetTopPercent="0.1"
+            tools:ignore="MissingPrefix">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asdfasdf" />
+
+        </android.lorenwang.customview.constraintLayout.AvlwBubbleLayout>
+
+        <android.lorenwang.customview.constraintLayout.AvlwBubbleLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:avlw_bl_shadowColor="@color/black"
+            app:avlw_bl_strokeWidth="2dp"
+            app:avlw_bl_strokeColor="@color/colorPrimary"
+            app:avlw_bl_strokeRadius="50dp"
+            app:avlw_bl_arrowDirection="bottom"
+            app:avlw_bl_arrowHeight="8dp"
+            app:avlw_bl_arrowWidth="15dp"
+            app:avlw_bl_shadowWidth="12dp"
+            app:avlw_bl_arrowOffsetRightPercent="0.3"
+            app:avlw_bl_arrowOffsetTopPercent="0.1"
+            tools:ignore="MissingPrefix">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asdfasdf" />
+
+        </android.lorenwang.customview.constraintLayout.AvlwBubbleLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_show"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:hint="显示文案相关" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_init"
+                    style="@style/MainButtons"
+                    android:text="初始化下载处理图片文件" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_file_to_base64"
+                    style="@style/MainButtons"
+                    android:text="文件转base64" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_bitmap_to_base64"
+                    style="@style/MainButtons"
+                    android:text="Bitmap转base64" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_get_drawable_width"
+                    style="@style/MainButtons"
+                    android:text="获取drawable宽度" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_get_drawable_height"
+                    style="@style/MainButtons"
+                    android:text="获取drawable高度" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_get_rounded_bitmap_1"
+                    style="@style/MainButtons"
+                    android:text="获取圆角位图" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_get_rounded_bitmap_2"
+                    style="@style/MainButtons"
+                    android:text="获取圆角位图（左上右下角度）" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_get_rounded_bitmap_3"
+                    style="@style/MainButtons"
+                    android:text="获取圆角位图（宽高左上右下角度）" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_get_circle"
+                    style="@style/MainButtons"
+                    android:text="获取圆形位图" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_get_bitmap_size"
+                    style="@style/MainButtons"
+                    android:text="获取位图字节" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_color"
+                    style="@style/MainButtons"
+                    android:text="十进制转16进制颜色值" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_zoom"
+                    style="@style/MainButtons"
+                    android:text="图片缩放到指定宽高" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_bitmap_set_bg"
+                    style="@style/MainButtons"
+                    android:text="给位图设置背景" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_bitmap_set_bg_percent"
+                    style="@style/MainButtons"
+                    android:text="按宽高比例给图片设置背景" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_bitmap_merge"
+                    style="@style/MainButtons"
+                    android:text="位图合并" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_bitmap_overlap"
+                    style="@style/MainButtons"
+                    android:text="获取两个位图重叠部分" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_bitmap_watermark"
+                    style="@style/MainButtons"
+                    android:text="位图添加水印" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_generate_watermark"
+                    style="@style/MainButtons"
+                    android:text="生成水印" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_image_cover"
+                    style="@style/MainButtons"
+                    android:text="图片格式转换" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_image_crop"
+                    style="@style/MainButtons"
+                    android:text="裁剪位图" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_image_turn"
+                    style="@style/MainButtons"
+                    android:text="旋转位图" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_image_degree"
+                    style="@style/MainButtons"
+                    android:text="获取图片在存储中的旋转角度" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

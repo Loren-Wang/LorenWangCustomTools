@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.customToolsAndroid.MobileNotificationActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSendProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发送进度通知" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnStopProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="停止进度通知" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnClearProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="清除进度通知" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

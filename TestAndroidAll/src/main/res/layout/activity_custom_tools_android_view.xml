@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.graphicCodeScan.GraphicCodeActivity"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgSrc"
+                style="@style/MainButtons"
+                android:src="@mipmap/ic_launcher"
+                android:background="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetParams"
+                style="@style/MainButtons"
+                android:text="获取控件的LayoutParams" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSetWidthHeight"
+                style="@style/MainButtons"
+                android:text="设置控件的宽高" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSetParams"
+                style="@style/MainButtons"
+                android:text="设置view的外边距params" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSetBgColor"
+                style="@style/MainButtons"
+                android:text="设置背景颜色" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSetSrcColor"
+                style="@style/MainButtons"
+                android:text="设置src颜色" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSetDrawable"
+                style="@style/MainButtons"
+                android:drawableLeft="@mipmap/ic_launcher"
+                android:text="设置文本控件的Drawable左上右下图片着色" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetTextWidth"
+                style="@style/MainButtons"
+                android:text="获取文本字符串宽度" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetTextHeight"
+                style="@style/MainButtons"
+                android:text="获取文本字符串高度" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetViewBitmap"
+                style="@style/MainButtons"
+                android:text="获取控件位图" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetViewBitmapWidthHeight"
+                style="@style/MainButtons"
+                android:text="获取控件位图（随机宽高）" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetViewBitmapIgnore"
+                style="@style/MainButtons"
+                android:text="获取控件位图（忽略其中某一个id）" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>

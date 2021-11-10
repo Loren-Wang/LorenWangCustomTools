@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--  android 内部  -->
+    <!--    getFilesDir()-->
+    <files-path
+        name="files"
+        path="." />
+    <!--    getCacheDir()-->
+    <cache-path
+        name="cache"
+        path="." />
+    <!--context.getExternalFilesDirs()-->
+    <external-files-path
+        name="files"
+        path="." />
+    <!--context.getExternalCacheDir-->
+    <external-cache-path
+        name="ex_cache"
+        path="." />
+
+    <!-- Environment.getExternalStorageDirectory()-->
+    <external-path
+        name="my_images"
+        path="Pictures" />
+    <external-path
+        name="external_files"
+        path="." />
+</paths>

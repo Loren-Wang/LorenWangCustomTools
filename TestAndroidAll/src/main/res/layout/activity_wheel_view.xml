@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.recycleView.WheelRecycleViewActivity"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="切换到输入位置" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRemove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="移除输入位置" />
+
+    <android.lorenwang.customview.recycleview.AvlwWheelRecyclerView
+        android:id="@+id/rvList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:avlw_wr_dividerHeight="1dp"
+        app:avlw_wr_dividerColor="#00ffffff"
+        app:avlw_wr_selectTextColor="#101010"
+        app:avlw_wr_unSelectTextColor="#999"
+        app:avlw_wr_selectTextSize="@dimen/textSize16"
+        app:avlw_wr_unSelectTextSize="@dimen/textSize13"
+        app:avlw_wr_wheelOffset="2"
+        app:avlw_wr_selectTextIsBold="true"
+        tools:ignore="MissingPrefix" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

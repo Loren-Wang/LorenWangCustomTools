@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.graphicCodeScan.GraphicCodeActivity"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnIo"
+                style="@style/MainButtons"
+                android:text="检测是否有文件权限" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnFileExit"
+                style="@style/MainButtons"
+                android:text="检测文件是否存在(输入框根路径后文件路径)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDirExit"
+                style="@style/MainButtons"
+                android:text="检测文件夹是否存在(输入框根路径后文件路径)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnFileIsImage"
+                style="@style/MainButtons"
+                android:text="检测文件是否是图片(输入框根路径后文件路径)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCheckPermission"
+                style="@style/MainButtons"
+                android:text="检测指定权限(输入权限全路径)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCheckGps"
+                style="@style/MainButtons"
+                android:text="检测Gps是否开启" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCheckAppInstall"
+                style="@style/MainButtons"
+                android:text="检测app是否安装(输入框输入包名)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCheckAppRun"
+                style="@style/MainButtons"
+                android:text="检测app是否安装(输入框输入包名)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCheckServiceRun"
+                style="@style/MainButtons"
+                android:text="检测服务是否运行(输入框输入服务class名)" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>

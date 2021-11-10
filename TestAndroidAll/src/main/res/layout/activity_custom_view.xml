@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.graphicCodeScan.GraphicCodeActivity"
+    android:fillViewport="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnWheelView"
+            style="@style/MainButtons"
+            android:text="WheelView(滚筒显示)" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnShadow"
+            style="@style/MainButtons"
+            android:text="气泡阴影控件" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCalendar"
+            style="@style/MainButtons"
+            android:text="日历控件" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCropView"
+            style="@style/MainButtons"
+            android:text="位图缩放裁剪" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDialog"
+            style="@style/MainButtons"
+            android:text="弹窗相关" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAllEdittext"
+            style="@style/MainButtons"
+            android:text="@string/page_type_edittext" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnShowQuantityOfCommodity"
+            style="@style/MainButtons"
+            android:text="@string/page_type_custom_view_show_quantity_of_commodity" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnImageView"
+            style="@style/MainButtons"
+            android:text="@string/page_type_custom_image_view" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_hot_view"
+            style="@style/MainButtons"
+            android:text="热区控件" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_progress"
+            style="@style/MainButtons"
+            android:text="进度条控件" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_radio_group"
+            style="@style/MainButtons"
+            android:text="RadioGroup相关自定义控件" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCarousel"
+            style="@style/MainButtons"
+            android:text="层叠列表或罗盘列表视图" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRecycleViewPager"
+            android:text="@string/page_type_custom_view_recycle_viewpager"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRecycleViewItemDecoration"
+            android:text="列表分隔线样式"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSideBar"
+            android:text="@string/page_type_custom_view_sidebar"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_sudoku_swipe_gestures"
+            android:text="九宫格滑动手势控件"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSwitchButton"
+            android:text="@string/page_type_custom_view_switch_buttom"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTabLayout"
+            android:text="@string/page_type_custom_view_tab_layout"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnShowPriceText"
+            android:text="@string/page_type_custom_view_show_price_text"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCustomDrawableButton"
+            android:text="@string/page_type_custom_drawable_button"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_marquee"
+            android:text="跑马灯效果"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_time_show"
+            android:text="时间显示文本控件"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTitleBarHeadView"
+            android:text="@string/page_type_title_bar"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTouchOptions"
+            style="@style/MainButtons"
+            android:text="@string/page_type_touch_options" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnValidation"
+            style="@style/MainButtons"
+            android:text="@string/page_type_validation" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVideoPlay"
+            style="@style/MainButtons"
+            android:text="@string/page_type_video_play" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVideoPlayList"
+            style="@style/MainButtons"
+            android:text="@string/page_type_video_play_list" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBanner"
+            android:text="@string/page_type_custom_view_banner"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnViewPager2"
+            android:text="@string/page_type_custom_view_viewpager_2"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBannerAndViewPager"
+            android:text="@string/page_type_banner_viewpager"
+            style="@style/MainButtons" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_kerley_or_dotted"
+            android:text="分隔线以及虚线控件"
+            style="@style/MainButtons" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

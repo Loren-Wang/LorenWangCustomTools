@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.customToolsAndroid.image.ImageLoadingActivity">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_content"
+                style="@style/MainButtons"
+                android:hint="输入图片地址"
+                android:text="https://img1.baidu.com/it/u=3667678122,3437809409\u0026fm=26\u0026fmt=auto" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_loading"
+                style="@style/MainButtons"
+                android:text="开始加载图片" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_fresco"
+                style="@style/MainButtons"
+                android:text="设置Fresco加载图片" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_glide"
+                style="@style/MainButtons"
+                android:text="设置Glide加载图片" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_image_loading"
+                style="@style/MainButtons"
+                android:text="设置ImageLoad加载图片" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_get_bitmap"
+                style="@style/MainButtons"
+                android:text="获取位图(glide的好像不太好使，先留着)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_blur"
+                style="@style/MainButtons"
+                android:text="高斯模糊加载图片(好像不太好使，先留着)" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_simple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/iv_fresco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>

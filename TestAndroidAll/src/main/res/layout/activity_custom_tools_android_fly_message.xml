@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.customToolsAndroid.FlyMessageActivity"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_register"
+        style="@style/MainButtons"
+        android:text="注册" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_un_register"
+        style="@style/MainButtons"
+        android:text="取消注册" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_send"
+        style="@style/MainButtons"
+        android:text="发送消息" />
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.graphicCodeScan.GraphicCodeActivity"
+    android:fillViewport="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCurrent"
+            style="@style/MainButtons"
+            android:text="获取当前屏幕亮度" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnChange"
+            style="@style/MainButtons"
+            android:text="修改手机亮度模式为自动" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSet"
+            style="@style/MainButtons"
+            android:text="设置当前手机屏幕亮度" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnIsAuto"
+            style="@style/MainButtons"
+            android:text="当前window屏幕亮度是否是自动" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSysIsAuto"
+            style="@style/MainButtons"
+            android:text="当前系统屏幕亮度是否是自动" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSave"
+            style="@style/MainButtons"
+            android:text="保存当前手机屏幕亮度状态永久生效" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSystem"
+            style="@style/MainButtons"
+            android:text="设置亮度跟随系统" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>
