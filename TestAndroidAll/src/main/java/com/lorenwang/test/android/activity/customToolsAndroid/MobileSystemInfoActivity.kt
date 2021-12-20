@@ -31,9 +31,9 @@ class MobileSystemInfoActivity : BaseActivity() {
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
         AtlwActivityUtil.getInstance()
-            .goToRequestPermissions(this, arrayOf(android.Manifest.permission.READ_PHONE_STATE,), 1, object : AtlwPermissionRequestCallback {
+            .goToRequestPermissions(this, arrayOf(android.Manifest.permission.READ_PHONE_STATE,), object : AtlwPermissionRequestCallback {
                 @SuppressLint("MissingPermission")
-                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                     findViewById<TextView>(R.id.tv_show).apply {
                         append("当前手机系统版本号：${AtlwMobileSystemInfoUtil.getInstance().systemVersion}\n")
                         append("当前手机型号：${AtlwMobileSystemInfoUtil.getInstance().systemModel}\n")
@@ -59,7 +59,7 @@ class MobileSystemInfoActivity : BaseActivity() {
                     }
                 }
 
-                override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
 
                 }
             })

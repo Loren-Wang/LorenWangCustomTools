@@ -32,10 +32,6 @@ import java.io.File
  * @author 王亮（Loren）
  */
 class ImageCommonActivity : BaseActivity() {
-    /**
-     * 权限请求code
-     */
-    private val permissionRequestCode = 1
 
     /**
      * 页面布局
@@ -65,8 +61,8 @@ class ImageCommonActivity : BaseActivity() {
                 R.id.btn_init -> {
                     AtlwActivityUtil.getInstance()
                         .goToRequestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
-                            permissionRequestCode, object : AtlwPermissionRequestCallback {
-                                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                             object : AtlwPermissionRequestCallback {
+                                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                     optionsBitmap = BitmapFactory.decodeResource(resources, R.drawable.image_default)
                                     optionsBitmapAdd = BitmapFactory.decodeResource(resources, R.drawable.icon_empty_add)
                                     binding.ivShow.setImageBitmap(optionsBitmap)
@@ -76,7 +72,7 @@ class ImageCommonActivity : BaseActivity() {
                                     optionsDrawable = BitmapDrawable.createFromPath(appSystemStorageDirPath + "test.png")!!
                                 }
 
-                                override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                                override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
 
                                 }
                             })

@@ -58,11 +58,11 @@ class LocationActivity : BaseActivity() {
                     val build = AtlwLocationConfig.Build()
                     build.setLocationTimeInterval(1)
                     build.setLocationsCallback(object : AtlwLocationCallback() {
-                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                             AtlwLocationUtil.getInstance().startNetworkPositioning(build.build())
                         }
 
-                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                             AtlwToastHintUtil.getInstance().toastMsg("权限请求失败")
                         }
 
@@ -77,11 +77,11 @@ class LocationActivity : BaseActivity() {
                     val build = AtlwLocationConfig.Build()
                     build.setLocationTimeInterval(1)
                     build.setLocationsCallback(object : AtlwLocationCallback() {
-                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                             AtlwLocationUtil.getInstance().startDevicesPositioning(build.build())
                         }
 
-                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                             AtlwToastHintUtil.getInstance().toastMsg("权限请求失败")
                         }
 
@@ -96,11 +96,11 @@ class LocationActivity : BaseActivity() {
                     val build = AtlwLocationConfig.Build()
                     build.setLocationTimeInterval(1)
                     build.setLocationsCallback(object : AtlwLocationCallback() {
-                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                             AtlwLocationUtil.getInstance().startAccuratePositioning(build.build())
                         }
 
-                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                             AtlwToastHintUtil.getInstance().toastMsg("权限请求失败")
                         }
 
@@ -115,11 +115,11 @@ class LocationActivity : BaseActivity() {
                     val build = AtlwLocationConfig.Build()
                     build.setLocationTimeInterval(1)
                     build.setLocationsCallback(object : AtlwLocationCallback() {
-                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                             AtlwLocationUtil.getInstance().stopLoopPositioning()
                         }
 
-                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                             AtlwToastHintUtil.getInstance().toastMsg("权限请求失败")
                         }
 

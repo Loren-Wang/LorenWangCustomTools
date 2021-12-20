@@ -46,13 +46,13 @@ class CameraActivity : BaseActivity() {
         super.initData(savedInstanceState)
         //请求权限
         AtlwActivityUtil.getInstance().goToRequestPermissions(this,
-            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0,
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
             object : AtlwPermissionRequestCallback {
-                override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                 }
 
                 @SuppressLint("MissingPermission")
-                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                     AtlwLogUtil.logUtils.logD("sssss", "扫描权限获取成功")
                     JtlwFileOptionUtil.getInstance().writeToFile(File(""), byteArrayOf())
                     scan.setCameraConfig(this@CameraActivity, binding?.surfaceView?.surfaceView)

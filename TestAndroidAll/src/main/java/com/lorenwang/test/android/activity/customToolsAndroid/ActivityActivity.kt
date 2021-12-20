@@ -36,13 +36,13 @@ class ActivityActivity : BaseActivity() {
             when (view.id) {
                 R.id.btnPermission -> {
                     AtlwActivityUtil.getInstance().goToRequestPermissions(this,
-                        arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_NETWORK_STATE), 101,
+                        arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_NETWORK_STATE),
                         object : AtlwPermissionRequestCallback {
-                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwToastHintUtil.getInstance().toastMsg("权限请求成功")
                             }
 
-                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                                 AtlwToastHintUtil.getInstance().toastMsg("${permissionList?.kttlwToJsonData()}:权限请求失败")
                             }
 

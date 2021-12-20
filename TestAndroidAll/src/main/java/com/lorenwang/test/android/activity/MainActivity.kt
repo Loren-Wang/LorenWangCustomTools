@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun testData() {
-        var jsonObject: JSONObject? = null
+        val jsonObject: JSONObject?
         try {
             jsonObject = JSONObject("{\"id\":100,  \"name\":\"yndfcd\",  \"phone\":null}")
             jsonObject["id"].javaClass

@@ -15,6 +15,6 @@ import java.util.List;
  * 备注：
  */
 public interface AtlwPermissionRequestCallback {
-    void permissionRequestSuccessCallback(List<String> permissionList, int permissionsRequestCode);//请求成功权限列表
-    void permissionRequestFailCallback(List<String> permissionList, int permissionsRequestCode);//请求失败权限列表
+    void permissionRequestSuccessCallback(List<String> permissionList);//请求成功权限列表
+    void permissionRequestFailCallback(List<String> permissionList);//请求失败权限列表
 }

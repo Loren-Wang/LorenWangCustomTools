@@ -112,7 +112,7 @@ public class AtlwLocationUtil extends AtlwLocationLibraryBase {
      * 请求权限
      *
      * @param context 上下文
-     * @param config   配置信息
+     * @param config  配置信息
      */
     public void requestPermissions(@NotNull Object context, @NotNull AtlwLocationConfig config) {
         String[] permissions;
@@ -121,9 +121,7 @@ public class AtlwLocationUtil extends AtlwLocationLibraryBase {
         } else {
             permissions = NEED_PERMISSIONS;
         }
-        AtlwActivityUtil.getInstance().goToRequestPermissions(context, permissions,
-                config.getLocationsCallback() != null ? config.getLocationsCallback().permissionRequestCode : context.hashCode() % 10000,
-                config.getLocationsCallback());
+        AtlwActivityUtil.getInstance().goToRequestPermissions(context, permissions, config.getLocationsCallback());
     }
 
     /**

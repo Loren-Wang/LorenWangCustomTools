@@ -63,9 +63,9 @@ class FileActivity : BaseActivity() {
             //手机系统存储根目录
             val baseStorageDirPath = AtlwFileOptionUtil.getInstance().baseStorageDirPath
             AtlwActivityUtil.getInstance()
-                .goToRequestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), 1,
+                .goToRequestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
                     object : AtlwPermissionRequestCallback {
-                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                             when (view.id) {
                                 //清除空文件夹
                                 R.id.btnClearEmptyDir -> {
@@ -197,7 +197,7 @@ class FileActivity : BaseActivity() {
                             }
                         }
 
-                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                        override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
 
                         }
                     })

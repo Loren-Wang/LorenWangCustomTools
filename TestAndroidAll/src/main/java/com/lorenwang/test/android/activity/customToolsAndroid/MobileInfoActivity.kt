@@ -56,7 +56,6 @@ class MobileInfoActivity : BaseActivity() {
 
     private val cameraRequestCode = 1
     private val photosRequestCode = 2
-
     /**
      * 拍照存储地址
      */
@@ -73,9 +72,9 @@ class MobileInfoActivity : BaseActivity() {
             when (view.id) {
                 R.id.btn_contact -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), 0, object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
-                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().allContacts.let {
                                     for (bean in it) {
                                         appendText("${bean.contactName}-${bean.phoneNumber}\n")
@@ -83,16 +82,16 @@ class MobileInfoActivity : BaseActivity() {
                                 }
                             }
 
-                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                                 AtlwToastHintUtil.getInstance().toastMsg("联系人权限请求失败")
                             }
                         })
                 }
                 R.id.btn_system_msg -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), 0, object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
-                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().systemSms.let {
                                     for (bean in it) {
                                         appendText("发送人：${bean.sendAddress}\n发送时间：${
@@ -104,16 +103,16 @@ class MobileInfoActivity : BaseActivity() {
                                 }
                             }
 
-                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                                 AtlwToastHintUtil.getInstance().toastMsg("系统短信权限请求失败")
                             }
                         })
                 }
                 R.id.btn_all_sms -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), 0, object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
-                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().allSms.let {
                                     for (bean in it) {
                                         appendText("发送人：${bean.sendAddress}\n发送时间：${
@@ -125,13 +124,13 @@ class MobileInfoActivity : BaseActivity() {
                                 }
                             }
 
-                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                                 AtlwToastHintUtil.getInstance().toastMsg("系统短信权限请求失败")
                             }
                         })
                 }
                 R.id.btn_install_apk -> {
-                    preseter?.downLoadFile(1, this, AcbflwFileDownLoadBean("https://imtt.dd.qq.com/16891/apk/478D7DCCC946969FF6EC42FDD876800F.apk",
+                    preseter?.downLoadFile(this, AcbflwFileDownLoadBean("https://imtt.dd.qq.com/16891/apk/478D7DCCC946969FF6EC42FDD876800F.apk",
                         AtlwFileOptionUtil.getInstance().baseStorageDirPath, "aaa.apk"), object : AcbflwFileDownLoadCallback {
                         override fun updateProgress(progress: Int) {
                             appendText("当前下载进度：${progress}\n")
@@ -167,14 +166,14 @@ class MobileInfoActivity : BaseActivity() {
                     appendText("开启相机前权限请求")
                     AtlwActivityUtil.getInstance().goToRequestPermissions(this,
                         arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        cameraRequestCode, object : AtlwPermissionRequestCallback {
+                        object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
-                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 cameraPath = AtlwFileOptionUtil.getInstance().getAppSystemStorageDirPath(packageName) + Math.random() + ".jpg"
                                 AtlwMobileOptionsUtil.getInstance().openCamera(this@MobileInfoActivity, cameraPath, cameraRequestCode)
                             }
 
-                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                            override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                                 appendText("权限请求失败")
                             }
                         })
@@ -183,13 +182,13 @@ class MobileInfoActivity : BaseActivity() {
                     appendText("开启相册前权限请求")
                     AtlwActivityUtil.getInstance()
                         .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            photosRequestCode, object : AtlwPermissionRequestCallback {
+                            object : AtlwPermissionRequestCallback {
                                 @SuppressLint("MissingPermission")
-                                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                     AtlwMobileOptionsUtil.getInstance().openImagePhotoAlbum(this@MobileInfoActivity, photosRequestCode)
                                 }
 
-                                override fun permissionRequestFailCallback(permissionList: MutableList<String>?, permissionsRequestCode: Int) {
+                                override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                                     appendText("权限请求失败")
                                 }
                             })

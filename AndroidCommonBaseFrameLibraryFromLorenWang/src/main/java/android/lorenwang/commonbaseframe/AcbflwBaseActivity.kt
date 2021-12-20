@@ -280,10 +280,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         AtlwImageLoadingFactory.getInstance().resumeLoading()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        AtlwActivityUtil.getInstance().receivePermissionsResult(requestCode, permissions, grantResults)
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -153,31 +153,27 @@ public class AcbflwShareUtil {
                             dirPath.substring(0, dirPath.toLowerCase().indexOf("/android")) + "/" + AtlwActivityUtil.getInstance().getAppName() +
                                     "/" + (shareDataBean.getSaveLocalImageName() == null ? System.currentTimeMillis() + ".png" :
                                     shareDataBean.getSaveLocalImageName()));
-                    final int code = hashCode() % 10000;
                     AtlwActivityUtil.getInstance().goToRequestPermissions(AcbflwBaseApplication.getCurrentShowActivity(),
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, code,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             new AtlwPermissionRequestCallback() {
 
                                 /**
                                  * 请求成功权限列表
                                  *
                                  * @param permissionList         权限列表
-                                 * @param permissionsRequestCode 请求码
                                  */
                                 @Override
-                                public void permissionRequestSuccessCallback(List<String> permissionList, int permissionsRequestCode) {
-                                    if (permissionsRequestCode == code) {
-                                        //保存图片
-                                        if (AtlwFileOptionUtil.getInstance().writeToFile(true, file, shareDataBean.getSaveLocalImageBitmap(),
-                                                Bitmap.CompressFormat.PNG)) {
-                                            //保存图片后发送广播通知更新数据库
-                                            Uri uri = Uri.fromFile(file);
-                                            AtlwConfig.nowApplication.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
-                                            //回调成功
-                                            shareDataBean.getShareCallBack().info();
-                                        } else {
-                                            shareDataBean.getShareCallBack().error(AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
-                                        }
+                                public void permissionRequestSuccessCallback(List<String> permissionList) {
+                                    //保存图片
+                                    if (AtlwFileOptionUtil.getInstance().writeToFile(true, file, shareDataBean.getSaveLocalImageBitmap(),
+                                            Bitmap.CompressFormat.PNG)) {
+                                        //保存图片后发送广播通知更新数据库
+                                        Uri uri = Uri.fromFile(file);
+                                        AtlwConfig.nowApplication.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+                                        //回调成功
+                                        shareDataBean.getShareCallBack().info();
+                                    } else {
+                                        shareDataBean.getShareCallBack().error(AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
                                     }
                                 }
 
@@ -185,10 +181,9 @@ public class AcbflwShareUtil {
                                  * 请求失败权限列表
                                  *
                                  * @param permissionList         权限列表
-                                 * @param permissionsRequestCode 请求码
                                  */
                                 @Override
-                                public void permissionRequestFailCallback(List<String> permissionList, int permissionsRequestCode) {
+                                public void permissionRequestFailCallback(List<String> permissionList) {
                                     shareDataBean.getShareCallBack().error(AcbflwPluginErrorTypeEnum.SHARE_IMAGE_ERROR);
                                 }
                             });

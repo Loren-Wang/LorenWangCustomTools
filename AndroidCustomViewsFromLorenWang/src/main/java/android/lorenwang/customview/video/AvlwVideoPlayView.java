@@ -186,11 +186,11 @@ public class AvlwVideoPlayView extends SurfaceView {
      * @param showFirstPreview 是否显示第一帧
      * @param loopPlay         是否循环播放
      */
-    public void setReadyPlay(@NotNull String playUrl,@NotNull String uid, boolean loopPlay, boolean showFirstPreview, boolean wifiAutoPlay) {
+    public void setReadyPlay(@NotNull String playUrl, @NotNull String uid, boolean loopPlay, boolean showFirstPreview, boolean wifiAutoPlay) {
         this.showFirstPreview = showFirstPreview;
         if (this.playUrl == null) {
             //添加播放控件记录
-            AvlwVideoPlayManager.getInstance().addPlayVideoView(getContext(),uid, this);
+            AvlwVideoPlayManager.getInstance().addPlayVideoView(getContext(), uid, this);
             this.playUrl = playUrl;
             UrlSource urlSource = new UrlSource();
             urlSource.setUri(playUrl);
@@ -204,17 +204,17 @@ public class AvlwVideoPlayView extends SurfaceView {
         if (wifiAutoPlay) {
             //自动播放逻辑处理
             if (getContext() instanceof Activity) {
-                AtlwActivityUtil.getInstance().goToRequestPermissions((Activity) getContext(),
-                        new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, hashCode() % 1000, new AtlwPermissionRequestCallback() {
+                AtlwActivityUtil.getInstance().goToRequestPermissions(getContext(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
+                        new AtlwPermissionRequestCallback() {
                             @SuppressLint("MissingPermission")
                             @Override
-                            public void permissionRequestSuccessCallback(List<String> permissionList, int permissionsRequestCode) {
+                            public void permissionRequestSuccessCallback(List<String> permissionList) {
                                 //自动播放视频逻辑处理，wifi下自动播放
                                 videoPlayer.setAutoPlay(allowPlay = AtlwMobileSystemInfoUtil.getInstance().getNetworkType() == 1);
                             }
 
                             @Override
-                            public void permissionRequestFailCallback(List<String> permissionList, int permissionsRequestCode) {
+                            public void permissionRequestFailCallback(List<String> permissionList) {
 
                             }
                         });

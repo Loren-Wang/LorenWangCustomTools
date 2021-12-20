@@ -288,11 +288,4 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
         AtlwImageLoadingFactory.getInstance().resumeLoading()
     }
 
-    /**
-     * 权限接收回调
-     */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        AtlwActivityUtil.getInstance().receivePermissionsResult(requestCode, permissions, grantResults)
-    }
 }
