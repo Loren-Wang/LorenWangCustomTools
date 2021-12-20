@@ -29,6 +29,8 @@ import java.util.Locale;
  * 根据日期获取 星期--dateToWeek(time)
  * 获取一个月的所有时间列表--getMonthTimeList(monthTime,firstWeek,onlyMonth)
  * 是否是同一天时间--isOneDay(timeOne, timeTwo)
+ * 是否是同一小时时间--isOneHour(timeOne, timeTwo)
+ * 是否是同一分钟时间--isOneMinutes(timeOne, timeTwo)
  * 获取指定时间下个月第一天的时间--getNextMonthStartDayTime(time)
  * 获取指定时间上个月第一天的时间--getLastMonthStartDayTime(time)
  * 获取倒计时天数--getCountdownDay(millisecondTime)
@@ -39,8 +41,14 @@ import java.util.Locale;
  * 获取倒计时秒，总秒数，可能会超过60s以上--getCountdownMillisecond(millisecondTime)
  * 获取倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上--getCountdownMillisecond(millisecondTime,useOnMinutes)
  * 获取年份列表--getYearList(leftYearCount,rightYearCount)
+ * 获取年份列表--getYearList(startTime,endTime)
  * 获取月份列表--getMonthList(yearTime,asOfCurrent)
+ * 获取月份列表--getMonthList(startTime,endTime,showTime)
  * 获取日期列表--getDayList(monthTime,asOfCurrent)
+ * 获取日期列表--getDayList(startTime,endTime,showTime)
+ * 获取小时列表--getHourList(startTime,endTime,showTime)
+ * 获取分钟列表--getMinutesList(startTime,endTime,showTime)
+ * 获取秒钟列表--getSecondsList(startTime,endTime,showTime)
  * 获取年龄--getAge(birthTime,isReal)
  * 根据时间获取星座--getConstellation(time)
  * 注意：
@@ -318,6 +326,28 @@ public class JtlwDateTimeUtil {
     }
 
     /**
+     * 是否是同一小时时间
+     *
+     * @param timeOne 时间1
+     * @param timeTwo 时间2
+     * @return 是同一小时返回true
+     */
+    public boolean isOneHour(long timeOne, long timeTwo) {
+        return getFormatDateTime("yyyyMMddHH", timeOne).equals(getFormatDateTime("yyyyMMddHH", timeTwo));
+    }
+
+    /**
+     * 是否是同一分钟时间
+     *
+     * @param timeOne 时间1
+     * @param timeTwo 时间2
+     * @return 是同一小时返回true
+     */
+    public boolean isOneMinutes(long timeOne, long timeTwo) {
+        return getFormatDateTime("yyyyMMddHHmm", timeOne).equals(getFormatDateTime("yyyyMMddHHmm", timeTwo));
+    }
+
+    /**
      * 获取指定时间下个月第一天的时间
      *
      * @param time 指定时间
@@ -504,6 +534,25 @@ public class JtlwDateTimeUtil {
     }
 
     /**
+     * 获取年份列表
+     *
+     * @param startTime 起始时间
+     * @param endTime   结束时间
+     * @return 年份列表
+     */
+    public List<Long> getYearList(long startTime, long endTime) {
+        List<Long> list = new ArrayList<>();
+        if (startTime <= endTime) {
+            final int start = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, startTime));
+            final int end = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, endTime));
+            for (int index = start; index <= end; index++) {
+                list.add(getMillisecond(String.valueOf(index), YEAR_PATTERN));
+            }
+        }
+        return list;
+    }
+
+    /**
      * 获取月份列表
      *
      * @param yearTime    年份时间
@@ -522,6 +571,40 @@ public class JtlwDateTimeUtil {
         } else {
             for (int i = 1; i <= 12; i++) {
                 list.add(getMillisecond(year + i, monthPattern));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取月份列表
+     *
+     * @param startTime 起始时间
+     * @param endTime   结束时间
+     * @param showTime  需要显示的时间
+     * @return 月份列表
+     */
+    public List<Long> getMonthList(long startTime, long endTime, long showTime) {
+        List<Long> list = new ArrayList<>();
+        if (showTime >= startTime && showTime <= endTime) {
+            final int startYear = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, startTime));
+            final int endYear = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, endTime));
+            final int showYear = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, showTime));
+            int start = 1;
+            int end = 12;
+            if (startYear == endYear) {
+                start = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, startTime));
+                end = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, endTime));
+            } else {
+                if (showYear == endYear) {
+                    end = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, endTime));
+                } else if (showYear == startYear) {
+                    start = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, startTime));
+                }
+            }
+
+            for (int index = start; index <= end; index++) {
+                list.add(getMillisecond(showYear + (index < 10 ? "0" + index : String.valueOf(index)), YEAR_PATTERN + MONTH_PATTERN));
             }
         }
         return list;
@@ -560,6 +643,151 @@ public class JtlwDateTimeUtil {
         }
         for (int i = 1; i <= maxDay; i++) {
             list.add(getMillisecond(yearMonth + i, dayPattern));
+        }
+        return list;
+    }
+
+    /**
+     * 获取日期列表
+     *
+     * @param startTime 起始时间
+     * @param endTime   结束时间
+     * @param showTime  需要显示的时间
+     * @return 月份列表
+     */
+    public List<Long> getDayList(long startTime, long endTime, long showTime) {
+        List<Long> list = new ArrayList<>();
+        if (showTime >= startTime && showTime <= endTime) {
+            final int startYear = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, startTime));
+            final int endYear = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, endTime));
+            final int showYear = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, showTime));
+            final int startMonth = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, startTime));
+            final int endMonth = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, endTime));
+            final int showMonth = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, showTime));
+            int start = 1;
+            int end;
+            if (showMonth == 1 || showMonth == 3 || showMonth == 5 || showMonth == 7 || showMonth == 8 || showMonth == 10 || showMonth == 12) {
+                end = 31;
+            } else if (showMonth == 2) {
+                if (isLeapYear(showYear)) {
+                    end = 29;
+                } else {
+                    end = 28;
+                }
+            } else {
+                end = 30;
+            }
+            if (startYear == endYear) {
+                if (startMonth == endMonth) {
+                    start = Integer.parseInt(getFormatDateTime(DAY_PATTERN, startTime));
+                    end = Integer.parseInt(getFormatDateTime(DAY_PATTERN, endTime));
+                } else {
+                    if (showMonth == endMonth) {
+                        end = Integer.parseInt(getFormatDateTime(DAY_PATTERN, endTime));
+                    } else if (showMonth == startMonth) {
+                        start = Integer.parseInt(getFormatDateTime(DAY_PATTERN, startTime));
+                    }
+                }
+            } else {
+                if (showYear == endYear) {
+                    if (showMonth == endMonth) {
+                        end = Integer.parseInt(getFormatDateTime(DAY_PATTERN, endTime));
+                    }
+                } else if (showYear == startYear) {
+                    if (showMonth == startMonth) {
+                        start = Integer.parseInt(getFormatDateTime(DAY_PATTERN, startTime));
+                    }
+                }
+            }
+
+            for (int index = start; index <= end; index++) {
+                list.add(getMillisecond(showYear + (showMonth < 10 ? "0" + showMonth : String.valueOf(showMonth)) +
+                        (index < 10 ? "0" + index : String.valueOf(index)), YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取小时列表
+     *
+     * @param startTime 起始时间
+     * @param endTime   结束时间
+     * @param showTime  需要显示的时间
+     * @return 小时列表
+     */
+    public List<Long> getHourList(long startTime, long endTime, long showTime) {
+        List<Long> list = new ArrayList<>();
+        if (showTime >= startTime && showTime <= endTime) {
+            final String showDay = getFormatDateTime(YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN, showTime);
+            int start = 0;
+            int end = 23;
+            if (isOneDay(showTime, endTime)) {
+                end = Integer.parseInt(getFormatDateTime("HH", endTime));
+            } else if (isOneDay(showTime, startTime)) {
+                start = Integer.parseInt(getFormatDateTime("HH", startTime));
+            }
+
+            for (int index = start; index <= end; index++) {
+                list.add(getMillisecond(showDay + (index < 10 ? "0" + index : String.valueOf(index)),
+                        YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HH"));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取分钟列表
+     *
+     * @param startTime 起始时间
+     * @param endTime   结束时间
+     * @param showTime  需要显示的时间
+     * @return 分钟列表
+     */
+    public List<Long> getMinutesList(long startTime, long endTime, long showTime) {
+        List<Long> list = new ArrayList<>();
+        if (showTime >= startTime && showTime <= endTime) {
+            final String showDay = getFormatDateTime(YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HH", showTime);
+            int start = 0;
+            int end = 59;
+            if (isOneHour(showTime, endTime)) {
+                end = Integer.parseInt(getFormatDateTime("mm", endTime));
+            } else if (isOneHour(showTime, startTime)) {
+                start = Integer.parseInt(getFormatDateTime("mm", startTime));
+            }
+
+            for (int index = start; index <= end; index++) {
+                list.add(getMillisecond(showDay + (index < 10 ? "0" + index : String.valueOf(index)),
+                        YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HHmm"));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取秒钟列表
+     *
+     * @param startTime 起始时间
+     * @param endTime   结束时间
+     * @param showTime  需要显示的时间
+     * @return 分钟列表
+     */
+    public List<Long> getSecondsList(long startTime, long endTime, long showTime) {
+        List<Long> list = new ArrayList<>();
+        if (showTime >= startTime && showTime <= endTime) {
+            final String showDay = getFormatDateTime(YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HHmm", showTime);
+            int start = 0;
+            int end = 59;
+            if (isOneMinutes(showTime, endTime)) {
+                end = Integer.parseInt(getFormatDateTime("ss", endTime));
+            } else if (isOneMinutes(showTime, startTime)) {
+                start = Integer.parseInt(getFormatDateTime("ss", startTime));
+            }
+
+            for (int index = start; index <= end; index++) {
+                list.add(getMillisecond(showDay + (index < 10 ? "0" + index : String.valueOf(index)),
+                        YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HHmmss"));
+            }
         }
         return list;
     }

@@ -33,6 +33,8 @@ Java自定义工具类
 | 根据日期获取 星期 | dateToWeek(long time) | int |
 | 获取一个月的所有时间列表 | getMonthTimeList(long monthTime, int firstWeek, boolean onlyMonth) | List<Long> |
 | 是否是同一天时间 | isOneDay(long timeOne, long timeTwo) | boolean |
+| 是否是同一小时时间 | isOneHour(long timeOne, long timeTwo) | boolean |
+| 是否是同一分钟时间 | isOneMinutes(long timeOne, long timeTwo) | boolean |
 | 获取指定时间下个月第一天的时间 | getNextMonthStartDayTime(long time) | long |
 | 获取指定时间上个月第一天的时间 | getLastMonthStartDayTime(long time) | long |
 | 获取倒计时天数 | getCountdownDay(long millisecondTime) | int |
@@ -43,8 +45,14 @@ Java自定义工具类
 | 获取倒计时秒，总秒数，可能会超过60s以上 | getCountdownMillisecond(long millisecondTime) | int |
 | 获取倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上 | getCountdownMillisecond(long millisecondTime, boolean useOnMinutes) | int |
 | 获取年份列表 | getYearList(int leftYearCount, int rightYearCount) | List<Long> |
+| 获取年份列表 | getYearList(long startTime, long endTime) | List<Long> |
 | 获取月份列表 | getMonthList(long yearTime, boolean asOfCurrent) | List<Long> |
+| 获取月份列表 | getMonthList(long startTime, long endTime, long showTime) | List<Long> |
 | 获取日期列表 | getDayList(long monthTime, boolean asOfCurrent) | List<Long> |
+| 获取日期列表 | getDayList(long startTime, long endTime, long showTime) | List<Long> |
+| 获取小时列表 | getHourList(long startTime, long endTime, long showTime) | List<Long> |
+| 获取分钟列表 | getMinutesList(long startTime, long endTime, long showTime) | List<Long> |
+| 获取秒钟列表 | getSecondsList(long startTime, long endTime, long showTime) | List<Long> |
 | 根据时间获取星座 | getConstellation(long time) | int |
 | 获取年龄 | getAge(long birthTime, boolean isReal) | int |
 

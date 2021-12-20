@@ -130,6 +130,9 @@ fun Any?.kttlwIfTrue(): Boolean {
     if (this != null && this.toString().matches(Regex("[0-9]+"))) {
         return this.toString() != "0"
     }
+    if(this is Boolean){
+        return this
+    }
     return false
 }
 
@@ -139,6 +142,9 @@ fun Any?.kttlwIfTrue(): Boolean {
 fun Any?.kttlwIfFalse(): Boolean {
     if (this != null && this.toString().matches(Regex("[0-9]+"))) {
         return this.toString() == "0"
+    }
+    if(this is Boolean){
+        return this
     }
     return true
 }
