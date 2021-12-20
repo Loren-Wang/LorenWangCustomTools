@@ -27,7 +27,15 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryBase {
     /**
      * 声明AMapLocationClient类对象
      */
-    private AMapLocationClient mLocationClient = new AMapLocationClient(AtlwConfig.nowApplication);
+    private AMapLocationClient mLocationClient;
+
+    {
+        try {
+            mLocationClient = new AMapLocationClient(AtlwConfig.nowApplication);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public AtlwLocationLibraryGaoDe() {
