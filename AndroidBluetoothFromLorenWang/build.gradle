@@ -4,14 +4,14 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 android {
-    compileSdkVersion compile_sdk_version
-
+    compileSdkVersion rootProject.ext.buildConfig.compile_sdk_version
+    buildToolsVersion rootProject.ext.buildConfig.build_tools_version
 
     defaultConfig {
-        minSdkVersion min_sdk_version
-        targetSdkVersion target_sdk_version
+        minSdkVersion rootProject.ext.buildConfig.min_sdk_version
+        targetSdkVersion rootProject.ext.buildConfig.target_sdk_version
         versionCode 1
-        versionName "1.0.0"
+        versionName rootProject.ext.moduleVersion.android_bluetooth
     }
 
     buildTypes {
@@ -28,12 +28,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    //解决Using flatDir should be avoided because it doesn't support any meta-data formats.警告
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
 }
 
 def moduleName = "AndroidBluetoothFromLorenWang"

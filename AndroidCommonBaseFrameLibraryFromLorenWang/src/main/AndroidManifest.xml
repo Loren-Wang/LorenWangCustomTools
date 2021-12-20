@@ -7,11 +7,14 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application>
-        <activity android:name=".image.AcbflwPictureCropActivity" />
+        <activity
+            android:name=".image.AcbflwPictureCropActivity"
+            android:exported="true" />
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true" />
     </application>
 </manifest>

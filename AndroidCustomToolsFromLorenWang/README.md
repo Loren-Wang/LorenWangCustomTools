@@ -8,19 +8,19 @@
 
 **其他按需引入的库**
 compileOnly 'org.jetbrains:annotations:19.0.0'
-compileOnly 'androidx.appcompat:appcompat:1.2.0'
-compileOnly 'androidx.constraintlayout:constraintlayout:2.0.4'
-compileOnly 'androidx.recyclerview:recyclerview:1.1.0'
+compileOnly "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
+compileOnly "androidx.constraintlayout:constraintlayout:${rootProject.ext.libVersion.constraintlayout_version}"
+compileOnly "androidx.recyclerview:recyclerview:${rootProject.ext.libVersion.recyclerview_version}"
 //官方变色库
 compileOnly 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 //fresco图片加载
 ```java
-compileOnly 'com.facebook.fresco:fresco:2.0.0'
-compileOnly 'com.facebook.fresco:animated-gif:2.0.0'
+compileOnly "com.facebook.fresco:fresco:${rootProject.ext.libVersion.fresco_version}"
+compileOnly "com.facebook.fresco:animated-gif:${rootProject.ext.libVersion.fresco_version}"
 //glide图片加载
-compileOnly 'com.github.bumptech.glide:glide:4.10.0'
+compileOnly "com.github.bumptech.glide:glide:${rootProject.ext.libVersion.glide_version}"
 //Picasso图片加载
-compileOnly 'com.squareup.picasso:picasso:2.71828'
+compileOnly "com.squareup.picasso:picasso:${rootProject.ext.libVersion.picasso_version}"
 //imageLoad加载库
 compileOnly 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 // 高斯模糊工具类
@@ -31,7 +31,7 @@ compileOnly 'com.amap.api:location:latest.integration'
 compileOnly project(':JavaCustomToolsFromLorenWang')
 //数据格式化
 compileOnly project(':JavaDataParseFromLorenWang')
-compileOnly 'com.google.code.gson:gson:2.8.6'
+compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
 ```
 
 **提示：**

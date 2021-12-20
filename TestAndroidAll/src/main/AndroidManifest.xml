@@ -12,81 +12,204 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.customToolsJava.BeanActivity"></activity>
-        <activity android:name=".activity.customToolsJava.CommonActivity" />
-        <activity android:name=".activity.customToolsJava.CustomToolsActivity" />
-        <activity android:name=".activity.customView.KerleyOrDottedActivity" />
-        <activity android:name=".activity.customView.textview.TimeShowActivity" />
-        <activity android:name=".activity.customView.textview.MarqueeActivity" />
-        <activity android:name=".activity.customView.SudokuSwipeGesturesActivity" />
-        <activity android:name=".activity.customView.RecycleItemDecorationActivity" />
-        <activity android:name=".activity.customView.RadioGroupActivity" />
-        <activity android:name=".activity.customView.ProgressActivity" />
-        <activity android:name=".activity.customView.HotViewActivity" />
-        <activity android:name=".activity.customView.MotionEventActivity" />
-        <activity android:name=".activity.customToolsAndroid.MobileSystemInfoActivity" />
-        <activity android:name=".activity.splash.StartActivity">
+        <activity
+            android:name=".activity.customToolsJava.BeanActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsJava.CommonActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsJava.CustomToolsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.KerleyOrDottedActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.textview.TimeShowActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.textview.MarqueeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.SudokuSwipeGesturesActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.RecycleItemDecorationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.RadioGroupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.ProgressActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.HotViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.MobileSystemInfoActivity"
+            android:exported="true" />
+        <activity android:name=".activity.splash.StartActivity"  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.customToolsAndroid.MobileInfoActivity" />
-        <activity android:name=".activity.customToolsAndroid.FlyMessageActivity" />
-        <activity android:name=".activity.customToolsAndroid.LocationActivity" />
-        <activity android:name=".activity.customToolsAndroid.image.ImageLoadingActivity" />
-        <activity android:name=".activity.customToolsAndroid.image.ImageCommonActivity" />
-        <activity android:name=".activity.customView.ShadowActivity" />
-        <activity android:name=".activity.customToolsAndroid.FileActivity" />
-        <activity android:name=".activity.customToolsAndroid.DesktopShortcutActivity" />
-        <activity android:name=".activity.customToolsAndroid.CheckActivity" />
-        <activity android:name=".activity.customToolsAndroid.ViewActivity" />
-        <activity android:name=".activity.customToolsAndroid.StatusBarActivity" />
-        <activity android:name=".activity.customToolsAndroid.SpannableActivity" />
-        <activity android:name=".activity.customToolsAndroid.ScreenActivity" />
-        <activity android:name=".activity.customToolsAndroid.BrightnessChangeActivity" />
-        <activity android:name=".activity.customToolsAndroid.ActivityActivity" />
-        <activity android:name=".activity.customToolsAndroid.CustomToolsActivity" />
-        <activity android:name=".activity.customView.WheelViewActivity" />
-        <activity android:name=".activity.customView.CustomViewActivity" />
-        <activity android:name=".activity.graphicCodeScan.CameraActivity" />
-        <activity android:name=".activity.graphicCodeScan.GraphicCodeActivity" />
-        <activity android:name=".activity.customToolsAndroid.MobileNotificationActivity" />
-        <activity android:name=".activity.customView.EdittextActivity" />
-        <activity android:name=".activity.customToolsAndroid.image.ImageSelectActivity" />
+        <activity
+            android:name=".activity.customToolsAndroid.MobileInfoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.FlyMessageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.LocationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.image.ImageLoadingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.image.ImageCommonActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.ShadowActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.FileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.DesktopShortcutActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.CheckActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.ViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.StatusBarActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.SpannableActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.ScreenActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.BrightnessChangeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.ActivityActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.CustomToolsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.WheelViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.CustomViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.graphicCodeScan.CameraActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.graphicCodeScan.GraphicCodeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.MobileNotificationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.EdittextActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.image.ImageSelectActivity"
+            android:exported="true" />
         <activity
             android:name=".activity.customView.carousel.CarouselActivity"
-            android:screenOrientation="landscape" />
-        <activity android:name=".activity.customView.touch.TouchOptionsActivity" />
-        <activity android:name=".activity.customView.validation.ValidationActivity" />
-        <activity android:name=".activity.customView.CalendarActivity" />
+            android:screenOrientation="landscape"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.touch.TouchOptionsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.validation.ValidationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.CalendarActivity"
+            android:exported="true" />
         <activity
             android:name=".activity.customView.video.VideoPlayActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".activity.customView.video.VideoPlayListActivity" />
-        <activity android:name=".activity.customToolsAndroid.image.ImageListBitmapActivity" />
-        <activity android:name=".activity.customView.textview.CustomDrawableButtonActivity" />
-        <activity android:name=".activity.customView.titlebar.TitleBarHeadViewActivity" />
-        <activity android:name=".activity.customView.ZoomableImageViewActivity" />
-        <activity android:name=".activity.graphicCodeScan.CodeGenerateActivity" />
-        <activity android:name=".activity.customView.viewpager.FragmentAndBannerActivity" />
-        <activity android:name=".activity.customView.DialogsActivity" />
-        <activity android:name=".activity.customView.viewpager.ViewPager2Activity" />
-        <activity android:name=".activity.customView.viewpager.BannerActivity" />
-        <activity android:name=".activity.customView.textview.ShowPriceTextViewActivity" />
-        <activity android:name=".activity.customView.ShowQuantityOfCommodityActivity" />
-        <activity android:name=".activity.customView.RecycleViewPageActivity" />
-        <activity android:name=".activity.customView.TabLayoutActivity" />
-        <activity android:name=".activity.graphicCodeScan.ScanCodeActivity" />
-        <activity android:name=".activity.DataParseActivity" />
-        <activity android:name=".activity.customToolsAndroid.ToastActivity" />
-        <activity android:name=".activity.bluetooth.BluetoothActivity" />
-        <activity android:name=".activity.anim.AnimActivity" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.customView.SideBarActivity" />
-        <activity android:name=".activity.customView.SwitchButtonActivity" />
-        <activity android:name=".activity.customView.ImageViewActivity" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.video.VideoPlayListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.image.ImageListBitmapActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.textview.CustomDrawableButtonActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.titlebar.TitleBarHeadViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.ZoomableImageViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.graphicCodeScan.CodeGenerateActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.viewpager.FragmentAndBannerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.DialogsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.viewpager.ViewPager2Activity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.viewpager.BannerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.textview.ShowPriceTextViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.ShowQuantityOfCommodityActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.RecycleViewPageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.TabLayoutActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.graphicCodeScan.ScanCodeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.DataParseActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customToolsAndroid.ToastActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.bluetooth.BluetoothActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.anim.AnimActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.SideBarActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.SwitchButtonActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.customView.ImageViewActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -100,7 +223,6 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
@@ -108,6 +230,7 @@
         </provider> <!-- 腾讯定位服务key -->
         <service android:name="com.amap.api.location.APSService" />
     </application>
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

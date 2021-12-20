@@ -6,8 +6,8 @@ Java自定义工具类
     implementation 'junit:junit:4.12'
 
     //json数据解析处理
-    compileOnly 'com.google.code.gson:gson:2.8.6'
-    testImplementation 'com.google.code.gson:gson:2.8.6'
+    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    testImplementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
 
     //日志打印框架
     compileOnly 'org.slf4j:slf4j-api:1.7.30'

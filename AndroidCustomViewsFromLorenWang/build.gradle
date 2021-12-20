@@ -4,14 +4,14 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 android {
-    compileSdkVersion 28
-
+    compileSdkVersion rootProject.ext.buildConfig.compile_sdk_version
+    buildToolsVersion rootProject.ext.buildConfig.build_tools_version
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion rootProject.ext.buildConfig.min_sdk_version
+        targetSdkVersion rootProject.ext.buildConfig.target_sdk_version
         versionCode 1
-        versionName "4.0.0"
+        versionName rootProject.ext.moduleVersion.android_view
     }
 
     buildTypes {
@@ -32,26 +32,31 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    //解决Using flatDir should be avoided because it doesn't support any meta-data formats.警告
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'org.jetbrains:annotations:19.0.0'
     compileOnly project(':AndroidCustomToolsFromLorenWang')
     compileOnly project(':JavaCustomToolsFromLorenWang')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    compileOnly 'androidx.constraintlayout:constraintlayout:2.0.4'
-    compileOnly 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
+    compileOnly "androidx.constraintlayout:constraintlayout:${rootProject.ext.libVersion.constraintlayout_version}"
+    compileOnly "androidx.recyclerview:recyclerview:${rootProject.ext.libVersion.recyclerview_version}"
     //viewpager2
-    compileOnly 'androidx.viewpager2:viewpager2:1.0.0'
+    compileOnly "androidx.viewpager2:viewpager2:${rootProject.ext.libVersion.viewpager2_version}"
     //fresco图片加载
-    compileOnly 'com.facebook.fresco:fresco:2.0.0'
+    compileOnly "com.facebook.fresco:fresco:${rootProject.ext.libVersion.fresco_version}"
     //glide图片加载
-    compileOnly 'com.github.bumptech.glide:glide:4.10.0'
+    compileOnly "com.github.bumptech.glide:glide:${rootProject.ext.libVersion.glide_version}"
     //Picasso图片加载
-    compileOnly 'com.squareup.picasso:picasso:2.71828'
+    compileOnly "com.squareup.picasso:picasso:${rootProject.ext.libVersion.picasso_version}"
     //AppBarLayout等库，不能使用compileOnly，否则会编译不通过
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation "com.google.android.material:material:${rootProject.ext.libVersion.material_version}"
 
     //阿里云视频播放器库
     compileOnly 'com.aliyun.sdk.android:AliyunPlayer:4.5.0-full'

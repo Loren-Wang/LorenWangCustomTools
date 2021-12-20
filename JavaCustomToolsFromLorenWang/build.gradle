@@ -19,8 +19,8 @@ dependencies {
     implementation 'junit:junit:4.12'
 
     //json数据解析处理
-    compileOnly 'com.google.code.gson:gson:2.8.6'
-    testImplementation 'com.google.code.gson:gson:2.8.6'
+    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    testImplementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
 
     //日志打印框架
     compileOnly 'org.slf4j:slf4j-api:1.7.30'
@@ -30,7 +30,7 @@ dependencies {
 
 def moduleName = "JavaCustomToolsFromLorenWang"
 def moduleDescription = "java自定义工具库"
-def moduleVersion = '4.0.0'
+def moduleVersion = rootProject.ext.moduleVersion.java_tools
 // 编译版本和编码配置
 repositories {
     mavenCentral()

@@ -16,11 +16,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.google.code.gson:gson:2.8.6'
+    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
 }
 def moduleName = "JavaDataParseFromLorenWang"
 def moduleDescription = "java数据格式化工具库"
-def moduleVersion = '3.0.0'
+def moduleVersion = rootProject.ext.moduleVersion.jave_json_parse
 // 编译版本和编码配置
 repositories {
     mavenCentral()

@@ -5,18 +5,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'maven'
 apply plugin: 'signing'
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
-
-    buildFeatures {
-        dataBinding true
-    }
+    compileSdkVersion rootProject.ext.buildConfig.compile_sdk_version
+    buildToolsVersion rootProject.ext.buildConfig.build_tools_version
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion rootProject.ext.buildConfig.min_sdk_version
+        targetSdkVersion rootProject.ext.buildConfig.target_sdk_version
         versionCode 1
-        versionName "4.0.0"
+        versionName rootProject.ext.moduleVersion.android_frame
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -36,7 +32,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -45,20 +44,21 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-}
-repositories {
-    flatDir {
-        dirs 'libs'
+    //解决Using flatDir should be avoided because it doesn't support any meta-data formats.警告
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
+
 }
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.18'
     annotationProcessor 'org.projectlombok:lombok:1.18.18'
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compileOnly 'androidx.appcompat:appcompat:1.3.0'
-    compileOnly 'androidx.recyclerview:recyclerview:1.2.1'
+    compileOnly "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
+    compileOnly "androidx.recyclerview:recyclerview:${rootProject.ext.libVersion.recyclerview_version}"
     //安卓自定义组件框架库
     compileOnly project(':AndroidCustomViewsFromLorenWang')
     //安卓自定义工具框架库
@@ -82,7 +82,7 @@ dependencies {
     //图片选择框架
     compileOnly 'io.github.lucksiege:pictureselector:v2.7.3-rc03'
     //glide图片加载
-    compileOnly 'com.github.bumptech.glide:glide:4.10.0'
+    compileOnly "com.github.bumptech.glide:glide:${rootProject.ext.libVersion.glide_version}"
     //Toast提示框架
     compileOnly 'com.github.hss01248:Toasty:2.0.6'
     //列表数据加载
@@ -105,13 +105,13 @@ dependencies {
     //noinspection GradleDynamicVersion
     compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     //支付宝支付
-    compileOnly(name: 'alipaySdk', ext: 'aar')
+    compileOnly files('libs/alipaySdk.aar')
     //微博相关
-    compileOnly(name: 'openDefault-10.10.0', ext: 'aar')
+    compileOnly files('libs/openDefault-10.10.0.aar')
     //qq相关
     compileOnly 'com.tencent.tauth:qqopensdk:3.52.0'
     //安卓下拉刷新库
-    compileOnly 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    compileOnly "androidx.swiperefreshlayout:swiperefreshlayout:${rootProject.ext.libVersion.swiperefreshlayout_version}"
 
 }
 

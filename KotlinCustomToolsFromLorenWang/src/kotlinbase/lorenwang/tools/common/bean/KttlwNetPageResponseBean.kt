@@ -58,8 +58,8 @@ open class KttlwNetPageResponseBean<T> {
     constructor(pageIndex: Int, pageSize: Int, sumDataCount: Int, sumPageCount: Int, dataList: ArrayList<T>) {
         this.pageIndex = pageIndex
         this.pageSize = pageSize
-        this.sumDataCount = pageIndex
-        this.sumPageCount = pageIndex
+        this.sumDataCount = sumDataCount
+        this.sumPageCount = sumPageCount
         this.dataList = dataList
     }
 

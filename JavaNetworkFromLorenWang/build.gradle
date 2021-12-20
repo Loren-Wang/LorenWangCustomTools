@@ -31,7 +31,7 @@ dependencies {
 }
 def moduleName = "JavaNetworkFromLorenWang"
 def moduleDescription = "java网络请求工具库"
-def moduleVersion = '1.0.5'
+def moduleVersion = rootProject.ext.moduleVersion.java_net
 // 编译版本和编码配置
 repositories {
     mavenCentral()

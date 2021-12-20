@@ -6,7 +6,7 @@ Kotlin自定义工具类
     compileOnly project(':JavaCustomToolsFromLorenWang')
     //java数据格式化类库
     compileOnly project(':JavaDataParseFromLorenWang')
-    compileOnly 'com.google.code.gson:gson:2.8.6'
+    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
     //swagger注释
     compileOnly 'io.springfox:springfox-swagger2:2.6.0'
     compileOnly 'io.springfox:springfox-swagger-ui:2.6.0'

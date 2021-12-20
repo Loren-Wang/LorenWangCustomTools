@@ -2,16 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 android {
-    compileSdkVersion 29
-
-    buildFeatures {
-        dataBinding true
-    }
+    compileSdkVersion rootProject.ext.buildConfig.compile_sdk_version
+    buildToolsVersion rootProject.ext.buildConfig.build_tools_version
 
     defaultConfig {
         applicationId "com.lorenwang.test.android"
-        minSdkVersion 24
-        targetSdkVersion 29
+        minSdkVersion rootProject.ext.buildConfig.min_sdk_version
+        targetSdkVersion rootProject.ext.buildConfig.target_sdk_version
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true // 解决类名重复的问题
@@ -35,6 +32,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -48,47 +49,53 @@ android {
     packagingOptions {
         exclude 'META-INF/*'
     }
+    //解决Using flatDir should be avoided because it doesn't support any meta-data formats.警告
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
+    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.libVersion.constraintlayout_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //其他依赖库，用来做数据测试等等
     implementation project(':JavaPcToolsFromLorenWang')
     //viewpager2
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation "androidx.viewpager2:viewpager2:${rootProject.ext.libVersion.viewpager2_version}"
     //安卓蓝牙工具框架库
     implementation project(':AndroidBluetoothFromLorenWang')
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.libVersion.constraintlayout_version}"
     // 高斯模糊工具类
     implementation 'net.qiujuer.genius:graphics:2.1.1'
     //fresco图片加载
-    implementation 'com.facebook.fresco:fresco:2.0.0'
+    implementation "com.facebook.fresco:fresco:${rootProject.ext.libVersion.fresco_version}"
     //glide图片加载
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    implementation "com.github.bumptech.glide:glide:${rootProject.ext.libVersion.glide_version}"
     // 图片加载库
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.squareup.picasso:picasso:${rootProject.ext.libVersion.picasso_version}"
 
 
     //从上至下依赖关系
     implementation project(':JavaCustomToolsFromLorenWang')
     implementation project(':AndroidCustomToolsFromLorenWang')
     //AppBarLayout等库，不能使用compileOnly，否则会编译不通过
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation "com.google.android.material:material:${rootProject.ext.libVersion.material_version}"
     implementation project(':AndroidCustomViewsFromLorenWang')
     implementation project(':AndroidAnimFromLorenWang')
     implementation project(':KotlinCustomToolsFromLorenWang')
     implementation project(':JavaDataParseFromLorenWang')
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:${rootProject.ext.libVersion.swiperefreshlayout_version}"
     implementation project(':AndroidCommonBaseFrameLibraryFromLorenWang')
 
     //扩展库
     implementation project(':AndroidKotlinCustomToolsFromLorenWang')
     implementation project(':AndroidGraphicCodeScanFromLorenWang')
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation"androidx.recyclerview:recyclerview:${rootProject.ext.libVersion.recyclerview_version}"
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha05'
 
 
@@ -138,12 +145,12 @@ dependencies {
 //    //图片选择框架
 //    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
     //fresco图片加载
-    api 'com.facebook.fresco:fresco:2.0.0'
-    api 'com.facebook.fresco:animated-gif:2.0.0'
+    api "com.facebook.fresco:fresco:${rootProject.ext.libVersion.fresco_version}"
+    api "com.facebook.fresco:animated-gif:${rootProject.ext.libVersion.fresco_version}"
     //glide图片加载
-    api 'com.github.bumptech.glide:glide:4.10.0'
+    api "com.github.bumptech.glide:glide:${rootProject.ext.libVersion.glide_version}"
     //Picasso图片加载
-    api 'com.squareup.picasso:picasso:2.71828'
+    api "com.squareup.picasso:picasso:${rootProject.ext.libVersion.picasso_version}"
     //imageLoad加载库
     api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     //Toast提示框架

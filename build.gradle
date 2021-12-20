@@ -4,11 +4,44 @@ apply from: 'publish.properties'
 buildscript {
     //统一配置部分
     ext {
-        compile_sdk_version = 29
-        build_tools_version = "29.0.3"
-        min_sdk_version = 21
-        target_sdk_version = 29
         kotlin_version = '1.4.0'
+        //构建配置
+        buildConfig = [
+                compile_sdk_version: 31,
+                build_tools_version: "30.0.2",
+                min_sdk_version    : 21,
+                target_sdk_version : 31
+        ]
+        //module版本配置
+        moduleVersion = [
+                anim                : "2.0.1",
+                android_bluetooth   : "1.0.0",
+                android_frame       : "4.0.0",
+                android_tools       : "4.0.0",
+                android_view        : "4.0.0",
+                android_camera      : "1.0.0",
+                java_tools          : "4.0.0",
+                jave_json_parse     : "3.0.0",
+                java_net            : "1.0.5",
+                kotlin_java_tools   : "2.0.0",
+                kotlin_android_tools: "2.0.0",
+                spring_boot_frame   : "1.6.1"
+        ]
+        libVersion = [
+                //图片相关
+                fresco_version            : '2.0.0',
+                glide_version             : '4.10.0',
+                picasso_version           : '2.71828',
+
+                appcompat_version         : '1.3.0',
+                constraintlayout_version  : '2.0.1',
+                material_version          : '1.4.0',
+                gson_version              : '2.8.8',
+                swiperefreshlayout_version: '1.1.0',
+                recyclerview_version      : '1.1.0',
+                viewpager2_version        : '1.0.0'
+
+        ]
     }
 
     repositories {

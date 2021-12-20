@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.lorenwang.customview.imageview.AvlwFrescoZoomableImageView
-        android:id="@+id/imgZoom"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <android.lorenwang.customview.imageview.AvlwFrescoZoomableImageView-->
+<!--        android:id="@+id/imgZoom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
-    </android.lorenwang.customview.imageview.AvlwFrescoZoomableImageView>
+<!--    </android.lorenwang.customview.imageview.AvlwFrescoZoomableImageView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
