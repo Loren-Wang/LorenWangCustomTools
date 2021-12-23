@@ -1,0 +1,138 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    //必须引入这几个插件
+    id 'maven'
+    id 'signing'
+}
+
+android {
+    compileSdkVersion rootProject.ext.buildConfig.compile_sdk_version
+    buildToolsVersion rootProject.ext.buildConfig.build_tools_version
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.buildConfig.min_sdk_version
+        targetSdkVersion rootProject.ext.buildConfig.target_sdk_version
+        versionCode 1
+        versionName rootProject.ext.moduleVersion.android_camera
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        appTest {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    //解决Using flatDir should be avoided because it doesn't support any meta-data formats.警告
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compileOnly "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
+}
+
+def moduleName = "AndroidCameraFromLorenWang"
+def moduleDescription = "安卓自定义相机"
+def moduleVersion = android.defaultConfig.versionName
+// 编译版本和编码配置
+repositories {
+    mavenCentral()
+}
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+    classpath += configurations.compile
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title moduleName
+    }
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+//上传
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatype_account, password: sonatype_password)
+            }
+
+            pom.project {
+                name moduleName
+                version moduleVersion
+                groupId project_groupId
+                description moduleDescription
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description moduleDescription
+                url project_webSiteUrl
+                scm {
+                    connection project_gitUrl // Git仓库地址。
+                    developerConnection project_gitUrl // Git仓库地址。
+                    url project_webSiteUrl // 项目主页。
+                }
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = userInfo_userId
+                        name = userInfo_userName
+                        email = userInfo_userEmail
+                    }
+                }
+            }
+        }
+    }
+}
+//签名配置
+signing {
+    sign configurations.archives
+}
