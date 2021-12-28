@@ -4,6 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,6 +20,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.RequiresPermission;
@@ -39,6 +43,7 @@ import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
  * 获取当前网络类型--getNetworkType()
  * 获取wifi的mac地址，适配到android Q--getMac()
  * 获取手机IP地址--getIpAddress()
+ * 获取系统相机包名--getSystemCameraPackageName()
  * <p>
  * 注意：
  * 修改人：
@@ -303,5 +308,41 @@ public class AtlwMobileSystemInfoUtil {
         }
         addressStr = null;
         return useIps;
+    }
+    /**
+     * 获取系统相机包名
+     *
+     * @return 系统相机包名，可能为空，为空就是没有检索到包名
+     */
+    @SuppressLint("QueryPermissionsNeeded")
+    public String getSystemCameraPackageName() {
+        //获取已安装安装包信息
+        final PackageManager manager = AtlwConfig.nowApplication.getPackageManager();
+        final List<PackageInfo> packages = manager.getInstalledPackages(0);
+        //大多数系统相机名称
+        String cameraNames = "相机,照相机,照相,拍照,摄像,Camera,camera";
+        //默认相机包名
+        String defaultCameraPackageName = "com.android.camera";
+        //符合条件的相机包名
+        String otherCameraName = null;
+        if (packages != null) {
+            for (PackageInfo packageInfo : packages) {
+                //判断是否有默认相机
+                if (defaultCameraPackageName.equals(packageInfo.packageName)) {
+                    return defaultCameraPackageName;
+                }
+                try {
+                    //判断是否是其他的相机名称
+                    if (cameraNames.contains(packageInfo.applicationInfo.loadLabel(manager).toString())) {
+                        if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                            otherCameraName = packageInfo.packageName;
+                        }
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        }
+        return otherCameraName;
     }
 }

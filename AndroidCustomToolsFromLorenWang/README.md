@@ -580,6 +580,7 @@ compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version
 | 获取当前网络类型 | getNetworkType() | int |
 | 获取wifi的mac地址，适配到android Q | getMac() | String |
 | 获取手机IP地址 | getIpAddress() | String |
+| 获取系统相机包名 | getSystemCameraPackageName() | String |
 
 <br> 
 
