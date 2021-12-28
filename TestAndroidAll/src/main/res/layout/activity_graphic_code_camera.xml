@@ -8,53 +8,58 @@
         android:layout_height="match_parent"
         tools:context=".activity.graphicCodeScan.ScanCodeActivity">
 
-        <android.lorenwang.graphic_code_scan.AgcslwScanView
-            android:id="@+id/surfaceView"
+        <TextureView
+            android:id="@+id/surface_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:shadowPercentLeft="0.3"
-            app:shadowPercentRight="0.3"
-            app:shadowPercentTop="0.3"
-            app:shadowPercentBottom="0.3"
-            app:shadowColor="#99000000"
-            app:outShadowSquare="true"
-            tools:ignore="MissingPrefix" />
+            android:layout_height="match_parent" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <!--        <android.lorenwang.graphic_code_scan.AgcslwScanView-->
+        <!--            android:id="@+id/surfaceView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            app:shadowPercentLeft="0.3"-->
+        <!--            app:shadowPercentRight="0.3"-->
+        <!--            app:shadowPercentTop="0.3"-->
+        <!--            app:shadowPercentBottom="0.3"-->
+        <!--            app:shadowColor="#99000000"-->
+        <!--            app:outShadowSquare="true"-->
+        <!--            tools:ignore="MissingPrefix" />-->
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnLightChange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="CameraOptionsClick"
-                android:text="闪光灯转换" />
+        <!--        <androidx.appcompat.widget.LinearLayoutCompat-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnFocus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="CameraOptionsClick"
-                android:text="对焦" />
+        <!--            <androidx.appcompat.widget.AppCompatButton-->
+        <!--                android:id="@+id/btnLightChange"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:onClick="CameraOptionsClick"-->
+        <!--                android:text="闪光灯转换" />-->
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnTake"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="CameraOptionsClick"
-                android:text="拍照" />
+        <!--            <androidx.appcompat.widget.AppCompatButton-->
+        <!--                android:id="@+id/btnFocus"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:onClick="CameraOptionsClick"-->
+        <!--                android:text="对焦" />-->
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgPreview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:maxWidth="200dp" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!--            <androidx.appcompat.widget.AppCompatButton-->
+        <!--                android:id="@+id/btnTake"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:onClick="CameraOptionsClick"-->
+        <!--                android:text="拍照" />-->
+
+        <!--            <androidx.appcompat.widget.AppCompatImageView-->
+        <!--                android:id="@+id/imgPreview"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                android:maxWidth="200dp" />-->
+        <!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

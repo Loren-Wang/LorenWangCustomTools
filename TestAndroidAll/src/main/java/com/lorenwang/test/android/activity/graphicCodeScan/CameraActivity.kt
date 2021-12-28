@@ -2,12 +2,16 @@ package com.lorenwang.test.android.activity.graphicCodeScan
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.hardware.camera2.*
+import android.lorenwang.camera.AclwCamera
+import android.lorenwang.camera.AclwCameraCallback
 import android.lorenwang.graphic_code_scan.AgcslwCamera
 import android.lorenwang.graphic_code_scan.AgcslwCameraOptionsCallback
 import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.lorenwang.tools.base.AtlwLogUtil
 import android.os.Bundle
+import android.view.Surface
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
@@ -30,75 +34,30 @@ import java.io.File
  * @author 王亮（Loren）
  */
 class CameraActivity : BaseActivity() {
-    private val scan = AgcslwCamera()
+    private val scan = AclwCamera()
 
     private var binding: ActivityGraphicCodeCameraBinding? = null
         get() {
             field = field.kttlwGetNotEmptyData { ActivityGraphicCodeCameraBinding.inflate(layoutInflater) }
             return field
         }
-
+    private val callback = object : CameraCaptureSession.CaptureCallback() {
+        override fun onCaptureProgressed(session: CameraCaptureSession, request: CaptureRequest, partialResult: CaptureResult) {
+            super.onCaptureProgressed(session, request, partialResult)
+        }
+    }
     override fun initView(savedInstanceState: Bundle?) {
         addShowContentView(true, binding)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        //请求权限
-        AtlwActivityUtil.getInstance().goToRequestPermissions(this,
-            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-            object : AtlwPermissionRequestCallback {
-                override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
-                }
-
-                @SuppressLint("MissingPermission")
-                override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
-                    AtlwLogUtil.logUtils.logD("sssss", "扫描权限获取成功")
-                    JtlwFileOptionUtil.getInstance().writeToFile(File(""), byteArrayOf())
-                    scan.setCameraConfig(this@CameraActivity, binding?.surfaceView?.surfaceView)
-                    scan.setOptionsCallback(object : AgcslwCameraOptionsCallback() {
-                        override fun permissionRequestFail(vararg permissions: String?) {
-                        }
-
-                        override fun cameraInitError() {
-                        }
-
-                        override fun notPermissions(shouldShowRequestPermissionRationale: Boolean, vararg permissions: String?) {
-                        }
-
-                    })
-                }
-
-            })
-    }
-
-    @SuppressLint("MissingPermission")
-    override fun onResume() {
-        super.onResume()
-        scan.onActResumeChange()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        scan.onActPauseChange()
-    }
-
-    override fun finish() {
-        super.finish()
-        scan.onActFinish()
-    }
-
-    fun CameraOptionsClick(view: View) {
-        when(view.id){
-            R.id.btnLightChange->{
-                scan.changeFlashLightStatus()
+        scan.openCamera(this@CameraActivity, binding!!.surfaceView, windowManager.defaultDisplay, object : AclwCameraCallback() {
+            override fun onConfiguredCameraCaptureSessionSuccess(session: CameraCaptureSession) {
+                super.onConfiguredCameraCaptureSessionSuccess(session)
+                //获取构造体
+                scan.openPreview(mCurrentCameraDevice, session, Surface(binding!!.surfaceView.surfaceTexture!!), callback)
             }
-            R.id.btnFocus->{
-
-            }
-            else->{
-
-            }
-        }
+        }, CameraCharacteristics.LENS_FACING_BACK)
     }
 }

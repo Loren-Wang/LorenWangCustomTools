@@ -91,6 +91,7 @@ dependencies {
     implementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:${rootProject.ext.libVersion.swiperefreshlayout_version}"
     implementation project(':AndroidCommonBaseFrameLibraryFromLorenWang')
+    implementation project(':AndroidCameraFromLorenWang')
 
     //扩展库
     implementation project(':AndroidKotlinCustomToolsFromLorenWang')
