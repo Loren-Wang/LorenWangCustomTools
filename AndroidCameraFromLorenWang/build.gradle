@@ -56,6 +56,10 @@ android {
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compileOnly "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
+    //java工具类库
+    compileOnly project(':JavaCustomToolsFromLorenWang')
+    //安卓工具类库
+    compileOnly project(':AndroidCustomToolsFromLorenWang')
 }
 
 def moduleName = "AndroidCameraFromLorenWang"
