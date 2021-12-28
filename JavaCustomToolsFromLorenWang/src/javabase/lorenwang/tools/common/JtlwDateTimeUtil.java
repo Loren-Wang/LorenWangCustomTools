@@ -33,6 +33,7 @@ import java.util.Locale;
  * 是否是同一分钟时间--isOneMinutes(timeOne, timeTwo)
  * 获取指定时间下个月第一天的时间--getNextMonthStartDayTime(time)
  * 获取指定时间上个月第一天的时间--getLastMonthStartDayTime(time)
+ * 获取指定时间月份的结束天数--getMonthDays(showTime)
  * 获取倒计时天数--getCountdownDay(millisecondTime)
  * 获取倒计时小时，总小时，可能会超过24小时以上--getCountdownHours(millisecondTime)
  * 获取倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时--getCountdownHours(millisecondTime,useOneDay)
@@ -43,12 +44,12 @@ import java.util.Locale;
  * 获取年份列表--getYearList(leftYearCount,rightYearCount)
  * 获取年份列表--getYearList(startTime,endTime)
  * 获取月份列表--getMonthList(yearTime,asOfCurrent)
- * 获取月份列表--getMonthList(startTime,endTime,showTime)
+ * 获取月份列表--getMonthList(startTime,endTime,showTime,)
  * 获取日期列表--getDayList(monthTime,asOfCurrent)
- * 获取日期列表--getDayList(startTime,endTime,showTime)
- * 获取小时列表--getHourList(startTime,endTime,showTime)
- * 获取分钟列表--getMinutesList(startTime,endTime,showTime)
- * 获取秒钟列表--getSecondsList(startTime,endTime,showTime)
+ * 获取日期列表--getDayList(startTime,endTime,showTime,onlyCurrentMonth)
+ * 获取小时列表--getHourList(startTime,endTime,showTime,onlyCurrentDay)
+ * 获取分钟列表--getMinutesList(startTime,endTime,showTime,onlyCurrentHour)
+ * 获取秒钟列表--getSecondsList(startTime,endTime,showTime,onlyCurrentMinutes)
  * 获取年龄--getAge(birthTime,isReal)
  * 根据时间获取星座--getConstellation(time)
  * 注意：
@@ -426,6 +427,30 @@ public class JtlwDateTimeUtil {
     }
 
     /**
+     * 获取指定时间月份的结束天数
+     *
+     * @param showTime 当前月的某一个时间
+     * @return 总的天数
+     */
+    public int getMonthDays(long showTime) {
+        final String year = getFormatDateTime("yyyy", showTime);
+        final String month = getFormatDateTime("MM", showTime);
+        int showYear = Integer.parseInt(year);
+        int showMonth = Integer.parseInt(month);
+        if (showMonth == 1 || showMonth == 3 || showMonth == 5 || showMonth == 7 || showMonth == 8 || showMonth == 10 || showMonth == 12) {
+            return 31;
+        } else if (showMonth == 2) {
+            if (isLeapYear(showYear)) {
+                return 29;
+            } else {
+                return 28;
+            }
+        } else {
+            return 30;
+        }
+    }
+
+    /**
      * 获取倒计时天数
      *
      * @param millisecondTime 时间毫秒数
@@ -650,12 +675,13 @@ public class JtlwDateTimeUtil {
     /**
      * 获取日期列表
      *
-     * @param startTime 起始时间
-     * @param endTime   结束时间
-     * @param showTime  需要显示的时间
+     * @param startTime        起始时间
+     * @param endTime          结束时间
+     * @param showTime         需要显示的时间
+     * @param onlyCurrentMonth 是否仅仅是当月
      * @return 月份列表
      */
-    public List<Long> getDayList(long startTime, long endTime, long showTime) {
+    public List<Long> getDayList(long startTime, long endTime, long showTime, boolean onlyCurrentMonth) {
         List<Long> list = new ArrayList<>();
         if (showTime >= startTime && showTime <= endTime) {
             final int startYear = Integer.parseInt(getFormatDateTime(YEAR_PATTERN, startTime));
@@ -665,18 +691,7 @@ public class JtlwDateTimeUtil {
             final int endMonth = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, endTime));
             final int showMonth = Integer.parseInt(getFormatDateTime(MONTH_PATTERN, showTime));
             int start = 1;
-            int end;
-            if (showMonth == 1 || showMonth == 3 || showMonth == 5 || showMonth == 7 || showMonth == 8 || showMonth == 10 || showMonth == 12) {
-                end = 31;
-            } else if (showMonth == 2) {
-                if (isLeapYear(showYear)) {
-                    end = 29;
-                } else {
-                    end = 28;
-                }
-            } else {
-                end = 30;
-            }
+            int end = getMonthDays(showTime);
             if (startYear == endYear) {
                 if (startMonth == endMonth) {
                     start = Integer.parseInt(getFormatDateTime(DAY_PATTERN, startTime));
@@ -699,10 +714,20 @@ public class JtlwDateTimeUtil {
                     }
                 }
             }
-
             for (int index = start; index <= end; index++) {
                 list.add(getMillisecond(showYear + (showMonth < 10 ? "0" + showMonth : String.valueOf(showMonth)) +
                         (index < 10 ? "0" + index : String.valueOf(index)), YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN));
+            }
+            //非仅当月要继续向下加数据
+            if (!onlyCurrentMonth) {
+                //最后一天数据继续加
+                long first = startTime;
+                if (list.size() > 0) {
+                    first = list.get(list.size() - 1);
+                }
+                for (long time = first + DAY_TIME_MILLISECOND; time < endTime; time += DAY_TIME_MILLISECOND) {
+                    list.add(time);
+                }
             }
         }
         return list;
@@ -711,12 +736,13 @@ public class JtlwDateTimeUtil {
     /**
      * 获取小时列表
      *
-     * @param startTime 起始时间
-     * @param endTime   结束时间
-     * @param showTime  需要显示的时间
+     * @param startTime      起始时间
+     * @param endTime        结束时间
+     * @param showTime       需要显示的时间
+     * @param onlyCurrentDay 是否仅仅是当天
      * @return 小时列表
      */
-    public List<Long> getHourList(long startTime, long endTime, long showTime) {
+    public List<Long> getHourList(long startTime, long endTime, long showTime, boolean onlyCurrentDay) {
         List<Long> list = new ArrayList<>();
         if (showTime >= startTime && showTime <= endTime) {
             final String showDay = getFormatDateTime(YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN, showTime);
@@ -733,18 +759,30 @@ public class JtlwDateTimeUtil {
                         YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HH"));
             }
         }
+        //非仅当天要继续向下加数据
+        if (!onlyCurrentDay) {
+            //最后一天数据继续加
+            long first = startTime;
+            if (list.size() > 0) {
+                first = list.get(list.size() - 1);
+            }
+            for (long time = first + HOUR_TIME_MILLISECOND; time < endTime; time += HOUR_TIME_MILLISECOND) {
+                list.add(time);
+            }
+        }
         return list;
     }
 
     /**
      * 获取分钟列表
      *
-     * @param startTime 起始时间
-     * @param endTime   结束时间
-     * @param showTime  需要显示的时间
+     * @param startTime       起始时间
+     * @param endTime         结束时间
+     * @param showTime        需要显示的时间
+     * @param onlyCurrentHour 是否仅仅是当前小时
      * @return 分钟列表
      */
-    public List<Long> getMinutesList(long startTime, long endTime, long showTime) {
+    public List<Long> getMinutesList(long startTime, long endTime, long showTime, boolean onlyCurrentHour) {
         List<Long> list = new ArrayList<>();
         if (showTime >= startTime && showTime <= endTime) {
             final String showDay = getFormatDateTime(YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HH", showTime);
@@ -761,18 +799,30 @@ public class JtlwDateTimeUtil {
                         YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HHmm"));
             }
         }
+        //非仅当小时要继续向下加数据
+        if (!onlyCurrentHour) {
+            //最后一天数据继续加
+            long first = startTime;
+            if (list.size() > 0) {
+                first = list.get(list.size() - 1);
+            }
+            for (long time = first + 60000; time < endTime; time += 60000) {
+                list.add(time);
+            }
+        }
         return list;
     }
 
     /**
      * 获取秒钟列表
      *
-     * @param startTime 起始时间
-     * @param endTime   结束时间
-     * @param showTime  需要显示的时间
+     * @param startTime          起始时间
+     * @param endTime            结束时间
+     * @param showTime           需要显示的时间
+     * @param onlyCurrentMinutes 是否仅仅当前分钟
      * @return 分钟列表
      */
-    public List<Long> getSecondsList(long startTime, long endTime, long showTime) {
+    public List<Long> getSecondsList(long startTime, long endTime, long showTime, boolean onlyCurrentMinutes) {
         List<Long> list = new ArrayList<>();
         if (showTime >= startTime && showTime <= endTime) {
             final String showDay = getFormatDateTime(YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HHmm", showTime);
@@ -787,6 +837,17 @@ public class JtlwDateTimeUtil {
             for (int index = start; index <= end; index++) {
                 list.add(getMillisecond(showDay + (index < 10 ? "0" + index : String.valueOf(index)),
                         YEAR_PATTERN + MONTH_PATTERN + DAY_PATTERN + "HHmmss"));
+            }
+        }
+        //非仅当前分钟要继续向下加数据
+        if (!onlyCurrentMinutes) {
+            //最后一天数据继续加
+            long first = startTime;
+            if (list.size() > 0) {
+                first = list.get(list.size() - 1);
+            }
+            for (long time = first + 1000; time < endTime; time += 1000) {
+                list.add(time);
             }
         }
         return list;

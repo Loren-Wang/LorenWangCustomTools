@@ -16,45 +16,46 @@ Java自定义工具类
 
 <h3>JtlwDateTimeUtils---(时间工具类)
 
-| 功能 | 函数/常量 | 返回值 |
-| :----: | :----: | :----: |
-| 每天的时间毫秒数 | DAY_TIME_MILLISECOND | 无（字段为常量） |
-| 每小时的时间毫秒数 | HOUR_TIME_MILLISECOND | 无（字段为常量） |
-| 获取当前时间的毫秒值 | getMillisecond() | Long |
-| 获取当前时间的秒值 | getSecond() | Long |
-| 格式化指定时间到指定格式 | getFormatDateTime(String pattern, long dateTime) | String |
-| 格式化时间 | getFormatDateTime(String pattern, Date date) | String |
-| 格式化当前时间到指定格式 | getFormatDateNowTime(String pattern) | String |
-| 格式化当前时间到指定格式，并返回该格式的相应毫秒值 | getFormatNowTimeToMillisecond(String pattern) | Long |
-| 根据日期时间获得毫秒数 | getMillisecond(String dateAndTime, String dateAndTimeFormat) | long |
-| 根据日期时间获得秒数 | getSecond(String dateAndTime, String dateAndTimeFormat) | long |
-| 根据输入的年份判断该年份是否是闰年，是则返回true | isLeapYear(Integer year) | boolean |
-| 根据输入的年份判断该年份是否是闰年，是则返回true | isLeapYearForTime(long yearTime) | boolean |
-| 根据日期获取 星期 | dateToWeek(long time) | int |
-| 获取一个月的所有时间列表 | getMonthTimeList(long monthTime, int firstWeek, boolean onlyMonth) | List<Long> |
-| 是否是同一天时间 | isOneDay(long timeOne, long timeTwo) | boolean |
-| 是否是同一小时时间 | isOneHour(long timeOne, long timeTwo) | boolean |
-| 是否是同一分钟时间 | isOneMinutes(long timeOne, long timeTwo) | boolean |
-| 获取指定时间下个月第一天的时间 | getNextMonthStartDayTime(long time) | long |
-| 获取指定时间上个月第一天的时间 | getLastMonthStartDayTime(long time) | long |
-| 获取倒计时天数 | getCountdownDay(long millisecondTime) | int |
-| 获取倒计时小时，总小时，可能会超过24小时以上 | getCountdownHours(long millisecondTime) | int |
-| 获取倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时 | getCountdownHours(long millisecondTime, boolean useOneDay) | int |
-| 获取倒计时分钟，总小时，可能会超过24小时以上 | getCountdownMinutes(long millisecondTime) | int |
-| 获取倒计时小时, 如果useOnHours为true的话，那么返回时间不会超过60小时 | getCountdownMinutes(long millisecondTime, boolean useOnHours) | int |
-| 获取倒计时秒，总秒数，可能会超过60s以上 | getCountdownMillisecond(long millisecondTime) | int |
-| 获取倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上 | getCountdownMillisecond(long millisecondTime, boolean useOnMinutes) | int |
-| 获取年份列表 | getYearList(int leftYearCount, int rightYearCount) | List<Long> |
-| 获取年份列表 | getYearList(long startTime, long endTime) | List<Long> |
-| 获取月份列表 | getMonthList(long yearTime, boolean asOfCurrent) | List<Long> |
-| 获取月份列表 | getMonthList(long startTime, long endTime, long showTime) | List<Long> |
-| 获取日期列表 | getDayList(long monthTime, boolean asOfCurrent) | List<Long> |
-| 获取日期列表 | getDayList(long startTime, long endTime, long showTime) | List<Long> |
-| 获取小时列表 | getHourList(long startTime, long endTime, long showTime) | List<Long> |
-| 获取分钟列表 | getMinutesList(long startTime, long endTime, long showTime) | List<Long> |
-| 获取秒钟列表 | getSecondsList(long startTime, long endTime, long showTime) | List<Long> |
-| 根据时间获取星座 | getConstellation(long time) | int |
-| 获取年龄 | getAge(long birthTime, boolean isReal) | int |
+| 功能 |                                   函数/常量                                   |    返回值     |
+| :----: |:-------------------------------------------------------------------------:|:----------:|
+| 每天的时间毫秒数 |                           DAY_TIME_MILLISECOND                            |  无（字段为常量）  |
+| 每小时的时间毫秒数 |                           HOUR_TIME_MILLISECOND                           |  无（字段为常量）  |
+| 获取当前时间的毫秒值 |                             getMillisecond()                              |    Long    |
+| 获取当前时间的秒值 |                                getSecond()                                |    Long    |
+| 格式化指定时间到指定格式 |             getFormatDateTime(String pattern, long dateTime)              |   String   |
+| 格式化时间 |               getFormatDateTime(String pattern, Date date)                |   String   |
+| 格式化当前时间到指定格式 |                   getFormatDateNowTime(String pattern)                    |   String   |
+| 格式化当前时间到指定格式，并返回该格式的相应毫秒值 |               getFormatNowTimeToMillisecond(String pattern)               |    Long    |
+| 根据日期时间获得毫秒数 |       getMillisecond(String dateAndTime, String dateAndTimeFormat)        |    long    |
+| 根据日期时间获得秒数 |          getSecond(String dateAndTime, String dateAndTimeFormat)          |    long    |
+| 根据输入的年份判断该年份是否是闰年，是则返回true |                         isLeapYear(Integer year)                          |  boolean   |
+| 根据输入的年份判断该年份是否是闰年，是则返回true |                     isLeapYearForTime(long yearTime)                      |  boolean   |
+| 根据日期获取 星期 |                           dateToWeek(long time)                           |    int     |
+| 获取一个月的所有时间列表 |    getMonthTimeList(long monthTime, int firstWeek, boolean onlyMonth)     | List<Long> |
+| 是否是同一天时间 |                   isOneDay(long timeOne, long timeTwo)                    |  boolean   |
+| 是否是同一小时时间 |                   isOneHour(long timeOne, long timeTwo)                   |  boolean   |
+| 是否是同一分钟时间 |                 isOneMinutes(long timeOne, long timeTwo)                  |  boolean   |
+| 获取指定时间下个月第一天的时间 |                    getNextMonthStartDayTime(long time)                    |    long    |
+| 获取指定时间上个月第一天的时间 |                    getLastMonthStartDayTime(long time)                    |    long    |
+| 获取指定时间月份的结束天数 |                          getMonthDays(long time)                          |    int     |
+| 获取倒计时天数 |                   getCountdownDay(long millisecondTime)                   |    int     |
+| 获取倒计时小时，总小时，可能会超过24小时以上 |                  getCountdownHours(long millisecondTime)                  |    int     |
+| 获取倒计时小时, 如果useOneDay为true的话，那么返回时间不会超过24小时 |        getCountdownHours(long millisecondTime, boolean useOneDay)         |    int     |
+| 获取倒计时分钟，总小时，可能会超过24小时以上 |                 getCountdownMinutes(long millisecondTime)                 |    int     |
+| 获取倒计时小时, 如果useOnHours为true的话，那么返回时间不会超过60小时 |       getCountdownMinutes(long millisecondTime, boolean useOnHours)       |    int     |
+| 获取倒计时秒，总秒数，可能会超过60s以上 |               getCountdownMillisecond(long millisecondTime)               |    int     |
+| 获取倒计时秒, 如果useOnHours为true的话，那么返回时间不会超过60s以上 |    getCountdownMillisecond(long millisecondTime, boolean useOnMinutes)    |    int     |
+| 获取年份列表 |            getYearList(int leftYearCount, int rightYearCount)             | List<Long> |
+| 获取年份列表 |                 getYearList(long startTime, long endTime)                 | List<Long> |
+| 获取月份列表 |             getMonthList(long yearTime, boolean asOfCurrent)              | List<Long> |
+| 获取月份列表 |         getMonthList(long startTime, long endTime, long showTime)         | List<Long> |
+| 获取日期列表 |              getDayList(long monthTime, boolean asOfCurrent)              | List<Long> |
+| 获取日期列表 | getDayList(long startTime, long endTime, long showTime, boolean onlyCurrentMonth) | List<Long> |
+| 获取小时列表 |         getHourList(long startTime, long endTime, long showTime, boolean onlyCurrentDay)          | List<Long> |
+| 获取分钟列表 |        getMinutesList(long startTime, long endTime, long showTime, boolean onlyCurrentHour)        | List<Long> |
+| 获取秒钟列表 |        getSecondsList(long startTime, long endTime, long showTime, boolean onlyCurrentMinutes)        | List<Long> |
+| 根据时间获取星座 |                        getConstellation(long time)                        |    int     |
+| 获取年龄 |                  getAge(long birthTime, boolean isReal)                   |    int     |
 
 <br> 
 
@@ -158,12 +159,13 @@ Java自定义工具类
 
 <h3>JtlwCommonUtils---(通用方法)
 
-| 功能 | 函数/常量 | 返回值 |
-| :----: | :----: | :----: |
+| 功能 | 函数/常量 |  返回值   |
+| :----: | :----: |:------:|
 | uuid产生器 | generateUuid(boolean isRemoveSpecialChar) | String |
 | byte数组转字符串 | bytesToHexString(byte[] src) | String |
 | 字符串转驼峰格式 | toCamelCase(String data) | String |
 | 将字符串分离(以大写字母为分隔添加位置) | toSeparatedCase(String data, String separated) | String |
+| 获取字符串宽度 | getStringWidth(String text, Graphics2D graphics) |  int   |
 
 <br> 
 
@@ -312,38 +314,40 @@ Java自定义工具类
 
 备注：Android10以上使用最好加上：<application android:requestLegacyExternalStorage="true"，否则会导致listFiles()大小为0
 
-| 功能 | 函数/常量 | 返回值 |
-| :----: | :----: | :----: |
-| 读取图片文件并获取字节 | readImageFileGetBytes(Boolean isCheckFile, String filePath) | byte[] |
-| 从指定路径的文件中读取Bytes | readBytes(String path) | byte[] |
-| 从File中读取Bytes | readBytes(File file) | byte[] |
-| 从InputStream中读取Bytes | readBytes(InputStream inputStream) | byte[] |
-| 将InputStream写入File | writeToFile(File file, InputStream inputStream, boolean append) | Boolean |
-| 将文本写入文件 | writeToFile(File file, String text) | boolean |
-| 将文本写入文件，同时决定是否为追加写入 | writeToFile(File file, String text, String encoding, boolean append) | Boolean |
-| 将byte数组写入文件 | writeToFile(File file, byte[] buffer) | boolean |
-| 将byte数组写入文件，是否追加 | writeToFile(File file, byte[] buffer, boolean append) | boolean |
-| 格式化文件大小 | paramsFileSize(Long fileSize) | String |
-| 复制单个文件 | copyFile(String oldPath, String newPath) | Boolean |
-| 文件夹复制 | copyFileDir(String oldPath, String newPath) | boolean |
-| 压缩文件夹 | compressToZip(@NotNull String sourcePath, @NotNull String outPutPath) | boolean |
-| 删除文件 | deleteFile(String path) | boolean |
-| 获取文件大小，单位B | getFileSize(File file, String filtrationDir) | Long |
-| 删除文件夹以及目录下的文件 | deleteDirectory(String filePath) | Boolean |
-| 获取绝对路径下最后一个文件夹名称 | getLastDirectoryName(String absolutePath) | String |
-| 创建文件夹 | createDirectory(String path, boolean nowPathIsFile) | boolean |
-| 根据正则获取指定目录下的所有文件列表(使用递归扫描方式) | getFileListForMatchRecursionScan(String scanPath, String matchRegular) | List<File> |
-| 根据正则获取指定目录下的所有文件列表(使用队列扫描方式) | getFileListForMatchLinkedQueueScan(String scanPath, final String matchRegular) | List<File> |
-| 清理指定文件夹下所有的空文件夹 | clearEmptyFileDir(String dirPath) | 无 | 
-| 获取文件类型 | getFileType(String filePath) | JtlwFileTypeEnum | 
-| 获取文件类型 | getFileType(InputStream inputStream) | JtlwFileTypeEnum | 
-| 获取文件编码格式 | getFileCodedFormat(String filePath) | Charset | 
-| 修改文件编码格式 | changeFileCodedFormat(String filePath, Charset oldCodedFormat, Charset newCodedFormat) | boolean | 
-| 以指定编码方式读取文件，返回文件内容 | readFileContent(String filePath, Charset codedFormat) | String |
-| 以指定编码方式写文本文件，存在会覆盖 | writeFilContent(String filePath, Charset toCharsetName, String content) | boolean | 
-| 获取所有文档相关类型 | getDocType() | List<JtlwFileTypeEnum> |
-| 获取所有图片的相关类型 | getImageType() | List<JtlwFileTypeEnum> |
-| 重命名文件 | renameFile(File oldFile, String newFileName) | boolean |
+| 功能 |                                                                      函数/常量                                                                      |          返回值           |
+| :----: |:-----------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------:|
+| 读取图片文件并获取字节 |                                           readImageFileGetBytes(Boolean isCheckFile, String filePath)                                           |         byte[]         |
+| 从指定路径的文件中读取Bytes |                                                             readBytes(String path)                                                              |         byte[]         |
+| 从File中读取Bytes |                                                              readBytes(File file)                                                               |         byte[]         |
+| 从InputStream中读取Bytes |                                                       readBytes(InputStream inputStream)                                                        |         byte[]         |
+| 将InputStream写入File |                                         writeToFile(File file, InputStream inputStream, boolean append)                                         |        Boolean         |
+| 将文本写入文件 |                                                       writeToFile(File file, String text)                                                       |        boolean         |
+| 将文本写入文件，同时决定是否为追加写入 |                                      writeToFile(File file, String text, String encoding, boolean append)                                       |        Boolean         |
+| 将byte数组写入文件 |                                                      writeToFile(File file, byte[] buffer)                                                      |        boolean         |
+| 将byte数组写入文件，是否追加 |                                              writeToFile(File file, byte[] buffer, boolean append)                                              |        boolean         |
+| 格式化文件大小 |                                                          paramsFileSize(Long fileSize)                                                          |         String         |
+| 复制单个文件 |                                                    copyFile(String oldPath, String newPath)                                                     |        Boolean         |
+| 文件夹复制 |                                                   copyFileDir(String oldPath, String newPath)                                                   |        boolean         |
+| 压缩文件夹 |                                      compressToZip(@NotNull String sourcePath, @NotNull String outPutPath)                                      |        boolean         |
+| 删除文件 |                                                             deleteFile(String path)                                                             |        boolean         |
+| 获取文件大小，单位B |                                                  getFileSize(File file, String filtrationDir)                                                   |          Long          |
+| 删除文件夹以及目录下的文件 |                                                        deleteDirectory(String filePath)                                                         |        Boolean         |
+| 获取绝对路径下最后一个文件夹名称 |                                                    getLastDirectoryName(String absolutePath)                                                    |         String         |
+| 创建文件夹 |                                               createDirectory(String path, boolean nowPathIsFile)                                               |        boolean         |
+| 根据正则获取指定目录下的所有文件列表(使用递归扫描方式) |                                     getFileListForMatchRecursionScan(String scanPath, String matchRegular)                                      |       List<File>       |
+| 根据正则获取指定目录下的所有文件列表(使用队列扫描方式) |                                 getFileListForMatchLinkedQueueScan(String scanPath, final String matchRegular)                                  |       List<File>       |
+| 清理指定文件夹下所有的空文件夹 |                                                        clearEmptyFileDir(String dirPath)                                                        |           无            | 
+| 获取文件类型 |                                                          getFileType(String filePath)                                                           |    JtlwFileTypeEnum    | 
+| 获取文件类型 |                                                      getFileType(InputStream inputStream)                                                       |    JtlwFileTypeEnum    | 
+| 获取文件编码格式 |                                                       getFileCodedFormat(String filePath)                                                       |        Charset         | 
+| 修改文件编码格式 |                             changeFileCodedFormat(String filePath, Charset oldCodedFormat, Charset newCodedFormat)                              |        boolean         | 
+| 以指定编码方式读取文件，返回文件内容 |                                              readFileContent(String filePath, Charset codedFormat)                                              |         String         |
+| 以指定编码方式写文本文件，存在会覆盖 |                                     writeFilContent(String filePath, Charset toCharsetName, String content)                                     |        boolean         | 
+| 获取所有文档相关类型 |                                                                  getDocType()                                                                   | List<JtlwFileTypeEnum> |
+| 获取所有图片的相关类型 |                                                                 getImageType()                                                                  | List<JtlwFileTypeEnum> |
+| 重命名文件 |                                                  renameFile(File oldFile, String newFileName)                                                   |        boolean         |
+| 添加文字水印 | addTextWaterMark(@NotNull String srcPath, @NotNull String outPath, int locationX, int locationY, @NotNull String text,@NotNull Color textColor) |          void          |
+| 添加文字水印 | addTextWaterMark(@NotNull String srcPath, @NotNull String outPath, float locationPercentX, float locationPercentY, @NotNull String text,@NotNull Color textColor) |          void          |
 
 <br> 
 

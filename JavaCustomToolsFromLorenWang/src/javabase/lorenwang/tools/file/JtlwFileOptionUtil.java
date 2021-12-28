@@ -2,6 +2,11 @@ package javabase.lorenwang.tools.file;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,6 +29,8 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import javax.imageio.ImageIO;
 
 import javabase.lorenwang.tools.JtlwLogUtil;
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
@@ -68,6 +75,7 @@ import javabase.lorenwang.tools.enums.JtlwFileTypeEnum;
  * 获取所有文档相关类型--getDocType()
  * 获取所有图片的相关类型--getImageType()
  * 重命名文件--renameFile(oldFile,newFileName)
+ * 添加文字水印-addTextWaterMark(srcPath,outPath,locationX,locationY,text,textColor)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -1044,4 +1052,77 @@ public class JtlwFileOptionUtil {
         }
         return false;
     }
+
+    /**
+     * 添加文字水印
+     *
+     * @param srcPath   原始图片地址
+     * @param outPath   输出文件地址
+     * @param locationX 水印x轴坐标
+     * @param locationY 水印y轴坐标
+     * @param text      水印文本
+     * @param textColor 水印颜色
+     */
+    public void addTextWaterMark(@NotNull String srcPath, @NotNull String outPath, int locationX, int locationY, @NotNull String text,
+            @NotNull Color textColor) {
+        if (!JtlwCheckVariateUtil.getInstance().isEmpty(text)) {
+            //创建文件夹
+            createDirectory(outPath, true);
+            // 读取原图片信息
+            try {
+                File srcImgFile = new File(srcPath);
+                Image srcImg = ImageIO.read(srcImgFile);
+                int srcImgWidth = srcImg.getWidth(null);
+                int srcImgHeight = srcImg.getHeight(null);
+                // 加水印
+                BufferedImage bufImg = new BufferedImage(srcImgWidth, srcImgHeight, BufferedImage.TYPE_INT_RGB);
+                Graphics2D g = bufImg.createGraphics();
+                g.drawImage(srcImg, 0, 0, srcImgWidth, srcImgHeight, null);
+                // Font font = new Font("Courier New", Font.PLAIN, 12);
+                Font font = new Font("宋体", Font.PLAIN, 40);
+                //根据图片的背景设置水印颜色
+                g.setColor(textColor);
+                g.setFont(font);
+                g.drawString(text, locationX, locationY);
+                g.dispose();
+                // 输出图片
+                FileOutputStream outImgStream = new FileOutputStream(outPath);
+                ImageIO.write(bufImg, outPath.substring(outPath.lastIndexOf(".") + 1), outImgStream);
+                outImgStream.flush();
+                outImgStream.close();
+            } catch (Exception e) {
+                JtlwLogUtil.logUtils.logE(TAG, "文字水印添加失败：" + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 添加文字水印
+     *
+     * @param srcPath          原始图片地址
+     * @param outPath          输出文件地址
+     * @param locationPercentX 水印x轴坐标百分比
+     * @param locationPercentY 水印y轴坐标百分比
+     * @param text             水印文本
+     * @param textColor        水印颜色
+     */
+    public void addTextWaterMark(@NotNull String srcPath, @NotNull String outPath, float locationPercentX, float locationPercentY,
+            @NotNull String text, @NotNull Color textColor) {
+        if (!JtlwCheckVariateUtil.getInstance().isEmpty(text)) {
+            //创建文件夹
+            createDirectory(outPath, true);
+            // 读取原图片信息
+            try {
+                File srcImgFile = new File(srcPath);
+                Image srcImg = ImageIO.read(srcImgFile);
+                int srcImgWidth = srcImg.getWidth(null);
+                int srcImgHeight = srcImg.getHeight(null);
+                addTextWaterMark(srcPath, outPath, (int) (srcImgWidth * locationPercentX), (int) (srcImgHeight * locationPercentY), text, textColor);
+            } catch (Exception e) {
+                JtlwLogUtil.logUtils.logE(TAG, "文字水印添加失败：" + e.getMessage());
+            }
+        }
+    }
+
+
 }

@@ -9,7 +9,7 @@ buildscript {
         buildConfig = [
                 compile_sdk_version: 31,
                 build_tools_version: "30.0.2",
-                min_sdk_version    : 21,
+                min_sdk_version    : 24,
                 target_sdk_version : 31
         ]
         //module版本配置

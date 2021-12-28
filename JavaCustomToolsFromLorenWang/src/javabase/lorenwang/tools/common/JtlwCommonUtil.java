@@ -1,5 +1,6 @@
 package javabase.lorenwang.tools.common;
 
+import java.awt.Graphics2D;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
  * byte数组转字符串--bytesToHexString(src)
  * 字符串转驼峰格式--toCamelCase(data)
  * 将字符串分离(以大写字母为分隔添加位置)--toSeparatedCase(data,separated)
+ * 获取字符串宽度--getStringWidth(text,graphics2d)
  * 注意：
  * 修改人：
  * 修改时间：
@@ -120,5 +122,20 @@ public class JtlwCommonUtil {
             return data;
         }
         return null;
+    }
+
+    /**
+     * 获取字符串宽度
+     *
+     * @param text     字符串文本
+     * @param graphics 字符串配置信息
+     * @return 字符串宽度
+     */
+    public int getStringWidth(String text, Graphics2D graphics) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(text) || graphics == null) {
+            return 0;
+        } else {
+            return graphics.getFontMetrics(graphics.getFont()).charsWidth(text.toCharArray(), 0, text.length());
+        }
     }
 }
