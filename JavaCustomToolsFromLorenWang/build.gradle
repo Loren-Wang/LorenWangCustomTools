@@ -8,24 +8,23 @@ sourceSets {
         java.srcDirs = ['src']
     }
 }
-sourceCompatibility = 1.8
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:19.0.0'
-    implementation 'junit:junit:4.12'
-
+    compile "org.jetbrains:annotations:${rootProject.ext.libVersion.jetbrains_annotations}"
     //json数据解析处理
-    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    compile "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
     testImplementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
-
+    //测试
+    compile "junit:junit:${rootProject.ext.libVersion.junit}"
     //日志打印框架
-    compileOnly 'org.slf4j:slf4j-api:1.7.30'
-    compileOnly 'org.slf4j:slf4j-log4j12:1.7.30'
-    implementation 'junit:junit:4.12'
+    compileOnly "org.slf4j:slf4j-api:${rootProject.ext.libVersion.slf4j}"
+    compileOnly "org.slf4j:slf4j-log4j12:${rootProject.ext.libVersion.slf4j}"
 }
 
 def moduleName = "JavaCustomToolsFromLorenWang"
@@ -101,5 +100,4 @@ uploadArchives {
 signing {
     sign configurations.archives
 }
-
 

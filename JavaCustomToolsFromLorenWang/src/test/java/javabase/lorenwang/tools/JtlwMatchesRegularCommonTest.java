@@ -1,10 +1,8 @@
 package javabase.lorenwang.tools;
 
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.After;
-
-import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
+import org.junit.Before;
+import org.junit.Test;
 
 import static javabase.lorenwang.tools.JtlwMatchesRegularCommon.EXP_EMAIL;
 import static javabase.lorenwang.tools.JtlwMatchesRegularCommon.EXP_URL;

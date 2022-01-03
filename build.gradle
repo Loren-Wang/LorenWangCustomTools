@@ -4,7 +4,7 @@ apply from: 'publish.properties'
 buildscript {
     //统一配置部分
     ext {
-        kotlin_version = '1.4.0'
+        kotlin_version = '1.4.20'
         //构建配置
         buildConfig = [
                 compile_sdk_version: 31,
@@ -21,7 +21,7 @@ buildscript {
                 android_view        : "4.0.0",
                 android_camera      : "1.0.0",
                 java_tools          : "4.0.0",
-                jave_json_parse     : "3.0.0",
+                java_json_parse     : "3.0.0",
                 java_net            : "1.0.5",
                 kotlin_java_tools   : "2.0.0",
                 kotlin_android_tools: "2.0.0",
@@ -30,16 +30,21 @@ buildscript {
         libVersion = [
                 //图片相关
                 fresco_version            : '2.0.0',
-                glide_version             : '4.10.0',
+                glide_version             : '4.12.0',
                 picasso_version           : '2.71828',
 
-                appcompat_version         : '1.3.0',
+                appcompat_version         : '1.4.0',
                 constraintlayout_version  : '2.0.1',
                 material_version          : '1.4.0',
                 gson_version              : '2.8.8',
                 swiperefreshlayout_version: '1.1.0',
                 recyclerview_version      : '1.1.0',
-                viewpager2_version        : '1.0.0'
+                viewpager2_version        : '1.0.0',
+                arouterVersion            : "1.5.2",
+                arouterRegisterVersion    : "1.0.2",
+                jetbrains_annotations     : "19.0.0",
+                junit                     : "4.12",
+                slf4j                     : "1.7.30"
 
         ]
     }
@@ -47,12 +52,14 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.2'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.alibaba:arouter-register:${rootProject.ext.libVersion.arouterRegisterVersion}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -63,6 +70,7 @@ allprojects {
     repositories {
         maven { url "https://maven.aliyun.com/repository/releases" }
         jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         google()
     }
