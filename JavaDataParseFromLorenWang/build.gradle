@@ -8,19 +8,19 @@ sourceSets {
         java.srcDirs = ['src']
     }
 }
-
-sourceCompatibility = 1.8
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    compile "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
 }
 def moduleName = "JavaDataParseFromLorenWang"
 def moduleDescription = "java数据格式化工具库"
-def moduleVersion = rootProject.ext.moduleVersion.jave_json_parse
+def moduleVersion = rootProject.ext.moduleVersion.java_json_parse
 // 编译版本和编码配置
 repositories {
     mavenCentral()
