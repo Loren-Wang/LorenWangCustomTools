@@ -1,7 +1,6 @@
 package kotlinbase.lorenwang.tools.extend
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * 功能作用：集合扩展

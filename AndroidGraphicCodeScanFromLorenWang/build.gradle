@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 //必须引入这几个插件
 apply plugin: 'maven'
 apply plugin: 'signing'

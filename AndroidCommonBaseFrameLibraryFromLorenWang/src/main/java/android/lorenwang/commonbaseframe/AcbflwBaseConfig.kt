@@ -16,16 +16,6 @@ import androidx.annotation.DrawableRes
  */
 object AcbflwBaseConfig {
     /**
-     * 标题栏高度
-     */
-    var titleBarHeadViewHeight = 0
-
-    /**
-     * 基础底部栏高度高度
-     */
-    var baseBottomViewHeight = 0
-
-    /**
      * app编译类型之debug模式
      */
     private const val APP_COMPILE_TYPE_DEBUG = 0

@@ -41,31 +41,31 @@ internal class AclwFocusOptions {
     }
 
     fun getTouchFocusRect(cameraManager: CameraManager?, type: Int,options: AclwCameraOptions,eventX:Double,eventY:Double){
-        if (cameraManager != null) {
-            val cameraId = options.getCameraId(cameraManager, type)
-            if (cameraId != null) {
-                val characteristics = cameraManager.getCameraCharacteristics(cameraId)
-                //获取相机预览区域
-                val cameraRect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
-                val newRect: Rect
-                val leftPos: Int
-                val topPos: Int
-                // 坐标转换
-                val newX: Float = currentY
-                val newY: Float = previewWidth - currentX
-                // 大小转换
-                leftPos = (newX / previewHeight * rect.right)
-                topPos = (newY / previewWidth * rect.bottom)
-                // 以坐标点为中心生成一个矩形, 需要防止上下左右的值溢出
-                val left: Int = clamp(leftPos - areaSize, 0, rect.right)
-                val top: Int = clamp(topPos - areaSize, 0, rect.bottom)
-                val right: Int = clamp(leftPos + areaSize, leftPos, rect.right)
-                val bottom: Int = clamp(topPos + areaSize, topPos, rect.bottom)
-                newRect = Rect(left, top, right, bottom)
-                Log.d(TAG, newRect.toString())
-                // 构造MeteringRectangle
-                return MeteringRectangle(newRect, weight)
-            }
-        }
+//        if (cameraManager != null) {
+//            val cameraId = options.getCameraId(cameraManager, type)
+//            if (cameraId != null) {
+//                val characteristics = cameraManager.getCameraCharacteristics(cameraId)
+//                //获取相机预览区域
+//                val cameraRect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
+//                val newRect: Rect
+//                val leftPos: Int
+//                val topPos: Int
+//                // 坐标转换
+//                val newX: Float = currentY
+//                val newY: Float = previewWidth - currentX
+//                // 大小转换
+//                leftPos = (newX / previewHeight * rect.right)
+//                topPos = (newY / previewWidth * rect.bottom)
+//                // 以坐标点为中心生成一个矩形, 需要防止上下左右的值溢出
+//                val left: Int = clamp(leftPos - areaSize, 0, rect.right)
+//                val top: Int = clamp(topPos - areaSize, 0, rect.bottom)
+//                val right: Int = clamp(leftPos + areaSize, leftPos, rect.right)
+//                val bottom: Int = clamp(topPos + areaSize, topPos, rect.bottom)
+//                newRect = Rect(left, top, right, bottom)
+//                Log.d(TAG, newRect.toString())
+//                // 构造MeteringRectangle
+//                return MeteringRectangle(newRect, weight)
+//            }
+//        }
     }
 }

@@ -1,7 +1,6 @@
 package com.test.springboot
 
 import com.test.springboot.applicationListener.ApplicationListenerForStart
-import javabase.lorenwang.common_base_frame.SbcbflwBaseApplication
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.web.servlet.ServletComponentScan

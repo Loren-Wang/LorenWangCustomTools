@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion rootProject.ext.buildConfig.compile_sdk_version
     buildToolsVersion rootProject.ext.buildConfig.build_tools_version

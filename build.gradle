@@ -14,18 +14,18 @@ buildscript {
         ]
         //module版本配置
         moduleVersion = [
-                anim                : "2.0.1",
-                android_bluetooth   : "1.0.0",
-                android_frame       : "4.0.0",
-                android_tools       : "4.0.0",
-                android_view        : "4.0.0",
-                android_camera      : "1.0.0",
+                anim                : "2.0.1-alpha01",
+                android_bluetooth   : "1.0.0-alpha01",
+                android_frame       : "4.0.0-alpha01",
+                android_tools       : "4.0.0-alpha01",
+                android_view        : "4.0.0-alpha01",
+                android_camera      : "1.0.0-alpha01",
                 java_tools          : "4.0.0",
                 java_json_parse     : "3.0.0",
-                java_net            : "1.0.5",
-                kotlin_java_tools   : "2.0.0",
-                kotlin_android_tools: "2.0.0",
-                spring_boot_frame   : "1.6.1"
+                java_net            : "1.0.5-alpha01",
+                kotlin_java_tools   : "2.0.0-alpha01",
+                kotlin_android_tools: "2.0.0-alpha01",
+                spring_boot_frame   : "1.6.1-alpha01"
         ]
         libVersion = [
                 //图片相关
@@ -44,7 +44,8 @@ buildscript {
                 arouterRegisterVersion    : "1.0.2",
                 jetbrains_annotations     : "19.0.0",
                 junit                     : "4.12",
-                slf4j                     : "1.7.30"
+                slf4j                     : "1.7.30",
+                springfox_swagger         : "2.6.0"
 
         ]
     }

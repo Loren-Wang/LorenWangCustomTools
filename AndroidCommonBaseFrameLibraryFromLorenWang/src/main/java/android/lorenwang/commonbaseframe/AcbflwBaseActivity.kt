@@ -5,25 +5,21 @@ import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil
-import android.lorenwang.tools.app.AtlwActivityUtil
-import android.lorenwang.tools.app.AtlwViewUtil
 import android.lorenwang.tools.base.AtlwLogUtil
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewStub
-import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.sina.weibo.sdk.common.UiError
 import com.sina.weibo.sdk.share.WbShareCallback
 import javabase.lorenwang.dataparse.JdplwJsonUtil
+import kotlinbase.lorenwang.tools.extend.kttlwToGone
 import kotlinbase.lorenwang.tools.extend.kttlwToVisible
+import java.lang.ref.WeakReference
 
 /**
  * 功能作用：基础activity
@@ -37,47 +33,44 @@ import kotlinbase.lorenwang.tools.extend.kttlwToVisible
  * 备注：
  */
 abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
-    protected var titleBarHeadViewHeight = AcbflwBaseConfig.titleBarHeadViewHeight
-    protected var baseBottomViewHeight = AcbflwBaseConfig.baseBottomViewHeight
-
-    /**
-     * 默认的网络请求code，多个不同请求是子类需要新增请求吗
-     */
-    protected val DEFAULT_NET_REQUEST_CODE = -1
-
     /**
      * 内容视图
      */
-    protected var showContentView: View? = null
+    protected var mContentView: View? = null
 
     /**
-     * 标题栏视图
+     * 标题栏控件
      */
-    protected var showTitleBarView: View? = null
+    protected var mTitleBarView: View? = null
 
     /**
-     * 底部操作栏视图
+     * 底部操作栏控件
      */
-    protected var showBottomOptionsView: View? = null
+    protected var mBottomOptionsView: View? = null
 
     /**
-     * 空视图
+     * 空视图view
      */
-    protected var emptyView: View? = null
+    protected var mEmptyView: View? = null
 
     /**
-     * 基类刷新控件
+     * 刷新控件
      */
-    protected var swipeAcbflwRefresh: SwipeRefreshLayout? = null
+    protected val mRefreshView: SmartRefreshLayout by lazy { findViewById(R.id.sfAcbflwRefresh) }
 
     /**
-     * 上一个显示的页面
+     * 上一个显示的fragment
      */
-    private var lastFragment: Fragment? = null
+    protected var mLastShowFragment: WeakReference<Fragment>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initCreateSuperBefore(savedInstanceState)
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.acbflw_page_base)
+        mRefreshView.setEnableRefresh(false)
+        mRefreshView.setEnableLoadMore(false)
+        mRefreshView.isEnabled = false
+        mRefreshView.setOnRefreshListener { onRefreshData() }
         initView(savedInstanceState)
         initListener(savedInstanceState)
         initData(savedInstanceState)
@@ -104,169 +97,66 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     open fun initData(savedInstanceState: Bundle?) {}
 
     /**
-     * 初始化空数据视图
-     */
-    open fun <T> initEmptyView(view: View?, emptyResId: Int, data: T) {}
-
-    /**
      * 执行刷新数据
      */
     open fun onRefreshData() {}
 
     /**
-     * 添加内容视图，其内部设置了contentview，然后通过baselayout当中的viewstub设置布局并进行绘制显示
-     *
-     * @param resId                       视图资源id
+     * 加载更多数据
      */
-    protected open fun addContentView(@LayoutRes resId: Int) {
-        addContentView(resId, null)
+    open fun onLoadMoreData() {}
+
+    /**
+     * 初始化标题栏控件
+     */
+    open fun initTitleBarView(@LayoutRes resId: Int) {
+        val stub = findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
+        stub.layoutResource = resId
+        mTitleBarView = stub.inflate()
     }
 
     /**
-     * 添加内容视图，其内部设置了contentview，然后通过baselayout当中的viewstub设置布局并进行绘制显示
-     *
-     * @param resId                       视图资源id
-     * @param titleBarHeadViewLayoutResId 标题栏视图资源id
+     * 初始化内容视图
      */
-    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?) {
-        addContentView(resId, titleBarHeadViewLayoutResId, null)
+    open fun initContentView(@LayoutRes resId: Int) {
+        val stub = findViewById<ViewStub>(R.id.vsbAcbflwContent)
+        stub.layoutResource = resId
+        mContentView = stub.inflate()
     }
 
     /**
-     * 添加内容视图，其内部设置了contentview，然后通过baselayout当中的viewstub设置布局并进行绘制显示
-     *
-     * @param resId                       视图资源id
-     * @param titleBarHeadViewLayoutResId 标题栏视图资源id
-     * @param bottomViewResId 底部操作栏资源id
+     * 初始化底部操作视图
      */
-    protected open fun addContentView(@LayoutRes resId: Int, @LayoutRes titleBarHeadViewLayoutResId: Int?, @LayoutRes bottomViewResId: Int?) {
-        //使用基础布局
-        useBaseLayout()
-
-        //内容视图
-        val vsbContent = findViewById<ViewStub>(R.id.vsbAcbflwContent)
-        vsbContent.layoutResource = resId
-        showContentView = vsbContent.inflate()
-
-        //标题栏视图
-        titleBarHeadViewLayoutResId?.let {
-            val vsbTitleBarHeadView = findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
-            vsbTitleBarHeadView.layoutResource = it
-            AtlwViewUtil.getInstance().setViewWidthHeight(vsbTitleBarHeadView, ViewGroup.LayoutParams.MATCH_PARENT, titleBarHeadViewHeight)
-            showTitleBarView = vsbTitleBarHeadView.inflate()
-            findViewById<View>(R.id.viewAcbflwHeadViewShadow).visibility = View.VISIBLE
-        }
-
-        //底部栏视图
-        bottomViewResId?.let {
-            val vsbBottomView = findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
-            vsbBottomView.layoutResource = bottomViewResId
-            AtlwViewUtil.getInstance().setViewWidthHeight(vsbBottomView, ViewGroup.LayoutParams.MATCH_PARENT, baseBottomViewHeight)
-            showBottomOptionsView = vsbBottomView.inflate()
-        }
+    open fun initBottomOptionsView(@LayoutRes resId: Int) {
+        val stub = findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
+        stub.layoutResource = resId
+        mBottomOptionsView = stub.inflate()
     }
 
     /**
-     * 添加显示的内容视图绑定
+     * 初始化空view视图
      */
-    protected open fun <T : ViewDataBinding> addShowContentView(addBaseLayout: Boolean, binding: T?): T? {
-        if (addBaseLayout && findViewById<View>(R.id.lnAcbflwBase) == null) {
-            useBaseLayout()
-        }
-        if (binding == null) {
-            return null
-        }
-        val vsbAcbflwContent = findViewById<ViewStub>(R.id.vsbAcbflwContent)
-        val flAcbflwContent = findViewById<FrameLayout>(R.id.flAcbflwContent)
-        //内容视图
-        if (vsbAcbflwContent != null && flAcbflwContent != null) {
-            setViewStub(vsbAcbflwContent, flAcbflwContent, binding)
-            showContentView = binding.root
-        }
-        return binding
+    open fun initEmptyView(@LayoutRes resId: Int) {
+        val stub = findViewById<ViewStub>(R.id.vsbAcbflwEmpty)
+        stub.layoutResource = resId
+        mEmptyView = stub.inflate()
     }
 
     /**
-     * 添加显示的标题视图绑定
+     * 显示内容数据
      */
-    protected open fun <T : ViewDataBinding> addShowTitleView(addBaseLayout: Boolean, binding: T?): T? {
-        if (addBaseLayout && findViewById<View>(R.id.lnAcbflwBase) == null) {
-            useBaseLayout()
-        }
-        if (binding == null) {
-            return null
-        }
-        val vsbTitleBarHeadView = findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
-        val lnAcbflwBase = findViewById<LinearLayoutCompat>(R.id.lnAcbflwBase)
-        //内容视图
-        if (vsbTitleBarHeadView != null && lnAcbflwBase != null) {
-            setViewStub(vsbTitleBarHeadView, lnAcbflwBase, binding)
-            showTitleBarView = binding.root
-        }
-        return binding
-    }
-
-    /**
-     * 添加显示的底部操作视图绑定
-     */
-    protected open fun <T : ViewDataBinding> addShowBottomOptionsView(addBaseLayout: Boolean, binding: T?): T? {
-        if (addBaseLayout && findViewById<View>(R.id.lnAcbflwBase) == null) {
-            useBaseLayout()
-        }
-        if (binding == null) {
-            return null
-        }
-        val vsbAcbflwBottomView = findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
-        val lnAcbflwBase = findViewById<LinearLayoutCompat>(R.id.lnAcbflwBase)
-        //内容视图
-        if (vsbAcbflwBottomView != null && lnAcbflwBase != null) {
-            setViewStub(vsbAcbflwBottomView, lnAcbflwBase, binding)
-            showBottomOptionsView = binding.root
-        }
-        return binding
-    }
-
-    /**
-     * 使用基础布局
-     */
-    protected open fun useBaseLayout() {
-        setContentView(R.layout.acbflw_page_base)
-        //初始化刷新控件
-        swipeAcbflwRefresh = findViewById(R.id.swipeAcbflwRefresh) //初始化刷新控件监听
-        swipeAcbflwRefresh?.setOnRefreshListener { onRefreshData() }
-        swipeAcbflwRefresh?.isEnabled = false
-    }
-
-    /**
-     * 设置viewStub
-     */
-    protected fun setViewStub(view: ViewStub, parent: ViewGroup, binding: ViewDataBinding) {
-        val index: Int = parent.indexOfChild(view)
-        parent.removeViewInLayout(view)
-        val layoutParams: ViewGroup.LayoutParams = view.layoutParams
-        parent.addView(binding.root, index, layoutParams)
-    }
-
-    /**
-     * 显示内容数据，隐藏空数据
-     */
-    protected open fun showContentData(): Boolean {
-        emptyView?.visibility = View.GONE
-        showContentView?.visibility = View.VISIBLE
+    open fun showContentData(): Boolean {
+        mEmptyView.kttlwToGone()
+        mContentView.kttlwToVisible()
         return true
     }
 
-    protected open fun <T> showEmptyData(@LayoutRes emptyResId: Int, data: T): Boolean {
-        showContentView?.visibility = View.GONE
-        if (emptyView == null) {
-            val vsbQtEmpty = findViewById<ViewStub>(R.id.vsbAcbflwEmpty)
-            vsbQtEmpty.layoutResource = emptyResId
-            emptyView = vsbQtEmpty.inflate()
-            emptyView?.setOnClickListener { _: View? -> onRefreshData() }
-            initEmptyView(emptyView, emptyResId, data)
-        } else {
-            emptyView.kttlwToVisible()
-        }
+    /**
+     * 显示空视图
+     */
+    open fun <T> showEmptyData(data: T): Boolean {
+        mEmptyView.kttlwToVisible()
+        mContentView.kttlwToGone()
         return true
     }
 
@@ -279,7 +169,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         super.onResume()
         AtlwImageLoadingFactory.getInstance().resumeLoading()
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -304,7 +193,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
                             AcbflwPluginErrorTypeEnum.SHARE_CANCEL)
                 }
             })
-            it.authorizeCallback(requestCode, resultCode, data);
+            it.authorizeCallback(requestCode, resultCode, data)
         }
     }
 
@@ -313,22 +202,23 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      */
     @Synchronized
     protected fun changeFragment(fragment: Fragment, id: Int) {
-        if (lastFragment != fragment) {
+        if (mLastShowFragment == null || mLastShowFragment!!.get() != fragment) {
             supportFragmentManager.apply {
                 if (findFragmentByTag(fragment.hashCode().toString()) == null) {
-                    if (lastFragment != null) {
-                        beginTransaction().hide(lastFragment!!).add(id, fragment, fragment.hashCode().toString()).commitAllowingStateLoss()
+                    if (mLastShowFragment != null) {
+                        beginTransaction().hide(mLastShowFragment!!.get()!!).add(id, fragment, fragment.hashCode().toString())
+                            .commitAllowingStateLoss()
                     } else {
                         beginTransaction().add(id, fragment, fragment.hashCode().toString()).commitAllowingStateLoss()
                     }
                 } else {
-                    if (lastFragment != null) {
-                        beginTransaction().hide(lastFragment!!).show(fragment).commitAllowingStateLoss()
+                    if (mLastShowFragment != null) {
+                        beginTransaction().hide(mLastShowFragment!!.get()!!).show(fragment).commitAllowingStateLoss()
                     } else {
                         beginTransaction().show(fragment).commitAllowingStateLoss()
                     }
                 }
-                lastFragment = fragment
+                mLastShowFragment = WeakReference(fragment)
             }
         }
     }

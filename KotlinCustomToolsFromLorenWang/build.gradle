@@ -9,24 +9,24 @@ sourceSets {
         java.srcDirs = ['src']
     }
 }
-sourceCompatibility = 1.8
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    implementation 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //测试
+    compile "junit:junit:${rootProject.ext.libVersion.junit}"
     //java工具类库
-    compileOnly project(':JavaCustomToolsFromLorenWang')
+    compile "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
     //java数据格式化类库
-    compileOnly project(':JavaDataParseFromLorenWang')
-    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    compile "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
     //swagger注释
-    compileOnly 'io.springfox:springfox-swagger2:2.6.0'
-    compileOnly 'io.springfox:springfox-swagger-ui:2.6.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
+    compileOnly "io.springfox:springfox-swagger2:${rootProject.ext.libVersion.springfox_swagger}"
+    compileOnly "io.springfox:springfox-swagger-ui:${rootProject.ext.libVersion.springfox_swagger}"
 }
 
 def moduleName = "KotlinCustomToolsFromLorenWang"
