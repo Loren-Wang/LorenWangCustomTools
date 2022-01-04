@@ -61,10 +61,9 @@ dependencies {
     //腾讯定位库
     compileOnly 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.3.0'
     //java工具类库
-    compileOnly project(':JavaCustomToolsFromLorenWang')
+    api "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
     //数据格式化
-    compileOnly project(':JavaDataParseFromLorenWang')
-    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    api "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
 }
 def moduleName = 'AndroidCustomToolsFromLorenWang'
 def moduleDescription = "Android自定义工具库"
