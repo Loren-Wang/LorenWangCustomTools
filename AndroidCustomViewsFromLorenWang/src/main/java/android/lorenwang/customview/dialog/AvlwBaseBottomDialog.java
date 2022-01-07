@@ -1,7 +1,6 @@
 package android.lorenwang.customview.dialog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.lorenwang.customview.R;
 import android.view.Gravity;
 import android.view.ViewGroup;

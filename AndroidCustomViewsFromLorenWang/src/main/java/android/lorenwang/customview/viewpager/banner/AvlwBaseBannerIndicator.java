@@ -1,6 +1,5 @@
 package android.lorenwang.customview.viewpager.banner;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.View;
