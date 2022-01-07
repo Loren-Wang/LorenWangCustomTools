@@ -11,7 +11,7 @@ android {
         minSdkVersion rootProject.ext.buildConfig.min_sdk_version
         targetSdkVersion rootProject.ext.buildConfig.target_sdk_version
         versionCode 1
-        versionName "4.0.0"
+        versionName rootProject.ext.moduleVersion.android_graphic_code_scan
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -40,11 +40,11 @@ android {
 }
 
 dependencies {
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compileOnly "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
-    compileOnly project(':AndroidCustomToolsFromLorenWang')
-    compileOnly project(':JavaCustomToolsFromLorenWang')
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //安卓工具类库
+    api "com.github.loren-wang:AndroidCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.android_tools}"
+    //java工具类库
+    api "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
 }
 
 
