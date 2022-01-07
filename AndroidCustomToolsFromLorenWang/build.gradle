@@ -37,12 +37,15 @@ android {
 }
 
 dependencies {
-    compileOnly 'org.jetbrains:annotations:19.0.0'
-    compileOnly "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
-    compileOnly "androidx.constraintlayout:constraintlayout:${rootProject.ext.libVersion.constraintlayout_version}"
-    compileOnly "androidx.recyclerview:recyclerview:${rootProject.ext.libVersion.recyclerview_version}"
+    api "androidx.appcompat:appcompat:${rootProject.ext.libVersion.appcompat_version}"
+    api "androidx.constraintlayout:constraintlayout:${rootProject.ext.libVersion.constraintlayout_version}"
+    api "androidx.recyclerview:recyclerview:${rootProject.ext.libVersion.recyclerview_version}"
+    //java工具类库
+    api "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
+    //数据格式化
+    api "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
     //官方变色库
-    compileOnly 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    api 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     //fresco图片加载
     compileOnly "com.facebook.fresco:fresco:${rootProject.ext.libVersion.fresco_version}"
     compileOnly "com.facebook.fresco:animated-gif:${rootProject.ext.libVersion.fresco_version}"
@@ -60,10 +63,6 @@ dependencies {
     compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Location_All:9.1.8'
     //腾讯定位库
     compileOnly 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.3.0'
-    //java工具类库
-    api "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
-    //数据格式化
-    api "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
 }
 def moduleName = 'AndroidCustomToolsFromLorenWang'
 def moduleDescription = "Android自定义工具库"
