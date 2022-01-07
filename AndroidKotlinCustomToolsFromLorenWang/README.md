@@ -10,6 +10,7 @@
     --设置单个或集合控件为禁用状态（kttlwToDisable）
     --设置单个或集合控件的防重点击（kttlwThrottleClick）
     --设置单个控件宽高（kttlwSetWidthHeight、kttlwSetWidthHeightForWidth、kttlwSetWidthHeightForHeight）
+    --添加输入法action操作处理监听（EditText?.addInputManagerActionsListener）
     
 <h3>二、KttlwExtendViewContext---（Context 相关扩展）</h3>
 
