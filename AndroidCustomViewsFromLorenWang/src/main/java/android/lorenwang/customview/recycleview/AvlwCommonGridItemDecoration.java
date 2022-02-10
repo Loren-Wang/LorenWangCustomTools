@@ -6,8 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -83,8 +81,7 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(@NonNull @NotNull Rect outRect, @NonNull @NotNull View view, @NonNull @NotNull RecyclerView parent,
-            @NonNull @NotNull RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         int count = parent.getAdapter() == null ? 0 : parent.getAdapter().getItemCount();
         //总行数
@@ -137,7 +134,7 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void onDraw(@NonNull @NotNull Canvas c, @NonNull @NotNull RecyclerView parent, @NonNull @NotNull RecyclerView.State state) {
+    public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
 
         int childCount = parent.getAdapter() == null ? 0 : parent.getAdapter().getItemCount();
         //总行数
@@ -210,7 +207,7 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
      * @param c    画板
      * @param view 视图控件
      */
-    private void drawRight(@NotNull @NonNull Canvas c, View view) {
+    private void drawRight(@NonNull Canvas c, View view) {
         c.drawRect(view.getRight(), view.getTop() - view.getPaddingTop(), view.getRight(), view.getBottom() - view.getPaddingBottom(), paint);
     }
 
@@ -220,7 +217,7 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
      * @param c    画板
      * @param view 视图控件
      */
-    private void drawLeft(@NotNull @NonNull Canvas c, View view) {
+    private void drawLeft(@NonNull Canvas c, View view) {
         c.drawRect(view.getLeft(), view.getTop() - view.getPaddingTop(), view.getLeft(), view.getBottom() - view.getPaddingBottom(), paint);
     }
 
@@ -230,7 +227,7 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
      * @param c    画板
      * @param view 视图控件
      */
-    private void drawBottom(@NotNull @NonNull Canvas c, View view, float distance) {
+    private void drawBottom(@NonNull Canvas c, View view, float distance) {
         c.drawRect(view.getLeft() + view.getPaddingLeft(), view.getTop(), view.getRight() - view.getPaddingRight(), view.getBottom() + distance,
                 paint);
     }
@@ -241,7 +238,7 @@ public class AvlwCommonGridItemDecoration extends RecyclerView.ItemDecoration {
      * @param c    画板
      * @param view 视图控件
      */
-    private void drawTop(@NotNull @NonNull Canvas c, View view, float distance) {
+    private void drawTop(@NonNull Canvas c, View view, float distance) {
         c.drawRect(view.getLeft() + view.getPaddingLeft(), view.getTop() - distance, view.getRight() - view.getPaddingRight(), view.getTop(), paint);
     }
 }

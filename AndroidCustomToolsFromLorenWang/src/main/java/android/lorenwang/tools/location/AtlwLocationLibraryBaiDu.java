@@ -6,8 +6,6 @@ import android.lorenwang.tools.location.config.AtlwLocationConfig;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
-import org.jetbrains.annotations.NotNull;
-
 import static android.lorenwang.tools.location.AtlwLocationTypeEnum.BAIDU_BATTERY_SAVING;
 
 /**
@@ -36,23 +34,23 @@ class AtlwLocationLibraryBaiDu extends AtlwLocationLibraryBase {
     }
 
     @Override
-    public void startDevicesPositioning(@NotNull AtlwLocationConfig config) {
+    public void startDevicesPositioning(AtlwLocationConfig config) {
         startPositioning(config, AtlwLocationTypeEnum.BAIDU_DEVICE_SENSORS);
     }
 
     @Override
-    public void startNetworkPositioning(@NotNull AtlwLocationConfig config) {
+    public void startNetworkPositioning(AtlwLocationConfig config) {
         startPositioning(config, BAIDU_BATTERY_SAVING);
     }
 
     @Override
-    public void startAccuratePositioning(@NotNull AtlwLocationConfig config) {
+    public void startAccuratePositioning(AtlwLocationConfig config) {
         startPositioning(config, AtlwLocationTypeEnum.BAIDU_HIGHT_ACCURACY);
     }
 
-    protected void startPositioning(@NotNull AtlwLocationConfig config, @NotNull AtlwLocationTypeEnum type) {
+    protected void startPositioning(AtlwLocationConfig config, AtlwLocationTypeEnum type) {
         //权限判断
-        if (checkPermissions(config)) {
+        if (config != null && type != null && checkPermissions(config)) {
             LocationClientOption.LocationMode mode = null;
             switch (type) {
                 case BAIDU_BATTERY_SAVING:

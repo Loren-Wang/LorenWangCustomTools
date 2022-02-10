@@ -4,8 +4,6 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.NonNull;
 
 /**
@@ -113,19 +111,20 @@ public class AtlwSpannableClickBean extends ClickableSpan {
     }
 
     @Override
-    public void updateDrawState(@NotNull TextPaint ds) {
+    public void updateDrawState(TextPaint ds) {
         super.updateDrawState(ds);
-        if (bold != null) {
-            ds.setFakeBoldText(bold);
+        if (ds != null) {
+            if (bold != null) {
+                ds.setFakeBoldText(bold);
+            }
+            if (textSize != null) {
+                ds.setTextSize(textSize);
+            }
+            if (color != null) {
+                ds.setColor(color);
+                ds.setUnderlineText(false);
+                ds.clearShadowLayer();
+            }
         }
-        if (textSize != null) {
-            ds.setTextSize(textSize);
-        }
-        if (color != null) {
-            ds.setColor(color);
-            ds.setUnderlineText(false);
-            ds.clearShadowLayer();
-        }
-
     }
 }

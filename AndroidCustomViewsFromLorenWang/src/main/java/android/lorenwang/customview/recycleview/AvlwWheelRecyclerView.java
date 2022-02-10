@@ -19,8 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -258,7 +256,7 @@ public class AvlwWheelRecyclerView extends RecyclerView {
      */
     private class WheelAdapter extends Adapter<WheelAdapter.WheelHolder> {
         @Override
-        public @NotNull WheelHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        public WheelHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             WheelHolder holder = new WheelHolder(LayoutInflater.from(getContext()).inflate(android.R.layout.test_list_item, parent, false));
             holder.name.getLayoutParams().height = mItemHeight;
             return holder;
@@ -270,7 +268,7 @@ public class AvlwWheelRecyclerView extends RecyclerView {
         }
 
         @Override
-        public void onBindViewHolder(@NotNull WheelHolder holder, int position) {
+        public void onBindViewHolder(WheelHolder holder, int position) {
             //头尾填充offset个空白view以使数据能处于中间选中状态
             if (position < mOffset || position > mDatas.size() + mOffset - 1) {
                 holder.name.setText("");
@@ -360,20 +358,22 @@ public class AvlwWheelRecyclerView extends RecyclerView {
      * @param isSelect 是否是选中的
      * @param textView 文本控件
      */
-    private void setTextShowType(boolean isSelect, @NotNull TextView textView, int diff) {
-        TextPaint paint = textView.getPaint();
-        if (isSelect) {
-            textView.setTextColor(mSelectTextColor);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSelectTextSize);
-            paint.setFakeBoldText(selectTextIsBold);
-            paint.setTextSkewX(0);
-            paint.setAlpha(1);
-        } else {
-            textView.setTextColor(mUnselectTextColor);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mUnselectTextSize);
-            paint.setFakeBoldText(unSelectTextIsBold);
-//            paint.setTextSkewX((float) (diff * 0.5 / mOffset));
-            paint.setAlpha((int) (1 - Math.abs(diff * (1.0 / mOffset))));
+    private void setTextShowType(boolean isSelect, TextView textView, int diff) {
+        if (textView != null) {
+            TextPaint paint = textView.getPaint();
+            if (isSelect) {
+                textView.setTextColor(mSelectTextColor);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSelectTextSize);
+                paint.setFakeBoldText(selectTextIsBold);
+                paint.setTextSkewX(0);
+                paint.setAlpha(1);
+            } else {
+                textView.setTextColor(mUnselectTextColor);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mUnselectTextSize);
+                paint.setFakeBoldText(unSelectTextIsBold);
+                //            paint.setTextSkewX((float) (diff * 0.5 / mOffset));
+                paint.setAlpha((int) (1 - Math.abs(diff * (1.0 / mOffset))));
+            }
         }
     }
 
@@ -400,7 +400,7 @@ public class AvlwWheelRecyclerView extends RecyclerView {
      */
     private class DividerItemDecoration extends ItemDecoration {
         @Override
-        public void onDrawOver(Canvas c, @NotNull RecyclerView parent, @NotNull State state) {
+        public void onDrawOver(Canvas c, RecyclerView parent, State state) {
             //绘制分割线
             float startX = getMeasuredWidth() / 2.0f - mDividerWidth / 2 + getPaddingLeft();
             float topY = mItemHeight * mOffset + getPaddingTop();
@@ -417,7 +417,7 @@ public class AvlwWheelRecyclerView extends RecyclerView {
      */
     private class OnWheelScrollListener extends OnScrollListener {
         @Override
-        public void onScrollStateChanged(@NotNull RecyclerView recyclerView, int newState) {
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 //当控件停止滚动时，获取可视范围第一个item的位置，滚动调整控件以使选中的item刚好处于正中间
@@ -444,7 +444,7 @@ public class AvlwWheelRecyclerView extends RecyclerView {
         }
 
         @Override
-        public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy) {
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             setSelectedItem();
         }

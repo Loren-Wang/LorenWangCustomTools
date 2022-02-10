@@ -5,13 +5,12 @@ import android.content.SharedPreferences;
 import android.lorenwang.tools.AtlwConfig;
 import android.preference.PreferenceManager;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javabase.lorenwang.dataparse.JdplwJsonUtil;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 import javabase.lorenwang.tools.common.JtlwDateTimeUtil;
 
 /**
@@ -66,7 +65,7 @@ public class AtlwSharedPrefUtil {
     /**
      * 记录的时间格式
      */
-    private String recordTimePattern = "yyyyMMdd";
+    private final String recordTimePattern = "yyyyMMdd";
 
     private AtlwSharedPrefUtil() {
         mPref = PreferenceManager.getDefaultSharedPreferences(AtlwConfig.nowApplication);
@@ -413,9 +412,14 @@ public class AtlwSharedPrefUtil {
 
     /**
      * 插入用户相关记录,格式id_time_value
+     *
      * @return 插入结果
      */
-    public boolean putUserRecord(@NotNull String id, @NotNull String key, @NotNull String value) {
+    public boolean putUserRecord(String id, String key, String value) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(id) || JtlwCheckVariateUtil.getInstance().isEmpty(key) ||
+                JtlwCheckVariateUtil.getInstance().isEmpty(value)) {
+            return false;
+        }
         //清除旧数据
         getUserRecord(id, key, true, true);
         List<String> list;
@@ -435,7 +439,10 @@ public class AtlwSharedPrefUtil {
      * @param clearOld 是否清除旧数据
      * @param today    是否要返回今天的数据
      */
-    public String getUserRecord(@NotNull String id, @NotNull String key, boolean clearOld, boolean today) {
+    public String getUserRecord(String id, String key, boolean clearOld, boolean today) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(id) || JtlwCheckVariateUtil.getInstance().isEmpty(key)) {
+            return null;
+        }
         List<String> list;
         String old = getString(key, null);
         if (old == null || old.isEmpty()) {
@@ -501,10 +508,11 @@ public class AtlwSharedPrefUtil {
 
     /**
      * 插入每日相关记录
+     *
      * @return 插入结果
      */
     public boolean putDayRecord(String key) {
-       return putString(key, JtlwDateTimeUtil.getInstance().getFormatDateNowTime(recordTimePattern));
+        return putString(key, JtlwDateTimeUtil.getInstance().getFormatDateNowTime(recordTimePattern));
     }
 
     /**

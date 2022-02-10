@@ -4,11 +4,10 @@ import android.graphics.Typeface;
 import android.lorenwang.tools.AtlwConfig;
 import android.util.TypedValue;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 
 import androidx.annotation.IntegerRes;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 import javabase.lorenwang.tools.file.JtlwFileOptionUtil;
 
 /**
@@ -65,11 +64,13 @@ public class AtlwResourcesUtil {
      * @param assetsName 资源名称，包含路径
      * @return 文件内容字节
      */
-    public byte[] getAssets(@NotNull String assetsName) {
-        try {
-            return JtlwFileOptionUtil.getInstance().readBytes(AtlwConfig.nowApplication.getResources().getAssets().open(assetsName));
-        } catch (IOException e) {
-            e.printStackTrace();
+    public byte[] getAssets(String assetsName) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(assetsName)) {
+            try {
+                return JtlwFileOptionUtil.getInstance().readBytes(AtlwConfig.nowApplication.getResources().getAssets().open(assetsName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return new byte[]{};
     }
@@ -80,7 +81,8 @@ public class AtlwResourcesUtil {
      * @param typeFacePath 例如"fonts/HelveticaNeueLTPro-UltLt.otf"
      * @return 字体文件的typeface
      */
-    public Typeface getTypeFace(@NotNull String typeFacePath) {
+    public Typeface getTypeFace(String typeFacePath) {
+        assert typeFacePath != null;
         return Typeface.createFromAsset(AtlwConfig.nowApplication.getAssets(), typeFacePath);
     }
 

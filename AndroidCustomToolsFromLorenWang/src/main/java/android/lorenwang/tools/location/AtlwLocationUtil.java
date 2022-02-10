@@ -3,8 +3,6 @@ package android.lorenwang.tools.location;
 import android.lorenwang.tools.app.AtlwActivityUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * 功能作用：定位单例
  * 创建时间：2021-01-19 10:35 上午
@@ -60,7 +58,7 @@ public class AtlwLocationUtil extends AtlwLocationLibraryBase {
      * @return 有权限返回true
      */
     @Override
-    public boolean checkPermissions(@NotNull AtlwLocationConfig config) {
+    public boolean checkPermissions(AtlwLocationConfig config) {
         return locationLibrary.checkPermissions(config);
     }
 
@@ -70,7 +68,7 @@ public class AtlwLocationUtil extends AtlwLocationLibraryBase {
      * @param config 配置信息
      */
     @Override
-    public void startNetworkPositioning(@NotNull AtlwLocationConfig config) {
+    public void startNetworkPositioning(AtlwLocationConfig config) {
         stopLoopPositioning();
         setLocationLibraryType(libraryTypeEnum);
         locationLibrary.startNetworkPositioning(config);
@@ -82,7 +80,7 @@ public class AtlwLocationUtil extends AtlwLocationLibraryBase {
      * @param config 配置信息
      */
     @Override
-    public void startDevicesPositioning(@NotNull AtlwLocationConfig config) {
+    public void startDevicesPositioning(AtlwLocationConfig config) {
         stopLoopPositioning();
         setLocationLibraryType(libraryTypeEnum);
         locationLibrary.startDevicesPositioning(config);
@@ -94,7 +92,7 @@ public class AtlwLocationUtil extends AtlwLocationLibraryBase {
      * @param config 定位配置信息
      */
     @Override
-    public void startAccuratePositioning(@NotNull AtlwLocationConfig config) {
+    public void startAccuratePositioning(AtlwLocationConfig config) {
         stopLoopPositioning();
         setLocationLibraryType(libraryTypeEnum);
         locationLibrary.startAccuratePositioning(config);
@@ -114,14 +112,16 @@ public class AtlwLocationUtil extends AtlwLocationLibraryBase {
      * @param context 上下文
      * @param config  配置信息
      */
-    public void requestPermissions(@NotNull Object context, @NotNull AtlwLocationConfig config) {
-        String[] permissions;
-        if (config.isNeedBackLocation()) {
-            permissions = NEED_PERMISSIONS_AND_BACK;
-        } else {
-            permissions = NEED_PERMISSIONS;
+    public void requestPermissions(Object context, AtlwLocationConfig config) {
+        if (config != null) {
+            String[] permissions;
+            if (config.isNeedBackLocation()) {
+                permissions = NEED_PERMISSIONS_AND_BACK;
+            } else {
+                permissions = NEED_PERMISSIONS;
+            }
+            AtlwActivityUtil.getInstance().goToRequestPermissions(context, permissions, config.getLocationsCallback());
         }
-        AtlwActivityUtil.getInstance().goToRequestPermissions(context, permissions, config.getLocationsCallback());
     }
 
     /**

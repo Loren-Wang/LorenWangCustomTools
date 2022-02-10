@@ -7,8 +7,6 @@ import android.graphics.Rect;
 import android.lorenwang.tools.app.AtlwScreenUtil;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -94,8 +92,7 @@ public class AvlwCommonVerticalItemDecoration extends RecyclerView.ItemDecoratio
      * @param divideLeftDistance  分隔线左间距
      * @param divideRightDistance 分隔线右间距
      */
-    public AvlwCommonVerticalItemDecoration(Integer color, Float divideHeight,
-                                            Float divideLeftDistance, Float divideRightDistance) {
+    public AvlwCommonVerticalItemDecoration(Integer color, Float divideHeight, Float divideLeftDistance, Float divideRightDistance) {
         this(color, divideHeight, divideLeftDistance, divideRightDistance, 0F, 0F, 0F, 0F, null, null);
     }
 
@@ -111,13 +108,9 @@ public class AvlwCommonVerticalItemDecoration extends RecyclerView.ItemDecoratio
      * @param rowTopBottomLeftDistance  顶部底部行上下左间距
      * @param rowTopBottomRightDistance 顶部底部行上下右间距
      */
-    public AvlwCommonVerticalItemDecoration(Integer color, Float divideHeight,
-                                            Float divideLeftDistance, Float divideRightDistance,
-                                            Float rowTopDistance, Float rowBottomDistance,
-                                            Float rowTopBottomLeftDistance,
-                                            Float rowTopBottomRightDistance,
-                                            Integer rowTopBgColor,
-                                            Integer rowBottomBgColor) {
+    public AvlwCommonVerticalItemDecoration(Integer color, Float divideHeight, Float divideLeftDistance, Float divideRightDistance,
+            Float rowTopDistance, Float rowBottomDistance, Float rowTopBottomLeftDistance, Float rowTopBottomRightDistance, Integer rowTopBgColor,
+            Integer rowBottomBgColor) {
         paint.setAntiAlias(true);
         if (color != null) {
             divideColor = color;
@@ -129,34 +122,26 @@ public class AvlwCommonVerticalItemDecoration extends RecyclerView.ItemDecoratio
         this.divideRightDistance = divideRightDistance != null ? divideRightDistance : 0;
         this.rowTopDistance = rowTopDistance != null ? rowTopDistance : 0;
         this.rowBottomDistance = rowBottomDistance != null ? rowBottomDistance : 0;
-        this.rowTopBottomLeftDistance = rowTopBottomLeftDistance != null ?
-                rowTopBottomLeftDistance : 0;
-        this.rowTopBottomRightDistance = rowTopBottomRightDistance != null ?
-                rowTopBottomRightDistance : 0;
-        this.rowTopBgColor = rowTopBgColor != null ?
-                rowTopBgColor : divideColor;
-        this.rowBottomBgColor = rowBottomBgColor != null ?
-                rowBottomBgColor : divideColor;
+        this.rowTopBottomLeftDistance = rowTopBottomLeftDistance != null ? rowTopBottomLeftDistance : 0;
+        this.rowTopBottomRightDistance = rowTopBottomRightDistance != null ? rowTopBottomRightDistance : 0;
+        this.rowTopBgColor = rowTopBgColor != null ? rowTopBgColor : divideColor;
+        this.rowBottomBgColor = rowBottomBgColor != null ? rowBottomBgColor : divideColor;
     }
 
 
     @Override
-    public void getItemOffsets(@NonNull @NotNull Rect outRect, @NonNull @NotNull View view,
-                               @NonNull @NotNull RecyclerView parent,
-                               @NonNull @NotNull RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         outRect.bottom = divideHeight.intValue();
         if (((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition() == 0) {
             outRect.top = rowTopDistance.intValue();
-        } else if (((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition() ==
-                parent.getAdapter().getItemCount() - 1) {
+        } else if (((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition() == parent.getAdapter().getItemCount() - 1) {
             outRect.bottom = rowBottomDistance.intValue();
         }
     }
 
     @Override
-    public void onDraw(@NonNull @NotNull Canvas c, @NonNull @NotNull RecyclerView parent,
-                       @NonNull @NotNull RecyclerView.State state) {
+    public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         int childCount = parent.getAdapter() == null ? 0 : parent.getAdapter().getItemCount();
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
@@ -167,9 +152,7 @@ public class AvlwCommonVerticalItemDecoration extends RecyclerView.ItemDecoratio
             if (view != null) {
                 //画顶部
                 paint.setColor(rowTopBgColor);
-                c.drawRect(left + rowTopBottomLeftDistance, view.getTop() - rowTopDistance,
-                        right - rowTopBottomRightDistance,
-                        view.getTop(), paint);
+                c.drawRect(left + rowTopBottomLeftDistance, view.getTop() - rowTopDistance, right - rowTopBottomRightDistance, view.getTop(), paint);
             }
             //绘制其他
             paint.setColor(divideColor);
@@ -178,17 +161,15 @@ public class AvlwCommonVerticalItemDecoration extends RecyclerView.ItemDecoratio
                 if (view == null) {
                     continue;
                 }
-                c.drawRect(left + divideLeftDistance, view.getBottom(),
-                        right - divideRightDistance, view.getBottom() + divideHeight, paint);
+                c.drawRect(left + divideLeftDistance, view.getBottom(), right - divideRightDistance, view.getBottom() + divideHeight, paint);
             }
             //绘制最底部的top
             paint.setColor(rowBottomBgColor);
             view = parent.getChildAt(childCount - 1);
             if (view != null) {
                 //画顶部
-                c.drawRect(left + rowTopBottomLeftDistance, view.getBottom(),
-                        right - rowTopBottomRightDistance,
-                        view.getBottom() + rowBottomDistance, paint);
+                c.drawRect(left + rowTopBottomLeftDistance, view.getBottom(), right - rowTopBottomRightDistance, view.getBottom() + rowBottomDistance,
+                        paint);
             }
         }
     }

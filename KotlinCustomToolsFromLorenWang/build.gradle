@@ -15,20 +15,9 @@ java.targetCompatibility = JavaVersion.VERSION_1_8
 repositories {
     mavenCentral()
 }
-
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    //测试
-    compile "junit:junit:${rootProject.ext.libVersion.junit}"
-    //java工具类库
-    compile "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
-    //java数据格式化类库
-    compile "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
-    //swagger注释
-    compileOnly "io.springfox:springfox-swagger2:${rootProject.ext.libVersion.springfox_swagger}"
-    compileOnly "io.springfox:springfox-swagger-ui:${rootProject.ext.libVersion.springfox_swagger}"
-}
-
+//导入包
+apply from: '../GradleDependencies/KotlinCustomTools.gradle'
+//上传配置
 def moduleName = "KotlinCustomToolsFromLorenWang"
 def moduleDescription = "Kotlin自定义工具类"
 def moduleVersion = rootProject.ext.moduleVersion.kotlin_java_tools

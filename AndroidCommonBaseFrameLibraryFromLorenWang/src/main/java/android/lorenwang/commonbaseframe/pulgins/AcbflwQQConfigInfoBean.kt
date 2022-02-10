@@ -1,7 +1,6 @@
-package android.lorenwang.commonbaseframe.pulgins;
+package android.lorenwang.commonbaseframe.pulgins
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Builder
 
 /**
  * 功能作用：QQ配置信息
@@ -15,11 +14,11 @@ import lombok.Getter;
  * 备注：
  */
 @Builder
-@Getter
-public class AcbflwQQConfigInfoBean {
-    private final String appId;
+class AcbflwQQConfigInfoBean {
+    var appId: String? = null
+
     /**
      * 其中Authorities为 Manifest文件中注册FileProvider时设置的authorities属性值
      */
-    private final String authorities;
+    var authorities: String? = null
 }

@@ -8,8 +8,6 @@ import android.graphics.Typeface;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwViewUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * 功能作用：金额显示类型之货币符号
  * 创建时间：2020-01-02 10:50
@@ -242,7 +240,7 @@ class AvlwPriceShowTypeCurrencySymbol extends AvlwPriceShowTypeDefault {
      * @return 绘制后左侧坐标
      */
     @Override
-    protected float drawPrice(Canvas canvas, float left, float baseLine, @NotNull String showPrice) {
+    protected float drawPrice(Canvas canvas, float left, float baseLine, String showPrice) {
         switch (currencySymbolLocation) {
             case CURRENCY_SYMBOL_LOCATION_BL:
             case CURRENCY_SYMBOL_LOCATION_BR:

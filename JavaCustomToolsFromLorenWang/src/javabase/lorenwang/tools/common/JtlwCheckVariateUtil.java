@@ -1,6 +1,5 @@
 package javabase.lorenwang.tools.common;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.text.NumberFormat;
@@ -326,7 +325,7 @@ public class JtlwCheckVariateUtil {
      * @param idCard 身份证号
      * @return 0 通过，1 格式错误，2 地址编码错误，3 身份证号不合法
      */
-    public int checkChineseIdCard(@NotNull String idCard) {
+    public int checkChineseIdCard(String idCard) {
         //身份证位数正则匹配
         if (isEmpty(idCard) || !idCard.matches(JtlwMatchesRegularCommon.ID_CARD_CHINESE)) {
             return 1;
@@ -376,7 +375,7 @@ public class JtlwCheckVariateUtil {
      * @param judgeYear 是否单纯按照年份判断
      * @return 是则是超过限制
      */
-    public boolean checkAgeMoreThanLimitByIdCard(@NotNull String idCard, int limit, boolean judgeYear) {
+    public boolean checkAgeMoreThanLimitByIdCard( String idCard, int limit, boolean judgeYear) {
         if (checkChineseIdCard(idCard) == 0) {
             //身份证是正常的，获取年龄
             int idTime = 0;

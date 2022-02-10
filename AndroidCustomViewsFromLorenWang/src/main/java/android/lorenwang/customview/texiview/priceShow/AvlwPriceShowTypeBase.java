@@ -8,8 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.lorenwang.customview.R;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -187,8 +185,10 @@ abstract class AvlwPriceShowTypeBase {
      *
      * @param typeface 字体类型
      */
-    public void setTypeFace(@NotNull Typeface typeface) {
-        pricePaint.setTypeface(typeface);
+    public void setTypeFace(Typeface typeface) {
+        if (typeface != null) {
+            pricePaint.setTypeface(typeface);
+        }
     }
 
     /**
@@ -247,13 +247,11 @@ abstract class AvlwPriceShowTypeBase {
                 }
             }
             //获取格式化金额的精度
-            String formatPattern = JtlwCheckVariateUtil.getInstance()
-                    .isEmpty(priceFormatPattern) ? "0.00" : priceFormatPattern;
+            String formatPattern = JtlwCheckVariateUtil.getInstance().isEmpty(priceFormatPattern) ? "0.00" : priceFormatPattern;
             //格式化金额处理模式
             if (priceRoundingModeType != -1) {
                 try {
-                    price = price.setScale(
-                            formatPattern.substring(formatPattern.indexOf(".") + 1).length(),
+                    price = price.setScale(formatPattern.substring(formatPattern.indexOf(".") + 1).length(),
                             RoundingMode.valueOf(priceRoundingModeType));
                 } catch (Exception ignore) {
                 }

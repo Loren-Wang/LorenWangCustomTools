@@ -6,8 +6,6 @@ import android.graphics.RectF;
 import android.lorenwang.tools.app.AtlwScreenUtil;
 import android.text.style.ReplacementSpan;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.NonNull;
 
 /**
@@ -90,7 +88,7 @@ public class AtlwSpannableTagBean extends ReplacementSpan {
     /**
      * 构造初始化
      *
-     * @param paramsMsg                   标签文本
+     * @param paramsMsg                   标签文本,不能为空
      * @param bgColor                     背景颜色
      * @param textColor                   文本颜色
      * @param borderColor                 边框颜色
@@ -103,9 +101,10 @@ public class AtlwSpannableTagBean extends ReplacementSpan {
      * @param tagPaddingDistanceBottom    文本标签内容下边距
      * @param tagRadio                    标签圆角度数
      */
-    public AtlwSpannableTagBean(@NotNull String paramsMsg, int bgColor, int textColor, int borderColor, Integer borderWidth, boolean isSquare,
-            Float textSize, Float tagTextDistanceLeft, Float tagTextDistanceRight, Float tagPaddingDistanceLeftRight, Float tagPaddingDistanceTop,
+    public AtlwSpannableTagBean(String paramsMsg, int bgColor, int textColor, int borderColor, Integer borderWidth, boolean isSquare, Float textSize,
+            Float tagTextDistanceLeft, Float tagTextDistanceRight, Float tagPaddingDistanceLeftRight, Float tagPaddingDistanceTop,
             Float tagPaddingDistanceBottom, Float tagRadio) {
+        assert paramsMsg != null;
         this.paramsMsg = paramsMsg;
         this.bgColor = bgColor;
         this.textColor = textColor;
@@ -163,7 +162,7 @@ public class AtlwSpannableTagBean extends ReplacementSpan {
         paint.setTextSize(textSize);
         //绘制背景
         paint.setStyle(Paint.Style.FILL);
-        canvas.drawRoundRect(new RectF(x + tagTextDistanceLeft , y + paint.getFontMetrics().top - tagPaddingDistanceTop,
+        canvas.drawRoundRect(new RectF(x + tagTextDistanceLeft, y + paint.getFontMetrics().top - tagPaddingDistanceTop,
                 x + paint.measureText(text, start, end) + tagPaddingDistanceLeftRight * 2 + tagTextDistanceLeft,
                 y + paint.getFontMetrics().descent + tagPaddingDistanceBottom), tagRadio, tagRadio, paint);
         //绘制边框

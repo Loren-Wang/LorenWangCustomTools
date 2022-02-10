@@ -1,0 +1,9 @@
+apply from: '../GradleDependencies/JavaCustomTools.gradle'
+apply from: '../GradleDependencies/AndroidCustomTools.gradle'
+dependencies {
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //安卓工具类库
+    compileOnly "com.github.loren-wang:AndroidCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.android_tools}"
+    //java工具类库
+    compileOnly "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
+}

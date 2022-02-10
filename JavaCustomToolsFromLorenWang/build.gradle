@@ -14,19 +14,9 @@ java.targetCompatibility = JavaVersion.VERSION_1_8
 repositories {
     mavenCentral()
 }
-
-dependencies {
-    compile "org.jetbrains:annotations:${rootProject.ext.libVersion.jetbrains_annotations}"
-    //json数据解析处理
-    compile "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
-    testImplementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
-    //测试
-    compile "junit:junit:${rootProject.ext.libVersion.junit}"
-    //日志打印框架
-    compileOnly "org.slf4j:slf4j-api:${rootProject.ext.libVersion.slf4j}"
-    compileOnly "org.slf4j:slf4j-log4j12:${rootProject.ext.libVersion.slf4j}"
-}
-
+//导入包
+apply from: '../GradleDependencies/JavaCustomTools.gradle'
+//上传配置
 def moduleName = "JavaCustomToolsFromLorenWang"
 def moduleDescription = "java自定义工具库"
 def moduleVersion = rootProject.ext.moduleVersion.java_tools

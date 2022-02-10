@@ -10,8 +10,6 @@ import com.baidu.location.LocationClientOption;
 import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
 
-import org.jetbrains.annotations.NotNull;
-
 import static android.lorenwang.tools.location.AtlwLocationTypeEnum.TENCENT_BATTERY_SAVING;
 
 /**
@@ -38,23 +36,23 @@ class AtlwLocationLibraryTencent extends AtlwLocationLibraryBase {
     }
 
     @Override
-    public void startDevicesPositioning(@NotNull AtlwLocationConfig config) {
+    public void startDevicesPositioning(AtlwLocationConfig config) {
         startPositioning(config, AtlwLocationTypeEnum.TENCENT_DEVICE_SENSORS);
     }
 
     @Override
-    public void startNetworkPositioning(@NotNull AtlwLocationConfig config) {
+    public void startNetworkPositioning(AtlwLocationConfig config) {
         startPositioning(config, TENCENT_BATTERY_SAVING);
     }
 
     @Override
-    public void startAccuratePositioning(@NotNull AtlwLocationConfig config) {
+    public void startAccuratePositioning(AtlwLocationConfig config) {
         startPositioning(config, AtlwLocationTypeEnum.TENCENT_HIGHT_ACCURACY);
     }
 
-    protected void startPositioning(@NotNull AtlwLocationConfig config, @NotNull AtlwLocationTypeEnum type) {
+    protected void startPositioning(AtlwLocationConfig config, AtlwLocationTypeEnum type) {
         //权限判断
-        if (checkPermissions(config)) {
+        if (checkPermissions(config) && config != null && type != null) {
             LocationClientOption.LocationMode mode = null;
             switch (type) {
                 case TENCENT_BATTERY_SAVING:

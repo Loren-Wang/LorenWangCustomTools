@@ -13,7 +13,6 @@ import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;

@@ -13,8 +13,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * 功能作用：ImageLoad框架加载
  * 创建时间：2020-10-21 7:06 下午
@@ -41,8 +39,8 @@ class AtlwImageLoadImageLoading extends AtlwBaseImageLoading {
      * @param imageView 图片控件
      * @param config    配置信息
      */
-    private void loadImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        if (path != null) {
+    private void loadImage(String path, ImageView imageView, AtlwImageLoadConfig config) {
+        if (config != null && path != null) {
             ImageSize mImageSize = null;
             if (config.getResizeLoadWidth() > 0 && config.getResizeLoadHeight() > 0) {
                 mImageSize = new ImageSize(config.getResizeLoadWidth(), config.getResizeLoadHeight());
@@ -66,7 +64,7 @@ class AtlwImageLoadImageLoading extends AtlwBaseImageLoading {
      * @param imageView 图片控件
      * @return 加载监听
      */
-    private ImageLoadingListener getImageLoadingListener(@NotNull final AtlwImageLoadConfig config, final ImageView imageView) {
+    private ImageLoadingListener getImageLoadingListener(final AtlwImageLoadConfig config, final ImageView imageView) {
         return new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
@@ -113,20 +111,22 @@ class AtlwImageLoadImageLoading extends AtlwBaseImageLoading {
      * @param config 配置信息
      * @return 配置
      */
-    private DisplayImageOptions getDisplayImageOptions(@NotNull AtlwImageLoadConfig config) {
+    private DisplayImageOptions getDisplayImageOptions(AtlwImageLoadConfig config) {
         DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
         builder.showImageOnLoading(AtlwConfig.imageLoadingLoadResId).showImageForEmptyUri(AtlwConfig.imageLoadingFailResId).showImageOnFail(
-                AtlwConfig.imageLoadingFailResId)
+                        AtlwConfig.imageLoadingFailResId)
                 //在加载前是否重置 view ,默认为false
-                .resetViewBeforeLoading(true)
-                // 是否启用内存缓存，默认为false
-                .cacheInMemory(!config.isDisableMemoryCache())
-                // 是否启用磁盘缓存，默认为false
-                .cacheOnDisk(!config.isDisableDiskCache())
-                // 图片的色彩格式
-                .bitmapConfig(Bitmap.Config.ARGB_8888);
+                .resetViewBeforeLoading(true);
+        if (config != null) {
+            // 是否启用内存缓存，默认为false
+            builder.cacheInMemory(!config.isDisableMemoryCache());
+            // 是否启用磁盘缓存，默认为false
+            builder.cacheOnDisk(!config.isDisableDiskCache());
+        }
+        // 图片的色彩格式
+        builder.bitmapConfig(Bitmap.Config.ARGB_8888);
         //是否加载原图
-        if (config.isUseOriginImage()) {
+        if (config != null && config.isUseOriginImage()) {
             builder.imageScaleType(ImageScaleType.NONE);
         }
 
@@ -134,22 +134,22 @@ class AtlwImageLoadImageLoading extends AtlwBaseImageLoading {
     }
 
     @Override
-    public void loadingNetImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+    public void loadingNetImage(String path, ImageView imageView, AtlwImageLoadConfig config) {
         loadImage(path, imageView, config);
     }
 
     @Override
-    public void loadingLocalImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+    public void loadingLocalImage(String path, ImageView imageView, AtlwImageLoadConfig config) {
 
     }
 
     @Override
-    public void loadingResImage(int resId, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+    public void loadingResImage(int resId, ImageView imageView, AtlwImageLoadConfig config) {
         loadImage("drawable://" + resId, imageView, config);
     }
 
     @Override
-    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
+    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, AtlwImageLoadConfig config) {
 
     }
 

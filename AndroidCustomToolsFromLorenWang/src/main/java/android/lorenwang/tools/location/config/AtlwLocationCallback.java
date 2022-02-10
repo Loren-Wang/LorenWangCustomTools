@@ -3,8 +3,6 @@ package android.lorenwang.tools.location.config;
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback;
 import android.lorenwang.tools.location.AtlwLocationTypeEnum;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * 功能作用：定位回调
  * 创建时间：2021-01-19 10:33 上午
@@ -23,10 +21,11 @@ public abstract class AtlwLocationCallback implements AtlwPermissionRequestCallb
     /**
      * 定位信息获取成功
      *
-     * @param type
-     * @param config
+     * @param type             定位类型
+     * @param config           定位请求配置
      * @param bean             定位信息
      * @param locationIsChange 定位信息是否有改变
      */
-    public abstract void locationResultSuccess(AtlwLocationTypeEnum type, AtlwLocationConfig config, @NotNull AtlwLocationResultBean bean, boolean locationIsChange);
+    public abstract void locationResultSuccess(AtlwLocationTypeEnum type, AtlwLocationConfig config, AtlwLocationResultBean bean,
+            boolean locationIsChange);
 }

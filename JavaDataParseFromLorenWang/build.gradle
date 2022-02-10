@@ -14,10 +14,9 @@ java.targetCompatibility = JavaVersion.VERSION_1_8
 repositories {
     mavenCentral()
 }
-
-dependencies {
-    compile "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
-}
+//导入配置
+apply from: '../GradleDependencies/JavaDataParse.gradle'
+//上传配置
 def moduleName = "JavaDataParseFromLorenWang"
 def moduleDescription = "java数据格式化工具库"
 def moduleVersion = rootProject.ext.moduleVersion.java_json_parse

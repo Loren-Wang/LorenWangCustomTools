@@ -1,5 +1,6 @@
 package android.lorenwang.tools.image.loading;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.lorenwang.tools.AtlwConfig;
@@ -8,8 +9,6 @@ import android.lorenwang.tools.app.AtlwThreadUtil;
 import android.lorenwang.tools.app.AtlwViewUtil;
 import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.widget.ImageView;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -91,19 +90,21 @@ public abstract class AtlwBaseImageLoading {
      * @param pathOrRes 图片或资源地址
      * @param imageView 图片控件
      */
-    public void loadingImage(Object pathOrRes, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        switch (getPathOrResType(pathOrRes)) {
-            case LOADING_TYPE_FOR_NET:
-                loadingNetImage((String) pathOrRes, imageView, config);
-                break;
-            case LOADING_TYPE_FOR_LOCAL:
-                loadingLocalImage((String) pathOrRes, imageView, config);
-                break;
-            case LOADING_TYPE_FOR_RES:
-                loadingResImage((Integer) pathOrRes, imageView, config);
-                break;
-            default:
-                break;
+    public void loadingImage(Object pathOrRes, ImageView imageView, AtlwImageLoadConfig config) {
+        if (config != null) {
+            switch (getPathOrResType(pathOrRes)) {
+                case LOADING_TYPE_FOR_NET:
+                    loadingNetImage((String) pathOrRes, imageView, config);
+                    break;
+                case LOADING_TYPE_FOR_LOCAL:
+                    loadingLocalImage((String) pathOrRes, imageView, config);
+                    break;
+                case LOADING_TYPE_FOR_RES:
+                    loadingResImage((Integer) pathOrRes, imageView, config);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -174,7 +175,7 @@ public abstract class AtlwBaseImageLoading {
      * @param imageView 图片控件
      * @param config    回调
      */
-    public abstract void loadingNetImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config);
+    public abstract void loadingNetImage(String path, ImageView imageView, AtlwImageLoadConfig config);
 
     /**
      * 加载本地图片
@@ -183,7 +184,7 @@ public abstract class AtlwBaseImageLoading {
      * @param imageView 图片控件
      * @param config    回调
      */
-    public abstract void loadingLocalImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config);
+    public abstract void loadingLocalImage(String path, ImageView imageView, AtlwImageLoadConfig config);
 
     /**
      * 加载资源图片
@@ -192,7 +193,7 @@ public abstract class AtlwBaseImageLoading {
      * @param imageView 图片控件
      * @param config    回调
      */
-    public abstract void loadingResImage(@DrawableRes int resId, ImageView imageView, @NotNull AtlwImageLoadConfig config);
+    public abstract void loadingResImage(@DrawableRes int resId, ImageView imageView, AtlwImageLoadConfig config);
 
     /**
      * 加载bitmap位图
@@ -200,7 +201,7 @@ public abstract class AtlwBaseImageLoading {
      * @param bitmap    位图
      * @param imageView 图片控件
      */
-    public abstract void loadingBitmapImage(Bitmap bitmap, ImageView imageView, @NotNull AtlwImageLoadConfig config);
+    public abstract void loadingBitmapImage(Bitmap bitmap, ImageView imageView, AtlwImageLoadConfig config);
 
     /**
      * 获取网络图片位图信息
@@ -251,6 +252,7 @@ public abstract class AtlwBaseImageLoading {
      * @param bitmap 网络返回位图
      * @param config 配置信息
      */
+    @SuppressLint("ResourceType")
     private Bitmap getNetImageBitmapResult(Bitmap bitmap, AtlwImageLoadConfig config) {
         if (bitmap != null) {
             return bitmap;
@@ -319,28 +321,30 @@ public abstract class AtlwBaseImageLoading {
      * @param imageWidth           位图宽度
      * @param imageHeight          位图高度
      */
-    protected void setImageViewLayoutParams(boolean useActualAspectRatio, @NotNull ImageView imageView, int showViewWidth, int showViewHeight,
-            int imageWidth, int imageHeight) {
-        int setViewWidth = 0;
-        int setViewHeight = 0;
+    protected void setImageViewLayoutParams(boolean useActualAspectRatio, ImageView imageView, int showViewWidth, int showViewHeight, int imageWidth,
+            int imageHeight) {
+        if (imageView != null) {
+            int setViewWidth = 0;
+            int setViewHeight = 0;
 
-        //判断可以设置数据的条件
-        if (showViewWidth > 0 && showViewHeight > 0) {
-            setViewWidth = showViewWidth;
-            setViewHeight = showViewHeight;
-        } else if (showViewWidth > 0) {
-            if (useActualAspectRatio) {
+            //判断可以设置数据的条件
+            if (showViewWidth > 0 && showViewHeight > 0) {
                 setViewWidth = showViewWidth;
-                setViewHeight = Float.valueOf(imageHeight * 1.0f / imageWidth * setViewWidth).intValue();
-            }
-        } else if (showViewHeight > 0) {
-            if (useActualAspectRatio) {
                 setViewHeight = showViewHeight;
-                setViewWidth = Float.valueOf(imageWidth * 1.0f / imageHeight * setViewHeight).intValue();
+            } else if (showViewWidth > 0) {
+                if (useActualAspectRatio) {
+                    setViewWidth = showViewWidth;
+                    setViewHeight = Float.valueOf(imageHeight * 1.0f / imageWidth * setViewWidth).intValue();
+                }
+            } else if (showViewHeight > 0) {
+                if (useActualAspectRatio) {
+                    setViewHeight = showViewHeight;
+                    setViewWidth = Float.valueOf(imageWidth * 1.0f / imageHeight * setViewHeight).intValue();
+                }
             }
-        }
-        if (setViewWidth > 0 && setViewHeight > 0 && (imageView.getWidth() != setViewWidth || imageView.getHeight() != setViewHeight)) {
-            AtlwViewUtil.getInstance().setViewWidthHeight(imageView, setViewWidth, setViewHeight);
+            if (setViewWidth > 0 && setViewHeight > 0 && (imageView.getWidth() != setViewWidth || imageView.getHeight() != setViewHeight)) {
+                AtlwViewUtil.getInstance().setViewWidthHeight(imageView, setViewWidth, setViewHeight);
+            }
         }
     }
 

@@ -6,11 +6,10 @@ import android.graphics.Canvas;
 import android.lorenwang.customview.R;
 import android.lorenwang.tools.app.AtlwViewUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.math.BigDecimal;
 
 import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：默认金额显示类型
@@ -108,13 +107,15 @@ class AvlwPriceShowTypeDefault extends AvlwPriceShowTypeBase {
      * @param showPrice 显示价格
      * @return 绘制后左侧坐标
      */
-    protected float drawPrice(Canvas canvas, float left, float baseLine, @NotNull String showPrice) {
-        priceBaseLine = (int) baseLine;
-        if (priceBaseLine < 0) {
-            textBaseLine = priceBaseLine;
+    protected float drawPrice(Canvas canvas, float left, float baseLine, String showPrice) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(showPrice)) {
+            priceBaseLine = (int) baseLine;
+            if (priceBaseLine < 0) {
+                textBaseLine = priceBaseLine;
+            }
+            canvas.drawText(showPrice, left, baseLine, pricePaint);
+            left += AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice);
         }
-        canvas.drawText(showPrice, left, baseLine, pricePaint);
-        left += AtlwViewUtil.getInstance().getStrTextWidth(pricePaint, showPrice);
         return left;
     }
 

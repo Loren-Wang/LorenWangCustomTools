@@ -24,8 +24,6 @@ import android.lorenwang.tools.file.AtlwFileOptionUtil;
 import android.media.ExifInterface;
 import android.util.Base64;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +32,7 @@ import java.nio.ByteBuffer;
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 
 /**
@@ -104,9 +103,8 @@ public class AtlwImageCommonUtil {
      * @param bitmap 位图
      * @return 添加水印
      */
-    public Bitmap addWatermarkBitmap(@NotNull Bitmap bitmap, int textSize, int textColor, @NotNull String text, int width, int height,
-            int rotationAngle) {
-        if (text.isEmpty() || bitmap.isRecycled()) {
+    public Bitmap addWatermarkBitmap(Bitmap bitmap, int textSize, int textColor, String text, int width, int height, int rotationAngle) {
+        if (bitmap == null || JtlwCheckVariateUtil.getInstance().isEmpty(text) || bitmap.isRecycled()) {
             return null;
         }
         try {
@@ -132,15 +130,16 @@ public class AtlwImageCommonUtil {
      * @param width         水印显示范围宽度
      * @param height        水印显示范围高度
      */
-    public void addWatermarkBitmap(@NotNull Canvas canvas, int textSize, int textColor, @NotNull String text, int width, int height,
-            int rotationAngle) {
-        //画笔初始化
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setTextSize(textSize);
-        paint.setColor(textColor);
-        //在画布上绘制水印
-        addWatermarkBitmap(canvas, paint, text, width, height, rotationAngle);
+    public void addWatermarkBitmap(Canvas canvas, int textSize, int textColor, String text, int width, int height, int rotationAngle) {
+        if (canvas != null && JtlwCheckVariateUtil.getInstance().isNotEmpty(text)) {
+            //画笔初始化
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setTextSize(textSize);
+            paint.setColor(textColor);
+            //在画布上绘制水印
+            addWatermarkBitmap(canvas, paint, text, width, height, rotationAngle);
+        }
     }
 
     /**
@@ -153,26 +152,28 @@ public class AtlwImageCommonUtil {
      * @param width         水印显示范围宽度
      * @param height        水印显示范围高度
      */
-    public void addWatermarkBitmap(@NotNull Canvas canvas, @NotNull Paint paint, @NotNull String text, int width, int height, int rotationAngle) {
-        //获取文本属性
-        float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(paint, text);
-        float textHeight = AtlwViewUtil.getInstance().getStrTextHeight(paint);
-        float useWidth = 0;
-        float useHeight;
-        //新建接收位图
-        int textMaxWidthHeight = (int) (Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) * 3);
-        Bitmap newBitmap = Bitmap.createBitmap(textMaxWidthHeight, textMaxWidthHeight, Bitmap.Config.ARGB_4444);
-        //位图设置画板初始化
-        Canvas canvasText = new Canvas(newBitmap);
-        while (useWidth < textMaxWidthHeight) {
-            useHeight = 0;
-            while (useHeight < textMaxWidthHeight + textHeight) {
-                canvasText.drawText(text, useWidth, useHeight - paint.getFontMetrics().descent, paint);
-                useHeight += textHeight - paint.getFontMetrics().descent;
+    public void addWatermarkBitmap(Canvas canvas, Paint paint, String text, int width, int height, int rotationAngle) {
+        if (canvas != null && paint != null && JtlwCheckVariateUtil.getInstance().isNotEmpty(text)) {
+            //获取文本属性
+            float textWidth = AtlwViewUtil.getInstance().getStrTextWidth(paint, text);
+            float textHeight = AtlwViewUtil.getInstance().getStrTextHeight(paint);
+            float useWidth = 0;
+            float useHeight;
+            //新建接收位图
+            int textMaxWidthHeight = (int) (Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) * 3);
+            Bitmap newBitmap = Bitmap.createBitmap(textMaxWidthHeight, textMaxWidthHeight, Bitmap.Config.ARGB_4444);
+            //位图设置画板初始化
+            Canvas canvasText = new Canvas(newBitmap);
+            while (useWidth < textMaxWidthHeight) {
+                useHeight = 0;
+                while (useHeight < textMaxWidthHeight + textHeight) {
+                    canvasText.drawText(text, useWidth, useHeight - paint.getFontMetrics().descent, paint);
+                    useHeight += textHeight - paint.getFontMetrics().descent;
+                }
+                useWidth += textWidth;
             }
-            useWidth += textWidth;
+            canvas.drawBitmap(toTurnPicture(newBitmap, -rotationAngle), -width * 2, -height * 2, null);
         }
-        canvas.drawBitmap(toTurnPicture(newBitmap, -rotationAngle), -width * 2, -height * 2, null);
     }
 
     /**
@@ -260,14 +261,16 @@ public class AtlwImageCommonUtil {
      * @param format 目标转换格式
      * @return 转换后地址
      */
-    public String coverImage(@NotNull String path, @NotNull String savePath, Bitmap.CompressFormat format) {
-        try {
-            if (AtlwCheckUtil.getInstance().checkFileIsImage(path)) {
-                if (AtlwFileOptionUtil.getInstance().writeToFile(true, new File(savePath), BitmapFactory.decodeFile(path), format)) {
-                    return savePath;
+    public String coverImage(String path, String savePath, Bitmap.CompressFormat format) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(path) && JtlwCheckVariateUtil.getInstance().isNotEmpty(savePath)) {
+            try {
+                if (AtlwCheckUtil.getInstance().checkFileIsImage(path)) {
+                    if (AtlwFileOptionUtil.getInstance().writeToFile(true, new File(savePath), BitmapFactory.decodeFile(path), format)) {
+                        return savePath;
+                    }
                 }
+            } catch (Exception ignored) {
             }
-        } catch (Exception ignored) {
         }
         return path;
     }
@@ -452,8 +455,8 @@ public class AtlwImageCommonUtil {
      * @param color  背景颜色
      * @return 处理后图片
      */
-    public Bitmap fillBgAspectRatio(@NotNull Bitmap bitmap, float ratio, @ColorInt int color) {
-        if (bitmap.isRecycled()) {
+    public Bitmap fillBgAspectRatio(Bitmap bitmap, float ratio, @ColorInt int color) {
+        if (bitmap == null || bitmap.isRecycled()) {
             return null;
         }
         ColorDrawable colorDrawable = new ColorDrawable(color);
@@ -542,8 +545,8 @@ public class AtlwImageCommonUtil {
      * @param height        水印显示范围高度
      * @return 水印位图
      */
-    public Bitmap generateWatermarkBitmap(int textSize, int textColor, @NotNull String text, int width, int height, int rotationAngle) {
-        if (text.isEmpty()) {
+    public Bitmap generateWatermarkBitmap(int textSize, int textColor, String text, int width, int height, int rotationAngle) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(text)) {
             return null;
         }
         try {
@@ -634,7 +637,7 @@ public class AtlwImageCommonUtil {
      * @param top    顶部要取的重叠位置区域的位图，主要用来标记哪部分的底图要绘制显示
      * @return 重叠部分位图
      */
-    public Bitmap getOverlapBitmap(@NotNull Bitmap bottom, @NotNull Bitmap top) {
+    public Bitmap getOverlapBitmap(Bitmap bottom, Bitmap top) {
         return getOverlapBitmap(bottom, top, null, null);
     }
 
@@ -647,24 +650,28 @@ public class AtlwImageCommonUtil {
      * @param showHeight 显示宽度，默认以top高度
      * @return 重叠部分位图
      */
-    public Bitmap getOverlapBitmap(@NotNull Bitmap bottom, @NotNull Bitmap top, Integer showWidth, Integer showHeight) {
-        try {
-            showWidth = showWidth != null ? showWidth : top.getWidth();
-            showHeight = showHeight != null ? showHeight : top.getHeight();
-            //新建接收位图
-            Bitmap newBitmap = Bitmap.createBitmap(showWidth, showHeight, top.getConfig(), true);
-            //位图设置画板初始化
-            Canvas canvas = new Canvas(newBitmap);
-            //画笔初始化
-            Paint paint = new Paint();
-            paint.setAntiAlias(true);
-            //绘制底部
-            canvas.drawBitmap(bottom, null, new RectF(0, 0, showWidth, showHeight), paint);
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-            //绘制顶部
-            canvas.drawBitmap(top, null, new RectF(0, 0, showWidth, showHeight), paint);
-            return newBitmap;
-        } catch (Exception e) {
+    public Bitmap getOverlapBitmap(Bitmap bottom, Bitmap top, Integer showWidth, Integer showHeight) {
+        if (bottom != null && top != null) {
+            try {
+                showWidth = showWidth != null ? showWidth : top.getWidth();
+                showHeight = showHeight != null ? showHeight : top.getHeight();
+                //新建接收位图
+                Bitmap newBitmap = Bitmap.createBitmap(showWidth, showHeight, top.getConfig(), true);
+                //位图设置画板初始化
+                Canvas canvas = new Canvas(newBitmap);
+                //画笔初始化
+                Paint paint = new Paint();
+                paint.setAntiAlias(true);
+                //绘制底部
+                canvas.drawBitmap(bottom, null, new RectF(0, 0, showWidth, showHeight), paint);
+                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+                //绘制顶部
+                canvas.drawBitmap(top, null, new RectF(0, 0, showWidth, showHeight), paint);
+                return newBitmap;
+            } catch (Exception e) {
+                return null;
+            }
+        } else {
             return null;
         }
     }

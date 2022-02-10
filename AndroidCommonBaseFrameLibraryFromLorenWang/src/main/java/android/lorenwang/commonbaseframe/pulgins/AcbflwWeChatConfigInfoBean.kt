@@ -1,8 +1,6 @@
-package android.lorenwang.commonbaseframe.pulgins;
+package android.lorenwang.commonbaseframe.pulgins
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.Builder
 
 /**
  * 功能作用：微信配置信息
@@ -16,23 +14,25 @@ import lombok.Getter;
  * 备注：
  */
 @Builder
-@Getter
-public class AcbflwWeChatConfigInfoBean {
+class AcbflwWeChatConfigInfoBean {
     /**
      * 微信id
      */
-    private final String weChatId;
+    var weChatId: String? = null
+
     /**
      * 微信Secret
      */
-    private final String weiChatSecret;
+    var weiChatSecret: String? = null
+
     /**
      * 微信开放平台审核通过的应用APPID
      */
-    private final String appid;
+    var appid: String? = null
+
     /**
      * 小程序原始id
      */
-    private final String weChatApplyId;
-    private final boolean checkSignature;
+    var weChatApplyId: String? = null
+    var checkSignature = false
 }

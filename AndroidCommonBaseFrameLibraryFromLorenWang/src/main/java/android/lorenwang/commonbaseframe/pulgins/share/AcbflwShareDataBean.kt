@@ -1,14 +1,10 @@
-package android.lorenwang.commonbaseframe.pulgins.share;
+package android.lorenwang.commonbaseframe.pulgins.share
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginCallBack;
-import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTargetTypeEnum;
-
-import java.util.List;
-
-import lombok.Builder;
-import lombok.Getter;
+import android.app.Activity
+import android.graphics.Bitmap
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginCallBack
+import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTargetTypeEnum
+import lombok.Builder
 
 /**
  * 功能作用：分享数据实体
@@ -42,142 +38,162 @@ import lombok.Getter;
  * 配置参数20：小程序的类型，默认正式版---miniProgramType---（默认正式版 正式版: WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE; 测试版: WXMiniProgramObject.MINIPROGRAM_TYPE_TEST;预览版: WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW）
  */
 @Builder
-@Getter
-public class AcbflwShareDataBean {
+class AcbflwShareDataBean {
     /**
      * 分享回调
      */
-    private final AcbflwPluginCallBack shareCallBack;
+    var shareCallBack: AcbflwPluginCallBack? = null
+
     /**
      * 分享目标
      */
-    AcbflwPluginTargetTypeEnum targetType;
+    var targetType: AcbflwPluginTargetTypeEnum? = null
+
     /**
      * 分享内容类型
      */
-    AcbflwShareContentTypeEnum contentType;
+    var contentType: AcbflwShareContentTypeEnum? = null
+
     /**
      * 页面实例
      */
-    private final Activity activity;
+    var activity: Activity? = null
 
     /**
      * 微信分享描述
      */
-    private final String wxBaseDescription;
+    var wxBaseDescription: String? = null
+
     /**
      * 微信文本分享文本
      */
-    private final String wxText;
+    var wxText: String? = null
+
     /**
      * 微信分享的图片
      */
-    private final Bitmap wxImageViewBitmap;
+    var wxImageViewBitmap: Bitmap? = null
+
     /**
      * 微信小程序分享地址
      */
-    private final String wxMiniProgramWebpageUrl;
+    var wxMiniProgramWebpageUrl: String? = null
+
     /**
      * 微信小程序分享小程序路径
      */
-    private final String wxMiniProgramPath;
+    var wxMiniProgramPath: String? = null
+
     /**
      * 微信小程序分享的小程序消息标题
      */
-    private final String wxMiniProgramTitle;
+    var wxMiniProgramTitle: String? = null
+
     /**
      * 微信小程序缩略图
      */
-    private final Bitmap wxMiniProgramThumbBitmap;
+    var wxMiniProgramThumbBitmap: Bitmap? = null
+
     /**
      * 小程序的类型，默认正式版
      * 正式版: WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
      * 测试版: WXMiniProgramObject.MINIPROGRAM_TYPE_TEST;
      * 预览版: WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW
      */
-    private final Integer wxMiniProgramType;
+    var wxMiniProgramType: Int? = null
 
     /**
      * 保存到本地的图片位图
      */
-    private final Bitmap saveLocalImageBitmap;
+    var saveLocalImageBitmap: Bitmap? = null
+
     /**
      * 保存到本地的图片名称
      */
-    private final String saveLocalImageName;
+    var saveLocalImageName: String? = null
 
     /**
      * 音频网页的 URL 地址	限制长度不超过 10KB
      */
-    private final String wxMusicUrl;
+    var wxMusicUrl: String? = null
+
     /**
      * 供低带宽环境下使用的音频网页 URL 地址	限制长度不超过 10KB
      */
-    private final String wxMusicLowBandUrl;
+    var wxMusicLowBandUrl: String? = null
+
     /**
      * 音频数据的 URL 地址	限制长度不超过 10KB
      */
-    private final String wxMusicDataUrl;
+    var wxMusicDataUrl: String? = null
+
     /**
      * 供低带宽环境下使用的音频数据 URL 地址	限制长度不超过 10KB
      */
-    private final String wxMusicLowBandDataUrl;
+    var wxMusicLowBandDataUrl: String? = null
 
     /**
      * 视频链接	限制长度不超过 10KB
      */
-    private final String wxVideoUrl;
+    var wxVideoUrl: String? = null
+
     /**
      * 供低带宽的环境下使用的视频链接	限制长度不超过 10KB
      */
-    private final String wxVideoLowBandUrl;
+    var wxVideoLowBandUrl: String? = null
 
     /**
      * html 链接	限制长度不超过 10KB
      */
-    private final String wxWebPageUrl;
+    var wxWebPageUrl: String? = null
 
     /**
      * 文件地址
      */
-    private final String wxFilePath;
+    var wxFilePath: String? = null
+
     /**
      * 文件数据
      */
-    private final byte[] wxFileData;
+    var wxFileData: ByteArray? = null
 
     /**
      * 微博分享文本
      */
-    private final String sinaText;
+    var sinaText: String? = null
+
     /**
      * 微博分享的图片
      */
-    private final Bitmap sinaImageViewBitmap;
+    var sinaImageViewBitmap: Bitmap? = null
+
     /**
      * 新浪分享标题
      */
-    private final String sinaTitle;
+    var sinaTitle: String? = null
+
     /**
      * 新浪分享描述
      */
-    private final String sinaDes;
+    var sinaDes: String? = null
+
     /**
      * 分享的网址
      */
-    private final String sinaWebUrl;
+    var sinaWebUrl: String? = null
+
     /**
      * 分享的图片列表
      */
-    private final List<String> sinaImagePathList;
+    var sinaImagePathList: List<String>? = null
+
     /**
      * 分享视频路径
      */
-    private final String sinaVideoPath;
+    var sinaVideoPath: String? = null
 
     /**
      * qq分享图片本地地址
      */
-    private final String qqImageLocalPath;
-
+    var qqImageLocalPath: String? = null
 }

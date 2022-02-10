@@ -71,13 +71,13 @@ public class AvlwTouchOptionsView extends View {
         drawTouchPaint.setAntiAlias(true);
     }
 
-    public AvlwTouchOptionsView(Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    public AvlwTouchOptionsView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         drawTouchPaint.setColor(drawTouchColor);
         drawTouchPaint.setAntiAlias(true);
     }
 
-    public AvlwTouchOptionsView(Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwTouchOptionsView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         drawTouchPaint.setColor(drawTouchColor);
         drawTouchPaint.setAntiAlias(true);

@@ -8,12 +8,11 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
 import androidx.annotation.NonNull;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：Spannable文本处理
@@ -143,9 +142,11 @@ public class AtlwSpannableUtil {
      * @param textView 控件
      * @param string   字符串
      */
-    public void setSpannableString(@NotNull TextView textView, @NotNull SpannableString string) {
-        textView.setText(string);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
+    public void setSpannableString(TextView textView, SpannableString string) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(textView) && JtlwCheckVariateUtil.getInstance().isNotEmpty(string)) {
+            textView.setText(string);
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+        }
     }
 
     /**
@@ -155,8 +156,10 @@ public class AtlwSpannableUtil {
      * @param textView 控件
      * @param string   字符串
      */
-    public void setSpannableString(@NotNull TextView textView, @NotNull SpannableStringBuilder string) {
-        textView.setText(string);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
+    public void setSpannableString(TextView textView, SpannableStringBuilder string) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(textView) && JtlwCheckVariateUtil.getInstance().isNotEmpty(string)) {
+            textView.setText(string);
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+        }
     }
 }

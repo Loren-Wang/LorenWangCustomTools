@@ -164,7 +164,7 @@ public class AcbflwPluginUtil {
     public void initWeChatConfigInfo(AcbflwWeChatConfigInfoBean weChatConfigInfoBean) {
         this.weChatConfigInfoBean = weChatConfigInfoBean;
         String weChatId = getWeChatId();
-        api = WXAPIFactory.createWXAPI(AtlwConfig.nowApplication, weChatId, weChatConfigInfoBean.isCheckSignature());
+        api = WXAPIFactory.createWXAPI(AtlwConfig.nowApplication, weChatId, weChatConfigInfoBean.getCheckSignature());
         api.registerApp(weChatId);
         //建议动态监听微信启动广播进行注册到微信
         registerReceiver();

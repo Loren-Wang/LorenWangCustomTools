@@ -272,7 +272,7 @@ class AcbflwWeChatShare {
                 return;
             }
             //直接切换到会话，因为小程序分享只支持会话
-            shareDataBean.targetType = AcbflwPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION;
+            shareDataBean.setTargetType(AcbflwPluginTargetTypeEnum.SHARE_WE_CHAT_SESSION);
             //构造体
             WXMiniProgramObject miniProgramObj = new WXMiniProgramObject();
             // 兼容低版本的网页链接

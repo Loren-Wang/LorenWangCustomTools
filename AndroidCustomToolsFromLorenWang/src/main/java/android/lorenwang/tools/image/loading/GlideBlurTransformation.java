@@ -10,8 +10,6 @@ import android.renderscript.ScriptIntrinsicBlur;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.security.MessageDigest;
 
 import androidx.annotation.NonNull;
@@ -28,12 +26,12 @@ class GlideBlurTransformation extends BitmapTransformation {
     }
 
     @Override
-    public void updateDiskCacheKey(@NonNull @NotNull MessageDigest messageDigest) {
+    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
 
     }
 
     @Override
-    protected Bitmap transform(@NotNull BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
+    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
         Bitmap blurredBitmap = toTransform.copy(Bitmap.Config.ARGB_8888, true);
 
         // Allocate memory for Renderscript to work with

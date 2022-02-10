@@ -1,6 +1,5 @@
 package javabase.lorenwang.tools.net;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,14 +63,16 @@ public class JtlwNetUtil {
      * @param urlPath url地址
      * @return 域名，空代表没查到
      */
-    public String getUrlHost(@NotNull String urlPath) {
-        URL url = paramsUrl(urlPath);
-        if (url != null) {
-            String host = url.getHost();
-            if (DEFAULT_HOST.equals(host)) {
-                return null;
+    public String getUrlHost(String urlPath) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(urlPath)) {
+            URL url = paramsUrl(urlPath);
+            if (url != null) {
+                String host = url.getHost();
+                if (DEFAULT_HOST.equals(host)) {
+                    return null;
+                }
+                return host;
             }
-            return host;
         }
         return null;
     }
@@ -82,7 +83,7 @@ public class JtlwNetUtil {
      * @param urlPath url地址
      * @return 协议，空代表没查到
      */
-    public String getUrlProtocol(@NotNull String urlPath) {
+    public String getUrlProtocol(String urlPath) {
         URL url = paramsUrl(urlPath);
         if (url != null) {
             return url.getProtocol();
@@ -96,7 +97,7 @@ public class JtlwNetUtil {
      * @param urlPath url地址
      * @return 端口，空代表没查到
      */
-    public Integer getUrlPort(@NotNull String urlPath) {
+    public Integer getUrlPort(String urlPath) {
         URL url = paramsUrl(urlPath);
         if (url != null) {
             return url.getPort();
@@ -110,7 +111,7 @@ public class JtlwNetUtil {
      * @param urlPath url地址
      * @return 链接地址，空代表没查到
      */
-    public String getUrlLinkPath(@NotNull String urlPath) {
+    public String getUrlLinkPath(String urlPath) {
         URL url = paramsUrl(urlPath);
         if (url != null) {
             return url.getPath();
@@ -129,7 +130,7 @@ public class JtlwNetUtil {
      * ""：指定的key的参数值为空
      * value：指定的key的参数值
      */
-    public String getUrlParams(@NotNull String urlPath, String key) {
+    public String getUrlParams(String urlPath, String key) {
         URL url = paramsUrl(urlPath);
         if (url != null) {
             String query = url.getQuery();
@@ -137,11 +138,11 @@ public class JtlwNetUtil {
             if (query != null && query.matches("[?&]+")) {
                 query = null;
             }
-            if (JtlwCheckVariateUtil.getInstance().isEmpty(key)
-                    || JtlwCheckVariateUtil.getInstance().isEmpty(query)) {
+            if (JtlwCheckVariateUtil.getInstance().isEmpty(key) || JtlwCheckVariateUtil.getInstance().isEmpty(query)) {
                 return "".equals(query) ? null : query;
             } else {
                 Pattern pattern = Pattern.compile(key + "=\\S+[^&]?");
+                assert query != null;
                 Matcher matcher = pattern.matcher(query);
                 if (matcher.find()) {
                     try {
@@ -162,7 +163,7 @@ public class JtlwNetUtil {
      * @param value   参数值
      * @return 添加后网址参数
      */
-    public String addUrlParams(@NotNull String urlPath, @NotNull String key, @NotNull Object value) {
+    public String addUrlParams(String urlPath, String key, Object value) {
         ArrayList<String> keys = new ArrayList<>(1);
         keys.add(key);
         ArrayList<Object> values = new ArrayList<>(1);
@@ -181,8 +182,8 @@ public class JtlwNetUtil {
      * @param values  参数值
      * @return 添加后网址参数
      */
-    public String addUrlParams(@NotNull String urlPath, @NotNull List<String> keys, @NotNull List<Object> values) {
-        if (keys.size() == values.size() && keys.size() > 0 && values.size() > 0) {
+    public String addUrlParams(String urlPath, List<String> keys, List<Object> values) {
+        if (keys != null && values != null && keys.size() == values.size() && keys.size() > 0) {
             //判断是否有相关参数
             String oldQuery = getUrlParams(urlPath, null);
             //清除掉原始地址的后缀？和&
@@ -210,21 +211,25 @@ public class JtlwNetUtil {
      * @param url url地址
      * @return URL对象
      */
-    private URL paramsUrl(@NotNull String url) {
-        StringBuilder urlPath = new StringBuilder(url);
-        //判断是否有请求协议，没有则添加
-        if (!url.matches("^[a-zA-Z]+://\\S+")) {
-            urlPath.insert(0, "://").insert(0, DEFAULT_PROTOCOL);
-        }
-        //判断是否有请求域名，没有则添加
-        if (!urlPath.toString().matches("\\S+://" + JtlwMatchesRegularCommon.EXP_URL_HOST + "\\S+")) {
-            urlPath.insert(urlPath.indexOf("://") + 3, DEFAULT_HOST);
-        }
-        try {
-            URL optionsUrl = new URL(urlPath.toString());
-            urlPath.setLength(0);
-            return optionsUrl;
-        } catch (MalformedURLException e) {
+    private URL paramsUrl(String url) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(url)) {
+            StringBuilder urlPath = new StringBuilder(url);
+            //判断是否有请求协议，没有则添加
+            if (!url.matches("^[a-zA-Z]+://\\S+")) {
+                urlPath.insert(0, "://").insert(0, DEFAULT_PROTOCOL);
+            }
+            //判断是否有请求域名，没有则添加
+            if (!urlPath.toString().matches("\\S+://" + JtlwMatchesRegularCommon.EXP_URL_HOST + "\\S+")) {
+                urlPath.insert(urlPath.indexOf("://") + 3, DEFAULT_HOST);
+            }
+            try {
+                URL optionsUrl = new URL(urlPath.toString());
+                urlPath.setLength(0);
+                return optionsUrl;
+            } catch (MalformedURLException e) {
+                return null;
+            }
+        } else {
             return null;
         }
     }

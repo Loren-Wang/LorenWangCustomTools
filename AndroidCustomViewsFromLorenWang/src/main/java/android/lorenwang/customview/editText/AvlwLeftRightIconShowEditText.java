@@ -10,8 +10,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,18 +67,17 @@ public class AvlwLeftRightIconShowEditText extends AppCompatEditText {
      */
     private View.OnClickListener rightOnClickListener;
 
-    public AvlwLeftRightIconShowEditText(@NonNull @NotNull Context context) {
+    public AvlwLeftRightIconShowEditText(@NonNull Context context) {
         super(context);
         init(context, null);
     }
 
-    public AvlwLeftRightIconShowEditText(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    public AvlwLeftRightIconShowEditText(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public AvlwLeftRightIconShowEditText(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs,
-            int defStyleAttr) {
+    public AvlwLeftRightIconShowEditText(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }

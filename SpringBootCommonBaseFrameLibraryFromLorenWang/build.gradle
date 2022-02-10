@@ -42,11 +42,11 @@ dependencies {
     //数据库操作库
     api 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.5.RELEASE'
     //java工具类库
-    api "javabase.lorenwang.tools:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
+    api "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
     //java数据格式化类库
-    api "javabase.lorenwang.dataparse:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
+    api "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
     //kotlin工具类
-    api "kotlinbase.lorenwang.tools:KotlinCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.kotlin_java_tools}"
+    api "com.github.loren-wang:KotlinCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.kotlin_java_tools}"
     //swagger注释
     api 'io.springfox:springfox-swagger2:2.6.0'
     api 'io.springfox:springfox-swagger-ui:2.6.0'

@@ -7,8 +7,6 @@ import android.lorenwang.tools.location.config.AtlwLocationConfig;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * 功能作用：高德库定位相关
  * 创建时间：2021-01-19 10:45 上午
@@ -44,17 +42,17 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryBase {
     }
 
     @Override
-    public void startDevicesPositioning(@NotNull AtlwLocationConfig config) {
+    public void startDevicesPositioning(AtlwLocationConfig config) {
         startPositioning(config, AtlwLocationTypeEnum.GAODE_DEVICE_SENSORS);
     }
 
     @Override
-    public void startNetworkPositioning(@NotNull AtlwLocationConfig config) {
+    public void startNetworkPositioning(AtlwLocationConfig config) {
         startPositioning(config, AtlwLocationTypeEnum.GAODE_BATTERY_SAVING);
     }
 
     @Override
-    public void startAccuratePositioning(@NotNull AtlwLocationConfig config) {
+    public void startAccuratePositioning(AtlwLocationConfig config) {
         startPositioning(config, AtlwLocationTypeEnum.GAODE_HIGHT_ACCURACY);
     }
 
@@ -74,41 +72,43 @@ class AtlwLocationLibraryGaoDe extends AtlwLocationLibraryBase {
      * @param config 配置信息
      * @param type   定位类型
      */
-    protected void startPositioning(@NotNull AtlwLocationConfig config, @NotNull AtlwLocationTypeEnum type) {
-        AMapLocationClientOption.AMapLocationMode mode = null;
-        switch (type) {
-            case GAODE_BATTERY_SAVING:
-                mode = AMapLocationClientOption.AMapLocationMode.Battery_Saving;
-                break;
-            case GAODE_DEVICE_SENSORS:
-                mode = AMapLocationClientOption.AMapLocationMode.Device_Sensors;
-                break;
-            case GAODE_HIGHT_ACCURACY:
-                mode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy;
-                break;
-            default:
-                break;
-        }
-        if (!mChangeListener.loopPositioning && mode != null) {
-            //AMapLocationClientOption对象,发起定位的模式和相关参数。
-            AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
-            mLocationOption.setLocationMode(mode);
-            if (config.getLocationTimeInterval() > 0) {
-                mChangeListener.loopPositioning = true;
-                //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
-                mLocationOption.setInterval(config.getLocationTimeInterval());
-            } else {
-                //获取一次定位结果
-                mLocationOption.setOnceLocation(true);
-                //获取最近3s内精度最高的一次定位结果
-                mLocationOption.setOnceLocationLatest(true);
+    protected void startPositioning(AtlwLocationConfig config, AtlwLocationTypeEnum type) {
+        if (config != null && type != null) {
+            AMapLocationClientOption.AMapLocationMode mode = null;
+            switch (type) {
+                case GAODE_BATTERY_SAVING:
+                    mode = AMapLocationClientOption.AMapLocationMode.Battery_Saving;
+                    break;
+                case GAODE_DEVICE_SENSORS:
+                    mode = AMapLocationClientOption.AMapLocationMode.Device_Sensors;
+                    break;
+                case GAODE_HIGHT_ACCURACY:
+                    mode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy;
+                    break;
+                default:
+                    break;
             }
-            //设置返回地址信息
-            mLocationOption.setNeedAddress(true);
-            mChangeListener.config = config;
-            mChangeListener.type = type;
-            mLocationClient.setLocationListener(mChangeListener);
-            mLocationClient.startLocation();
+            if (!mChangeListener.loopPositioning && mode != null) {
+                //AMapLocationClientOption对象,发起定位的模式和相关参数。
+                AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+                mLocationOption.setLocationMode(mode);
+                if (config.getLocationTimeInterval() > 0) {
+                    mChangeListener.loopPositioning = true;
+                    //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+                    mLocationOption.setInterval(config.getLocationTimeInterval());
+                } else {
+                    //获取一次定位结果
+                    mLocationOption.setOnceLocation(true);
+                    //获取最近3s内精度最高的一次定位结果
+                    mLocationOption.setOnceLocationLatest(true);
+                }
+                //设置返回地址信息
+                mLocationOption.setNeedAddress(true);
+                mChangeListener.config = config;
+                mChangeListener.type = type;
+                mLocationClient.setLocationListener(mChangeListener);
+                mLocationClient.startLocation();
+            }
         }
     }
 

@@ -39,15 +39,9 @@ android {
     }
 }
 
-dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    //安卓工具类库
-    api "com.github.loren-wang:AndroidCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.android_tools}"
-    //java工具类库
-    api "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
-}
-
-
+//导入包
+apply from: '../GradleDependencies/AndroidGraphicCodeScan.gradle'
+//上传配置
 def moduleName = "AndroidGraphicCodeScanFromLorenWang"
 def moduleDescription = "Android图形码扫码库"
 def moduleVersion = android.defaultConfig.versionName

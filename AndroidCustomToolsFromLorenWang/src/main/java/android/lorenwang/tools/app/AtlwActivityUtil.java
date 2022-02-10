@@ -9,11 +9,8 @@ import android.content.pm.PackageManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwCheckUtil;
 import android.lorenwang.tools.base.AtlwLogUtil;
-import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +22,9 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
@@ -85,49 +84,61 @@ public class AtlwActivityUtil {
      * @param permissions               权限列表
      * @param permissionRequestCallback 权限请求回调
      */
-    public void goToRequestPermissions(@NotNull Object context, @NonNull String[] permissions,
-            AtlwPermissionRequestCallback permissionRequestCallback) {
+    public void goToRequestPermissions(Object context, @NonNull String[] permissions, AtlwPermissionRequestCallback permissionRequestCallback) {
         //版本判断，小于23的不执行权限请求
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        //检测所有的权限是否都已经拥有
+        if (AtlwCheckUtil.getInstance().checkAppPermission(permissions)) {
             if (permissionRequestCallback != null) {
                 permissionRequestCallback.permissionRequestSuccessCallback(Arrays.asList(permissions));
             }
         } else {
-            //检测所有的权限是否都已经拥有
-            if (AtlwCheckUtil.getInstance().checkAppPermission(permissions)) {
-                if (permissionRequestCallback != null) {
-                    permissionRequestCallback.permissionRequestSuccessCallback(Arrays.asList(permissions));
+            List<String> successPermissionList = new ArrayList<>();
+            List<String> failPermissionList = new ArrayList<>();
+            final ActivityResultCallback<Map<String, Boolean>> callback = result -> {
+                for (Map.Entry<String, Boolean> entry : result.entrySet()) {
+                    if (entry.getValue()) {
+                        successPermissionList.add(entry.getKey());
+                    } else {
+                        failPermissionList.add(entry.getKey());
+                    }
                 }
-            } else {
-                List<String> successPermissionList = new ArrayList<>();
-                List<String> failPermissionList = new ArrayList<>();
-                final ActivityResultCallback<Map<String, Boolean>> callback = result -> {
-                    for (Map.Entry<String, Boolean> entry : result.entrySet()) {
-                        if (entry.getValue()) {
-                            successPermissionList.add(entry.getKey());
-                        } else {
-                            failPermissionList.add(entry.getKey());
-                        }
+                try {//只要有一个权限不通过则都失败
+                    if (failPermissionList.size() > 0) {
+                        permissionRequestCallback.permissionRequestFailCallback(failPermissionList);
+                    } else {
+                        permissionRequestCallback.permissionRequestSuccessCallback(successPermissionList);
                     }
-                    try {//只要有一个权限不通过则都失败
-                        if (failPermissionList.size() > 0) {
-                            permissionRequestCallback.permissionRequestFailCallback(failPermissionList);
-                        } else {
-                            permissionRequestCallback.permissionRequestSuccessCallback(successPermissionList);
-                        }
-                    } catch (Exception e) {
-                        AtlwLogUtil.logUtils.logE(TAG, e.getMessage());
-                    } finally {
-                        successPermissionList.clear();
-                        failPermissionList.clear();
-                    }
-                };
-                if (context instanceof AppCompatActivity) {
-                    ((AppCompatActivity) context).registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), callback)
-                            .launch(permissions);
+                } catch (Exception e) {
+                    AtlwLogUtil.logUtils.logE(TAG, e.getMessage());
+                } finally {
+                    successPermissionList.clear();
+                    failPermissionList.clear();
+                }
+            };
+            boolean goRequestPermission = false;
+            try {
+                if (context instanceof FragmentActivity) {
+                    ((FragmentActivity) context).registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), callback).launch(
+                            permissions);
+                    goRequestPermission = true;
                 } else if (context instanceof Fragment) {
                     ((Fragment) context).registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), callback).launch(
                             permissions);
+                    goRequestPermission = true;
+                }
+            } catch (Exception ignore) {
+            }
+            if (!goRequestPermission) {
+                int permissionsRequestCode = (int) (Math.random() * 100000);
+                //存储键值对
+                permissionRequestCallbackMap.put(permissionsRequestCode, permissionRequestCallback);
+                //请求权限
+                if (context instanceof AppCompatActivity) {
+                    ActivityCompat.requestPermissions((Activity) context, permissions, permissionsRequestCode);
+                } else if (context instanceof Activity) {
+                    ((Activity) context).requestPermissions(permissions, permissionsRequestCode);
+                } else if (context instanceof Fragment) {
+                    ((Fragment) context).requestPermissions(permissions, permissionsRequestCode);
                 }
             }
         }
@@ -198,12 +209,7 @@ public class AtlwActivityUtil {
     public boolean allowExitApp(long time) {
         if (!allowExitApp) {
             allowExitApp = true;
-            AtlwThreadUtil.getInstance().postOnChildThreadDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    allowExitApp = false;
-                }
-            }, time);
+            AtlwThreadUtil.getInstance().postOnChildThreadDelayed(() -> allowExitApp = false, time);
             return false;
         } else {
             return true;
@@ -319,14 +325,16 @@ public class AtlwActivityUtil {
      *
      * @param activity 当前页面实例
      */
-    public void changeActivityScreenOrientation(@NotNull Activity activity) {
-        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
-                activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-            //当前是竖排，需要修改为横排
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        } else if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
-            //当前是横排，需要修改为横排
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    public void changeActivityScreenOrientation(Activity activity) {
+        if (activity != null) {
+            if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+                    activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+                //当前是竖排，需要修改为横排
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            } else if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+                //当前是横排，需要修改为横排
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
         }
     }
 
@@ -336,8 +344,8 @@ public class AtlwActivityUtil {
      * @param activity 当前页面
      * @return true代表当前是横屏显示
      */
-    public boolean isPageLandscape(@NotNull Activity activity) {
-        return activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE ||
+    public boolean isPageLandscape(Activity activity) {
+        return activity != null && activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE ||
                 activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED ||
                 activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
     }
@@ -349,17 +357,18 @@ public class AtlwActivityUtil {
      * @param cls 服务cls
      * @return true，代表有运行
      */
-    public <T> boolean isRunService(@NotNull Class<T> cls) {
-        // 获取Activity管理器
-        ActivityManager activityManger = (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
-        // 从窗口管理器中获取正在运行的Service
-        List<ActivityManager.RunningServiceInfo> serviceList = activityManger.getRunningServices(30);
-        for (ActivityManager.RunningServiceInfo runningServiceInfo : serviceList) {
-            if (cls.getName().equals(runningServiceInfo.service.getClassName())) {
-                return true;
+    public <T> boolean isRunService(Class<T> cls) {
+        if (cls != null) {
+            // 获取Activity管理器
+            ActivityManager activityManger = (ActivityManager) AtlwConfig.nowApplication.getSystemService(ACTIVITY_SERVICE);
+            // 从窗口管理器中获取正在运行的Service
+            List<ActivityManager.RunningServiceInfo> serviceList = activityManger.getRunningServices(30);
+            for (ActivityManager.RunningServiceInfo runningServiceInfo : serviceList) {
+                if (cls.getName().equals(runningServiceInfo.service.getClassName())) {
+                    return true;
+                }
             }
         }
         return false;
     }
-
 }

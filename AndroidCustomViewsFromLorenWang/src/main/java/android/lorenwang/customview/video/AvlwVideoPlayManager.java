@@ -6,8 +6,6 @@ import android.lorenwang.tools.app.AtlwActivityUtil;
 
 import com.aliyun.player.nativeclass.CacheConfig;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,6 +13,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：视频播放工具类
@@ -60,8 +59,8 @@ public class AvlwVideoPlayManager {
      * @param uid           视频播放存储使用的uid
      * @param videoPlayView 视频播放控件
      */
-    public void addPlayVideoView(Context context, @NotNull String uid, AvlwVideoPlayView videoPlayView) {
-        if (videoPlayView != null && context != null) {
+    public void addPlayVideoView(Context context, String uid, AvlwVideoPlayView videoPlayView) {
+        if (videoPlayView != null && context != null && JtlwCheckVariateUtil.getInstance().isNotEmpty(uid)) {
             ConcurrentHashMap<String, AvlwVideoPlayView> map = playViewMap.get(context);
             if (map == null) {
                 map = new ConcurrentHashMap<>();
@@ -156,7 +155,7 @@ public class AvlwVideoPlayManager {
         if (videoCachePath == null || videoCachePath.isEmpty()) {
             if (AtlwActivityUtil.getInstance().getApplicationContext(AtlwConfig.nowApplication).getExternalFilesDir("videoCache") != null) {
                 AvlwVideoPlayManager.getInstance().setVideoCachePath(Objects.requireNonNull(
-                        AtlwActivityUtil.getInstance().getApplicationContext(AtlwConfig.nowApplication).getExternalFilesDir("videoCache"))
+                                AtlwActivityUtil.getInstance().getApplicationContext(AtlwConfig.nowApplication).getExternalFilesDir("videoCache"))
                         .getAbsolutePath());
             }
         }
@@ -173,12 +172,14 @@ public class AvlwVideoPlayManager {
      * @param uid     uid标记
      * @return 如果有找到返回，没有找到返回null
      */
-    public AvlwVideoPlayView getUidVideoPlayView(@NotNull Context context, @NotNull String uid) {
-        ConcurrentHashMap<String, AvlwVideoPlayView> map = playViewMap.get(context);
-        if (map != null) {
-            for (String key : map.keySet()) {
-                if (key != null && key.equals(uid)) {
-                    return map.get(key);
+    public AvlwVideoPlayView getUidVideoPlayView(Context context, String uid) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(context) && JtlwCheckVariateUtil.getInstance().isNotEmpty(uid)) {
+            ConcurrentHashMap<String, AvlwVideoPlayView> map = playViewMap.get(context);
+            if (map != null) {
+                for (String key : map.keySet()) {
+                    if (key != null && key.equals(uid)) {
+                        return map.get(key);
+                    }
                 }
             }
         }

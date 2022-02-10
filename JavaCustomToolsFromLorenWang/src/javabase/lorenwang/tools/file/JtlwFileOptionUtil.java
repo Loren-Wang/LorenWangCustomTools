@@ -1,7 +1,5 @@
 package javabase.lorenwang.tools.file;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -430,12 +428,15 @@ public class JtlwFileOptionUtil {
             } else {
                 boolean status = true;
                 //是文件夹开始处理
-                for (File file : oldFile.listFiles()) {
-                    if (file.isFile()) {
-                        status = status && copyFile(file.getAbsolutePath(), newFile.getAbsolutePath() + "/" + file.getName());
-                    } else {
-                        //是文件夹，递归处理
-                        status = status && copyFileDir(file.getAbsolutePath(), newFile.getAbsolutePath() + "/" + file.getName());
+                final File[] files = oldFile.listFiles();
+                if (files != null) {
+                    for (File file : files) {
+                        if (file.isFile()) {
+                            status = status && copyFile(file.getAbsolutePath(), newFile.getAbsolutePath() + "/" + file.getName());
+                        } else {
+                            //是文件夹，递归处理
+                            status = status && copyFileDir(file.getAbsolutePath(), newFile.getAbsolutePath() + "/" + file.getName());
+                        }
                     }
                 }
                 return status;
@@ -453,7 +454,10 @@ public class JtlwFileOptionUtil {
      * @param outPutPath 输出的文件夹路径，包含.zip后缀名
      * @return 压缩结果
      */
-    public boolean compressToZip(@NotNull String sourcePath, @NotNull String outPutPath) {
+    public boolean compressToZip(String sourcePath, String outPutPath) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(sourcePath) || JtlwCheckVariateUtil.getInstance().isEmpty(outPutPath)) {
+            return false;
+        }
         //源文件处理
         File sourceFile = new File(sourcePath);
         if (!sourceFile.exists()) {
@@ -473,7 +477,7 @@ public class JtlwFileOptionUtil {
         ZipOutputStream zos = null;
         try {
             JtlwLogUtil.logUtils.logI(TAG, sourcePath + "-zip压缩：开始进行压缩:" + JtlwDateTimeUtil.getInstance().getMillisecond());
-            outputStream = new FileOutputStream(new File(outPutPath));
+            outputStream = new FileOutputStream(outPutPath);
             zos = new ZipOutputStream(outputStream);
             boolean status = compressToZip(sourceFile, zos, sourceFile.getName());
             if (status) {
@@ -785,7 +789,7 @@ public class JtlwFileOptionUtil {
     }
 
     /**
-     * 获取指定文件夹下的所有文件信息，要扫描的文件夹从队列当中获取，不使用递归，使用队列处理，当检测到是文件夹的话则将文件夹加入到队列当中继续执行循环
+     * 获取指定文件夹下的所有文件信息，要扫描的文件夹从队列当中获取，不使用递归，使用队列处理，当检测是文件夹的话则将文件夹加入到队列当中继续执行循环
      * 知道当前队列内的所有文件夹当中的所有文件都被取出记录
      *
      * @param matchRegular 要取出文件的正则
@@ -839,6 +843,15 @@ public class JtlwFileOptionUtil {
                     for (File childFile : files) {
                         if (childFile.exists() && childFile.isDirectory()) {
                             clearEmptyFileDir(childFile.getAbsolutePath(), callback);
+                        }
+                    }
+                    //再清除一次，防止被清除之后当前文件夹为空
+                    files = file.listFiles();
+                    if (files == null || files.length == 0 || (files.length == 1 && ".nomedia".equals(files[0].getName()))) {
+                        final String path = file.getAbsolutePath();
+                        boolean status = deleteDirectory(path);
+                        if (callback != null) {
+                            callback.currentEmptyFileDir(path, status);
                         }
                     }
                 }
@@ -1063,9 +1076,9 @@ public class JtlwFileOptionUtil {
      * @param text      水印文本
      * @param textColor 水印颜色
      */
-    public void addTextWaterMark(@NotNull String srcPath, @NotNull String outPath, int locationX, int locationY, @NotNull String text,
-            @NotNull Color textColor) {
-        if (!JtlwCheckVariateUtil.getInstance().isEmpty(text)) {
+    public void addTextWaterMark(String srcPath, String outPath, int locationX, int locationY, String text, Color textColor) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(srcPath) && JtlwCheckVariateUtil.getInstance().isNotEmpty(outPath) &&
+                JtlwCheckVariateUtil.getInstance().isNotEmpty(text) && JtlwCheckVariateUtil.getInstance().isNotEmpty(textColor)) {
             //创建文件夹
             createDirectory(outPath, true);
             // 读取原图片信息
@@ -1106,9 +1119,9 @@ public class JtlwFileOptionUtil {
      * @param text             水印文本
      * @param textColor        水印颜色
      */
-    public void addTextWaterMark(@NotNull String srcPath, @NotNull String outPath, float locationPercentX, float locationPercentY,
-            @NotNull String text, @NotNull Color textColor) {
-        if (!JtlwCheckVariateUtil.getInstance().isEmpty(text)) {
+    public void addTextWaterMark(String srcPath, String outPath, float locationPercentX, float locationPercentY, String text, Color textColor) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(srcPath) && JtlwCheckVariateUtil.getInstance().isNotEmpty(outPath) &&
+                JtlwCheckVariateUtil.getInstance().isNotEmpty(text) && JtlwCheckVariateUtil.getInstance().isNotEmpty(textColor)) {
             //创建文件夹
             createDirectory(outPath, true);
             // 读取原图片信息

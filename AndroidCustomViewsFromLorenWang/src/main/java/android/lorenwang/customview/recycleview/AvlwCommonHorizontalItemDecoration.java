@@ -7,8 +7,6 @@ import android.graphics.Rect;
 import android.lorenwang.tools.app.AtlwScreenUtil;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,8 +49,7 @@ public class AvlwCommonHorizontalItemDecoration extends RecyclerView.ItemDecorat
      * @param color       颜色
      * @param divideWidth 高度
      */
-    public AvlwCommonHorizontalItemDecoration(Integer color, Float divideWidth,
-                                              Float firstLeftDivideWidth, Float endRightDivideWidth) {
+    public AvlwCommonHorizontalItemDecoration(Integer color, Float divideWidth, Float firstLeftDivideWidth, Float endRightDivideWidth) {
         paint.setAntiAlias(true);
         if (color != null) {
             paint.setColor(color);
@@ -65,9 +62,7 @@ public class AvlwCommonHorizontalItemDecoration extends RecyclerView.ItemDecorat
     }
 
     @Override
-    public void getItemOffsets(@NonNull @NotNull Rect outRect, @NonNull @NotNull View view,
-                               @NonNull @NotNull RecyclerView parent,
-                               @NonNull @NotNull RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         if (parent.getAdapter() == null) {
             return;
@@ -85,30 +80,26 @@ public class AvlwCommonHorizontalItemDecoration extends RecyclerView.ItemDecorat
     }
 
     @Override
-    public void onDraw(@NonNull @NotNull Canvas c, @NonNull @NotNull RecyclerView parent,
-                       @NonNull @NotNull RecyclerView.State state) {
+    public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
 
-        int childCount = parent.getAdapter() == null ? 0: parent.getAdapter().getItemCount();
+        int childCount = parent.getAdapter() == null ? 0 : parent.getAdapter().getItemCount();
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
 
         //总数量
-        int itemCount = parent.getAdapter() == null ? childCount :
-                parent.getAdapter().getItemCount();
+        int itemCount = parent.getAdapter() == null ? childCount : parent.getAdapter().getItemCount();
 
 
         for (int i = 0; i < childCount; i++) {
             View view = parent.getChildAt(i);
-            if(view == null){
+            if (view == null) {
                 continue;
             }
             if (i == 0) {
-                c.drawRect(left, view.getTop(), left + firstLeftDivideWidth, view.getBottom(),
-                        paint);
+                c.drawRect(left, view.getTop(), left + firstLeftDivideWidth, view.getBottom(), paint);
                 c.drawRect(right, view.getTop(), right + divideWidth, view.getBottom(), paint);
             } else if (i == itemCount - 1) {
-                c.drawRect(right, view.getTop(), right + endRightDivideWidth, view.getBottom(),
-                        paint);
+                c.drawRect(right, view.getTop(), right + endRightDivideWidth, view.getBottom(), paint);
             } else {
                 c.drawRect(right, view.getTop(), right + divideWidth, view.getBottom(), paint);
             }

@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.view.animation.TranslateAnimation;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -86,18 +84,17 @@ public class AvlwSliderValidationView extends ConstraintLayout {
         return input;
     };
 
-    public AvlwSliderValidationView(@NonNull @NotNull Context context) {
+    public AvlwSliderValidationView(@NonNull Context context) {
         super(context);
         init(context, null, -1);
     }
 
-    public AvlwSliderValidationView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    public AvlwSliderValidationView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public AvlwSliderValidationView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs,
-            int defStyleAttr) {
+    public AvlwSliderValidationView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }

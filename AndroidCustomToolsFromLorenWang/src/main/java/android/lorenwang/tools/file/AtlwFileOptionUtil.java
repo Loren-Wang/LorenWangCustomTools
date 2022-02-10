@@ -7,12 +7,9 @@ import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwCheckUtil;
 import android.lorenwang.tools.base.AtlwLogUtil;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.util.Xml;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -24,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 import javabase.lorenwang.tools.file.JtlwFileOptionUtil;
 
 /**
@@ -255,8 +253,9 @@ public class AtlwFileOptionUtil {
      * @param saveFile 保存地址
      * @return 返回新图片地址
      */
-    public String writeToFile(@NotNull Intent data, @NotNull String saveFile) {
-        if (saveFile.isEmpty() || AtlwConfig.nowApplication == null || AtlwConfig.nowApplication.getContentResolver() == null) {
+    public String writeToFile(Intent data, String saveFile) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(data) || JtlwCheckVariateUtil.getInstance().isEmpty(saveFile) ||
+                AtlwConfig.nowApplication == null || AtlwConfig.nowApplication.getContentResolver() == null) {
             return null;
         }
         if (data.getData() != null) {
@@ -480,13 +479,7 @@ public class AtlwFileOptionUtil {
      */
     public long getAppCacheFileSize(boolean isCheckPermission) {
         long fileSize = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            fileSize += getFileSize(isCheckPermission, AtlwConfig.nowApplication.getDataDir(), null);
-        } else {
-            fileSize += getFileSize(isCheckPermission, AtlwConfig.nowApplication.getCacheDir(), null);
-            fileSize += getFileSize(isCheckPermission, AtlwConfig.nowApplication.getFilesDir(), null);
-            fileSize += getFileSize(isCheckPermission, AtlwConfig.nowApplication.getCodeCacheDir(), null);
-        }
+        fileSize += getFileSize(isCheckPermission, AtlwConfig.nowApplication.getDataDir(), null);
         for (File dirFile : AtlwConfig.nowApplication.getObbDirs()) {
             fileSize += getFileSize(isCheckPermission, dirFile, null);
         }
@@ -507,13 +500,7 @@ public class AtlwFileOptionUtil {
      */
     public boolean clearAppCacheFile(boolean isCheckPermission) {
         boolean clearStatus;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            clearStatus = deleteDirectory(isCheckPermission, AtlwConfig.nowApplication.getDataDir().getAbsolutePath());
-        } else {
-            clearStatus = deleteDirectory(isCheckPermission, AtlwConfig.nowApplication.getCacheDir().getAbsolutePath());
-            clearStatus = clearStatus || deleteDirectory(isCheckPermission, AtlwConfig.nowApplication.getFilesDir().getAbsolutePath());
-            clearStatus = clearStatus || deleteDirectory(isCheckPermission, AtlwConfig.nowApplication.getCodeCacheDir().getAbsolutePath());
-        }
+        clearStatus = deleteDirectory(isCheckPermission, AtlwConfig.nowApplication.getDataDir().getAbsolutePath());
         for (File dirFile : AtlwConfig.nowApplication.getObbDirs()) {
             clearStatus = clearStatus || deleteDirectory(isCheckPermission, dirFile.getAbsolutePath());
         }

@@ -1,6 +1,5 @@
 package android.lorenwang.commonbaseframe.image;
 
-import java.io.File;
 import java.util.List;
 
 /**

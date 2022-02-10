@@ -29,8 +29,6 @@ import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 
 import androidx.annotation.Nullable;
@@ -63,60 +61,62 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
      * @param imageRequest 请求体
      * @param config       配置信息
      */
-    private void loadImage(ImageView imageView, @NotNull ImageRequest imageRequest, @NotNull final AtlwImageLoadConfig config) {
-        if (imageView != null && !config.isLoadGetBitmap()) {
-            //生成加载控制器
-            DraweeController controller = getController(imageRequest, imageView, config);
-            //获取占位图控制器
-            GenericDraweeHierarchy hierarchy = getHierarchy(imageView, config);
-            //设置占位图
-            if (hierarchy != null) {
-                ((DraweeView) imageView).setHierarchy(hierarchy);
-            }
-            //开始加载
-            ((DraweeView) imageView).setController(controller);
-        } else {
-            DataSource<CloseableReference<CloseableImage>> dataSource = ImagePipelineFactory.getInstance().getImagePipeline().fetchDecodedImage(
-                    imageRequest, null);
-            try {
-                dataSource.subscribe(new BaseBitmapDataSubscriber() {
-                    @Override
-                    public void onNewResultImpl(@Nullable final Bitmap bitmap) {
-                        if (bitmap != null && !bitmap.isRecycled()) {
-                            JtlwTimingTaskUtil.getInstance().schedule(Double.valueOf(Math.random() * 100000).intValue(), new Runnable() {
-                                @Override
-                                public void run() {
-                                    resultBitmap(bitmap, config);
-                                }
-                            }, 0);
+    private void loadImage(ImageView imageView, ImageRequest imageRequest, final AtlwImageLoadConfig config) {
+        if (imageRequest != null && config != null) {
+            if (imageView != null && !config.isLoadGetBitmap()) {
+                //生成加载控制器
+                DraweeController controller = getController(imageRequest, imageView, config);
+                //获取占位图控制器
+                GenericDraweeHierarchy hierarchy = getHierarchy(imageView, config);
+                //设置占位图
+                if (hierarchy != null) {
+                    ((DraweeView) imageView).setHierarchy(hierarchy);
+                }
+                //开始加载
+                ((DraweeView) imageView).setController(controller);
+            } else {
+                DataSource<CloseableReference<CloseableImage>> dataSource = ImagePipelineFactory.getInstance().getImagePipeline().fetchDecodedImage(
+                        imageRequest, null);
+                try {
+                    dataSource.subscribe(new BaseBitmapDataSubscriber() {
+                        @Override
+                        public void onNewResultImpl(@Nullable final Bitmap bitmap) {
+                            if (bitmap != null && !bitmap.isRecycled()) {
+                                JtlwTimingTaskUtil.getInstance().schedule(Double.valueOf(Math.random() * 100000).intValue(), new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        resultBitmap(bitmap, config);
+                                    }
+                                }, 0);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancellation(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                        super.onCancellation(dataSource);
-                    }
-
-                    @Override
-                    public void onFailureImpl(DataSource dataSource) {
-                        if (config.getLoadCallback() != null) {
-                            config.getLoadCallback().onFailure();
+                        @Override
+                        public void onCancellation(DataSource<CloseableReference<CloseableImage>> dataSource) {
+                            super.onCancellation(dataSource);
                         }
+
+                        @Override
+                        public void onFailureImpl(DataSource dataSource) {
+                            if (config.getLoadCallback() != null) {
+                                config.getLoadCallback().onFailure();
+                            }
+                        }
+                    }, UiThreadImmediateExecutorService.getInstance());
+                } catch (Exception e) {
+                    //oom风险.
+                    e.printStackTrace();
+                    if (config.getLoadCallback() != null) {
+                        config.getLoadCallback().onFailure();
                     }
-                }, UiThreadImmediateExecutorService.getInstance());
-            } catch (Exception e) {
-                //oom风险.
-                e.printStackTrace();
-                if (config.getLoadCallback() != null) {
-                    config.getLoadCallback().onFailure();
                 }
             }
         }
     }
 
     @Override
-    public void loadingNetImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        if (!JtlwCheckVariateUtil.getInstance().isEmpty(path) && !JtlwCheckVariateUtil.getInstance().isEmpty(imageView) &&
+    public void loadingNetImage(String path, ImageView imageView, AtlwImageLoadConfig config) {
+        if (config != null && !JtlwCheckVariateUtil.getInstance().isEmpty(path) && !JtlwCheckVariateUtil.getInstance().isEmpty(imageView) &&
                 imageView instanceof DraweeView) {
             //生成请求
             ImageRequest imageRequest = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(Uri.parse(path)), config);
@@ -127,57 +127,61 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
     }
 
     @Override
-    public void loadingLocalImage(String path, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        if (JtlwCheckVariateUtil.getInstance().isEmpty(path)) {
-            return;
-        }
-        Uri uri;
-        //格式化请求uri
-        if (path.contains("content://")) {
-            uri = new Uri.Builder().scheme(UriUtil.LOCAL_CONTENT_SCHEME).query(path).authority(
-                    AtlwConfig.nowApplication.getPackageName() + ".fileprovider").build();
-        } else {
-            uri = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME).path(path).authority(
-                    AtlwConfig.nowApplication.getPackageName() + ".fileprovider").build();
-        }
-        ImageRequest request = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), config);
-        if (request != null) {
-            loadImage(imageView, request, config);
-        }
-    }
-
-    @Override
-    public void loadingResImage(int resId, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        ImageRequest request = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithResourceId(resId), config);
-        if (request != null) {
-            loadImage(imageView, request, config);
+    public void loadingLocalImage(String path, ImageView imageView, AtlwImageLoadConfig config) {
+        if (config != null) {
+            if (JtlwCheckVariateUtil.getInstance().isEmpty(path)) {
+                return;
+            }
+            Uri uri;
+            //格式化请求uri
+            if (path.contains("content://")) {
+                uri = new Uri.Builder().scheme(UriUtil.LOCAL_CONTENT_SCHEME).query(path).authority(
+                        AtlwConfig.nowApplication.getPackageName() + ".fileprovider").build();
+            } else {
+                uri = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME).path(path).authority(
+                        AtlwConfig.nowApplication.getPackageName() + ".fileprovider").build();
+            }
+            ImageRequest request = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), config);
+            if (request != null) {
+                loadImage(imageView, request, config);
+            }
         }
     }
 
     @Override
-    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        if (!JtlwCheckVariateUtil.getInstance().isEmpty(bitmap) && !JtlwCheckVariateUtil.getInstance().isEmpty(imageView) &&
+    public void loadingResImage(int resId, ImageView imageView, AtlwImageLoadConfig config) {
+        if (config != null) {
+            ImageRequest request = getImageRequest(imageView, ImageRequestBuilder.newBuilderWithResourceId(resId), config);
+            if (request != null) {
+                loadImage(imageView, request, config);
+            }
+        }
+    }
+
+    @Override
+    public void loadingBitmapImage(Bitmap bitmap, ImageView imageView, AtlwImageLoadConfig config) {
+        if (config != null && !JtlwCheckVariateUtil.getInstance().isEmpty(bitmap) && !JtlwCheckVariateUtil.getInstance().isEmpty(imageView) &&
                 imageView instanceof SimpleDraweeView) {
             try {
                 if (bitmap != null && JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getThumbSavePath())) {
-                    if(AtlwFileOptionUtil.getInstance().writeToFile(false, new File(config.getThumbSavePath()), bitmap, Bitmap.CompressFormat.JPEG)){
-                        loadingLocalImage(config.getThumbSavePath(),imageView,config);
-                    }else {
+                    if (AtlwFileOptionUtil.getInstance().writeToFile(false, new File(config.getThumbSavePath()), bitmap,
+                            Bitmap.CompressFormat.JPEG)) {
+                        loadingLocalImage(config.getThumbSavePath(), imageView, config);
+                    } else {
                         JtlwLogUtil.logUtils.logE(TAG, "加载bitmap失败");
                     }
-//
-//                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwConfig.nowApplication.getContentResolver(), bitmap, null, null));
-//                    if (uri != null) {
-//                        getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(
-//                                Uri.parse("data:mime/type;base64," + AtlwImageCommonUtil.getInstance().imageToBase64String(bitmap))),
-//                                loadImage(imageView, getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), config), config);
-//                    }
+                    //
+                    //                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AtlwConfig.nowApplication.getContentResolver(), bitmap, null, null));
+                    //                    if (uri != null) {
+                    //                        getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(
+                    //                                Uri.parse("data:mime/type;base64," + AtlwImageCommonUtil.getInstance().imageToBase64String(bitmap))),
+                    //                                loadImage(imageView, getImageRequest(imageView, ImageRequestBuilder.newBuilderWithSource(uri), config), config);
+                    //                    }
                 }
             } catch (Exception e) {
                 JtlwLogUtil.logUtils.logE(TAG, "加载bitmap失败");
             }
         }
-
     }
 
     @Override
@@ -232,35 +236,37 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
      * @param config              配置信息
      * @return 图片请求request
      */
-    private ImageRequest getImageRequest(ImageView imageView, ImageRequestBuilder imageRequestBuilder, @NotNull AtlwImageLoadConfig config) {
-        //设置加载的宽高
-        if (config.getResizeLoadWidth() > 0 && config.getResizeLoadHeight() > 0) {
-            try {
-                ResizeOptions resizeOptions = new ResizeOptions(config.getResizeLoadWidth(), config.getResizeLoadHeight());
-                imageRequestBuilder.setResizeOptions(resizeOptions);
-            } catch (Exception e) {
-                JtlwLogUtil.logUtils.logE(TAG, "resize失败");
+    private ImageRequest getImageRequest(ImageView imageView, ImageRequestBuilder imageRequestBuilder, AtlwImageLoadConfig config) {
+        if (config != null) {
+            //设置加载的宽高
+            if (config.getResizeLoadWidth() > 0 && config.getResizeLoadHeight() > 0) {
+                try {
+                    ResizeOptions resizeOptions = new ResizeOptions(config.getResizeLoadWidth(), config.getResizeLoadHeight());
+                    imageRequestBuilder.setResizeOptions(resizeOptions);
+                } catch (Exception e) {
+                    JtlwLogUtil.logUtils.logE(TAG, "resize失败");
+                }
             }
-        }
-        //判断是否需要显示缩略图
-        if (imageView != null && isShowThumbnail(imageView, config.getShowViewWidth(), config.getShowViewHeight())) {
-            imageRequestBuilder.setLocalThumbnailPreviewsEnabled(true);
-        }
-        //是否关闭存储卡缓存
-        if (config.isDisableDiskCache()) {
-            imageRequestBuilder.disableDiskCache();
-        }
-        //是否关闭内存缓存
-        if (config.isDisableMemoryCache()) {
-            imageRequestBuilder.disableMemoryCache();
-        }
-        //设置是否渐进式加载
-        imageRequestBuilder.setProgressiveRenderingEnabled(config.isAllowProgressiveRendering());
-
-        //判断是否使用高斯模糊
-        if (config.getBlurRadius() != null && config.getBlurRadius() > 0) {
-            imageRequestBuilder.setPostprocessor(
-                    new IterativeBoxBlurPostProcessor(config.getBlurIterations() != null ? config.getBlurIterations() : 1, config.getBlurRadius()));
+            //判断是否需要显示缩略图
+            if (imageView != null && isShowThumbnail(imageView, config.getShowViewWidth(), config.getShowViewHeight())) {
+                imageRequestBuilder.setLocalThumbnailPreviewsEnabled(true);
+            }
+            //是否关闭存储卡缓存
+            if (config.isDisableDiskCache()) {
+                imageRequestBuilder.disableDiskCache();
+            }
+            //是否关闭内存缓存
+            if (config.isDisableMemoryCache()) {
+                imageRequestBuilder.disableMemoryCache();
+            }
+            //设置是否渐进式加载
+            imageRequestBuilder.setProgressiveRenderingEnabled(config.isAllowProgressiveRendering());
+            //判断是否使用高斯模糊
+            if (config.getBlurRadius() != null && config.getBlurRadius() > 0) {
+                imageRequestBuilder.setPostprocessor(
+                        new IterativeBoxBlurPostProcessor(config.getBlurIterations() != null ? config.getBlurIterations() : 1,
+                                config.getBlurRadius()));
+            }
         }
         return imageRequestBuilder.build();
     }
@@ -273,47 +279,49 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
      * @param config       配置文件
      * @return 图片加载控制器
      */
-    private DraweeController getController(@NotNull ImageRequest imageRequest, @NotNull final ImageView imageView,
-            @NotNull final AtlwImageLoadConfig config) {
-        PipelineDraweeControllerBuilder builder = Fresco.newDraweeControllerBuilder().setImageRequest(imageRequest)
-                //设置是否加载动图，默认加载动态
-                .setAutoPlayAnimations(config.isGifPlay());
-        if (config.isUseCacheLoadImage()) {
-            builder.setLowResImageRequest(ImageRequest.fromUri(imageRequest.getSourceUri()));
-        }
-        if (imageView instanceof DraweeView) {
-            //加载上一个旧的
-            try {
-                builder.setOldController(((DraweeView) imageView).getController());
-            } catch (Exception e) {
-                JtlwLogUtil.logUtils.logE(TAG, "图片加载异常");
+    private DraweeController getController(ImageRequest imageRequest, final ImageView imageView, final AtlwImageLoadConfig config) {
+        if (imageRequest != null && imageView != null && config != null) {
+            PipelineDraweeControllerBuilder builder = Fresco.newDraweeControllerBuilder().setImageRequest(imageRequest)
+                    //设置是否加载动图，默认加载动态
+                    .setAutoPlayAnimations(config.isGifPlay());
+            if (config.isUseCacheLoadImage()) {
+                builder.setLowResImageRequest(ImageRequest.fromUri(imageRequest.getSourceUri()));
             }
-
-            builder.setControllerListener(new BaseControllerListener<ImageInfo>() {
-                @Override
-                public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
-                    super.onFinalImageSet(id, imageInfo, animatable);
-
-                    if (config.getLoadCallback() != null) {
-                        config.getLoadCallback().onSuccess(null, imageInfo.getWidth(), imageInfo.getHeight());
-                    }
-                    //设置控件样式
-                    setImageViewLayoutParams(config.isUseActualAspectRatio() && ((DraweeView) imageView).getAspectRatio() == 0, imageView,
-                            config.getShowViewWidth(), config.getShowViewHeight(), imageInfo.getWidth(), imageInfo.getHeight());
-
+            if (imageView instanceof DraweeView) {
+                //加载上一个旧的
+                try {
+                    builder.setOldController(((DraweeView) imageView).getController());
+                } catch (Exception e) {
+                    JtlwLogUtil.logUtils.logE(TAG, "图片加载异常");
                 }
 
-                @Override
-                public void onFailure(String id, Throwable throwable) {
-                    super.onFailure(id, throwable);
-                    if (config.getLoadCallback() != null) {
-                        config.getLoadCallback().onFailure();
+                builder.setControllerListener(new BaseControllerListener<ImageInfo>() {
+                    @Override
+                    public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                        super.onFinalImageSet(id, imageInfo, animatable);
+
+                        if (config.getLoadCallback() != null) {
+                            config.getLoadCallback().onSuccess(null, imageInfo.getWidth(), imageInfo.getHeight());
+                        }
+                        //设置控件样式
+                        setImageViewLayoutParams(config.isUseActualAspectRatio() && ((DraweeView) imageView).getAspectRatio() == 0, imageView,
+                                config.getShowViewWidth(), config.getShowViewHeight(), imageInfo.getWidth(), imageInfo.getHeight());
+
                     }
-                }
-            });
+
+                    @Override
+                    public void onFailure(String id, Throwable throwable) {
+                        super.onFailure(id, throwable);
+                        if (config.getLoadCallback() != null) {
+                            config.getLoadCallback().onFailure();
+                        }
+                    }
+                });
+            }
+            return builder.build();
+        } else {
+            return null;
         }
-
-        return builder.build();
     }
 
     /**
@@ -322,37 +330,56 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
      * @param config 配置信息
      * @return 占位图控制器
      */
-    private GenericDraweeHierarchy getHierarchy(ImageView imageView, @NotNull AtlwImageLoadConfig config) {
-        if (imageView instanceof SimpleDraweeView) {
-            GenericDraweeHierarchy hierarchy = ((SimpleDraweeView) imageView).getHierarchy();
-            if (config.isScaleTypeCenterGroup()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
-            }
-            if (config.isScaleTypeCenterInside()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
-            }
-            if (config.isScaleTypeFitCenter()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
-            }
-            if (config.isScaleTypeFitEnd()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_END);
-            }
-            if (config.isScaleTypeFitStart()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_START);
-            }
-            if (config.isScaleTypeFocusCrop()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP);
-            }
-            if (config.isScaleTypeCenter()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER);
-            }
-            if (config.isScaleTypeFitXy()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY);
-            }
-            if (config.isScaleTypeFitBottomStart()) {
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_BOTTOM_START);
-            }
-            if (hierarchy == null) {
+    private GenericDraweeHierarchy getHierarchy(ImageView imageView, AtlwImageLoadConfig config) {
+        if (config != null) {
+            if (imageView instanceof SimpleDraweeView) {
+                GenericDraweeHierarchy hierarchy = ((SimpleDraweeView) imageView).getHierarchy();
+                if (config.isScaleTypeCenterGroup()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
+                }
+                if (config.isScaleTypeCenterInside()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
+                }
+                if (config.isScaleTypeFitCenter()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
+                }
+                if (config.isScaleTypeFitEnd()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_END);
+                }
+                if (config.isScaleTypeFitStart()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_START);
+                }
+                if (config.isScaleTypeFocusCrop()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP);
+                }
+                if (config.isScaleTypeCenter()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER);
+                }
+                if (config.isScaleTypeFitXy()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY);
+                }
+                if (config.isScaleTypeFitBottomStart()) {
+                    hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_BOTTOM_START);
+                }
+                if (hierarchy == null) {
+                    GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(AtlwConfig.nowApplication.getResources());
+                    if (config.getImageLoadingLoadResId() != null) {
+                        builder = builder.setPlaceholderImage(config.getImageLoadingLoadResId());
+                    }
+                    if (config.getImageLoadingFailResId() != null) {
+                        builder = builder.setFailureImage(config.getImageLoadingFailResId());
+                    }
+                    return builder.build();
+                } else {
+                    if (config.getImageLoadingFailResId() != null) {
+                        hierarchy.setFailureImage(config.getImageLoadingFailResId());
+                    }
+                    if (config.getImageLoadingLoadResId() != null && !hierarchy.hasPlaceholderImage()) {
+                        hierarchy.setPlaceholderImage(config.getImageLoadingLoadResId());
+                    }
+                    return hierarchy;
+                }
+            } else if (imageView instanceof DraweeView) {
                 GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(AtlwConfig.nowApplication.getResources());
                 if (config.getImageLoadingLoadResId() != null) {
                     builder = builder.setPlaceholderImage(config.getImageLoadingLoadResId());
@@ -361,26 +388,8 @@ class AtlwFrescoImageLoading extends AtlwBaseImageLoading {
                     builder = builder.setFailureImage(config.getImageLoadingFailResId());
                 }
                 return builder.build();
-            } else {
-                if (config.getImageLoadingFailResId() != null) {
-                    hierarchy.setFailureImage(config.getImageLoadingFailResId());
-                }
-                if (config.getImageLoadingLoadResId() != null && !hierarchy.hasPlaceholderImage()) {
-                    hierarchy.setPlaceholderImage(config.getImageLoadingLoadResId());
-                }
-                return hierarchy;
             }
-        } else if (imageView instanceof DraweeView) {
-            GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(AtlwConfig.nowApplication.getResources());
-            if (config.getImageLoadingLoadResId() != null) {
-                builder = builder.setPlaceholderImage(config.getImageLoadingLoadResId());
-            }
-            if (config.getImageLoadingFailResId() != null) {
-                builder = builder.setFailureImage(config.getImageLoadingFailResId());
-            }
-            return builder.build();
         }
-
         return null;
     }
 

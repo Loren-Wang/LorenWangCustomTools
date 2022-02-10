@@ -10,8 +10,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -138,17 +136,17 @@ public class AvlwCalendarView extends LinearLayoutCompat {
      */
     private final List<String> selectPageList = new ArrayList<>();
 
-    public AvlwCalendarView(@NonNull @NotNull Context context) {
+    public AvlwCalendarView(@NonNull Context context) {
         super(context);
         init(context, null);
     }
 
-    public AvlwCalendarView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    public AvlwCalendarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public AvlwCalendarView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwCalendarView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -372,9 +370,9 @@ public class AvlwCalendarView extends LinearLayoutCompat {
         }
         contentShowContainer.setAdapter(new RecyclerView.Adapter() {
             @NonNull
-            @NotNull
+
             @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 return new RecyclerView.ViewHolder(vpgViewList.get(viewType)) {};
             }
 
@@ -384,7 +382,7 @@ public class AvlwCalendarView extends LinearLayoutCompat {
             }
 
             @Override
-            public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
             }
 
@@ -415,14 +413,14 @@ public class AvlwCalendarView extends LinearLayoutCompat {
         recycleView.setLayoutParams(new ViewPager2.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         recycleView.setLayoutManager(new GridLayoutManager(getContext(), 7));
         recycleView.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-            @NotNull
+
             @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 return new RecyclerView.ViewHolder(calendarViewGetChild.getWeekDayView()) {};
             }
 
             @Override
-            public void onBindViewHolder(@NotNull RecyclerView.ViewHolder holder, int position) {
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                 Long time = dataList.get(position);
                 if (selecOne) {
                     calendarViewGetChild.setWeekDayView(holder, dataList.get(position),

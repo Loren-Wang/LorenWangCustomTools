@@ -1,0 +1,4 @@
+dependencies {
+    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    testImplementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+}

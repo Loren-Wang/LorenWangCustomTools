@@ -15,8 +15,6 @@ import com.baidu.location.BDLocation;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * 功能作用：定位信息改变监听
  * 初始注释时间： 2021/1/19 1:52 下午
@@ -36,26 +34,21 @@ class AtlwLocationChangeListener extends BDAbstractLocationListener implements L
      */
     protected AtlwLocationConfig config;
     /**
-     * 定位类型
+     * 上一次的位置信息
      */
-    protected AtlwLocationTypeEnum type;
+    protected volatile AtlwLocationResultBean lastLocationBean;
     /**
      * 循环定位标记
      */
     protected volatile boolean loopPositioning = false;
     /**
-     * 上一次的位置信息
+     * 定位类型
      */
-    protected volatile AtlwLocationResultBean lastLocationBean;
+    protected AtlwLocationTypeEnum type;
 
     @Override
     public void onLocationChanged(Location location) {
         onResult(location.getLatitude(), location.getLongitude(), location.getProvider());
-    }
-
-    @Override
-    public void onLocationChanged(AMapLocation aMapLocation) {
-        onResult(aMapLocation.getLatitude(), aMapLocation.getLongitude(), aMapLocation.getCity());
     }
 
     @Override
@@ -70,23 +63,6 @@ class AtlwLocationChangeListener extends BDAbstractLocationListener implements L
 
     @Override
     public void onProviderDisabled(String provider) {
-
-    }
-
-    /*---百度使用的---*/
-    @Override
-    public void onReceiveLocation(BDLocation bdLocation) {
-        onResult(bdLocation.getLatitude(), bdLocation.getLongitude(), bdLocation.getCity());
-    }
-
-    /*---腾讯使用的---*/
-    @Override
-    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
-        onResult(tencentLocation.getLatitude(), tencentLocation.getLongitude(), tencentLocation.getCity());
-    }
-
-    @Override
-    public void onStatusUpdate(String s, int i, String s1) {
 
     }
 
@@ -109,12 +85,8 @@ class AtlwLocationChangeListener extends BDAbstractLocationListener implements L
         AtlwLogUtil.logUtils.logI("AtlwLocation", "定位信息值:::" + bean.getLongitude() + "_" + bean.getLatitude());
         //回调定位
         if (config != null && config.getLocationsCallback() != null) {
-            AtlwThreadUtil.getInstance().postOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    config.getLocationsCallback().locationResultSuccess(type, config, bean, judgeLocationResultBean(bean));
-                }
-            });
+            AtlwThreadUtil.getInstance().postOnUiThread(
+                    () -> config.getLocationsCallback().locationResultSuccess(type, config, bean, judgeLocationResultBean(bean)));
         }
     }
 
@@ -124,13 +96,35 @@ class AtlwLocationChangeListener extends BDAbstractLocationListener implements L
      * @param bean 当前位置信息
      * @return 需要返回则返回true
      */
-    private boolean judgeLocationResultBean(@NotNull AtlwLocationResultBean bean) {
-        if (lastLocationBean != null && Double.compare(lastLocationBean.getLatitude(), bean.getLatitude()) == 0 && Double.compare(
+    private boolean judgeLocationResultBean(AtlwLocationResultBean bean) {
+        if (bean != null && lastLocationBean != null && Double.compare(lastLocationBean.getLatitude(), bean.getLatitude()) == 0 && Double.compare(
                 lastLocationBean.getLongitude(), bean.getLongitude()) == 0) {
             AtlwLogUtil.logUtils.logI("AtlwLocation", "当前位置信息未发生变更");
             return false;
         }
         lastLocationBean = bean;
         return true;
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        onResult(aMapLocation.getLatitude(), aMapLocation.getLongitude(), aMapLocation.getCity());
+    }
+
+    /*---腾讯使用的---*/
+    @Override
+    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
+        onResult(tencentLocation.getLatitude(), tencentLocation.getLongitude(), tencentLocation.getCity());
+    }
+
+    @Override
+    public void onStatusUpdate(String s, int i, String s1) {
+
+    }
+
+    /*---百度使用的---*/
+    @Override
+    public void onReceiveLocation(BDLocation bdLocation) {
+        onResult(bdLocation.getLatitude(), bdLocation.getLongitude(), bdLocation.getCity());
     }
 }

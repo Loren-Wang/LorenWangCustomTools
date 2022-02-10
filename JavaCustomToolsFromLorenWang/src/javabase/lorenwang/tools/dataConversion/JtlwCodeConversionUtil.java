@@ -1,8 +1,7 @@
 package javabase.lorenwang.tools.dataConversion;
 
-import org.jetbrains.annotations.NotNull;
-
 import javabase.lorenwang.tools.JtlwMatchesRegularCommon;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：编码转换
@@ -43,7 +42,10 @@ public class JtlwCodeConversionUtil {
      * @param dataStr 原始数据
      * @return 转换后数据
      */
-    public String chineseToUnicode(@NotNull String dataStr) {
+    public String chineseToUnicode(String dataStr) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(dataStr)) {
+            return "";
+        }
         StringBuilder result = new StringBuilder();
         String item;
         for (char cha : dataStr.toCharArray()) {
@@ -63,11 +65,10 @@ public class JtlwCodeConversionUtil {
      * @param dataStr 原始数据
      * @return 编码后数据
      */
-    public String unicodeToChinese(@NotNull String dataStr) {
+    public String unicodeToChinese(String dataStr) {
         int start = 0;
         int end;
-        for (String code : JtlwMatchesRegularCommon.getRegexResultList(dataStr,
-                JtlwMatchesRegularCommon.EXP_CODE_CONVERSION_UNICODE, false)) {
+        for (String code : JtlwMatchesRegularCommon.getRegexResultList(dataStr, JtlwMatchesRegularCommon.EXP_CODE_CONVERSION_UNICODE, false)) {
             //16进制parse整形字符串
             dataStr = dataStr.replace(code, String.valueOf((char) Integer.parseInt(code.substring(2), 16)));
         }

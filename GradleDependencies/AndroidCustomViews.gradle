@@ -1,0 +1,19 @@
+apply from: '../GradleDependencies/JavaCustomTools.gradle'
+apply from: '../GradleDependencies/JavaDataParse.gradle'
+apply from: '../GradleDependencies/AndroidCustomTools.gradle'
+dependencies {
+    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
+    //viewpager2
+    compileOnly "androidx.viewpager2:viewpager2:${rootProject.ext.libVersion.viewpager2_version}"
+    //AppBarLayout等库，不能使用compileOnly，否则会编译不通过
+    compileOnly "com.google.android.material:material:${rootProject.ext.libVersion.material_version}"
+    //阿里云视频播放器库
+    compileOnly 'com.aliyun.sdk.android:AliyunPlayer:4.5.0-full'
+    compileOnly 'com.alivc.conan:AlivcConan:0.9.5'
+    //安卓工具类库以及关联库
+    compileOnly "com.github.loren-wang:AndroidCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.android_tools}"
+    //java工具类库以及关联库
+    compileOnly "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
+    //java数据格式化类库以及关联库
+    compileOnly "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
+}

@@ -1,7 +1,5 @@
 package android.lorenwang.tools.location;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * 功能作用：定位结果来源枚举
  * 创建时间：2021-01-19 12:09 下午
@@ -108,7 +106,6 @@ public enum AtlwLocationTypeEnum {
      *
      * @return 使用的定位库枚举
      */
-    @NotNull
     public AtlwLocationTypeEnum getLocationUseLibrary() {
         for (AtlwLocationTypeEnum value : values()) {
             //先判断子数据，因为父级数据肯定对不上

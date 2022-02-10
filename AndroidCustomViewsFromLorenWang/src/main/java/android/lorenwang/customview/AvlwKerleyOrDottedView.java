@@ -59,12 +59,12 @@ public class AvlwKerleyOrDottedView extends View implements AvlwCustomViewCommon
         initConfig(context, null);
     }
 
-    public AvlwKerleyOrDottedView(Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    public AvlwKerleyOrDottedView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initConfig(context, attrs);
     }
 
-    public AvlwKerleyOrDottedView(Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwKerleyOrDottedView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initConfig(context, attrs);
     }

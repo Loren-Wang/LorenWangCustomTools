@@ -13,6 +13,8 @@ import android.lorenwang.customview.video.AvlwVideoPlayManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.os.Bundle;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -80,10 +82,8 @@ public abstract class AcbflwBaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         application = this;
         appContext = getApplicationContext();
-
         //注册监听供当前库使用
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -139,10 +139,6 @@ public abstract class AcbflwBaseApplication extends Application {
                 }
             }
         });
-        //基础包初始化配置
-        AcbflwBaseConfig.INSTANCE.setTitleBarHeadViewHeight(getResources().getDimensionPixelOffset(R.dimen.avlw_base_title_bar_head_view_height));
-        AcbflwBaseConfig.INSTANCE.setBaseBottomViewHeight(getResources().getDimensionPixelOffset(R.dimen.avlw_base_bottom_view_height));
-
         //初始化安卓自定义工具类相关
         initAndroidCustomTools();
     }
@@ -234,4 +230,17 @@ public abstract class AcbflwBaseApplication extends Application {
      * 是否使用了视图播放库
      */
     public abstract boolean isUseVideoPlayLibrary();
+
+    /**
+     * 初始化需要使用的sdk相关
+     *
+     * @param buildType 构建类型
+     */
+    public void initSdk(int buildType) {
+        if (AcbflwBaseConfig.appCompileTypeIsDebug(buildType)) {
+            ARouter.openLog();     // 打印日志
+            ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+        }
+        ARouter.init(this); // 尽可能早，推荐在Application中初始化
+    }
 }

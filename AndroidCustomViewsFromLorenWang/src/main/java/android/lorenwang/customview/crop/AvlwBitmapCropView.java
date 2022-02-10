@@ -8,8 +8,6 @@ import android.lorenwang.tools.image.AtlwImageCommonUtil;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,17 +32,17 @@ public class AvlwBitmapCropView extends ConstraintLayout {
      */
     private AvlwZoomableImageView bgImageView;
 
-    public AvlwBitmapCropView(@NonNull @NotNull Context context) {
+    public AvlwBitmapCropView(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public AvlwBitmapCropView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    public AvlwBitmapCropView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public AvlwBitmapCropView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwBitmapCropView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

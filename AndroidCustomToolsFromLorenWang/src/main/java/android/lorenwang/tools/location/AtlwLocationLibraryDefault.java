@@ -7,8 +7,6 @@ import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwLogUtil;
 import android.lorenwang.tools.location.config.AtlwLocationConfig;
 
-import org.jetbrains.annotations.NotNull;
-
 import static android.lorenwang.tools.location.AtlwLocationTypeEnum.DEVICES_ACCURATE;
 import static android.lorenwang.tools.location.AtlwLocationTypeEnum.DEVICES_GPS;
 import static android.lorenwang.tools.location.AtlwLocationTypeEnum.DEVICES_NETWORK;
@@ -39,8 +37,8 @@ class AtlwLocationLibraryDefault extends AtlwLocationLibraryBase {
      */
     @SuppressLint("MissingPermission")
     @Override
-    public void startNetworkPositioning(@NotNull AtlwLocationConfig config) {
-        if (!mChangeListener.loopPositioning) {
+    public void startNetworkPositioning(AtlwLocationConfig config) {
+        if (config != null && !mChangeListener.loopPositioning) {
             mChangeListener.type = DEVICES_NETWORK;
             mChangeListener.config = config;
             startPositioning(config, DEVICES_NETWORK);
@@ -54,8 +52,8 @@ class AtlwLocationLibraryDefault extends AtlwLocationLibraryBase {
      */
     @SuppressLint("MissingPermission")
     @Override
-    public void startDevicesPositioning(@NotNull AtlwLocationConfig config) {
-        if (!mChangeListener.loopPositioning) {
+    public void startDevicesPositioning(AtlwLocationConfig config) {
+        if (config != null && !mChangeListener.loopPositioning) {
             mChangeListener.type = DEVICES_GPS;
             mChangeListener.config = config;
             startPositioning(config, DEVICES_GPS);
@@ -68,8 +66,8 @@ class AtlwLocationLibraryDefault extends AtlwLocationLibraryBase {
      * @param config 定位配置信息
      */
     @Override
-    public void startAccuratePositioning(@NotNull AtlwLocationConfig config) {
-        if (!mChangeListener.loopPositioning) {
+    public void startAccuratePositioning(AtlwLocationConfig config) {
+        if (config != null && !mChangeListener.loopPositioning) {
             mChangeListener.type = DEVICES_ACCURATE;
             mChangeListener.config = config;
             startPositioning(config, DEVICES_ACCURATE);
@@ -113,9 +111,9 @@ class AtlwLocationLibraryDefault extends AtlwLocationLibraryBase {
      * @param type   定位类型
      */
     @SuppressLint("MissingPermission")
-    protected void startPositioning(@NotNull AtlwLocationConfig config, @NotNull AtlwLocationTypeEnum type) {
+    protected void startPositioning(AtlwLocationConfig config, AtlwLocationTypeEnum type) {
         //权限判断
-        if (checkPermissions(config) && getLocationManager() != null) {
+        if (config != null && type != null && checkPermissions(config) && getLocationManager() != null) {
             try {
                 if (config.getLocationTimeInterval() > 0) {
                     mChangeListener.loopPositioning = true;

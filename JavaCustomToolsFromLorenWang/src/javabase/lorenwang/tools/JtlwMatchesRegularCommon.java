@@ -1,13 +1,13 @@
 package javabase.lorenwang.tools;
 
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：常用正则表达式
@@ -248,7 +248,10 @@ public class JtlwMatchesRegularCommon {
      * @param whetherToHeavy 是否进行去重操作
      * @return 符合正则内容的数组
      */
-    public static ArrayList<String> getRegexResultList(@NotNull String str, @NotNull String regex, boolean whetherToHeavy) {
+    public static ArrayList<String> getRegexResultList(String str, String regex, boolean whetherToHeavy) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(str) || JtlwCheckVariateUtil.getInstance().isEmpty(regex)) {
+            return new ArrayList<>();
+        }
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(str);
         if (whetherToHeavy) {

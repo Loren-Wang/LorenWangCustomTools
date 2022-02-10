@@ -111,17 +111,17 @@ public class AvlwBubbleLayout extends ConstraintLayout {
         init(context, null);
     }
 
-    public AvlwBubbleLayout(@NonNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    public AvlwBubbleLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public AvlwBubbleLayout(@NonNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
+    public AvlwBubbleLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
-    private void init(Context context, @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+    private void init(Context context, AttributeSet attrs) {
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AvlwBubbleLayout);
         shadowWidth = typedArray.getDimensionPixelOffset(R.styleable.AvlwBubbleLayout_avlw_bl_shadowWidth, shadowWidth);
         shadowColor = typedArray.getColor(R.styleable.AvlwBubbleLayout_avlw_bl_shadowColor, shadowColor);
