@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewStub
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -100,36 +99,76 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      * 初始化标题栏控件
      */
     open fun initTitleBarView(@LayoutRes resId: Int) {
-        val stub = mFragmentView.findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
-        stub.layoutResource = resId
-        mTitleBarView = stub.inflate()
+        initTitleBarView(View.inflate(requireContext(), resId, null))
+    }
+
+    /**
+     * 初始化标题栏控件
+     */
+    open fun initTitleBarView(view: View) {
+        mTitleBarView = view
+        val baseView = mFragmentView.findViewById<ViewGroup>(R.id.lnAcbflwBase)
+        val stub = mFragmentView.findViewById<View>(R.id.vsbTitleBarHeadView)
+        val index = baseView.indexOfChild(stub)
+        baseView.removeViewAt(index)
+        baseView.addView(mTitleBarView, index)
     }
 
     /**
      * 初始化内容视图
      */
     open fun initContentView(@LayoutRes resId: Int) {
-        val stub = mFragmentView.findViewById<ViewStub>(R.id.vsbAcbflwContent)
-        stub.layoutResource = resId
-        mContentView = stub.inflate()
+        initContentView(View.inflate(requireContext(), resId, null))
+    }
+
+    /**
+     * 初始化内容视图
+     */
+    open fun initContentView(view: View) {
+        mContentView = view
+        val baseView = mFragmentView.findViewById<ViewGroup>(R.id.flAcbflwContent)
+        val stub = mFragmentView.findViewById<View>(R.id.vsbAcbflwContent)
+        val index = baseView.indexOfChild(stub)
+        baseView.removeViewAt(index)
+        baseView.addView(mContentView, index)
     }
 
     /**
      * 初始化底部操作视图
      */
     open fun initBottomOptionsView(@LayoutRes resId: Int) {
-        val stub = mFragmentView.findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
-        stub.layoutResource = resId
-        mBottomOptionsView = stub.inflate()
+        initBottomOptionsView(View.inflate(requireContext(), resId, null))
+    }
+
+    /**
+     * 初始化底部操作视图
+     */
+    open fun initBottomOptionsView(view: View) {
+        mBottomOptionsView = view
+        val baseView = mFragmentView.findViewById<ViewGroup>(R.id.lnAcbflwBase)
+        val stub = mFragmentView.findViewById<View>(R.id.vsbAcbflwBottomView)
+        val index = baseView.indexOfChild(stub)
+        baseView.removeViewAt(index)
+        baseView.addView(mBottomOptionsView, index)
     }
 
     /**
      * 初始化空view视图
      */
     open fun initEmptyView(@LayoutRes resId: Int) {
-        val stub = mFragmentView.findViewById<ViewStub>(R.id.vsbAcbflwEmpty)
-        stub.layoutResource = resId
-        mEmptyView = stub.inflate()
+        initEmptyView(View.inflate(requireContext(), resId, null))
+    }
+
+    /**
+     * 初始化空view视图
+     */
+    open fun initEmptyView(view: View) {
+        mEmptyView = view
+        val baseView = mFragmentView.findViewById<ViewGroup>(R.id.flAcbflwContent)
+        val stub = mFragmentView.findViewById<View>(R.id.vsbAcbflwEmpty)
+        val index = baseView.indexOfChild(stub)
+        baseView.removeViewAt(index)
+        baseView.addView(mEmptyView, index)
     }
 
     /**
@@ -149,7 +188,6 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
         mContentView.kttlwToGone()
         return true
     }
-
 
     override fun onPause() {
         super.onPause()

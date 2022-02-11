@@ -79,7 +79,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
      * @param headViewLayout 头部布局id
      */
     protected void addDefaultContentView(@LayoutRes Integer headViewLayout) {
-        addContentView(R.layout.activity_common_refresh_list, headViewLayout);
+//        addContentView(R.layout.activity_common_refresh_list, headViewLayout);
     }
 
     /**
@@ -107,26 +107,26 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
                     return new AcbflwBaseRecyclerViewHolder<T>(itemView) {
                         @Override
                         public void setViewData(@Nullable Activity activity, @Nullable T model, int position) {
-                            initEmptyView(itemView, R.layout.empty_data_default, null);
+//                            initEmptyView(itemView, R.layout.empty_data_default, null);
                         }
                     };
                 }
                 return BaseListActivity.this.getListViewHolder(viewType, itemView);
             }
         };
-        //如果使用swipe刷新，则禁用qtrefresh刷新，是否开启刷新使用enableRefresh 判断
-        if (useSwipeRefresh) {
-            refreshDataOptions.setAllowRefresh(false);
-            if (getSwipeAcbflwRefresh() != null) {
-                getSwipeAcbflwRefresh().setEnabled(enableRefresh);
-                getSwipeAcbflwRefresh().setOnRefreshListener(() -> refreshDataOptions.startRefreshing());
-            }
-        } else {
-            if (getSwipeAcbflwRefresh() != null) {
-                getSwipeAcbflwRefresh().setEnabled(false);
-            }
-            refreshDataOptions.setAllowLoadMore(enableRefresh);
-        }
+//        //如果使用swipe刷新，则禁用qtrefresh刷新，是否开启刷新使用enableRefresh 判断
+//        if (useSwipeRefresh) {
+//            refreshDataOptions.setAllowRefresh(false);
+//            if (getSwipeAcbflwRefresh() != null) {
+//                getSwipeAcbflwRefresh().setEnabled(enableRefresh);
+//                getSwipeAcbflwRefresh().setOnRefreshListener(() -> refreshDataOptions.startRefreshing());
+//            }
+//        } else {
+//            if (getSwipeAcbflwRefresh() != null) {
+//                getSwipeAcbflwRefresh().setEnabled(false);
+//            }
+//            refreshDataOptions.setAllowLoadMore(enableRefresh);
+//        }
         //设置是否加载更多
         refreshDataOptions.setAllowLoadMore(enableLoad);
     }
@@ -241,10 +241,10 @@ public abstract class BaseListActivity<T> extends BaseActivity implements Acbflw
      * 结束所有加载中
      */
     public void loadingAllFinish() {
-        //结束刷新
-        if (getSwipeAcbflwRefresh() != null) {
-            getSwipeAcbflwRefresh().setRefreshing(false);
-        }
+//        //结束刷新
+//        if (getSwipeAcbflwRefresh() != null) {
+//            getSwipeAcbflwRefresh().setRefreshing(false);
+//        }
         refreshDataOptions.finishAll();
     }
 }

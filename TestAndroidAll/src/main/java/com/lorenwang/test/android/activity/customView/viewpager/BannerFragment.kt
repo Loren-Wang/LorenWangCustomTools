@@ -32,31 +32,31 @@ class BannerFragment : BaseFragment() {
 
     override fun initView(savedInstanceState: Bundle?) {
         addContentView(R.layout.fragment_banner)
-        val bvBanner = fragmentView?.findViewById<AvlwBannerView>(R.id.bvBanner)
-        val list: MutableList<String> = ArrayList()
-        list.add("http://img3.imgtn.bdimg.com/it/u=2464547320,3316604757&fm=26&gp=0.jpg")
-        list.add("http://tu1.whhost.net/uploads/20181229/10/1546051661-fQRszAGlmj.jpg")
-        list.add("http://youimg1.c-ctrip.com/target/tg/706/427/971/f30f03169a5a4152bf009722b3387f2f.jpg")
-        list.add("http://img.xshuma.com/201210/21452012100576182.jpg")
-        list.add("http://l.paipaitxt.com/118851/10/06/30/104_10897237_4ee2ef93d633782.jpg")
-
-        val adapter: AcbflwBaseRecyclerAdapter<String?> = object : AcbflwBaseRecyclerAdapter<String?>(activity!!) {
-            override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?> {
-                return object : AcbflwBaseRecyclerViewHolder<String?>(itemView) {
-                    override fun setViewData(activity: Activity, model: String?, position: Int) {
-                        AtlwImageLoadingFactory.getImageLoading(AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE)
-                            .loadingNetImage(model, itemView as AppCompatImageView,
-                                AtlwImageLoadConfig.Build().setShowViewHeight(itemView.height).setShowViewWidth(itemView.width).build())
-                    }
-                }
-            }
-
-            override fun getItemCount(): Int {
-                return bvBanner?.adapterItemCount.kttlwGetNotEmptyData(0)
-            }
-        }
-        adapter.singleTypeRefresh(list, R.layout.item_imageview, false)
-        bvBanner?.setViewData(list.size, adapter)
+//        val bvBanner = fragmentView?.findViewById<AvlwBannerView>(R.id.bvBanner)
+//        val list: MutableList<String> = ArrayList()
+//        list.add("http://img3.imgtn.bdimg.com/it/u=2464547320,3316604757&fm=26&gp=0.jpg")
+//        list.add("http://tu1.whhost.net/uploads/20181229/10/1546051661-fQRszAGlmj.jpg")
+//        list.add("http://youimg1.c-ctrip.com/target/tg/706/427/971/f30f03169a5a4152bf009722b3387f2f.jpg")
+//        list.add("http://img.xshuma.com/201210/21452012100576182.jpg")
+//        list.add("http://l.paipaitxt.com/118851/10/06/30/104_10897237_4ee2ef93d633782.jpg")
+//
+//        val adapter: AcbflwBaseRecyclerAdapter<String?> = object : AcbflwBaseRecyclerAdapter<String?>(activity!!) {
+//            override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String?> {
+//                return object : AcbflwBaseRecyclerViewHolder<String?>(itemView) {
+//                    override fun setViewData(activity: Activity, model: String?, position: Int) {
+//                        AtlwImageLoadingFactory.getImageLoading(AtlwConfig.IMAGE_LOAD_LIBRARY_TYPE_GLIDE)
+//                            .loadingNetImage(model, itemView as AppCompatImageView,
+//                                AtlwImageLoadConfig.Build().setShowViewHeight(itemView.height).setShowViewWidth(itemView.width).build())
+//                    }
+//                }
+//            }
+//
+//            override fun getItemCount(): Int {
+//                return bvBanner?.adapterItemCount.kttlwGetNotEmptyData(0)
+//            }
+//        }
+//        adapter.singleTypeRefresh(list, R.layout.item_imageview, false)
+//        bvBanner?.setViewData(list.size, adapter)
     }
 
 }

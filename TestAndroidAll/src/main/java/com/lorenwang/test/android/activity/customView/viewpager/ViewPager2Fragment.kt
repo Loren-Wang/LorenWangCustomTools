@@ -26,18 +26,18 @@ class ViewPager2Fragment(var viewPager: AvlwViewPagerConstraintLayout, var posi:
 
     override fun initView(savedInstanceState: Bundle?) {
         addContentView(R.layout.fragment_view_pager2)
-        viewPager.setSecondViewPageMap(posi, fragmentView!!.findViewById(R.id.vpgList))
-        fragmentView?.findViewById<View>(R.id.vpgList)?.setBackgroundColor(Color.GRAY)
-        (fragmentView?.findViewById<View>(R.id.vpgList) as ViewPager2).adapter = object : FragmentStateAdapter(this) {
-            override fun createFragment(i: Int): Fragment {
-                return com.lorenwang.test.android.activity.customView.viewpager.ViewPager2ShowFragment(i)
-            }
-
-            override fun getItemCount(): Int {
-                return 5
-            }
-        }
-        val frameLayout = fragmentView!!.findViewById<View>(R.id.test) as FrameLayout
-        frameLayout.setPadding(90, 90, 90, 300)
+//        viewPager.setSecondViewPageMap(posi, fragmentView!!.findViewById(R.id.vpgList))
+//        fragmentView?.findViewById<View>(R.id.vpgList)?.setBackgroundColor(Color.GRAY)
+//        (fragmentView?.findViewById<View>(R.id.vpgList) as ViewPager2).adapter = object : FragmentStateAdapter(this) {
+//            override fun createFragment(i: Int): Fragment {
+//                return com.lorenwang.test.android.activity.customView.viewpager.ViewPager2ShowFragment(i)
+//            }
+//
+//            override fun getItemCount(): Int {
+//                return 5
+//            }
+//        }
+//        val frameLayout = fragmentView!!.findViewById<View>(R.id.test) as FrameLayout
+//        frameLayout.setPadding(90, 90, 90, 300)
     }
 }

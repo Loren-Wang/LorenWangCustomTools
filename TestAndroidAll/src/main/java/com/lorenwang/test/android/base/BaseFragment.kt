@@ -40,6 +40,10 @@ abstract class BaseFragment : AcbflwBaseFragment() {
         }
     }
 
+    fun addContentView(resId: Int) {
+        initContentView(resId)
+    }
+
     /**
      * 用户登陆状态异常
      */
@@ -62,8 +66,7 @@ abstract class BaseFragment : AcbflwBaseFragment() {
      */
     override fun netReqFail(netOptionReqCode: Int, message: String?) {
         if (JtlwCheckVariateUtil.getInstance().isNotEmpty(message)) {
-            val bean = JdplwJsonUtil.fromJson(message,
-                    KttlwBaseNetResponseBean::class.java)
+            val bean = JdplwJsonUtil.fromJson(message, KttlwBaseNetResponseBean::class.java)
             if (bean != null) {
                 if (JtlwCheckVariateUtil.getInstance().isNotEmpty(bean.stateMessage)) {
                     AtlwToastHintUtil.getInstance().toastMsg(bean.stateMessage)

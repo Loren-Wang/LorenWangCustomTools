@@ -29,11 +29,15 @@ public class ViewPager2ShowFragment extends BaseFragment {
         this.posi = posi;
     }
 
+//    @Override
+//    protected void initView(@Nullable Bundle savedInstanceState) {
+//        addContentView(R.layout.fragment_view_pager_show);
+//        ((TextView) getFragmentView().findViewById(R.id.tvTest)).setText(String.valueOf(posi));
+//    }
+
+
     @Override
-    protected void initView(@Nullable Bundle savedInstanceState) {
-        addContentView(R.layout.fragment_view_pager_show);
-        ((TextView) getFragmentView().findViewById(R.id.tvTest)).setText(String.valueOf(posi));
+    public void initView(@Nullable Bundle savedInstanceState) {
+
     }
-
-
 }

@@ -12,13 +12,12 @@ import com.lorenwang.test.android.activity.customToolsAndroid.CustomToolsActivit
 import com.lorenwang.test.android.activity.customView.CustomViewActivity
 import com.lorenwang.test.android.activity.graphicCodeScan.GraphicCodeActivity
 import com.lorenwang.test.android.base.BaseActivity
-import kotlinx.android.synthetic.main.empty_data_default.*
 import org.json.JSONException
 import org.json.JSONObject
 
 class MainActivity : BaseActivity() {
     override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_main)
+        initContentView(R.layout.activity_main)
         Fresco.initialize(applicationContext)
         testData()
     }
@@ -26,10 +25,6 @@ class MainActivity : BaseActivity() {
     override fun onRefreshData() {
         super.onRefreshData()
         swipeRefresh?.isRefreshing = false
-    }
-
-    override fun initData(savedInstanceState: Bundle?) {
-        super.initData(savedInstanceState)
     }
 
     fun mainClick(view: View?) {

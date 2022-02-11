@@ -9,7 +9,7 @@ import android.lorenwang.tools.base.AtlwLogUtil
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.view.View
-import android.view.ViewStub
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -33,6 +33,8 @@ import java.lang.ref.WeakReference
  * 备注：
  */
 abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
+    protected val TAG = javaClass.simpleName
+
     /**
      * 内容视图
      */
@@ -110,36 +112,76 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      * 初始化标题栏控件
      */
     open fun initTitleBarView(@LayoutRes resId: Int) {
-        val stub = findViewById<ViewStub>(R.id.vsbTitleBarHeadView)
-        stub.layoutResource = resId
-        mTitleBarView = stub.inflate()
+        initTitleBarView(View.inflate(this, resId, null))
+    }
+
+    /**
+     * 初始化标题栏控件
+     */
+    open fun initTitleBarView(view: View) {
+        mTitleBarView = view
+        val baseView = findViewById<ViewGroup>(R.id.lnAcbflwBase)
+        val stub = findViewById<View>(R.id.vsbTitleBarHeadView)
+        val index = baseView.indexOfChild(stub)
+        baseView.removeViewAt(index)
+        baseView.addView(mTitleBarView, index)
     }
 
     /**
      * 初始化内容视图
      */
     open fun initContentView(@LayoutRes resId: Int) {
-        val stub = findViewById<ViewStub>(R.id.vsbAcbflwContent)
-        stub.layoutResource = resId
-        mContentView = stub.inflate()
+        initContentView(View.inflate(this, resId, null))
+    }
+
+    /**
+     * 初始化内容视图
+     */
+    open fun initContentView(view: View) {
+        mContentView = view
+        val baseView = findViewById<ViewGroup>(R.id.flAcbflwContent)
+        val stub = findViewById<View>(R.id.vsbAcbflwContent)
+        val index = baseView.indexOfChild(stub)
+        baseView.removeViewAt(index)
+        baseView.addView(mContentView, index)
     }
 
     /**
      * 初始化底部操作视图
      */
     open fun initBottomOptionsView(@LayoutRes resId: Int) {
-        val stub = findViewById<ViewStub>(R.id.vsbAcbflwBottomView)
-        stub.layoutResource = resId
-        mBottomOptionsView = stub.inflate()
+        initBottomOptionsView(View.inflate(this, resId, null))
+    }
+
+    /**
+     * 初始化底部操作视图
+     */
+    open fun initBottomOptionsView(view: View) {
+        mBottomOptionsView = view
+        val baseView = findViewById<ViewGroup>(R.id.lnAcbflwBase)
+        val stub = findViewById<View>(R.id.vsbAcbflwBottomView)
+        val index = baseView.indexOfChild(stub)
+        baseView.removeViewAt(index)
+        baseView.addView(mBottomOptionsView, index)
     }
 
     /**
      * 初始化空view视图
      */
     open fun initEmptyView(@LayoutRes resId: Int) {
-        val stub = findViewById<ViewStub>(R.id.vsbAcbflwEmpty)
-        stub.layoutResource = resId
-        mEmptyView = stub.inflate()
+        initEmptyView(View.inflate(this, resId, null))
+    }
+
+    /**
+     * 初始化空view视图
+     */
+    open fun initEmptyView(view: View) {
+        mEmptyView = view
+        val baseView = findViewById<ViewGroup>(R.id.flAcbflwContent)
+        val stub = findViewById<View>(R.id.vsbAcbflwEmpty)
+        val index = baseView.indexOfChild(stub)
+        baseView.removeViewAt(index)
+        baseView.addView(mEmptyView, index)
     }
 
     /**

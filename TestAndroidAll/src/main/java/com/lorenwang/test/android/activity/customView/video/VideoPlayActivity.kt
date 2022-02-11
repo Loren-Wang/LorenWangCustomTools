@@ -26,7 +26,7 @@ class VideoPlayActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        VideoPlayViewHolder(showContentView!!).setViewData(this,"https://vd4.bdstatic.com/mda-kk0nypaib3ih5tvz/sc/cae_h264_clips/1604218626/mda-kk0nypaib3ih5tvz.mp4?auth_key=1611204555-0-0-3a28571b930310122f39c1b033cd38f1&bcevod_channel=searchbox_feed&pd=1&pt=3&abtest=4_1-6_1",0)
+//        VideoPlayViewHolder(showContentView!!).setViewData(this,"https://vd4.bdstatic.com/mda-kk0nypaib3ih5tvz/sc/cae_h264_clips/1604218626/mda-kk0nypaib3ih5tvz.mp4?auth_key=1611204555-0-0-3a28571b930310122f39c1b033cd38f1&bcevod_channel=searchbox_feed&pd=1&pt=3&abtest=4_1-6_1",0)
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {

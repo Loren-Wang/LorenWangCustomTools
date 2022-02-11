@@ -5,7 +5,8 @@ import android.lorenwang.commonbaseframe.AcbflwBaseActivity
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
 import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.view.ViewStub
-import androidx.databinding.ViewDataBinding
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewbinding.ViewBinding
 import javabase.lorenwang.dataparse.JdplwJsonUtil
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtil
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
@@ -24,6 +25,7 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 abstract class BaseActivity : AcbflwBaseActivity() {
     private var loadingDialog: AvlwLoadingDialogType1? = null//加载中弹窗
     private lateinit var vsbContent: ViewStub
+    var swipeRefresh: SwipeRefreshLayout? = null
 
     override fun showBaseLoading(allowLoadingBackFinishPage: Boolean, data: String?) {
         if (loadingDialog == null) {
@@ -48,6 +50,10 @@ abstract class BaseActivity : AcbflwBaseActivity() {
         hideBaseLoading()
     }
 
+    fun addShowContentView(b: Boolean, binding: ViewBinding?) {
+        binding?.root?.let { initContentView(it) }
+    }
+
     /**
      * 网络请求成功
      * @param data 响应数据
@@ -56,8 +62,8 @@ abstract class BaseActivity : AcbflwBaseActivity() {
     override fun <T> netReqSuccess(netOptionReqCode: Int, data: T) {
     }
 
-    override fun <T : ViewDataBinding> addShowContentView(addBaseLayout: Boolean, binding: T?): T? {
-        return super.addShowContentView(addBaseLayout, binding)
+    fun addContentView(resId: Int) {
+        initContentView(resId)
     }
 
     /**
@@ -67,8 +73,7 @@ abstract class BaseActivity : AcbflwBaseActivity() {
      */
     override fun netReqFail(netOptionReqCode: Int, message: String?) {
         if (JtlwCheckVariateUtil.getInstance().isNotEmpty(message)) {
-            val bean = JdplwJsonUtil.fromJson(message,
-                    KttlwBaseNetResponseBean::class.java)
+            val bean = JdplwJsonUtil.fromJson(message, KttlwBaseNetResponseBean::class.java)
             if (bean != null) {
                 if (JtlwCheckVariateUtil.getInstance().isNotEmpty(bean.stateMessage)) {
                     AtlwToastHintUtil.getInstance().toastMsg(bean.stateMessage)

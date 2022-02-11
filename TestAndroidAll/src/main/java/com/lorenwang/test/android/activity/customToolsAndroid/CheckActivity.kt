@@ -36,6 +36,7 @@ class CheckActivity : BaseActivity() {
         addShowContentView(true, binding)
     }
 
+
     fun mainClick(view: View?) {
         if (view != null) {
             val path = AtlwFileOptionUtil.getInstance().baseStorageDirPath + binding?.edtContent?.text?.toString()?.kttlwClearFirstString("/", true)
