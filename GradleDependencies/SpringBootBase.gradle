@@ -1,0 +1,11 @@
+apply from: '../GradleDependencies/KotlinCustomTools.gradle'
+dependencies {
+    compileOnly "org.springframework:spring-webmvc:${rootProject.ext.libVersion.spring_webmvc}"
+    compileOnly "org.apache.tomcat.embed:tomcat-embed-core:${rootProject.ext.libVersion.tomcat_embed_core}"
+    compileOnly "org.springframework.boot:spring-boot-starter-data-jpa:${rootProject.ext.libVersion.spring_boot_starter}"
+    //kotlin工具类
+    compileOnly "com.github.loren-wang:KotlinCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.kotlin_java_tools}"
+    //swagger注释
+    compileOnly "io.springfox:springfox-swagger2:${rootProject.ext.libVersion.springfox_swagger}"
+    compileOnly "io.springfox:springfox-swagger-ui:${rootProject.ext.libVersion.springfox_swagger}"
+}
