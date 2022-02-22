@@ -1,6 +1,6 @@
 package com.test.springboot.utils
 
-import javabase.lorenwang.common_base_frame.utils.SbcbflwLogUtils
+import springbase.lorenwang.base.utils.SpblwLog
 
 /**
  * 功能作用：日志工具类
@@ -15,21 +15,4 @@ import javabase.lorenwang.common_base_frame.utils.SbcbflwLogUtils
  *
  * @author 王亮（Loren wang）
  */
-class LogUtil private constructor() : SbcbflwLogUtils() {
-    companion object {
-        private var optionsInstance: LogUtil? = null
-        val instance: LogUtil
-            get() {
-                if (optionsInstance == null) {
-                    synchronized(this::class.java) {
-                        if (optionsInstance == null) {
-                            optionsInstance = LogUtil()
-                        }
-                    }
-                }
-                return optionsInstance!!
-            }
-    }
-
-
-}
+class LogUtil : SpblwLog()

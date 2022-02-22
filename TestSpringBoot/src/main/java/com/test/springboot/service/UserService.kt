@@ -3,7 +3,7 @@ package com.test.springboot.service
 import com.test.springboot.bean.local.BaseDataDisposeStatusBean
 import com.test.springboot.database.table.UserRoleTb
 import com.test.springboot.enums.UserLoginFromEnum
-import javabase.lorenwang.common_base_frame.service.SbcbflwUserService
+import springbase.lorenwang.user.service.SpulwUserService
 
 /**
  * 功能作用：用户服务
@@ -18,21 +18,21 @@ import javabase.lorenwang.common_base_frame.service.SbcbflwUserService
  *
  * @author 王亮（Loren wang）
  */
-abstract class UserService :SbcbflwUserService() {
+abstract class UserService : SpulwUserService() {
     /**
      * 用户登录
      */
-    abstract fun loginUser(account : String, password : String, loginFrom : UserLoginFromEnum) : BaseDataDisposeStatusBean
+    abstract fun loginUser(account: String, password: String, loginFrom: UserLoginFromEnum): BaseDataDisposeStatusBean
 
     /**
      * 生成用户token
      */
-    abstract fun generateAccessToken(userId : String, loginFrom : UserLoginFromEnum) : String?
+    abstract fun generateAccessToken(userId: String, loginFrom: UserLoginFromEnum): String?
 
     /**
      * 新增新用户
      * @param account 用户名称
      * @param roleTb 用户角色信息
      */
-    abstract fun addNewUser(account : String,phoneNum:String, roleTb : UserRoleTb)
+    abstract fun addNewUser(account: String, phoneNum: String, roleTb: UserRoleTb)
 }

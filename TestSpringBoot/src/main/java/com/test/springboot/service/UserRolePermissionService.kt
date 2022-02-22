@@ -6,8 +6,8 @@ import com.test.springboot.database.table.UserInfoTb
 import com.test.springboot.database.table.UserPermissionTb
 import com.test.springboot.database.table.UserRoleTb
 import com.test.springboot.enums.UserPermissionTypeEnum
-import javabase.lorenwang.common_base_frame.service.SbcbflwUserPermissionService
 import org.springframework.beans.factory.annotation.Autowired
+import springbase.lorenwang.user.service.SpulwUserPermissionService
 
 /**
  * 功能作用：用户角色权限service
@@ -22,8 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired
  *
  * @author 王亮（Loren wang）
  */
-abstract class UserRolePermissionService : SbcbflwUserPermissionService<BaseHttpServletRequestWrapper,
-        UserPermissionTb,UserRoleTb,UserInfoTb,UserPermissionTypeEnum, UserPermissionRepository>() {
+abstract class UserRolePermissionService :
+    SpulwUserPermissionService<BaseHttpServletRequestWrapper, UserPermissionTb, UserRoleTb, UserInfoTb, UserPermissionTypeEnum, UserPermissionRepository>() {
     @Autowired
-    protected lateinit var permissionsRepository : UserPermissionRepository
+    protected lateinit var permissionsRepository: UserPermissionRepository
 }

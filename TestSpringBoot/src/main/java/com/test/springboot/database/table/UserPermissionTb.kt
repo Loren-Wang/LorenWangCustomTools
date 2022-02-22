@@ -2,7 +2,7 @@ package com.test.springboot.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.test.springboot.database.TableInfoConfig
-import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserPermissionTb
+import springbase.lorenwang.user.database.table.SpulwBaseUserPermissionTb
 import javax.persistence.Entity
 import javax.persistence.Table
 
@@ -23,4 +23,4 @@ import javax.persistence.Table
 @Entity
 @Table(name = TableInfoConfig.TableName.USER_PERMISSION)
 @org.hibernate.annotations.Table(appliesTo = TableInfoConfig.TableName.USER_PERMISSION, comment = "用户权限表")
-class UserPermissionTb : SbcbflwBaseUserPermissionTb<UserRoleTb>()
+class UserPermissionTb : SpulwBaseUserPermissionTb<UserRoleTb>()

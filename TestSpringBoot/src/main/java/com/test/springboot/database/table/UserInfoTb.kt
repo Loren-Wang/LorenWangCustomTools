@@ -2,9 +2,9 @@ package com.test.springboot.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.test.springboot.database.TableInfoConfig
-import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.CommonColumn
-import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig.UserInfoColumn
-import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserInfoTb
+import springbase.lorenwang.base.database.SpblwBaseTableConfig
+import springbase.lorenwang.user.database.SpulwBaseTableConfig
+import springbase.lorenwang.user.database.table.SpulwBaseUserInfoTb
 import javax.persistence.Entity
 import javax.persistence.Table
 import javax.persistence.UniqueConstraint
@@ -24,6 +24,8 @@ import javax.persistence.UniqueConstraint
  */
 @JsonAutoDetect
 @Entity
-@Table(name = TableInfoConfig.TableName.USER_INFO, uniqueConstraints = [UniqueConstraint(columnNames = [UserInfoColumn.ACCOUNT]), UniqueConstraint(columnNames = [CommonColumn.PHONE_NUM])])
+@Table(name = TableInfoConfig.TableName.USER_INFO,
+    uniqueConstraints = [UniqueConstraint(columnNames = [SpulwBaseTableConfig.UserInfoColumn.ACCOUNT]), UniqueConstraint(
+        columnNames = [SpblwBaseTableConfig.CommonColumn.PHONE_NUM])])
 @org.hibernate.annotations.Table(appliesTo = TableInfoConfig.TableName.USER_INFO, comment = "用户表")
-class UserInfoTb : SbcbflwBaseUserInfoTb<UserPermissionTb, UserRoleTb>()
+class UserInfoTb : SpulwBaseUserInfoTb<UserPermissionTb, UserRoleTb>()

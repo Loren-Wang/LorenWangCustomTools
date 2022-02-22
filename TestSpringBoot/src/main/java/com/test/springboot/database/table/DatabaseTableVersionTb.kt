@@ -2,7 +2,7 @@ package com.test.springboot.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.test.springboot.database.TableInfoConfig
-import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseDatabaseTableVersionTb
+import springbase.lorenwang.base.database.table.SpblwBaseDatabaseTableVersionTb
 import javax.persistence.Entity
 import javax.persistence.Table
 
@@ -23,4 +23,4 @@ import javax.persistence.Table
 @Table(name = TableInfoConfig.TableName.DATABASE_TABLE_VERSION)
 @org.hibernate.annotations.Table(appliesTo = TableInfoConfig.TableName.DATABASE_TABLE_VERSION, comment = "数据库表版本表")
 @JsonAutoDetect
-class DatabaseTableVersionTb : SbcbflwBaseDatabaseTableVersionTb()
+class DatabaseTableVersionTb : SpblwBaseDatabaseTableVersionTb()

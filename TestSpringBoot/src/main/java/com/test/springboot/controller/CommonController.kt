@@ -4,8 +4,10 @@ import com.test.springboot.base.BaseController
 import com.test.springboot.base.BaseHttpServletRequestWrapper
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import javabase.lorenwang.common_base_frame.kotlinExtend.sbcbflwControllerCheckAndOptions
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+import springbase.lorenwang.base.kotlinExtend.spblwControllerCheckAndOptions
 
 /**
  * 功能作用：通用接口请求
@@ -27,9 +29,9 @@ class CommonController : BaseController() {
 
     @GetMapping("test")
     @ApiOperation(value = "test", httpMethod = "GET")
-    fun submit(request : BaseHttpServletRequestWrapper, reqBean : String) : String {
+    fun submit(request: BaseHttpServletRequestWrapper, reqBean: String): String {
         super.base(request, reqBean)
-        return sbcbflwControllerCheckAndOptions(request, arrayOf(reqBean), this) {
+        return spblwControllerCheckAndOptions(request, arrayOf(reqBean), this) {
             responseSuccess(request, null)
         }
     }

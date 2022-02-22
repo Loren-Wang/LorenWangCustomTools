@@ -2,7 +2,7 @@ package com.test.springboot.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.test.springboot.database.TableInfoConfig
-import javabase.lorenwang.common_base_frame.database.table.SbcbflwBaseUserRoleTb
+import springbase.lorenwang.user.database.table.SpulwBaseUserRoleTb
 import javax.persistence.Entity
 import javax.persistence.Table
 
@@ -23,4 +23,4 @@ import javax.persistence.Table
 @Entity
 @Table(name = TableInfoConfig.TableName.USER_ROLE)
 @org.hibernate.annotations.Table(appliesTo = TableInfoConfig.TableName.USER_ROLE, comment = "用户角色表")
-class UserRoleTb : SbcbflwBaseUserRoleTb<UserPermissionTb>()
+class UserRoleTb : SpulwBaseUserRoleTb<UserPermissionTb>()

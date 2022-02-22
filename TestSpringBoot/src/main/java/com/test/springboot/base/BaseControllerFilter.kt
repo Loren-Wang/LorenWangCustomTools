@@ -1,8 +1,8 @@
 package com.test.springboot.base
 
 import Setting
-import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseControllerFilter
 import org.springframework.stereotype.Service
+import springbase.lorenwang.user.controller.SpuControllerFilter
 import javax.servlet.ServletRequest
 import javax.servlet.http.HttpServletRequest
 
@@ -20,14 +20,14 @@ import javax.servlet.http.HttpServletRequest
  * @author 王亮（Loren wang）
  */
 @Service
-internal class BaseControllerFilter : SbcbflwBaseControllerFilter<BaseHttpServletRequestWrapper>() {
+internal class BaseControllerFilter : SpuControllerFilter<BaseHttpServletRequestWrapper>() {
     /**
      * 格式化
      *
      * @param request 默认进入的请求
      * @return 格式化的请求
      */
-    override fun paramsRequest(request : ServletRequest?) : BaseHttpServletRequestWrapper {
+    override fun paramsRequest(request: ServletRequest?): BaseHttpServletRequestWrapper {
         return BaseHttpServletRequestWrapper(request as HttpServletRequest)
     }
 
@@ -36,7 +36,7 @@ internal class BaseControllerFilter : SbcbflwBaseControllerFilter<BaseHttpServle
      *
      * @return key值关键字
      */
-    override fun getHeaderAccessTokenKey() : String {
+    override fun getHeaderAccessTokenKey(): String {
         return Setting.ACCESS_TOKEN_KEY
     }
 

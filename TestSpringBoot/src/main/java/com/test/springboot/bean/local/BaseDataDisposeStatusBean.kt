@@ -1,7 +1,7 @@
 package com.test.springboot.bean.local
 
 import com.test.springboot.enums.NetRepStatusEnum
-import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
+import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
 
 /**
  * 功能作用：数据处理状态实体
@@ -16,4 +16,5 @@ import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBea
  *
  * @author 王亮（Loren）
  */
-class BaseDataDisposeStatusBean(statusResult : Boolean, val repStatusEnum : NetRepStatusEnum, body : Any? = null) : SbcbflwBaseDataDisposeStatusBean(statusResult, body)
+class BaseDataDisposeStatusBean(statusResult: Boolean, val repStatusEnum: NetRepStatusEnum, body: Any? = null) :
+    SpblwBaseDataDisposeStatusBean(statusResult, body)

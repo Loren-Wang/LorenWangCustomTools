@@ -5,8 +5,8 @@ import com.test.springboot.database.repository.UserPermissionRepository
 import com.test.springboot.database.table.UserInfoTb
 import com.test.springboot.enums.UserPermissionTypeEnum
 import com.test.springboot.service.UserRolePermissionService
-import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
 import org.springframework.stereotype.Service
+import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
 
 /**
  * 功能作用：用户角色权限服务
@@ -24,14 +24,15 @@ import org.springframework.stereotype.Service
 @Service
 class UserRolePermissionServiceImpl : UserRolePermissionService() {
 
-    override fun checkUserHavePermission(request : BaseHttpServletRequestWrapper, userInfo : UserInfoTb, permission : UserPermissionTypeEnum) : SbcbflwBaseDataDisposeStatusBean {
-        return SbcbflwBaseDataDisposeStatusBean(false)
+    override fun checkUserHavePermission(request: BaseHttpServletRequestWrapper, userInfo: UserInfoTb,
+        permission: UserPermissionTypeEnum): SpblwBaseDataDisposeStatusBean {
+        return SpblwBaseDataDisposeStatusBean(false)
     }
 
     /**
      * 获取用户权限数据库操作实体
      */
-    override fun getUserPermissionRepository() : UserPermissionRepository {
+    override fun getUserPermissionRepository(): UserPermissionRepository {
         return permissionsRepository
     }
 }

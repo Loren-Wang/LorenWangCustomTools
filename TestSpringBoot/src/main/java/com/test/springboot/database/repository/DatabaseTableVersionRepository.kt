@@ -1,7 +1,7 @@
 package com.test.springboot.database.repository
 
 import com.test.springboot.database.table.DatabaseTableVersionTb
-import javabase.lorenwang.common_base_frame.database.repository.SbcbflwDatabaseTableVersionRepository
+import springbase.lorenwang.base.database.repository.SpblwDatabaseTableVersionRepository
 
 /**
  * 功能作用：数据库版本表
@@ -16,4 +16,4 @@ import javabase.lorenwang.common_base_frame.database.repository.SbcbflwDatabaseT
  *
  * @author 王亮（Loren wang）
  */
-interface DatabaseTableVersionRepository :SbcbflwDatabaseTableVersionRepository<DatabaseTableVersionTb>
+interface DatabaseTableVersionRepository : SpblwDatabaseTableVersionRepository<DatabaseTableVersionTb>

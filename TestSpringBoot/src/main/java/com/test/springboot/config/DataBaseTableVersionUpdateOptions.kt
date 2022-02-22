@@ -10,15 +10,12 @@ import com.test.springboot.database.table.UserRoleTb
 import com.test.springboot.enums.UserPermissionTypeEnum
 import com.test.springboot.enums.UserRoleTypeEnum
 import com.test.springboot.service.UserService
-import com.test.springboot.utils.LogUtil
-import javabase.lorenwang.common_base_frame.SbcbflwCommon
-import javabase.lorenwang.common_base_frame.database.SbcbflwBaseTableConfig
-import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.transaction.interceptor.TransactionAspectSupport
+import springbase.lorenwang.base.database.SpblwDataBaseTableVersionUpdateOptions
+import springbase.lorenwang.user.database.SpulwBaseTableConfig
 
 /**
  * 功能作用：数据库表版本控制操作类
@@ -32,40 +29,16 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport
  * 备注：
  */
 @Service
-open class DataBaseTableVersionUpdateOptions {
-    //数据库表版本表操作实例
-    private lateinit var databaseTableVersionRepository : DatabaseTableVersionRepository
+open class DataBaseTableVersionUpdateOptions : SpblwDataBaseTableVersionUpdateOptions<DatabaseTableVersionTb, DatabaseTableVersionRepository>() {
+    /**
+     * 配置信息
+     */
+    private lateinit var config: PropertiesConfig
 
     @Transactional
-    open fun initData(applicationContext : ConfigurableApplicationContext) {
-
-        try {
-            val config = SbcbflwCommon.instance.propertiesConfig.kttlwFormatConversion<PropertiesConfig>()
-            //获取数据库表版本表操作实例
-            databaseTableVersionRepository = applicationContext.getBean(DatabaseTableVersionRepository::class.java)
-            val tableVersion = databaseTableVersionRepository.findDatabaseTableVersionTbByVersionCodeAndVersionName(config?.databaseTableVersionCode!!, config.databaseTableVersionName!!)
-            if (tableVersion == null) {
-                LogUtil.instance.logI(javaClass, "开始执行版本${config.databaseTableVersionName}的更新")
-                when (config.databaseTableVersionCode) {
-                    100L -> {
-                        ChangeTableV100(applicationContext).initTable()
-                    }
-                    else -> {
-
-                    }
-                }
-
-                //保存版本信息
-                val databaseTableVersionTb = DatabaseTableVersionTb()
-                databaseTableVersionTb.versionName = config.databaseTableVersionName
-                databaseTableVersionTb.versionCode = config.databaseTableVersionCode
-                databaseTableVersionRepository.save(databaseTableVersionTb)
-                LogUtil.instance.logI(javaClass, "版本${config.databaseTableVersionName}更新成功")
-            }
-        } catch (e : Exception) {
-            LogUtil.instance.logE(javaClass, "更新发生异常，手动执行异常回滚，异常信息：${e.message}")
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
-        }
+    open fun initData(applicationContext: ConfigurableApplicationContext, config: PropertiesConfig) {
+        this.config = config
+        initData(applicationContext, applicationContext.getBean(DatabaseTableVersionRepository::class.java))
     }
 
     /**
@@ -78,11 +51,11 @@ open class DataBaseTableVersionUpdateOptions {
      * 修改时间：
      * 备注：
      */
-    class ChangeTableV100(private var applicationContext : ConfigurableApplicationContext) {
+    class ChangeTableV100(private var applicationContext: ConfigurableApplicationContext) {
         /**
          * 超级管理员角色
          */
-        private lateinit var userRoleSuperAdmin : UserRoleTb
+        private lateinit var userRoleSuperAdmin: UserRoleTb
 
         //获取jdbc操作实例
         private val jdbcTemplate = applicationContext.getBean(JdbcTemplate::class.java)
@@ -101,7 +74,7 @@ open class DataBaseTableVersionUpdateOptions {
         @Throws(java.lang.Exception::class)
         private fun initUserRoleAndPermissionInfo() {
             //清理旧数据表
-            clearTable(SbcbflwBaseTableConfig.TableName.INTERMEDIATE_USER_ROLE_PERMISSION)
+            clearTable(SpulwBaseTableConfig.TableName.INTERMEDIATE_USER_ROLE_PERMISSION)
             clearTable(TableInfoConfig.TableName.USER_ROLE)
             clearTable(TableInfoConfig.TableName.USER_PERMISSION)
 
@@ -126,7 +99,8 @@ open class DataBaseTableVersionUpdateOptions {
          *
          */
         @Throws(java.lang.Exception::class)
-        private fun savePermission(userPermissionRepository : UserPermissionRepository, permissionName : String, permissionType : UserPermissionTypeEnum) : UserPermissionTb {
+        private fun savePermission(userPermissionRepository: UserPermissionRepository, permissionName: String,
+            permissionType: UserPermissionTypeEnum): UserPermissionTb {
             val userPermissionTb = UserPermissionTb()
             userPermissionTb.permissionName = permissionName
             userPermissionTb.type = permissionType.type
@@ -137,7 +111,7 @@ open class DataBaseTableVersionUpdateOptions {
          * 完全清理表，流程为复制表结构，删除表，修改表名称三步
          */
         @Throws(java.lang.Exception::class)
-        private fun clearTable(tableName : String) {
+        private fun clearTable(tableName: String) {
             val copyTableName = "${tableName}_c"
             //复制表结构
             jdbcTemplate.execute("create table if not exists $copyTableName like $tableName")
@@ -147,5 +121,28 @@ open class DataBaseTableVersionUpdateOptions {
             jdbcTemplate.execute("alter table $copyTableName rename to $tableName")
         }
 
+    }
+
+    override fun getDatabaseTableVersionTb(): DatabaseTableVersionTb {
+        return DatabaseTableVersionTb()
+    }
+
+    override fun getVersionName(): String {
+        return config.databaseTableVersionName!!
+    }
+
+    override fun getVersionCode(): Long {
+        return config.databaseTableVersionCode!!
+    }
+
+    override fun startChangeDataBase(applicationContext: ConfigurableApplicationContext) {
+        when (config.databaseTableVersionCode) {
+            100L -> {
+                ChangeTableV100(applicationContext).initTable()
+            }
+            else -> {
+
+            }
+        }
     }
 }

@@ -1,10 +1,16 @@
 package com.test.springboot
 
 import com.test.springboot.applicationListener.ApplicationListenerForStart
+import com.test.springboot.utils.FileOptionsUtils
+import com.test.springboot.utils.LogUtil
+import springbase.lorenwang.common_base_frame.SbcbflwBaseApplication
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.web.servlet.ServletComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+import springbase.lorenwang.base.SpblwConfig
+import springbase.lorenwang.tools.SptlwConfig
+import springbase.lorenwang.tools.plugins.email.SptlwEmailUtils
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 /**
@@ -24,19 +30,23 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @EnableSwagger2
 @EnableJpaAuditing
 open class StartApplication : SbcbflwBaseApplication() {
-    override fun getConfigProperties() : Array<String> {
-        return arrayOf("application.properties","application-dev.properties")
+    override fun getConfigProperties(): Array<String> {
+        return arrayOf("application.properties", "application-dev.properties")
     }
 
-    override fun outSideTomcatConfigureFinish(application : SpringApplication) {}
+    override fun outSideTomcatConfigureFinish(application: SpringApplication) {}
 
     companion object {
         @JvmStatic
-        fun main(args : Array<String>) {
+        fun main(args: Array<String>) {
+            SpblwConfig.logUtils = LogUtil().also { it.initConfig(true) }
+            SpblwConfig.currentIsDebug = true
+            SptlwConfig.fileOptionsUtils = FileOptionsUtils()
+            SptlwConfig.emailUtils = SptlwEmailUtils()
             //初始化单例工具类
             val springApplication = SpringApplication(StartApplication::class.java)
             springApplication.addListeners(ApplicationListenerForStart())
-            initBase(springApplication, arrayOf("application.properties","application-dev.properties"))
+            initBase(springApplication, arrayOf("application.properties", "application-dev.properties"))
             springApplication.run(*args)
         }
     }

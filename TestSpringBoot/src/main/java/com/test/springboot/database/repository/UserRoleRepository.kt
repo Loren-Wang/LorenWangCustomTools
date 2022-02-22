@@ -2,7 +2,7 @@ package com.test.springboot.database.repository
 
 import com.test.springboot.database.table.UserPermissionTb
 import com.test.springboot.database.table.UserRoleTb
-import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserRoleRepository
+import springbase.lorenwang.user.database.repository.SpulwUserRoleRepository
 
 /**
  * 功能作用：用户信息数据库操作
@@ -17,4 +17,4 @@ import javabase.lorenwang.common_base_frame.database.repository.SbcbflwUserRoleR
  *
  * @author 王亮（Loren ）
  */
-interface UserRoleRepository : SbcbflwUserRoleRepository<UserPermissionTb, UserRoleTb>
+interface UserRoleRepository : SpulwUserRoleRepository<UserPermissionTb, UserRoleTb>

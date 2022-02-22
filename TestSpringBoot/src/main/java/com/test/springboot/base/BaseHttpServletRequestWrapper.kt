@@ -1,6 +1,6 @@
 package com.test.springboot.base
 
-import javabase.lorenwang.common_base_frame.controller.SbcbflwBaseHttpServletRequestWrapper
+import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import javax.servlet.http.HttpServletRequest
 
 
@@ -15,4 +15,4 @@ import javax.servlet.http.HttpServletRequest
  * 修改时间：
  * 备注：
  */
-open class BaseHttpServletRequestWrapper(request : HttpServletRequest) : SbcbflwBaseHttpServletRequestWrapper(request)
+open class BaseHttpServletRequestWrapper(request: HttpServletRequest) : SpblwBaseHttpServletRequestWrapper(request)

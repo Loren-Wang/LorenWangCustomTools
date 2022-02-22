@@ -1,6 +1,5 @@
 package com.test.springboot.config
 
-import javabase.lorenwang.common_base_frame.propertiesConfig.SbcbflwPropertiesConfig
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
@@ -18,12 +17,13 @@ import org.springframework.stereotype.Service
  * @author 王亮（Loren wang）
  */
 @Service
-class PropertiesConfig :SbcbflwPropertiesConfig() {
+class PropertiesConfig {
     /**
      * 数据库表版本名称
      */
     @Value("\${database.table.versionName}")
     val databaseTableVersionName: String? = null
+
     /**
      * 数据库表版本号
      */

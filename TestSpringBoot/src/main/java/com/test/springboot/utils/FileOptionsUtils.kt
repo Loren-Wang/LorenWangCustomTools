@@ -1,8 +1,7 @@
 package com.test.springboot.utils
 
-import javabase.lorenwang.common_base_frame.bean.SbcbflwBaseDataDisposeStatusBean
-import javabase.lorenwang.common_base_frame.utils.SbcbfBaseAllUtils
-import javabase.lorenwang.common_base_frame.utils.SbcbflwBaseFileOptionsUtils
+import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
+import springbase.lorenwang.tools.utils.SptlwFileOptionsUtils
 
 /**
  * 功能作用：文件操作工具类
@@ -17,48 +16,33 @@ import javabase.lorenwang.common_base_frame.utils.SbcbflwBaseFileOptionsUtils
  *
  * @author 王亮（Loren wang）
  */
-class FileOptionsUtils private constructor() : SbcbflwBaseFileOptionsUtils() {
-
-    companion object {
-        private var optionsInstance : FileOptionsUtils? = null
-        val instance : FileOptionsUtils
-            get() {
-                if (optionsInstance == null) {
-                    synchronized(this::class.java) {
-                        if (optionsInstance == null) {
-                            optionsInstance = FileOptionsUtils()
-                        }
-                    }
-                }
-                return optionsInstance!!
-            }
-    }
+class FileOptionsUtils : SptlwFileOptionsUtils() {
 
     /**
      * 获取未见内容是空情况下状态实例
      */
-    override fun getFileEmptyStatusBean() : SbcbflwBaseDataDisposeStatusBean {
+    override fun getFileEmptyStatusBean(): SpblwBaseDataDisposeStatusBean {
         TODO("Not yet implemented")
     }
 
     /**
      * 获取文件过大情况下状态实例
      */
-    override fun getFileTooLargeStatusBean() : SbcbflwBaseDataDisposeStatusBean {
+    override fun getFileTooLargeStatusBean(): SpblwBaseDataDisposeStatusBean {
         TODO("Not yet implemented")
     }
 
     /**
      * 获取非接收文件类型情况下状态实例
      */
-    override fun getNotReceiveFileTypeStatusBean() : SbcbflwBaseDataDisposeStatusBean {
+    override fun getNotReceiveFileTypeStatusBean(): SpblwBaseDataDisposeStatusBean {
         TODO("Not yet implemented")
     }
 
     /**
      * 获取位置文件类型状态实例
      */
-    override fun getUnKnowFileTypeStatusBean() : SbcbflwBaseDataDisposeStatusBean {
+    override fun getUnKnowFileTypeStatusBean(): SpblwBaseDataDisposeStatusBean {
         TODO("Not yet implemented")
     }
 

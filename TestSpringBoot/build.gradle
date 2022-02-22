@@ -14,45 +14,39 @@ repositories {
 }
 
 dependencies {
-    //以下需联合使用
-    implementation 'org.springframework.boot:spring-boot-starter'
+    //基础包
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    implementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
-//    implementation("com.fasterxml.jitackson.core:jackson-databind:2.9.5")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.1'
+    implementation 'org.springframework.data:spring-data-commons:2.1.10.RELEASE'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
 
-    runtimeOnly("mysql:mysql-connector-java")
-    //数据库操作库
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.5.RELEASE'
-
-//    //spring 基础框架
-//    implementation project(':SpringBootCommonBaseFrameLibraryFromLorenWang')
-
-    //java工具类库
-    implementation("com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.9")
-    //java数据格式化类库
-    implementation("com.github.lorenwang:JavaDataParseFromLorenWang:2.0.0")
-    implementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
-    //kotlin工具类
-    implementation("com.github.lorenwang:KotlinCustomToolsFromLorenWang:1.3.3")
-
-    //swagger注释
-    implementation("io.springfox:springfox-swagger2:2.6.0")
-    implementation("io.springfox:springfox-swagger-ui:2.6.0")
-
+    implementation project(':JavaCustomToolsFromLorenWang')
+    implementation project(":SpringBootBaseFromLorenWang")
+    implementation project(':SpringBootToolsFromLorenWang')
+    implementation project(':SpringBootUserFromLorenWang')
+    implementation project(':KotlinCustomToolsFromLorenWang')
+    implementation project(':SpringBootCommonBaseFrameLibraryFromLorenWang')
+    implementation "org.springframework:spring-context-support:${rootProject.ext.libVersion.spring_context_support}"
+    implementation "org.springframework:spring-webmvc:${rootProject.ext.libVersion.spring_webmvc}"
+    implementation "org.apache.tomcat.embed:tomcat-embed-core:${rootProject.ext.libVersion.tomcat_embed_core}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${rootProject.ext.libVersion.spring_boot_starter}"
     //用户安全加密相关
-    implementation("org.springframework.security:spring-security-core:3.2.9.RELEASE")
-
+    implementation "org.springframework.security:spring-security-core:${rootProject.ext.libVersion.spring_security_core}"
+    //阿里云oss存储服务
+    implementation "com.aliyun.oss:aliyun-sdk-oss:${rootProject.ext.libVersion.aliyun_sdk_oss}"
+    implementation "commons-fileupload:commons-fileupload:${rootProject.ext.libVersion.commons_fileupload}"
+    //七牛云存储
+    implementation "com.qiniu:qiniu-java-sdk:${rootProject.ext.libVersion.qiniu_java_sdk}"
     //邮件服务
-    implementation("org.springframework:spring-context-support:4.3.4.RELEASE")
-    implementation("javax.mail:mail:1.4.7")
-
-    //日志打印框架
-    implementation("org.slf4j:slf4j-api:1.7.7")
-    implementation("ch.qos.logback:logback-core:1.1.3")
-    implementation("ch.qos.logback:logback-access:1.1.3")
-    implementation("ch.qos.logback:logback-classic:1.1.3")
+    implementation "javax.mail:mail:${rootProject.ext.libVersion.mail}"
+    //swagger注释
+    implementation "io.springfox:springfox-swagger2:${rootProject.ext.libVersion.springfox_swagger}"
+    implementation "io.springfox:springfox-swagger-ui:${rootProject.ext.libVersion.springfox_swagger}"
+    implementation project(':JavaDataParseFromLorenWang')
+    implementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
 
 }
 
