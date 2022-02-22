@@ -1,0 +1,100 @@
+plugins {
+    id 'java'
+    id 'maven'
+    id 'signing'
+}
+apply plugin: 'kotlin'
+sourceSets {
+    main {
+        java.srcDirs = ['src']
+    }
+}
+sourceCompatibility = 1.8
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+repositories {
+    mavenCentral()
+}
+//导入包
+apply from: '../GradleDependencies/SpringBootTools.gradle'
+//上传配置
+def moduleName = "SpringBootToolsFromLorenWang"
+def moduleDescription = "SpringBoot工具包"
+def moduleVersion = rootProject.ext.moduleVersion.spring_boot_tools
+// 编译版本和编码配置
+repositories {
+    mavenCentral()
+}
+task sourcesJar(type: Jar) {
+    from sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title moduleName
+    }
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+//上传
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatype_account, password: sonatype_password)
+            }
+            pom.project {
+                name moduleName
+                version moduleVersion
+                groupId project_groupId
+                description moduleDescription
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description moduleDescription
+                url project_webSiteUrl
+                scm {
+                    connection project_gitUrl // Git仓库地址。
+                    developerConnection project_gitUrl // Git仓库地址。
+                    url project_webSiteUrl // 项目主页。
+                }
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = userInfo_userId
+                        name = userInfo_userName
+                        email = userInfo_userEmail
+                    }
+                }
+            }
+        }
+    }
+}
+//签名配置
+signing {
+    sign configurations.archives
+}

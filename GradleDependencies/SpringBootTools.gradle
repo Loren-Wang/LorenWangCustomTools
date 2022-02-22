@@ -1,0 +1,14 @@
+apply from: '../GradleDependencies/SpringBootBase.gradle'
+dependencies {
+    compileOnly "com.github.loren-wang:SpringBootBaseFromLorenWang:${rootProject.ext.moduleVersion.spring_boot_base}"
+    //用户安全加密相关
+    compileOnly "org.springframework.security:spring-security-core:${rootProject.ext.libVersion.spring_security_core}"
+    //阿里云oss存储服务
+    compileOnly "com.aliyun.oss:aliyun-sdk-oss:${rootProject.ext.libVersion.aliyun_sdk_oss}"
+    compileOnly "commons-fileupload:commons-fileupload:${rootProject.ext.libVersion.commons_fileupload}"
+    //七牛云存储
+    compileOnly "com.qiniu:qiniu-java-sdk:${rootProject.ext.libVersion.qiniu_java_sdk}"
+    //邮件服务
+    compileOnly "org.springframework:spring-context-support:${rootProject.ext.libVersion.spring_context_support}"
+    compileOnly "javax.mail:mail:${rootProject.ext.libVersion.mail}"
+}
