@@ -1,0 +1,4 @@
+apply from: '../GradleDependencies/SpringBootUser.gradle'
+dependencies {
+    compileOnly "com.github.loren-wang:SpringBootUserFromLorenWang:${rootProject.ext.moduleVersion.spring_boot_user}"
+}
