@@ -19,6 +19,16 @@ object SpulwBaseTableConfig {
          * 用户角色权限中间表
          */
         const val INTERMEDIATE_USER_ROLE_PERMISSION = "intermediate_role_permission"
+
+        /**
+         * 用户角色表
+         */
+        const val USER_ROLE = "user_role"
+
+        /**
+         * 用户角色权限表
+         */
+        const val USER_PERMISSION = "user_permission"
     }
 
     /*********************************用户信息部分*****************************/
@@ -49,11 +59,6 @@ object SpulwBaseTableConfig {
         const val SECURITY_SALT = "security_salt"
 
         /**
-         * security用户角色，还没有搞明白
-         */
-        const val SECURITY_ROLE = "security_role"
-
-        /**
          * 用户角色
          */
         const val USER_ROLE = "user_role"
@@ -72,19 +77,9 @@ object SpulwBaseTableConfig {
         const val ID = "role_id"
 
         /**
-         * 角色类型
-         */
-        const val ROLE_TYPE = "role_type"
-
-        /**
          * 角色名称
          */
         const val ROLE_NAME = "role_name"
-
-        /**
-         * 角色权限
-         */
-        const val ROLE_PERMISSION = "permission"
     }
 
     /*******************************用户权限部分*****************************/
@@ -98,23 +93,18 @@ object SpulwBaseTableConfig {
          * 权限名称
          */
         const val PERMISSION_NAME = "permission_name"
-
-        /**
-         * 权限角色
-         */
-        const val PERMISSION_ROLE = "permission_role"
     }
 
     /*******************************用户角色权限中间表部分*****************************/
     object IntermediateUserRolePermissionColumn {
         /**
-         * 角色id
+         * 角色
          */
-        const val ROLE_ID = "r_id"
+        const val ROLE = "role"
 
         /**
-         * 权限id
+         * 权限
          */
-        const val PERMISSION_ID = "p_id"
+        const val PERMISSION = "permission"
     }
 }

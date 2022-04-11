@@ -28,4 +28,4 @@ import javax.persistence.UniqueConstraint
     uniqueConstraints = [UniqueConstraint(columnNames = [SpulwBaseTableConfig.UserInfoColumn.ACCOUNT]), UniqueConstraint(
         columnNames = [SpblwBaseTableConfig.CommonColumn.PHONE_NUM])])
 @org.hibernate.annotations.Table(appliesTo = TableInfoConfig.TableName.USER_INFO, comment = "用户表")
-class UserInfoTb : SpulwBaseUserInfoTb<UserPermissionTb, UserRoleTb>()
+class UserInfoTb : SpulwBaseUserInfoTb()

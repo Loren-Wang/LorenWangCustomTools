@@ -1,12 +1,12 @@
 package com.test.springboot.controller
 
-import com.test.springboot.base.BaseController
-import com.test.springboot.base.BaseHttpServletRequestWrapper
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import springbase.lorenwang.base.controller.SpblwBaseController
+import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.kotlinExtend.spblwControllerCheckAndOptions
 
 /**
@@ -25,11 +25,11 @@ import springbase.lorenwang.base.kotlinExtend.spblwControllerCheckAndOptions
 @RestController
 @RequestMapping("/")
 @Api(tags = ["test"], description = "test")
-class CommonController : BaseController() {
+class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>() {
 
     @GetMapping("test")
     @ApiOperation(value = "test", httpMethod = "GET")
-    fun submit(request: BaseHttpServletRequestWrapper, reqBean: String): String {
+    fun submit(request: SpblwBaseHttpServletRequestWrapper, reqBean: String): String {
         super.base(request, reqBean)
         return spblwControllerCheckAndOptions(request, arrayOf(reqBean), this) {
             responseSuccess(request, null)

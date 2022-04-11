@@ -2,8 +2,7 @@ package springbase.lorenwang.user.database.repository
 
 
 import springbase.lorenwang.base.database.repository.SpblwBaseRepository
-import springbase.lorenwang.user.database.table.SpulwBaseUserPermissionTb
-import springbase.lorenwang.user.database.table.SpulwBaseUserRoleTb
+import springbase.lorenwang.user.database.table.SpulwUserRoleTb
 
 
 /**
@@ -16,10 +15,5 @@ import springbase.lorenwang.user.database.table.SpulwBaseUserRoleTb
  * 修改时间：
  * 备注：
  */
-interface SpulwUserRoleRepository<P : SpulwBaseUserPermissionTb<R>, R : SpulwBaseUserRoleTb<P>> : SpblwBaseRepository<R, String> {
-    /**
-     * 获取角色信息
-     */
-    fun findByRoleType(type: Int): R?
-}
+interface SpulwUserRoleRepository : SpblwBaseRepository<SpulwUserRoleTb, String>
 

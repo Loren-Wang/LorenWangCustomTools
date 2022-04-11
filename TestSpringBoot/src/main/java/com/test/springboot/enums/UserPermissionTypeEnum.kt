@@ -13,7 +13,7 @@ package com.test.springboot.enums
  *
  * @author 王亮（Loren）
  */
-enum class UserPermissionTypeEnum(val type : Int, val des : String?) {
+enum class UserPermissionTypeEnum(val type: Int, val des: String) {
     /**
      * 超级管理员。该权限可以做任何操作，但是无法删除禁用同级的人，基本上是唯一的
      */

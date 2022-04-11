@@ -95,9 +95,9 @@ class MobileInfoActivity : BaseActivity() {
                                 AtlwMobileContentUtil.getInstance().systemSms.let {
                                     for (bean in it) {
                                         appendText("发送人：${bean.sendAddress}\n发送时间：${
-                                            JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy-MM-dd hh:mm:ss", bean.sendDate)
+                                            JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy-MM-dd HH:mm:ss", bean.sendDate)
                                         }\n接收时间：${
-                                            JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy-MM-dd hh:mm:ss", bean.receiveDate)
+                                            JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy-MM-dd HH:mm:ss", bean.receiveDate)
                                         }\n内容：${bean.body}\n\n")
                                     }
                                 }
@@ -116,9 +116,9 @@ class MobileInfoActivity : BaseActivity() {
                                 AtlwMobileContentUtil.getInstance().allSms.let {
                                     for (bean in it) {
                                         appendText("发送人：${bean.sendAddress}\n发送时间：${
-                                            JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy-MM-dd hh:mm:ss", bean.sendDate)
+                                            JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy-MM-dd HH:mm:ss", bean.sendDate)
                                         }\n接收时间：${
-                                            JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy-MM-dd hh:mm:ss", bean.receiveDate)
+                                            JtlwDateTimeUtil.getInstance().getFormatDateTime("yyyy-MM-dd HH:mm:ss", bean.receiveDate)
                                         }\n内容：${bean.body}\n\n")
                                     }
                                 }

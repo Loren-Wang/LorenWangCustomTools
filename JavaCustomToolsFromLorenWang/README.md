@@ -190,6 +190,7 @@ Java自定义工具类
 | 格式化double变量的小数部分为指定数量 | paramsDoubleToNum(Double data, int num) | String |
 | 格式化长整形到指定位数 | paramsLongToNum(Long time, Integer num) | Long |
 | 除去末尾的0字符操作 | clearEndZeroAndParamsForDouble(Double doubleNum, Integer maxDecimalNum) | String |
+| 除去末尾的0字符操作 | clearEndZeroAndParamsForDouble(String str) | String |
 | 去掉回车换行符 | clearStringBlank(String str) | String |
 | 数组转集合 | paramesArrayToList(T[] arrays) | List<T> |
 | 将map的所有key值转成集合 | paramsHashMapKeyToArrayList(Map<K, List<T>> map) | List<K> |

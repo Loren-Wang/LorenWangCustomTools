@@ -1,11 +1,14 @@
 package springbase.lorenwang.tools
 
-import springbase.lorenwang.tools.plugins.email.SptlwEmailUtils
-import springbase.lorenwang.tools.utils.SptlwFileOptionsUtils
+import springbase.lorenwang.base.SpblwConfig
+import springbase.lorenwang.base.spblwConfig
+import springbase.lorenwang.tools.plugins.email.SptlwEmailUtil
+import springbase.lorenwang.tools.plugins.oss.SptlwOssUtil
+import springbase.lorenwang.tools.utils.SptlwFileOptionsUtil
 
 /**
- * 功能作用：文件配置
- * 初始注释时间： 2022/2/12 17:57
+ * 功能作用：SpringBoot工具库接口
+ * 初始注释时间： 2022/2/28 10:03
  * 创建人：王亮（Loren）
  * 思路：
  * 方法：
@@ -16,18 +19,28 @@ import springbase.lorenwang.tools.utils.SptlwFileOptionsUtils
  *
  * @author 王亮（Loren）
  */
-object SptlwConfig {
+abstract class SptlwConfig : SpblwConfig() {
+    init {
+        spblwConfig = this
+    }
 
     /**
      * 文件操作工具类
      */
-    @JvmStatic
-    lateinit var fileOptionsUtils: SptlwFileOptionsUtils
+    abstract fun getFileOptionsUtil(): SptlwFileOptionsUtil
 
     /**
      * 邮件工具类
      */
-    @JvmStatic
-    lateinit var emailUtils: SptlwEmailUtils
+    open fun getEmailUtil(): SptlwEmailUtil? = null
 
+    /**
+     * 获取oss工具
+     */
+    open fun getOssUtil(): SptlwOssUtil? = null
 }
+
+/**
+ * 工具库config
+ */
+lateinit var sptlwConfig: SptlwConfig

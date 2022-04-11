@@ -16,24 +16,9 @@ object TableInfoConfig {
 
     object TableName {
         /**
-         * 数据库表版本
-         */
-        const val DATABASE_TABLE_VERSION = "db_table_version"
-
-        /**
          * 用户信息表
          */
         const val USER_INFO = "user_info"
-
-        /**
-         * 用户角色表
-         */
-        const val USER_ROLE = "user_role"
-
-        /**
-         * 用户角色权限表
-         */
-        const val USER_PERMISSION = "user_permission"
 
     }
 }

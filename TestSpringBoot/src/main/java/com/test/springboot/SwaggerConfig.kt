@@ -1,6 +1,5 @@
 package com.test.springboot
 
-import Setting
 import com.google.common.base.Predicates
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -38,8 +37,8 @@ open class SwaggerConfig {
         //添加所有的默认请求餐
         val tokenPar = ParameterBuilder()
         val pars: MutableList<Parameter> = ArrayList()
-        tokenPar.name(Setting.ACCESS_TOKEN_KEY).description("用户登录后获取到的请求信息").modelRef(ModelRef("string")).parameterType("header").required(false)
-            .build()
+        tokenPar.name(configOptions.getAccessControlAllowHeadersUserTokenKey()).description("用户登录后获取到的请求信息").modelRef(ModelRef("string"))
+            .parameterType("header").required(false).build()
         pars.add(tokenPar.build())
         return Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).pathMapping("/").select() // 选择那些路径和api会生成document
             .apis(RequestHandlerSelectors.any())// 对所有api进行监控

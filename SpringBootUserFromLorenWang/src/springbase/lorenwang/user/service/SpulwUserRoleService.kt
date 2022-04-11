@@ -1,11 +1,7 @@
 package springbase.lorenwang.user.service
 
-import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.service.SpblwBaseService
 import springbase.lorenwang.user.database.repository.SpulwUserRoleRepository
-import springbase.lorenwang.user.database.table.SpulwBaseUserInfoTb
-import springbase.lorenwang.user.database.table.SpulwBaseUserPermissionTb
-import springbase.lorenwang.user.database.table.SpulwBaseUserRoleTb
 
 /**
  * 功能作用：用户角色service
@@ -20,29 +16,11 @@ import springbase.lorenwang.user.database.table.SpulwBaseUserRoleTb
  *
  * @author 王亮（Loren wang）
  */
-abstract class SpulwUserRoleService<R : SpblwBaseHttpServletRequestWrapper, P : SpulwBaseUserPermissionTb<ROLE>, ROLE : SpulwBaseUserRoleTb<P>, U : SpulwBaseUserInfoTb<P, ROLE>, PR : SpulwUserRoleRepository<P, ROLE>> :
-    SpblwBaseService {
-
+interface SpulwUserRoleService : SpblwBaseService {
     /**
      * 保存用户角色
+     * @param type 类型
+     * @param name 名称
      */
-    fun saveUserRole(bean: ROLE): ROLE {
-        val mutableSetOf = mutableSetOf<P>()
-        bean.permission?.forEach {
-            it.permissionRole = mutableSetOf()
-            mutableSetOf.add(it)
-        }
-        bean.permission = mutableSetOf()
-        var repBean = getUserRoleRepository().save(bean)
-        if (repBean.roleId.isEmpty()) {
-            repBean.roleId = repBean.roleId
-            repBean = getUserRoleRepository().save(repBean)
-        }
-        return repBean
-    }
-
-    /**
-     * 获取用户权限数据库操作实体
-     */
-    abstract fun getUserRoleRepository(): PR
+    fun saveUserRole(type: Int, name: String)
 }

@@ -21,7 +21,7 @@ import javax.persistence.*
  */
 @JsonAutoDetect
 @MappedSuperclass
-open class SpulwBaseUserInfoTb<T, ROLE_TB : SpulwBaseUserRoleTb<T>> : SpblwBaseTb(), Serializable, Cloneable {
+open class SpulwBaseUserInfoTb : SpblwBaseTb(), Serializable, Cloneable {
     /**
      * id
      */
@@ -74,8 +74,7 @@ open class SpulwBaseUserInfoTb<T, ROLE_TB : SpulwBaseUserRoleTb<T>> : SpblwBaseT
      */
     @JoinColumn(name = SpulwBaseTableConfig.UserInfoColumn.USER_ROLE, nullable = false,
         columnDefinition = "${SpblwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '用户角色'")
-    @ManyToOne
-    var userRole: ROLE_TB? = null
+    var userRole: SpulwUserRoleTb? = null
 
     /**
      * 用户昵称

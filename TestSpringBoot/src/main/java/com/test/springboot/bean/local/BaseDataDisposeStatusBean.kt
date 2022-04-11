@@ -16,5 +16,5 @@ import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
  *
  * @author 王亮（Loren）
  */
-class BaseDataDisposeStatusBean(statusResult: Boolean, val repStatusEnum: NetRepStatusEnum, body: Any? = null) :
-    SpblwBaseDataDisposeStatusBean(statusResult, body)
+class BaseDataDisposeStatusBean(statusResult: Boolean, val repStatusEnum: NetRepStatusEnum, body: String? = null) :
+    SpblwBaseDataDisposeStatusBean(statusResult,repStatusEnum.code,repStatusEnum.messageKey, body)

@@ -1,9 +1,10 @@
 package springbase.lorenwang.user.database.repository
 
 
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 import springbase.lorenwang.base.database.repository.SpblwBaseRepository
-import springbase.lorenwang.user.database.table.SpulwBaseUserPermissionTb
-import springbase.lorenwang.user.database.table.SpulwBaseUserRoleTb
+import springbase.lorenwang.user.database.table.SpulwUserPermissionTb
 
 
 /**
@@ -16,4 +17,9 @@ import springbase.lorenwang.user.database.table.SpulwBaseUserRoleTb
  * 修改时间：
  * 备注：
  */
-interface SpulwUserPermissionRepository<P : SpulwBaseUserPermissionTb<R>, R : SpulwBaseUserRoleTb<P>> : SpblwBaseRepository<P, String>
+interface SpulwUserPermissionRepository : SpblwBaseRepository<SpulwUserPermissionTb, String> {
+    /**
+     * 根据type获取数据
+     */
+    fun findByType(type: Int): SpulwUserPermissionTb?
+}

@@ -58,8 +58,3 @@ open class SpblwBaseHttpServletRequestWrapper(request: HttpServletRequest) : Htt
         return Collections.enumeration(values)
     }
 }
-
-/**
- * 请求中设置用户信息key
- */
-const val REQUEST_SET_USER_INFO_KEY = "userInfoKey"

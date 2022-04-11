@@ -5,7 +5,7 @@ import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 import org.springframework.web.multipart.MultipartFile
 import springbase.lorenwang.base.bean.SpblwBASE64DecodedMultipartFileBean
 import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
-import springbase.lorenwang.tools.SptlwConfig
+import springbase.lorenwang.tools.sptlwConfig
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -94,7 +94,7 @@ abstract class AbstractOssOptions {
      */
     open fun upLoadFile(file: MultipartFile, savePath: String, receiveFileTypes: Array<JtlwFileTypeEnum>): SpblwBaseDataDisposeStatusBean {
         //检测文件接收类型
-        return SptlwConfig.fileOptionsUtils.kttlwEmptyCheck({
+        return sptlwConfig.getFileOptionsUtil().kttlwEmptyCheck({
             SpblwBaseDataDisposeStatusBean(false)
         }, {
             it.checkFileStatus(file, receiveFileTypes) {
@@ -143,7 +143,7 @@ abstract class AbstractOssOptions {
     open fun upLoadFile(bytes: ByteArray, contentType: String, savePath: String,
         receiveFileTypes: Array<JtlwFileTypeEnum>): SpblwBaseDataDisposeStatusBean {
         //检测文件接收类型
-        return SptlwConfig.fileOptionsUtils.kttlwEmptyCheck({
+        return sptlwConfig.getFileOptionsUtil().kttlwEmptyCheck({
             SpblwBaseDataDisposeStatusBean(false)
         }, {
             val file = SpblwBASE64DecodedMultipartFileBean(bytes, contentType)

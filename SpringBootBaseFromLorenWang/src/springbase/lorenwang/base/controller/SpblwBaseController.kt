@@ -3,11 +3,8 @@ package springbase.lorenwang.base.controller
 import javabase.lorenwang.dataparse.JdplwJsonUtil
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import kotlinbase.lorenwang.tools.common.bean.KttlwNetPageResponseBean
-import org.springframework.context.MessageSource
-import org.springframework.context.i18n.LocaleContextHolder
-import springbase.lorenwang.base.SpblwConfig
 import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
-import javax.annotation.Resource
+import springbase.lorenwang.base.spblwConfig
 
 /**
  * 功能作用：基础controller
@@ -24,42 +21,17 @@ import javax.annotation.Resource
  * 修改时间：
  * 备注：
  */
-abstract class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
-    @Resource
-    private lateinit var messageSource: MessageSource
+open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
 
     /**
      * 保留方法（所有子方法都要继承这个方法）
      * @param t
      */
     protected fun <T> base(request: R, t: T?) {
-        SpblwConfig.logUtils.logI(javaClass, "当前请求地址：${request.servletPath}")
+        spblwConfig.getLogUtil().logI(javaClass, "当前请求地址：${request.servletPath}")
         t.let {
-            SpblwConfig.logUtils.logI(javaClass, "当前请求数据：${JdplwJsonUtil.toJson(it)}")
+            spblwConfig.getLogUtil().logI(javaClass, "当前请求数据：${JdplwJsonUtil.toJson(it)}")
         }
-    }
-
-    /**
-     * 获取文字字符
-     * @param code ：对应messages配置的key.
-     * @return
-     */
-    fun getMessage(code: String?): String {
-        //这里使用比较方便的方法，不依赖request.
-        return getMessage(code, null)
-    }
-
-    /**
-     * 获取文字字符
-     * @param code ：对应messages配置的key.
-     * @param defaultMessage : 没有设置key的时候的默认值.
-     * @return
-     */
-    fun getMessage(code: String?, defaultMessage: String?): String {
-        //这里使用比较方便的方法，不依赖request.
-        return code?.let {
-            messageSource.getMessage(it, null, defaultMessage ?: "", LocaleContextHolder.getLocale())
-        } ?: ""
     }
 
     /**
@@ -76,7 +48,7 @@ abstract class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
         baseResponseBean.stateMessage = stateMessage
         val toJson = JdplwJsonUtil.toJson(baseResponseBean)
         if (request != null) {
-            SpblwConfig.logUtils.logI(javaClass, "请求地址：${request.servletPath}，数据：${toJson}")
+            spblwConfig.getLogUtil().logI(javaClass, "请求地址：${request.servletPath}，数据：${toJson}")
         }
         return toJson
     }
@@ -90,7 +62,7 @@ abstract class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
      * @return 格式化后字符串
     </T> */
     fun <T> responseContentCode(request: R?, stateCode: String, stateMessageCode: String, obj: T?): String {
-        return responseContent(request, stateCode, getMessage(stateMessageCode), obj)
+        return responseContent(request, stateCode, spblwConfig.getMessage(stateMessageCode), obj)
     }
 
     /**
@@ -99,10 +71,10 @@ abstract class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
     fun responseDataDisposeStatus(request: R?, bean: SpblwBaseDataDisposeStatusBean): String {
         return if (bean.repDataList) {
             responseDataListContent(request, bean.statusCode!!,
-                if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else getMessage(bean.statusMsgCode), bean.pageIndex!!, bean.pageSize!!,
-                bean.sumCount!!, bean.dataList)
+                if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else spblwConfig.getMessage(bean.statusMsgCode), bean.pageIndex!!,
+                bean.pageSize!!, bean.sumCount!!, bean.dataList)
         } else {
-            responseContent(request, bean.statusCode!!, getMessage(bean.statusMsgCode), bean.body)
+            responseContent(request, bean.statusCode!!, spblwConfig.getMessage(bean.statusMsgCode), bean.body)
         }
     }
 
@@ -138,7 +110,7 @@ abstract class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
         } else {
             sumCount / pageSize
         }
-        return responseContent(request, stateCode, getMessage(stateMessageCode),
+        return responseContent(request, stateCode, spblwConfig.getMessage(stateMessageCode),
             KttlwNetPageResponseBean(pageIndex, pageSize, sumCount.toInt(), sumPageCount.toInt(), dataList))
     }
 
@@ -165,31 +137,43 @@ abstract class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
     /**
      * 参数异常响应
      */
-    abstract fun responseErrorForParams(request: R?): String
+    fun responseErrorForParams(request: R?): String {
+        return spblwConfig.responseErrorForParams(request)
+    }
 
     /**
      * 数据响应成功
      */
-    abstract fun responseSuccess(request: R?, data: Any?): String
+    fun responseSuccess(request: R?, data: Any?): String {
+        return spblwConfig.responseSuccess(request, data)
+    }
 
     /**
      * 数据删除失败
      */
-    abstract fun responseDeleteFail(request: R?): String
+    fun responseDeleteFail(request: R?): String {
+        return spblwConfig.responseDeleteFail(request)
+    }
 
     /**
      * 未知错误失败
      */
-    abstract fun responseFailForUnKnow(request: R?): String
+    fun responseFailForUnKnow(request: R?): String {
+        return spblwConfig.responseFailForUnKnow(request)
+    }
 
     /**
      * 登录验证失败,用户未登录或者token失效
      */
-    abstract fun responseErrorUserLoginEmptyOrTokenNoneffective(request: R?): String
+    fun responseErrorUserLoginEmptyOrTokenNoneffective(request: R?): String {
+        return spblwConfig.responseErrorUserLoginEmptyOrTokenNoneffective(request)
+    }
 
     /**
      * 无权限异常
      */
-    abstract fun responseErrorNotPermission(request: R?): String
+    fun responseErrorNotPermission(request: R?): String {
+        return spblwConfig.responseErrorNotPermission(request)
+    }
 
 }

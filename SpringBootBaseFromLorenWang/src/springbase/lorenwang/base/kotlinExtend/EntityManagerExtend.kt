@@ -2,7 +2,7 @@ package springbase.lorenwang.base.kotlinExtend
 
 import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 import kotlinbase.lorenwang.tools.extend.kttlwIsNotNullOrEmpty
-import springbase.lorenwang.base.SpblwConfig
+import springbase.lorenwang.base.spblwConfig
 import java.math.BigInteger
 import javax.persistence.EntityManager
 
@@ -30,7 +30,7 @@ import javax.persistence.EntityManager
  */
 fun EntityManager.spblwUpDataAllRankMove(tableName: String, primaryKeyColumn: String, rankColumn: String?, fromRank: BigInteger,
     toRank: BigInteger): BigInteger? {
-    SpblwConfig.logUtils.logI(EntityManager::class.java, "开始重新按顺序设置排行数据")
+    spblwConfig.getLogUtil().logI(EntityManager::class.java, "开始重新按顺序设置排行数据")
     //处理后的排行信息
     val newRankOptions = spblwGetTableMaxRank(tableName, rankColumn!!).kttlwEmptyCheck({ toRank }, {
         if (it < toRank) {
@@ -84,12 +84,12 @@ fun EntityManager.spblwUpDataAllRankMove(tableName: String, primaryKeyColumn: St
                     startRank.add(changeRank).add(BigInteger.valueOf(index.toLong()))
                 }  where $primaryKeyColumn=$primaryKey").executeUpdate() <= 0
             ) {
-                SpblwConfig.logUtils.logI(EntityManager::class.java, "中止更新排行相关数据")
+                spblwConfig.getLogUtil().logI(EntityManager::class.java, "中止更新排行相关数据")
                 return null
             }
         }
     }
-    SpblwConfig.logUtils.logI(EntityManager::class.java, "完成更新排行相关数据")
+    spblwConfig.getLogUtil().logI(EntityManager::class.java, "完成更新排行相关数据")
     return newRankOptions
 }
 
