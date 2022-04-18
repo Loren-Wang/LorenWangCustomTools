@@ -12,21 +12,9 @@ sourceSets{
     }
 }
 
-dependencies {
-    implementation 'junit:junit:4.12'
+//导入包
+apply from: '../GradleDependencies/JavaNetwork.gradle'
 
-    //httpClient网络请求
-    compileOnly 'org.apache.httpcomponents:httpclient:4.5.5'
-    testImplementation 'org.apache.httpcomponents:httpclient:4.5.5'
-
-    //okhttp网络请求
-    compileOnly 'com.squareup.okhttp3:okhttp:3.10.0'
-    testImplementation  'com.squareup.okhttp3:okhttp:3.10.0'
-
-    //java工具类库
-    compileOnly("com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.4")
-    testImplementation("com.github.lorenwang:JavaCustomToolsFromLorenWang:2.1.4")
-}
 def moduleName = "JavaNetworkFromLorenWang"
 def moduleDescription = "java网络请求工具库"
 def moduleVersion = rootProject.ext.moduleVersion.java_net

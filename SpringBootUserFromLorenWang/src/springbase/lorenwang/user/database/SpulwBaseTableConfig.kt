@@ -29,6 +29,16 @@ object SpulwBaseTableConfig {
          * 用户角色权限表
          */
         const val USER_PERMISSION = "user_permission"
+
+        /**
+         * 用户信息表
+         */
+        const val USER_INFO = "user_info"
+
+        /**
+         * 平台token
+         */
+        const val PLATFORM_TOKEN = "platform_token"
     }
 
     /*********************************用户信息部分*****************************/
@@ -42,6 +52,11 @@ object SpulwBaseTableConfig {
          * 名称
          */
         const val ACCOUNT = "account"
+
+        /**
+         * 用户写别
+         */
+        const val SEX = "sex"
 
         /**
          *密码
@@ -64,9 +79,24 @@ object SpulwBaseTableConfig {
         const val USER_ROLE = "user_role"
 
         /**
-         * 用户token
+         * 头像
          */
-        const val ACCESS_TOKEN = "access_token"
+        const val HEAD_IMAGE = "head_image"
+
+        /**
+         * 微信开放id
+         */
+        const val WX_ID = "wx_id"
+
+        /**
+         * qqID
+         */
+        const val QQ_ID = "qq_id"
+
+        /**
+         * 新浪微博id
+         */
+        const val SINA_ID = "sina_id"
     }
 
     /*******************************用户角色部分*****************************/
@@ -93,6 +123,35 @@ object SpulwBaseTableConfig {
          * 权限名称
          */
         const val PERMISSION_NAME = "permission_name"
+    }
+
+    /*******************************第三方平台token部分*****************************/
+    object PlatformTokenColumn {
+        /**
+         * id
+         */
+        const val ID = "table_id"
+
+        /**
+         * 平台返回的id
+         */
+        const val PLATFORM_ID = "platform_id"
+
+        /**
+         * 使用的token
+         */
+        const val ACCESS_TOKEN = "access_token"
+
+        /**
+         * 刷新的token
+         */
+        const val REFRESH_TOKEN = "refresh_token"
+
+        /**
+         * 失效时间
+         */
+        const val FAILURE_TIME = "failure_time"
+
     }
 
     /*******************************用户角色权限中间表部分*****************************/

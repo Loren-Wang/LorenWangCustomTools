@@ -1,15 +1,12 @@
 package springbase.lorenwang.user.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
-import javabase.lorenwang.tools.common.JtlwCommonUtil
+import org.hibernate.annotations.GenericGenerator
 import springbase.lorenwang.base.database.SpblwBaseTableConfig
 import springbase.lorenwang.base.database.table.SpblwBaseTb
 import springbase.lorenwang.user.database.SpulwBaseTableConfig
 import java.io.Serializable
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 /**
  * 功能作用：用户权限表
@@ -31,9 +28,11 @@ class SpulwUserPermissionTb : SpblwBaseTb(), Serializable, Cloneable {
      * id
      */
     @Id
+    @GenericGenerator(name = "my", strategy = "uuid")  //声明一个主键生成策略,并设置一个引用名称,这里采用的是hibernate提供的预定策略
+    @GeneratedValue(generator = "my")  //配置主键的生成策略为自己声明的那个生成策略
     @Column(name = SpulwBaseTableConfig.UserPermissionColumn.ID,
         columnDefinition = "${SpblwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY}  comment 'id'")
-    var id: String = JtlwCommonUtil.getInstance().generateUuid(true)
+    var id: String? = null
 
     /**
      * 权限名称

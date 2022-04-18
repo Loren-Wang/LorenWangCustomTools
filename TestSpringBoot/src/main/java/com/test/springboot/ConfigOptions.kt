@@ -1,11 +1,10 @@
 package com.test.springboot
 
+import com.test.springboot.base.utils.FileOptionsUtils
+import com.test.springboot.base.utils.LogUtil
 import com.test.springboot.enums.NetRepStatusEnum
 import com.test.springboot.enums.UserPermissionTypeEnum
 import com.test.springboot.enums.UserRoleTypeEnum
-import com.test.springboot.base.service.UserService
-import com.test.springboot.base.utils.FileOptionsUtils
-import com.test.springboot.base.utils.LogUtil
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
@@ -24,8 +23,12 @@ import springbase.lorenwang.user.spulwConfig
  * 配置管理
  */
 class ConfigOptions : SpulwConfig() {
+    private val logUtil = LogUtil()
+    private val fileOptionsUtil = FileOptionsUtils()
+
     init {
         spulwConfig = this
+        logUtil.initConfig(true)
     }
 
     /**
@@ -49,7 +52,7 @@ class ConfigOptions : SpulwConfig() {
     }
 
     override fun getUserServices(): SpulwUserService {
-        return applicationContext.getBean(UserService::class.java)
+        return applicationContext.getBean(SpulwUserService::class.java)
     }
 
     /**
@@ -66,12 +69,20 @@ class ConfigOptions : SpulwConfig() {
         return ""
     }
 
+    override fun getAccessControlAllowHeadersUserLoginFrom(): String {
+        return "xxx"
+    }
+
+    override fun getAccessControlAllowHeadersAccessToken(): String {
+        return "sadfasdf"
+    }
+
     override fun getFileOptionsUtil(): SptlwFileOptionsUtil {
-        return FileOptionsUtils()
+        return fileOptionsUtil
     }
 
     override fun getLogUtil(): SpblwLog {
-        return LogUtil()
+        return logUtil
     }
 
     override fun getEmailUtil(): SptlwEmailUtil? {
@@ -83,9 +94,6 @@ class ConfigOptions : SpulwConfig() {
         return SptlwOssUtil.instance
     }
 
-    override fun getAccessControlAllowHeadersUserTokenKey(): String {
-        return super.getAccessControlAllowHeadersUserTokenKey()
-    }
 
     /**
      * 参数异常响应

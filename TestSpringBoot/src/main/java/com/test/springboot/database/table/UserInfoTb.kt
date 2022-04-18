@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.test.springboot.database.TableInfoConfig
 import springbase.lorenwang.base.database.SpblwBaseTableConfig
 import springbase.lorenwang.user.database.SpulwBaseTableConfig
-import springbase.lorenwang.user.database.table.SpulwBaseUserInfoTb
+import springbase.lorenwang.user.database.table.SpulwUserInfoTb
 import javax.persistence.Entity
 import javax.persistence.Table
 import javax.persistence.UniqueConstraint
@@ -28,4 +28,4 @@ import javax.persistence.UniqueConstraint
     uniqueConstraints = [UniqueConstraint(columnNames = [SpulwBaseTableConfig.UserInfoColumn.ACCOUNT]), UniqueConstraint(
         columnNames = [SpblwBaseTableConfig.CommonColumn.PHONE_NUM])])
 @org.hibernate.annotations.Table(appliesTo = TableInfoConfig.TableName.USER_INFO, comment = "用户表")
-class UserInfoTb : SpulwBaseUserInfoTb()
+class UserInfoTb : SpulwUserInfoTb()

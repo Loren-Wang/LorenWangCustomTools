@@ -5,8 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.Map;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.net.JtlwNetUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -36,6 +35,7 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
 
     /**
      * 设置客户端
+     *
      * @param requestClient 客户端
      */
     void setRequestClient(OkHttpClient requestClient) {
@@ -46,73 +46,82 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
      * 设置Get请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendGetRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendGetRequest(JnlwNetworkReqConfig config) {
         Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder().get(), config);
         Call call = requestClient.newCall(requestBuilder.build());
         call.enqueue(getRequestCallback(config));
+        return null;
     }
 
     /**
      * 设置Put请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendPutRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendPutRequest(JnlwNetworkReqConfig config) {
         Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder(), config);
         RequestBody requestBody;
         //json数据处理
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestDataJson())) {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(config.getRequestDataJson()));
         } else {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
         }
         Call call = requestClient.newCall(requestBuilder.put(requestBody).build());
         call.enqueue(getRequestCallback(config));
+        return null;
     }
 
     /**
      * 设置Post请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendPostRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendPostRequest(JnlwNetworkReqConfig config) {
         Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder(), config);
         RequestBody requestBody;
         //json数据处理
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestDataJson())) {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(config.getRequestDataJson()));
         } else {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
         }
         Call call = requestClient.newCall(requestBuilder.post(requestBody).build());
         call.enqueue(getRequestCallback(config));
+        return null;
     }
 
     /**
      * 设置Delete请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendDeleteRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendDeleteRequest(JnlwNetworkReqConfig config) {
         Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder().delete(), config);
         Call call = requestClient.newCall(requestBuilder.build());
         call.enqueue(getRequestCallback(config));
+        return null;
     }
 
     /**
      * 设置Options请求,okhttp没有该方法
      *
      * @param config 请求配置
+     * @return
      */
     @Deprecated
     @Override
-    void sendOptionsRequest(@NotNull JnlwNetworkReqConfig config) {
-
+    JnlwHttpRes sendOptionsRequest(JnlwNetworkReqConfig config) {
+        return null;
     }
 
     /**
@@ -121,7 +130,7 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
      * @param config 配置信息
      * @return 处理后的请求实例
      */
-    private Request.Builder getHttpRequestBase(Request.Builder requestBuilder, @NotNull JnlwNetworkReqConfig config) {
+    private Request.Builder getHttpRequestBase(Request.Builder requestBuilder, JnlwNetworkReqConfig config) {
         requestBuilder.url(generateRequestUrl(config));
 
         //header处理

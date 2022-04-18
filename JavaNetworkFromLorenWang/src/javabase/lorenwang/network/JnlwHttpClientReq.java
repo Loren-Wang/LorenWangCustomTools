@@ -12,14 +12,12 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.net.JtlwNetUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 
 /**
  * 功能作用：httpClient请求
@@ -53,75 +51,80 @@ public class JnlwHttpClientReq extends JnlwBaseReq {
      * 设置Get请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendGetRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendGetRequest(JnlwNetworkReqConfig config) {
         //创建请求
         HttpGet httpGet = getHttpRequestBase(new HttpGet(), config);
         //发起请求
-        sendRequest(config, httpGet);
+        return sendRequest(config, httpGet);
     }
 
     /**
      * 设置Put请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendPutRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendPutRequest(JnlwNetworkReqConfig config) {
         //创建请求
         HttpPut request = getHttpRequestBase(new HttpPut(), config);
         //json数据处理
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestDataJson())) {
             request.setEntity(new StringEntity(config.getRequestDataJson(), "UTF-8"));
             request.setHeader("Content-Type", "application/json;charset=utf8");
         }
         //发起请求
-        sendRequest(config, request);
+        return sendRequest(config, request);
     }
 
     /**
      * 设置Post请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendPostRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendPostRequest(JnlwNetworkReqConfig config) {
         //创建请求
         HttpPost request = getHttpRequestBase(new HttpPost(), config);
         //json数据处理
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestDataJson())) {
             request.setEntity(new StringEntity(config.getRequestDataJson(), "UTF-8"));
             request.setHeader("Content-Type", "application/json;charset=utf8");
         }
         //发起请求
-        sendRequest(config, request);
+        return sendRequest(config, request);
     }
 
     /**
      * 设置Delete请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendDeleteRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendDeleteRequest(JnlwNetworkReqConfig config) {
         //创建请求
         HttpDelete request = getHttpRequestBase(new HttpDelete(), config);
         //发起请求
-        sendRequest(config, request);
+        return sendRequest(config, request);
     }
 
     /**
      * 设置Options请求
      *
      * @param config 请求配置
+     * @return
      */
     @Override
-    void sendOptionsRequest(@NotNull JnlwNetworkReqConfig config) {
+    JnlwHttpRes sendOptionsRequest(JnlwNetworkReqConfig config) {
         //创建请求
         HttpOptions request = getHttpRequestBase(new HttpOptions(), config);
         //发起请求
-        sendRequest(config, request);
+        return sendRequest(config, request);
     }
 
     /**
@@ -132,7 +135,7 @@ public class JnlwHttpClientReq extends JnlwBaseReq {
      * @param <T>     初始化过的请求实例
      * @return 处理后的请求实例
      */
-    private <T extends HttpRequestBase> T getHttpRequestBase(T request, @NotNull JnlwNetworkReqConfig config) {
+    private <T extends HttpRequestBase> T getHttpRequestBase(T request, JnlwNetworkReqConfig config) {
         request.setURI(URI.create(generateRequestUrl(config)));
 
         //header处理
@@ -163,8 +166,9 @@ public class JnlwHttpClientReq extends JnlwBaseReq {
      * @param request 请求实例
      * @param config  配置信息
      * @param <T>     初始化过的请求实例
+     * @return
      */
-    private <T extends HttpRequestBase> void sendRequest(@NotNull JnlwNetworkReqConfig config, T request) {
+    private <T extends HttpRequestBase> JnlwHttpRes sendRequest(JnlwNetworkReqConfig config, T request) {
         // 响应模型
         CloseableHttpResponse response = null;
         try {
@@ -173,27 +177,31 @@ public class JnlwHttpClientReq extends JnlwBaseReq {
             // 从响应模型中获取响应实体
             HttpEntity responseEntity = response.getEntity();
             if (responseEntity != null && response.getStatusLine().getStatusCode() == 200) {
+                final JnlwHttpRes res = new JnlwHttpRes(response.getStatusLine().getProtocolVersion().getProtocol(),
+                        response.getStatusLine().getProtocolVersion().getMajor(), response.getStatusLine().getProtocolVersion().getMinor(),
+                        EntityUtils.toString(responseEntity));
                 if (config.getNetworkCallback() != null) {
-                    config.getNetworkCallback().success(response.getStatusLine().getProtocolVersion().getProtocol(),
-                            response.getStatusLine().getProtocolVersion().getMajor(),
-                            response.getStatusLine().getProtocolVersion().getMinor(),
-                            EntityUtils.toString(responseEntity));
+                    config.getNetworkCallback().success(res.getProtocol(), res.getMajor(), res.getMinor(), res.getData());
                 }
+                return res;
             } else {
                 if (retryConnect(config)) {
+                    final JnlwHttpRes res = new JnlwHttpRes(response.getStatusLine().getProtocolVersion().getProtocol(),
+                            response.getStatusLine().getProtocolVersion().getMajor(), response.getStatusLine().getProtocolVersion().getMinor(),
+                            response.getStatusLine().getStatusCode());
                     if (config.getNetworkCallback() != null) {
-                        config.getNetworkCallback().fail(response.getStatusLine().getProtocolVersion().getProtocol(),
-                                response.getStatusLine().getProtocolVersion().getMajor(),
-                                response.getStatusLine().getProtocolVersion().getMinor(),
-                                response.getStatusLine().getStatusCode());
+                        config.getNetworkCallback().fail(res.getProtocol(), res.getMajor(), res.getMinor(), res.getFailStatuesCode());
                     }
+                    return res;
                 }
             }
         } catch (Exception e) {
             if (retryConnect(config)) {
+                final JnlwHttpRes res = new JnlwHttpRes(e);
                 if (config.getNetworkCallback() != null) {
-                    config.getNetworkCallback().error(e);
+                    config.getNetworkCallback().error(res.getException());
                 }
+                return res;
             }
         } finally {
             try {
@@ -204,5 +212,6 @@ public class JnlwHttpClientReq extends JnlwBaseReq {
                 e.printStackTrace();
             }
         }
+        return null;
     }
 }

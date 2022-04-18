@@ -23,13 +23,13 @@ buildscript {
                 android_graphic_code_scan: "4.0.0-alpha02",
                 java_tools               : "4.0.0-alpha02",
                 java_json_parse          : "3.0.0-alpha02",
-                java_net                 : "1.0.5-alpha01",
+                java_net                 : "1.0.5-alpha02",
                 kotlin_java_tools        : "2.0.0-alpha02",
                 kotlin_android_tools     : "2.0.0-alpha02",
                 spring_boot_frame        : "1.6.1-alpha02",
                 spring_boot_tools        : "1.0.0-alpha02",
-                spring_boot_base         : "1.0.0-alpha02",
-                spring_boot_user         : "1.0.0-alpha02",
+                spring_boot_base         : "1.0.0-alpha03",
+                spring_boot_user         : "1.0.0-alpha03",
         ]
         libVersion = [
                 //图片相关
@@ -58,6 +58,10 @@ buildscript {
                 qiniu_java_sdk            : "7.2.27",
                 spring_context_support    : "4.3.4.RELEASE",
                 mail                      : "1.4.7",
+
+                //java网络
+                java_net_httpclient       : "4.5.13",
+                java_net_okhttp           : "4.2.2",
         ]
     }
 

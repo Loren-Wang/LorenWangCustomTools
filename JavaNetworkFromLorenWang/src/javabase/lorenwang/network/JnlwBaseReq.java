@@ -1,11 +1,10 @@
 package javabase.lorenwang.network;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtils;
-import javabase.lorenwang.tools.net.JtlwNetUtils;
+import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
+import javabase.lorenwang.tools.net.JtlwNetUtil;
+
 
 /**
  * 功能作用：网络基础请求
@@ -25,27 +24,23 @@ abstract class JnlwBaseReq {
      * 发起网络请求
      *
      * @param config 发起网络请求的配置信息
+     * @return 响应实体
      */
-    public void sendRequest(@NotNull JnlwNetworkReqConfig config) {
+    public JnlwHttpRes sendRequest(JnlwNetworkReqConfig config) {
         switch (config.getNetworkTypeEnum()) {
             case GET:
-                sendGetRequest(config);
-                break;
+                return sendGetRequest(config);
             case PUT:
-                sendPutRequest(config);
-                break;
+                return sendPutRequest(config);
             case POST:
-                sendPostRequest(config);
-                break;
+                return sendPostRequest(config);
             case DELETE:
-                sendDeleteRequest(config);
-                break;
+                return sendDeleteRequest(config);
             case OPTIONS:
-                sendOptionsRequest(config);
-                break;
+                return sendOptionsRequest(config);
             case NONE:
             default:
-                break;
+                return null;
         }
     }
 
@@ -55,7 +50,7 @@ abstract class JnlwBaseReq {
      * @param config 配置信息
      * @return true代表着已经不需要重试
      */
-    protected boolean retryConnect(@NotNull JnlwNetworkReqConfig config) {
+    protected boolean retryConnect(JnlwNetworkReqConfig config) {
         if (config.getReconnectionCount() > 0) {
             sendRequest(new JnlwNetworkReqConfig.Build().copy(config).setReconnectionCount(config.getReconnectionCount() - 1).build());
             return false;
@@ -66,22 +61,23 @@ abstract class JnlwBaseReq {
 
     /**
      * 生成请求的url地址
+     *
      * @param config 配置信息
      * @return url地址
      */
-    protected String generateRequestUrl(@NotNull JnlwNetworkReqConfig config) {
+    protected String generateRequestUrl(JnlwNetworkReqConfig config) {
         //url处理
         StringBuilder url = new StringBuilder();
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getBaseUrl())) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getBaseUrl())) {
             url.append(config.getBaseUrl());
         } else {
             url.append("http://127.0.0.1");
         }
-        if (JtlwCheckVariateUtils.getInstance().isNotEmpty(config.getRequestUrl())) {
+        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestUrl())) {
             //如果是本地的话判断是否第一位是斜杠，无斜杠要添加
             String first = config.getRequestUrl().substring(0, 1);
             String end = url.substring(url.length() - 1, url.length());
-            if(first.matches("[^/?]") && end.matches("[^/?]")){
+            if (first.matches("[^/?]") && end.matches("[^/?]")) {
                 url.append("/");
             }
             url.append(config.getRequestUrl());
@@ -90,7 +86,7 @@ abstract class JnlwBaseReq {
         url.setLength(0);
         //参数拼接处理
         for (Map.Entry<String, String> entry : config.getRequestDataParams().entrySet()) {
-            requestUrl = JtlwNetUtils.getInstance().addUrlParams(requestUrl, entry.getKey(), entry.getValue());
+            requestUrl = JtlwNetUtil.getInstance().addUrlParams(requestUrl, entry.getKey(), entry.getValue());
         }
         return requestUrl;
     }
@@ -99,34 +95,39 @@ abstract class JnlwBaseReq {
      * 设置Get请求
      *
      * @param config 请求配置
+     * @return 请求结果
      */
-    abstract void sendGetRequest(@NotNull JnlwNetworkReqConfig config);
+    abstract JnlwHttpRes sendGetRequest(JnlwNetworkReqConfig config);
 
     /**
      * 设置Put请求
      *
      * @param config 请求配置
+     * @return 请求结果
      */
-    abstract void sendPutRequest(@NotNull JnlwNetworkReqConfig config);
+    abstract JnlwHttpRes sendPutRequest(JnlwNetworkReqConfig config);
 
     /**
      * 设置Post请求
      *
      * @param config 请求配置
+     * @return 请求结果
      */
-    abstract void sendPostRequest(@NotNull JnlwNetworkReqConfig config);
+    abstract JnlwHttpRes sendPostRequest(JnlwNetworkReqConfig config);
 
     /**
      * 设置Delete请求
      *
      * @param config 请求配置
+     * @return 请求结果
      */
-    abstract void sendDeleteRequest(@NotNull JnlwNetworkReqConfig config);
+    abstract JnlwHttpRes sendDeleteRequest(JnlwNetworkReqConfig config);
 
     /**
      * 设置Options请求
      *
      * @param config 请求配置
+     * @return 请求结果
      */
-    abstract void sendOptionsRequest(@NotNull JnlwNetworkReqConfig config);
+    abstract JnlwHttpRes sendOptionsRequest(JnlwNetworkReqConfig config);
 }

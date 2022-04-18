@@ -1,8 +1,6 @@
 package javabase.lorenwang.network;
 
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -177,7 +175,7 @@ public class JnlwNetworkReqConfig {
          * @param requestUrl 请求地址
          * @return 当前build
          */
-        public Build setRequestUrl(@NotNull String requestUrl) {
+        public Build setRequestUrl(String requestUrl) {
             this.requestUrl = requestUrl;
             return this;
         }
@@ -188,7 +186,7 @@ public class JnlwNetworkReqConfig {
          * @param networkTypeEnum 请求类型枚举
          * @return 当前build
          */
-        public Build setNetworkTypeEnum(@NotNull JnlwNetworkTypeEnum networkTypeEnum) {
+        public Build setNetworkTypeEnum(JnlwNetworkTypeEnum networkTypeEnum) {
             this.networkTypeEnum = networkTypeEnum;
             return this;
         }
@@ -200,7 +198,7 @@ public class JnlwNetworkReqConfig {
          * @param value 请求value
          * @return 当前build
          */
-        public Build addRequestDataParam(@NotNull String key, @NotNull String value) {
+        public Build addRequestDataParam(String key, String value) {
             try {
                 requestDataParams.put(key, URLEncoder.encode(value, "utf-8"));
             } catch (UnsupportedEncodingException e) {
@@ -227,7 +225,7 @@ public class JnlwNetworkReqConfig {
          * @param value 请求value
          * @return 当前build
          */
-        public Build addRequestHeaderParam(@NotNull String key, @NotNull String value) {
+        public Build addRequestHeaderParam(String key, String value) {
             requestHeaderParams.put(key, value);
             return this;
         }

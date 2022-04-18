@@ -25,6 +25,7 @@ class MainActivity : BaseActivity() {
     override fun onRefreshData() {
         super.onRefreshData()
         swipeRefresh?.isRefreshing = false
+        android.R.drawable.arrow_down_float
     }
 
     fun mainClick(view: View?) {

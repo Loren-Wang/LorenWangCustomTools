@@ -1,7 +1,6 @@
 package springbase.lorenwang.base.controller
 
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
-import org.springframework.stereotype.Service
 import springbase.lorenwang.base.spblwConfig
 import java.io.IOException
 import javax.servlet.*
@@ -67,7 +66,7 @@ open class SpblwBaseControllerFilter : Filter {
             // Access-Control-Max-Age 用于 CORS 相关配置的缓存
             res.setHeader("Access-Control-Max-Age", "3600")
             res.setHeader("Access-Control-Allow-Headers",
-                "${spblwConfig.getAccessControlAllowHeadersUserTokenKey()},Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers,Origin, X-Requested-With, Content-Type, Accept,WG-App-Version, WG-Device-Id, WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model, WG-CPU, WG-Sid, WG-App-Id, WG-Token")
+                "${spblwConfig.getAccessControlAllowHeadersAddKey()},Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers,Origin, X-Requested-With, Content-Type, Accept,WG-App-Version, WG-Device-Id, WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model, WG-CPU, WG-Sid, WG-App-Id, WG-Token")
             res.characterEncoding = "UTF-8"
 
             //有些web接口会在请求接口之前发生options请求，这个直接通过即可

@@ -1,5 +1,7 @@
 apply from: '../GradleDependencies/SpringBootTools.gradle'
+apply from: '../GradleDependencies/JavaNetwork.gradle'
 dependencies {
     compileOnly "com.github.loren-wang:SpringBootBaseFromLorenWang:${rootProject.ext.moduleVersion.spring_boot_base}"
     compileOnly "com.github.loren-wang:SpringBootToolsFromLorenWang:${rootProject.ext.moduleVersion.spring_boot_tools}"
+    compileOnly "com.github.loren-wang:JavaNetworkFromLorenWang:${rootProject.ext.moduleVersion.java_net}"
 }

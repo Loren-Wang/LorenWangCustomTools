@@ -1,13 +1,19 @@
 package com.test.springboot.controller
 
+import com.test.springboot.bean.LoginWxReq
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import springbase.lorenwang.base.controller.SpblwBaseController
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
-import springbase.lorenwang.base.kotlinExtend.spblwControllerCheckAndOptions
+import springbase.lorenwang.user.database.table.SpulwUserInfoTb
+import springbase.lorenwang.user.enums.SpulwUserLoginFromEnum
+import springbase.lorenwang.user.enums.SpulwUserLoginTypeEnum
+import springbase.lorenwang.user.interfaces.SpulwLoginUserCallback
+import springbase.lorenwang.user.service.SpulwUserService
 
 /**
  * 功能作用：通用接口请求
@@ -26,13 +32,22 @@ import springbase.lorenwang.base.kotlinExtend.spblwControllerCheckAndOptions
 @RequestMapping("/")
 @Api(tags = ["test"], description = "test")
 class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>() {
+    @Autowired
+    private lateinit var service: SpulwUserService
 
     @GetMapping("test")
     @ApiOperation(value = "test", httpMethod = "GET")
-    fun submit(request: SpblwBaseHttpServletRequestWrapper, reqBean: String): String {
+    suspend fun submit(request: SpblwBaseHttpServletRequestWrapper, reqBean: LoginWxReq): String {
         super.base(request, reqBean)
-        return spblwControllerCheckAndOptions(request, arrayOf(reqBean), this) {
-            responseSuccess(request, null)
-        }
+        return service.loginUser(reqBean.code!!, reqBean.info, SpulwUserLoginFromEnum.WECHAT_SMALL_PROGRAM,
+            SpulwUserLoginTypeEnum.WECHAT_SMALL_PROGRAM, object : SpulwLoginUserCallback {
+                override fun loginUserSuccess(info: SpulwUserInfoTb): String {
+                    return ""
+                }
+
+                override fun loginUserFailUnKnow(msg: String?): String {
+                    return ""
+                }
+            })
     }
 }

@@ -66,11 +66,9 @@ abstract class SpblwConfig {
     }
 
     /**
-     * 获取请求头部分用户token的key,获取header中accessToken使用的关键字
+     * 获取请求头部分要添加的参数实体，返回使用逗号分隔
      */
-    open fun getAccessControlAllowHeadersUserTokenKey(): String {
-        return "userToken"
-    }
+    abstract fun getAccessControlAllowHeadersAddKey(): String
 
     /**
      * 获取配置内容

@@ -42,7 +42,7 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <T> responseContent(request: R?, stateCode: String, stateMessage: String, obj: T?): String {
+    open fun <T> responseContent(request: R?, stateCode: String, stateMessage: String, obj: T?): String {
         val baseResponseBean = KttlwBaseNetResponseBean(obj)
         baseResponseBean.stateCode = stateCode
         baseResponseBean.stateMessage = stateMessage
@@ -61,14 +61,14 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <T> responseContentCode(request: R?, stateCode: String, stateMessageCode: String, obj: T?): String {
+    open fun <T> responseContentCode(request: R?, stateCode: String, stateMessageCode: String, obj: T?): String {
         return responseContent(request, stateCode, spblwConfig.getMessage(stateMessageCode), obj)
     }
 
     /**
      * 响应数据状态处理
      */
-    fun responseDataDisposeStatus(request: R?, bean: SpblwBaseDataDisposeStatusBean): String {
+    open fun responseDataDisposeStatus(request: R?, bean: SpblwBaseDataDisposeStatusBean): String {
         return if (bean.repDataList) {
             responseDataListContent(request, bean.statusCode!!,
                 if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else spblwConfig.getMessage(bean.statusMsgCode), bean.pageIndex!!,
@@ -85,7 +85,7 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <E, T : ArrayList<E>> responseDataListContent(request: R?, stateCode: String, stateMessage: String, pageIndex: Int, pageSize: Int,
+    open fun <E, T : ArrayList<E>> responseDataListContent(request: R?, stateCode: String, stateMessage: String, pageIndex: Int, pageSize: Int,
         sumCount: Long, dataList: T): String {
         val sumPageCount = if (sumCount % pageSize > 0) {
             sumCount / pageSize + 1
@@ -103,8 +103,8 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    fun <E, T : ArrayList<E>> responseDataListContentCode(request: R?, stateCode: String, stateMessageCode: String, pageIndex: Int, pageSize: Int,
-        sumCount: Long, dataList: T): String {
+    open fun <E, T : ArrayList<E>> responseDataListContentCode(request: R?, stateCode: String, stateMessageCode: String, pageIndex: Int,
+        pageSize: Int, sumCount: Long, dataList: T): String {
         val sumPageCount = if (sumCount % pageSize > 0) {
             sumCount / pageSize + 1
         } else {
@@ -117,7 +117,7 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
     /**
      * 响应数据
      */
-    fun responseData(request: R?, result: Any?): String {
+    open fun responseData(request: R?, result: Any?): String {
         return when (result) {
             //如果是类型的话则按类型处理
             is SpblwBaseDataDisposeStatusBean -> {
@@ -137,43 +137,29 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
     /**
      * 参数异常响应
      */
-    fun responseErrorForParams(request: R?): String {
+    open fun responseErrorForParams(request: R?): String {
         return spblwConfig.responseErrorForParams(request)
     }
 
     /**
      * 数据响应成功
      */
-    fun responseSuccess(request: R?, data: Any?): String {
+    open fun responseSuccess(request: R?, data: Any?): String {
         return spblwConfig.responseSuccess(request, data)
     }
 
     /**
      * 数据删除失败
      */
-    fun responseDeleteFail(request: R?): String {
+    open fun responseDeleteFail(request: R?): String {
         return spblwConfig.responseDeleteFail(request)
     }
 
     /**
      * 未知错误失败
      */
-    fun responseFailForUnKnow(request: R?): String {
+    open fun responseFailForUnKnow(request: R?): String {
         return spblwConfig.responseFailForUnKnow(request)
-    }
-
-    /**
-     * 登录验证失败,用户未登录或者token失效
-     */
-    fun responseErrorUserLoginEmptyOrTokenNoneffective(request: R?): String {
-        return spblwConfig.responseErrorUserLoginEmptyOrTokenNoneffective(request)
-    }
-
-    /**
-     * 无权限异常
-     */
-    fun responseErrorNotPermission(request: R?): String {
-        return spblwConfig.responseErrorNotPermission(request)
     }
 
 }

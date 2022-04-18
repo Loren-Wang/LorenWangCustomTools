@@ -3,9 +3,10 @@ package springbase.lorenwang.user.service
 import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.service.SpblwBaseService
-import springbase.lorenwang.tools.safe.SptlwEncryptDecryptUtil
-import springbase.lorenwang.tools.utils.SptlwRandomStringUtil
-import springbase.lorenwang.user.spulwConfig
+import springbase.lorenwang.user.database.table.SpulwUserInfoTb
+import springbase.lorenwang.user.enums.SpulwUserLoginFromEnum
+import springbase.lorenwang.user.enums.SpulwUserLoginTypeEnum
+import springbase.lorenwang.user.interfaces.SpulwLoginUserCallback
 
 /**
  * 功能作用：用户相关服务
@@ -20,7 +21,7 @@ import springbase.lorenwang.user.spulwConfig
  *
  * @author 王亮（Loren wang）
  */
-abstract class SpulwUserService : SpblwBaseService {
+interface SpulwUserService : SpblwBaseService {
     companion object {
         /**
          * 内部请求头中使用临时的用户信息key
@@ -29,88 +30,101 @@ abstract class SpulwUserService : SpblwBaseService {
     }
 
     /**
-     * 密码长度，默认10位
+     * 获取密码长度
      */
-    var passwordLength: Int = 10
+    fun getPasswordLength(): Int
 
     /**
-     * 是否加密了token，自动调用，当执行过加密方法之后会被自动设置为true
+     * accessToken超时时间
      */
-    var encryptAccessToken = false
+    fun getAccessTokenTimeOut(): Long
 
+    /**
+     * 登录用户
+     * @param name 账户相关，账户account、手机号、第三方登录id
+     * @param validation 验证处理，密码、验证码
+     * @param fromEnum 登录来源，网页、安卓、iOS、鸿蒙、小程序
+     * @param typeEnum 登录类型，账户密码、手机号密码、手机号验证码、微信、微博、QQ、邮箱密码、邮箱验证码
+     * @param callback 登录回调
+     */
+    suspend fun loginUser(name: String, validation: String?, fromEnum: SpulwUserLoginFromEnum, typeEnum: SpulwUserLoginTypeEnum,
+        callback: SpulwLoginUserCallback): String
+
+    /**
+     * 获取用户信息
+     * @param userId 用户id
+     * @param account 账户
+     * @param email 邮件
+     * @param phone 手机号
+     * @param wxId 微信id
+     * @param qqId qqId
+     * @param sinaId 新浪微博id
+     * @param token 用户token
+     */
+    fun getUserInfo(userId: String?, account: String?, email: String?, phone: String?, wxId: String?, qqId: String?,
+        sinaId: String?): SpulwUserInfoTb?
+
+    /**
+     * 获取微信第三方secret
+     */
+    fun getWeChatSecret(): String
+
+    /**
+     * 获取微信第三方登录的appId
+     */
+    fun getWeChatAppId(): String
+
+    /**
+     * 获取微信小程序第三方secret
+     */
+    fun getWeChatSmallProgramSecret(): String
+
+    /**
+     * 获取微信小程序第三方登录的appId
+     */
+    fun getWeChatSmallProgramAppId(): String
+
+    /**
+     * 刷新用户token并返回新的token信息
+     */
+    fun refreshAccessToken(token: String?, fromEnum: SpulwUserLoginFromEnum): String?
+
+    /**
+     * 加密token
+     */
+    fun encryptAccessToken(token: String): String?
+
+    /**
+     * 解密token
+     */
+    fun decryptAccessToken(token: String): String?
 
     /**
      * 通过请求头获取用户token
      */
-    abstract fun getAccessTokenByReqHeader(request: SpblwBaseHttpServletRequestWrapper): String?
-
-    /**
-     * 检查token是否有效
-     */
-    abstract fun checkAccessTokenEffective(token: String?): SpblwBaseDataDisposeStatusBean
+    fun getAccessTokenByReqHeader(request: SpblwBaseHttpServletRequestWrapper): String?
 
     /**
      * 根据用户token获取用户id
      */
-    abstract fun getUserIdByAccessToken(token: String?): String?
+    fun getUserIdByAccessToken(token: String?): String?
 
     /**
-     * 检测用户是否已经登录
+     * 生成用户token
      */
-    abstract fun checkUserLogin(request: SpblwBaseHttpServletRequestWrapper): SpblwBaseDataDisposeStatusBean
-
-    /**
-     * 刷新用户token
-     */
-    abstract fun refreshAccessToken(token: String): String
-
-    /**
-     * 登录验证失败,用户未登录或者token失效
-     *
-     * @param errorInfo 错误信息
-     * @return 返回登录验证失败响应字符串
-     */
-    abstract fun responseErrorUser(errorInfo: SpblwBaseDataDisposeStatusBean?): String
+    fun generateAccessToken(userId: String, loginFrom: SpulwUserLoginFromEnum): String?
 
     /**
      * 生成密码,可能为空
      */
-    fun generatePassword(): String? {
-        return try {
-            SptlwRandomStringUtil.randomAlphanumeric(passwordLength)
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    /**
-     * 加密token
-    //     * @param key 加密的key
-    //     * @param ivs 加密解密的算法参数
-     */
-    fun encryptAccessToken(token: String): String? {
-        encryptAccessToken = true
-        return SptlwEncryptDecryptUtil.instance.encrypt(spulwConfig.getDecryptAccessTokenKey(), spulwConfig.getDecryptAccessTokenIvs(), token)
-    }
-
-    /**
-     * 解密token
-    //     * @param key 加密的key
-    //     * @param ivs 加密解密的算法参数
-     */
-    fun decryptAccessToken(token: String): String? {
-        return if (encryptAccessToken) {
-            SptlwEncryptDecryptUtil.instance.decrypt(spulwConfig.getDecryptAccessTokenKey(), spulwConfig.getDecryptAccessTokenIvs(), token)
-        } else {
-            token
-        }
-    }
-
-    /**
-     * 新增新用户
-     * @param account 用户名称
-     * @param roleType 角色类型
-     */
-    abstract fun addNewUser(account: String, phoneNum: String, roleType: Int)
+    fun generatePassword(): String?
+//
+//
+//    /**
+//     * 新增新用户
+//     * @param account 用户名称
+//     * @param roleType 角色类型
+//     */
+//    abstract fun addNewUser(account: String, phoneNum: String, roleType: Int)
 
 }

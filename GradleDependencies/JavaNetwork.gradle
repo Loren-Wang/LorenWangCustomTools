@@ -1,0 +1,14 @@
+apply from: '../GradleDependencies/JavaCustomTools.gradle'
+apply from: '../GradleDependencies/JavaDataParse.gradle'
+dependencies {
+    //httpClient网络请求
+    compileOnly "org.apache.httpcomponents:httpclient:${rootProject.ext.libVersion.java_net_httpclient}"
+    testImplementation "org.apache.httpcomponents:httpclient:${rootProject.ext.libVersion.java_net_httpclient}"
+    //okhttp网络请求
+    compileOnly "com.squareup.okhttp3:okhttp:${rootProject.ext.libVersion.java_net_okhttp}"
+    testImplementation "com.squareup.okhttp3:okhttp:${rootProject.ext.libVersion.java_net_okhttp}"
+    //java工具类库
+    compileOnly "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
+    //java数据格式化类库以及关联库
+    compileOnly "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
+}
