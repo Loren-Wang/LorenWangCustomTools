@@ -70,7 +70,7 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
      * @param typeEnum 登录类型，账户密码、手机号密码、手机号验证码、微信、微博、QQ、邮箱密码、邮箱验证码
      * @param callback 登录回调
      */
-    override suspend fun loginUser(name: String, validation: String?, fromEnum: SpulwUserLoginFromEnum, typeEnum: SpulwUserLoginTypeEnum,
+    override fun loginUser(name: String, validation: String?, fromEnum: SpulwUserLoginFromEnum, typeEnum: SpulwUserLoginTypeEnum,
         callback: SpulwLoginUserCallback): String {
         val logType = "登录用户${name}:"
         return when (typeEnum) {
@@ -323,19 +323,22 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
      * 回调用户信息，秉权刷新用户token
      */
     private fun callbackUserInfo(tag: String, fromEnum: SpulwUserLoginFromEnum, userInfo: SpulwUserInfoTb, callback: SpulwLoginUserCallback): String {
-        //更新token并返回用户信息
-        return refreshAccessToken(null, fromEnum).kttlwEmptyCheck({
-            spulwConfig.getLogUtil().logI(javaClass, "用户${tag}token刷新失败")
+        //先存储用户信息
+        return userRepository.save(userInfo).kttlwEmptyCheck({
+            spulwConfig.getLogUtil().logI(javaClass, "用户${tag}信息存储失败")
             callback.loginUserFailUnKnow("")
-        }, {
-            userRepository.save(userInfo).kttlwEmptyCheck({
+        }, { info ->
+            spulwConfig.getLogUtil().logI(javaClass, "用户${tag}信息存储成功，开始刷新token信息")
+            //用户信息存储成功，生成新token并存储
+            refreshAccessToken(generateAccessToken(info.userId!!, fromEnum), fromEnum).kttlwEmptyCheck({
                 spulwConfig.getLogUtil().logI(javaClass, "用户${tag}token刷新失败")
                 callback.loginUserFailUnKnow("")
-            }, { info ->
+            }, {
+                spulwConfig.getLogUtil().logI(javaClass, "用户${tag}token刷新成共，存储数据")
                 //更新用户token信息
                 if (platformTokenService.updateUserTokenInfo(info.userId!!, it, getAccessTokenTimeOut())) {
                     spulwConfig.getLogUtil().logI(javaClass, "用户${tag}token刷新成，返回用户信息")
-                    callback.loginUserSuccess(info)
+                    callback.loginUserSuccess(it,info)
                 } else {
                     spulwConfig.getLogUtil().logI(javaClass, "用户${tag}token刷新失败")
                     callback.loginUserFailUnKnow("")

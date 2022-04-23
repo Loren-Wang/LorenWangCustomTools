@@ -31,13 +31,13 @@ class WeChatGetUserInfoRes {
     /**
      * 用户头像，最后一个数值代表正方形头像大小（有 0、46、64、96、132 数值可选，0 代表 640*640 正方形头像），用户没有头像时该项为空
      */
-    @SerializedName("headimgurl")
+    @SerializedName("headimgurl", alternate = ["avatarUrl"])
     var headimgurl: String? = null
 
     /**
      * 普通用户昵称
      */
-    @SerializedName("nickname")
+    @SerializedName("nickname", alternate = ["nickName"])
     var nickname: String? = null
 
     /**
@@ -55,8 +55,9 @@ class WeChatGetUserInfoRes {
     /**
      * 普通用户性别，1 为男性，2 为女性
      */
-    @SerializedName("sex")
+    @SerializedName("sex", alternate = ["gender"])
     var sex: Int? = null
+
     /**
      * 当且仅当该移动应用已获得该用户的 userinfo 授权时，才会出现该字段
      */

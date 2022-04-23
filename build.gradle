@@ -24,12 +24,12 @@ buildscript {
                 java_tools               : "4.0.0-alpha02",
                 java_json_parse          : "3.0.0-alpha02",
                 java_net                 : "1.0.5-alpha02",
-                kotlin_java_tools        : "2.0.0-alpha02",
+                kotlin_java_tools        : "2.0.0-alpha04",
                 kotlin_android_tools     : "2.0.0-alpha02",
                 spring_boot_frame        : "1.6.1-alpha02",
                 spring_boot_tools        : "1.0.0-alpha02",
-                spring_boot_base         : "1.0.0-alpha03",
-                spring_boot_user         : "1.0.0-alpha03",
+                spring_boot_base         : "1.0.0-alpha04",
+                spring_boot_user         : "1.0.0-alpha06",
         ]
         libVersion = [
                 //图片相关

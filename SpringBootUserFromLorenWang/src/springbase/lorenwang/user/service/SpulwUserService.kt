@@ -1,6 +1,5 @@
 package springbase.lorenwang.user.service
 
-import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.service.SpblwBaseService
 import springbase.lorenwang.user.database.table.SpulwUserInfoTb
@@ -47,7 +46,7 @@ interface SpulwUserService : SpblwBaseService {
      * @param typeEnum 登录类型，账户密码、手机号密码、手机号验证码、微信、微博、QQ、邮箱密码、邮箱验证码
      * @param callback 登录回调
      */
-    suspend fun loginUser(name: String, validation: String?, fromEnum: SpulwUserLoginFromEnum, typeEnum: SpulwUserLoginTypeEnum,
+    fun loginUser(name: String, validation: String?, fromEnum: SpulwUserLoginFromEnum, typeEnum: SpulwUserLoginTypeEnum,
         callback: SpulwLoginUserCallback): String
 
     /**

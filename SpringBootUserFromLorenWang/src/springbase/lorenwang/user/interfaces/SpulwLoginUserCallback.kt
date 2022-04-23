@@ -11,8 +11,9 @@ import springbase.lorenwang.user.database.table.SpulwUserInfoTb
 interface SpulwLoginUserCallback {
     /**
      * 登录成功
+     * @param token 用户token
      */
-    fun loginUserSuccess(info: SpulwUserInfoTb): String
+    fun loginUserSuccess(token: String, info: SpulwUserInfoTb): String
 
     /**
      * 未知原因登录失败

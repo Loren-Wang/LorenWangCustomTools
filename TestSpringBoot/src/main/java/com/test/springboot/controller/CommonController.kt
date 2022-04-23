@@ -41,7 +41,7 @@ class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>
         super.base(request, reqBean)
         return service.loginUser(reqBean.code!!, reqBean.info, SpulwUserLoginFromEnum.WECHAT_SMALL_PROGRAM,
             SpulwUserLoginTypeEnum.WECHAT_SMALL_PROGRAM, object : SpulwLoginUserCallback {
-                override fun loginUserSuccess(info: SpulwUserInfoTb): String {
+                override fun loginUserSuccess(token: String, info: SpulwUserInfoTb): String {
                     return ""
                 }
 

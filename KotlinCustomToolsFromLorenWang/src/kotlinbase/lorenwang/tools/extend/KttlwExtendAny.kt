@@ -127,10 +127,10 @@ inline fun <reified T> Any?.kttlwFormatConversion(): T? {
  * 判断数据值是否是确定状态，默认返回非确定状态也就是默认认定数据为false
  */
 fun Any?.kttlwIfTrue(): Boolean {
-    if (this != null && this.toString().matches(Regex("[0-9]+"))) {
+    if (this != null && this.toString().matches(Regex("\\d+"))) {
         return this.toString() != "0"
     }
-    if(this is Boolean){
+    if (this is Boolean) {
         return this
     }
     return false
@@ -140,10 +140,10 @@ fun Any?.kttlwIfTrue(): Boolean {
  * 判断数据值是否是否定状态，默认返回非确定状态也就是默认认定数据为false
  */
 fun Any?.kttlwIfFalse(): Boolean {
-    if (this != null && this.toString().matches(Regex("[0-9]+"))) {
+    if (this != null && this.toString().matches(Regex("\\d+"))) {
         return this.toString() == "0"
     }
-    if(this is Boolean){
+    if (this is Boolean) {
         return this
     }
     return true
@@ -153,7 +153,7 @@ fun Any?.kttlwIfFalse(): Boolean {
 /**
  * 待检测参数中是否包含空数据，包括空字符串检测
  */
-inline fun <P, R> kttlwHaveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R, vararg params: P): R {
+inline fun <R> kttlwHaveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R, params: Array<*>): R {
     params.forEach {
         if (it.kttlwIsEmpty()) {
             return emptyFun()
@@ -166,7 +166,7 @@ inline fun <P, R> kttlwHaveEmptyCheck(emptyFun: () -> R, notEmptyFun: () -> R, v
  * 待检测参数中是否包含空数据，包括空字符串检测
  * @return 有返回true，否则返回false
  */
-fun <P> kttlwHaveEmptyCheck(vararg params: P): Boolean {
+fun kttlwHaveEmptyCheck(params: Array<*>): Boolean {
     params.forEach {
         if (it.kttlwIsEmpty()) {
             return true
@@ -179,7 +179,7 @@ fun <P> kttlwHaveEmptyCheck(vararg params: P): Boolean {
  * 待检测参数中是否全部是空数据，包括空字符串检测
  * @return 有返回true，否则返回false
  */
-fun <P> kttlwAllEmptyCheck(vararg params: P): Boolean {
+fun kttlwAllEmptyCheck(params: Array<*>): Boolean {
     params.forEach {
         if (!it.kttlwIsEmpty()) {
             return false
@@ -191,7 +191,7 @@ fun <P> kttlwAllEmptyCheck(vararg params: P): Boolean {
 /**
  * 待检测参数中是否有null数据
  */
-inline fun <P, R> kttlwHaveNullCheck(vararg params: P, nullFun: () -> R, notNullFun: () -> R): R {
+inline fun <R> kttlwHaveNullCheck(params: Array<*>, nullFun: () -> R, notNullFun: () -> R): R {
     params.forEach {
         if (it.kttlwIsNull()) {
             return nullFun()
@@ -204,7 +204,7 @@ inline fun <P, R> kttlwHaveNullCheck(vararg params: P, nullFun: () -> R, notNull
  * 待检测参数中是否包含null
  * @return 有返回true，否则返回false
  */
-fun <P> kttlwHaveNullCheck(vararg params: P): Boolean {
+fun kttlwHaveNullCheck(params: Array<*>): Boolean {
     params.forEach {
         if (it.kttlwIsNull()) {
             return true
@@ -217,7 +217,7 @@ fun <P> kttlwHaveNullCheck(vararg params: P): Boolean {
  * 待检测参数中是否全部是null
  * @return 全是返回true，否则返回false
  */
-fun <P> kttlwAllNullCheck(vararg params: P): Boolean {
+fun kttlwAllNullCheck(params: Array<*>): Boolean {
     params.forEach {
         if (!it.kttlwIsNull()) {
             return false

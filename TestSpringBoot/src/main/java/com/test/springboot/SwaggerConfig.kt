@@ -34,19 +34,12 @@ open class SwaggerConfig {
      */
     @Bean
     open fun createRestApi(): Docket {
-        //添加所有的默认请求餐
-        val tokenPar = ParameterBuilder()
-        val pars: MutableList<Parameter> = ArrayList()
-        configOptions.getAccessControlAllowHeadersAddKey().split(",").forEach {
-            tokenPar.name(it).description("用户登录后获取到的请求信息").modelRef(ModelRef("string")).parameterType("header").required(false).build()
-        }
-        pars.add(tokenPar.build())
         return Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).pathMapping("/").select() // 选择那些路径和api会生成document
             .apis(RequestHandlerSelectors.any())// 对所有api进行监控
             //不显示错误的接口地址
             .paths(Predicates.not(PathSelectors.regex("/error.*")))//错误路径不监控
             .paths(PathSelectors.regex("/.*"))// 对根下所有路径进行监控
-            .build().globalOperationParameters(pars)
+            .build().globalOperationParameters(getParameterHeaderList())
     }
 
     /**
@@ -56,5 +49,18 @@ open class SwaggerConfig {
      */
     private fun apiInfo(): ApiInfo {
         return ApiInfoBuilder().title("").description("更多请关注http://www.baidu.com").termsOfServiceUrl("http://www.baidu.com").version("1.0").build()
+    }
+
+    /**
+     * 获取请求头处理
+     */
+    private fun getParameterHeaderList(): ArrayList<Parameter> {
+        val list = arrayListOf<Parameter>()
+        val builder = ParameterBuilder()
+        configOptions.getAccessControlAllowHeadersAddKey().split(",").forEach {
+            builder.name(it).description("默认请求header").modelRef(ModelRef("string")).parameterType("header").required(false).build()
+            list.add(builder.build())
+        }
+        return list
     }
 }
