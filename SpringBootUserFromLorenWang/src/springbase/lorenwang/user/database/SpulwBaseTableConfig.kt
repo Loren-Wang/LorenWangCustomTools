@@ -46,7 +46,12 @@ object SpulwBaseTableConfig {
         /**
          * id
          */
-        const val USER_ID = "user_id"
+        const val USER_CHILD_ID = "user_child_id"
+
+        /**
+         * 用户组id
+         */
+        const val USER_GROUP_ID = "user_group_id"
 
         /**
          * 名称

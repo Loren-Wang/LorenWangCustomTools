@@ -9,7 +9,6 @@ import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.utils.SpblwLog
-import springbase.lorenwang.tools.plugins.email.SptlwEmailUtil
 import springbase.lorenwang.tools.plugins.oss.SptlwOssUtil
 import springbase.lorenwang.tools.utils.SptlwFileOptionsUtil
 import springbase.lorenwang.user.SpulwConfig
@@ -85,15 +84,10 @@ class ConfigOptions : SpulwConfig() {
         return logUtil
     }
 
-    override fun getEmailUtil(): SptlwEmailUtil? {
-        return super.getEmailUtil()
-    }
-
     override fun getOssUtil(): SptlwOssUtil {
 //        SptlwOssUtil.instance.initOssConfig(SptlwALiYunOssConfig())
         return SptlwOssUtil.instance
     }
-
 
     /**
      * 参数异常响应

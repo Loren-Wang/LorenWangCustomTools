@@ -1,6 +1,7 @@
 package springbase.lorenwang.user.database.table
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
+import javabase.lorenwang.tools.common.JtlwCommonUtil
 import org.hibernate.annotations.GenericGenerator
 import springbase.lorenwang.base.database.SpblwBaseTableConfig
 import springbase.lorenwang.base.database.table.SpblwBaseTb
@@ -31,9 +32,16 @@ open class SpulwUserInfoTb : SpblwBaseTb(), Serializable, Cloneable {
     @Id
     @GenericGenerator(name = "my", strategy = "uuid")  //声明一个主键生成策略,并设置一个引用名称,这里采用的是hibernate提供的预定策略
     @GeneratedValue(generator = "my")  //配置主键的生成策略为自己声明的那个生成策略
-    @Column(name = SpulwBaseTableConfig.UserInfoColumn.USER_ID, nullable = false,
-        columnDefinition = "${SpblwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '用户id'")
-    var userId: String? = null
+    @Column(name = SpulwBaseTableConfig.UserInfoColumn.USER_CHILD_ID, nullable = false,
+        columnDefinition = "${SpblwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '用户子id'")
+    var userChildId: String? = null
+
+    /**
+     * 组id，用户信息在token中使用的是这个id
+     */
+    @Column(name = SpulwBaseTableConfig.UserInfoColumn.USER_GROUP_ID, nullable = false,
+        columnDefinition = "${SpblwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '用户组id'")
+    var userGroupId: String = JtlwCommonUtil.getInstance().generateUuid(true)
 
     /**
      * 乐观锁锁数据

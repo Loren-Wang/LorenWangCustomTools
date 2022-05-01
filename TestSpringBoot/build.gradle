@@ -47,6 +47,9 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui:${rootProject.ext.libVersion.springfox_swagger}"
     implementation project(':JavaDataParseFromLorenWang')
     implementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    //redis数据库缓存
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${rootProject.ext.libVersion.redis}"
+
 
 }
 

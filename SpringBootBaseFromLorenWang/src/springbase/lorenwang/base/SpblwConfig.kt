@@ -5,8 +5,10 @@ import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.utils.SpblwLog
+import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
+import java.io.InputStreamReader
 import java.util.*
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
@@ -80,7 +82,14 @@ abstract class SpblwConfig {
         var inputStream: InputStream? = null
         try {
             inputStream = this::class.java.classLoader.getResourceAsStream(propertiesName)
-            props.load(inputStream)
+            if (inputStream != null) {
+                val isr = InputStreamReader(inputStream, "UTF-8")
+                val br = BufferedReader(isr)
+                props.load(br)
+                props.load(isr)
+            } else {
+                getLogUtil().logE(this::class.java, "${propertiesName}配置文件加载异常")
+            }
         } catch (e: Exception) {
             getLogUtil().logE(this::class.java, "${propertiesName}配置文件加载异常")
         } finally {

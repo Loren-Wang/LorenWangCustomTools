@@ -3,6 +3,7 @@ package springbase.lorenwang.user.service
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.service.SpblwBaseService
 import springbase.lorenwang.user.database.table.SpulwUserInfoTb
+import springbase.lorenwang.user.database.table.SpulwUserRoleTb
 import springbase.lorenwang.user.enums.SpulwUserLoginFromEnum
 import springbase.lorenwang.user.enums.SpulwUserLoginTypeEnum
 import springbase.lorenwang.user.interfaces.SpulwLoginUserCallback
@@ -50,18 +51,26 @@ interface SpulwUserService : SpblwBaseService {
         callback: SpulwLoginUserCallback): String
 
     /**
+     * 检测登录验证码
+     * @param name 账户相关，账户account、手机号、第三方登录id
+     * @param validation 验证处理，密码、验证码
+     * @param typeEnum 登录类型，账户密码、手机号密码、手机号验证码、微信、微博、QQ、邮箱密码、邮箱验证码
+     */
+    fun checkLoginUserValidation(name: String, validation: String?, typeEnum: SpulwUserLoginTypeEnum): Boolean
+
+    /**
      * 获取用户信息
-     * @param userId 用户id
+     * @param userGroupId 用户组id
+     * @param userChildId 用户子id
      * @param account 账户
      * @param email 邮件
      * @param phone 手机号
      * @param wxId 微信id
      * @param qqId qqId
      * @param sinaId 新浪微博id
-     * @param token 用户token
      */
-    fun getUserInfo(userId: String?, account: String?, email: String?, phone: String?, wxId: String?, qqId: String?,
-        sinaId: String?): SpulwUserInfoTb?
+    fun getUserInfo(userGroupId: String?, userChildId: String?, account: String?, email: String?, phone: String?, wxId: String?, qqId: String?,
+        sinaId: String?): List<SpulwUserInfoTb>
 
     /**
      * 获取微信第三方secret
@@ -106,24 +115,41 @@ interface SpulwUserService : SpblwBaseService {
     /**
      * 根据用户token获取用户id
      */
-    fun getUserIdByAccessToken(token: String?): String?
+    fun getUserGroupIdByAccessToken(token: String?): String?
 
     /**
      * 生成用户token
      */
-    fun generateAccessToken(userId: String, loginFrom: SpulwUserLoginFromEnum): String?
+    fun generateAccessToken(userGroupId: String, loginFrom: SpulwUserLoginFromEnum): String?
 
     /**
      * 生成密码,可能为空
      */
     fun generatePassword(): String?
-//
-//
-//    /**
-//     * 新增新用户
-//     * @param account 用户名称
-//     * @param roleType 角色类型
-//     */
-//    abstract fun addNewUser(account: String, phoneNum: String, roleType: Int)
 
+    /**
+     * 合并用户
+     * @param userGroupId 用户组id
+     * @param mainUserChildId 合并之后使用的主用户id
+     */
+    fun mergeUser(userGroupId: String, mainUserChildId: String)
+
+    /**
+     * 获取子id列表
+     * @param userGroupId 组id
+     * @param refresh 是否刷新
+     */
+    fun getUserChildIds(userGroupId: String, refresh: Boolean): List<String>
+
+    /**
+     * 生成新的用户信息
+     * @param account 用户账户
+     * @param email 邮件
+     * @param phone 手机号
+     * @param wxId 微信id
+     * @param qqId qqID
+     * @param sinaId 新浪微博id
+     */
+    fun getnerateNewUserInfo(role: SpulwUserRoleTb? = null, account: String? = null, email: String? = null, phone: String? = null,
+        wxId: String? = null, qqId: String? = null, sinaId: String? = null): SpulwUserInfoTb
 }

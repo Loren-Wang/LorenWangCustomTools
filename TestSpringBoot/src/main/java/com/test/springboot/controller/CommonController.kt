@@ -3,6 +3,7 @@ package com.test.springboot.controller
 import com.test.springboot.bean.LoginWxReq
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -37,16 +38,20 @@ class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>
 
     @GetMapping("test")
     @ApiOperation(value = "test", httpMethod = "GET")
-    suspend fun submit(request: SpblwBaseHttpServletRequestWrapper, reqBean: LoginWxReq): String {
+    fun submit(request: SpblwBaseHttpServletRequestWrapper, reqBean: LoginWxReq): String {
         super.base(request, reqBean)
-        return service.loginUser(reqBean.code!!, reqBean.info, SpulwUserLoginFromEnum.WECHAT_SMALL_PROGRAM,
-            SpulwUserLoginTypeEnum.WECHAT_SMALL_PROGRAM, object : SpulwLoginUserCallback {
+        return service.loginUser(reqBean.code!!, reqBean.info, SpulwUserLoginFromEnum.WEB, SpulwUserLoginTypeEnum.PHONE_CODE,
+            object : SpulwLoginUserCallback {
                 override fun loginUserSuccess(token: String, info: SpulwUserInfoTb): String {
-                    return ""
+                    return info.kttlwToJsonData()
                 }
 
                 override fun loginUserFailUnKnow(msg: String?): String {
                     return ""
+                }
+
+                override fun userIsEmpty(): String {
+                    return "用户不存在"
                 }
             })
     }

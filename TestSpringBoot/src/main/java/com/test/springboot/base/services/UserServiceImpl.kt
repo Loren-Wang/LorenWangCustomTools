@@ -1,9 +1,9 @@
 package com.test.springboot.base.services
 
 import org.springframework.stereotype.Service
-import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.user.enums.SpulwUserLoginFromEnum
+import springbase.lorenwang.user.enums.SpulwUserLoginTypeEnum
 import springbase.lorenwang.user.service.impl.SpulwUserServiceImpl
 
 /**
@@ -23,6 +23,10 @@ import springbase.lorenwang.user.service.impl.SpulwUserServiceImpl
 open class UserServiceImpl : SpulwUserServiceImpl() {
     override fun getAccessTokenTimeOut(): Long {
         return 7 * 24 * 60 * 60 * 1000
+    }
+
+    override fun checkLoginUserValidation(name: String, validation: String?, typeEnum: SpulwUserLoginTypeEnum): Boolean {
+        return true
     }
 
     //
@@ -68,7 +72,7 @@ open class UserServiceImpl : SpulwUserServiceImpl() {
         return null
     }
 
-    override fun getUserIdByAccessToken(token: String?): String? {
+    override fun getUserGroupIdByAccessToken(token: String?): String? {
         return null
     }
 

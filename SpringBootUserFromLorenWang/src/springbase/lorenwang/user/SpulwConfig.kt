@@ -97,7 +97,7 @@ abstract class SpulwConfig : SptlwConfig() {
                         return true
                     } else {
                         getLogUtil().logI(javaClass, reqUrl + "接收到token接口请求，开始校验token信息", false)
-                        val userId = getUserServices().getUserIdByAccessToken(reqToken)
+                        val userId = getUserServices().getUserGroupIdByAccessToken(reqToken)
                         if (userId.isNullOrEmpty()) {
                             return filterError(rep, reqUrl, "非正常格式token")
                         } else {
@@ -109,8 +109,8 @@ abstract class SpulwConfig : SptlwConfig() {
                                 //更新token表，成功的话返回用户信息
                                 if (newToken == reqToken || spulwConfig.applicationContext.getBean(SpulwPlatformTokenService::class.java)
                                         .updateUserTokenInfo(userId, newToken, getUserServices().getAccessTokenTimeOut())) {
-                                    val userInfo = getUserServices().getUserInfo(userId, null, null, null, null, null, null)
-                                    return if (userInfo == null) {
+                                    val userInfo = getUserServices().getUserInfo(userId, null, null, null, null, null, null, null)
+                                    return if (userInfo.isEmpty()) {
                                         filterError(rep, reqUrl, "用户信息不存在")
                                     } else {
                                         rep.setHeader(getAccessControlAllowHeadersAccessToken(), newToken)

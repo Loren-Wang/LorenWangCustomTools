@@ -29,7 +29,12 @@ enum class SpulwUserStatusEnum(val status: Int) {
     /**
      * 删除
      */
-    DELETE(3);
+    DELETE(3),
+
+    /**
+     * 被合并的
+     */
+    BE_MERGED(4);
 
 
     companion object {

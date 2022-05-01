@@ -19,4 +19,9 @@ interface SpulwLoginUserCallback {
      * 未知原因登录失败
      */
     fun loginUserFailUnKnow(msg: String?): String
+
+    /**
+     * 用户不存在
+     */
+    fun userIsEmpty():String
 }
