@@ -23,7 +23,6 @@ import springbase.lorenwang.user.bean.WeChatSmallProgramLoginRes
 import springbase.lorenwang.user.database.SpulwBaseTableConfig
 import springbase.lorenwang.user.database.repository.SpulwUserInfoRepository
 import springbase.lorenwang.user.database.table.SpulwUserInfoTb
-import springbase.lorenwang.user.database.table.SpulwUserRoleTb
 import springbase.lorenwang.user.enums.SpulwUserLoginFromEnum
 import springbase.lorenwang.user.enums.SpulwUserLoginTypeEnum
 import springbase.lorenwang.user.enums.SpulwUserSexEnum
@@ -278,7 +277,7 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
             callback.loginUserFailUnKnow("")
         } else {
             spulwConfig.getLogUtil().logI(javaClass, "${logType}微信信息获取成功，生成用户信息存储并返回用户信息")
-            callbackUserInfo(logType, fromEnum, getnerateNewUserInfo(null, null, null, null, id).also {
+            callbackUserInfo(logType, fromEnum, generateNewUserInfo(null, null, null, null, id).also {
                 it.headImage = resInfo.headimgurl
                 it.nickName = resInfo.nickname
                 it.sex = when (resInfo.sex) {
@@ -444,6 +443,7 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
 
     /**
      * 生成新的用户信息
+     * @param roleType 用户角色类型type
      * @param account 用户账户
      * @param email 邮件
      * @param phone 手机号
@@ -451,13 +451,13 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
      * @param qqId qqID
      * @param sinaId 新浪微博id
      */
-    override fun getnerateNewUserInfo(role: SpulwUserRoleTb?, account: String?, email: String?, phone: String?, wxId: String?, qqId: String?,
+    override fun generateNewUserInfo(roleType: Int?, account: String?, email: String?, phone: String?, wxId: String?, qqId: String?,
         sinaId: String?): SpulwUserInfoTb {
         return SpulwUserInfoTb().also { userInfoTb ->
             userInfoTb.securitySalt = JtlwCommonUtil.getInstance().generateUuid(true).substring(0, 10)
             userInfoTb.nickName = JtlwCommonUtil.getInstance().generateUuid(true)
             userInfoTb.password = passwordEncoder.encodePassword(generatePassword(), userInfoTb.securitySalt)
-            userInfoTb.userRole = role
+            userInfoTb.userRole = roleType
             userInfoTb.status = SpulwUserStatusEnum.ENABLE.status
             userInfoTb.account = account
             userInfoTb.email = email

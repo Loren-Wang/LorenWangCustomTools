@@ -3,7 +3,6 @@ package springbase.lorenwang.user.service
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.service.SpblwBaseService
 import springbase.lorenwang.user.database.table.SpulwUserInfoTb
-import springbase.lorenwang.user.database.table.SpulwUserRoleTb
 import springbase.lorenwang.user.enums.SpulwUserLoginFromEnum
 import springbase.lorenwang.user.enums.SpulwUserLoginTypeEnum
 import springbase.lorenwang.user.interfaces.SpulwLoginUserCallback
@@ -143,6 +142,7 @@ interface SpulwUserService : SpblwBaseService {
 
     /**
      * 生成新的用户信息
+     * @param roleType 角色类型
      * @param account 用户账户
      * @param email 邮件
      * @param phone 手机号
@@ -150,6 +150,6 @@ interface SpulwUserService : SpblwBaseService {
      * @param qqId qqID
      * @param sinaId 新浪微博id
      */
-    fun getnerateNewUserInfo(role: SpulwUserRoleTb? = null, account: String? = null, email: String? = null, phone: String? = null,
-        wxId: String? = null, qqId: String? = null, sinaId: String? = null): SpulwUserInfoTb
+    fun generateNewUserInfo(roleType: Int?, account: String? = null, email: String? = null, phone: String? = null, wxId: String? = null,
+        qqId: String? = null, sinaId: String? = null): SpulwUserInfoTb
 }

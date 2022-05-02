@@ -113,9 +113,8 @@ open class SpulwUserInfoTb : SpblwBaseTb(), Serializable, Cloneable {
     /**
      * 用户角色
      */
-    @JoinColumn(name = SpulwBaseTableConfig.UserInfoColumn.USER_ROLE,
-        columnDefinition = "${SpblwBaseTableConfig.ColumnType.COMMON_PRIMARY_KEY} comment '用户角色'")
-    var userRole: SpulwUserRoleTb? = null
+    @Column(name = SpulwBaseTableConfig.UserInfoColumn.USER_ROLE, columnDefinition = "int comment '用户角色'")
+    var userRole: Int? = null
 
     /**
      * 用户昵称

@@ -104,32 +104,6 @@ object SpulwBaseTableConfig {
         const val SINA_ID = "sina_id"
     }
 
-    /*******************************用户角色部分*****************************/
-    object UserRoleColumn {
-        /**
-         * id
-         */
-        const val ID = "role_id"
-
-        /**
-         * 角色名称
-         */
-        const val ROLE_NAME = "role_name"
-    }
-
-    /*******************************用户权限部分*****************************/
-    object UserPermissionColumn {
-        /**
-         * id
-         */
-        const val ID = "permission_id"
-
-        /**
-         * 权限名称
-         */
-        const val PERMISSION_NAME = "permission_name"
-    }
-
     /*******************************第三方平台token部分*****************************/
     object PlatformTokenColumn {
         /**

@@ -29,7 +29,7 @@ buildscript {
                 spring_boot_frame        : "1.6.1-alpha02",
                 spring_boot_tools        : "1.0.0-alpha02",
                 spring_boot_base         : "1.0.0-alpha04",
-                spring_boot_user         : "1.0.0-alpha06",
+                spring_boot_user         : "1.0.0-alpha08",
         ]
         libVersion = [
                 //图片相关

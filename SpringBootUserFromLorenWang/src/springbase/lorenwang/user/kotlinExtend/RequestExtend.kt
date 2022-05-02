@@ -2,7 +2,6 @@ package springbase.lorenwang.user.kotlinExtend
 
 import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
-import org.springframework.boot.util.LambdaSafe.callback
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.user.database.table.SpulwRolePermissionTb
 import springbase.lorenwang.user.database.table.SpulwUserInfoTb
@@ -29,7 +28,6 @@ import springbase.lorenwang.user.spulwConfig
  * 权限检测
  * @param request 请求体
  * @param permissions 要检测的权限id列表
- * @param callback 回调
  */
 fun <R : SpblwBaseHttpServletRequestWrapper, U : SpulwUserInfoTb> spulwCheckPermission(request: R, permissions: List<Int>,
     userInfoTb: U? = null): Boolean {
@@ -73,7 +71,7 @@ fun <R : SpblwBaseHttpServletRequestWrapper> spulwGetUserInfo(request: R, userIn
  */
 fun <R : SpblwBaseHttpServletRequestWrapper, U : SpulwUserInfoTb> spulwGetUserPermissions(request: R,
     userInfoTb: U? = null): List<SpulwRolePermissionTb> {
-    return spulwGetUserInfo(request, userInfoTb)?.userRole?.type?.let {
+    return spulwGetUserInfo(request, userInfoTb)?.userRole?.let {
         spulwConfig.applicationContext.getBean(SpulwRolePermissionService::class.java).getPermissions(it)
     }.kttlwGetNotEmptyData { listOf() }
 }

@@ -13,8 +13,6 @@ import springbase.lorenwang.tools.plugins.oss.SptlwOssUtil
 import springbase.lorenwang.tools.utils.SptlwFileOptionsUtil
 import springbase.lorenwang.user.SpulwConfig
 import springbase.lorenwang.user.service.SpulwRolePermissionService
-import springbase.lorenwang.user.service.SpulwUserPermissionService
-import springbase.lorenwang.user.service.SpulwUserRoleService
 import springbase.lorenwang.user.service.SpulwUserService
 import springbase.lorenwang.user.spulwConfig
 
@@ -34,13 +32,6 @@ class ConfigOptions : SpulwConfig() {
      * 初始化用户框架配置
      */
     override fun initUserConfig() {
-        //角色处理
-        val roleService = applicationContext.getBean(SpulwUserRoleService::class.java)
-        roleService.saveUserRole(UserRoleTypeEnum.SUPER_ADMIN.type, UserRoleTypeEnum.SUPER_ADMIN.des)
-        //权限处理
-        val permissionService = applicationContext.getBean(SpulwUserPermissionService::class.java)
-        permissionService.saveUserPermission(UserPermissionTypeEnum.SUPER_ADMIN.type, UserPermissionTypeEnum.SUPER_ADMIN.des)
-        permissionService.saveUserPermission(UserPermissionTypeEnum.ADMIN.type, UserPermissionTypeEnum.ADMIN.des)
         //权限角色中间处理
         val rolePermissionService = applicationContext.getBean(SpulwRolePermissionService::class.java)
         rolePermissionService.saveRoleAndPermission(UserRoleTypeEnum.SUPER_ADMIN.type, UserPermissionTypeEnum.SUPER_ADMIN.type)
