@@ -26,9 +26,8 @@ buildscript {
                 java_net                 : "1.0.5-alpha02",
                 kotlin_java_tools        : "2.0.0-alpha04",
                 kotlin_android_tools     : "2.0.0-alpha02",
-                spring_boot_frame        : "1.6.1-alpha02",
                 spring_boot_tools        : "1.0.0-alpha02",
-                spring_boot_base         : "1.0.0-alpha04",
+                spring_boot_base         : "1.0.0-alpha05",
                 spring_boot_user         : "1.0.0-alpha08",
         ]
         libVersion = [

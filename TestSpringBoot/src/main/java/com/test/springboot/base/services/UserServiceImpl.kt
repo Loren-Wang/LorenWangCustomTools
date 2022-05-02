@@ -56,16 +56,15 @@ open class UserServiceImpl : SpulwUserServiceImpl() {
     }
 
     override fun getWeChatSmallProgramSecret(): String {
-        return ""
+        return "0616468c918812e48aff94a6ed28cead"
     }
 
     override fun getWeChatSmallProgramAppId(): String {
-        return ""
-
+        return "wx09933b96cdf75c3e"
     }
 
     override fun refreshAccessToken(token: String?, fromEnum: SpulwUserLoginFromEnum): String? {
-        return ""
+        return "safdasdfasdfs"
     }
 
     override fun getAccessTokenByReqHeader(request: SpblwBaseHttpServletRequestWrapper): String? {

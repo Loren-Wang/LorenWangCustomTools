@@ -129,7 +129,7 @@ class ConfigOptions : SpulwConfig() {
      */
     private fun getResponseData(repStatusEnum: NetRepStatusEnum, data: Any? = null): String {
         val repBean = KttlwBaseNetResponseBean(data)
-        repBean.stateMessage = getMessage(repStatusEnum.messageKey)
+        repBean.stateMessage = messageMap[repStatusEnum.messageKey].toString()
         repBean.stateCode = repStatusEnum.code
         return repBean.kttlwToJsonData()
     }

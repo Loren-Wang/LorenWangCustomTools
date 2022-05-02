@@ -1,8 +1,9 @@
 package springbase.lorenwang.base
 
+import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
+import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.context.MessageSource
-import org.springframework.context.i18n.LocaleContextHolder
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.utils.SpblwLog
 import java.io.BufferedReader
@@ -35,9 +36,9 @@ abstract class SpblwConfig {
     lateinit var applicationContext: ConfigurableApplicationContext
 
     /**
-     * 消息源
+     * 消息map
      */
-    val messageSource: MessageSource by lazy { applicationContext.getBean(MessageSource::class.java) }
+    val messageMap = hashMapOf<String, Any?>()
 
     /**
      * 日志工具类
@@ -65,6 +66,22 @@ abstract class SpblwConfig {
         } else {
             null
         }
+    }
+
+    /**
+     * 获取消息资源值
+     */
+    open fun getMessageResourceValue(key: String?): String {
+        return getMessageResourceValue(key, "")
+    }
+
+    /**
+     * 获取消息资源值
+     */
+    open fun getMessageResourceValue(key: String?, default: String): String {
+        return key.kttlwEmptyCheck({ default }, {
+            messageMap[it].kttlwFormatConversion<String>().kttlwGetNotEmptyData { default }
+        })
     }
 
     /**
@@ -106,44 +123,21 @@ abstract class SpblwConfig {
      * 获取配置内容Map并更新map
      * @param propertiesName 全名称，例如：application-email.properties
      */
-    fun getPropertiesDataMap(propertiesName: String, map: HashMap<String, Any>): HashMap<String, Any> {
+    fun getPropertiesDataMap(propertiesName: String, map: HashMap<String, Any?>): HashMap<String, Any?> {
         return getPropertiesDataMap(getProperties(propertiesName), map)
     }
 
     /**
      * 获取配置内容Map并更新map
      */
-    fun getPropertiesDataMap(properties: Properties, map: HashMap<String, Any>): HashMap<String, Any> {
+    fun getPropertiesDataMap(properties: Properties, map: HashMap<String, Any?>): HashMap<String, Any?> {
         val iterator = properties.entries.iterator()
-        var entry: MutableMap.MutableEntry<Any, Any>
+        var entry: MutableMap.MutableEntry<Any, Any?>
         while (iterator.hasNext()) {
             entry = iterator.next()
             map[entry.key as String] = entry.value
         }
         return map
-    }
-
-    /**
-     * 获取文字字符
-     * @param code ：对应messages配置的key.
-     * @return
-     */
-    fun getMessage(code: String?): String {
-        //这里使用比较方便的方法，不依赖request.
-        return getMessage(code, null)
-    }
-
-    /**
-     * 获取文字字符
-     * @param code ：对应messages配置的key.
-     * @param defaultMessage : 没有设置key的时候的默认值.
-     * @return
-     */
-    fun getMessage(code: String?, defaultMessage: String?): String {
-        //这里使用比较方便的方法，不依赖request.
-        return code?.let {
-            messageSource.getMessage(it, null, defaultMessage ?: "", LocaleContextHolder.getLocale())
-        } ?: ""
     }
 
     /**

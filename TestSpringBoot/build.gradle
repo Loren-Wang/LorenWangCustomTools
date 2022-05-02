@@ -28,7 +28,6 @@ dependencies {
     implementation project(':SpringBootToolsFromLorenWang')
     implementation project(':SpringBootUserFromLorenWang')
     implementation project(':KotlinCustomToolsFromLorenWang')
-    implementation project(':SpringBootCommonBaseFrameLibraryFromLorenWang')
     implementation "org.springframework:spring-context-support:${rootProject.ext.libVersion.spring_context_support}"
     implementation "org.springframework:spring-webmvc:${rootProject.ext.libVersion.spring_webmvc}"
     implementation "org.apache.tomcat.embed:tomcat-embed-core:${rootProject.ext.libVersion.tomcat_embed_core}"

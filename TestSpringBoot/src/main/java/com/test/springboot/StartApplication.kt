@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.web.servlet.ServletComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
-import springbase.lorenwang.common_base_frame.SbcbflwBaseApplication
+import springbase.lorenwang.base.SpbflwBaseApplication
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 /**
@@ -25,12 +25,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @EnableSwagger2
 @EnableJpaAuditing
 @EntityScan(basePackages = ["springbase.lorenwang.user.database.table", "com.test.springboot.database.table"])
-open class StartApplication : SbcbflwBaseApplication() {
+open class StartApplication : SpbflwBaseApplication() {
     override fun getConfigProperties(): Array<String> {
         return arrayOf("application.properties", "application-dev.properties")
     }
 
     override fun outSideTomcatConfigureFinish(application: SpringApplication) {}
+    override fun getMessagePropertiesList(): ArrayList<String> {
+        return arrayListOf("message/messages.properties")
+    }
 
     companion object {
         @JvmStatic
@@ -38,7 +41,7 @@ open class StartApplication : SbcbflwBaseApplication() {
             configOptions
             //初始化单例工具类
             val springApplication = SpringApplication(StartApplication::class.java)
-            initBase(springApplication, arrayOf("application.properties", "application-dev.properties"))
+            initBase(springApplication, StartApplication())
             springApplication.run(*args)
         }
     }

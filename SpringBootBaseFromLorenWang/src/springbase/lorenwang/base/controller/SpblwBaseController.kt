@@ -62,7 +62,7 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
      * @return 格式化后字符串
     </T> */
     open fun <T> responseContentCode(request: R?, stateCode: String, stateMessageCode: String, obj: T?): String {
-        return responseContent(request, stateCode, spblwConfig.getMessage(stateMessageCode), obj)
+        return responseContent(request, stateCode, spblwConfig.getMessageResourceValue(stateMessageCode), obj)
     }
 
     /**
@@ -71,10 +71,10 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
     open fun responseDataDisposeStatus(request: R?, bean: SpblwBaseDataDisposeStatusBean): String {
         return if (bean.repDataList) {
             responseDataListContent(request, bean.statusCode!!,
-                if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else spblwConfig.getMessage(bean.statusMsgCode), bean.pageIndex!!,
+                if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else spblwConfig.getMessageResourceValue(bean.statusMsgCode), bean.pageIndex!!,
                 bean.pageSize!!, bean.sumCount!!, bean.dataList)
         } else {
-            responseContent(request, bean.statusCode!!, spblwConfig.getMessage(bean.statusMsgCode), bean.body)
+            responseContent(request, bean.statusCode!!, spblwConfig.getMessageResourceValue(bean.statusMsgCode), bean.body)
         }
     }
 
@@ -110,7 +110,7 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
         } else {
             sumCount / pageSize
         }
-        return responseContent(request, stateCode, spblwConfig.getMessage(stateMessageCode),
+        return responseContent(request, stateCode, spblwConfig.getMessageResourceValue(stateMessageCode),
             KttlwNetPageResponseBean(pageIndex, pageSize, sumCount.toInt(), sumPageCount.toInt(), dataList))
     }
 
