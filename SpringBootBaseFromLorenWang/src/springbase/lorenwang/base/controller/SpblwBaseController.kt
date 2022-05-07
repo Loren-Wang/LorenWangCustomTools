@@ -3,6 +3,8 @@ package springbase.lorenwang.base.controller
 import javabase.lorenwang.dataparse.JdplwJsonUtil
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import kotlinbase.lorenwang.tools.common.bean.KttlwNetPageResponseBean
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
+import kotlinbase.lorenwang.tools.extend.kttlwIsNotNullOrEmpty
 import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
 import springbase.lorenwang.base.spblwConfig
 
@@ -70,9 +72,11 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
      */
     open fun responseDataDisposeStatus(request: R?, bean: SpblwBaseDataDisposeStatusBean): String {
         return if (bean.repDataList) {
-            responseDataListContent(request, bean.statusCode!!,
-                if (bean.statusMsg.isNullOrEmpty()) bean.statusMsg!! else spblwConfig.getMessageResourceValue(bean.statusMsgCode), bean.pageIndex!!,
-                bean.pageSize!!, bean.sumCount!!, bean.dataList)
+            responseDataListContent(request, bean.statusCode!!, if (bean.statusMsg.kttlwIsNotNullOrEmpty()) {
+                bean.statusMsg!!
+            } else {
+                spblwConfig.getMessageResourceValue(bean.statusMsgCode)
+            }, bean.pageIndex!!, bean.pageSize!!, bean.sumCount!!, bean.dataList)
         } else {
             responseContent(request, bean.statusCode!!, spblwConfig.getMessageResourceValue(bean.statusMsgCode), bean.body)
         }
@@ -85,15 +89,15 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
      * @param <T> 泛型
      * @return 格式化后字符串
     </T> */
-    open fun <E, T : ArrayList<E>> responseDataListContent(request: R?, stateCode: String, stateMessage: String, pageIndex: Int, pageSize: Int,
-        sumCount: Long, dataList: T): String {
+    open fun <T : ArrayList<*>> responseDataListContent(request: R?, stateCode: String, stateMessage: String, pageIndex: Int, pageSize: Int,
+        sumCount: Long, dataList: T?): String {
         val sumPageCount = if (sumCount % pageSize > 0) {
             sumCount / pageSize + 1
         } else {
             sumCount / pageSize
         }
-        return responseContent(request, stateCode, stateMessage,
-            KttlwNetPageResponseBean(pageIndex, pageSize, sumCount.toInt(), sumPageCount.toInt(), dataList))
+        return responseContent(request, stateCode, stateMessage, KttlwNetPageResponseBean(pageIndex, pageSize, sumCount.toInt(), sumPageCount.toInt(),
+            dataList.kttlwGetNotEmptyData { arrayListOf<Any>() }))
     }
 
     /**

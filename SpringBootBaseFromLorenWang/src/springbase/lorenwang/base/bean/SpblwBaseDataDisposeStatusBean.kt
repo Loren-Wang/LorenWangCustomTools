@@ -37,7 +37,7 @@ open class SpblwBaseDataDisposeStatusBean(var statusResult: Boolean, var statusC
     /**
      * 数据实体
      */
-    var dataList: ArrayList<Any?> = arrayListOf()
+    var dataList: ArrayList<*>? = null
 
     constructor(statusResult: Boolean, body: Any?) : this(statusResult, null, null, null, body)
     constructor(statusResult: Boolean) : this(statusResult, null, null, null, null)
@@ -46,29 +46,28 @@ open class SpblwBaseDataDisposeStatusBean(var statusResult: Boolean, var statusC
         statusMsg, null)
 
     constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String, statusMsg: String?, pageIndex: Int, pageSize: Int, sumCount: Long,
-        dataList: ArrayList<Any?>) : this(statusResult, statusCode, statusMsgCode, statusMsg, null) {
-        this.statusCode = statusCode;
-        this.statusMsgCode = statusMsgCode;
-        this.statusMsg = statusMsg;
-        this.pageIndex = pageIndex;
-        this.pageSize = pageSize;
-        this.sumCount = sumCount;
-        this.statusResult = true;
-        this.repDataList = true;
-        this.dataList = dataList;
+        dataList: ArrayList<*>) : this(statusResult, statusCode, statusMsgCode, statusMsg, null) {
+        this.statusCode = statusCode
+        this.statusMsgCode = statusMsgCode
+        this.statusMsg = statusMsg
+        this.pageIndex = pageIndex
+        this.pageSize = pageSize
+        this.sumCount = sumCount
+        this.statusResult = true
+        this.repDataList = true
+        this.dataList = dataList
 
     }
 
     constructor(statusResult: Boolean, statusCode: String, statusMsgCode: String, pageIndex: Int, pageSize: Int, sumCount: Long,
-        dataList: ArrayList<Any?>) : this(statusResult, statusCode, statusMsgCode, null, null) {
-        this.statusCode = statusCode;
-        this.statusMsgCode = statusMsgCode;
-        this.pageIndex = pageIndex;
-        this.pageSize = pageSize;
-        this.sumCount = sumCount;
-        this.statusResult = true;
-        this.repDataList = true;
-        this.dataList = dataList;
-
+        dataList: ArrayList<*>) : this(statusResult, statusCode, statusMsgCode, null, null) {
+        this.statusCode = statusCode
+        this.statusMsgCode = statusMsgCode
+        this.pageIndex = pageIndex
+        this.pageSize = pageSize
+        this.sumCount = sumCount
+        this.statusResult = true
+        this.repDataList = true
+        this.dataList = dataList
     }
 }
