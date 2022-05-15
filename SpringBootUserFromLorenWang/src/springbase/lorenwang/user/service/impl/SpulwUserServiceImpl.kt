@@ -191,6 +191,10 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
                     //根据openId获取用户信息
                     val userInfo = getUserInfo(null, null, null, null, null, getWxId(res.openid, res.unionid), null, null)
                     if (userInfo.size == 1) {
+                        spulwConfig.getLogUtil().logI(javaClass, "${logType}该用户已注册，刷新token信息并返回")
+                        //更新token并返回用户信息
+                        callbackUserInfo(logType, fromEnum, userInfo[0], callback)
+                    } else {
                         spulwConfig.getLogUtil().logI(javaClass, "${logType}该用户未注册，获取用户头像等信息进行数据注册")
                         //需要获取微信相关信息生成用户数据
                         JnlwHttpClientReqFactory.getOkHttpRequest().sendRequest(JnlwNetworkReqConfig.Build().setBaseUrl("https://api.weixin.qq.com")
@@ -207,10 +211,6 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
                                 callback.loginUserFailUnKnow(infoRes.exception?.message)
                             }
                         }
-                    } else {
-                        spulwConfig.getLogUtil().logI(javaClass, "${logType}该用户已注册，刷新token信息并返回")
-                        //更新token并返回用户信息
-                        callbackUserInfo(logType, fromEnum, userInfo[0], callback)
                     }
                 }
             } else if (tokenRes.failStatuesCode != null) {
@@ -247,13 +247,13 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
                     //根据openId获取用户信息
                     val userInfo = getUserInfo(null, null, null, null, null, getWxId(res.openid, res.unionid), null, null)
                     if (userInfo.size == 1) {
-                        spulwConfig.getLogUtil().logI(javaClass, "${logType}该用户未注册，获取用户头像等信息进行数据注册")
-                        //格式化传递的用户信息参数进行信息获取
-                        updateWeChatUserInfoData(logType, getWxId(res.openid, res.unionid), validation, fromEnum, callback)
-                    } else {
                         spulwConfig.getLogUtil().logI(javaClass, "${logType}该用户已注册，刷新token信息并返回")
                         //更新token并返回用户信息
                         callbackUserInfo(logType, fromEnum, userInfo[0], callback)
+                    } else {
+                        spulwConfig.getLogUtil().logI(javaClass, "${logType}该用户未注册，获取用户头像等信息进行数据注册")
+                        //格式化传递的用户信息参数进行信息获取
+                        updateWeChatUserInfoData(logType, getWxId(res.openid, res.unionid), validation, fromEnum, callback)
                     }
                 }
             } else if (wxRes.failStatuesCode != null) {

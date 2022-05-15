@@ -48,7 +48,7 @@ open class SpulwUserInfoTb : SpblwBaseTb(), Serializable, Cloneable {
      */
     @Version
     @Column(name = SpblwBaseTableConfig.CommonColumn.OPTIMISTIC_LOCKING, nullable = false, columnDefinition = "int comment '用户乐观锁'")
-    var version: Int = 0
+    var lockingVersion: Int = 0
 
     /**
      * 用户账户

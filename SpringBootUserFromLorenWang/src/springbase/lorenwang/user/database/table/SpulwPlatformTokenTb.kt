@@ -45,13 +45,13 @@ class SpulwPlatformTokenTb : SpblwBaseTb(), Serializable, Cloneable {
     /**
      * 主token
      */
-    @Column(name = SpulwBaseTableConfig.PlatformTokenColumn.ACCESS_TOKEN, nullable = false, columnDefinition = "varchar(100) comment '认证token'")
+    @Column(name = SpulwBaseTableConfig.PlatformTokenColumn.ACCESS_TOKEN, nullable = false, columnDefinition = "varchar(1000) comment '认证token'")
     var accessToken: String? = null
 
     /**
      * 刷新token
      */
-    @Column(name = SpulwBaseTableConfig.PlatformTokenColumn.REFRESH_TOKEN, columnDefinition = "varchar(100) comment '刷新token'")
+    @Column(name = SpulwBaseTableConfig.PlatformTokenColumn.REFRESH_TOKEN, columnDefinition = "varchar(1000) comment '刷新token'")
     var refreshToken: String? = null
 
     /**
