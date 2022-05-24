@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation
 import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import springbase.lorenwang.base.controller.SpblwBaseController
@@ -37,8 +38,8 @@ class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>
     @Autowired
     private lateinit var service: SpulwUserService
 
-    @GetMapping("test")
-    @ApiOperation(value = "test", httpMethod = "GET")
+    @PostMapping("test")
+    @ApiOperation(value = "test", httpMethod = "POST")
     fun submit(request: SpblwBaseHttpServletRequestWrapper, reqBean: LoginWxReq): String {
         super.base(request, reqBean)
         return responseContent(request, BaseDataDisposeStatusBean(true,

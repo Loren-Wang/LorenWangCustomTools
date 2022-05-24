@@ -60,11 +60,14 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
         //日志打印
         val logMap = ConcurrentHashMap<String, Any?>()
         if (request != null) {
-            logMap["requestPath"] = request.servletPath
-            logMap["requestPort"] = request.serverPort
-            logMap["requestData"] = request.queryString
+            logMap["请求地址"] = request.servletPath
+            logMap["请求端口"] = request.serverPort
+            logMap["请求体"] = request.queryString
+            logMap["请求时间"] = request.requestTime
         }
-        logMap["responseData"] = resData
+        logMap["响应数据"] = resData
+        logMap["响应时间"] = System.currentTimeMillis()
+        logMap["消耗时间"] = "${System.currentTimeMillis() - request?.requestTime.kttlwGetNotEmptyData { 0 }}毫秒"
         spblwConfig.getLogUtil().logI(javaClass, logMap.kttlwToJsonData(), true)
         return spblwConfig.encryptRequestContent(resData)
     }

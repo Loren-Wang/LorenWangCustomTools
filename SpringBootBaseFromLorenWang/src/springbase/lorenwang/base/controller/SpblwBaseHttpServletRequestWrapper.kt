@@ -1,5 +1,6 @@
 package springbase.lorenwang.base.controller
 
+import javabase.lorenwang.tools.dataConversion.JtlwCodeConversionUtil
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import springbase.lorenwang.base.spblwConfig
 import java.util.*
@@ -20,8 +21,15 @@ import javax.servlet.http.HttpServletRequestWrapper
  * 备注：数据加解密处理
  */
 open class SpblwBaseHttpServletRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
-
+    /**
+     * 请求头mao
+     */
     private val headerMap = HashMap<String, String>()
+
+    /**
+     * 请求时间
+     */
+    val requestTime = System.currentTimeMillis()
 
     /**
      * add a header with given name and value
@@ -62,5 +70,6 @@ open class SpblwBaseHttpServletRequestWrapper(request: HttpServletRequest) : Htt
 
     override fun getQueryString(): String {
         return super.getQueryString().let { spblwConfig.encryptRequestContent(it).kttlwGetNotEmptyData { it.kttlwGetNotEmptyData { "" } } }
+            .let { JtlwCodeConversionUtil.getInstance().unicodeToChinese(it) }
     }
 }
