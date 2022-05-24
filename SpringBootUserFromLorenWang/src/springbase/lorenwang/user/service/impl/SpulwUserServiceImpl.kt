@@ -315,7 +315,7 @@ abstract class SpulwUserServiceImpl : SpulwUserService {
         }
         if (userChildId.kttlwIsNotNullOrEmpty()) {
             haveSearch = true
-            build.append(SpulwBaseTableConfig.UserInfoColumn.USER_CHILD_ID).append("='").append(userGroupId).append("' and ")
+            build.append(SpulwBaseTableConfig.UserInfoColumn.USER_CHILD_ID).append("='").append(userChildId).append("' and ")
         }
         if (account.kttlwIsNotNullOrEmpty()) {
             haveSearch = true
