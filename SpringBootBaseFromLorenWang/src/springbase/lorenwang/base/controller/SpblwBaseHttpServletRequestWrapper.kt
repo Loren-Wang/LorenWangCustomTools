@@ -1,12 +1,14 @@
 package springbase.lorenwang.base.controller
 
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
+import springbase.lorenwang.base.spblwConfig
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletRequestWrapper
 
 
 /**
- * 功能作用：请求数据拦截，用来对请求头做处理
+ * 功能作用：请求数据拦截
  * 创建时间：2019-09-12 上午 10:59:46
  * 创建人：王亮（Loren）
  * 思路：
@@ -15,7 +17,7 @@ import javax.servlet.http.HttpServletRequestWrapper
  * 注意：
  * 修改人：
  * 修改时间：
- * 备注：
+ * 备注：数据加解密处理
  */
 open class SpblwBaseHttpServletRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
@@ -56,5 +58,9 @@ open class SpblwBaseHttpServletRequestWrapper(request: HttpServletRequest) : Htt
             values = arrayListOf<String>(headerMap[name]!!)
         }
         return Collections.enumeration(values)
+    }
+
+    override fun getQueryString(): String {
+        return super.getQueryString().let { spblwConfig.encryptRequestContent(it).kttlwGetNotEmptyData { it.kttlwGetNotEmptyData { "" } } }
     }
 }

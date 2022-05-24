@@ -6,6 +6,7 @@ import com.test.springboot.enums.NetRepStatusEnum
 import com.test.springboot.enums.UserPermissionTypeEnum
 import com.test.springboot.enums.UserRoleTypeEnum
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
+import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.utils.SpblwLog
@@ -39,6 +40,15 @@ class ConfigOptions : SpulwConfig() {
 
     override fun currentIsDebug(): Boolean {
         return true
+    }
+
+    override fun encryptRequestContent(data: String?): String {
+        return data.kttlwGetNotEmptyData { "" }
+    }
+
+    override fun decryptResponseContent(data: String?): String {
+        return data.kttlwGetNotEmptyData { "" }
+
     }
 
     override fun getUserServices(): SpulwUserService {
@@ -78,48 +88,6 @@ class ConfigOptions : SpulwConfig() {
     override fun getOssUtil(): SptlwOssUtil {
 //        SptlwOssUtil.instance.initOssConfig(SptlwALiYunOssConfig())
         return SptlwOssUtil.instance
-    }
-
-    /**
-     * 参数异常响应
-     */
-    override fun <R : SpblwBaseHttpServletRequestWrapper> responseErrorForParams(request: R?): String {
-        return getResponseData(NetRepStatusEnum.PARAMS_ERROR)
-    }
-
-    /**
-     * 数据响应成功
-     */
-    override fun <R : SpblwBaseHttpServletRequestWrapper> responseSuccess(request: R?, data: Any?): String {
-        return getResponseData(NetRepStatusEnum.SUCCESS, data)
-    }
-
-    /**
-     * 数据删除失败
-     */
-    override fun <R : SpblwBaseHttpServletRequestWrapper> responseDeleteFail(request: R?): String {
-        return getResponseData(NetRepStatusEnum.DATA_DELETE_FAIL)
-    }
-
-    /**
-     * 未知错误失败
-     */
-    override fun <R : SpblwBaseHttpServletRequestWrapper> responseFailForUnKnow(request: R?): String {
-        return getResponseData(NetRepStatusEnum.FAIL_UN_KNOW)
-    }
-
-    /**
-     * 登录验证失败,用户未登录或者token失效
-     */
-    override fun <R : SpblwBaseHttpServletRequestWrapper> responseErrorUserLoginEmptyOrTokenNoneffective(request: R?): String {
-        return getResponseData(NetRepStatusEnum.USER_NOT_LOGIN_OR_TOKEN_FAILURE)
-    }
-
-    /**
-     * 无权限异常
-     */
-    override fun <R : SpblwBaseHttpServletRequestWrapper> responseErrorNotPermission(request: R?): String {
-        return getResponseData(NetRepStatusEnum.USER_HAVE_NOT_PERMISSION)
     }
 
     /**

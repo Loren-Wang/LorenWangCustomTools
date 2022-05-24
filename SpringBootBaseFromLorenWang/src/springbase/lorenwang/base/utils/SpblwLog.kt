@@ -19,7 +19,7 @@ abstract class SpblwLog {
     /**
      * 运行标签
      */
-    private val runTag = "runTag---"
+    private var runTag = "runTag"
 
     /**
      * 是否显示日志
@@ -34,8 +34,9 @@ abstract class SpblwLog {
     /**
      * 初始化配置
      */
-    fun initConfig(showLog: Boolean) {
+    fun initConfig(showLog: Boolean, runTag: String = this.runTag) {
         this.showLog = showLog
+        this.runTag = runTag
     }
 
     /**
@@ -48,7 +49,7 @@ abstract class SpblwLog {
     open fun logD(cls: Class<*>, msg: String, logMust: Boolean = false) {
         val logger = getLogger(cls, logMust)
         synchronized(logControllerMap) {
-            logger?.debug("${runTag}${cls.simpleName}:::${msg}")
+            logger?.debug("${runTag}---${cls.simpleName}:::${msg}")
         }
     }
 
@@ -62,7 +63,7 @@ abstract class SpblwLog {
     open fun logI(cls: Class<*>, msg: String, logMust: Boolean = false) {
         val logger = getLogger(cls, logMust)
         synchronized(logControllerMap) {
-            logger?.info("${runTag}${cls.simpleName}:::${msg}")
+            logger?.info("${runTag}---${cls.simpleName}:::${msg}")
         }
     }
 
@@ -76,7 +77,7 @@ abstract class SpblwLog {
     open fun logE(cls: Class<*>, msg: String, logMust: Boolean = false) {
         val logger = getLogger(cls, logMust)
         synchronized(logControllerMap) {
-            logger?.error("${runTag}${cls.simpleName}:::${msg}")
+            logger?.error("${runTag}---${cls.simpleName}:::${msg}")
         }
     }
 
@@ -90,7 +91,7 @@ abstract class SpblwLog {
     open fun logOptions(cls: Class<*>, msg: String, logMust: Boolean = false) {
         val logger = getLogger(cls, logMust)
         synchronized(logControllerMap) {
-            logger?.error("${runTag}${cls.simpleName}:::${msg}")
+            logger?.error("${runTag}---${cls.simpleName}:::${msg}")
         }
     }
 

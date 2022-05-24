@@ -16,5 +16,16 @@ repositories {
 dependencies {
     implementation project(':JavaCustomToolsFromLorenWang')
     implementation project(':JavaDataParseFromLorenWang')
+    implementation project(':JavaNetworkFromLorenWang')
     implementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    //httpClient网络请求
+    implementation "org.apache.httpcomponents:httpclient:${rootProject.ext.libVersion.java_net_httpclient}"
+    //okhttp网络请求
+    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.libVersion.java_net_okhttp}"
+    //java工具类库
+    implementation "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
+    //java数据格式化类库以及关联库
+    implementation "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
+    //xml解析
+    implementation 'org.jsoup:jsoup:1.13.1'
 }

@@ -57,6 +57,7 @@ abstract class SpblwConfig {
         return true
     }
 
+
     /**
      * 格式化所有的网络请求
      */
@@ -78,16 +79,28 @@ abstract class SpblwConfig {
     /**
      * 获取消息资源值
      */
-    open fun getMessageResourceValue(key: String?, default: String): String {
-        return key.kttlwEmptyCheck({ default }, {
+    open fun getMessageResourceValue(key: String?, default: String?): String {
+        return key.kttlwEmptyCheck({
+            default
+        }, {
             messageMap[it].kttlwFormatConversion<String>().kttlwGetNotEmptyData { default }
-        })
+        }).kttlwGetNotEmptyData { "" }
     }
 
     /**
      * 获取请求头部分要添加的参数实体，返回使用逗号分隔
      */
     abstract fun getAccessControlAllowHeadersAddKey(): String
+
+    /**
+     * 加密解密请求内容
+     */
+    abstract fun encryptRequestContent(data: String?): String
+
+    /**
+     * 解密响应内容
+     */
+    abstract fun decryptResponseContent(data: String?): String
 
     /**
      * 获取配置内容
@@ -139,36 +152,6 @@ abstract class SpblwConfig {
         }
         return map
     }
-
-    /**
-     * 参数异常响应
-     */
-    abstract fun <R : SpblwBaseHttpServletRequestWrapper> responseErrorForParams(request: R?): String
-
-    /**
-     * 数据响应成功
-     */
-    abstract fun <R : SpblwBaseHttpServletRequestWrapper> responseSuccess(request: R?, data: Any?): String
-
-    /**
-     * 数据删除失败
-     */
-    abstract fun <R : SpblwBaseHttpServletRequestWrapper> responseDeleteFail(request: R?): String
-
-    /**
-     * 未知错误失败
-     */
-    abstract fun <R : SpblwBaseHttpServletRequestWrapper> responseFailForUnKnow(request: R?): String
-
-    /**
-     * 登录验证失败,用户未登录或者token失效
-     */
-    abstract fun <R : SpblwBaseHttpServletRequestWrapper> responseErrorUserLoginEmptyOrTokenNoneffective(request: R?): String
-
-    /**
-     * 无权限异常
-     */
-    abstract fun <R : SpblwBaseHttpServletRequestWrapper> responseErrorNotPermission(request: R?): String
 
 }
 

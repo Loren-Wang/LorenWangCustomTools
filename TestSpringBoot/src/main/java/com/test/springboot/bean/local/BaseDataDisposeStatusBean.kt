@@ -3,18 +3,16 @@ package com.test.springboot.bean.local
 import com.test.springboot.enums.NetRepStatusEnum
 import springbase.lorenwang.base.bean.SpblwBaseDataDisposeStatusBean
 
-/**
- * 功能作用：数据处理状态实体
- * 创建时间：2020-12-09 4:55 下午
- * 创建人：王亮（Loren）
- * 思路：
- * 方法：
- * 注意：
- * 修改人：
- * 修改时间：
- * 备注：
- *
- * @author 王亮（Loren）
- */
-class BaseDataDisposeStatusBean(statusResult: Boolean, val repStatusEnum: NetRepStatusEnum, body: String? = null) :
-    SpblwBaseDataDisposeStatusBean(statusResult,repStatusEnum.code,repStatusEnum.messageKey, body)
+class BaseDataDisposeStatusBean : SpblwBaseDataDisposeStatusBean {
+    private constructor(status: Boolean, repStatusEnum: NetRepStatusEnum, body: Any) : super(status, repStatusEnum.code, repStatusEnum.messageKey,
+        body)
+
+    constructor(status: Boolean) : super(status)
+    constructor(status: Boolean, body: String?) : super(status, body)
+    constructor(status: Boolean, code: String?, msg: String?, body: Any?) : super(status, code, msg, body)
+    constructor(status: Boolean, code: String?, msg: String?, pageIndex: Int?, pageSize: Int?, sumCount: Int?, list: List<Any?>?) : super(status,
+        code, msg, pageIndex, pageSize, sumCount, list)
+
+    constructor(status: Boolean, code: String?, msg: String?, body: Any?, pageIndex: Int?, pageSize: Int?, sumCount: Int?, list: List<Any?>?) : super(
+        status, code, msg, body, pageIndex, pageSize, sumCount, list)
+}
