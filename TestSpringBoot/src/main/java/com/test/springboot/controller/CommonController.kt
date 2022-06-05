@@ -6,12 +6,12 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import springbase.lorenwang.base.controller.SpblwBaseController
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
+import springbase.lorenwang.base.service.SpblwVerificationCodeService
 import springbase.lorenwang.user.database.table.SpulwUserInfoTb
 import springbase.lorenwang.user.enums.SpulwUserLoginFromEnum
 import springbase.lorenwang.user.enums.SpulwUserLoginTypeEnum
@@ -38,6 +38,9 @@ class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>
     @Autowired
     private lateinit var service: SpulwUserService
 
+    @Autowired
+    private lateinit var codeService: SpblwVerificationCodeService
+
     @PostMapping("test")
     @ApiOperation(value = "test", httpMethod = "POST")
     fun submit(request: SpblwBaseHttpServletRequestWrapper, reqBean: LoginWxReq): String {
@@ -57,5 +60,12 @@ class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>
                         return "用户不存在"
                     }
                 })))
+    }
+
+    @PostMapping("code")
+    @ApiOperation(value = "code", httpMethod = "POST")
+    fun code(request: SpblwBaseHttpServletRequestWrapper): String {
+        codeService.getVerificationCode("1234", "111")
+        return ""
     }
 }

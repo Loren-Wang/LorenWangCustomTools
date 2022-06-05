@@ -40,7 +40,7 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
     /**
      * 响应内容处理
      */
-    open fun responseContent(request: R?, data: SpblwBaseDataDisposeStatusBean): String {
+    open fun <T> responseContent(request: R?, reqData: T?, data: SpblwBaseDataDisposeStatusBean): String {
         //响应数据实体
         val res = if (data.isRepDataList) {
             KttlwBaseNetResponseBean(KttlwNetPageResponseBean(data.pageIndex, data.pageSize, data.sumCount, if (data.sumCount % data.pageSize > 0) {
@@ -65,11 +65,21 @@ open class SpblwBaseController<R : SpblwBaseHttpServletRequestWrapper> {
             logMap["请求体"] = request.queryString
             logMap["请求时间"] = request.requestTime
         }
+        if (reqData != null) {
+            logMap["请求体"] = reqData
+        }
         logMap["响应数据"] = resData
         logMap["响应时间"] = System.currentTimeMillis()
         logMap["消耗时间"] = "${System.currentTimeMillis() - request?.requestTime.kttlwGetNotEmptyData { 0 }}毫秒"
         spblwConfig.getLogUtil().logI(javaClass, logMap.kttlwToJsonData(), true)
         return spblwConfig.encryptRequestContent(resData)
+    }
+
+    /**
+     * 响应内容处理
+     */
+    fun responseContent(request: R?, data: SpblwBaseDataDisposeStatusBean): String {
+        return responseContent(request, reqData = null, data)
     }
 
 }

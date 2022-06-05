@@ -24,7 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @SpringBootApplication
 @EnableSwagger2
 @EnableJpaAuditing
-@EntityScan(basePackages = ["springbase.lorenwang.user.database.table", "com.test.springboot.database.table"])
+@EntityScan(basePackages = ["springbase.lorenwang.user.database.table", "com.test.springboot.database.table","springbase.lorenwang.base.database.table"])
 open class StartApplication : SpbflwBaseApplication() {
     override fun getConfigProperties(): Array<String> {
         return arrayOf("application.properties", "application-dev.properties")
