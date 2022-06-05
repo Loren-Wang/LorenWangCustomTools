@@ -1,15 +1,15 @@
 package com.test.springboot.base.services
 
 import org.springframework.stereotype.Service
-import springbase.lorenwang.base.database.table.SpblwVerificationCodeTb
-import springbase.lorenwang.base.service.impl.SpblwVerificationCodeServiceImpl
+import springbase.lorenwang.user.database.table.SpulwVerificationCodeTb
+import springbase.lorenwang.user.service.impl.SpulwVerificationCodeServiceImpl
 import java.util.*
 import javax.transaction.Transactional
 
 @Service
-open class VerificationCodeServiceImpl : SpblwVerificationCodeServiceImpl() {
+open class VerificationCodeServiceImpl : SpulwVerificationCodeServiceImpl() {
     @Transactional
-    override fun saveVerificationCode(account: String, code: String, type: String, endTime: Date): SpblwVerificationCodeTb {
+    override fun saveVerificationCode(account: String, code: String, type: String, endTime: Date): SpulwVerificationCodeTb {
         return super.saveVerificationCode(account, code, type, endTime)
     }
 

@@ -1,5 +1,5 @@
 package com.test.springboot.base.repositorys
 
-import springbase.lorenwang.base.database.repository.SpblwVerificationCodeRepository
+import springbase.lorenwang.user.database.repository.SpulwVerificationCodeRepository
 
-interface VerificationCodeRepository :SpblwVerificationCodeRepository {}
+interface VerificationCodeRepository : SpulwVerificationCodeRepository {}

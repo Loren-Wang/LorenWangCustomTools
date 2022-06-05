@@ -139,37 +139,4 @@ object SpblwBaseTableConfig {
         const val RANK = "bigint"
     }
 
-    /*********************************表名部分*********************************/
-
-    object TableName {
-        /**
-         * 验证码
-         */
-        const val VERIFICATION_CODE = "verification_code"
-
-    }
-
-    /*********************************验证码部分*****************************/
-    object VerificationCodeColumn {
-        /**
-         * id
-         */
-        const val ID = "vc_id"
-
-        /**
-         * 验证码
-         */
-        const val CODE = "code"
-
-        /**
-         * 账户
-         */
-        const val ACCOUNT = "account"
-
-        /**
-         * 结束时间
-         */
-        const val END_TIME = "end_time"
-
-    }
 }

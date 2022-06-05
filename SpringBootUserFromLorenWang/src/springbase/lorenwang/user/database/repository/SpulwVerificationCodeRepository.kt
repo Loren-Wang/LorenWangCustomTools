@@ -1,6 +1,7 @@
-package springbase.lorenwang.base.database.repository
+package springbase.lorenwang.user.database.repository
 
-import springbase.lorenwang.base.database.table.SpblwVerificationCodeTb
+import springbase.lorenwang.base.database.repository.SpblwBaseRepository
+import springbase.lorenwang.user.database.table.SpulwVerificationCodeTb
 
 /**
  * 功能作用：验证码数据库操作
@@ -15,16 +16,16 @@ import springbase.lorenwang.base.database.table.SpblwVerificationCodeTb
  *
  * @author 王亮（Loren）
  */
-interface SpblwVerificationCodeRepository : SpblwBaseRepository<SpblwVerificationCodeTb, String> {
+interface SpulwVerificationCodeRepository : SpblwBaseRepository<SpulwVerificationCodeTb, String> {
     /**
      * 根据code和type查找数据，并且根据时间倒序处理
      */
-    fun findAllByAccountAndCodeAndTypeOrderByEndTimeDesc(account: String, code: String, type: String): List<SpblwVerificationCodeTb>
+    fun findAllByAccountAndCodeAndTypeOrderByEndTimeDesc(account: String, code: String, type: String): List<SpulwVerificationCodeTb>
 
     /**
      * 根据type查找数据，并且根据时间倒序处理
      */
-    fun findAllByAccountAndTypeOrderByEndTimeDesc(account: String, type: String): List<SpblwVerificationCodeTb>
+    fun findAllByAccountAndTypeOrderByEndTimeDesc(account: String, type: String): List<SpulwVerificationCodeTb>
 
     /**
      * 根据账户验证码以及类型删除验证记录

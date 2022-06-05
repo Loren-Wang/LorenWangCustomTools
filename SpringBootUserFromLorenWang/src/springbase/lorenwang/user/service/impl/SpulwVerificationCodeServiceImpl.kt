@@ -1,11 +1,10 @@
-package springbase.lorenwang.base.service.impl
+package springbase.lorenwang.user.service.impl
 
 import org.springframework.beans.factory.annotation.Autowired
-import springbase.lorenwang.base.database.repository.SpblwVerificationCodeRepository
-import springbase.lorenwang.base.database.table.SpblwVerificationCodeTb
-import springbase.lorenwang.base.service.SpblwVerificationCodeService
+import springbase.lorenwang.user.database.repository.SpulwVerificationCodeRepository
+import springbase.lorenwang.user.database.table.SpulwVerificationCodeTb
+import springbase.lorenwang.user.service.SpulwVerificationCodeService
 import java.util.*
-import javax.transaction.Transactional
 
 /**
  * 功能作用：验证码服务实现
@@ -20,9 +19,9 @@ import javax.transaction.Transactional
  *
  * @author 王亮（Loren）
  */
-open class SpblwVerificationCodeServiceImpl : SpblwVerificationCodeService {
+open class SpulwVerificationCodeServiceImpl : SpulwVerificationCodeService {
     @Autowired
-    private lateinit var verificationCodeRepository: SpblwVerificationCodeRepository
+    private lateinit var verificationCodeRepository: SpulwVerificationCodeRepository
 
     /**
      * 删除验证码
@@ -34,7 +33,7 @@ open class SpblwVerificationCodeServiceImpl : SpblwVerificationCodeService {
     /**
      * 获取验证码
      */
-    override fun getVerificationCode(account: String, code: String, type: String): SpblwVerificationCodeTb? {
+    override fun getVerificationCode(account: String, code: String, type: String): SpulwVerificationCodeTb? {
         verificationCodeRepository.findAllByAccountAndCodeAndTypeOrderByEndTimeDesc(account, code, type).let {
             if (it.isNotEmpty()) {
                 return if (it[0].endTime!!.time > System.currentTimeMillis()) {
@@ -51,18 +50,18 @@ open class SpblwVerificationCodeServiceImpl : SpblwVerificationCodeService {
     /**
      * 获取验证码列表
      */
-    override fun getVerificationCode(account: String, type: String): List<SpblwVerificationCodeTb> {
+    override fun getVerificationCode(account: String, type: String): List<SpulwVerificationCodeTb> {
         return verificationCodeRepository.findAllByAccountAndTypeOrderByEndTimeDesc(account, type)
     }
 
     /**
      * 保存验证码
      */
-    override fun saveVerificationCode(account: String, code: String, type: String, endTime: Date): SpblwVerificationCodeTb {
+    override fun saveVerificationCode(account: String, code: String, type: String, endTime: Date): SpulwVerificationCodeTb {
         //删除旧的
         verificationCodeRepository.deleteAllByAccountAndType(account, type)
         //保存新的
-        return verificationCodeRepository.save(SpblwVerificationCodeTb().also {
+        return verificationCodeRepository.save(SpulwVerificationCodeTb().also {
             it.code = code
             it.account = account
             it.type = type

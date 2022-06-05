@@ -21,16 +21,6 @@ object SpulwBaseTableConfig {
         const val INTERMEDIATE_USER_ROLE_PERMISSION = "intermediate_role_permission"
 
         /**
-         * 用户角色表
-         */
-        const val USER_ROLE = "user_role"
-
-        /**
-         * 用户角色权限表
-         */
-        const val USER_PERMISSION = "user_permission"
-
-        /**
          * 用户信息表
          */
         const val USER_INFO = "user_info"
@@ -39,6 +29,11 @@ object SpulwBaseTableConfig {
          * 平台token
          */
         const val PLATFORM_TOKEN = "platform_token"
+
+        /**
+         * 验证码
+         */
+        const val VERIFICATION_CODE = "verification_code"
     }
 
     /*********************************用户信息部分*****************************/
@@ -144,5 +139,29 @@ object SpulwBaseTableConfig {
          * 权限
          */
         const val PERMISSION = "permission"
+    }
+
+    /*********************************验证码部分*****************************/
+    object VerificationCodeColumn {
+        /**
+         * id
+         */
+        const val ID = "vc_id"
+
+        /**
+         * 验证码
+         */
+        const val CODE = "code"
+
+        /**
+         * 账户
+         */
+        const val ACCOUNT = "account"
+
+        /**
+         * 结束时间
+         */
+        const val END_TIME = "end_time"
+
     }
 }

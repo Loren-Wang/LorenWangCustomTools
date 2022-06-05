@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import springbase.lorenwang.base.controller.SpblwBaseController
 import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
-import springbase.lorenwang.base.service.SpblwVerificationCodeService
 import springbase.lorenwang.user.database.table.SpulwUserInfoTb
 import springbase.lorenwang.user.enums.SpulwUserLoginFromEnum
 import springbase.lorenwang.user.enums.SpulwUserLoginTypeEnum
 import springbase.lorenwang.user.interfaces.SpulwLoginUserCallback
 import springbase.lorenwang.user.service.SpulwUserService
+import springbase.lorenwang.user.service.SpulwVerificationCodeService
 
 /**
  * 功能作用：通用接口请求
@@ -40,7 +40,7 @@ class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>
     private lateinit var service: SpulwUserService
 
     @Autowired
-    private lateinit var codeService: SpblwVerificationCodeService
+    private lateinit var codeService: SpulwVerificationCodeService
 
     @PostMapping("test")
     @ApiOperation(value = "test", httpMethod = "POST")
