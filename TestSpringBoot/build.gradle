@@ -40,7 +40,7 @@ dependencies {
     //七牛云存储
     implementation "com.qiniu:qiniu-java-sdk:${rootProject.ext.libVersion.qiniu_java_sdk}"
     //邮件服务
-    implementation "javax.mail:mail:${rootProject.ext.libVersion.mail}"
+    implementation "com.sun.mail:javax.mail:${rootProject.ext.libVersion.mail}"
     //swagger注释
     implementation "io.springfox:springfox-swagger2:${rootProject.ext.libVersion.springfox_swagger}"
     implementation "io.springfox:springfox-swagger-ui:${rootProject.ext.libVersion.springfox_swagger}"
@@ -48,6 +48,8 @@ dependencies {
     implementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
     //redis数据库缓存
     implementation "org.springframework.boot:spring-boot-starter-data-redis:${rootProject.ext.libVersion.redis}"
+    //短信服务
+    implementation "com.aliyun:dysmsapi20170525:${rootProject.ext.libVersion.aliyun_sdk_sms}"
 
 
 }

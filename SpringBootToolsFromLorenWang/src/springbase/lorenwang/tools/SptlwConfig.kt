@@ -4,6 +4,7 @@ import springbase.lorenwang.base.SpblwConfig
 import springbase.lorenwang.base.spblwConfig
 import springbase.lorenwang.tools.plugins.email.SptlwEmailUtil
 import springbase.lorenwang.tools.plugins.oss.SptlwOssUtil
+import springbase.lorenwang.tools.plugins.sms.SptlwSmsUtil
 import springbase.lorenwang.tools.utils.SptlwFileOptionsUtil
 
 /**
@@ -38,6 +39,11 @@ abstract class SptlwConfig : SpblwConfig() {
      * 获取oss工具
      */
     open fun getOssUtil(): SptlwOssUtil? = null
+
+    /**
+     * 获取Sms工具
+     */
+    open fun getSmsUtil(): SptlwSmsUtil? = null
 }
 
 /**

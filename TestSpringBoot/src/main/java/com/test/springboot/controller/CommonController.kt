@@ -2,6 +2,7 @@ package com.test.springboot.controller
 
 import com.test.springboot.bean.LoginWxReq
 import com.test.springboot.bean.local.BaseDataDisposeStatusBean
+import com.test.springboot.configOptions
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
@@ -65,7 +66,10 @@ class CommonController : SpblwBaseController<SpblwBaseHttpServletRequestWrapper>
     @PostMapping("code")
     @ApiOperation(value = "code", httpMethod = "POST")
     fun code(request: SpblwBaseHttpServletRequestWrapper): String {
-        codeService.getVerificationCode("1234", "111")
+//        configOptions.getSmsUtil().sendSms("19145585201", mapOf(Pair("code", "1234")), "SMS_173340367")
+//        configOptions.getSmsUtil().sendSms("19145585201", mapOf(Pair("title", "去超市"), Pair("time", Date()), Pair("remark", "记得买盐")), "SMS_180060517")
+//        codeService.getVerificationCode("1234", "111")
+        configOptions.getEmailUtil().sendEmailMessage("短信验证码：1234", "745342832@qq.com")
         return ""
     }
 }

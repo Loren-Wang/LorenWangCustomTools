@@ -8,9 +8,11 @@ import com.test.springboot.enums.UserRoleTypeEnum
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
-import springbase.lorenwang.base.controller.SpblwBaseHttpServletRequestWrapper
 import springbase.lorenwang.base.utils.SpblwLog
+import springbase.lorenwang.tools.plugins.email.SptlwEmailUtil
 import springbase.lorenwang.tools.plugins.oss.SptlwOssUtil
+import springbase.lorenwang.tools.plugins.sms.SptlwSmsUtil
+import springbase.lorenwang.tools.plugins.sms.aliyun.SptlwALiYunSmsConfig
 import springbase.lorenwang.tools.utils.SptlwFileOptionsUtil
 import springbase.lorenwang.user.SpulwConfig
 import springbase.lorenwang.user.service.SpulwRolePermissionService
@@ -86,8 +88,15 @@ class ConfigOptions : SpulwConfig() {
     }
 
     override fun getOssUtil(): SptlwOssUtil {
-//        SptlwOssUtil.instance.initOssConfig(SptlwALiYunOssConfig())
         return SptlwOssUtil.instance
+    }
+
+    override fun getSmsUtil(): SptlwSmsUtil {
+        return SptlwSmsUtil.instance
+    }
+
+    override fun getEmailUtil(): SptlwEmailUtil {
+        return email
     }
 
     /**

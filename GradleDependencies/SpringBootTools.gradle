@@ -10,5 +10,8 @@ dependencies {
     compileOnly "com.qiniu:qiniu-java-sdk:${rootProject.ext.libVersion.qiniu_java_sdk}"
     //邮件服务
     compileOnly "org.springframework:spring-context-support:${rootProject.ext.libVersion.spring_context_support}"
-    compileOnly "javax.mail:mail:${rootProject.ext.libVersion.mail}"
+    compileOnly "com.sun.mail:javax.mail:${rootProject.ext.libVersion.mail}"
+    //短信服务
+    compileOnly "com.aliyun:dysmsapi20170525:${rootProject.ext.libVersion.aliyun_sdk_sms}"
+
 }
