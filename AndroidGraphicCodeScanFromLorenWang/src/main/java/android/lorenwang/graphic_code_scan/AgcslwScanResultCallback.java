@@ -20,36 +20,47 @@ import androidx.annotation.NonNull;
  * 备注：
  */
 
-public abstract class AgcslwScanResultCallback extends AgcslwCameraOptionsCallback {
+public interface AgcslwScanResultCallback {
     /**
      * 扫描视图裁剪矩阵变化
      *
      * @param cropRect 裁剪矩阵位置,仅相对于扫描控件scanview的坐标
      */
-   public abstract void scanViewCropRectChange(@NonNull Rect cropRect);
+    void scanViewCropRectChange(@NonNull Rect cropRect);
 
     /**
      * 扫描文本结果
      *
      * @param result 结果内容
      */
-    public abstract void scanResult(String result);
+    void scanResult(String result);
 
     /**
      * 返回扫描结果的位图
      *
      * @param bitmap 扫描结果位图
      */
-    public void scanResultBitmap(Bitmap bitmap) {
-
-    }
+    void scanResultBitmap(Bitmap bitmap);
 
     /**
      * 扫描解码出错
      */
-    public  void scanDecodeError() {
+    void scanDecodeError();
 
-    }
+    /**
+     * 无扫描权限
+     *
+     * @param shouldShowRequestPermissionRationale 是否能显示自定义权限弹窗
+     * @param permissions                          权限集合
+     */
+    void notPermissions(boolean shouldShowRequestPermissionRationale, String... permissions);
+
+    /**
+     * 权限请求失败，保留方法，留给子类扩展，后续该框架也可能会使用
+     *
+     * @param permissions 权限列表
+     */
+    void permissionRequestFail(String... permissions);
 
     /**
      * 扫描相册图片异常
@@ -58,8 +69,10 @@ public abstract class AgcslwScanResultCallback extends AgcslwCameraOptionsCallba
      * @param isPathNotExists   图片地址代表的文件不存在
      * @param isScanDecodeError 扫描解码异常
      */
-    public  void scanPhotoAlbumImageError(String path, boolean isPathNotExists, boolean isScanDecodeError) {
+    void scanPhotoAlbumImageError(String path, boolean isPathNotExists, boolean isScanDecodeError);
 
-    }
-
+    /**
+     * 相机初始化异常
+     */
+    void cameraInitError();
 }

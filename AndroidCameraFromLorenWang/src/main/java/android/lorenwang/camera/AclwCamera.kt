@@ -88,7 +88,7 @@ class AclwCamera {
         handler: Handler = mDefaultHandler, minPreviewPixels: Int = mCameraOptions.mMinPreviewPixels,
         maxAspectDistortion: Double = mCameraOptions.mMaxAspectDistortion) {
         //请求权限
-        AtlwActivityUtil.getInstance().goToRequestPermissions(context, mCameraPermissions, object : AtlwPermissionRequestCallback {
+        AtlwActivityUtil.getInstance().goToRequestPermissions(context, mCameraPermissions,1231230, object : AtlwPermissionRequestCallback {
             override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                 AtlwLogUtil.logUtils.logI(mShowTag, "权限获取失败")
                 callback.permissionRequestFail()

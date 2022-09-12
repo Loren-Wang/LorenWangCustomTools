@@ -11,12 +11,11 @@ package android.lorenwang.graphic_code_scan;
  * 备注：
  */
 
-class ScanCameraCommon {
+class SacnCameraCommon {
 
     public static final int decode = 0;
     public static final int decode_failed = 1;
     public static final int decode_succeeded = 2;
-    public static final int decode_params_data = 6;
     public static final int quit = 3;
     public static final int restart_preview = 4;
 }

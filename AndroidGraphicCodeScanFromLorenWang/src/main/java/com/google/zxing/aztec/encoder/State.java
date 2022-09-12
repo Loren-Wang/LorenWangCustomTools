@@ -16,10 +16,10 @@
 
 package com.google.zxing.aztec.encoder;
 
-import com.google.zxing.common.BitArray;
-
 import java.util.Deque;
 import java.util.LinkedList;
+
+import com.google.zxing.common.BitArray;
 
 /**
  * State represents all information about a sequence necessary to generate the current output.

@@ -85,6 +85,11 @@ public class AgcslwScanView extends FrameLayout {
      * 上一次裁剪矩形矩阵
      */
     private Rect lastCropRect;
+    /**
+     * 缓存参数
+     */
+    private AttributeSet createAttrs;
+    private int createDefStyleAttr;
 
     public AgcslwScanView(Context context) {
         super(context);
@@ -115,14 +120,33 @@ public class AgcslwScanView extends FrameLayout {
         shadowPaint.setColor(shadowColor);
         shadowPaint.setAntiAlias(true);
 
-        surfaceView = new SurfaceView(context, attrs, defStyleAttr);
-        drawView = new View(context, attrs, defStyleAttr) {
+        this.createAttrs = attrs;
+        this.createDefStyleAttr = defStyleAttr;
+    }
+
+    /**
+     * 获取视图预览
+     *
+     * @return 视图预览
+     */
+    public SurfaceView getSurfaceView() {
+        return surfaceView;
+    }
+
+    /**
+     * 重置view，在获取权限成功之后处理，防止在权限获取成功之前view被初始化完成
+     */
+    public void resetViews() {
+        removeAllViews();
+        surfaceView = new SurfaceView(getContext(), createAttrs, createDefStyleAttr);
+        drawView = new View(getContext(), createAttrs, createDefStyleAttr) {
             @Override
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 //如果非阴影区域是正方形，那么则取非阴影部分最小宽度向左、上适配
                 if (agcslwScan != null) {
-                    Rect cropRect = agcslwScan.parseShowCropRect(shadowPercentLeft, shadowPercentTop, shadowPercentRight, shadowPercentBottom, outShadowSquare, surfaceView);
+                    Rect cropRect = agcslwScan.parseShowCropRect(shadowPercentLeft, shadowPercentTop, shadowPercentRight, shadowPercentBottom,
+                            outShadowSquare, surfaceView);
                     AgcslwScanView.this.onDrawChild(canvas, cropRect);
                     if (lastCropRect == null || !lastCropRect.equals(cropRect)) {
                         //两者相等，不做回调，两者不等，回调数据
@@ -134,15 +158,6 @@ public class AgcslwScanView extends FrameLayout {
         };
         addView(surfaceView);
         addView(drawView);
-    }
-
-    /**
-     * 获取视图预览
-     *
-     * @return 视图预览
-     */
-    public SurfaceView getSurfaceView() {
-        return surfaceView;
     }
 
     /**

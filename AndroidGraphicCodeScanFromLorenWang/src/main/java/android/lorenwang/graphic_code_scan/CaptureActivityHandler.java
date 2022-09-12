@@ -48,27 +48,30 @@ class CaptureActivityHandler extends Handler {
 
         // Start ourselves capturing previews and decoding.
         this.cameraManager = cameraManager;
+        if(cameraManager != null) {
+            cameraManager.startPreview();
+        }
         restartPreviewAndDecode();
     }
 
     @Override
     public void handleMessage(Message message) {
         switch (message.what) {
-            case ScanCameraCommon.restart_preview:
+            case SacnCameraCommon.restart_preview:
                 restartPreviewAndDecode();
                 break;
-            case ScanCameraCommon.decode_succeeded:
+            case SacnCameraCommon.decode_succeeded:
                 state = State.SUCCESS;
                 Bundle bundle = message.getData();
                 agcslwScan.handleDecode((Result) message.obj, bundle);
                 break;
-            case ScanCameraCommon.decode_failed:
+            case SacnCameraCommon.decode_failed:
                 // We're decoding as fast as possible, so when one decode fails,
                 // start another.
                 state = State.PREVIEW;
                 if (decodeThread != null && cameraManager != null) {
                     cameraManager.requestPreviewFrame(decodeThread.getHandler(),
-                            ScanCameraCommon.decode);
+                            SacnCameraCommon.decode);
                 }
                 break;
             default:
@@ -82,7 +85,7 @@ class CaptureActivityHandler extends Handler {
             cameraManager.stopPreview();
         }
         if (decodeThread != null && decodeThread.getHandler() != null) {
-            Message quit = Message.obtain(decodeThread.getHandler(), ScanCameraCommon.quit);
+            Message quit = Message.obtain(decodeThread.getHandler(), SacnCameraCommon.quit);
             quit.sendToTarget();
             try {
                 // Wait at most half a second; should be enough time, and onPause()
@@ -93,15 +96,15 @@ class CaptureActivityHandler extends Handler {
             }
         }
         // Be absolutely sure we don't send any queued up messages
-        removeMessages(ScanCameraCommon.decode_succeeded);
-        removeMessages(ScanCameraCommon.decode_failed);
+        removeMessages(SacnCameraCommon.decode_succeeded);
+        removeMessages(SacnCameraCommon.decode_failed);
     }
 
     private void restartPreviewAndDecode() {
         if (state == State.SUCCESS && decodeThread != null && decodeThread.getHandler() != null
                 && cameraManager != null) {
             state = State.PREVIEW;
-            cameraManager.requestPreviewFrame(decodeThread.getHandler(), ScanCameraCommon.decode);
+            cameraManager.requestPreviewFrame(decodeThread.getHandler(), SacnCameraCommon.decode);
         }
     }
 
