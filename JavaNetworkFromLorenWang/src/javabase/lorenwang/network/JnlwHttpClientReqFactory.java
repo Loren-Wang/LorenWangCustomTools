@@ -6,7 +6,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 import java.util.concurrent.TimeUnit;
 
-import javabase.lorenwang.tools.thread.JtlwTimingTaskUtil;
 import okhttp3.OkHttpClient;
 
 /**
@@ -93,11 +92,11 @@ public class JnlwHttpClientReqFactory {
                             // 选择关闭 空闲30秒的链接
                             cm.closeIdleConnections(30, TimeUnit.SECONDS);
                             //30s后再次清理
-                            JtlwTimingTaskUtil.getInstance().schedule(httpClientReq.hashCode(), this, 30000L);
+                            JnlwUtils.getInstance().schedule(httpClientReq.hashCode(), this, 30000L);
                         }
                     };
                     //30s后清理
-                    JtlwTimingTaskUtil.getInstance().schedule(httpClientReq.hashCode(), runnable, 30000L);
+                    JnlwUtils.getInstance().schedule(httpClientReq.hashCode(), runnable, 30000L);
                 }
             }
         }

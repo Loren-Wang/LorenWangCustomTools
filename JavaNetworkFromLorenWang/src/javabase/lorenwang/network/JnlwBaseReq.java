@@ -2,9 +2,6 @@ package javabase.lorenwang.network;
 
 import java.util.Map;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
-import javabase.lorenwang.tools.net.JtlwNetUtil;
-
 
 /**
  * 功能作用：网络基础请求
@@ -68,12 +65,12 @@ abstract class JnlwBaseReq {
     protected String generateRequestUrl(JnlwNetworkReqConfig config) {
         //url处理
         StringBuilder url = new StringBuilder();
-        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getBaseUrl())) {
+        if (JnlwUtils.getInstance().isNotEmpty(config.getBaseUrl())) {
             url.append(config.getBaseUrl());
         } else {
             url.append("http://127.0.0.1");
         }
-        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestUrl())) {
+        if (JnlwUtils.getInstance().isNotEmpty(config.getRequestUrl())) {
             //如果是本地的话判断是否第一位是斜杠，无斜杠要添加
             String first = config.getRequestUrl().substring(0, 1);
             String end = url.substring(url.length() - 1, url.length());
@@ -86,7 +83,7 @@ abstract class JnlwBaseReq {
         url.setLength(0);
         //参数拼接处理
         for (Map.Entry<String, String> entry : config.getRequestDataParams().entrySet()) {
-            requestUrl = JtlwNetUtil.getInstance().addUrlParams(requestUrl, entry.getKey(), entry.getValue());
+            requestUrl = JnlwUtils.getInstance().addUrlParams(requestUrl, entry.getKey(), entry.getValue());
         }
         return requestUrl;
     }

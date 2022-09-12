@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
-
 /**
  * 功能作用：httpClient请求
  * 创建时间：2020-12-01 11:59 上午
@@ -72,7 +70,7 @@ public class JnlwHttpClientReq extends JnlwBaseReq {
         //创建请求
         HttpPut request = getHttpRequestBase(new HttpPut(), config);
         //json数据处理
-        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestDataJson())) {
+        if (JnlwUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
             request.setEntity(new StringEntity(config.getRequestDataJson(), "UTF-8"));
             request.setHeader("Content-Type", "application/json;charset=utf8");
         }
@@ -91,7 +89,7 @@ public class JnlwHttpClientReq extends JnlwBaseReq {
         //创建请求
         HttpPost request = getHttpRequestBase(new HttpPost(), config);
         //json数据处理
-        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestDataJson())) {
+        if (JnlwUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
             request.setEntity(new StringEntity(config.getRequestDataJson(), "UTF-8"));
             request.setHeader("Content-Type", "application/json;charset=utf8");
         }

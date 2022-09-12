@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.Map;
 
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -67,7 +66,7 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
         Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder(), config);
         RequestBody requestBody;
         //json数据处理
-        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestDataJson())) {
+        if (JnlwUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(config.getRequestDataJson()));
         } else {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
@@ -88,7 +87,7 @@ public class JnlwOkHttpReq extends JnlwBaseReq {
         Request.Builder requestBuilder = getHttpRequestBase(new Request.Builder(), config);
         RequestBody requestBody;
         //json数据处理
-        if (JtlwCheckVariateUtil.getInstance().isNotEmpty(config.getRequestDataJson())) {
+        if (JnlwUtils.getInstance().isNotEmpty(config.getRequestDataJson())) {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(config.getRequestDataJson()));
         } else {
             requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
