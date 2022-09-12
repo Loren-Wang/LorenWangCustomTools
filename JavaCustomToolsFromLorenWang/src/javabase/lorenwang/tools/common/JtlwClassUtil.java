@@ -1,5 +1,9 @@
 package javabase.lorenwang.tools.common;
 
+import org.junit.runners.Parameterized;
+
+import java.lang.reflect.ParameterizedType;
+
 /**
  * 功能作用：class 工具类
  * 创建时间：2019-03-21 下午 13:44:29
@@ -35,8 +39,9 @@ public class JtlwClassUtil {
 
     /**
      * 获取指定类的实体
-     * @param <T> 变量泛型
-     * @param clazz  指定类
+     *
+     * @param <T>   变量泛型
+     * @param clazz 指定类
      * @return 指定类实体
      */
     public <T> T getClassEntity(Class<T> clazz) {
