@@ -2,30 +2,33 @@ package android.lorenwang.tools.app;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.base.AtlwCheckUtil;
 import android.lorenwang.tools.base.AtlwLogUtil;
+import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
+import javabase.lorenwang.tools.common.JtlwVariateDataParamUtil;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.ACTIVITY_SERVICE;
 
 /**
@@ -36,6 +39,7 @@ import static android.content.Context.ACTIVITY_SERVICE;
  * 方法：
  * 发起权限请求--goToRequestPermissions(object,permisstions,permissionsRequestCode,permissionRequestCallback)
  * 接收到权限请求返回--receivePermissionsResult(requestCode,permissions,grantResults)(需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法)
+ * 接收到页面数据返回--receiveActivityResult(requestCode,permissions,grantResults)(需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法)
  * 控制软键盘显示与隐藏--setInputMethodVisibility(activity,view,visibility)
  * 返回APP级别的实例--getApplicationContext(context)
  * 允许退出App的判断以及线程--allowExitApp(time)
@@ -78,69 +82,121 @@ public class AtlwActivityUtil {
     }
 
     /**
-     * 发起权限请求
+     * 发起权限请求，和receivePermisstionsResult方法结合使用，如果没有receivePermisstionsResult方法则可能会导致无法产生回调
      *
      * @param context                   上下文实体
-     * @param permissions               权限列表
+     * @param permisstions              权限列表
+     * @param permissionsRequestCode    权限请求码
      * @param permissionRequestCallback 权限请求回调
      */
-    public void goToRequestPermissions(Object context, @NonNull String[] permissions, AtlwPermissionRequestCallback permissionRequestCallback) {
+    public void goToRequestPermissions(Object context, @NonNull String[] permisstions, int permissionsRequestCode,
+            AtlwPermissionRequestCallback permissionRequestCallback) {
         //版本判断，小于23的不执行权限请求
-        //检测所有的权限是否都已经拥有
-        if (AtlwCheckUtil.getInstance().checkAppPermission(permissions)) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             if (permissionRequestCallback != null) {
-                permissionRequestCallback.permissionRequestSuccessCallback(Arrays.asList(permissions));
+                permissionRequestCallback.permissionRequestSuccessCallback(JtlwVariateDataParamUtil.getInstance().paramesArrayToList(permisstions));
             }
         } else {
-            List<String> successPermissionList = new ArrayList<>();
-            List<String> failPermissionList = new ArrayList<>();
-            final ActivityResultCallback<Map<String, Boolean>> callback = result -> {
-                for (Map.Entry<String, Boolean> entry : result.entrySet()) {
-                    if (entry.getValue()) {
-                        successPermissionList.add(entry.getKey());
-                    } else {
-                        failPermissionList.add(entry.getKey());
-                    }
+            //检测所有的权限是否都已经拥有
+            if (AtlwCheckUtil.getInstance().checkAppPermission(permisstions)) {
+                if (permissionRequestCallback != null) {
+                    permissionRequestCallback.permissionRequestSuccessCallback(
+                            JtlwVariateDataParamUtil.getInstance().paramesArrayToList(permisstions));
                 }
-                try {//只要有一个权限不通过则都失败
-                    if (failPermissionList.size() > 0) {
-                        permissionRequestCallback.permissionRequestFailCallback(failPermissionList);
-                    } else {
-                        permissionRequestCallback.permissionRequestSuccessCallback(successPermissionList);
-                    }
-                } catch (Exception e) {
-                    AtlwLogUtil.logUtils.logE(TAG, e.getMessage());
-                } finally {
-                    successPermissionList.clear();
-                    failPermissionList.clear();
-                }
-            };
-            boolean goRequestPermission = false;
-            try {
-                if (context instanceof FragmentActivity) {
-                    ((FragmentActivity) context).registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), callback).launch(
-                            permissions);
-                    goRequestPermission = true;
-                } else if (context instanceof Fragment) {
-                    ((Fragment) context).registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), callback).launch(
-                            permissions);
-                    goRequestPermission = true;
-                }
-            } catch (Exception ignore) {
-            }
-            if (!goRequestPermission) {
-                int permissionsRequestCode = (int) (Math.random() * 100000);
+            } else {
                 //存储键值对
                 permissionRequestCallbackMap.put(permissionsRequestCode, permissionRequestCallback);
                 //请求权限
                 if (context instanceof AppCompatActivity) {
-                    ActivityCompat.requestPermissions((Activity) context, permissions, permissionsRequestCode);
+                    ActivityCompat.requestPermissions((Activity) context, permisstions, permissionsRequestCode);
                 } else if (context instanceof Activity) {
-                    ((Activity) context).requestPermissions(permissions, permissionsRequestCode);
+                    ((Activity) context).requestPermissions(permisstions, permissionsRequestCode);
                 } else if (context instanceof Fragment) {
-                    ((Fragment) context).requestPermissions(permissions, permissionsRequestCode);
+                    ((Fragment) context).requestPermissions(permisstions, permissionsRequestCode);
                 }
             }
+        }
+    }
+
+    /**
+     * 接收到权限请求返回，需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法
+     *
+     * @param requestCode  权限请求码
+     * @param permissions  权限列表
+     * @param grantResults 权限状态
+     */
+    public void receivePermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //获取回调
+        AtlwPermissionRequestCallback permissionRequestCallback = permissionRequestCallbackMap.get(requestCode);
+        if (permissionRequestCallback != null) {
+            // If request is cancelled, the result arrays are empty.
+            List<String> successPermissionList = new ArrayList<>();
+            List<String> failPermissionList = new ArrayList<>();
+
+            if (grantResults.length > 0 && grantResults.length == permissions.length) {
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        successPermissionList.add(permissions[i]);
+                        AtlwLogUtil.logUtils.logI(TAG, "用户同意权限-user granted the permission!" + permissions[i]);
+                    } else {
+                        AtlwLogUtil.logUtils.logI(TAG, "用户不同意权限-user denied the permission!" + permissions[i]);
+                        failPermissionList.add(permissions[i]);
+                    }
+                }
+            } else {
+                Collections.addAll(failPermissionList, permissions);
+            }
+            try {//只要有一个权限不通过则都失败
+                if (failPermissionList.size() > 0) {
+                    permissionRequestCallback.permissionRequestFailCallback(failPermissionList);
+                } else {
+                    permissionRequestCallback.permissionRequestSuccessCallback(successPermissionList);
+                }
+            } catch (Exception e) {
+                AtlwLogUtil.logUtils.logE(TAG, e.getMessage());
+            } finally {
+                successPermissionList.clear();
+                failPermissionList.clear();
+            }
+
+            //移除回调
+            permissionRequestCallbackMap.remove(requestCode);
+        }
+    }
+
+    /**
+     * 接收到页面数据返回
+     *
+     * @param requestCode 请求code
+     * @param resultCode  返回code
+     * @param data        数据
+     */
+    public void receiveActivityResult(int requestCode, int resultCode, Intent data) {
+        //获取回调
+        AtlwPermissionRequestCallback permissionRequestCallback = permissionRequestCallbackMap.get(requestCode);
+        if (permissionRequestCallback != null) {
+            if (resultCode == RESULT_OK) {
+                permissionRequestCallback.permissionRequestSuccessCallback(new ArrayList<>());
+            }
+            //移除回调
+            permissionRequestCallbackMap.remove(requestCode);
+        }
+    }
+
+    /**
+     * 复制文本到粘贴板
+     *
+     * @param text 待复制文本
+     * @param hint 复制结束提示
+     */
+    public boolean copyText(CharSequence text, String hint) {
+        ClipboardManager clipboardManager = (ClipboardManager) AtlwConfig.nowApplication.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            ClipData clipData = ClipData.newPlainText(null, text);
+            clipboardManager.setPrimaryClip(clipData);
+            return true;
+        } else {
+            return false;
         }
     }
 

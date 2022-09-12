@@ -6,6 +6,7 @@ import android.lorenwang.tools.AtlwConfig;
 import android.lorenwang.tools.mobile.AtlwMobilePhoneBrandUtil;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.WindowManager;
 
 /**
@@ -21,6 +22,7 @@ import android.view.WindowManager;
  * 获取屏幕宽度--getScreenWidth()
  * 获取屏幕高度--getScreenHeight()
  * 或者状态栏高度--getStatusBarHeight()
+ * 或者标题栏高度--getActionBarSize()
  * 获取需要补充的高度，特殊机型需要补充--getMiSupplementHeight()
  * 根据宽度获取在屏幕上显示的总的像素值--getShowPixelValueForWidth(layoutShowValue)
  * 根据高度获取在屏幕上显示的总的像素值--getShowPixelValueForHeight(layoutShowValue)
@@ -177,6 +179,18 @@ public class AtlwScreenUtil {
         }
 
         return result;
+    }
+
+    /**
+     * 获取 style->theme 中配置的actionBarSize，用于设置titleBar高度
+     */
+    public int getActionBarSize() {
+        TypedValue typedValue = new TypedValue();
+        if (AtlwConfig.nowApplication.getTheme().resolveAttribute(androidx.appcompat.R.attr.actionBarSize, typedValue, true)) {
+            return TypedValue.complexToDimensionPixelSize(typedValue.data, AtlwConfig.nowApplication.getResources().getDisplayMetrics());
+        } else {
+            return 0;
+        }
     }
 
     /**

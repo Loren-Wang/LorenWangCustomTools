@@ -78,6 +78,7 @@ compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version
 | :----: | :----: | :----: |
 | 发起权限请求 | goToRequestPermissions(@NotNull Object context, @NonNull String[] permisstions, int permissionsRequestCode, AtlwPermissionRequestCallback permissionRequestCallback) | void |
 | 接收到权限请求返回 | receivePermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)(需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法) | void |
+| 接收到页面数据返回 | receiveActivityResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)(需要在当前Activity或者基类当中的onRequestPermissionsResult方法中调用那个该方法) | void |
 | 控制软键盘显示与隐藏 | setInputMethodVisibility(Activity activity, View view, int visibility) | void |
 | 返回APP级别的实例 | allowExitApp(long time) | Context |
 | 允许退出App的判断以及线程 | allowExitApp(time) | boolean |
@@ -159,6 +160,7 @@ compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version
 | 获取屏幕宽度 | getScreenWidth() | int |
 | 获取屏幕高度 | getScreenHeight() | int |
 | 或者状态栏高度 | getStatusBarHeight() | int |
+| 或者标题栏高度 | getActionBarSize() | int |
 | 获取需要补充的高度，特殊机型需要补充 | getMiSupplementHeight() | int |
 | 根据宽度获取在屏幕上显示的总的像素值 | getShowPixelValueForWidth(int layoutShowValue) | int |
 | 根据高度获取在屏幕上显示的总的像素值 | getShowPixelValueForHeight(int layoutShowValue) | int |

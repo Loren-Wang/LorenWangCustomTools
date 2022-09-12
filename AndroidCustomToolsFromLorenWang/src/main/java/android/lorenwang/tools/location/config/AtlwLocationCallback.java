@@ -17,6 +17,10 @@ import android.lorenwang.tools.location.AtlwLocationTypeEnum;
  * @author 王亮（Loren）
  */
 public abstract class AtlwLocationCallback implements AtlwPermissionRequestCallback {
+    /**
+     * 获取权限请求code
+     */
+    public int permissionRequestCode = (int) (Math.random() * 10000 % 10000);
 
     /**
      * 定位信息获取成功

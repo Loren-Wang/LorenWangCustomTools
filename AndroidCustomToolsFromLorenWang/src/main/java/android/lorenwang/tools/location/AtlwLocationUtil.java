@@ -120,8 +120,9 @@ public class AtlwLocationUtil extends AtlwLocationLibraryBase {
             } else {
                 permissions = NEED_PERMISSIONS;
             }
-            AtlwActivityUtil.getInstance().goToRequestPermissions(context, permissions, config.getLocationsCallback());
-        }
+            AtlwActivityUtil.getInstance().goToRequestPermissions(context, permissions,
+                    config.getLocationsCallback() != null ? config.getLocationsCallback().permissionRequestCode : context.hashCode() % 10000,
+                    config.getLocationsCallback());        }
     }
 
     /**
