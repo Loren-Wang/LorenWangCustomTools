@@ -1,7 +1,5 @@
 package kotlinbase.lorenwang.tools.extend
 
-import javabase.lorenwang.dataparse.JdplwJsonUtil
-
 /**
  * 功能作用：Map函数扩展
  * 创建时间：2019-11-14 下午 23:17:43
@@ -19,7 +17,7 @@ import javabase.lorenwang.dataparse.JdplwJsonUtil
  */
 fun <R> Map<String, Any?>.kttlwParseJsonData(cls: Class<R>): R? {
     return try {
-        JdplwJsonUtil.fromJson(this, cls)
+        JsonUtils.fromJson(this, cls)
     } catch (e: Exception) {
         null
     }

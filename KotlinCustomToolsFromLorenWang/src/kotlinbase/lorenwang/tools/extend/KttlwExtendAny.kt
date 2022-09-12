@@ -1,8 +1,5 @@
 package kotlinbase.lorenwang.tools.extend
 
-import javabase.lorenwang.dataparse.JdplwJsonUtil
-import javabase.lorenwang.tools.common.JtlwCheckVariateUtil
-
 /**
  * 功能作用：基础函数扩展
  * 创建时间：2019-11-14 下午 23:17:43
@@ -20,7 +17,7 @@ import javabase.lorenwang.tools.common.JtlwCheckVariateUtil
  */
 fun <T> T.kttlwToJsonData(): String {
     return try {
-        JdplwJsonUtil.toJson(this) ?: ""
+        JsonUtils.toJson(this) ?: ""
     } catch (e: Exception) {
         ""
     }
@@ -30,7 +27,11 @@ fun <T> T.kttlwToJsonData(): String {
  * 检测基础数据是否为空，包括空字符串
  */
 fun <T> T?.kttlwIsEmpty(): Boolean {
-    return JtlwCheckVariateUtil.getInstance().isEmpty(this)
+    return if (this is String) {
+        "" == this
+    } else {
+        this == null
+    }
 }
 
 /**

@@ -1,7 +1,7 @@
 package kotlinbase.lorenwang.tools.extend
 
-import javabase.lorenwang.dataparse.JdplwJsonUtil
-import javabase.lorenwang.tools.common.JtlwCommonUtil
+import java.util.*
+import java.util.regex.Pattern
 
 /**
  * 功能作用：字符串相关函数扩展
@@ -20,7 +20,7 @@ import javabase.lorenwang.tools.common.JtlwCommonUtil
  */
 fun <T> String.kttlwParseJsonData(cls: Class<T>): T? {
     return try {
-        JdplwJsonUtil.fromJson(this, cls)
+        JsonUtils.fromJson(this, cls)
     } catch (e: Exception) {
         null
     }
@@ -48,7 +48,18 @@ fun String?.kttlwIsLongTime(): Boolean {
  * 将字符串转为驼峰法
  */
 fun String?.kttlwToCamelCase(): String? {
-    return JtlwCommonUtil.getInstance().toCamelCase(this)
+    var data = this
+    if (data != null && data.isNotEmpty()) {
+        val pattern = Pattern.compile("[-_].")
+        val matcher = pattern.matcher(data)
+        var find: String
+        while (matcher.find()) {
+            find = matcher.group()
+            data = data!!.replace(find, find.substring(1).toUpperCase(Locale.getDefault()))
+        }
+        return data
+    }
+    return null
 }
 
 /**
@@ -57,7 +68,18 @@ fun String?.kttlwToCamelCase(): String? {
  * @return 分离后字符
  */
 fun String?.kttlwToSeparatedCase(separated: String?): String? {
-    return JtlwCommonUtil.getInstance().toSeparatedCase(this, separated)
+    var data = this
+    if (data != null && data.isNotEmpty() && separated != null && separated.isNotEmpty()) {
+        val pattern = Pattern.compile("[A-Z]")
+        val matcher = pattern.matcher(data)
+        var find: String
+        while (matcher.find()) {
+            find = matcher.group()
+            data = data!!.replace(find, separated + find)
+        }
+        return data
+    }
+    return null
 }
 
 /**
