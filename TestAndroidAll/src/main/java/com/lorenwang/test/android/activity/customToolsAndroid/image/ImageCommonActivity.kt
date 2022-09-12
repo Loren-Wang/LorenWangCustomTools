@@ -61,7 +61,7 @@ class ImageCommonActivity : BaseActivity() {
                 R.id.btn_init -> {
                     AtlwActivityUtil.getInstance()
                         .goToRequestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
-                             object : AtlwPermissionRequestCallback {
+                             123123,object : AtlwPermissionRequestCallback {
                                 override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                     optionsBitmap = BitmapFactory.decodeResource(resources, R.drawable.image_default)
                                     optionsBitmapAdd = BitmapFactory.decodeResource(resources, R.drawable.icon_empty_add)

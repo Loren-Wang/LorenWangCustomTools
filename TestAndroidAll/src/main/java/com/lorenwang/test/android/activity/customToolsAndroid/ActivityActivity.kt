@@ -36,7 +36,7 @@ class ActivityActivity : BaseActivity() {
             when (view.id) {
                 R.id.btnPermission -> {
                     AtlwActivityUtil.getInstance().goToRequestPermissions(this,
-                        arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_NETWORK_STATE),
+                        arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_NETWORK_STATE),1231231,
                         object : AtlwPermissionRequestCallback {
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwToastHintUtil.getInstance().toastMsg("权限请求成功")

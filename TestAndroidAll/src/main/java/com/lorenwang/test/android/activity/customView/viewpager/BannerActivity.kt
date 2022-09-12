@@ -52,7 +52,7 @@ class BannerActivity : BaseActivity() {
                 return itemCount
             }
         }
-        adapter.singleTypeRefresh(list, R.layout.item_list_only_imageview_two, false)
+        adapter.singleTypeRefresh(list, R.layout.item_list_only_imageview_two, false,false)
         vpgList.setViewData(list.size, adapter)
     }
 }

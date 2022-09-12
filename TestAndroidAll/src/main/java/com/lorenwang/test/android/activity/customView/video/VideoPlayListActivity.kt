@@ -81,6 +81,6 @@ class VideoPlayListActivity : BaseActivity() {
             "https://vd3.bdstatic.com/mda-km8k0uch7k59utyn/hd/cae_h264_clips/1607494739/mda-km8k0uch7k59utyn.mp4?auth_key=1611204600-0-0-a59fe1971e64344df5a2118d879e138f&bcevod_channel=searchbox_feed&pd=1&pt=3&abtest=all")
         list.add(
             "https://vd4.bdstatic.com/mda-maij357di5n93k1n/hd/mda-maij357di5n93k1n.mp4?auth_key=1611204649-0-0-6c408e73914cc5df8187388429b5b7f2&bcevod_channel=searchbox_feed&pd=1&pt=3&abtest=all")
-        adapter?.singleTypeRefresh(list, R.layout.item_custom_view_list_video_play, false)
+        adapter?.singleTypeRefresh(list, R.layout.item_custom_view_list_video_play, false,false)
     }
 }

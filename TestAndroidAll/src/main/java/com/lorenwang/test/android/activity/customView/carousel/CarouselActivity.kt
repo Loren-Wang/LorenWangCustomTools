@@ -74,12 +74,12 @@ class CarouselActivity : BaseListActivity<String>() {
         list.add(
             "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201511%2F12%2F20151112144901_etMf5.thumb.700_0.jpeg&refer=http%3A%2F%2Fcdn.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1616165582&t=200566ad259e61316d5fee689dc33c4c")
 
-        adapter.singleTypeRefresh(list, R.layout.item_list_only_imageview_two, false)
+        adapter.singleTypeRefresh(list, R.layout.item_list_only_imageview_two, false,false)
 
     }
 
 
-    override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseBindingRecyclerViewHolder<String, ItemListOnlyImageviewTwoBinding> {
+    fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseBindingRecyclerViewHolder<String, ItemListOnlyImageviewTwoBinding> {
         return object : AcbflwBaseBindingRecyclerViewHolder<String, ItemListOnlyImageviewTwoBinding>(itemView) {
             override fun setViewData(activity: Activity, model: String?, position: Int) {
                 binding?.imgPic?.acbflwLoadNetImageConfig(model)

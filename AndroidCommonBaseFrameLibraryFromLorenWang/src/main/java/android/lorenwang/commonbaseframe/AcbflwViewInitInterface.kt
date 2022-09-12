@@ -71,4 +71,9 @@ interface AcbflwViewInitInterface {
      */
     fun showContentView()
 
+    /**
+     * 执行刷新数据
+     */
+    fun onRefreshData()
+
 }

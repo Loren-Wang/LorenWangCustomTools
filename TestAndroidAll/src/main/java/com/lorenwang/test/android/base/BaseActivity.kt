@@ -1,7 +1,7 @@
 package com.lorenwang.test.android.base
 
 import android.graphics.Color
-import android.lorenwang.commonbaseframe.AcbflwBaseActivity
+import android.lorenwang.commonbaseframe.mvp.AcbflwBaseActivity
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
 import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.view.ViewStub

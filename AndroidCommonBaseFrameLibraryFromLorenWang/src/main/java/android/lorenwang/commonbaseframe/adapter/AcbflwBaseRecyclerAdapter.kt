@@ -3,8 +3,8 @@ package android.lorenwang.commonbaseframe.adapter
 import android.app.Activity
 import android.lorenwang.commonbaseframe.R
 import android.lorenwang.commonbaseframe.bean.AcbflwPageShowViewDataBean
-import android.lorenwang.commonbaseframe.list.AcbflwBaseListDataOptionsDecorator
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
@@ -37,7 +37,7 @@ import kotlinbase.lorenwang.tools.extend.kttlwEmptyCheck
  * 5、显示空数据布局
  * 6、清空数据列表
  */
-abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRecyclerViewHolder<T>>, AcbflwBaseListDataOptionsDecorator<T> {
+abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRecyclerViewHolder<T>> {
     /**
      * 显示的数据列表，内部使用
      */
@@ -74,7 +74,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      *
      * @return 数据列表
      */
-    override val adapterDataList: ArrayList<AcbflwBaseType<T>>
+    val adapterDataList: ArrayList<AcbflwBaseType<T>>
         get() = dataList
 
     /**
@@ -117,6 +117,8 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
         return getListViewHolder(viewType, itemView)
     }
 
+    abstract fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<T>
+
     override fun onBindViewHolder(holder: AcbflwBaseRecyclerViewHolder<T>, position: Int) {
         holder.adapter = this
         holder.setViewData(activity, dataList[position % if (dataList.size > 0) dataList.size else 1].bean, position)
@@ -133,7 +135,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
     /**
      * 清空数据列表
      */
-    override fun clear() {
+    open fun clear() {
         dataList.clear()
         notifyDataSetChanged()
     }
@@ -144,7 +146,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param list     数据列表
      * @param layoutId 布局id
      */
-    override fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
+    open fun singleTypeLoad(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
             for (t in list) {
                 if (t != null) {
@@ -162,7 +164,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      *
      * @param list basetype数据列表
      */
-    override fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
+    open fun multiTypeLoad(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean) {
         list?.let {
             this.dataList.addAll(list)
             loadFinish(showScrollEnd)
@@ -175,11 +177,11 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param list     数据列表
      * @param layoutId 布局id
      */
-    override fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
+    open fun singleTypeRefresh(list: List<T>?, layoutId: Int, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
         var status = false
         dataList.clear()
         list?.let {
-            if (list.isNullOrEmpty()) {
+            if (list.isEmpty()) {
                 showEmptyView(R.layout.acbflw_empty_view_data, null, false)
             } else {
                 showContentData()
@@ -198,7 +200,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      *
      * @param list basetype数据列表
      */
-    override fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
+    open fun multiTypeRefresh(list: List<AcbflwBaseType<T>>?, haveMoreData: Boolean, showScrollEnd: Boolean): Boolean {
         var status = false
         dataList.clear()
         if (list != null && list.isNotEmpty()) {
@@ -217,7 +219,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
     /**
      * 设置显示内容
      */
-    override fun showContentData(): Boolean {
+    open fun showContentData(): Boolean {
         dataList.clear()
         notifyDataSetChanged()
         return true
@@ -228,7 +230,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param data 列表通用数据加载
      * @param showScrollEnd 是否显示滑动结束
      */
-    override fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean): Boolean {
+    open fun setListShowData(data: AcbflwPageShowViewDataBean<AcbflwBaseType<T>>?, showScrollEnd: Boolean): Boolean {
         var status = false
         data.kttlwEmptyCheck({
             showEmptyView(R.layout.acbflw_empty_view_data, null, false)
@@ -256,7 +258,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param itemLayoutRes 列表item布局资源
      * @param showScrollEnd 是否显示滑动结束
      */
-    override fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, itemLayoutRes: Int, showScrollEnd: Boolean): Boolean {
+    open fun setListShowData(data: AcbflwPageShowViewDataBean<T>?, itemLayoutRes: Int, showScrollEnd: Boolean): Boolean {
         var status = false
         data.kttlwEmptyCheck({
             showEmptyView(R.layout.acbflw_empty_view_data, null, false)
@@ -284,7 +286,7 @@ abstract class AcbflwBaseRecyclerAdapter<T> : RecyclerView.Adapter<AcbflwBaseRec
      * @param layoutId 布局资源id
      * @param desc     空视图实例
      */
-    override fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean): Boolean {
+    open fun showEmptyView(layoutId: Int, desc: T?, haveMoreData: Boolean): Boolean {
         dataList.clear()
         dataList.add(AcbflwBaseType(layoutId, desc))
         notifyDataSetChanged()

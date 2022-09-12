@@ -16,7 +16,7 @@ buildscript {
         moduleVersion = [
                 anim                     : "2.0.1-alpha01",
                 android_bluetooth        : "1.0.0",
-                android_frame            : "4.0.0-alpha03",
+                android_frame            : "4.0.0-alpha04",
                 android_tools            : "4.0.0-alpha04",
                 android_view             : "4.0.0-alpha02",
                 android_camera           : "1.0.0-alpha01",

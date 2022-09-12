@@ -47,7 +47,7 @@ class RecycleItemDecorationActivity : BaseActivity() {
         for (index in 0..100) {
             list.add("")
         }
-        adapter.singleTypeLoad(list, R.layout.item_list_only_imageview, false)
+//        adapter.singleTypeLoad(list, R.layout.item_list_only_imageview, false)
         rvList.adapter = adapter
 
     }

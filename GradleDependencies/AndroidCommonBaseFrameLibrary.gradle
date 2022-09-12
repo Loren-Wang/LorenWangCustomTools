@@ -28,9 +28,6 @@ dependencies {
     // liveData
     compileOnly "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
     compileOnly 'com.squareup.okhttp3:okhttp:4.2.2'
-    compileOnly 'io.github.scwang90:refresh-layout-kernel:2.0.5'      //核心必须依赖
-    compileOnly 'io.github.scwang90:refresh-header-classics:2.0.5'    //经典刷新头
-    compileOnly 'io.github.scwang90:refresh-footer-classics:2.0.5'    //经典加载
     //微信开放平台
     //noinspection GradleDynamicVersion
     compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
@@ -48,6 +45,4 @@ dependencies {
     compileOnly "com.github.loren-wang:AndroidAnimFromLorenWang:${rootProject.ext.moduleVersion.anim}"
     //kotlin工具框架库
     compileOnly "com.github.loren-wang:AndroidKotlinCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.kotlin_android_tools}"
-    //列表数据加载
-    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
 }

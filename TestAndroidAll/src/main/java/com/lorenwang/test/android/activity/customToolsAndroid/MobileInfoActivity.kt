@@ -72,7 +72,7 @@ class MobileInfoActivity : BaseActivity() {
             when (view.id) {
                 R.id.btn_contact -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), 231432,object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().allContacts.let {
@@ -89,7 +89,7 @@ class MobileInfoActivity : BaseActivity() {
                 }
                 R.id.btn_system_msg -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), 123123,object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().systemSms.let {
@@ -110,7 +110,7 @@ class MobileInfoActivity : BaseActivity() {
                 }
                 R.id.btn_all_sms -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), 33123,object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().allSms.let {
@@ -165,7 +165,7 @@ class MobileInfoActivity : BaseActivity() {
                 R.id.btn_open_camera -> {
                     appendText("开启相机前权限请求")
                     AtlwActivityUtil.getInstance().goToRequestPermissions(this,
-                        arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),12312,
                         object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
@@ -181,7 +181,7 @@ class MobileInfoActivity : BaseActivity() {
                 R.id.btn_open_photos -> {
                     appendText("开启相册前权限请求")
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),21321,
                             object : AtlwPermissionRequestCallback {
                                 @SuppressLint("MissingPermission")
                                 override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {

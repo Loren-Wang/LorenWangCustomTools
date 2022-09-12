@@ -204,7 +204,7 @@ public class AvlwVideoPlayView extends SurfaceView {
             if (wifiAutoPlay) {
                 //自动播放逻辑处理
                 if (getContext() instanceof Activity) {
-                    AtlwActivityUtil.getInstance().goToRequestPermissions(getContext(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
+                    AtlwActivityUtil.getInstance().goToRequestPermissions(getContext(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, 1,
                             new AtlwPermissionRequestCallback() {
                                 @SuppressLint("MissingPermission")
                                 @Override

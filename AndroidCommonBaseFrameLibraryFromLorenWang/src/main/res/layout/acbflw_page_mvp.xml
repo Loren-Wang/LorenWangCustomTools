@@ -14,43 +14,37 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/sfAcbflwRefresh"
+    <FrameLayout
+        android:id="@+id/flAcbflwContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <FrameLayout
-            android:id="@+id/flAcbflwContent"
+        <!--内容数据-->
+        <View
+            android:id="@+id/vsbAcbflwContent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
-            <!--内容数据-->
-            <View
-                android:id="@+id/vsbAcbflwContent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                tools:visibility="visible" />
+        <!--空数据-->
+        <View
+            android:id="@+id/vsbAcbflwEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
-            <!--空数据-->
-            <View
-                android:id="@+id/vsbAcbflwEmpty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                tools:visibility="visible" />
+        <!--阴影-->
+        <View
+            android:id="@+id/viewAcbflwHeadViewShadow"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/avlw_shape_shadow_down"
+            android:visibility="gone" />
 
-            <!--阴影-->
-            <View
-                android:id="@+id/viewAcbflwHeadViewShadow"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/avlw_shape_shadow_down"
-                android:visibility="gone" />
-
-        </FrameLayout>
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </FrameLayout>
 
     <!--底部操作栏-->
     <View

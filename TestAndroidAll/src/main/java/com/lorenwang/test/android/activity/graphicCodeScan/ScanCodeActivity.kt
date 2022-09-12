@@ -13,7 +13,6 @@ import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.lorenwang.tools.base.AtlwLogUtil
 import android.lorenwang.tools.file.AtlwFileOptionUtil
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.TextView
 import android.widget.Toast
 import com.lorenwang.test.android.R
@@ -29,7 +28,7 @@ class ScanCodeActivity : BaseActivity() {
         addContentView(R.layout.activity_scan_code)
         //请求权限
         AtlwActivityUtil.getInstance().goToRequestPermissions(this,
-            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 123123,
             object : AtlwPermissionRequestCallback {
                 override fun permissionRequestFailCallback(permissionList: MutableList<String>?) {
                 }
@@ -41,12 +40,16 @@ class ScanCodeActivity : BaseActivity() {
                     //设置裁剪扫描区域
 //                        scan.setScanCropView(viewScan)
                     surfaceView.setAgcslwScan(scan)
+                    surfaceView.resetViews()
                     //开启扫描
-                    scan.startScan(this@ScanCodeActivity, surfaceView.surfaceView)
+                    scan.startScan(this@ScanCodeActivity, surfaceView.surfaceView, true, true, true, true, true)
                     //扫描结果回调
-                    scan.setScanResultCallback(object : AgcslwScanResultCallback() {
+                    scan.setScanResultCallback(object : AgcslwScanResultCallback {
                         private var toast: Toast? = null
                         override fun permissionRequestFail(vararg permissions: String?) {
+                        }
+
+                        override fun scanPhotoAlbumImageError(path: String?, isPathNotExists: Boolean, isScanDecodeError: Boolean) {
                         }
 
                         override fun cameraInitError() {
@@ -72,6 +75,10 @@ class ScanCodeActivity : BaseActivity() {
                                     viewScan.setImageBitmap(it)
                                 }
                             }
+                        }
+
+                        override fun scanDecodeError() {
+
                         }
                     })
                 }

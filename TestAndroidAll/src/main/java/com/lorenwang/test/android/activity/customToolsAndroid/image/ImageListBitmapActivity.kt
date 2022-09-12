@@ -68,7 +68,7 @@ class ImageListBitmapActivity : com.lorenwang.test.android.base.BaseListActivity
                                 .addWatermarkBitmap(it, 12, Color.argb((255 * 0.6F).toInt(), 0, 255, 0), "仅供身份认证使用", it.width, it.height, 45))
                         }
                     }
-                    singleTypeLoad(list, R.layout.item_list_only_imageview, false)
+//                    singleTypeLoad(list, R.layout.item_list_only_imageview, false)
 
 
 //                    singleTypeRefresh(map?.values?.toList(), R.layout.item_list_only_imageview, false)
@@ -82,12 +82,12 @@ class ImageListBitmapActivity : com.lorenwang.test.android.base.BaseListActivity
                 val watermarkBitmap = AtlwImageCommonUtil.getInstance()
                     .addWatermarkBitmap(bitmap.copy(bitmap.config, true), 12, Color.argb((255 * 0.35).toInt(), 0, 0, 255), "剩的饭发撒剪短发", bitmap.width,
                         bitmap.height, 45)
-                singleTypeLoad(arrayListOf(watermarkBitmap), R.layout.item_list_only_imageview, false)
+//                singleTypeLoad(arrayListOf(watermarkBitmap), R.layout.item_list_only_imageview, false)
             }
         }
     }
 
-    override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<Bitmap?> {
+    fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<Bitmap?> {
         return object : AcbflwBaseRecyclerViewHolder<Bitmap?>(itemView) {
             override fun setViewData(activity: Activity, model: Bitmap?, position: Int) {
                 model?.let { bottom ->

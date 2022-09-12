@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinbase.lorenwang.tools.extend.kttlwToGone
 import kotlinbase.lorenwang.tools.extend.kttlwToVisible
 
@@ -49,11 +48,6 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
      */
     protected var mEmptyView: View? = null
 
-    /**
-     * 刷新控件
-     */
-    protected val mRefreshView: SmartRefreshLayout by lazy { mFragmentView.findViewById(R.id.sfAcbflwRefresh) }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mFragmentView = inflater.inflate(R.layout.acbflw_page_mvp, null)
         return mFragmentView
@@ -61,10 +55,6 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mRefreshView.setEnableRefresh(false)
-        mRefreshView.setEnableLoadMore(false)
-        mRefreshView.isEnabled = false
-        mRefreshView.setOnRefreshListener { onRefreshData() }
         initView(savedInstanceState)
         initListener(savedInstanceState)
         initData(savedInstanceState)

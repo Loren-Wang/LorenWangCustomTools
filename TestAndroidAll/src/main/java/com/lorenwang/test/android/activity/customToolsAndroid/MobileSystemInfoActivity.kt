@@ -31,7 +31,7 @@ class MobileSystemInfoActivity : BaseActivity() {
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
         AtlwActivityUtil.getInstance()
-            .goToRequestPermissions(this, arrayOf(android.Manifest.permission.READ_PHONE_STATE,), object : AtlwPermissionRequestCallback {
+            .goToRequestPermissions(this, arrayOf(android.Manifest.permission.READ_PHONE_STATE,), 1231,object : AtlwPermissionRequestCallback {
                 @SuppressLint("MissingPermission")
                 override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                     findViewById<TextView>(R.id.tv_show).apply {

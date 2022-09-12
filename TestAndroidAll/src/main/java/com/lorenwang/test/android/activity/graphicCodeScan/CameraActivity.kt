@@ -1,24 +1,16 @@
 package com.lorenwang.test.android.activity.graphicCodeScan
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.hardware.camera2.*
+import android.hardware.camera2.CameraCaptureSession
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CaptureRequest
+import android.hardware.camera2.CaptureResult
 import android.lorenwang.camera.AclwCamera
 import android.lorenwang.camera.AclwCameraCallback
-import android.lorenwang.graphic_code_scan.AgcslwCamera
-import android.lorenwang.graphic_code_scan.AgcslwCameraOptionsCallback
-import android.lorenwang.tools.app.AtlwActivityUtil
-import android.lorenwang.tools.app.AtlwPermissionRequestCallback
-import android.lorenwang.tools.base.AtlwLogUtil
 import android.os.Bundle
 import android.view.Surface
-import android.view.View
-import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.databinding.ActivityGraphicCodeCameraBinding
-import javabase.lorenwang.tools.file.JtlwFileOptionUtil
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
-import java.io.File
 
 /**
  * 功能作用：图形码之相机页面

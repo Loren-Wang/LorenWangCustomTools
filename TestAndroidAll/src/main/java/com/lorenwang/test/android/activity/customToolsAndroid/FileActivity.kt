@@ -63,7 +63,7 @@ class FileActivity : BaseActivity() {
             //手机系统存储根目录
             val baseStorageDirPath = AtlwFileOptionUtil.getInstance().baseStorageDirPath
             AtlwActivityUtil.getInstance()
-                .goToRequestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+                .goToRequestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),21312,
                     object : AtlwPermissionRequestCallback {
                         override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                             when (view.id) {

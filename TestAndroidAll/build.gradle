@@ -168,7 +168,7 @@ dependencies {
     api 'com.shuyu:GSYVideoPlayer:7.1.5'
 
     //层叠画廊显示
-    api 'com.chenlittleping:recyclercoverflow:1.1.0'
+    api 'com.chenlittleping:recyclercoverflow:1.1.0' //列表数据加载
 
 }
 repositories {

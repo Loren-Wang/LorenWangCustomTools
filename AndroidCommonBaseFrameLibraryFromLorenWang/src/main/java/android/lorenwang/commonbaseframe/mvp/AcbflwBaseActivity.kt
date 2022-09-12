@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.sina.weibo.sdk.common.UiError
 import com.sina.weibo.sdk.share.WbShareCallback
 import javabase.lorenwang.dataparse.JdplwJsonUtil
@@ -55,10 +54,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
      */
     protected var mEmptyView: View? = null
 
-    /**
-     * 刷新控件
-     */
-    protected val mRefreshView: SmartRefreshLayout by lazy { findViewById(R.id.sfAcbflwRefresh) }
 
     /**
      * 上一个显示的fragment
@@ -69,10 +64,6 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
         initCreateSuperBefore(savedInstanceState)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.acbflw_page_mvp)
-        mRefreshView.setEnableRefresh(false)
-        mRefreshView.setEnableLoadMore(false)
-        mRefreshView.isEnabled = false
-        mRefreshView.setOnRefreshListener { onRefreshData() }
         initView(savedInstanceState)
         initListener(savedInstanceState)
         initData(savedInstanceState)
