@@ -1,6 +1,7 @@
 package android.lorenwang.commonbaseframe;
 
 import android.content.Intent;
+import android.lorenwang.commonbaseframe.mvp.AcbflwBaseActivity;
 import android.lorenwang.commonbaseframe.network.AcbflwNetworkManager;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum;

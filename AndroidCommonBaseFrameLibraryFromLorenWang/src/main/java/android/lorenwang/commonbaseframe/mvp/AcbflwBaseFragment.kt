@@ -1,6 +1,6 @@
-package android.lorenwang.commonbaseframe
+package android.lorenwang.commonbaseframe.mvp
 
-import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
+import android.lorenwang.commonbaseframe.R
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -55,7 +55,7 @@ abstract class AcbflwBaseFragment : Fragment(), AcbflwBaseView {
     protected val mRefreshView: SmartRefreshLayout by lazy { mFragmentView.findViewById(R.id.sfAcbflwRefresh) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mFragmentView = inflater.inflate(R.layout.acbflw_page_base, null)
+        mFragmentView = inflater.inflate(R.layout.acbflw_page_mvp, null)
         return mFragmentView
     }
 

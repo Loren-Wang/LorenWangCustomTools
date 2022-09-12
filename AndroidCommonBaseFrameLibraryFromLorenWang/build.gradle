@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
-apply plugin: 'kotlin-kapt'
 //必须引入这几个插件
 apply plugin: 'maven'
 apply plugin: 'signing'
@@ -54,12 +52,6 @@ android {
     }
 
 }
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-}
-
 //导入包
 apply from: '../GradleDependencies/AndroidCommonBaseFrameLibrary.gradle'
 //上传配置

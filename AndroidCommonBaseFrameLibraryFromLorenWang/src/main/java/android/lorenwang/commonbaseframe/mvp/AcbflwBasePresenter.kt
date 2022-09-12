@@ -109,7 +109,7 @@ abstract class AcbflwBasePresenter<V : AcbflwBaseView>(var baseView: V) {
     fun downLoadFile(context: Context, downLoadFile: AcbflwFileDownLoadBean, callback: AcbflwFileDownLoadCallback) {
         AtlwActivityUtil.getInstance()
             .goToRequestPermissions(context, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
-                 object : AtlwPermissionRequestCallback {
+                (Math.random() * 1000).toInt(), object : AtlwPermissionRequestCallback {
                     override fun permissionRequestSuccessCallback(p0: MutableList<String>?) {
                         //权限申请通过，开始下载文件
                         getModel(AcbflwBaseModel::class.java).downloadFile(downLoadFile, callback)

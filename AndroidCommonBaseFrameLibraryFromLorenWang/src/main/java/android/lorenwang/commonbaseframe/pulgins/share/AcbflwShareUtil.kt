@@ -138,7 +138,7 @@ class AcbflwShareUtil private constructor() {
                         "/android")) + "/" + AtlwActivityUtil.getInstance().appName + "/" + if (shareDataBean.saveLocalImageName == null) System.currentTimeMillis()
                         .toString() + ".png" else shareDataBean.saveLocalImageName)
                     AtlwActivityUtil.getInstance().goToRequestPermissions(AcbflwBaseApplication.getCurrentShowActivity(),
-                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), (Math.random() * 1000).toInt(),
                         object : AtlwPermissionRequestCallback {
                             /**
                              * 请求成功权限列表

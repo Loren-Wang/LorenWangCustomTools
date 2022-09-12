@@ -13,8 +13,6 @@ import android.lorenwang.customview.video.AvlwVideoPlayManager;
 import android.lorenwang.tools.AtlwConfig;
 import android.os.Bundle;
 
-import com.alibaba.android.arouter.launcher.ARouter;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -237,10 +235,5 @@ public abstract class AcbflwBaseApplication extends Application {
      * @param buildType 构建类型
      */
     public void initSdk(int buildType) {
-        if (AcbflwBaseConfig.appCompileTypeIsDebug(buildType)) {
-            ARouter.openLog();     // 打印日志
-            ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
-        }
-        ARouter.init(this); // 尽可能早，推荐在Application中初始化
     }
 }

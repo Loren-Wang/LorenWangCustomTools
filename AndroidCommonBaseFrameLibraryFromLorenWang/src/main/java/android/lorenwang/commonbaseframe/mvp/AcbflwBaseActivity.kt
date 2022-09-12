@@ -1,7 +1,7 @@
-package android.lorenwang.commonbaseframe
+package android.lorenwang.commonbaseframe.mvp
 
 import android.content.Intent
-import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
+import android.lorenwang.commonbaseframe.R
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil
@@ -68,7 +68,7 @@ abstract class AcbflwBaseActivity : AppCompatActivity(), AcbflwBaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         initCreateSuperBefore(savedInstanceState)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.acbflw_page_base)
+        setContentView(R.layout.acbflw_page_mvp)
         mRefreshView.setEnableRefresh(false)
         mRefreshView.setEnableLoadMore(false)
         mRefreshView.isEnabled = false
