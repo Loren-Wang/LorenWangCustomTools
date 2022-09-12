@@ -7,24 +7,24 @@ buildscript {
         kotlin_version = '1.4.20'
         //构建配置
         buildConfig = [
-                compile_sdk_version: 31,
+                compile_sdk_version: 30,
                 build_tools_version: "30.0.2",
                 min_sdk_version    : 24,
-                target_sdk_version : 31
+                target_sdk_version : 30
         ]
         //module版本配置
         moduleVersion = [
                 anim                     : "2.0.1-alpha01",
                 android_bluetooth        : "1.0.0",
                 android_frame            : "4.0.0-alpha03",
-                android_tools            : "4.0.0-alpha03",
+                android_tools            : "4.0.0-alpha04",
                 android_view             : "4.0.0-alpha02",
                 android_camera           : "1.0.0-alpha01",
                 android_graphic_code_scan: "4.0.0-alpha02",
-                java_tools               : "4.0.0-alpha02",
+                java_tools               : "4.0.0-alpha03",
                 java_json_parse          : "3.0.0-alpha02",
-                java_net                 : "1.0.5-alpha02",
-                kotlin_java_tools        : "2.0.0-alpha04",
+                java_net                 : "1.0.5-alpha03",
+                kotlin_java_tools        : "2.0.0-alpha05",
                 kotlin_android_tools     : "2.0.0-alpha02",
                 spring_boot_tools        : "1.0.1-alpha01",
                 spring_boot_base         : "1.0.0-alpha09",
@@ -36,7 +36,7 @@ buildscript {
                 glide_version             : '4.12.0',
                 picasso_version           : '2.71828',
 
-                appcompat_version         : '1.4.0',
+                appcompat_version         : '1.1.0',
                 constraintlayout_version  : '2.0.1',
                 material_version          : '1.4.0',
                 gson_version              : '2.8.8',
@@ -90,6 +90,11 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
         google()
+    }
+    tasks.withType(Javadoc) {
+        enabled = false
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
     }
 }
 repositories {

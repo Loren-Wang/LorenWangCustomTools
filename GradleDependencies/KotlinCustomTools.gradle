@@ -1,12 +1,9 @@
-apply from: '../GradleDependencies/JavaCustomTools.gradle'
-apply from: '../GradleDependencies/JavaDataParse.gradle'
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     //swagger注释
     compileOnly "io.springfox:springfox-swagger2:${rootProject.ext.libVersion.springfox_swagger}"
     compileOnly "io.springfox:springfox-swagger-ui:${rootProject.ext.libVersion.springfox_swagger}"
-    //java工具类库
-    compileOnly "com.github.loren-wang:JavaCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.java_tools}"
-    //java数据格式化类库
-    compileOnly "com.github.loren-wang:JavaDataParseFromLorenWang:${rootProject.ext.moduleVersion.java_json_parse}"
+    //gson解析
+    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    testImplementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
 }

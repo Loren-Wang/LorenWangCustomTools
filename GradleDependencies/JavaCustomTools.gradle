@@ -1,4 +1,3 @@
-apply from: '../GradleDependencies/JavaDataParse.gradle'
 dependencies {
     //测试
     compileOnly "junit:junit:${rootProject.ext.libVersion.junit}"
@@ -6,4 +5,7 @@ dependencies {
     //日志打印框架
     compileOnly "org.slf4j:slf4j-api:${rootProject.ext.libVersion.slf4j}"
     compileOnly "org.slf4j:slf4j-log4j12:${rootProject.ext.libVersion.slf4j}"
+    //gson解析
+    compileOnly "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
+    testImplementation "com.google.code.gson:gson:${rootProject.ext.libVersion.gson_version}"
 }

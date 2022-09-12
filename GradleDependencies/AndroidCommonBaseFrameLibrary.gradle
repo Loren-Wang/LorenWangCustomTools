@@ -1,5 +1,7 @@
 apply from: '../GradleDependencies/AndroidCustomViews.gradle'
+apply from: '../GradleDependencies/AndroidCustomTools.gradle'
 apply from: '../GradleDependencies/AndroidKotlinCustomTools.gradle'
+apply from: '../GradleDependencies/AndroidCustomTools.gradle'
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.18'
     annotationProcessor 'org.projectlombok:lombok:1.18.18'
@@ -26,9 +28,6 @@ dependencies {
     // liveData
     compileOnly "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
     compileOnly 'com.squareup.okhttp3:okhttp:4.2.2'
-    //路由
-    compileOnly "com.alibaba:arouter-api:${rootProject.ext.libVersion.arouterVersion}"
-    kapt "com.alibaba:arouter-compiler:${rootProject.ext.libVersion.arouterVersion}"
     compileOnly 'io.github.scwang90:refresh-layout-kernel:2.0.5'      //核心必须依赖
     compileOnly 'io.github.scwang90:refresh-header-classics:2.0.5'    //经典刷新头
     compileOnly 'io.github.scwang90:refresh-footer-classics:2.0.5'    //经典加载
@@ -41,10 +40,14 @@ dependencies {
     compileOnly files('libs/openDefault-10.10.0.aar')
     //qq相关
     compileOnly 'com.tencent.tauth:qqopensdk:3.52.0'
+    //安卓工具类库
+    compileOnly "com.github.loren-wang:AndroidCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.android_tools}"
     //安卓自定义组件框架库
     compileOnly "com.github.loren-wang:AndroidCustomViewsFromLorenWang:${rootProject.ext.moduleVersion.android_view}"
     //安卓自定义动画框架库
     compileOnly "com.github.loren-wang:AndroidAnimFromLorenWang:${rootProject.ext.moduleVersion.anim}"
     //kotlin工具框架库
     compileOnly "com.github.loren-wang:AndroidKotlinCustomToolsFromLorenWang:${rootProject.ext.moduleVersion.kotlin_android_tools}"
+    //列表数据加载
+    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
 }
