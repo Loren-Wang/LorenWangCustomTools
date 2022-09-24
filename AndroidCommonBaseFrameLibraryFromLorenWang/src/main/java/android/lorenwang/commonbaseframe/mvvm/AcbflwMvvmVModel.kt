@@ -15,4 +15,4 @@ import androidx.lifecycle.ViewModel
  *
  * @author 王亮（Loren）
  */
-abstract class AcbflwVModel : ViewModel()
+abstract class AcbflwMvvmVModel : ViewModel()

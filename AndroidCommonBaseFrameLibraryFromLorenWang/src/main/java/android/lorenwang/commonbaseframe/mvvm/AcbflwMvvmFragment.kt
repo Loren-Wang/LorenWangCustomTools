@@ -51,7 +51,7 @@ import java.lang.reflect.ParameterizedType
  *
  * @author 王亮（Loren）
  */
-abstract class AcbflwFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragment(), AcbflwViewInitInterface {
+abstract class AcbflwMvvmFragment<VM : AcbflwMvvmVModel, VB : ViewBinding> : Fragment(), AcbflwViewInitInterface {
     protected lateinit var mViewModel: VM
     protected lateinit var mViewBinding: VB
 
@@ -59,6 +59,11 @@ abstract class AcbflwFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragment(),
      * 标题栏控件
      */
     protected var mTitlebar: View? = null
+
+    /**
+     * 内容控件
+     */
+    protected var mContentView: View? = null
 
     /**
      * 根目录view
@@ -189,7 +194,7 @@ abstract class AcbflwFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragment(),
         if (resId != null) {
             mRootView.findViewById<ViewStub>(R.id.vsb_acbflw_content)?.let {
                 it.layoutResource = resId
-                mViewBinding = ViewBinding { return@ViewBinding it.inflate() } as VB
+                mContentView = it.inflate()
             }
         } else {
             if (!isViewBindingInitialized()) {

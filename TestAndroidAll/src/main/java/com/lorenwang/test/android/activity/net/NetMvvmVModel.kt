@@ -1,5 +1,5 @@
 package com.lorenwang.test.android.activity.net
 
-import android.lorenwang.commonbaseframe.mvvm.AcbflwVModel
+import android.lorenwang.commonbaseframe.mvvm.AcbflwMvvmVModel
 
-class NetMvvmVModel:AcbflwVModel() {}
+class NetMvvmVModel:AcbflwMvvmVModel() {}

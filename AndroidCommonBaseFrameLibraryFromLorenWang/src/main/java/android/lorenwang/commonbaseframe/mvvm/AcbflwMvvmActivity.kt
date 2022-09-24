@@ -53,7 +53,7 @@ import java.lang.reflect.ParameterizedType
  *
  * @author 王亮（Loren）
  */
-abstract class AcbflwActivity<VM : AcbflwVModel, VB : ViewBinding> : AppCompatActivity(), AcbflwViewInitInterface {
+abstract class AcbflwMvvmActivity<VM : AcbflwMvvmVModel, VB : ViewBinding> : AppCompatActivity(), AcbflwViewInitInterface {
     protected lateinit var mViewModel: VM
     protected lateinit var mViewBinding: VB
 
@@ -61,6 +61,11 @@ abstract class AcbflwActivity<VM : AcbflwVModel, VB : ViewBinding> : AppCompatAc
      * 标题栏控件
      */
     protected var mTitlebar: View? = null
+
+    /**
+     * 内容控件
+     */
+    protected var mContentView: View? = null
 
     /**
      * 根目录view
@@ -184,7 +189,7 @@ abstract class AcbflwActivity<VM : AcbflwVModel, VB : ViewBinding> : AppCompatAc
         if (resId != null) {
             mRootView.findViewById<ViewStub>(R.id.vsb_acbflw_content)?.let {
                 it.layoutResource = resId
-                mViewBinding = ViewBinding { return@ViewBinding it.inflate() } as VB
+                mContentView = it.inflate()
             }
         } else {
             if (!isViewBindingInitialized()) {
@@ -308,19 +313,19 @@ abstract class AcbflwActivity<VM : AcbflwVModel, VB : ViewBinding> : AppCompatAc
             it.doResultIntent(data, object : WbShareCallback {
                 override fun onComplete() {
                     AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT)
-                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwActivity))
+                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwMvvmActivity))
                 }
 
                 override fun onError(p0: UiError?) {
                     AtlwLogUtil.logUtils.logI("shareToSina", JdplwJsonUtil.toJson(p0))
                     AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT)
-                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwActivity),
+                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwMvvmActivity),
                             AcbflwPluginErrorTypeEnum.SHARE_FAIL)
                 }
 
                 override fun onCancel() {
                     AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT)
-                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwActivity),
+                        ?.callBackInfo(AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.SINA)?.sinaKey(this@AcbflwMvvmActivity),
                             AcbflwPluginErrorTypeEnum.SHARE_CANCEL)
                 }
             })
