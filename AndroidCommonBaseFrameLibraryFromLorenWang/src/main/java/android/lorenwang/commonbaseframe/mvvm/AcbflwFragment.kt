@@ -1,6 +1,5 @@
 package android.lorenwang.commonbaseframe.mvvm
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.lorenwang.commonbaseframe.AcbflwMenuItemModel
@@ -12,17 +11,17 @@ import android.lorenwang.commonbaseframe.extension.setViewToVisible
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil
+import android.lorenwang.tools.AtlwConfig
 import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwScreenUtil
 import android.lorenwang.tools.base.AtlwLogUtil
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,10 +29,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.contains
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewbinding.ViewBinding
 import com.sina.weibo.sdk.common.UiError
 import com.sina.weibo.sdk.share.WbShareCallback
 import javabase.lorenwang.dataparse.JdplwJsonUtil
+import kotlinbase.lorenwang.tools.extend.kttlwFormatConversion
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 import java.lang.reflect.ParameterizedType
 
@@ -50,29 +51,72 @@ import java.lang.reflect.ParameterizedType
  *
  * @author 王亮（Loren）
  */
-abstract class AcbflwBaseFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragment(), AcbflwViewInitInterface {
+abstract class AcbflwFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragment(), AcbflwViewInitInterface {
     protected lateinit var mViewModel: VM
     protected lateinit var mViewBinding: VB
-    private var mTitlebar: View? = null
+
+    /**
+     * 标题栏控件
+     */
+    protected var mTitlebar: View? = null
+
+    /**
+     * 根目录view
+     */
+    private lateinit var mRootView: ConstraintLayout
+
+    /**
+     * 刷新控件
+     */
+    private lateinit var mRefreshView: SwipeRefreshLayout
+
+    /**
+     * 内容父控件
+     */
+    private lateinit var mFlContentView: FrameLayout
+
+    /**
+     * 标题栏父控件
+     */
+    private lateinit var mFlTitleBarView: FrameLayout
 
     /**
      * 空视图view
      */
     private var mEmptyView: View? = null
 
-    /**
-     * 根目录view
-     */
-    private var mRootView: ViewGroup? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         initCreateSuperBefore(savedInstanceState)
         super.onCreate(savedInstanceState)
-        initViewBinding()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        initViewBinding()
+        mRootView = inflater.inflate(R.layout.acbflw_page_base, container).findViewById(R.id.cl_acbflw_base_continer)
+        mRefreshView = mRootView.findViewById(R.id.sf_Acbflw_refresh)
+        mFlContentView = mRootView.findViewById(R.id.fl_acbflw_content)
+        mFlTitleBarView = mRootView.findViewById(R.id.fl_title_bar)
+        mRefreshView.setOnRefreshListener { onRefreshData() }
+        //是否全屏逻辑处理
+        if (fitsSystemWindows()) {
+            requireActivity().window.statusBarColor = Color.TRANSPARENT
+            if (mFlTitleBarView.layoutParams is ConstraintLayout.LayoutParams) {
+                (mFlTitleBarView.layoutParams as ConstraintLayout.LayoutParams).topMargin = AtlwScreenUtil.getInstance().statusBarHeight
+            }
+            mRefreshView.layoutParams = ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        } else {
+            if (mFlTitleBarView.layoutParams is ConstraintLayout.LayoutParams) {
+                (mFlTitleBarView.layoutParams as ConstraintLayout.LayoutParams).topMargin = 0
+            }
+            mRefreshView.layoutParams.kttlwFormatConversion<ConstraintLayout.LayoutParams>()?.let { params ->
+                params.height = 0
+                params.topToBottom = mFlTitleBarView.id
+                params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                mRefreshView.layoutParams = params
+            }
+        }
+        setTitleBarViewConfig()
+        setContentViewConfig()
+        setEmptyViewConfig()
         return mRootView
     }
 
@@ -92,23 +136,87 @@ abstract class AcbflwBaseFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragmen
         mTitlebar?.findViewById<AppCompatTextView>(R.id.base_toolbar_title)?.text = title
     }
 
-    override fun getTitleBarView(): View? {
-        return (layoutInflater.inflate(R.layout.acbflw_layout_titlebar, null) as ViewGroup).apply {
-            if (this is Toolbar) {
-                //设置titlebar 返回按钮，取值navigationIcon
-                setNavigationIcon(R.drawable.picture_icon_back_arrow)
-                setNavigationOnClickListener {
-                    requireActivity().onBackPressed()
-                }
-            }
-        }
-    }
-
     override fun initCreateSuperBefore(savedInstanceState: Bundle?) {
         //解决部分机型 内容区域被底部导航栏遮挡的问题，注意activity和fragment 都设置的情况，暂未发现异常
         if (fitsSystemWindows()) {
             requireActivity().window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+    }
+
+    /**
+     * 设置标题栏控件配置
+     */
+    override fun setTitleBarViewConfig(@LayoutRes resId: Int?) {
+        if (resId != null) {
+            mRootView.findViewById<ViewStub>(R.id.vsb_title_bar_head_view).let {
+                it.layoutResource = resId
+                mTitlebar = it.inflate()
+            }
+        }
+        mTitlebar?.let {
+            if (it is Toolbar) {
+                //设置titlebar 返回按钮，取值navigationIcon
+                it.setNavigationIcon(R.drawable.picture_icon_back_arrow)
+                it.setNavigationOnClickListener { requireActivity().onBackPressed() }
+                it.findViewById<TextView>(R.id.base_toolbar_title)?.also { textView ->
+                    if (textView.text.toString().isEmpty()) {
+                        textView.text = requireActivity().title
+                    }
+                }
+                //设置titlebar背景色，取值colorPrimary
+                val typedValue = TypedValue()
+                if (requireActivity().theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true)) {
+                    it.setBackgroundColor(ContextCompat.getColor(AtlwConfig.nowApplication, typedValue.resourceId))
+                } else {
+                    it.setBackgroundColor(Color.TRANSPARENT)
+                }
+            }
+            if (resId == null && mTitlebar != null) {
+                mFlTitleBarView.removeAllViews()
+                mFlTitleBarView.addView(mTitlebar, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+            }
+            if (fitsSystemWindows()) {
+                it.setBackgroundColor(Color.TRANSPARENT)
+            }
+        }
+    }
+
+    /**
+     * 设置内容控件配置
+     */
+    override fun setContentViewConfig(@LayoutRes resId: Int?) {
+        if (resId != null) {
+            mRootView.findViewById<ViewStub>(R.id.vsb_acbflw_content)?.let {
+                it.layoutResource = resId
+                mViewBinding = ViewBinding { return@ViewBinding it.inflate() } as VB
+            }
+        } else {
+            if (!isViewBindingInitialized()) {
+                try {
+                    val type = javaClass.genericSuperclass as ParameterizedType
+                    val aClass = type.actualTypeArguments[1] as Class<*>
+                    val method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
+                    mViewBinding = method.invoke(null, layoutInflater) as VB
+                } catch (ignore: Exception) {
+                }
+            }
+            if (isViewBindingInitialized()) {
+                mFlContentView.addView(mViewBinding.root, 0)
+            }
+        }
+    }
+
+    /**
+     * 设置空显示控件配置
+     */
+    override fun setEmptyViewConfig(@LayoutRes resId: Int?) {
+        if (resId != null) {
+            mRootView.findViewById<ViewStub>(R.id.vsb_acbflw_empty).let {
+                it.layoutResource = resId
+                mEmptyView = it.inflate()
+                mEmptyView.setViewToGone()
+            }
         }
     }
 
@@ -142,24 +250,21 @@ abstract class AcbflwBaseFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragmen
         (mTitlebar as Toolbar?)?.menu?.clear()
     }
 
+
     /**
      * 显示空视图
      */
-    override fun showEmptyView(view: View?) {
+    override fun <T> showEmptyView(view: View?, data: T?) {
         if (view != null) {
             mEmptyView = view
         }
         if (mEmptyView != null) {
             mViewBinding.root.setViewToInvisible()
-            if (mRootView?.contains(mEmptyView!!).kttlwGetNotEmptyData { false }) {
+            if (mFlContentView.contains(mEmptyView!!).kttlwGetNotEmptyData { false }) {
                 mEmptyView.setViewToVisible()
             } else {
-                mRootView?.addView(mEmptyView, ConstraintLayout.LayoutParams(0, 0).apply {
-                    leftToLeft = mViewBinding.root.id
-                    topToTop = mViewBinding.root.id
-                    rightToRight = mViewBinding.root.id
-                    bottomToBottom = mViewBinding.root.id
-                })
+                mFlContentView.addView(mEmptyView, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                mEmptyView.setViewToVisible()
             }
         }
     }
@@ -172,72 +277,6 @@ abstract class AcbflwBaseFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragmen
         mEmptyView?.setViewToGone()
     }
 
-    /**
-     * 获取标题栏
-     */
-    fun getTitleBar() = mTitlebar
-
-    private fun initViewBinding() {
-        mViewBinding = getViewBinding()
-        //随机生成一个id使用，如果没有的话，为了当需要id时无法使用的问题
-        if (mViewBinding.root.id == -1) {
-            mViewBinding.root.id = (Math.random() * -100000).toInt()
-        }
-        mRootView = (layoutInflater.inflate(R.layout.acbflw_page_mvp, null) as ViewGroup).apply {
-            mTitlebar = getTitleBarView()?.also {
-                if (it is Toolbar) {
-                    it.findViewById<TextView>(R.id.base_toolbar_title)?.also { textView ->
-                        if (textView.text.toString().isEmpty()) {
-                            textView.text = (context as? Activity)?.title
-                        }
-                    }
-                    if (it.parent == null) {
-                        this.addView(it, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AtlwScreenUtil.getInstance().actionBarSize))
-                    } else {
-                        it.layoutParams.height = AtlwScreenUtil.getInstance().actionBarSize
-                    }
-                    //设置titlebar背景色，取值colorPrimary
-                    val typedValue = TypedValue()
-                    if (requireActivity().theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true)) {
-                        it.setBackgroundColor(ContextCompat.getColor(context, typedValue.resourceId))
-                    }
-                } else {
-                    if (it.parent == null) {
-                        addView(it, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-                    } else {
-                        it.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                    }
-                }
-                mTitlebar = it
-            }
-            //添加内容区域view
-            addView(mViewBinding.root, 0, ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0).apply {
-                if (mTitlebar != null) topToBottom = mTitlebar!!.id
-                else topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-                leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID
-                rightToRight = ConstraintLayout.LayoutParams.PARENT_ID
-                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-            })
-        }
-        if (fitsSystemWindows()) {
-            requireActivity().window.statusBarColor = Color.TRANSPARENT
-            //当设置为内容延伸至状态栏时，titleBar默认不会延伸至状态栏，并且titleBar背景透明。
-            //如需titleBar也延伸至状态栏，可自定义titleBar[generateTitlebar]。
-            (mViewBinding.root.layoutParams as ConstraintLayout.LayoutParams).apply {
-                topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-                leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID
-                rightToRight = ConstraintLayout.LayoutParams.PARENT_ID
-            }
-            mTitlebar?.let {
-                it.setBackgroundColor(Color.TRANSPARENT)
-                if (it.layoutParams is ConstraintLayout.LayoutParams) {
-                    (it.layoutParams as ConstraintLayout.LayoutParams).topMargin = AtlwScreenUtil.getInstance().statusBarHeight
-                }
-            }
-        }
-    }
-
     override fun onDestroy() {
         AtlwActivityUtil.getInstance().setInputMethodVisibility(requireActivity(), mRootView, View.GONE)
         super.onDestroy()
@@ -247,16 +286,6 @@ abstract class AcbflwBaseFragment<VM : AcbflwVModel, VB : ViewBinding> : Fragmen
         val vbClass = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<*>>()
         val viewModel = vbClass[0] as Class<VM>
         mViewModel = ViewModelProvider(this)[viewModel]
-    }
-
-    /**
-     * 获取ViewBinding，框架自动处理
-     */
-    private fun getViewBinding(): VB {
-        val type = javaClass.genericSuperclass as ParameterizedType
-        val aClass = type.actualTypeArguments[1] as Class<*>
-        val method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
-        return method.invoke(null, layoutInflater) as VB
     }
 
     /**

@@ -2,7 +2,6 @@ package com.lorenwang.test.android.activity.splash
 
 import android.content.Intent
 import android.lorenwang.commonbaseframe.AcbflwBaseConfig.initBaseConfig
-import android.lorenwang.commonbaseframe.network.AcbflwNetworkManager.Companion.instance
 import android.lorenwang.tools.app.AtlwThreadUtil
 import android.os.Bundle
 import com.lorenwang.test.android.BuildConfig
@@ -24,23 +23,12 @@ import com.lorenwang.test.android.base.BaseActivity
  */
 class StartActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
 
-        //初始化网络请求
-        instance.initRetrofit(BuildConfig.APP_COMPILE_TYPE, "https://www.baidu.com", "", "", null, null, null)
-        //        //初始化插件参数
-        //        AcbflwPluginUtils.getInstance().initWeChatConfigInfo(
-        //                new AcbflwWeChatConfigInfoBean.Build()
-        //                        .setAppid("BuildConfig.WEIXIN_ID")
-        //                        .setWeChatApplyId("BuildConfig.WEIXIN_MINI")
-        //                        .setWeiChatSecret("BuildConfig.WEIXIN_SECRET")
-        //                        .setWeChatId("BuildConfig.WEIXIN_ID")
-        //                        .setCheckSignature(true)
-        //                        .build());
         //配置全局参数
         initBaseConfig(BuildConfig.APPLICATION_ID, R.mipmap.ic_launcher, R.mipmap.ic_launcher)
 

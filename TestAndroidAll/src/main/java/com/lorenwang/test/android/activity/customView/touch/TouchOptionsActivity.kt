@@ -23,8 +23,8 @@ import kotlinx.android.synthetic.main.activity_custom_view_touch_options.*
  * @author 王亮（Loren）
  */
 class TouchOptionsActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_touch_options)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_touch_options)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

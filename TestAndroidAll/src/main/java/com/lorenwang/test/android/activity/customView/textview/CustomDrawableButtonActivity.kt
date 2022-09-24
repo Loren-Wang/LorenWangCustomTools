@@ -9,8 +9,8 @@ import kotlinbase.lorenwang.tools.extend.kttlwThrottleClick
 class CustomDrawableButtonActivity : BaseActivity() {
     var change = false
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_custom_drawable_button)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_custom_drawable_button)
     }
 
     override fun initListener(savedInstanceState: Bundle?) {

@@ -1,7 +1,6 @@
 package com.lorenwang.test.android.activity.customView
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.activity.customView.carousel.CarouselActivity
@@ -10,13 +9,13 @@ import com.lorenwang.test.android.activity.customView.textview.MarqueeActivity
 import com.lorenwang.test.android.activity.customView.textview.ShowPriceTextViewActivity
 import com.lorenwang.test.android.activity.customView.textview.TimeShowActivity
 import com.lorenwang.test.android.activity.customView.titlebar.TitleBarHeadViewActivity
+import com.lorenwang.test.android.activity.customView.touch.TouchOptionsActivity
 import com.lorenwang.test.android.activity.customView.validation.ValidationActivity
 import com.lorenwang.test.android.activity.customView.video.VideoPlayActivity
 import com.lorenwang.test.android.activity.customView.video.VideoPlayListActivity
 import com.lorenwang.test.android.activity.customView.viewpager.BannerActivity
 import com.lorenwang.test.android.activity.customView.viewpager.FragmentAndBannerActivity
 import com.lorenwang.test.android.activity.customView.viewpager.ViewPager2Activity
-import com.lorenwang.test.android.activity.customView.touch.TouchOptionsActivity
 import com.lorenwang.test.android.base.BaseActivity
 
 /**
@@ -33,8 +32,8 @@ import com.lorenwang.test.android.base.BaseActivity
  * @author 王亮（Loren）
  */
 class CustomViewActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view)
     }
 
     fun mainClick(view: View?) {

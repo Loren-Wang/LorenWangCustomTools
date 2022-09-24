@@ -2,7 +2,7 @@ package android.lorenwang.commonbaseframe;
 
 import android.content.Intent;
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseActivity;
-import android.lorenwang.commonbaseframe.network.AcbflwNetworkManager;
+import android.lorenwang.commonbaseframe.network.AcbflwNetManager;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginErrorTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginTypeEnum;
 import android.lorenwang.commonbaseframe.pulgins.AcbflwPluginUtil;
@@ -21,6 +21,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
 import org.jetbrains.annotations.Nullable;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -42,15 +43,28 @@ import io.reactivex.schedulers.Schedulers;
 public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWXAPIEventHandler {
     private final String TAG = getClass().getName();
 
-    @Override public void hideBaseLoading() {
+    @Override
+    public void hideBaseLoading() {
 
     }
 
-    @Override public void initData(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
 
     }
 
-    @Override public void initView(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void initListener(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void initView(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onRefreshData() {
 
     }
 
@@ -59,20 +73,18 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
 
     }
 
-    @Override public void userLoginStatusError(@Nullable Object code, @Nullable String message) {
+    @Override
+    public <T> void netReqSuccess(int netOptionReqCode, T data, @Nullable String result) {
 
     }
 
-
-    @Override public <T> void netReqSuccess(int netOptionReqCode, T data) {
-
-    }
-
-    @Override public void netReqFail(int netOptionReqCode, @Nullable String message) {
+    @Override
+    public void netReqFail(int netOptionReqCode, @NonNull String code, @Nullable String message) {
 
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //接收到分享以及登录的intent传递handleIntent方法，处理结果
         if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT) != null) {
@@ -80,7 +92,8 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
         }
     }
 
-    @Override protected void onNewIntent(Intent intent) {
+    @Override
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
         //接收到分享以及登录的intent传递handleIntent方法，处理结果
@@ -89,11 +102,13 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
         }
     }
 
-    @Override public void onReq(BaseReq baseReq) {
+    @Override
+    public void onReq(BaseReq baseReq) {
     }
 
     //请求回调结果处理
-    @Override public void onResp(BaseResp baseResp) {
+    @Override
+    public void onResp(BaseResp baseResp) {
         if (AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT) != null) {
             AtlwLogUtil.logUtils.logE(this.TAG, baseResp.getType() + "    " + baseResp.errCode + "    " + baseResp.errStr);
             if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
@@ -170,7 +185,8 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
         }
     }
 
-    @Override protected void onPause() {
+    @Override
+    protected void onPause() {
         overridePendingTransition(0, 0);
         super.onPause();
     }
@@ -181,7 +197,9 @@ public class AcbflwBaseWxEntryActivity extends AcbflwBaseActivity implements IWX
             String url = "https://api.weixin.qq.com/sns/oauth2/access_token" + "?appid=" + AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT)
                     .getWeChatId() + "&secret=" + AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.WECHAT).getWeiChatSecret() + "&code=" + code +
                     "&grant_type=authorization_code";
-            AcbflwPluginApi api = AcbflwNetworkManager.getInstance().create(AcbflwPluginApi.class);
+            String key = "acbflw_wx";
+            AcbflwNetManager.resetNetwork(2, key, "", 30000L, null, null, null, false);
+            AcbflwPluginApi api = AcbflwNetManager.create(AcbflwPluginApi.class, key);
             if (api == null) {
                 AtlwLogUtil.logUtils.logI(TAG, "微信登陆接口调用异常");
                 AcbflwPluginUtil.getInstance(AcbflwPluginTypeEnum.DEFAULT).callBackError(

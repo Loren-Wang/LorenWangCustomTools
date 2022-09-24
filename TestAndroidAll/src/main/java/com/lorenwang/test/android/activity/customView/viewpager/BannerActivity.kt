@@ -7,15 +7,14 @@ import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.commonbaseframe.extension.acbflwLoadNetImageConfig
 import android.lorenwang.customview.viewpager.banner.AvlwBannerView
 import android.lorenwang.tools.image.loading.AtlwImageLoadConfig
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.databinding.ItemListOnlyImageviewTwoBinding
 
 class BannerActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_banner)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_banner)
 
         val list: MutableList<String> = ArrayList()
         list.add("http://img3.imgtn.bdimg.com/it/u=2464547320,3316604757&fm=26&gp=0.jpg")

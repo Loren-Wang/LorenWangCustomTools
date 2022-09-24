@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="显示结果内容" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_mvp_request_get_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="mvp网络请求-Get无参数" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_mvp_request_get"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="mvp网络请求-Get有参数" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_mvp_request_post_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="mvp网络请求-Post无参数" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_mvp_request_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="mvp网络请求-Post有参数" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

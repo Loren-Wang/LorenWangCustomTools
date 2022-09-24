@@ -1,7 +1,6 @@
 package com.lorenwang.test.android.activity.graphicCodeScan
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
@@ -20,8 +19,8 @@ import com.lorenwang.test.android.base.BaseActivity
  * @author 王亮（Loren）
  */
 class GraphicCodeActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_graphic_code)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_graphic_code)
     }
 
     fun mainClick(view: View?) {

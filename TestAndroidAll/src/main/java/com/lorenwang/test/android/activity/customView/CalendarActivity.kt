@@ -1,6 +1,5 @@
 package com.lorenwang.test.android.activity.customView
 
-import android.os.Bundle
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_custom_view_calendar.*
@@ -19,8 +18,8 @@ import kotlinx.android.synthetic.main.activity_custom_view_calendar.*
  * @author 王亮（Loren）
  */
 class CalendarActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_calendar)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_calendar)
         timeShow?.setShowMonthCount(3, 12)?.changeToNowMonth()?.setCalendarViewCallback { selectTimeOne, selectTimeTwo ->
             if (selectTimeOne == null) {
                 println("没有选择\n")

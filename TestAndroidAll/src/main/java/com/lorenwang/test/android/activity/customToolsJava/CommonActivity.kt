@@ -1,6 +1,5 @@
 package com.lorenwang.test.android.activity.customToolsJava
 
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
@@ -10,8 +9,8 @@ class CommonActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivityCustomToolsJavaCommonBinding
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_java_common)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_java_common)
         mBinding = ActivityCustomToolsJavaCommonBinding.bind(findViewById(R.id.root))
     }
 

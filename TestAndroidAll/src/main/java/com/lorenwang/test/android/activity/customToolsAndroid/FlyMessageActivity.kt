@@ -2,7 +2,6 @@ package com.lorenwang.test.android.activity.customToolsAndroid
 
 import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.lorenwang.tools.messageTransmit.AtlwFlyMessageUtil
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
@@ -21,8 +20,8 @@ import com.lorenwang.test.android.base.BaseActivity
  * @author 王亮（Loren）
  */
 class FlyMessageActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android_fly_message)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android_fly_message)
     }
 
     fun mainClick(view: View?) {

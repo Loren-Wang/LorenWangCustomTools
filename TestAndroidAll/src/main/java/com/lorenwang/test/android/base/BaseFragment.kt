@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseFragment
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
 import android.lorenwang.tools.app.AtlwToastHintUtil
+import android.os.Bundle
+import androidx.viewbinding.ViewBinding
 import javabase.lorenwang.dataparse.JdplwJsonUtil
 import javabase.lorenwang.tools.common.JtlwCheckVariateUtil
 import kotlinbase.lorenwang.tools.common.bean.KttlwBaseNetResponseBean
@@ -40,23 +42,12 @@ abstract class BaseFragment : AcbflwBaseFragment() {
         }
     }
 
-    fun addContentView(resId: Int) {
-        initContentView(resId)
-    }
-
-    /**
-     * 用户登陆状态异常
-     */
-    override fun userLoginStatusError(code: Any?, message: String?) {
-        hideBaseLoading()
-    }
-
     /**
      * 网络请求成功
      * @param data 响应数据
      * @param netOptionReqCode 网络操作请求code
      */
-    override fun <T> netReqSuccess(netOptionReqCode: Int, data: T) {
+    override fun <T> netReqSuccess(netOptionReqCode: Int, data: T, result: String?) {
     }
 
     /**
@@ -64,7 +55,7 @@ abstract class BaseFragment : AcbflwBaseFragment() {
      * @param netOptionReqCode 网络操作请求code
      * @param message 错误信息
      */
-    override fun netReqFail(netOptionReqCode: Int, message: String?) {
+    override fun netReqFail(netOptionReqCode: Int, code: String, message: String?) {
         if (JtlwCheckVariateUtil.getInstance().isNotEmpty(message)) {
             val bean = JdplwJsonUtil.fromJson(message, KttlwBaseNetResponseBean::class.java)
             if (bean != null) {
@@ -75,5 +66,26 @@ abstract class BaseFragment : AcbflwBaseFragment() {
                 AtlwToastHintUtil.getInstance().toastMsg(message)
             }
         }
+    }
+
+    override fun initView(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun initListener(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun onRefreshData() {
+
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+
+    }
+
+    fun addShowContentView(b: Boolean, binding: ViewBinding?) {
+        mContentView = binding?.root
+        super.setContentViewConfig(null)
     }
 }

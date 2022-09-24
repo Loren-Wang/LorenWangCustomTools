@@ -25,12 +25,6 @@ public abstract class BaseListActivity<T> extends BaseActivity {
      */
     protected Integer currentPageIndex;
 
-
-    @Override
-    public boolean showContentData() {
-        return true;
-    }
-
     /**
      * 添加默认视图控件
      *

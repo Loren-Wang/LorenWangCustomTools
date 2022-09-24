@@ -10,8 +10,8 @@ class RadioGroupActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivityCustomViewRadioGroupBinding
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_radio_group)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_radio_group)
         mBinding = ActivityCustomViewRadioGroupBinding.bind(findViewById(R.id.root))
     }
 

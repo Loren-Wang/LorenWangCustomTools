@@ -1,7 +1,5 @@
 package com.lorenwang.test.android.activity.customView.textview
 
-import android.lorenwang.customview.texiview.AvlwMarqueeTextView
-import android.os.Bundle
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
 
@@ -18,7 +16,7 @@ import com.lorenwang.test.android.base.BaseActivity
  * @author 王亮（Loren）
  */
 class MarqueeActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_marquee)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_marquee)
     }
 }

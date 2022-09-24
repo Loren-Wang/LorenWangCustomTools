@@ -1,8 +1,4 @@
 <resources>
-    <string name="net_error_net" translatable="false">网络异常，请检查网络后重试</string>
-    <string name="net_error_server" translatable="false">服务器异常，请稍后重试</string>
-    <string name="net_error_timeout" translatable="false">请求超时，请稍后重试</string>
-    <string name="net_error_sll" translatable="false">证书异常，请检查证书</string>
     <string name="share_title_is_too_long" translatable="false">分享标题过长</string>
     <string name="share_description_is_too_long" translatable="false">描述内容过长</string>
     <string name="share_text_is_too_long" translatable="false">文本内容过长</string>

@@ -1,10 +1,7 @@
 package com.lorenwang.test.android.base
 
-import android.lorenwang.commonbaseframe.bean.AcbflwBaseRepBean
 import android.lorenwang.commonbaseframe.mvp.AcbflwBasePresenter
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseView
-import android.lorenwang.commonbaseframe.network.callback.AcbflwNetOptionsByModelCallback
-import android.lorenwang.commonbaseframe.network.callback.AcbflwRepOptionsByPresenterCallback
 
 /**
  * 功能作用：基础接口处理
@@ -19,12 +16,7 @@ import android.lorenwang.commonbaseframe.network.callback.AcbflwRepOptionsByPres
  *
  * @author 王亮（Loren）
  */
-class BasePresenter(view: AcbflwBaseView) : AcbflwBasePresenter<AcbflwBaseView>(view) {
+open class BasePresenter(view: AcbflwBaseView) : AcbflwBasePresenter<AcbflwBaseView>(view) {
     override fun releasePresenterChild() {
-    }
-
-    override fun <DATA, REP : AcbflwBaseRepBean<DATA>, CALL : AcbflwRepOptionsByPresenterCallback<REP>, MCALL : AcbflwNetOptionsByModelCallback<DATA, REP>> getRepOptionsByPresenterCallback(
-        repOptionsCallback: CALL): MCALL {
-        return AcbflwNetOptionsByModelCallback<DATA, REP>() as MCALL
     }
 }

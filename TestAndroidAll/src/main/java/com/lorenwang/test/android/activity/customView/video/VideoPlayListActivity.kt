@@ -43,8 +43,8 @@ class VideoPlayListActivity : BaseActivity() {
             return field
         }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_video_play_list)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_video_play_list)
 
         vpgList?.orientation = ViewPager2.ORIENTATION_VERTICAL
         vpgList?.adapter = adapter

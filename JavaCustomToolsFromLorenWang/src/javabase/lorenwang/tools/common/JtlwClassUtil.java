@@ -1,8 +1,7 @@
 package javabase.lorenwang.tools.common;
 
-import org.junit.runners.Parameterized;
-
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * 功能作用：class 工具类
@@ -55,5 +54,24 @@ public class JtlwClassUtil {
         }
 
         return model;
+    }
+
+    public <T> Class<T> getSuperClassGenericType(Class clazz, int index) {
+        //返回表示此 Class 所表示的实体（类、接口、基本类型或 void）的直接超类的 Type。
+        try {
+            if (clazz.getGenericSuperclass() != null && clazz.getGenericSuperclass() instanceof ParameterizedType) {
+                final ParameterizedType genType = (ParameterizedType) clazz.getGenericSuperclass();
+                final Type[] params = genType.getActualTypeArguments();
+                if (index >= params.length || index < 0) {
+                    return null;
+                } else if (!(params[index] instanceof Class)) {
+                    return null;
+                } else {
+                    return (Class<T>) params[index];
+                }
+            }
+        } catch (Exception ignore) {
+        }
+        return null;
     }
 }

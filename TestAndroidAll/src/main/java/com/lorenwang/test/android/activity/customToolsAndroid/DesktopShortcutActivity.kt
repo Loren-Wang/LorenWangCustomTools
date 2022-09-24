@@ -24,8 +24,8 @@ import com.lorenwang.test.android.base.BaseActivity
  */
 class DesktopShortcutActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android_desktop_shortcut)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android_desktop_shortcut)
     }
 
     override fun initListener(savedInstanceState: Bundle?) {

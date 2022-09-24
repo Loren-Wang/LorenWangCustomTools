@@ -1,6 +1,5 @@
 package com.lorenwang.test.android.activity.customView.video
 
-import android.os.Bundle
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseFragment
 
@@ -18,7 +17,7 @@ import com.lorenwang.test.android.base.BaseFragment
  * @author 王亮（Loren）
  */
 class VideoPlayFragment : BaseFragment() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.page_common_video_play)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.page_common_video_play)
     }
 }

@@ -16,7 +16,6 @@ import android.lorenwang.tools.image.loading.AtlwImageLoadConfig
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
 import android.lorenwang.tools.mobile.AtlwMobileContentUtil
 import android.lorenwang.tools.mobile.AtlwMobileOptionsUtil
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.BuildConfig
 import com.lorenwang.test.android.R
@@ -56,12 +55,13 @@ class MobileInfoActivity : BaseActivity() {
 
     private val cameraRequestCode = 1
     private val photosRequestCode = 2
+
     /**
      * 拍照存储地址
      */
     private var cameraPath: String? = null
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?) {
         addShowContentView(true, binding)
     }
 
@@ -72,7 +72,7 @@ class MobileInfoActivity : BaseActivity() {
             when (view.id) {
                 R.id.btn_contact -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), 231432,object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), 231432, object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().allContacts.let {
@@ -89,7 +89,7 @@ class MobileInfoActivity : BaseActivity() {
                 }
                 R.id.btn_system_msg -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), 123123,object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), 123123, object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().systemSms.let {
@@ -110,7 +110,7 @@ class MobileInfoActivity : BaseActivity() {
                 }
                 R.id.btn_all_sms -> {
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), 33123,object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_SMS), 33123, object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 AtlwMobileContentUtil.getInstance().allSms.let {
@@ -130,23 +130,24 @@ class MobileInfoActivity : BaseActivity() {
                         })
                 }
                 R.id.btn_install_apk -> {
-                    preseter?.downLoadFile(this, AcbflwFileDownLoadBean("https://imtt.dd.qq.com/16891/apk/478D7DCCC946969FF6EC42FDD876800F.apk",
-                        AtlwFileOptionUtil.getInstance().baseStorageDirPath, "aaa.apk"), object : AcbflwFileDownLoadCallback {
-                        override fun updateProgress(progress: Int) {
-                            appendText("当前下载进度：${progress}\n")
-                        }
+                    preseter?.downLoadFile(BuildConfig.APP_COMPILE_TYPE, this,
+                        AcbflwFileDownLoadBean("https://imtt.dd.qq.com/16891/apk/478D7DCCC946969FF6EC42FDD876800F.apk",
+                            AtlwFileOptionUtil.getInstance().baseStorageDirPath, "aaa.apk"), object : AcbflwFileDownLoadCallback {
+                            override fun updateProgress(progress: Int) {
+                                appendText("当前下载进度：${progress}\n")
+                            }
 
-                        override fun downloadFail(bean: AcbflwFileDownLoadBean) {
-                            appendText("文件下载失败")
-                        }
+                            override fun downloadFail(bean: AcbflwFileDownLoadBean) {
+                                appendText("文件下载失败")
+                            }
 
-                        override fun downloadSuccess(bean: AcbflwFileDownLoadBean, absolutePath: String) {
-                            appendText("文件下载成功，开始执行安装程序")
-                            AtlwMobileOptionsUtil.getInstance()
-                                .installApp(this@MobileInfoActivity, "${BuildConfig.APPLICATION_ID}.fileprovider", absolutePath)
-                        }
+                            override fun downloadSuccess(bean: AcbflwFileDownLoadBean, absolutePath: String) {
+                                appendText("文件下载成功，开始执行安装程序")
+                                AtlwMobileOptionsUtil.getInstance()
+                                    .installApp(this@MobileInfoActivity, "${BuildConfig.APPLICATION_ID}.fileprovider", absolutePath)
+                            }
 
-                    })
+                        })
                 }
                 R.id.btn_jump_to_permission_setting -> {
                     AtlwMobileOptionsUtil.getInstance().jumpToAppPermissionSettingPage(this, packageName)
@@ -165,8 +166,8 @@ class MobileInfoActivity : BaseActivity() {
                 R.id.btn_open_camera -> {
                     appendText("开启相机前权限请求")
                     AtlwActivityUtil.getInstance().goToRequestPermissions(this,
-                        arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),12312,
-                        object : AtlwPermissionRequestCallback {
+                        arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        12312, object : AtlwPermissionRequestCallback {
                             @SuppressLint("MissingPermission")
                             override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                 cameraPath = AtlwFileOptionUtil.getInstance().getAppSystemStorageDirPath(packageName) + Math.random() + ".jpg"
@@ -181,8 +182,8 @@ class MobileInfoActivity : BaseActivity() {
                 R.id.btn_open_photos -> {
                     appendText("开启相册前权限请求")
                     AtlwActivityUtil.getInstance()
-                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),21321,
-                            object : AtlwPermissionRequestCallback {
+                        .goToRequestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            21321, object : AtlwPermissionRequestCallback {
                                 @SuppressLint("MissingPermission")
                                 override fun permissionRequestSuccessCallback(permissionList: MutableList<String>?) {
                                     AtlwMobileOptionsUtil.getInstance().openImagePhotoAlbum(this@MobileInfoActivity, photosRequestCode)

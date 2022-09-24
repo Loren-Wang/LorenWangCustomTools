@@ -2,9 +2,8 @@ package com.lorenwang.test.android.activity.graphicCodeScan
 
 import android.lorenwang.graphic_code_scan.AgcslwScan
 import android.lorenwang.tools.app.AtlwScreenUtil
-import android.os.Bundle
-import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.R
+import com.lorenwang.test.android.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_code_generate.*
 
 /**
@@ -25,8 +24,8 @@ class CodeGenerateActivity : BaseActivity() {
     /**
      * 初始化view
      */
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_code_generate)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_code_generate)
 
         imgQrCode.setImageBitmap(scan.generateQrCode("测试撒旦法撒旦法卡SDK拉法基撒旦法",
                 AtlwScreenUtil.getInstance().dip2px(200F).toInt(),

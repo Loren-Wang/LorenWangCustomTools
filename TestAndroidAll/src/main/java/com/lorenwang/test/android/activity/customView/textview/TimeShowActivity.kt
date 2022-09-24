@@ -22,8 +22,8 @@ class TimeShowActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivityCustomViewTimeShowBinding
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_time_show)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_time_show)
         mBinding = ActivityCustomViewTimeShowBinding.bind(findViewById(R.id.root))
     }
 

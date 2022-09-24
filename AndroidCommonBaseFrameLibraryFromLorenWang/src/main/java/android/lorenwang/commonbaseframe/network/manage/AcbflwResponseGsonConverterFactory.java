@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import javabase.lorenwang.dataparse.JdplwJsonUtil;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
@@ -29,7 +30,7 @@ public class AcbflwResponseGsonConverterFactory extends Converter.Factory {
     }
 
     public static AcbflwResponseGsonConverterFactory create() {
-        return new AcbflwResponseGsonConverterFactory(new Gson());
+        return new AcbflwResponseGsonConverterFactory(JdplwJsonUtil.getGsonBuilder().create());
     }
 
     @Override
@@ -38,7 +39,8 @@ public class AcbflwResponseGsonConverterFactory extends Converter.Factory {
     }
 
     @Override
-    public AcbflwRequestGsonConverter requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+    public AcbflwRequestGsonConverter requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations,
+            Retrofit retrofit) {
         return new AcbflwRequestGsonConverter(gson, gson.getAdapter(TypeToken.get(type)));
     }
 }

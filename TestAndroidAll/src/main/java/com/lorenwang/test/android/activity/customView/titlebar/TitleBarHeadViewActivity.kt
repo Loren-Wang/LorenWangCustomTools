@@ -1,8 +1,7 @@
 package com.lorenwang.test.android.activity.customView.titlebar
 
-import android.os.Bundle
-import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.R
+import com.lorenwang.test.android.base.BaseActivity
 
 /**
  * 功能作用：标题控件Activity
@@ -18,7 +17,7 @@ import com.lorenwang.test.android.R
  */
 class TitleBarHeadViewActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_title_bar_head_view)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_title_bar_head_view)
     }
 }

@@ -2,7 +2,6 @@ package com.lorenwang.test.android.activity.customToolsAndroid
 
 import android.lorenwang.tools.app.AtlwScreenUtil
 import android.lorenwang.tools.app.AtlwToastHintUtil
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
@@ -22,8 +21,8 @@ import com.lorenwang.test.android.base.BaseActivity
  */
 class ScreenActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android_screen)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android_screen)
     }
     fun mainClick(view: View?) {
         if (view != null) {

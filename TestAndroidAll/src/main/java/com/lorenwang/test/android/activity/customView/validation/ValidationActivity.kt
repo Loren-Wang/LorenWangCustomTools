@@ -22,8 +22,8 @@ import kotlinx.android.synthetic.main.activity_custom_view_validation.*
  */
 class ValidationActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_validation)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_validation)
     }
 
     override fun initListener(savedInstanceState: Bundle?) {

@@ -211,6 +211,30 @@ public class JtlwDateTimeUtil {
         return millionSeconds;
     }
 
+
+    /**
+     * 格式化时间成毫秒
+     */
+    public Long formatTimeToMillisecond(String date) {
+        if (JtlwCheckVariateUtil.getInstance().isEmpty(date)) {
+            return null;
+        }
+        String[] format = new String[]{
+                "yyyy-MM-dd HH:mm:ss","yyyy-MM-dd HH:mm","yyyy-MM-dd HH","yyyy-MM-dd","yyyy-MM","yyyy",
+                "MM-dd HH:mm:ss","MM-dd HH:mm","MM-dd HH","MM-dd","MM",
+                "dd HH:mm:ss","dd HH:mm","dd HH","dd",
+                "HH:mm:ss","HH:mm","HH",
+                "mm:ss","mm",
+                "ss"};
+        long time;
+        for (String item : format) {
+            time = getMillisecond(date,item);
+            if(time != 0){
+                return time;
+            }
+        }
+        return null;
+    }
     /**
      * 根据日期时间获得秒数
      *

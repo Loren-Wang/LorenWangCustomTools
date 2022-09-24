@@ -3,8 +3,8 @@ package com.lorenwang.test.android.activity.anim
 import android.lorenwang.anims.AalwAnimUtil
 import android.os.Bundle
 import android.view.View
-import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.R
+import com.lorenwang.test.android.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_anims.*
 
 /**
@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.main.activity_anims.*
  */
 class AnimActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_anims)
+    override fun setContentViewConfig(resId: Int?) {
+        super.setContentViewConfig(R.layout.activity_anims)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

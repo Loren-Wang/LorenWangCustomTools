@@ -33,7 +33,7 @@ import kotlinbase.lorenwang.tools.extend.kttlwThrottleClick
  * @author 王亮（Loren）
  */
 class ImageListBitmapActivity : com.lorenwang.test.android.base.BaseListActivity<Bitmap?>() {
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         addDefaultContentView(null)
         initBaseList(false, false, false)
 

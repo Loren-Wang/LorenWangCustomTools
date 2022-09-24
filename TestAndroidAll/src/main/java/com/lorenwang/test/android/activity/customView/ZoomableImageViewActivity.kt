@@ -30,7 +30,7 @@ class ZoomableImageViewActivity : BaseActivity() {
             return field
         }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         addShowContentView(true, binding!!)
     }
 

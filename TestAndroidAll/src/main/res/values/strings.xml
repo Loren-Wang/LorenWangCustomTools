@@ -19,6 +19,7 @@
     <string name="page_type_custom_view_smart_refresh_layout">SmartRefreshLayout</string>
     <string name="page_type_toast">吐司Toast页面</string>
     <string name="page_type_data_parse">数据格式化页面</string>
+    <string name="page_type_net">网络工具页面</string>
     <string name="page_type_mobile_contancts">手机联系人操作</string>
     <string name="page_type_mobile_sms">获取Sms</string>
     <string name="page_type_graphic_code_scan">图形码扫描</string>

@@ -1,7 +1,6 @@
 package com.lorenwang.test.android.activity.customView
 
 import android.lorenwang.customview.sidebar.AvlwSideBar1
-import android.os.Bundle
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
 import javabase.lorenwang.tools.common.JtlwVariateDataParamUtil
@@ -21,8 +20,8 @@ class SideBarActivity : BaseActivity() {
 
     private lateinit var sidebar1Avlw: AvlwSideBar1
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_sidebar)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_sidebar)
         sidebar1Avlw = findViewById(R.id.sidebar1)
 
         initSideBar1()

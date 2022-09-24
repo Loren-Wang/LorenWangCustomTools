@@ -3,7 +3,6 @@ package com.lorenwang.test.android.activity.customToolsAndroid
 import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.lorenwang.tools.base.AtlwCheckUtil
 import android.lorenwang.tools.file.AtlwFileOptionUtil
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
@@ -32,7 +31,7 @@ class CheckActivity : BaseActivity() {
             return field
         }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         addShowContentView(true, binding)
     }
 

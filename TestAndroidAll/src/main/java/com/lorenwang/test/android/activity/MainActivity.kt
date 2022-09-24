@@ -4,26 +4,29 @@ import android.content.Intent
 import android.lorenwang.tools.app.AtlwActivityJumpUtil
 import android.os.Bundle
 import android.view.View
-import com.facebook.drawee.backends.pipeline.Fresco
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.activity.anim.AnimActivity
 import com.lorenwang.test.android.activity.bluetooth.BluetoothActivity
 import com.lorenwang.test.android.activity.customToolsAndroid.CustomToolsActivity
 import com.lorenwang.test.android.activity.customView.CustomViewActivity
 import com.lorenwang.test.android.activity.graphicCodeScan.GraphicCodeActivity
+import com.lorenwang.test.android.activity.net.NetActivity
 import com.lorenwang.test.android.base.BaseActivity
-import org.json.JSONException
-import org.json.JSONObject
 
 class MainActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        initContentView(R.layout.activity_main)
-        Fresco.initialize(applicationContext)
-        testData()
+    override fun initListener(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun setContentViewConfig(resId: Int?) {
+        super.setContentViewConfig(R.layout.activity_main)
     }
 
     override fun onRefreshData() {
-        super.onRefreshData()
         swipeRefresh?.isRefreshing = false
         android.R.drawable.arrow_down_float
     }
@@ -51,20 +54,14 @@ class MainActivity : BaseActivity() {
                     //蓝牙
                     AtlwActivityJumpUtil.getInstance().jump(this, BluetoothActivity::class.java)
                 }
+                R.id.btnNet -> {
+                    //蓝牙
+                    AtlwActivityJumpUtil.getInstance().jump(this, NetActivity::class.java)
+                }
                 else -> {
 
                 }
             }
-        }
-    }
-
-    fun testData() {
-        val jsonObject: JSONObject?
-        try {
-            jsonObject = JSONObject("{\"id\":100,  \"name\":\"yndfcd\",  \"phone\":null}")
-            jsonObject["id"].javaClass
-        } catch (e: JSONException) {
-            e.printStackTrace()
         }
     }
 }

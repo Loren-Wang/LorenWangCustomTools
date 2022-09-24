@@ -23,8 +23,8 @@ import com.lorenwang.test.android.base.BaseActivity
  */
 class BrightnessChangeActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android_brightness_change)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android_brightness_change)
     }
 
     override fun initListener(savedInstanceState: Bundle?) {

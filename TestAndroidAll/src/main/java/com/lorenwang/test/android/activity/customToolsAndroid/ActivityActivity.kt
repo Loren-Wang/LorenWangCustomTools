@@ -4,7 +4,6 @@ import android.Manifest
 import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.lorenwang.tools.app.AtlwToastHintUtil
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
@@ -27,8 +26,8 @@ class ActivityActivity : BaseActivity() {
 
     var inputMethod = false
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android_activity)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android_activity)
     }
 
     fun mainClick(view: View?) {

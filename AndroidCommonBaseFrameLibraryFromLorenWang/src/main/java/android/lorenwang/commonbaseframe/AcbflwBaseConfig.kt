@@ -1,5 +1,6 @@
 package android.lorenwang.commonbaseframe
 
+import android.lorenwang.commonbaseframe.network.AppModuleNetDataDispose
 import android.lorenwang.tools.AtlwConfig
 import androidx.annotation.DrawableRes
 
@@ -29,6 +30,11 @@ object AcbflwBaseConfig {
      * app编译类型之release模式
      */
     private const val APP_COMPILE_TYPE_RELEASE = 2
+
+    /**
+     * 所有接口请求的集合处理位置
+     */
+    var mAppModuleNetDataDispose: AppModuleNetDataDispose? = null
 
     /**
      * 当前项目包名

@@ -32,8 +32,8 @@ class HotViewActivity : BaseActivity() {
             return field
         }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_csustom_view_hot_view)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_csustom_view_hot_view)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

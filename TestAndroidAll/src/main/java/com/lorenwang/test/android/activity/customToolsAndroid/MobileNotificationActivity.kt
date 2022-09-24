@@ -49,8 +49,8 @@ class MobileNotificationActivity : BaseActivity() {
     }
 
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android_mobile_notification)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android_mobile_notification)
     }
 
     override fun initListener(savedInstanceState: Bundle?) {

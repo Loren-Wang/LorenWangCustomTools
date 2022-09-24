@@ -8,8 +8,8 @@ import kotlinx.android.synthetic.main.activity_wheel_view.*
 
 class WheelViewActivity : BaseActivity() {
     val list = arrayListOf<Any>("测试1", "测试2", "测试3", "测试4", "测试5", "测试6", "测试7", "测试8", "测试9")
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_wheel_view)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_wheel_view)
     }
 
     override fun initListener(savedInstanceState: Bundle?) {

@@ -15,4 +15,4 @@ import android.lorenwang.commonbaseframe.mvp.AcbflwBaseModel
  *
  * @author 王亮（Loren）
  */
-class BaseModel : AcbflwBaseModel() {}
+open class BaseModel : AcbflwBaseModel() {}

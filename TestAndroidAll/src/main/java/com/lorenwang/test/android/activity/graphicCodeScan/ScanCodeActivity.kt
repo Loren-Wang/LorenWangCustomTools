@@ -12,7 +12,6 @@ import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.lorenwang.tools.base.AtlwLogUtil
 import android.lorenwang.tools.file.AtlwFileOptionUtil
-import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import com.lorenwang.test.android.R
@@ -24,8 +23,8 @@ import java.io.File
 class ScanCodeActivity : BaseActivity() {
     private val scan = AgcslwScan()
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_scan_code)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_scan_code)
         //请求权限
         AtlwActivityUtil.getInstance().goToRequestPermissions(this,
             arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 123123,

@@ -29,8 +29,8 @@ class SudokuSwipeGesturesActivity : BaseActivity() {
     private var mType1Error = false
     private var mType2Error = false
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_sudoku_swipe_gestures)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_sudoku_swipe_gestures)
         mBinding = ActivityCustomViewSudokuSwipeGesturesBinding.bind(findViewById(R.id.root))
     }
 

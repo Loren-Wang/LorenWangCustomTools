@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -31,10 +29,6 @@
                 style="@style/MainButtons"
                 android:text="安卓-自定义工具类相关界面" />
 
-
-
-
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAnim"
                 style="@style/MainButtons"
@@ -55,6 +49,11 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnDataParse"
                 android:text="@string/page_type_data_parse"
+                style="@style/MainButtons" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnNet"
+                android:text="@string/page_type_net"
                 style="@style/MainButtons" />
 
         </LinearLayout>

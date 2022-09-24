@@ -22,10 +22,12 @@ dependencies {
     compileOnly 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     compileOnly 'androidx.lifecycle:lifecycle-common-java8:2.4.0'
     compileOnly 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    // viewModel
+    //刷新控件
+    compileOnly "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    //viewModel
     compileOnly "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     compileOnly "androidx.fragment:fragment-ktx:1.4.0"
-    // liveData
+    //liveData
     compileOnly "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
     compileOnly 'com.squareup.okhttp3:okhttp:4.2.2'
     //微信开放平台

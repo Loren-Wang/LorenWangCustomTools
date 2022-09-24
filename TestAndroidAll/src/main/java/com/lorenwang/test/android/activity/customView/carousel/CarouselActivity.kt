@@ -33,8 +33,8 @@ class CarouselActivity : BaseListActivity<String>() {
         }
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_carousel)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_carousel)
         recyList.adapter = adapter
         recyList.setLayoutManagerConfig(7, 0.5F, 0.9F, 0.2F)
         recyList2.adapter = adapter

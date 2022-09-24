@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.lorenwang.tools.app.AtlwToastHintUtil
 import android.lorenwang.tools.app.AtlwViewUtil
-import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import com.lorenwang.test.android.R
@@ -32,7 +31,7 @@ class ViewActivity : BaseActivity() {
             return field
         }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         addShowContentView(true, binding)
     }
 

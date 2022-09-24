@@ -7,7 +7,6 @@ import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
 import android.lorenwang.customview.recycleview.AvlwCommonGridItemDecoration
 import android.lorenwang.customview.recycleview.AvlwCommonHorizontalItemDecoration
 import android.lorenwang.customview.recycleview.AvlwCommonVerticalItemDecoration
-import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,8 +31,8 @@ class RecycleItemDecorationActivity : BaseActivity() {
     private val rvList: RecyclerView
         get() = findViewById(R.id.rv_list)
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_recycle_item_decoration)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_recycle_item_decoration)
         val adapter = object : AcbflwBaseRecyclerAdapter<String>(this) {
             override fun getListViewHolder(viewType: Int, itemView: View): AcbflwBaseRecyclerViewHolder<String> {
                 return object : AcbflwBaseRecyclerViewHolder<String>(itemView) {

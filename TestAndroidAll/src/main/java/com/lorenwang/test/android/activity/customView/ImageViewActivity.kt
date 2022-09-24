@@ -1,8 +1,7 @@
 package com.lorenwang.test.android.activity.customView
 
-import android.os.Bundle
-import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.R
+import com.lorenwang.test.android.base.BaseActivity
 
 /**
  * 创建时间：2019-05-13 下午 14:54:49
@@ -20,7 +19,7 @@ class ImageViewActivity : BaseActivity() {
     /**
      * 初始化view
      */
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_image_view)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_image_view)
     }
 }

@@ -1,10 +1,9 @@
 package android.lorenwang.commonbaseframe
 
+import android.lorenwang.tools.app.AtlwScreenUtil
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.contains
-import javabase.lorenwang.tools.bean.A
+import androidx.annotation.LayoutRes
 
 
 /**
@@ -27,6 +26,29 @@ interface AcbflwViewInitInterface {
     fun initCreateSuperBefore(savedInstanceState: Bundle?)
 
     /**
+     * 设置标题栏控件配置
+     * @param resId 布局id，为空时使用默认的
+     */
+    fun setTitleBarViewConfig(@LayoutRes resId: Int? = R.layout.acbflw_layout_titlebar)
+
+    /**
+     * 获取标题栏高度
+     */
+    fun getTitleBarHeight():Int = AtlwScreenUtil.getInstance().actionBarSize.let { if (it == 0) AtlwScreenUtil.getInstance().dip2px(50F).toInt() else it }
+
+    /**
+     * 设置内容控件配置
+     * @param resId 布局id，为空时使用默认的
+     */
+    fun setContentViewConfig(@LayoutRes resId: Int? = null)
+
+    /**
+     * 设置空显示控件配置
+     * @param resId 布局id，为空时使用默认的
+     */
+    fun setEmptyViewConfig(@LayoutRes resId: Int? = null)
+
+    /**
      * 初始化view
      */
     fun initView(savedInstanceState: Bundle?)
@@ -40,11 +62,6 @@ interface AcbflwViewInitInterface {
      * 初始化数据
      */
     fun initData(savedInstanceState: Bundle?)
-
-    /**
-     * 获取标题栏控件
-     */
-    fun getTitleBarView(): View?
 
     /**
      * 内容区域是否延伸到状态栏，默认不延伸
@@ -64,7 +81,7 @@ interface AcbflwViewInitInterface {
     /**
      * 显示空视图
      */
-    fun showEmptyView(view: View? = null)
+    fun <T> showEmptyView(view: View? = null, data: T? = null)
 
     /**
      * 显示内容视图
@@ -75,5 +92,17 @@ interface AcbflwViewInitInterface {
      * 执行刷新数据
      */
     fun onRefreshData()
+
+    /**
+     * 显示加载中
+     * @param allowLoadingBackFinishPage 是否允许后退结束当前页面
+     * @param data 加载中显示数据，可能为json字符串
+     */
+    fun showBaseLoading(allowLoadingBackFinishPage: Boolean, data: String? = null)
+
+    /**
+     * 隐藏加载中
+     */
+    fun hideBaseLoading()
 
 }

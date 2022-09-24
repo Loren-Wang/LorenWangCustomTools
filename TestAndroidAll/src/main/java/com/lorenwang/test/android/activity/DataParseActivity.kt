@@ -11,8 +11,12 @@ class DataParseActivity : BaseActivity() {
     private var edtData: EditText? = null
 
     override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_data_parse)
+        super.initView(savedInstanceState)
         edtData = findViewById(R.id.edtData)
+    }
+
+    override fun setContentViewConfig(resId: Int?) {
+        super.setContentViewConfig(R.layout.activity_data_parse)
     }
 
     fun onClickBtnJsonParseStr() {
@@ -22,6 +26,7 @@ class DataParseActivity : BaseActivity() {
     }
 
     fun onClickBtnJsonParseArray() {
-        JdplwJsonUtil.fromJsonArray("[{\"context\":\"订单已提交，开始处理你的订单\",\"createTime\":1576569348000,\"state\":\"订单提交成功\"}]", com.lorenwang.test.android.bean.ExpressLogBean::class.java)
+        JdplwJsonUtil.fromJsonArray("[{\"context\":\"订单已提交，开始处理你的订单\",\"createTime\":1576569348000,\"state\":\"订单提交成功\"}]",
+            com.lorenwang.test.android.bean.ExpressLogBean::class.java)
     }
 }

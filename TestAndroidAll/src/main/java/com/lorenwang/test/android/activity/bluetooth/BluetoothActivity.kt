@@ -4,11 +4,11 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
-import android.lorenwang.bluetooth.BluetoothOptionsUtil
 import android.lorenwang.bluetooth.BluetoothOptionsCallback
+import android.lorenwang.bluetooth.BluetoothOptionsUtil
 import android.os.Bundle
-import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.R
+import com.lorenwang.test.android.base.BaseActivity
 
 /**
  * 功能作用：蓝牙测试页面
@@ -24,8 +24,8 @@ import com.lorenwang.test.android.R
  */
 class BluetoothActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_bluetooth)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_bluetooth)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

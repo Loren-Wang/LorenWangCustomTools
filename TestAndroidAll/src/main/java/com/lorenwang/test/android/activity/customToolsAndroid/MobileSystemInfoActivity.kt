@@ -24,8 +24,8 @@ import kotlinbase.lorenwang.tools.extend.kttlwToJsonData
  * @author 王亮（Loren）
  */
 class MobileSystemInfoActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android_mobile_system_info)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android_mobile_system_info)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

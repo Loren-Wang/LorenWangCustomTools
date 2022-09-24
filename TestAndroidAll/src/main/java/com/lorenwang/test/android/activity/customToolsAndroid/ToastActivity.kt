@@ -1,7 +1,6 @@
 package com.lorenwang.test.android.activity.customToolsAndroid
 
 import android.lorenwang.tools.app.AtlwToastHintUtil
-import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
@@ -29,8 +28,8 @@ class ToastActivity : BaseActivity() {
 
     private lateinit var customToastView: View
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_toast)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_toast)
 
 
         edtTime = findViewById(R.id.edtTime)

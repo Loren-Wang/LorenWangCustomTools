@@ -1,6 +1,5 @@
 package com.lorenwang.test.android.activity.customView
 
-import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,8 +9,8 @@ import kotlinx.android.synthetic.main.activity_recycle_view_page.*
 
 class RecycleViewPageActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_recycle_view_page)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_recycle_view_page)
         vpgList.adapter = RecycleViewPagerAdapter(this)
     }
     class RecycleViewPagerAdapter(var activity: RecycleViewPageActivity) : RecyclerView.Adapter<RecycleViewPagerHolder>() {

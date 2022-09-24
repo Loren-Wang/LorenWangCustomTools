@@ -2,7 +2,6 @@ package com.lorenwang.test.android.fragment
 
 import android.os.Bundle
 import com.lorenwang.test.android.base.BaseFragment
-import com.lorenwang.test.android.R
 
 /**
  * 功能作用：测试fragment
@@ -22,7 +21,6 @@ class TestFragment : BaseFragment() {
      * @param savedInstanceState 页面切换等操作是手动存储的值
      */
     override fun initView(savedInstanceState: Bundle?) {
-      addContentView(R.layout.fragment_test)
     }
 
 }

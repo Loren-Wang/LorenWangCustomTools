@@ -1,7 +1,6 @@
 package com.lorenwang.test.android.activity.customToolsAndroid
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.activity.customToolsAndroid.image.ImageCommonActivity
@@ -24,8 +23,8 @@ import com.lorenwang.test.android.base.BaseActivity
  * @author 王亮（Loren）
  */
 class CustomToolsActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android)
     }
 
     fun mainClick(view: View?) {

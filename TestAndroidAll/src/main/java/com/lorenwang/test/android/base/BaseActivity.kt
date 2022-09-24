@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.lorenwang.commonbaseframe.mvp.AcbflwBaseActivity
 import android.lorenwang.customview.dialog.AvlwLoadingDialogType1
 import android.lorenwang.tools.app.AtlwToastHintUtil
+import android.os.Bundle
 import android.view.ViewStub
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewbinding.ViewBinding
@@ -43,15 +44,25 @@ abstract class BaseActivity : AcbflwBaseActivity() {
         }
     }
 
-    /**
-     * 用户登陆状态异常
-     */
-    override fun userLoginStatusError(code: Any?, message: String?) {
-        hideBaseLoading()
+    override fun initView(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun initListener(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun onRefreshData() {
+
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+
     }
 
     fun addShowContentView(b: Boolean, binding: ViewBinding?) {
-        binding?.root?.let { initContentView(it) }
+        mContentView = binding?.root
+        super.setContentViewConfig(null)
     }
 
     /**
@@ -59,11 +70,7 @@ abstract class BaseActivity : AcbflwBaseActivity() {
      * @param data 响应数据
      * @param netOptionReqCode 网络操作请求code
      */
-    override fun <T> netReqSuccess(netOptionReqCode: Int, data: T) {
-    }
-
-    fun addContentView(resId: Int) {
-        initContentView(resId)
+    override fun <T> netReqSuccess(netOptionReqCode: Int, data: T, result: String?) {
     }
 
     /**
@@ -71,7 +78,7 @@ abstract class BaseActivity : AcbflwBaseActivity() {
      * @param netOptionReqCode 网络操作请求code
      * @param message 错误信息
      */
-    override fun netReqFail(netOptionReqCode: Int, message: String?) {
+    override fun netReqFail(netOptionReqCode: Int, code: String, message: String?) {
         if (JtlwCheckVariateUtil.getInstance().isNotEmpty(message)) {
             val bean = JdplwJsonUtil.fromJson(message, KttlwBaseNetResponseBean::class.java)
             if (bean != null) {
@@ -83,5 +90,6 @@ abstract class BaseActivity : AcbflwBaseActivity() {
             }
         }
     }
+
 
 }

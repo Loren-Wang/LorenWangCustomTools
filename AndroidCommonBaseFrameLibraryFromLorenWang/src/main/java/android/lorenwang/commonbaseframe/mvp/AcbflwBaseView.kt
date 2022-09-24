@@ -1,5 +1,7 @@
 package android.lorenwang.commonbaseframe.mvp
 
+import android.lorenwang.commonbaseframe.AcbflwViewInitInterface
+
 /**
  * 创建时间：2019-07-15 上午 11:09:20
  * 创建人：王亮（Loren wang）
@@ -12,35 +14,18 @@ package android.lorenwang.commonbaseframe.mvp
  * 备注：
  */
 
-interface AcbflwBaseView {
-    /**
-     * 显示加载中
-     * @param allowLoadingBackFinishPage 是否允许后退结束当前页面
-     * @param data 加载中显示数据，可能为json字符串
-     */
-    fun showBaseLoading(allowLoadingBackFinishPage: Boolean, data: String? = null)
-
-    /**
-     * 隐藏加载中
-     */
-    fun hideBaseLoading()
-
-    /**
-     * 用户登陆状态异常
-     */
-    fun userLoginStatusError(code: Any?, message: String?)
-
+interface AcbflwBaseView : AcbflwViewInitInterface {
     /**
      * 网络请求成功
      * @param data 响应数据
      * @param netOptionReqCode 网络操作请求code
      */
-    fun <T> netReqSuccess(netOptionReqCode: Int, data: T)
+    fun <T> netReqSuccess(netOptionReqCode: Int, data: T, result: String?)
 
     /**
      * 网络请求失败
      * @param netOptionReqCode 网络操作请求code
      * @param message 错误信息
      */
-    fun netReqFail(netOptionReqCode: Int, message: String?)
+    fun netReqFail(netOptionReqCode: Int, code: String, message: String?)
 }

@@ -6,7 +6,6 @@ import android.lorenwang.tools.location.AtlwLocationUtil
 import android.lorenwang.tools.location.config.AtlwLocationCallback
 import android.lorenwang.tools.location.config.AtlwLocationConfig
 import android.lorenwang.tools.location.config.AtlwLocationResultBean
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.R
 import com.lorenwang.test.android.base.BaseActivity
@@ -34,7 +33,7 @@ class LocationActivity : BaseActivity() {
             return field
         }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         addShowContentView(true, binding)
     }
 

@@ -3,7 +3,6 @@ package com.lorenwang.test.android.activity.customToolsAndroid
 import android.graphics.Color
 import android.lorenwang.tools.app.AtlwScreenUtil
 import android.lorenwang.tools.app.AtlwStatusBarUtil
-import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.lorenwang.test.android.R
@@ -27,8 +26,8 @@ class StatusBarActivity : BaseActivity() {
     private var modeLight = true
     private var full = false
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_tools_android_status_bar)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_tools_android_status_bar)
     }
 
     fun mainClick(view: View?) {

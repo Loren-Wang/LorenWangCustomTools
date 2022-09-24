@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.activity_image_select.*
  * @author 王亮（Loren）
  */
 class ImageSelectActivity : BaseActivity() {
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_image_select)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_image_select)
     }
 
     override fun initListener(savedInstanceState: Bundle?) {

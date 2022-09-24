@@ -1,19 +1,7 @@
 package com.lorenwang.test.android.activity.customView.viewpager
 
-import android.app.Activity
-import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerAdapter
-import android.lorenwang.commonbaseframe.adapter.AcbflwBaseRecyclerViewHolder
-import android.lorenwang.customview.viewpager.banner.AvlwBannerView
-import android.lorenwang.tools.AtlwConfig
-import android.lorenwang.tools.image.loading.AtlwImageLoadConfig
-import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
-import android.os.Bundle
-import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import com.lorenwang.test.android.base.BaseFragment
 import com.lorenwang.test.android.R
-import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
-import java.util.ArrayList
+import com.lorenwang.test.android.base.BaseFragment
 
 /**
  * 功能作用：轮播图fragment
@@ -30,8 +18,8 @@ import java.util.ArrayList
  */
 class BannerFragment : BaseFragment() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.fragment_banner)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.fragment_banner)
 //        val bvBanner = fragmentView?.findViewById<AvlwBannerView>(R.id.bvBanner)
 //        val list: MutableList<String> = ArrayList()
 //        list.add("http://img3.imgtn.bdimg.com/it/u=2464547320,3316604757&fm=26&gp=0.jpg")

@@ -34,7 +34,7 @@ class FileActivity : BaseActivity() {
     private lateinit var binding: ActivityCustomToolsAndroidFileBinding
 
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         binding = ActivityCustomToolsAndroidFileBinding.inflate(layoutInflater)
         addShowContentView(true, binding)
     }

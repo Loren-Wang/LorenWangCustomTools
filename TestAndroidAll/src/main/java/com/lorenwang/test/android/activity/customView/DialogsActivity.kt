@@ -3,15 +3,14 @@ package com.lorenwang.test.android.activity.customView
 import android.lorenwang.customview.dialog.*
 import android.lorenwang.tools.app.AtlwScreenUtil
 import android.lorenwang.tools.app.AtlwToastHintUtil
-import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import com.lorenwang.test.android.R
+import com.lorenwang.test.android.activity.customView.dialog.LoadingDialog
+import com.lorenwang.test.android.activity.customView.dialog.TextSelectDialog
 import com.lorenwang.test.android.base.BaseActivity
 import com.lorenwang.test.android.bean.dialog.TextSelectBean
-import com.lorenwang.test.android.activity.customView.dialog.TextSelectDialog
-import com.lorenwang.test.android.activity.customView.dialog.LoadingDialog
 import kotlinbase.lorenwang.tools.extend.kttlwGetNotEmptyData
 
 
@@ -101,8 +100,8 @@ class DialogsActivity : BaseActivity() {
     /**
      * 初始化view
      */
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.activity_custom_view_dialogs)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.activity_custom_view_dialogs)
         bottomDialog = AvlwBaseBottomDialog(this, R.layout.dialog_content, true)
 
         centerDialog = AvlwBaseCenterDialog(this, R.layout.dialog_content, true, (AtlwScreenUtil.getInstance().screenWidth * 0.6).toInt(), null)

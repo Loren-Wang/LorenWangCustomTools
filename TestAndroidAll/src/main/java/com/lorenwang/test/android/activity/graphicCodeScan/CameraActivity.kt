@@ -38,7 +38,7 @@ class CameraActivity : BaseActivity() {
             super.onCaptureProgressed(session, request, partialResult)
         }
     }
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         addShowContentView(true, binding)
     }
 

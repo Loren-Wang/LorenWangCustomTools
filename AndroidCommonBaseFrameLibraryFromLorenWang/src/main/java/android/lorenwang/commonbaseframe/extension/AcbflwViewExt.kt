@@ -20,6 +20,13 @@ inline fun View.setOnNoDoubleClick(delayTime: Long, msg: String = "", crossinlin
 }
 
 /**
+ * 防重点击
+ */
+inline fun View.setOnNoDoubleClick(crossinline block: View.() -> Unit) {
+    this.setOnNoDoubleClick(500L, "", block)
+}
+
+/**
  * 设置控件显示
  */
 fun View?.setViewToVisible() {

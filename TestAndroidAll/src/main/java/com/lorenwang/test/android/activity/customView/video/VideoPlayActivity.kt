@@ -20,8 +20,8 @@ import com.lorenwang.test.android.base.BaseActivity
  */
 class VideoPlayActivity : BaseActivity() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.item_custom_view_list_video_play)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.item_custom_view_list_video_play)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

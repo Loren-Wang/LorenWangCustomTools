@@ -10,7 +10,6 @@ import android.lorenwang.tools.app.AtlwActivityUtil
 import android.lorenwang.tools.app.AtlwPermissionRequestCallback
 import android.lorenwang.tools.file.AtlwFileOptionUtil
 import android.lorenwang.tools.image.AtlwImageCommonUtil
-import android.os.Bundle
 import android.view.View
 import com.lorenwang.test.android.BuildConfig
 import com.lorenwang.test.android.R
@@ -45,7 +44,7 @@ class ImageCommonActivity : BaseActivity() {
     private lateinit var optionsDrawable: Drawable
     private lateinit var optionsBitmapAdd: Bitmap
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         binding = ActivityCustomToolsAndroidImageCommonBinding.inflate(layoutInflater)
         addShowContentView(true, binding)
         binding.btnInit.performClick()

@@ -1,15 +1,8 @@
 package com.lorenwang.test.android.activity.customView.viewpager
 
-import android.graphics.Color
 import android.lorenwang.customview.viewpager.AvlwViewPagerConstraintLayout
-import android.os.Bundle
-import android.view.View
-import android.widget.FrameLayout
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.lorenwang.test.android.base.BaseFragment
 import com.lorenwang.test.android.R
+import com.lorenwang.test.android.base.BaseFragment
 
 /**
  * 功能作用：ViewPager2Fragment
@@ -24,8 +17,8 @@ import com.lorenwang.test.android.R
  */
 class ViewPager2Fragment(var viewPager: AvlwViewPagerConstraintLayout, var posi: Int) : BaseFragment() {
 
-    override fun initView(savedInstanceState: Bundle?) {
-        addContentView(R.layout.fragment_view_pager2)
+    override fun setContentViewConfig(resId: Int?)  {
+        super.setContentViewConfig(R.layout.fragment_view_pager2)
 //        viewPager.setSecondViewPageMap(posi, fragmentView!!.findViewById(R.id.vpgList))
 //        fragmentView?.findViewById<View>(R.id.vpgList)?.setBackgroundColor(Color.GRAY)
 //        (fragmentView?.findViewById<View>(R.id.vpgList) as ViewPager2).adapter = object : FragmentStateAdapter(this) {

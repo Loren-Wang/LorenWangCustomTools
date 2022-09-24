@@ -8,7 +8,6 @@ import android.lorenwang.tools.file.AtlwFileOptionUtil
 import android.lorenwang.tools.image.loading.AtlwImageLoadCallback
 import android.lorenwang.tools.image.loading.AtlwImageLoadConfig
 import android.lorenwang.tools.image.loading.AtlwImageLoadingFactory
-import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import com.lorenwang.test.android.BuildConfig
@@ -40,7 +39,7 @@ class ImageLoadingActivity : BaseActivity() {
 
     private var type: Int? = null
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun setContentViewConfig(resId: Int?)  {
         addShowContentView(true, binding)
     }
 

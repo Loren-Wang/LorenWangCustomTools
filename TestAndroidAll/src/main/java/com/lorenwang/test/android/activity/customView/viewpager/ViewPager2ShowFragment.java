@@ -1,9 +1,7 @@
 package com.lorenwang.test.android.activity.customView.viewpager;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.lorenwang.test.android.R;
 import com.lorenwang.test.android.base.BaseFragment;
 
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +29,7 @@ public class ViewPager2ShowFragment extends BaseFragment {
 
 //    @Override
 //    protected void initView(@Nullable Bundle savedInstanceState) {
-//        addContentView(R.layout.fragment_view_pager_show);
+//        super.setContentViewConfig(R.layout.fragment_view_pager_show);
 //        ((TextView) getFragmentView().findViewById(R.id.tvTest)).setText(String.valueOf(posi));
 //    }
 
